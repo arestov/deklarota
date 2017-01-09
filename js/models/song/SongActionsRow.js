@@ -150,6 +150,13 @@ var SongActionsRow = spv.inh(comd.PartsSwitcher, {
         return fac && fac[0]/fac[1];
       }
     ]
+  },
+	'probe-song_action': {
+		main: ['nesting', {
+			place_of_current: 'action',
+			place_of_nav: null,
+		}],
+		steps_to_surface_limit: 1,
 	},
 
 	sub_page: parts_storage,
