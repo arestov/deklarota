@@ -156,7 +156,7 @@ var SongActionsRow = spv.inh(comd.PartsSwitcher, {
 			place_of_current: 'action',
 			place_of_nav: null,
 		}],
-		steps_to_surface_limit: 1,
+		steps_to_surface_limit: 2,
 	},
 
 	sub_page: parts_storage,
