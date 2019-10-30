@@ -3,6 +3,7 @@ define(function(require) {
 
 // var $ = require('jquery');
 var spv = require('spv');
+var pvUpdate = require('pv/update');
 var hp = require('./helpers');
 var updateProxy = require('./updateProxy');
 var prsStCon =  require('./prsStCon');
@@ -817,9 +818,51 @@ var View = spv.inh(StatesEmitter, {
         this.appendNestingViews(declr, opts, nesname, min_array, dclr_fpckg.not_request);
       }
     }
+    this.__injecViewMetaStates.call(null, this, nesname, dclr_fpckg.space, array)
 
     this.__handleHookedNestSync.call(null, this, nesname, dclr_fpckg.space, array);
 
+  },
+
+  __injecViewMetaStates: function(self, nesting_name, space, items) {
+
+    var location_id = $v.getViewLocationId(self, nesting_name, 'main');
+    var array = spv.toRealArray(items);
+
+
+    var real_length = 0
+    for (var i = 0; i < array.length; i++) {
+      var cur = array[i];
+      var view = self.getStoredMpx(cur).getView(location_id);
+      if (!view) {
+        continue;
+      }
+
+      real_length++;
+
+
+    }
+
+    var counter = 0
+    for (var i = 0; i < array.length; i++) {
+      var cur = array[i];
+      var view = self.getStoredMpx(cur).getView(location_id);
+      if (!view) {
+        continue;
+      }
+
+      var $first = counter == 0;
+      var $back = (real_length - 1) - counter
+      var $last = $back == 0;
+
+      pvUpdate(view, '$index', counter);
+      pvUpdate(view, '$index_back', $back);
+      pvUpdate(view, '$first', $first);
+      pvUpdate(view, '$last', $last);
+      pvUpdate(view, '$middle', !($first || $last));
+
+      counter++;
+    }
   },
 
   __handleHookedNestSync: function(self, nesting_name, space, items) {
