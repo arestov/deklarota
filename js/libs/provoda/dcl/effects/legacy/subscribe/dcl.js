@@ -2,12 +2,12 @@ define(function(require) {
 'use strict'
 var spv = require('spv')
 
-return function StateBindDeclr(state_name, data) {
-  this.state_name = state_name;
-  this.key = state_name
+return function StateBindDeclr(key, data) {
+  this.key = key
   this.apis = null;
   this.fn = null;
 
+  this.state_name = key;
 
   if (Array.isArray(data)) {
     // legacy ?
