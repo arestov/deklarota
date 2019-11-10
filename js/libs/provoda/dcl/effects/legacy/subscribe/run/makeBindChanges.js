@@ -7,9 +7,9 @@ var getStateUpdater = function(em, state_name) {
     em._state_updaters = {};
   }
   if (!em._state_updaters.hasOwnProperty(state_name)) {
-    em._state_updaters[state_name] = function(value) {
+    em._state_updaters[state_name] = em.inputFn(function(value) {
       em.updateState(state_name, value);
-    };
+    });
   }
   return em._state_updaters[state_name];
 };
