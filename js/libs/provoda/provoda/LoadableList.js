@@ -5,6 +5,7 @@ var spv = require('spv');
 var pv = require('../provoda');
 var cloneObj = spv.cloneObj
 
+var pushToRoute = require('../structure/pushToRoute')
 var initDeclaredNestings = require('../initDeclaredNestings');
 var getSPByPathTemplateAndData = initDeclaredNestings.getSPByPathTemplateAndData;
 
@@ -314,15 +315,9 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       throw new Error('cant make item');
     }
 
-    if (mentioned.type == 'route') {
-      var app = this.app;
-      var result = getSPByPathTemplateAndData(app, this, mentioned.value, false, data);
-
-      this.useMotivator(result, function () {
-        result.updateManyStates(data);
-      });
-
-      return result;
+    var created = pushToRoute(md, nesting_name, data)
+    if (created) {
+      return created;
     }
 
     var best_constr = this._all_chi[mentioned.key];
