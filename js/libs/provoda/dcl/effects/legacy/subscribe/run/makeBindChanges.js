@@ -23,14 +23,16 @@ var makeBindChanges = function (self, index, using, original_values) {
       continue;
     }
 
+    var cur = index[state_name];
+
     if (using.binders.values[state_name]) {
-      var apis = index[state_name].apis;
+      var apis = cur.apis;
       var bind_args = new Array(apis.length + 1);
       bind_args[0] = getStateUpdater(self, state_name);
       for (var i = 0; i < apis.length; i++) {
         bind_args[i + 1] = using.used[apis[i]];
       }
-      using.binders.removers[state_name] = index[state_name].fn.apply(null, bind_args);
+      using.binders.removers[state_name] = cur.fn.apply(null, bind_args);
     } else {
       using.binders.removers[state_name].call();
       using.binders.removers[state_name] = null;
