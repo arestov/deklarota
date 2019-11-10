@@ -403,6 +403,23 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 });
 
+function convertNamed(list) {
+  if (!Array.isArray(list)) {
+    return {
+      states: list
+    }
+  }
+
+  var result = new Array(list.length)
+  for (var i = 0; i < list.length; i++) {
+    result[i] = {
+      states: list[i]
+    }
+  }
+
+  return result
+}
+
 function convertToNestings(params) {
   if (!params || !params.subitems) {
     return null
@@ -416,14 +433,7 @@ function convertToNestings(params) {
     }
 
     var cur = params.subitems[nesting_name]
-
-    var result = new Array(cur.length)
-    for (var i = 0; i < cur.length; i++) {
-      result[i] = {
-        states: cur[i]
-      }
-    }
-
+    var result = convertNamed(cur)
     nestings[nesting_name] = result
   }
 
