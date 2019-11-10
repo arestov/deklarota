@@ -5,6 +5,7 @@ var getNesting = require('pv/getNesting')
 
 var get_constr = require('../../../structure/get_constr');
 var getModelById = require('../../../utils/getModelById');
+var pushToRoute = require('../../../structure/pushToRoute')
 
 var cloneObj = spv.cloneObj
 var getNestingConstr = get_constr.getNestingConstr;
@@ -142,6 +143,11 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
 }
 
 var callInit = function(md, nesting_name, value) {
+  var created = pushToRoute(md, nesting_name, value.states)
+  if (created) {
+    return created;
+  }
+
   var Constr = getNestingConstr(md.app, md, nesting_name)
   if (!Constr) {
     throw new Error('cant find Constr for ' + nesting_name)
