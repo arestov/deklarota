@@ -28,7 +28,8 @@ var makeBindChanges = function (self, index, using, original_values) {
     if (using.binders.values[state_name]) {
       var apis = cur.apis;
       var bind_args = new Array(apis.length + 1);
-      bind_args[0] = getStateUpdater(self, state_name);
+
+      bind_args[0] = getStateUpdater(self, cur.state_name);
       for (var i = 0; i < apis.length; i++) {
         bind_args[i + 1] = using.used[apis[i]];
       }
