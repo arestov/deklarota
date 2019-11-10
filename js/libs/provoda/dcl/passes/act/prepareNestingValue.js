@@ -141,6 +141,26 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
   return result
 }
 
+var callInit = function(md, nesting_name, value) {
+  var Constr = getNestingConstr(md.app, md, nesting_name)
+  if (!Constr) {
+    throw new Error('cant find Constr for ' + nesting_name)
+    // todo - move validation to dcl process
+  }
+
+
+
+  // expected `value` is : {states: {}, nestings: {}}
+  var init_data = {}
+
+  cloneObj(init_data, value)
+  init_data.init_version = 2
+  init_data.by = 'prepareNestingValue'
+  var created_model = md.initSi(Constr, init_data)
+
+  return created_model
+}
+
 var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
   if (isOk(raw_value)) {
     return raw_value;
@@ -170,21 +190,7 @@ var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
   var multi_path= target.target_path
   var nesting_name = multi_path.nesting.target_nest_name
 
-  var Constr = getNestingConstr(md.app, md, nesting_name)
-  if (!Constr) {
-    throw new Error('cant find Constr for ' + nesting_name)
-    // todo - move validation to dcl process
-  }
-
-
-
-  // expected `value` is : {states: {}, nestings: {}}
-  var init_data = {}
-
-  cloneObj(init_data, value)
-  init_data.init_version = 2
-  init_data.by = 'prepareNestingValue'
-  var created_model = md.initSi(Constr, init_data)
+  var created_model = callInit(md, nesting_name, value)
 
   if (value.hold_ref_id) {
     if (mut_refs_index[value.hold_ref_id]) {
