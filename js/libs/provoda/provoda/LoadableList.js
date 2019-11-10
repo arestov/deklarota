@@ -5,6 +5,7 @@ var spv = require('spv');
 var pv = require('../provoda');
 var cloneObj = spv.cloneObj
 
+var pushToRoute = require('../structure/pushToRoute')
 var initDeclaredNestings = require('../initDeclaredNestings');
 var getSPByPathTemplateAndData = initDeclaredNestings.getSPByPathTemplateAndData;
 
@@ -314,15 +315,9 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       throw new Error('cant make item');
     }
 
-    if (mentioned.type == 'route') {
-      var app = this.app;
-      var result = getSPByPathTemplateAndData(app, this, mentioned.value, false, data);
-
-      this.useMotivator(result, function () {
-        result.updateManyStates(data);
-      });
-
-      return result;
+    var created = pushToRoute(md, nesting_name, data)
+    if (created) {
+      return created;
     }
 
     var best_constr = this._all_chi[mentioned.key];
@@ -403,6 +398,23 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 });
 
+function convertNamed(list) {
+  if (!Array.isArray(list)) {
+    return {
+      states: list
+    }
+  }
+
+  var result = new Array(list.length)
+  for (var i = 0; i < list.length; i++) {
+    result[i] = {
+      states: list[i]
+    }
+  }
+
+  return result
+}
+
 function convertToNestings(params) {
   if (!params || !params.subitems) {
     return null
@@ -416,14 +428,7 @@ function convertToNestings(params) {
     }
 
     var cur = params.subitems[nesting_name]
-
-    var result = new Array(cur.length)
-    for (var i = 0; i < cur.length; i++) {
-      result[i] = {
-        states: cur[i]
-      }
-    }
-
+    var result = convertNamed(cur)
     nestings[nesting_name] = result
   }
 

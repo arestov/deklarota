@@ -10,6 +10,7 @@ var useInterface = require('./StatesEmitter/useInterface');
 var onPropsExtend = require('./onExtendSE');
 var act = require('./dcl/passes/act');
 var pvState = require('./utils/state')
+var initEffectsSubscribe = require('./dcl/effects/legacy/subscribe/init');
 
 var getConnector = spv.memorize(function(state_name) {
   return function updateStateBinded(e) {
@@ -277,8 +278,7 @@ var StatesEmitter = spv.inh(Eventor, {
     self.zdsv = null;
     self.current_motivator = self.current_motivator || null;
 
-    self._state_updaters = null;
-    self._interfaces_using = null;
+    initEffectsSubscribe(self)
 
     self.states = {};
   },

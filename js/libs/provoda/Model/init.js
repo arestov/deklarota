@@ -101,10 +101,8 @@ function toServStates(iss, states) {
   return cloneObj(iss || {}, states);
 }
 
-function prepareStates(self, data, states) {
+function createISS (self, data, states) {
   var init_v2 = data && data.init_version === 2
-
-  self.init_states = self.init_states || null;
 
   var iss = null
 
@@ -121,7 +119,7 @@ function prepareStates(self, data, states) {
   iss = toServStates(iss, self.head);
 
   if (!iss) {
-    return self;
+    return iss;
   }
 
   for (var state_name in iss) {
@@ -130,11 +128,23 @@ function prepareStates(self, data, states) {
     }
   }
 
+  return iss;
+}
+
+function prepareStates(self, data, states) {
+  self.init_states = self.init_states || null;
+
+  var iss = createISS(self, data, states)
+
   if (self.default_states) {
     var cur = self.init_states
     self.init_states = {}
     cloneObj(self.init_states, self.default_states);
     cloneObj(self.init_states, cur);
+  }
+
+  if (!iss) {
+    return
   }
 
   self.init_states = cloneObj(self.init_states, iss);
