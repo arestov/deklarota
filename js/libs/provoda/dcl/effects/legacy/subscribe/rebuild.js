@@ -24,7 +24,7 @@ return function(self, list) {
 
   for (var i = 0; i < list.length; i++) {
     var item = list[i]
-    self._build_cache_interfaces[item.state_name] = item;
+    self._build_cache_interfaces[item.key] = item;
   }
 
   var index = {};

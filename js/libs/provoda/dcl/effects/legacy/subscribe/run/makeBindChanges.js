@@ -17,15 +17,15 @@ var getStateUpdater = function(em, state_name) {
 
 var makeBindChanges = function (self, index, using, original_values) {
   // _build_cache_interfaces
-  for (var state_name in using.binders.values) {
-    var change = Boolean(original_values[state_name]) != Boolean(using.binders.values[state_name]);
+  for (var key in using.binders.values) {
+    var change = Boolean(original_values[key]) != Boolean(using.binders.values[key]);
     if (!change) {
       continue;
     }
 
-    var cur = index[state_name];
+    var cur = index[key];
 
-    if (using.binders.values[state_name]) {
+    if (using.binders.values[key]) {
       var apis = cur.apis;
       var bind_args = new Array(apis.length + 1);
 
@@ -33,10 +33,10 @@ var makeBindChanges = function (self, index, using, original_values) {
       for (var i = 0; i < apis.length; i++) {
         bind_args[i + 1] = using.used[apis[i]];
       }
-      using.binders.removers[state_name] = cur.fn.apply(null, bind_args);
+      using.binders.removers[key] = cur.fn.apply(null, bind_args);
     } else {
-      using.binders.removers[state_name].call();
-      using.binders.removers[state_name] = null;
+      using.binders.removers[key].call();
+      using.binders.removers[key] = null;
     }
   }
 

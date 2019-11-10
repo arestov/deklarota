@@ -4,6 +4,7 @@ var spv = require('spv')
 
 return function StateBindDeclr(state_name, data) {
   this.state_name = state_name;
+  this.key = state_name
   this.apis = null;
   this.fn = null;
 
