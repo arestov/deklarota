@@ -14,6 +14,10 @@ var getStateUpdater = function(em, state_name) {
   return em._state_updaters[state_name];
 };
 
+var getHandler = function(self, dcl) {
+  return getStateUpdater(self, dcl.state_name);
+}
+
 
 var makeBindChanges = function (self, index, using, original_values) {
   // _build_cache_interfaces
@@ -29,7 +33,7 @@ var makeBindChanges = function (self, index, using, original_values) {
       var apis = cur.apis;
       var bind_args = new Array(apis.length + 1);
 
-      bind_args[0] = getStateUpdater(self, cur.state_name);
+      bind_args[0] = getHandler(self, cur)
       for (var i = 0; i < apis.length; i++) {
         bind_args[i + 1] = using.used[apis[i]];
       }
