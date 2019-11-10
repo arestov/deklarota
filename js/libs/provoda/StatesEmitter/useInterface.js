@@ -2,8 +2,9 @@ define(function (require) {
 'use strict';
 
 var spv = require('spv');
-var updateProxy = require('../updateProxy');
-var pvUpdate = updateProxy.update;
+var pvUpdate = require('../updateProxy').update;
+
+// state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
 var getStateUpdater = function(em, state_name) {
   if (!em._state_updaters) {
@@ -58,6 +59,12 @@ var template = function () {
     used: {},
     binders: {
       indexes: {},
+
+      /*
+        value - true, когда есть все нужные api
+        при смене value для state происходит bind.
+        при value === false происходит unbind
+      */
       values: {},
       removers: {}
     },
