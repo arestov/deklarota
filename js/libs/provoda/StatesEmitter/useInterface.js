@@ -2,7 +2,8 @@ define(function (require) {
 'use strict';
 
 var spv = require('spv');
-var pvUpdate = require('../updateProxy').update;
+var updateProxy = require('../updateProxy');
+var pvUpdate = updateProxy.update;
 var runOnApiAdded = require('../dcl/effects/legacy/subscribe/runOnApiAdded');
 var runOnApiRemoved = require('../dcl/effects/legacy/subscribe/runOnApiRemoved');
 
