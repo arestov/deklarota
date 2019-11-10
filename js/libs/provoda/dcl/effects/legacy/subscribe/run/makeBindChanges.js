@@ -14,7 +14,23 @@ var getStateUpdater = function(em, state_name) {
   return em._state_updaters[state_name];
 };
 
+var getPassDispatcher = function(em, pass_name) {
+  if (!em._pass_dispatchers) {
+    em._pass_dispatchers = {};
+  }
+
+  if (!em._pass_dispatchers.hasOwnProperty(pass_name)) {
+    em._pass_dispatchers[pass_name] = em.inputFn(function(data) {
+      this.__act(this, pass_name, data)
+    });
+  }
+  return em._pass_dispatchers[pass_name];
+}
+
 var getHandler = function(self, dcl) {
+  if (dcl.pass_name) {
+    return getPassDispatcher(self, dcl.pass_name)
+  }
   return getStateUpdater(self, dcl.state_name);
 }
 
