@@ -7,10 +7,12 @@ var NestSelector = require('../nest_sel/item');
 var NestCntDeclr = require('../nest_conj/item')
 var NestDcl = require('../nest/item');
 var NestCompx = require('../nest_compx/item')
+var NestModel = require('../nest_model/item')
 
 var buildSel = require('../nest_sel/build');
 var buildNest = require('../nest/build');
 var buildConj = require('../nest_conj/build');
+var buildModel = require('../nest_model/build')
 
 var parse = function(name, data) {
   var type = data[0];
@@ -26,6 +28,9 @@ var parse = function(name, data) {
     }
     case 'compx': {
       return new NestCompx(name, data);
+    }
+    case 'model': {
+      return new NestModel(name, data[1])
     }
   }
 
@@ -109,6 +114,10 @@ var rebuildType = function(self, type, result) {
       buildSel(self, result);
       return;
     }
+    case 'model': {
+      buildModel(self, result)
+      return;
+    }
   }
 }
 
@@ -162,6 +171,7 @@ var checkLegacy = function(self) {
   handleLegacy(self, '_legacy_nest_dcl', 'nest');
   handleLegacy(self, '_chi_nest_conj', 'conj');
   handleLegacy(self, '_chi_nest_sel', 'sel');
+  handleLegacy(self, '__nest_rqc', 'model')
 }
 
 return function checkPass(self, props) {

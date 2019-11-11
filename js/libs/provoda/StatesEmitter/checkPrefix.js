@@ -24,7 +24,9 @@ return function checkPrefix(prefix, Declr, result_prop, fn) {
       var item_name = getUnprefixed(prop_name);
       if (!item_name) {continue;}
 
-      fresh[item_name] = new Declr(item_name, props[prop_name]);
+      fresh[item_name] = props[prop_name]
+        ? new Declr(item_name, props[prop_name])
+        : null;
     }
 
     self[result_prop] = merge(self, self[result_prop], fresh);
