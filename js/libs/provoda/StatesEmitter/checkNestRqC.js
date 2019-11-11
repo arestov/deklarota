@@ -26,7 +26,7 @@ return function checkNestRqC(self, props) {
     var key = 'nest_rqc-' + clean_name;
     var cur = props[name];
     if (cur) {
-      var item = nestConstructor(cur, key);
+      var item = nestConstructor(key, cur);
       self._nest_rqc[clean_name] = item;
       if (item.type == 'constr') {
         self._chi_nest_rqc[key] = item.value;

@@ -1,7 +1,7 @@
 define(function() {
 'use strict';
 
-var nestConstructor = function(item, key) {
+var nestConstructor = function(key, item) {
   if (typeof item == 'string') {
     return {
       type: 'route',
@@ -16,15 +16,15 @@ var nestConstructor = function(item, key) {
   }
 };
 
-var declarationConstructor = function(cur, key) {
+var declarationConstructor = function(key, cur) {
   if (Array.isArray(cur)) {
     var result = [];
     for (var i = 0; i < cur.length; i++) {
-      result[i] = nestConstructor(cur[i], key + '-' + i);
+      result[i] = nestConstructor(key + '-' + i, cur[i]);
     }
     return result;
   } else {
-    return nestConstructor(cur, key);
+    return nestConstructor(key, cur);
   }
 };
 
