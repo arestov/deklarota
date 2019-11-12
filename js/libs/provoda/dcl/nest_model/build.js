@@ -2,7 +2,6 @@ define(function(require) {
 'use strict'
 var spv = require('spv')
 var build = function(self, nest_rqc) {
-  debugger;
   self._chi_nest_rqc = {};
   self._nest_rqc = spv.cloneObj({}, nest_rqc);
 
