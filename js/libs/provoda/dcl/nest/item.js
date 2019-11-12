@@ -5,7 +5,7 @@ var declarationConstructor = constr_mention.declarationConstructor;
 
 var NestDcl = function (name, data) {
   this.nesting_name = name;
-  this.subpages_names_list = declarationConstructor('nest-' + name, data[0]);
+  this.subpages_names_list = declarationConstructor(name, data[0], 'nest-');
 
   this.ask_for = null;
   this.idle_until = null;

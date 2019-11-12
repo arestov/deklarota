@@ -10,18 +10,17 @@ var build = function(self, nest_rqc) {
       continue;
     }
 
-    var key = 'nest_rqc-' + name;
     var cur = nest_rqc[name];
     if (cur) {
       self._nest_rqc[name] = cur;
       if (cur.type == 'constr') {
-        self._chi_nest_rqc[key] = cur.value;
+        self._chi_nest_rqc[cur.key] = cur.value;
       } else {
-        self._chi_nest_rqc[key] = null;
+        self._chi_nest_rqc[cur.key] = null;
       }
 
     } else {
-      self._chi_nest_rqc[key] = null;
+      self._chi_nest_rqc[cur.key] = null;
       self._nest_rqc[name] = null;
     }
   }
