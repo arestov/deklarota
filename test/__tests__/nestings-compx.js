@@ -30,10 +30,10 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('compx-nests', t => {
+test('compx-nests', async t => {
   let mutated_result = null // eslint-disable-line
 
-  const app = setup()
+  const app = await setup()
   const steps = makeStepsRunner(app)
 
   return steps([
@@ -49,7 +49,7 @@ test('compx-nests', t => {
     },
   ])
 
-  function setup() {
+  async function setup() {
     const target_child = mdl({
       '+nests': {
         calculated_child: [
@@ -79,7 +79,7 @@ test('compx-nests', t => {
       },
     })
 
-    const app = init({
+    const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
         '+nests': {
@@ -94,7 +94,7 @@ test('compx-nests', t => {
       }),
     }, self => {
       self.start_page = self.initChi('start__page') // eslint-disable-line
-    }).app_model
+    })).app_model
 
     return app
   }

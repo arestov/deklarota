@@ -9,8 +9,8 @@ const init = requirejs('test/init')
 
 const waitFlow = require('../waitFlow')
 
-test('state updated', t => {
-  const { app_model } = init({})
+test('state updated', async t => {
+  const { app_model } = await init({})
   t.is(undefined, app_model.state('first_name'))
 
   pvUpdate(app_model, 'first_name', 'John')
@@ -20,8 +20,8 @@ test('state updated', t => {
   })
 })
 
-test('simple compx calculated', t => {
-  const inited = init({
+test('simple compx calculated', async t => {
+  const inited = await init({
     '+states': {
       full_name: [
         'compx',

@@ -40,7 +40,7 @@ const getNesting = requirejs('pv/getNesting')
 const init = requirejs('test/init')
 const makeStepsRunner = require('../../steps')
 
-test('simple pass by * calculated', t => {
+test('simple pass by * calculated', async t => {
   const createDeepChild = (num, props) => {
     const DeepChild = spv.inh(Model, {}, {
       '+states': {
@@ -69,11 +69,11 @@ test('simple pass by * calculated', t => {
   })
 
 
-  const app = init({
+  const app = (await init({
     'chi-start__page': startModel,
   }, self => {
     self.start_page = self.initChi('start__page') // eslint-disable-line
-  }).app_model
+  })).app_model
 
   const steps = makeStepsRunner(app)
 

@@ -21,7 +21,7 @@ const toIds = md_list => {
   return md_list.map(item => item._provoda_id)
 }
 
-test('nestings updated', t => {
+test('nestings updated', async t => {
   const Appartment = spv.inh(Model, {}, {
     '+states': {
       number: [
@@ -32,9 +32,9 @@ test('nestings updated', t => {
     },
   })
 
-  const person = init({
+  const person = (await init({
     'nest-appartment': [Appartment],
-  }).app_model
+  })).app_model
 
   return waitFlow(person).then(person => {
     t.is(undefined, getNesting(person, 'garage'))
@@ -43,10 +43,10 @@ test('nestings updated', t => {
   })
 })
 
-test('compx with nestings calculated', t => {
+test('compx with nestings calculated', async t => {
   const Brother = spv.inh(Model, {}, {})
 
-  const person = init({
+  const person = (await init({
     'nest-brother': [Brother],
     '+states': {
       richest: [
@@ -55,7 +55,7 @@ test('compx with nestings calculated', t => {
         (broher_money, my_money) => broher_money < my_money,
       ],
     },
-  }).app_model
+  })).app_model
 
   person.nextTick(() => {
     pvUpdate(getNesting(person, 'brother'), 'money', 15)
@@ -72,7 +72,7 @@ test('compx with nestings calculated', t => {
   })
 })
 
-test('state compx calculated from parent and root states', t => {
+test('state compx calculated from parent and root states', async t => {
   const DeepestChild = spv.inh(Model, {}, {
     '+states': {
       description_name: [
@@ -88,9 +88,9 @@ test('state compx calculated from parent and root states', t => {
   const Child = spv.inh(Model, {}, {
     'nest-child': [DeepChild],
   })
-  const app = init({
+  const app = (await init({
     'nest-child': [Child],
-  }).app_model
+  })).app_model
 
 
   return waitFlow(app).then(app => {
@@ -123,7 +123,7 @@ test('state compx calculated from parent and root states', t => {
 })
 
 
-test('nest compx calculated', t => {
+test('nest compx calculated', async t => {
   const createDeepChild = (num, props) => {
     const DeepChild = spv.inh(Model, {}, {
       '+states': {
@@ -172,11 +172,11 @@ test('nest compx calculated', t => {
   })
 
 
-  const app = init({
+  const app = (await init({
     'chi-start__page': startModel,
   }, self => {
     self.start_page = self.initChi('start__page') // eslint-disable-line
-  }).app_model
+  })).app_model
 
   const step = fn => () => waitFlow(app).then(() => fn())
   const steps = fns => fns.reduce((result, fn) => result.then(step(fn)), waitFlow(app))

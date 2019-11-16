@@ -12,14 +12,14 @@ const init = requirejs('test/init')
 
 const waitFlow = require('../waitFlow')
 
-test('nestings legacy inited', t => {
+test('nestings legacy inited', async t => {
   const Appartment = spv.inh(Model, {}, {
     '+states': {},
   })
 
-  const person = init({
+  const person = (await init({
     'nest-appartment': [Appartment],
-  }).app_model
+  })).app_model
 
   return waitFlow(person).then(person => {
     // t.is(undefined, getNesting(person, 'garage'))
@@ -28,16 +28,16 @@ test('nestings legacy inited', t => {
   })
 })
 
-test('nestings new inited', t => {
+test('nestings new inited', async t => {
   const Appartment = spv.inh(Model, {}, {
     '+states': {},
   })
 
-  const person = init({
+  const person = (await init({
     '+nests': {
       appartment: ['nest', [Appartment]],
     },
-  }).app_model
+  })).app_model
 
   return waitFlow(person).then(person => {
     t.truthy(getNesting(person, 'appartment'))

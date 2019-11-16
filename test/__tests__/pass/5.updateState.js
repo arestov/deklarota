@@ -50,8 +50,8 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('simple state by pass1 && pass2 calculated', t => {
-  const app = setup()
+test('simple state by pass1 && pass2 calculated', async t => {
+  const app = await setup()
   const steps = makeStepsRunner(app)
 
   return steps([
@@ -75,7 +75,7 @@ test('simple state by pass1 && pass2 calculated', t => {
     },
   ])
 
-  function setup() {
+  async function setup() {
     const TargetChild = mdl({
       '+nests': {
         indie: [
@@ -102,7 +102,7 @@ test('simple state by pass1 && pass2 calculated', t => {
       },
     })
 
-    const app = init({
+    const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
         '+nests': {
@@ -115,7 +115,7 @@ test('simple state by pass1 && pass2 calculated', t => {
       }),
     }, self => {
       self.start_page = self.initChi('start__page') // eslint-disable-line
-    }).app_model
+    })).app_model
 
     return app
   }
