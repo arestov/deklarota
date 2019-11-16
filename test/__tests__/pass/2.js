@@ -38,7 +38,6 @@ const pvUpdate = requirejs('pv/update')
 const getNesting = requirejs('pv/getNesting')
 
 const init = require('../../init')
-const makeStepsRunner = require('../../steps')
 
 const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({
@@ -53,8 +52,7 @@ const createDeepChild = (num, props) => mdl({
 })
 
 test('multiple state by pass calculated', async t => {
-  const app = await setup()
-  const steps = makeStepsRunner(app)
+  const { app_model: app, steps } = await setup()
 
   return steps([
     () => {
@@ -108,7 +106,7 @@ test('multiple state by pass calculated', async t => {
       },
     })
 
-    const app = (await init({
+    return init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
         '+nests': {
@@ -120,8 +118,6 @@ test('multiple state by pass calculated', async t => {
       }),
     }, self => {
       self.start_page = self.initChi('start__page') // eslint-disable-line
-    })).app_model
-
-    return app
+    })
   }
 })

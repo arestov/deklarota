@@ -11,8 +11,6 @@ const updateNesting = requirejs('pv/updateNesting')
 
 const init = require('../init')
 
-const waitFlow = require('../waitFlow')
-
 const toIds = md_list => {
   if (!Array.isArray(md_list)) {
     return md_list && md_list._provoda_id
@@ -32,21 +30,24 @@ test('nestings updated', async t => {
     },
   })
 
-  const person = (await init({
+  const { app_model: person, steps } = await init({
     'nest-appartment': [Appartment],
-  })).app_model
-
-  return waitFlow(person).then(person => {
-    t.is(undefined, getNesting(person, 'garage'))
-    t.is(undefined, pvState(getNesting(person, 'appartment'), 'nothing'))
-    t.is(49588, pvState(getNesting(person, 'appartment'), 'number'))
   })
+
+
+  await steps([
+    () => {
+      t.is(undefined, getNesting(person, 'garage'))
+      t.is(undefined, pvState(getNesting(person, 'appartment'), 'nothing'))
+      t.is(49588, pvState(getNesting(person, 'appartment'), 'number'))
+    },
+  ])
 })
 
 test('compx with nestings calculated', async t => {
   const Brother = spv.inh(Model, {}, {})
 
-  const person = (await init({
+  const { app_model: person, steps } = await init({
     'nest-brother': [Brother],
     '+states': {
       richest: [
@@ -55,21 +56,23 @@ test('compx with nestings calculated', async t => {
         (broher_money, my_money) => broher_money < my_money,
       ],
     },
-  })).app_model
-
-  person.nextTick(() => {
-    pvUpdate(getNesting(person, 'brother'), 'money', 15)
-    pvUpdate(person, 'money', 12)
   })
 
-  return waitFlow(person).then(person => {
-    t.is(false, pvState(person, 'richest'))
 
-    pvUpdate(person, 'money', 20)
-    return waitFlow(person)
-  }).then(person => {
-    t.is(true, pvState(person, 'richest'))
-  })
+  await steps([
+    () => {
+      pvUpdate(getNesting(person, 'brother'), 'money', 15)
+      pvUpdate(person, 'money', 12)
+    },
+    () => {
+      t.is(false, pvState(person, 'richest'))
+
+      pvUpdate(person, 'money', 20)
+    },
+    () => {
+      t.is(true, pvState(person, 'richest'))
+    },
+  ])
 })
 
 test('state compx calculated from parent and root states', async t => {
@@ -88,26 +91,27 @@ test('state compx calculated from parent and root states', async t => {
   const Child = spv.inh(Model, {}, {
     'nest-child': [DeepChild],
   })
-  const app = (await init({
+  const { app_model: app, steps } = (await init({
     'nest-child': [Child],
-  })).app_model
+  }))
 
+  await steps([
+    () => {
+      const {
+        deep_child,
+        deepest_child,
+      } = getModels(app)
 
-  return waitFlow(app).then(app => {
-    const {
-      deep_child,
-      deepest_child,
-    } = getModels(app)
+      pvUpdate(app, 'family_name', 'Smith')
+      pvUpdate(deep_child, 'name', 'John')
+      pvUpdate(deepest_child, 'name', 'Mike')
+    },
+    () => {
+      const { deepest_child } = getModels(app)
+      t.is('Mike Smith, son of John', pvState(deepest_child, 'description_name'))
+    },
+  ])
 
-    pvUpdate(app, 'family_name', 'Smith')
-    pvUpdate(deep_child, 'name', 'John')
-    pvUpdate(deepest_child, 'name', 'Mike')
-
-    return waitFlow(app)
-  }).then(app => {
-    const { deepest_child } = getModels(app)
-    t.is('Mike Smith, son of John', pvState(deepest_child, 'description_name'))
-  })
 
   function getModels(app) {
     const child = getNesting(app, 'child')
@@ -172,20 +176,18 @@ test('nest compx calculated', async t => {
   })
 
 
-  const app = (await init({
+  const { app_model: app, steps } = (await init({
     'chi-start__page': startModel,
   }, self => {
     self.start_page = self.initChi('start__page') // eslint-disable-line
-  })).app_model
+  }))
 
-  const step = fn => () => waitFlow(app).then(() => fn())
-  const steps = fns => fns.reduce((result, fn) => result.then(step(fn)), waitFlow(app))
 
   const targetChild = () => (
     getNesting(app.start_page, 'target_child')
   )
 
-  return steps([
+  await steps([
     () => {
       const target_child = targetChild()
 
