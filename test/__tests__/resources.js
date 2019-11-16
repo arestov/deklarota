@@ -12,7 +12,7 @@ const waitFlow = require('../waitFlow')
 
 const fakeInterface = require('../fakeInterface')
 
-test('state loaded', t => {
+test('state loaded', async t => {
   const StartPage = spv.inh(BrowseMap.Model, {}, {
     '+effects': {
       consume: {
@@ -50,7 +50,7 @@ test('state loaded', t => {
     },
   })
 
-  const app = init({
+  const app = (await init({
     '+effects': {
       api: {
         fake() {
@@ -66,7 +66,7 @@ test('state loaded', t => {
   }, self => {
     self.all_queues = []
     self.start_page = self.initChi('start__page')
-  }).app_model
+  })).app_model
 
   return waitFlow(app).then(app => app.start_page.requestState('bio').then(() => waitFlow(app))).then(app => {
     t.is('was born', pvState(app.start_page, 'bio'))

@@ -65,8 +65,8 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('multiple state to arg base by pass calculated', t => {
-  const app = setup()
+test('multiple state to arg base by pass calculated', async t => {
+  const app = await setup()
   const steps = makeStepsRunner(app)
 
 
@@ -102,8 +102,8 @@ test('multiple state to arg base by pass calculated', t => {
     },
   ])
 
-  function setup() {
-    const app = init({
+  async function setup() {
+    const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
         '+nests': {
@@ -116,7 +116,7 @@ test('multiple state to arg base by pass calculated', t => {
       }),
     }, self => {
       self.start_page = self.initChi('start__page') // eslint-disable-line
-    }).app_model
+    })).app_model
 
     return app
   }

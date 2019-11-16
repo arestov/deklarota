@@ -24,8 +24,8 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('auto dispatch and handle `handleInit` pass', t => {
-  const app = setup()
+test('auto dispatch and handle `handleInit` pass', async t => {
+  const app = await setup()
   const steps = makeStepsRunner(app)
   const getData = (item, keys = ['artist', 'title']) => {
     if (!item) {
@@ -83,7 +83,7 @@ test('auto dispatch and handle `handleInit` pass', t => {
     },
   ])
 
-  function setup() {
+  async function setup() {
     const Song = createDeepChild('Song', {
       '+passes': {
         handleInit: {
@@ -112,7 +112,7 @@ test('auto dispatch and handle `handleInit` pass', t => {
       ],
     })
 
-    const app = init({
+    const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
         '+nests': {
@@ -138,7 +138,7 @@ test('auto dispatch and handle `handleInit` pass', t => {
       }),
     }, self => {
       self.start_page = self.initChi('start__page') // eslint-disable-line
-    }).app_model
+    })).app_model
 
     return app
   }
