@@ -7,26 +7,25 @@ const pvState = requirejs('pv/state')
 
 const init = require('../init')
 
-const waitFlow = require('../waitFlow')
-
 test('state updated', async t => {
-  const { app_model } = await init({})
+  const { app_model, steps } = await init({})
   t.is(undefined, app_model.state('first_name'))
 
-  pvUpdate(app_model, 'first_name', 'John')
-
-  return waitFlow(app_model).then(app_model => {
-    t.is('John', pvState(app_model, 'first_name'))
-  })
+  return steps([
+    () => pvUpdate(app_model, 'first_name', 'John'),
+    app_model => {
+      t.is('John', pvState(app_model, 'first_name'))
+    },
+  ])
 })
 
 test('simple compx calculated', async t => {
-  const inited = await init({
+  const { app_model, steps } = await init({
     '+states': {
       full_name: [
         'compx',
         ['first_name', 'last_name'],
-        function (first_name, last_name) {
+        (first_name, last_name) => {
           if (!first_name || !last_name) {
             return null
           }
@@ -36,15 +35,15 @@ test('simple compx calculated', async t => {
     },
   })
 
-  const app_model = inited.app_model
-
   t.is(undefined, pvState(app_model, 'full_name'))
 
-  pvUpdate(app_model, 'first_name', 'John')
-  pvUpdate(app_model, 'last_name', 'Smith')
-
-
-  return waitFlow(app_model).then(app_model => {
-    t.is('John Smith', pvState(app_model, 'full_name'))
-  })
+  await steps([
+    () => {
+      pvUpdate(app_model, 'first_name', 'John')
+      pvUpdate(app_model, 'last_name', 'Smith')
+    },
+    app_model => {
+      t.is('John Smith', pvState(app_model, 'full_name'))
+    },
+  ])
 })
