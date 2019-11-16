@@ -5,7 +5,7 @@ const requirejs = require('../../requirejs-config')
 const pvUpdate = requirejs('pv/update')
 const pvState = requirejs('pv/state')
 
-const init = requirejs('test/init')
+const init = require('../init')
 
 const waitFlow = require('../waitFlow')
 

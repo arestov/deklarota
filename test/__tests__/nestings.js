@@ -9,7 +9,7 @@ const pvState = requirejs('pv/state')
 const getNesting = requirejs('pv/getNesting')
 const updateNesting = requirejs('pv/updateNesting')
 
-const init = requirejs('test/init')
+const init = require('../init')
 
 const waitFlow = require('../waitFlow')
 
