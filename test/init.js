@@ -1,13 +1,13 @@
-define(require => {
-  // app thread;
-  const fakeApp = require('./fakeApp')
-  const initApp = require('js/utils/initApp')
+// app thread;
+const requirejs = require('../requirejs-config')
 
-  const env = {}
+const initApp = requirejs('js/utils/initApp')
+const fakeApp = requirejs('test/fakeApp')
 
-  // var root_bwlev = initBrowsing(app_model);
-  return function init(app_props, init) {
-    const App = fakeApp(app_props, init)
-    return initApp(App, env)
-  }
-})
+const env = {}
+
+// var root_bwlev = initBrowsing(app_model);
+module.exports = function init(app_props, init) {
+  const App = fakeApp(app_props, init)
+  return initApp(App, env)
+}

@@ -6,7 +6,7 @@ const spv = requirejs('spv')
 const pvState = requirejs('pv/state')
 const BrowseMap = requirejs('js/libs/BrowseMap')
 
-const init = requirejs('test/init')
+const init = require('../init')
 
 const waitFlow = require('../waitFlow')
 

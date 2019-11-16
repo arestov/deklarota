@@ -37,7 +37,7 @@ const pvPass = requirejs('pv/pass')
 const pvUpdate = requirejs('pv/update')
 const getNesting = requirejs('pv/getNesting')
 
-const init = requirejs('test/init')
+const init = require('../../init')
 const makeStepsRunner = require('../../steps')
 
 const mdl = props => spv.inh(Model, {}, props)

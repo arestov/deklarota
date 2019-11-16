@@ -60,7 +60,7 @@ const Model = requirejs('pv/Model')
 const pvState = requirejs('pv/state')
 const pvPass = requirejs('pv/pass')
 
-const init = requirejs('test/init')
+const init = require('../../init')
 const makeStepsRunner = require('../../steps')
 
 const mdl = props => spv.inh(Model, {}, props)

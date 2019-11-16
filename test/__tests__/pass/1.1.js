@@ -37,7 +37,7 @@ const pvState = requirejs('pv/state')
 const pvPass = requirejs('pv/pass')
 const getNesting = requirejs('pv/getNesting')
 
-const init = requirejs('test/init')
+const init = require('../../init')
 const makeStepsRunner = require('../../steps')
 
 test('simple pass by * calculated', async t => {

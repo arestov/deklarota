@@ -7,7 +7,7 @@ const pvUpdate = requirejs('pv/update')
 const updateNesting = requirejs('pv/updateNesting')
 const getNesting = requirejs('pv/getNesting')
 
-const init = requirejs('test/init')
+const init = require('../init')
 const makeStepsRunner = require('../steps')
 
 const toIds = md_list => {
