@@ -70,6 +70,15 @@ spv.cloneObj(props, {
     }
 
     this.c._provoda_view = this;
+
+    if (!this.c.length || !this.c[0]) {
+      return
+    }
+
+    // legacy. when this.c is jquery wrapper
+    for (var i = 0; i < this.c.length; i++) {
+      this.c[i]._provoda_view = this;
+    }
   },
 
   useBase: function(node) {
