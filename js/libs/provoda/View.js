@@ -65,9 +65,11 @@ spv.cloneObj(props, {
       }
     }
 
-    if (this.c) {
-      this.c._provoda_view = this;
+    if (!this.c) {
+      return
     }
+
+    this.c._provoda_view = this;
   },
 
   useBase: function(node) {
