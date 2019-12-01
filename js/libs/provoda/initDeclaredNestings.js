@@ -2,6 +2,7 @@ define(function(require) {
 "use strict";
 
 var spv = require('spv');
+var getTargetField = spv.getTargetField
 
 var preloadStart = function (md) {
   md.preloadStart();
@@ -71,7 +72,7 @@ var getPath = pathExecutor(function(chunkName, app, md) {
 });
 
 var getPathBySimpleData = pathExecutor(function(chunkName, app, data) {
-  return data && data[chunkName];
+  return data && getTargetField(data, chunkName);
 });
 
 var followStringTemplate = function (app, md, obj, need_constr, full_path, strict, options) {
