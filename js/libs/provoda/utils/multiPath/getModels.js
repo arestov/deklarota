@@ -26,8 +26,8 @@ var getStart = require('./getStart')
 //   },
 // }
 
-var getModels = function(md, multi_path) {
-  var start_md = getStart(md, multi_path)
+var getModels = function(md, multi_path, data) {
+  var start_md = getStart(md, multi_path, false, data)
 
   return getDeepNesting(
     start_md,

@@ -6,11 +6,12 @@ var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate
 
 var empty = {}
 
-return function getStart(md, multi_path, use_state_from_initial_model) {
+return function getStart(md, multi_path, use_state_from_initial_model, data) {
   return getResourse(
     getBase(md, multi_path),
     multi_path,
-    use_state_from_initial_model
+    use_state_from_initial_model,
+    data
   )
 }
 
@@ -38,7 +39,7 @@ function getBase(md, multi_path) {
   return md.getStrucParent(info.steps)
 }
 
-function getResourse(md, multi_path, use_state_from_initial_model) {
+function getResourse(md, multi_path, use_state_from_initial_model, data) {
   /*
    {
     path: string,
@@ -55,6 +56,6 @@ function getResourse(md, multi_path, use_state_from_initial_model) {
     return getSPByPathTemplate(md.app, md, info.path)
   }
 
-  return getSPByPathTemplateAndData(md.app, md, info.path, false, empty)
+  return getSPByPathTemplateAndData(md.app, md, info.path, false, data || empty)
 }
 })

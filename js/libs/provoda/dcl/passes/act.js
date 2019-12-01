@@ -130,12 +130,12 @@ var saveResult = function (md, dcl, value, data) {
   }
 }
 
-var getDep = function(md, dep) {
-  var models = getModels(md, dep)
+var getDep = function(md, dep, data) {
+  var models = getModels(md, dep, data)
   return models && getValues(models, dep)
 }
 
-var getDepsValues = function (md, deps) {
+var getDepsValues = function (md, deps, data) {
   if (!deps) {
     return null
   }
@@ -143,7 +143,7 @@ var getDepsValues = function (md, deps) {
   var args = new Array(deps.length)
   for (var i = 0; i < deps.length; i++) {
     var cur = deps[i]
-    args[i] = getDep(md, cur);
+    args[i] = getDep(md, cur, data);
   }
 
   return args;
@@ -161,7 +161,7 @@ return function pass(md, pass_name, data) {
   var fn = dcl.fn;
   var deps = dcl.deps;
 
-  var deps_values = getDepsValues(md, deps)
+  var deps_values = getDepsValues(md, deps, data)
 
   var args = deps_values ? [data].concat(deps_values) : [data]
 
