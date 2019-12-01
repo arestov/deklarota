@@ -9,7 +9,11 @@ define(require => {
     const all = {
       init: initSelf,
     }
-    const App = spv.inh(AppModel, all, props)
+    const App = spv.inh(AppModel, all, {
+      encodeURLPart: encodeURIComponent,
+      decodeURLPart: decodeURIComponent,
+      ...props,
+    })
     return prepare(App)
   }
 })
