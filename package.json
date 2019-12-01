@@ -19,10 +19,9 @@
   "node-remote": "https://arestov.github.io",
   "scripts": {
     "gulp": "gulp",
-    "inspect": "inspect",
     "test": "ava --verbose",
-    "test:current-dev": "ava --verbose --match=\"*nestings*\"",
-    "debug:current-dev": "inspect node_modules/ava/profile.js test/__tests__/nestings-compx.js"
+    "test:current-dev": "ava --verbose --match=\"*dynamic*\"",
+    "debug:current-dev": "node --inspect --inspect-brk node_modules/ava/profile.js test/__tests__/pass/7.dynamic_routed.js"
   },
   "devDependencies": {
     "autoprefixer": "6.0.2",
@@ -44,7 +43,6 @@
     "gulp-sourcemaps": "1.5.2",
     "gulp-util": "3.0.6",
     "gulp-zip": "3.2.0",
-    "inspect-process": "^0.5.0",
     "module-lookup-amd": "^6.2.0",
     "postcss": "5.0.5",
     "rollup": "^1.25.1",
