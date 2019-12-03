@@ -19,7 +19,9 @@ var toTransferableNestings = function(value) {
 
     if (value && value.each_items) {
       // creating value to pass
-      var copy = spv.cloneObj({}, value)
+      var copy = spv.cloneObj({
+        $not_model: true,
+      }, value)
       delete copy.each_items;
       return copy
     }
