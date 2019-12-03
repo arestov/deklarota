@@ -88,7 +88,9 @@ var toSimpleStructure = function(models_index, big_result) {
             checkModel(cur.each_items[i], models_index, local_index, all_for_parse);
           }
 
-          var copy = cloneObj({}, cur)
+          var copy = cloneObj({
+            $not_model: true,
+          }, cur)
           delete copy.each_items
 
           result.children_models[nesting_name] = copy

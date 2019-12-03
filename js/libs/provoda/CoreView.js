@@ -833,6 +833,9 @@ var View = spv.inh(StatesEmitter, {
     var real_length = 0
     for (var i = 0; i < array.length; i++) {
       var cur = array[i];
+      if (cur.$not_model) {
+        continue;
+      }
       var view = self.getStoredMpx(cur).getView(location_id);
       if (!view) {
         continue;
@@ -846,6 +849,9 @@ var View = spv.inh(StatesEmitter, {
     var counter = 0
     for (var i = 0; i < array.length; i++) {
       var cur = array[i];
+      if (cur.$not_model) {
+        continue;
+      }
       var view = self.getStoredMpx(cur).getView(location_id);
       if (!view) {
         continue;
