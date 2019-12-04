@@ -55,6 +55,13 @@ var BrowseLevel = spv.inh(Model, {
 }, {
   model_name: 'bwlev',
   "+states": {
+    "nav_item_removed": [
+      'compx',
+      ['@one:nav_item_removed:pioneer'],
+      function(state) {
+        return state
+      }
+    ],
     "source_of_item": [
       'compx',
       ['@pioneer'],
@@ -222,6 +229,13 @@ var BrowseLevel = spv.inh(Model, {
     // load everything
 
     loadAllByStruc(target.getNesting('pioneer'), obj, prev);
+  },
+  'stch-nav_item_removed': function(self, state) {
+    if (!state) {
+      return
+    }
+
+    changeBridge(self.map_parent)
   }
 });
 
