@@ -4,7 +4,7 @@ define(function(require) {
 var spv = require('spv')
 var memorize = spv.memorize
 var isPrivate = memorize(function(str) {
-  return str.startsWith('__')
+  return str.startsWith('__') || str.startsWith('@')
 });
 return isPrivate
 })

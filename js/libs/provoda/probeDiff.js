@@ -100,7 +100,7 @@ return function probeDiff(highway_holder, value, oldvalue) {
     target: target,
     value_full_path: value_full_path.map(asMDR),
     oldvalue_full_path: oldvalue_full_path.map(asMDR),
-    common_step: common_step,
+    common_step: asMDR(common_step),
     array: changes_wrap,
   };
 };
