@@ -122,6 +122,19 @@ return spv.inh(View, {
 
     return this.nav;
   },
+  sendOnInit: function() {
+    // var ext_search_query = this.els.search_input.val();
+    //must be before start_page view set its value to search_input
+    this.RPCLegacy('checkUserInput', {
+      // ext_search_query: ext_search_query
+    });
+
+    this.on('die', function() {
+      this.RPCLegacy('detachUI', this.root_view.root_view_uid);
+    });
+
+    this.RPCLegacy('attachUI', this.root_view.root_view_uid);
+  },
   createDetails: function() {
     this._super();
 
@@ -137,17 +150,7 @@ return spv.inh(View, {
     this.buildNowPlayingButton();
     this.buildNavHelper();
 
-    // var ext_search_query = this.els.search_input.val();
-    //must be before start_page view set its value to search_input
-    this.RPCLegacy('checkUserInput', {
-      // ext_search_query: ext_search_query
-    });
-
-    this.on('die', function() {
-      this.RPCLegacy('detachUI', this.root_view.root_view_uid);
-    });
-
-    this.RPCLegacy('attachUI', this.root_view.root_view_uid);
+    this.sendOnInit();
   },
   getLevByNum: function(num, exclude_start_lev) {
     if (num < -1){
