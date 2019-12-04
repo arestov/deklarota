@@ -89,6 +89,7 @@ var StandartChange = function(node, opts, w_cache_subkey) {
   this.current_motivator = null;
   this.w_cache_subkey = w_cache_subkey;
   this.data = opts.data;
+  this.needs_recheck = Boolean(opts.needs_recheck);
   this.calculator = calculator;
   this.all_vs = all_vs;
   this.simplifyValue = opts.simplifyValue;

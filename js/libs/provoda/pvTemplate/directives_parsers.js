@@ -33,7 +33,19 @@ var createPropChange = (function() {
     return getTargetField(node, prop);
   };
   var setValue = function(node, value, old_value, wwtch) {
-    return setTargetField(node, wwtch.data, value || '');
+    var prop = wwtch.data;
+    var new_value = value || '';
+
+    if (!wwtch.standch.needs_recheck) {
+      return setTargetField(node, prop, new_value);
+    }
+
+    var current_value = getTargetField(node, prop);
+    if (current_value == new_value) {
+      return;
+    }
+
+    return setTargetField(node, prop, value || '');
   };
 
   return function(node, prop, statement, directive_name) {
@@ -43,8 +55,15 @@ var createPropChange = (function() {
     }
     prop = parts.join(DOT);
 
+    var needs_recheck = prop == 'value'
+    // we should avoid reading dom. it could be perfomance problem, but
+    // we don't want to rewrite value for input since it will break cursor position
+    // p.s. we could add more clever check for noteName === 'textarea' and other attrs
+    // TODO: check if this realy needed
+
     return new StandartChange(node, {
       data: prop,
+      needs_recheck: needs_recheck,
       statement: statement,
       getValue: getValue,
       setValue: setValue
