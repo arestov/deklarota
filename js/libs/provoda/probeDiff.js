@@ -97,6 +97,7 @@ return function probeDiff(highway_holder, value, oldvalue) {
 
   return {
     bwlev: bwlev,
+    prev_bwlev: oldvalue,
     target: target,
     value_full_path: value_full_path.map(asMDR),
     oldvalue_full_path: oldvalue_full_path.map(asMDR),

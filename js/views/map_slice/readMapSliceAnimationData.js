@@ -3,6 +3,7 @@ define(function (require) {
 var pv = require('pv');
 var view_serv = require('view_serv');
 var getModelFromR = require('pv/v/getModelFromR')
+var anyDeeplyIncludedViews = require('./anyDeeplyIncludedViews')
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')
 
@@ -11,6 +12,9 @@ var css_transform = view_serv.css.transform;
 var transform_props = css_transform ? [css_transform] : [];
 
 var getNavOHeight = function() {
+  if (!this.root_view.els.navs) {
+    return 0;
+  }
   return this.root_view.els.navs.outerHeight();
 };
 var getAMCWidth = function() {
@@ -29,7 +33,9 @@ return function readMapSliceAnimationData(view, transaction_data) {
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return;}
 
-  var target_in_parent = view.getMapSliceChildInParenView(target_md, getModelFromR(view, transaction_data.target));
+  var best_matched_view = view.getMapSliceChildInParenView(target_md, getModelFromR(view, transaction_data.target));
+
+  var target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, target_md);
   if (!target_in_parent) {return;}
 
   var targt_con = target_in_parent.getC();
@@ -40,6 +46,7 @@ return function readMapSliceAnimationData(view, transaction_data) {
 
   // var offset = targt_con.offset(); //domread
   var offset = target_in_parent.getBoxDemension(function() {
+    // works only for best_matched_view
     return targt_con.offset();
   }, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.state('window_height'), view.root_view.state('workarea_width'));
 
