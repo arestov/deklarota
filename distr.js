@@ -7,6 +7,7 @@ const build = ({
   path = 'dist/esm'
 }) => rollup({
     preserveModules: true,
+    external: ['jquery'],
     input: [
       'js/libs/provoda/provoda.js',
       'js/libs/provoda/structure/getUsageTree',
@@ -25,7 +26,6 @@ const build = ({
 
       'js/views/AppBaseView.js',
       'js/views/utils/loadImage.js',
-      'js/common-libs/jquery',
     ].map(path => (__dirname + '/' + path)),
 
     plugins: [
@@ -37,7 +37,7 @@ const build = ({
             filename: parentPath,
             config: {
               paths: {
-                jquery: 'js/common-libs/jquery-2.1.4',
+                // jquery: 'js/common-libs/jquery-2.1.4',
                 angbo: 'js/libs/provoda/StatementsAngularParser.min',
               },
               map: {
@@ -71,12 +71,22 @@ const build = ({
         dir: path,
         format: 'esm',
         name: 'library',
+        output: {
+          globals: {
+            jquery: '$'
+          },
+        },
         // sourcemap: true
       }),
       all && bundle.write({
         dir: 'dist/cjs', // use umd?
         format: 'cjs',
         name: 'library',
+        output: {
+          globals: {
+            jquery: '$'
+          },
+        },
         // sourcemap: true
       })
     ])
