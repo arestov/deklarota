@@ -194,6 +194,9 @@ var View = spv.inh(StatesEmitter, {
 
     this.root_view.parent_view.RPCLegacy('requestPage', md_id);
   },
+  showByReqId: function(reqId) {
+    this.root_view.parent_view.RPCLegacy('showByReqId', reqId);
+  },
   tpl_events: {
     requestPage: function() {
       this.requestPage();

@@ -10,6 +10,8 @@ var changeBridge = require('js/libs/provoda/bwlev/changeBridge');
 var BrowseLevel = require('js/libs/provoda/bwlev/BrowseLevel');
 var getNesting = require('pv/getNesting');
 var createLevel = require('js/libs/provoda/bwlev/createLevel');
+var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap');
+var getModelById = require('js/libs/provoda/utils/getModelById');
 
 var BrowseMap = require('js/libs/BrowseMap');
 var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges');
@@ -70,7 +72,24 @@ return spv.inh(Model, {
     'current_song': [
       'compx',
       ['@one:current_song:player'],
+    ],
+    resolved_navigation_desire: [
+      'compx',
+      ['wantedReqId', '#createdByReqIdResources'],
+      function(reqId, index) {
+        return reqId && index && index[reqId]
+      }
     ]
+  },
+  'stch-resolved_navigation_desire': function(self, state) {
+    if (!state) {
+      return
+    }
+    var id = state
+    var md = getModelById(self, id);
+
+    var bwlev = showMOnMap(BrowseLevel, self, md)
+    bwlev.showOnMap();
   },
   "+effects": {
     "produce": {
