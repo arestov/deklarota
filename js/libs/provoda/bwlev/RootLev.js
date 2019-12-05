@@ -55,6 +55,13 @@ var RootLev = spv.inh(Model, {}, {
 
       this.used_data_structure = used_data_structure;
       pvUpdate(this, 'used_data_structure', used_data_structure);
+    },
+    showByReqId: function(reqId) {
+      var map = getSPByPathTemplate(this.app, this, 'spyglass-navigation')
+
+      map.input(function() {
+        map.updateState('wantedReqId', reqId)
+      })
     }
   },
   updateSpyglass: function(data) {
