@@ -35,6 +35,8 @@ function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id;
 }
 
+var parent_count_regexp = /^\^+/gi;
+
 return {
   probeDiff: probeDiff,
   getRDep: (function() {
@@ -217,8 +219,12 @@ return {
             target_view = view.root_view;
             fnName = fnNameRaw.slice(1);
           } else if (firstChar === '^') {
-            target_view = view.parent_view;
-            fnName = fnNameRaw.slice(1);
+            var fnName = fnNameRaw.replace(parent_count_regexp, '');
+            var parent_count = fnNameRaw.length - fnName.length;
+            target_view = view
+            for (var i = 0; i < parent_count; i++) {
+              target_view = target_view.parent_view;
+            }
           } else {
             fnName = fnNameRaw
             target_view = view;
