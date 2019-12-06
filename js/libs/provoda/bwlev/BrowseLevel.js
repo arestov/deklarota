@@ -55,11 +55,11 @@ var BrowseLevel = spv.inh(Model, {
 }, {
   model_name: 'bwlev',
   "+states": {
-    "nav_item_removed": [
+    "should_be_redirected": [
       'compx',
-      ['@one:nav_item_removed:pioneer'],
-      function(state) {
-        return state
+      ['@one:nav_item_removed:pioneer', 'mp_show'],
+      function(state, show) {
+        return state && show
       }
     ],
     "source_of_item": [
@@ -230,7 +230,7 @@ var BrowseLevel = spv.inh(Model, {
 
     loadAllByStruc(target.getNesting('pioneer'), obj, prev);
   },
-  'stch-nav_item_removed': function(self, state) {
+  'stch-should_be_redirected': function(self, state) {
     if (!state) {
       return
     }
