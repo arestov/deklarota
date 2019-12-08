@@ -129,6 +129,16 @@ var isFromParent = function (first_char, string_template) {
   };
 };
 
+// from template to full string - implemented
+// from string to match - NOT IMPLEMENTED
+
+// tracks/[:trackName]/more/something/else
+// how to match subpaths? submodels can route same path
+// subpaths levels handling should be limited to 2 levels for now
+// so model can handle only /tracks or /tracks/[:trackName] but not tracks/[:trackName]/more
+// example "#tracks/[:artist:next_value],[:track]" // artist:next_value - way to map data
+// {next_value: 'Mike'} will be used as "artist" for template
+
 var getParsedPath = spv.memorize(function(string_template) {
   //example "#tracks/[:artist],[:track]"
   //example "^^tracks/[:artist],[:track]"
