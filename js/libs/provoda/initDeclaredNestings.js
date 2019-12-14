@@ -139,6 +139,23 @@ var isFromParent = function (first_char, string_template) {
 // example "#tracks/[:artist:next_value],[:track]" // artist:next_value - way to map data
 // {next_value: 'Mike'} will be used as "artist" for template
 
+var parsePath = spv.memorize(function(full_usable_string) {
+  // tracks/[:artist],[:track]
+  var clean_string_parts = full_usable_string.split(string_state_regexp);
+  var states = full_usable_string.match(string_state_regexp);
+
+  if (states) {
+    for (var i = 0; i < states.length; i++) {
+      states[i] = states[i].slice( 2, states[i].length - 1 );
+    }
+  }
+
+  return {
+    clean_string_parts: clean_string_parts,
+    states: states,
+  }
+})
+
 var getParsedPath = spv.memorize(function(string_template) {
   //example "#tracks/[:artist],[:track]"
   //example "^^tracks/[:artist],[:track]"
@@ -153,18 +170,15 @@ var getParsedPath = spv.memorize(function(string_template) {
         ? from_parent.cutted
         : string_template);
 
-  var clean_string_parts = full_usable_string.split(string_state_regexp);
-  var states = full_usable_string.match(string_state_regexp);
 
-  if (states) {
-    for (var i = 0; i < states.length; i++) {
-      states[i] = states[i].slice( 2, states[i].length - 1 );
-    }
-  }
 
   if (!full_usable_string && !from_parent && !from_root) {
     throw new Error('path cannot be empty');
   }
+
+  var parsed = parsePath(full_usable_string)
+  var states = parsed.states
+  var clean_string_parts = parsed.clean_string_parts;
 
   return {
     full_usable_string: full_usable_string,
