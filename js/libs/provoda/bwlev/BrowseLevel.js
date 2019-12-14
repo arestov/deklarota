@@ -57,9 +57,9 @@ var BrowseLevel = spv.inh(Model, {
   "+states": {
     "should_be_redirected": [
       'compx',
-      ['@one:nav_item_removed:pioneer', 'mp_show'],
-      function(state, show) {
-        return state && show
+      ['@one:nav_item_removed:pioneer', '@one:_provoda_id:pioneer', 'mp_show'],
+      function(state, _provoda_id, show) {
+        return state && show && _provoda_id
       }
     ],
     "source_of_item": [
