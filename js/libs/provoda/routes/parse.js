@@ -62,6 +62,7 @@ var parse = function(full_usable_string) {
   var cur_matches;
   var parts = [];
   var cur_matching_group = 1; // 0 is whole match
+  var prev_have_state = false;
   do {
     cur_matches = iterableCopy.exec(full_usable_string)
 
@@ -81,11 +82,21 @@ var parse = function(full_usable_string) {
         matching_group: null,
         matcher: createMatcher(alternative, false)
       })
+      prev_have_state = false
       continue
     }
 
     var state_dcl = cur_matches[STATE]
     var matching_group = cur_matching_group
+
+    if (!prefix && prev_have_state) {
+      var prev = parts[parts.length-1]
+      throw new Error(
+        'Should be any separator between ' +
+        prev.state_source + ' and ' + state_source + '.' +
+        'Use comma, space, minus, plus, underscore'
+      )
+    }
 
     parts.push({
       prefix: prefix,
@@ -95,6 +106,7 @@ var parse = function(full_usable_string) {
       matcher: createMatcher(prefix, true),
     })
     cur_matching_group = cur_matching_group + 1
+    prev_have_state = true
   } while (cur_matches)
 
   // TODO: check if two parts with state have separator
