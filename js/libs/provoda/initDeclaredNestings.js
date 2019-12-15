@@ -52,11 +52,11 @@ var getValue = function (app, value) {
 
 var pathExecutor = function(getChunk) {
   return function getPath(obj, app, arg1, arg2) {
-    if (obj.states) {
+    if (obj.parsed.states) {
       var full_path = '';
-      for (var i = 0; i < obj.clean_string_parts.length; i++) {
-        full_path += obj.clean_string_parts[i];
-        var cur_state = obj.states[i];
+      for (var i = 0; i < obj.parsed.clean_string_parts.length; i++) {
+        full_path += obj.parsed.clean_string_parts[i];
+        var cur_state = obj.parsed.states[i];
         if (cur_state) {
           var chunk = getChunk(cur_state, app, arg1, arg2);
           full_path += getValue(app, chunk) || 'null';
@@ -155,6 +155,7 @@ var getParsedPath = spv.memorize(function(string_template) {
     full_usable_string: full_usable_string,
     from_root: Boolean(from_root),
     from_parent: from_parent && from_parent.count,
+    parsed: parsed,
     clean_string_parts: clean_string_parts,
     states: states,
   };
