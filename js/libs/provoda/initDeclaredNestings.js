@@ -148,16 +148,12 @@ var getParsedPath = spv.memorize(function(string_template) {
   }
 
   var parsed = parsePath(full_usable_string)
-  var states = parsed.states
-  var clean_string_parts = parsed.clean_string_parts;
 
   return {
     full_usable_string: full_usable_string,
     from_root: Boolean(from_root),
     from_parent: from_parent && from_parent.count,
     parsed: parsed,
-    clean_string_parts: clean_string_parts,
-    states: states,
   };
 });
 
