@@ -38,7 +38,7 @@ var parse = function(full_usable_string) {
     }
   }
 
-  var states_map = makeStatesMap(states)
+  var states_map = states && makeStatesMap(states)
 
   return {
     clean_string_parts: clean_string_parts,

@@ -10,7 +10,7 @@ requirejs.config({
 		}
 	},
 })
-var parse = requirejs('./parsePath')
+var parse = requirejs('./parse')
 
 test('check parsing', function(t) {
   'use strict'
