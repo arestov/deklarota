@@ -2,7 +2,7 @@ define(function(require) {
 "use strict";
 
 var spv = require('spv');
-var parsePath = require('./routes/parsePath')
+var parsePath = require('./routes/legacy/parse')
 var getTargetField = spv.getTargetField
 
 var preloadStart = function (md) {
