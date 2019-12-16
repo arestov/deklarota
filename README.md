@@ -1,6 +1,6 @@
 ## О проекте
 
-<img align="right" width="256" height="256" title="dk logo" src="./docs/assets/dk-logo.svg"/>
+<img align="right" width="256" height="256" title="dk logo" src="./docs/assets/deklarota-logo.svg"/>
 
 Deklarota - фреймворк для декларативного **моделирования**, **управления** и **вычисления** состояния. (Исследовательский, но рабочий и готовый к использованию проект).
 
@@ -79,7 +79,7 @@ Deklarota - состоит из двух основных частей
 
 
 
-
+Автор логотипа - https://twitter.com/nikitonsky
 
 Copyright (c) 2009—2019 Gleb Arestov
 Licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php) license.
