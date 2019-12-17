@@ -151,10 +151,12 @@ var asMDR = function(md) {
   updateNesting(fake_spyglass, 'navigation', bwlevs);
 
   var app = fake_spyglass.app;
-  var nav_tree = models;
-  app.nav_tree = nav_tree;
-  if (app.matchNav){
-    app.matchNav();
+  if (app.legacy_app) {
+    var nav_tree = models;
+    app.nav_tree = nav_tree;
+    if (app.matchNav){
+      app.matchNav();
+    }
   }
 
 
@@ -202,13 +204,16 @@ var asMDR = function(md) {
     //pvUpdate(target_md, 'mp-highlight', false);
 
 
-    // TODO: remove this legacy
-    updateNesting(app, 'current_mp_md', target_md);
-    // will be used for `imporant_models`
-    // will be using in views for size check?
-    pvUpdate(app, 'current_mp_bwlev', diff.bwlev.getMD());
-    // will be used for `imporant_models`
+    // // TODO: remove this legacy
 
+    if (app.legacy_app) {
+      updateNesting(app, 'current_mp_md', target_md);
+      // will be used for `imporant_models`
+      // will be using in views for size check?
+      pvUpdate(app, 'current_mp_bwlev', diff.bwlev.getMD());
+      // will be used for `imporant_models`
+
+    }
   }
 
 

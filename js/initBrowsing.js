@@ -4,7 +4,9 @@ var BrowseMap = require('./libs/BrowseMap');
 
 return function initBrowsing(app) {
   var bwroot = BrowseMap.hookRoot(app, app.start_page);
-  app.bwroot = bwroot;
+  if (app.legacy_app) {
+    app.bwroot = bwroot;
+  }
   return bwroot;
 };
 
