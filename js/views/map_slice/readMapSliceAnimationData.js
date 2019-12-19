@@ -45,18 +45,21 @@ return function readMapSliceAnimationData(view, transaction_data) {
   // или ни о чего не зависит или зависит от позиции скрола, если шапка не скролится
 
   // var offset = targt_con.offset(); //domread
-  var offset = target_in_parent.getBoxDemension(function() {
+  var targetOffset = function() {
     // works only for best_matched_view
     return targt_con.offset();
-  }, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.state('window_height'), view.root_view.state('workarea_width'));
+  }
+  var offset = target_in_parent.getBoxDemension(targetOffset, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.state('window_height'), view.root_view.state('workarea_width'));
 
-  var width = target_in_parent.getBoxDemension(function() {
+  var getWidth = function() {
     return targt_con.outerWidth();
-  }, 'con_width', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
+  }
+  var width = target_in_parent.getBoxDemension(getWidth, 'con_width', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
 
-  var height = target_in_parent.getBoxDemension(function() {
+  var getHeight = function() {
     return targt_con.outerHeight();
-  }, 'con_height', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
+  }
+  var height = target_in_parent.getBoxDemension(getHeight, 'con_height', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
 
 
   // var width = targt_con.outerWidth();  //domread
