@@ -358,7 +358,7 @@ return spv.inh(View, {
     var ov_highlight = ov_md && ov_md.state('mp-highlight');
     if (ov_highlight && ov_highlight.source_md){
       var source_md = ov_highlight.source_md;
-      var mplev_item_view = getRooConPresentation(source_md, target); // use getMapSliceChildInParenView ?
+      var mplev_item_view = getRooConPresentation(source_md, target); // use getMapSliceImmediateChildView ?
       if (mplev_item_view){
         target.scrollTo(mplev_item_view.getC(), {
           node: target.getLevByNum(md.map_level_num - 1).scroll_con
@@ -386,8 +386,9 @@ return spv.inh(View, {
       if (!parent_md) {
         return;
       }
-      // var mplev_item_view = getRooConPresentation(target.getStoredMpx(md), target, false, false, true); // use getMapSliceChildInParenView ?
-      var mplev_item_view = target.getMapSliceChildInParenView(bwlev, md);
+
+      // var mplev_item_view = getRooConPresentation(target.getStoredMpx(md), target, false, false, true); // use getMapSliceImmediateChildView ?
+      var mplev_item_view = target.getMapSliceImmediateChildView(bwlev.getParentMapModel(), md);
       var con = mplev_item_view && mplev_item_view.getC();
       var map_level_num = pvState(bwlev, 'map_level_num') - 1;
       if (con && con.height()){
@@ -407,19 +408,18 @@ return spv.inh(View, {
     return findMpxViewInChildren( this, this.getStoredMpx(target_bwlev), dclr.space, 'map_slice' );
   },
 
-  getMapSliceChildInParenView: function(bwlev, md) {
-    var parent_bwlev = bwlev.map_parent;
+  getMapSliceImmediateChildView: function(bwlev, md) {
     // md of parent view could differ from md.map_parent
-    var parent_md = getNesting(bwlev.getParentMapModel(), 'pioneer');
+    var md = getNesting(bwlev, 'pioneer');
 
-    var parent_bwlev_view = this.getMapSliceView(parent_bwlev, parent_md);
-    var parent_view = parent_bwlev_view && findMpxViewInChildren(parent_bwlev_view, this.getStoredMpx(parent_md));
-    if (!parent_view){
+    var bwlev_view = this.getMapSliceView(bwlev, md);
+    var view = bwlev_view && findMpxViewInChildren(bwlev_view, this.getStoredMpx(md));
+    if (!view){
       return;
     }
-    var target_in_parent = findMpxViewInChildren(parent_view, this.getStoredMpx(md));
+    var target_in_parent = findMpxViewInChildren(view, this.getStoredMpx(md));
     if (!target_in_parent){
-      var view = parent_view.getChildViewsByMpx(this.getStoredMpx(md));
+      var view = view.getChildViewsByMpx(this.getStoredMpx(md));
       target_in_parent = view && view[0];
     }
     return target_in_parent;
