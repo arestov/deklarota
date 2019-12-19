@@ -33,7 +33,7 @@ return function readMapSliceAnimationData(view, transaction_data) {
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return;}
 
-  var best_matched_view = view.getMapSliceChildInParenView(target_md, getModelFromR(view, transaction_data.target));
+  var best_matched_view = view.getMapSliceImmediateChildView(target_md, getModelFromR(view, transaction_data.target));
 
   var target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, target_md);
   if (!target_in_parent) {return;}
