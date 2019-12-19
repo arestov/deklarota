@@ -4,15 +4,16 @@ var pvState = require('../utils/state');
 
 var createLevel = require('./createLevel');
 var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev');
+var toProperNavParent = require('./toProperNavParent')
 
 return function _goDeeper(BWL, map, md, parent_bwlev){
   // без parent_bwlev нет контекста
   if (!parent_bwlev) {
     // будем искать parent_bwlev на основе прямой потомственности от уровня -1
-    parent_bwlev = getBwlevInParentBwlev(md.map_parent, map);
+    parent_bwlev = getBwlevInParentBwlev(toProperNavParent(md.map_parent), map);
   }
 
-  var parent_md = md.map_parent;
+  var parent_md = toProperNavParent(md.map_parent);
 
   var map_level_num;
   if (parent_bwlev) {
@@ -33,14 +34,15 @@ return function _goDeeper(BWL, map, md, parent_bwlev){
 };
 
 function getBwlevInParentBwlev(md, map) {
-  if (!md.map_parent) {
+  if (!toProperNavParent(md.map_parent)) {
     if (map.mainLevelResident != md) {
-      throw new Error('root map_parent must be `map.mainLevelResident`');
+      return map.start_bwlev;
     }
-    return map.start_bwlev;
+
+    throw new Error('root map_parent must be `map.mainLevelResident`');
   }
 
-  var parent_bwlev = getBwlevInParentBwlev(md.map_parent, map);
+  var parent_bwlev = getBwlevInParentBwlev(toProperNavParent(md.map_parent), map);
   return getBwlevFromParentBwlev(parent_bwlev, md);
 };
 });
