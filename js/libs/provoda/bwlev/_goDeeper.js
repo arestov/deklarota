@@ -39,6 +39,10 @@ function getBwlevInParentBwlev(md, map) {
       return map.start_bwlev;
     }
 
+    if (map.mainLevelResidents && map.mainLevelResidents[md._provoda_id]) {
+      return map.mainLevelResidents[md._provoda_id];
+    }
+
     throw new Error('root map_parent must be `map.mainLevelResident`');
   }
 
