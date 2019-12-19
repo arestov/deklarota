@@ -35,7 +35,7 @@ return function _goDeeper(BWL, map, md, parent_bwlev){
 
 function getBwlevInParentBwlev(md, map) {
   if (!toProperNavParent(md.map_parent)) {
-    if (map.mainLevelResident != md) {
+    if (map.mainLevelResident == md) {
       return map.start_bwlev;
     }
 
