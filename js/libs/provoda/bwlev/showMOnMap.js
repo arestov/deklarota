@@ -4,6 +4,7 @@ define(function (require) {
 var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev');
 var ba_canReuse = require('./ba_canReuse');
 var _goDeeper = require('./_goDeeper');
+var createLevel = require('./createLevel')
 var toProperNavParent = require('./toProperNavParent')
 
 var ba_inUse = ba_canReuse.ba_inUse;
@@ -13,6 +14,11 @@ function isStart(md) {
   while (cur) {
     if (cur.map_level_num == -1) {
       return true;
+    }
+
+    if (cur.map_parent && cur.map_parent._x_skip_navigation) {
+      cur = cur.map_parent;
+      continue
     }
 
     return false
@@ -25,6 +31,20 @@ function ensureStartBwlev(map, md) {
     return map.start_bwlev
   }
 
+  if (!map.mainLevelResidents) {
+    map.mainLevelResidents = {}
+  }
+
+  if (!map.mainLevelResidents[md._provoda_id]) {
+    map.mainLevelResidents[md._provoda_id] = createLevel(
+      map.BWL,
+      map.spyglass_name,
+      -1,
+      false,
+      md,
+      map
+    );
+  }
 
   return map.mainLevelResidents[md._provoda_id]
 
