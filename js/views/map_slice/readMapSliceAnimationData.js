@@ -40,8 +40,12 @@ return function readMapSliceAnimationData(view, transaction_data) {
 
   var targt_con = target_in_parent.getC();
 
+  var disable_zoom_cache = view.disable_zoom_cache
+
   // var offset_parent_node = targt_con.offsetParent();
-  var parent_offset = view.getBoxDemension(getAMCOffset, 'screens_offset');
+  var parent_offset = disable_zoom_cache
+    ? getAMCOffset.call(view)
+    : view.getBoxDemension(getAMCOffset, 'screens_offset');
   // или ни о чего не зависит или зависит от позиции скрола, если шапка не скролится
 
   // var offset = targt_con.offset(); //domread
@@ -49,17 +53,23 @@ return function readMapSliceAnimationData(view, transaction_data) {
     // works only for best_matched_view
     return targt_con.offset();
   }
-  var offset = target_in_parent.getBoxDemension(targetOffset, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.state('window_height'), view.root_view.state('workarea_width'));
+  var offset = disable_zoom_cache
+    ? targetOffset()
+    : target_in_parent.getBoxDemension(targetOffset, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.state('window_height'), view.root_view.state('workarea_width'));
 
   var getWidth = function() {
     return targt_con.outerWidth();
   }
-  var width = target_in_parent.getBoxDemension(getWidth, 'con_width', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
+  var width = disable_zoom_cache
+    ? getWidth()
+    : target_in_parent.getBoxDemension(getWidth, 'con_width', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
 
   var getHeight = function() {
     return targt_con.outerHeight();
   }
-  var height = target_in_parent.getBoxDemension(getHeight, 'con_height', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
+  var height = disable_zoom_cache
+    ? getHeight()
+    : target_in_parent.getBoxDemension(getHeight, 'con_height', view.root_view.state('window_height'), view.root_view.state('workarea_width'));
 
 
   // var width = targt_con.outerWidth();  //domread
@@ -67,8 +77,14 @@ return function readMapSliceAnimationData(view, transaction_data) {
 
   var top = offset.top - parent_offset.top;
 
-  var con_height = view.root_view.state('window_height') - view.getBoxDemension(getNavOHeight, 'navs_height'); //domread, can_be_cached
-  var con_width = view.getBoxDemension(getAMCWidth, 'screens_width', view.root_view.state('workarea_width'));
+  var con_height_part = disable_zoom_cache
+    ? getNavOHeight.call(view)
+    : view.getBoxDemension(getNavOHeight, 'navs_height')
+  var con_height = view.root_view.state('window_height') - con_height_part; //domread, can_be_cached
+
+  var con_width = disable_zoom_cache
+    ? getAMCWidth.call(view)
+    : view.getBoxDemension(getAMCWidth, 'screens_width', view.root_view.state('workarea_width'));
 
   var scale_x = width/con_width;
   var scale_y = height/con_height;
