@@ -469,13 +469,15 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
     if (!cwp){return;}
 
     var cur_md_md = this.getNesting('current_mp_md');
+    var current_mp_bwlev = this.getNesting('current_mp_bwlev')
     var parent_md = cur_md_md.getParentMapModel();
+    var parent_bwlev = current_mp_bwlev.getParentMapModel();
 
     // если родительская вьюха (вьюхи от cwp), соедененная с корнем совпадает
     // с вьюхой соедененной с корнем
     if (parent_md && getAncestorByRooViCon(cwp.view) == getMapSliceView(this.getStoredMpx(parent_md))){
       this.scrollTo($(cwp.node), {
-        node: this.general_navigation_view.getLevByNum(parent_md.map_level_num).scroll_con
+        node: this.general_navigation_view.getLevByBwlev(parent_bwlev).scroll_con
       }, {vp_limit: 0.6, animate: 117});
     }
     this.scrollTo($(cwp.node), false, {vp_limit: 0.6, animate: 117});

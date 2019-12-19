@@ -36,12 +36,7 @@ var LevContainer = function(con, scroll_con, material, tpl, context) {
 };
 
 var viewOnLevelP = function(md, view) {
-  var map_level_num = pvState(md, 'map_level_num');
-  if (view.nesting_space == 'detailed') {
-    ++map_level_num;
-  }
-
-  var lev_conj = this.getLevelContainer(map_level_num);
+  var lev_conj = this.getLevelContainer(md, view.nesting_space == 'detailed');
   view.wayp_scan_stop = true;
   return lev_conj.material;
 };
@@ -152,17 +147,23 @@ return spv.inh(View, {
 
     this.sendOnInit();
   },
-  getLevByNum: function(num, exclude_start_lev) {
-    if (num < -1){
-      return false;
-    } else if (exclude_start_lev){
-      return num == -1 ? false : this.getLevelContainer(num);
-    } else {
-      return this.getLevelContainer(num);
-    }
+  getLevByBwlev: function(bwlev, deeper) {
+    return this.getLevelContainer(bwlev, deeper);
 
   },
-  getLevelContainer: function(num) {
+  getLevelContainer: function(bwlev, deeper) {
+    var raw_num = bwlev.states.map_level_num
+    if (raw_num < -1) {
+      return
+    }
+
+    var real_num = bwlev.children_models['pioneer'].map_level_num
+    var num = raw_num + (deeper ? 1 : 0)
+    if (num == -1 && real_num == -1) {
+      return this.lev_containers.start_page
+    }
+
+    var num = raw_num
     if (this.lev_containers[num]){
       return this.lev_containers[num];
     } else {
@@ -170,7 +171,7 @@ return spv.inh(View, {
       if (!view){
         throw new Error('give me "view"');
       }*/
-      if (num == -1){
+      if (num == -1 && !this.lev_containers.start_page){
         throw new Error('start_screen must exist');
       }
 
@@ -219,7 +220,7 @@ return spv.inh(View, {
 
     this.tpls.push(tpl);
 
-    this.lev_containers[-1] = {
+    this.lev_containers['start_page'] = {
       c: start_page_wrap,
       material: start_screen,
       scroll_con: st_scr_scrl_con
@@ -382,21 +383,19 @@ return spv.inh(View, {
 
       //
 
-      var parent_md = md.getParentMapModel();
-      if (!parent_md) {
+      if (!parent_bwlev) {
         return;
       }
 
       // var mplev_item_view = getRooConPresentation(target.getStoredMpx(md), target, false, false, true); // use getMapSliceImmediateChildView ?
       var mplev_item_view = target.getMapSliceImmediateChildView(bwlev.getParentMapModel(), md);
       var con = mplev_item_view && mplev_item_view.getC();
-      var map_level_num = pvState(bwlev, 'map_level_num') - 1;
       if (con && con.height()){
         target.root_view.scrollTo(mplev_item_view.getC(), {
-          node: target.getLevByNum(map_level_num).scroll_con
+          node: target.getLevByBwlev(parent_bwlev).scroll_con
         }, {vp_limit: 0.4, animate: 117});
       } else {
-        target.getLevByNum(map_level_num).scroll_con.scrollTop(0);
+        target.getLevByBwlev(parent_bwlev).scroll_con.scrollTop(0);
       }
     }, 150);
 

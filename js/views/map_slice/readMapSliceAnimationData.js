@@ -28,6 +28,8 @@ return function readMapSliceAnimationData(view, transaction_data) {
   if (!transaction_data || !transaction_data.bwlev) {return;}
 
   var target_md = getModelFromR(view, transaction_data.bwlev);
+  var current_mp_bwlev = target_md
+
   var current_lev_num = pv.state(target_md, 'map_level_num');
   var one_zoom_in = transaction_data.array.length == 1 && transaction_data.array[0].name == "zoom-in" && transaction_data.array[0].changes.length < 3;
 
@@ -93,7 +95,7 @@ return function readMapSliceAnimationData(view, transaction_data) {
   var shift_x = width/2 - min_scale * con_width/2;
   var shift_y = height/2 - min_scale * con_height/2;
 
-  var lc = view.getLevelContainer(current_lev_num);
+  var lc = view.getLevelContainer(current_mp_bwlev);
 
   var transform_values = {};
   var value = 'translate(' + (offset.left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')';
