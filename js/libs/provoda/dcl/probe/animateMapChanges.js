@@ -32,7 +32,8 @@ var model_mapch = {
     // debugger;
 
     if (change.value) {
-      var parent = change.target.getMD().getParentMapModel();
+      var possible_parent = change.target.getMD().getParentMapModel()
+      var parent = possible_parent && possible_parent.toProperNavParent();
       if (parent){
         var bwlev_parent = change.bwlev.getMD().getParentMapModel();
         pvUpdate(bwlev_parent, 'mp_has_focus', false);

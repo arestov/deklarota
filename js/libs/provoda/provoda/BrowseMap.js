@@ -4,6 +4,7 @@ var pv = require('pv');
 var spv = require('spv');
 var changeBridge = require('../bwlev/changeBridge');
 var initBWlev = require('../bwlev/initBWlev');
+var toProperNavParent = require('../bwlev/toProperNavParent');
 var showInterest = require('../bwlev/showInterest');
 var getBwlevFromParentBwlev = require('../bwlev/getBwlevFromParentBwlev');
 var get_constr = require('../structure/get_constr');
@@ -186,6 +187,9 @@ BrowseMap.Model = spv.inh(pv.HModel, {
 
     // console.warn('_getMySimpleBwlev is depricated. md should not have tied connection to one `map` object')
     // return showMOnMap(BrowseLevel, this.app.map, this);
+  },
+  toProperNavParent: function() {
+    return toProperNavParent(this)
   },
   getParentMapModel: function() {
     return this.map_parent;

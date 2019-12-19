@@ -7,6 +7,7 @@ var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev')
 var showMOnMap = require('./showMOnMap')
 var isBigStep = require('./isBigStep');
 var getNavGroups = require('./getNavGroups');
+var toProperNavParent = require('./toProperNavParent')
 
 var limits = {
   same_model_matches: 1,
@@ -37,7 +38,7 @@ return function followFromTo(BWL, map, parent_bwlev, end_md) {
 function getLimitedParent(parent_bwlev, end_md){
   var pioneer = parent_bwlev.getNesting('pioneer');
   // var pre_mn = pioneer.model_name == end_md.model_name;
-  var pre_group = pioneer != end_md.map_parent;
+  var pre_group = pioneer != toProperNavParent(end_md.map_parent);
 
 
   // var cur = parent_bwlev;

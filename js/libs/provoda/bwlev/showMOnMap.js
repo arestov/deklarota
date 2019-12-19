@@ -4,15 +4,38 @@ define(function (require) {
 var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev');
 var ba_canReuse = require('./ba_canReuse');
 var _goDeeper = require('./_goDeeper');
+var toProperNavParent = require('./toProperNavParent')
 
 var ba_inUse = ba_canReuse.ba_inUse;
 
+function isStart(md) {
+  var cur = md;
+  while (cur) {
+    if (cur.map_level_num == -1) {
+      return true;
+    }
+
+    return false
+  }
+}
+
+function ensureStartBwlev(map, md) {
+
+  if (map.mainLevelResident === md) {
+    return map.start_bwlev
+  }
+
+
+  return map.mainLevelResidents[md._provoda_id]
+
+}
+
 return function showMOnMap(BWL, map, model, bwlev) {
 
-  var is_start = model.map_level_num == -1;
+  var is_start = isStart(model);
 
   if (is_start) {
-    bwlev = map.start_bwlev;
+    bwlev = ensureStartBwlev(map, model);
   }
 
   var bwlev_parent = false;
@@ -26,6 +49,8 @@ return function showMOnMap(BWL, map, model, bwlev) {
     } else {
       parent_md = model.map_parent;
     }
+
+    parent_md = toProperNavParent(parent_md)
 
     bwlev_parent = showMOnMap(BWL, map, parent_md, bwlev && bwlev.map_parent, true);
   }
