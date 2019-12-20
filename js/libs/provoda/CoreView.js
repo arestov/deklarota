@@ -207,6 +207,14 @@ var View = spv.inh(StatesEmitter, {
       current_bwlev_map: current_bwlev_map,
     });
   },
+  navCheckGoalToGetBack: function(goal) {
+    var bwlev_view = $v.getBwlevView(this)
+    bwlev_view.RPCLegacy('navCheckGoalToGetBack', goal)
+  },
+  navGetBack: function() {
+    var bwlev_view = $v.getBwlevView(this)
+    bwlev_view.RPCLegacy('navGetBack')
+  },
   tpl_events: {
     requestPage: function() {
       this.requestPage();

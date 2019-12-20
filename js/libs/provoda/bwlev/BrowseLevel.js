@@ -55,6 +55,10 @@ var BrowseLevel = spv.inh(Model, {
 }, {
   model_name: 'bwlev',
   "+states": {
+    'check_focus_leave': [
+      'compx',
+      ['mp_has_focus'],
+    ],
     "should_be_redirected": [
       'compx',
       ['@one:nav_item_removed:pioneer', '@one:_provoda_id:pioneer', 'mp_show'],
@@ -181,6 +185,41 @@ var BrowseLevel = spv.inh(Model, {
     }
   },
 
+  navCheckGoalToGetBack: function(goal) {
+    var selected_goal = goal || pvState(this, 'currentGoal');
+    if (!selected_goal) {
+      // we have no goal. we are free
+      this.navGetBack();
+    }
+
+    var goals = pvState(this, 'completedGoals');
+    if (!goals || !goals[selected_goal]) {
+      // goal is incomplete. cant go
+      return
+    }
+
+    // go
+    this.navGetBack();
+  },
+  navGetBack: function() {
+    var req = pvState(this, 'currentReq')
+    if (req && req.current_bwlev_map) {
+      var bwlev = getModelById(this, req.current_bwlev_map)
+      changeBridge(bwlev);
+      return
+    }
+    var referrer = this.getNesting('focus_referrer_bwlev')
+    if (referrer) {
+      changeBridge(referrer);
+      return
+    }
+
+    if (this.map_parent) {
+      this.map_parent.showOnMap()
+    }
+
+
+  },
   followTo: function(id) {
     var md = getModelById(this, id);
     if (md.getRelativeModel) {
@@ -190,6 +229,14 @@ var BrowseLevel = spv.inh(Model, {
     var bwlev = followFromTo(BrowseLevel, this.map, this, md);
     changeBridge(bwlev);
     return bwlev;
+  },
+
+  'sthc-check_focus_leave': function(target, state, old_state) {
+    if (!old_state || state) {
+      return
+    }
+
+    target.updateNesting('focus_referrer_bwlev', null)
   },
 
   'stch-mpl_attached': function(target, state) {

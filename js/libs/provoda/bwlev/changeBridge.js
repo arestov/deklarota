@@ -29,6 +29,7 @@ return function changeBridge(bwlev_raw) {
   copy.reverse();
 
   bwlev.map.updateNesting('wanted_bwlev_chain', copy);
+  bwlev.updateNesting('focus_referrer_bwlev', bwlev.map.getNesting('current_mp_bwlev'))
   bwlev.updateState('currentReq', null)
   return bwlev;
 }
