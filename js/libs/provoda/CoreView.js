@@ -194,8 +194,18 @@ var View = spv.inh(StatesEmitter, {
 
     this.root_view.parent_view.RPCLegacy('requestPage', md_id);
   },
-  showByReqId: function(reqId) {
-    this.root_view.parent_view.RPCLegacy('showByReqId', reqId);
+  navShowByReq: function(reqId, goal, data) {
+    var bwlev_view = $v.getBwlevView(this);
+    var context_bwlev = bwlev_view.mpx._provoda_id
+    var current_bwlev_map = bwlev_view.mpx.md.children_models.map.children_models.current_mp_bwlev._provoda_id;
+
+    this.root_view.parent_view.RPCLegacy('navShowByReq', {
+      id: reqId,
+      goal: goal,
+      data: data,
+      context_bwlev: context_bwlev,
+      current_bwlev_map: current_bwlev_map,
+    });
   },
   tpl_events: {
     requestPage: function() {

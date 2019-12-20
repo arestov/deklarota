@@ -75,21 +75,43 @@ return spv.inh(Model, {
     ],
     resolved_navigation_desire: [
       'compx',
-      ['wantedReqId', '#createdByReqIdResources'],
-      function(reqId, index) {
-        return reqId && index && index[reqId]
+      ['resolved_navigation_desire', 'wantedReq', '#createdByReqIdResources'],
+      function(currentValue, req, index) {
+        if (!req) {
+          return null
+        }
+
+        var modelId = req && index && index[req.id]
+        if (!modelId) {
+          return null
+        }
+
+        if (currentValue) { // do not recreate same value
+          if (currentValue.id == modelId && currentValue.req == req) {
+            return currentValue
+          }
+        }
+        return {
+          req: req,
+          id: modelId,
+        }
       }
-    ]
+    ],
   },
   'stch-resolved_navigation_desire': function(self, state) {
     if (!state) {
       return
     }
-    var id = state
+
+    self.updateState('wantedReq', null)
+
+    var req = state.req
+    var id = state.id
     var md = getModelById(self, id);
 
     var bwlev = showMOnMap(BrowseLevel, self, md)
     bwlev.showOnMap();
+    bwlev.updateState('currentReq', req)
   },
   "+effects": {
     "produce": {
