@@ -18,6 +18,7 @@ var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
 
 
 var RootLev = spv.inh(Model, {}, {
+  model_name: 'root_bwlev',
   BWL: BrowseLevel,
   rpc_legacy: {
     requestSpyglass: handleSpyglassRequests,
