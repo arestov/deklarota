@@ -86,11 +86,27 @@ var BrowseLevel = spv.inh(Model, {
         return getStrucSources(pioneer, struc)
       }
     ],
+    enabled_loading: [
+      'compx',
+      ['@one:disable_auto_loading:map'],
+      function(disabled) {
+        return !disabled
+      }
+    ],
 
     "struc": [
       "compx",
-      ['@one:used_data_structure:map', '@pioneer', 'map_level_num', 'probe_name'],
-      function(struc, pioneer, num, probe_name) {
+      ['enabled_loading',
+      '@one:used_data_structure:map',
+      '@pioneer', 'map_level_num', 'probe_name'],
+      function(
+        enabled_loading,
+        struc,
+        pioneer, num, probe_name) {
+
+        if (!enabled_loading) {
+          return
+        }
 
         if (num == -2) {return}
 

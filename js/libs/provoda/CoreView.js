@@ -137,8 +137,8 @@ var changeSpyglassUniversal = function (method) {
     var parent_bwlev_view = getBwlevView(this);
     var event_data = Array.prototype.slice.call(arguments, 2);
     var data = {
-      context_md: parent_bwlev_view.children_models.pioneer._provoda_id,
-      bwlev: parent_bwlev_view.mpx.md._provoda_id,
+      context_md: parent_bwlev_view && parent_bwlev_view.children_models.pioneer._provoda_id,
+      bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._provoda_id,
       target_id: this.mpx._provoda_id,
       probe_name: event_data[0],
       value: event_data[1],

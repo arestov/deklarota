@@ -43,8 +43,13 @@ var getProbeChange = function (toggle) {
       return; // throw ?
     }
 
-    var container = probe_container_uri ? getSPByPathTemplate(app, target, probe_container_uri) : target;
-    var subpage = getSPByPathTemplate(app, container, value);
+    var subpage;
+    if (!value && !probe_container_uri) {
+      subpage = target
+    } else {
+      var container = probe_container_uri ? getSPByPathTemplate(app, target, probe_container_uri) : target;
+      subpage = getSPByPathTemplate(app, container, value);
+    }
 
     var nested_bwlev = subpage && ensureBwLev(BWL, probe_md, probe_name, subpage);
     var prev_subpage = probe_md.getNesting('current_md');

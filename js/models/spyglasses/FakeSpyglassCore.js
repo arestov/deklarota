@@ -23,6 +23,8 @@ return spv.inh(Model, {
     // target.map = ;
     self.current_mp_md = null;
 
+    self.bwlevs = {};
+
     var spyglass_name = 'navigation';
 
     self.mainLevelResident = self.app.start_page;
