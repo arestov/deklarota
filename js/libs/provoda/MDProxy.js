@@ -3,6 +3,8 @@ define(function(require) {
 
 var spv = require('spv');
 var hp = require('./helpers');
+var cloneObj = spv.cloneObj
+var getRemovedNestingItems = hp.getRemovedNestingItems;
 
 var MDProxy = function(_provoda_id, states, children_models, md) {
   this._provoda_id = _provoda_id;
@@ -12,7 +14,7 @@ var MDProxy = function(_provoda_id, states, children_models, md) {
   this.vstates = null;
   //this.children_models = children_models;
   this.md = md;
-  this.nestings = spv.cloneObj({}, children_models);
+  this.nestings = cloneObj({}, children_models);
 };
 
 MDProxy.prototype = {
@@ -73,7 +75,7 @@ MDProxy.prototype = {
     if (!this.views) {
       return;
     }
-    var removed = hp.getRemovedNestingItems(array, old_value);
+    var removed = getRemovedNestingItems(array, old_value);
 
     for (var i = 0; i < this.views.length; i++) {
       this.views[i].stackCollectionChange(collection_name, array, old_value, removed);

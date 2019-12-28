@@ -2,7 +2,6 @@ define(function(require) {
 'use strict';
 
 var FlowStep = require('./FlowStep');
-var spv = require('spv');
 
 var Group = function(num) {
   this.num = num;
@@ -214,7 +213,7 @@ var CallbacksFlow = function(win, rendering_flow, iteration_time) {
     };
   }
 };
-var insertItem = spv.insertItem;
+
 CallbacksFlow.prototype = {
   input: function(fn) {
     this.pushToFlow(fn);
