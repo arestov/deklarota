@@ -12,6 +12,10 @@ var getPropsPrefixChecker = require('./utils/getPropsPrefixChecker');
 var getEncodedState = require('./utils/getEncodedState');
 var getShortStateName = require('./utils/getShortStateName');
 var nil = spv.nil;
+var memorize = spv.memorize
+var startsWith = spv.startsWith;
+var getTargetField = spv.getTargetField
+var arrayExclude = spv.arrayExclude
 
 var emergency_opt = {
   emergency: true
@@ -40,7 +44,7 @@ var parent_count_regexp = /^\^+/gi;
 return {
   probeDiff: probeDiff,
   getRDep: (function() {
-    var getTargetName = spv.memorize(function getTargetName(state_name) {
+    var getTargetName = memorize(function getTargetName(state_name) {
       return state_name.split( ':' )[ 1 ];
     });
 
@@ -87,7 +91,7 @@ return {
       return;
     }
 
-    if (spv.startsWith(api_name, '#')) {
+    if (startsWith(api_name, '#')) {
       return (app || sputnik.app)._interfaces_using.used[api_name.replace('#', '')];
     }
 
@@ -239,11 +243,11 @@ return {
               var rest_part = stringed_variable[2];
               switch (stringed_variable[1]) {
                 case "node": {
-                  argument = spv.getTargetField(e.node, rest_part);
+                  argument = getTargetField(e.node, rest_part);
                   break;
                 }
                 case "event": {
-                  argument = spv.getTargetField(e.event, rest_part);
+                  argument = getTargetField(e.event, rest_part);
                   break;
                 }
                 case "states": {
@@ -298,7 +302,7 @@ return {
               matched.push(cur);
             }
           }
-          var to_remove = old_waypoints && spv.arrayExclude(old_waypoints, matched);
+          var to_remove = old_waypoints && arrayExclude(old_waypoints, matched);
           this.waypoints = matched;
           view.updateTemplatedWaypoints(matched, to_remove);
         };
