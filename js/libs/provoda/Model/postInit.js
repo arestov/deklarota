@@ -35,7 +35,7 @@ function connectNests(self) {
 function markInitied(md) {
   // - this state shuld be true when all preparations, all initial triggers and subscribtions are done
   // - use it to not produce effects for states changes during initialization
-  md.updateState('$meta_inited', true);
+  md.updateState('$meta$inited', true);
 }
 
 return function postInitModel(self) {
