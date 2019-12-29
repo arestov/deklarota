@@ -11,6 +11,10 @@ var getTargetField = spv.getTargetField;
 
 var clean_obj = {};
 
+function nestingMark(nesting_name, name) {
+  return '$meta$nests$' + nesting_name + '$' + name;
+}
+
 var withoutSelf = function(array, name) {
   for (var i = 0; i < array.length; i++) {
     if (array[i] != name) {
@@ -480,11 +484,14 @@ return {
 
     var is_main_list = nesting_name == this.sputnik.main_list_name;
 
-    this.sputnik.updateState(nesting_name + '$load_attempting', true);
-    this.sputnik.updateState('loading_nesting_' + nesting_name, true);
-    this.sputnik.updateState(nesting_name + '$loading', true);
+    this.sputnik.updateState(nesting_name + '$load_attempting', true); // legacy
+    this.sputnik.updateState(nestingMark(nesting_name, 'load_attempting'), true);
+
+    this.sputnik.updateState('loading_nesting_' + nesting_name, true); // old legacy
+    this.sputnik.updateState(nesting_name + '$loading', true); // legacy
+    this.sputnik.updateState(nestingMark(nesting_name, 'loading'), true);
     if (is_main_list) {
-      this.sputnik.updateState('main_list_loading', true);
+      this.sputnik.updateState('main_list_loading', true); // old old legacy
     }
 
     var parse_items = dclt.parse_items;
@@ -517,24 +524,36 @@ return {
 
     function markAttemptComplete() {
       var states = {}
-      states[nesting_name + '$load_attempting'] = false
-      states[nesting_name + '$load_attempted'] = true
-      states[nesting_name + '$load_attempted_at'] = Date.now()
+      states[nesting_name + '$load_attempting'] = false // legacy
+      states[nestingMark(nesting_name, 'load_attempting')] = false
+
+      states[nesting_name + '$load_attempted'] = true // legacy
+      states[nestingMark(nesting_name, 'load_attempted')] = true
+
+      var now = Date.now()
+      states[nesting_name + '$load_attempted_at'] = now // legacy
+      states[nestingMark(nesting_name, 'load_attempted_at')] = now
 
        _this.sputnik.updateManyStates(states);
     }
 
     function anyway() {
       store.process = false;
-      _this.sputnik.updateState('loading_nesting_' + nesting_name, false);
-      _this.sputnik.updateState(nesting_name + '$loading', false);
+
+      _this.sputnik.updateState('loading_nesting_' + nesting_name, false); // old legacy
+      _this.sputnik.updateState(nesting_name + '$loading', false); // legacy
+      _this.sputnik.updateState(nestingMark(nesting_name, 'loading'), false);
+
       if (is_main_list) {
-        _this.sputnik.updateState('main_list_loading', false);
+        _this.sputnik.updateState('main_list_loading', false); // old old legacy
       }
     }
 
     function handleError() {
-      _this.sputnik.updateState(nesting_name + "$error", true);
+      //
+      _this.sputnik.updateState(nesting_name + "$error", true); // legacy
+      _this.sputnik.updateState(nestingMark(nesting_name, 'error'), true);
+
       anyway();
       markAttemptComplete()
 
@@ -569,10 +588,12 @@ return {
 
     if (request.queued_promise) {
       var stopWaiting = function () {
-        _this.sputnik.updateState(nesting_name + '$waiting_queue', false);
+        _this.sputnik.updateState(nesting_name + '$waiting_queue', false); // legacy
+        _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), false);
       };
 
-      _this.sputnik.updateState(nesting_name + '$waiting_queue', true);
+      _this.sputnik.updateState(nesting_name + '$waiting_queue', true); // legacy
+      _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), true);
       request.queued_promise.then(stopWaiting, stopWaiting);
     }
 
@@ -602,7 +623,8 @@ return {
 
       if (has_error){
         store.error = true;
-        sputnik.updateState(nesting_name + "$error", true);
+        sputnik.updateState(nesting_name + "$error", true); // legacy
+        sputnik.updateState(nestingMark(nesting_name, 'error'), true);
         return;
       }
 
@@ -610,7 +632,10 @@ return {
 
       var many_states = {};
       many_states[nesting_name + "$error"] = null;
+      many_states[nestingMark(nesting_name, "error")] = null;
+
       many_states[nesting_name + "$has_any"] = true;
+      many_states[nestingMark(nesting_name, "has_any")] = true;
 
       var morph_helpers = sputnik.app.morph_helpers;
       var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api);
@@ -619,10 +644,12 @@ return {
       if (!supports_paging) {
         store.has_all_items = true;
         if (is_main_list) {
-          many_states['all_data_loaded'] = true
+          many_states['all_data_loaded'] = true // old old legacy
         }
 
         many_states[nesting_name + "$all_loaded"] = true;
+        many_states[nestingMark(nesting_name, "all_loaded")] = true;
+
       } else {
         var has_more_data = hasMoreData(serv_data, limit_value, paging_opts, items);
 
@@ -630,10 +657,11 @@ return {
           store.has_all_items = true;
 
           if (is_main_list) {
-            many_states['all_data_loaded'] = true
+            many_states['all_data_loaded'] = true // old old legacy
           }
 
-          many_states[nesting_name + "$all_loaded"] = true;
+          many_states[nesting_name + "$all_loaded"] = true; // legacy
+          many_states[nestingMark(nesting_name, "all_loaded")] = true;
         }
       }
 
