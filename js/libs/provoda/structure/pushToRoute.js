@@ -13,6 +13,12 @@ return function(md, nesting_name, data) {
 
     md.useMotivator(result, function () {
       result.updateManyStates(data);
+
+      var states = {}
+      for (var prop in data) {
+        states['$meta$states$' + prop + '$routed'] = true
+      }
+      result.updateManyStates(states);
     });
 
     return result;
