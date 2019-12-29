@@ -98,7 +98,9 @@ return function updateNesting(self, collection_name, input, opts, spec_data) {
     : (array ? 1 : 0);
 
   pvUpdate(self, collection_name + '$length', count);
+  pvUpdate(self, '$meta$nests$' + collection_name + '$length', count);
   pvUpdate(self, collection_name + '$exists', Boolean(count));
+  pvUpdate(self, '$meta$nests$' + collection_name + '$exists', count);
 
   return self;
 }
