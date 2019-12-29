@@ -213,15 +213,15 @@ return {
 
       function anyway() {
         store.process = false;
-        self.sputnik.updateManyStates(makeLoadingMarks('__loading', states_list, false));
+        self.sputnik.updateManyStates(makeLoadingMarks('loading', states_list, false));
       }
 
       function markAttemptComplete() {
         var states = {}
 
-        makeLoadingMarks('__load_attempting', selected_map.states_list, false, states)
-        makeLoadingMarks('__load_attempted', selected_map.states_list, true, states)
-        makeLoadingMarks('__load_attempted_at', selected_map.states_list, Date.now(), states)
+        makeLoadingMarks('load_attempting', selected_map.states_list, false, states)
+        makeLoadingMarks('load_attempted', selected_map.states_list, true, states)
+        makeLoadingMarks('load_attempted_at', selected_map.states_list, Date.now(), states)
 
         self.sputnik.updateManyStates(states);
       }
@@ -368,7 +368,7 @@ return {
     function makeLoadingMarks(suffix, states_list, value, result) {
       var loading_marks = result || {};
       for (var i = 0; i < states_list.length; i++) {
-        loading_marks[ states_list[i] + suffix] = value;
+        loading_marks[states_list[i] + '__' +  suffix] = value;
       }
       return loading_marks;
     }
@@ -424,8 +424,8 @@ return {
       store.process = true;
 
       var states = {}
-      makeLoadingMarks('__loading', selected_map.states_list, true, states)
-      makeLoadingMarks('__load_attempting', selected_map.states_list, true, states)
+      makeLoadingMarks('loading', selected_map.states_list, true, states)
+      makeLoadingMarks('load_attempting', selected_map.states_list, true, states)
 
       this.sputnik.updateManyStates(states);
 
