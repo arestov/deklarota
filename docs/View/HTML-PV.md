@@ -42,7 +42,8 @@ HTML атрибуты для data-binding
 
     - состояния локальной view. через `:%states%some_state`
     - свойства DOM event, `:%event%timestamp`
-    - свойства DOM node, `:%node%value` (полезно при использовании с input)
+    - свойства DOM node, `:%node%value` (полезно при использовании с input), `:%node%!value` - работает как `!true` в js
+
 
     
   - чтобы создать два обработчика просто перечислите их через пробел: `pv-events="click::pass:setActive click::^pass:setActive">`

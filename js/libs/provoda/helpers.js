@@ -241,20 +241,26 @@ return {
               argument = argumentRaw;
             } else {
               var rest_part = stringed_variable[2];
+              var inverted = rest_part.charAt(0) === '!'
+              var path = inverted ? rest_part.slice(1) : rest_part
               switch (stringed_variable[1]) {
                 case "node": {
-                  argument = getTargetField(e.node, rest_part);
+                  argument = getTargetField(e.node, path);
                   break;
                 }
                 case "event": {
-                  argument = getTargetField(e.event, rest_part);
+                  argument = getTargetField(e.event, path);
                   break;
                 }
                 case "states": {
-                  argument = pvState(view, rest_part)
+                  argument = pvState(view, path)
                   break;
                 }
+                default: {
+                  console.warn('unknown event data source: ' + stringed_variable[1])
+                }
               }
+              argument = inverted ? (!argument) : argument
             }
             return argument;
           });
