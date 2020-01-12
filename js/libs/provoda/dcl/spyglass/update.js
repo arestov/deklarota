@@ -11,6 +11,16 @@ var createLevel = require('../../bwlev/createLevel');
 var pvState = require('pv/state');
 var getKey = require('./getKey');
 
+var getPioneer = function(lev) {
+  return lev && lev.getNesting('pioneer')
+}
+
+var changeCurrentLev = function(probe_md, next_lev, prev_lev) {
+  probe_md.updateNesting('current_md', getPioneer(next_lev) || null);
+  switchCurrentBwlev(next_lev, prev_lev);
+  probe_md.updateNesting('current_bwlev', next_lev || null);
+}
+
 var getBWlev = function(probe_md, md) {
   return probe_md.bwlevs[md._provoda_id];
 }
@@ -56,22 +66,15 @@ var getProbeChange = function (toggle) {
     var prev_nested_bwlev = prev_subpage && getBWlev(probe_md, prev_subpage);
 
     if (!toggle) {
-      probe_md.updateNesting('current_md', subpage);
-      switchCurrentBwlev(nested_bwlev, prev_nested_bwlev);
-      probe_md.updateNesting('current_bwlev', nested_bwlev);
+      changeCurrentLev(probe_md, nested_bwlev, prev_nested_bwlev)
       return;
     }
 
     var cur = probe_md.getNesting('current_md');
     if (cur === subpage) {
-      probe_md.updateNesting('current_md', null);
-      switchCurrentBwlev(null, prev_nested_bwlev);
-      probe_md.updateNesting('current_bwlev', null);
+      changeCurrentLev(probe_md, null, prev_nested_bwlev)
     } else {
-
-      probe_md.updateNesting('current_md', subpage);
-      switchCurrentBwlev(nested_bwlev, prev_nested_bwlev);
-      probe_md.updateNesting('current_bwlev', nested_bwlev);
+      changeCurrentLev(probe_md, nested_bwlev, prev_nested_bwlev)
     }
   };
 };
