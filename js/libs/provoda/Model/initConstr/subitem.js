@@ -21,9 +21,11 @@ return function initSi(Constr, parent_md, data, params, more, states) {
 
   var motivator = parent_md.current_motivator;
 
+  var parent_is_usable = ((parent_md && parent_md.zero_map_level) || parent_md != parent_md.app)
+
   var opts = {
     _motivator: motivator,
-    map_parent: parent_md != parent_md.app && parent_md,
+    map_parent: parent_is_usable && parent_md,
     app: parent_md.app
   };
 
