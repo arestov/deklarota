@@ -1,6 +1,11 @@
 define(function (require) {
 'use strict';
 var spv = require('spv');
+var matchRoute = require('./routes/match')
+var get_constr = require('./structure/get_constr');
+
+var getNestingConstr = get_constr.getNestingConstr
+
 var cloneObj = spv.cloneObj;
 var getSPI = getterSPI();
 var getSPIConstr = getterSPIConstr();
@@ -185,13 +190,51 @@ function getterSPI(){
     return self.initSi(Constr, instance_data, null, null, common_opts[0]);
   };
 
-  return function getSPI(self, sp_name, options) {
-    if (self.__modern_subpages && self.__modern_subpages[sp_name]) {
-      return self.__modern_subpages[sp_name]
+  var createStates = function (Constr, sp_name) {
+    var has_compx = Constr.prototype.hasComplexStateFn('url_part')
+    if (has_compx) {
+      return null
     }
 
-    var reuse = options && options.reuse;
+    return {
+      url_part: '/' + sp_name
+    }
+  }
+
+  var createModern = function(self, sp_name) {
+    for (var i = 0; i < self.__routes_matchers_defs.length; i++) {
+      var cur = self.__routes_matchers_defs[i];
+      var matched = matchRoute(cur.route, sp_name)
+      if (!matched) {
+        continue;
+      }
+
+      var Constr = getNestingConstr(self.app, self, cur.dest)
+
+      return self.initSi(Constr, {
+        by: 'routePathByModels',
+        init_version: 2,
+        states: createStates(Constr, sp_name),
+        head: matched,
+      });
+    }
+  }
+
+  return function getSPI(self, sp_name, options) {
     var autocreate = !options || options.autocreate !== false
+    var reuse = options && options.reuse;
+
+    if (self.__routes_matchers_defs) {
+      if (self.__modern_subpages && self.__modern_subpages[sp_name]) {
+        return self.__modern_subpages[sp_name]
+      }
+
+      var created = autocreate && createModern(self, sp_name)
+      if (created) {
+        return created
+      }
+    }
+
 
     var item = selectRouteItem(self, sp_name);
     if (item) {

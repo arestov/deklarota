@@ -2,6 +2,7 @@ const test = require('ava')
 
 const requirejs = require('../../requirejs-config')
 
+const pvState = requirejs('pv/state')
 const BrowseMap = requirejs('pv/Model')
 
 const init = require('../init')
@@ -41,17 +42,17 @@ test('routes', async t => {
   await waitFlow(app)
 
   t.is(
-    app.getSPI('tracks/super-hit-0'),
+    app.getSPI('tracks/super-hit-0', { autocreate: false }),
     undefined,
   )
 
   t.is(
-    app.getSPI('tracks/super-hit-1'),
+    app.getSPI('tracks/super-hit-1', { autocreate: false }),
     app.getNesting('tracklist')[0],
   )
 
   t.is(
-    app.getSPI('tracks/super-hit-2'),
+    app.getSPI('tracks/super-hit-2', { autocreate: false }),
     app.getNesting('tracklist')[1],
   )
 
@@ -63,13 +64,24 @@ test('routes', async t => {
   await waitFlow(app)
 
   t.is(
-    app.getSPI('tracks/super-hit-1'),
+    app.getSPI('tracks/super-hit-1', { autocreate: false }),
     undefined,
   )
 
   t.is(
-    app.getSPI('tracks/cloud-remix'),
+    app.getSPI('tracks/cloud-remix', { autocreate: false }),
     app.getNesting('tracklist')[0],
+  )
+
+  const created = app.getSPI('tracks/fresh-cover', { autocreate: true })
+  t.is(
+    created && pvState(created, 'trackName'),
+    'fresh-cover',
+  )
+
+  t.is(
+    created && pvState(created, 'url_part'),
+    '/tracks/fresh-cover',
   )
 
   // get proper routes
