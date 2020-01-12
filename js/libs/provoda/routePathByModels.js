@@ -305,6 +305,11 @@ function getterSPI(){
 
 function getterSPIConstr(){
   return function(self, sp_name) {
+    var modern = selectModern(self, sp_name)
+    if (modern) {
+      return modern.Constr
+    }
+
     var item = selectRouteItem(self, sp_name);
     if (item) {
       return self._all_chi[item.key];
