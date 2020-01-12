@@ -7,11 +7,17 @@ return {
   getSTEVNameLight: spv.getPrefixingFunc('lgh_sch-'),
   getFullChilChEvName: spv.getPrefixingFunc('child_change-'),
   wipeObj: function (obj){
+    if (!obj) {
+      return obj
+    }
+
     for (var p in obj){
       if (obj.hasOwnProperty(p)){
         delete obj[p];
       }
     }
+
+    return obj
   },
   nullObjValues: function(obj) {
     for (var p in obj){
