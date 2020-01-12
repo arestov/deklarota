@@ -168,8 +168,8 @@ BrowseMap.Model = spv.inh(pv.HModel, {
   getSPIConstr: function(sp_name) {
     return getSPIConstr(this, sp_name);
   },
-  getSPI: function(sp_name) {
-    return getSPI(this, sp_name);
+  getSPI: function(sp_name, options) {
+    return getSPI(this, sp_name, options);
   },
   preloadNestings: function(array) {
     //var full_list = [];
