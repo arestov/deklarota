@@ -20,8 +20,8 @@
   "scripts": {
     "gulp": "gulp",
     "test": "ava --verbose",
-    "test:current-dev": "ava --verbose --match=\"*dynamic*\"",
-    "debug:current-dev": "node --inspect --inspect-brk node_modules/ava/profile.js test/__tests__/pass/7.dynamic_routed.js"
+    "test:current-dev": "ava --verbose --match=\"*routes*\"",
+    "debug:current-dev": "node --inspect --inspect-brk node_modules/ava/profile.js test/__tests__/routes.js"
   },
   "devDependencies": {
     "autoprefixer": "6.0.2",
