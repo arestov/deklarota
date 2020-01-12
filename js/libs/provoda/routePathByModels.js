@@ -145,6 +145,48 @@ function getSPOpts(md, sp_name, slashed, byType) {
     }];
 };
 
+
+  var createStates = function (Constr, sp_name) {
+    var has_compx = Constr.prototype.hasComplexStateFn('url_part')
+    if (has_compx) {
+      return null
+    }
+
+    return {
+      url_part: '/' + sp_name
+    }
+  }
+
+  function selectModern(self, sp_name) {
+    for (var i = 0; i < self.__routes_matchers_defs.length; i++) {
+      var cur = self.__routes_matchers_defs[i];
+      var matched = matchRoute(cur.route, sp_name)
+      if (!matched) {
+        continue;
+      }
+
+      var Constr = getNestingConstr(self.app, self, cur.dest)
+
+      return {matched: matched, routedcl: cur, Constr: Constr}
+    }
+  }
+
+  function createModern(self, sp_name) {
+    var selected = selectModern(self, sp_name)
+    if (!selected) {
+      return
+    }
+
+    var Constr = selected.Constr
+
+    return self.initSi(Constr, {
+      by: 'routePathByModels',
+      init_version: 2,
+      states: createStates(Constr, sp_name),
+      head: selected.matched,
+    });
+  }
+
 function getterSPI(){
   var init = function(parent, target, data) {
     if (target.hasOwnProperty('_provoda_id')) {
@@ -190,44 +232,6 @@ function getterSPI(){
     return self.initSi(Constr, instance_data, null, null, common_opts[0]);
   };
 
-  var createStates = function (Constr, sp_name) {
-    var has_compx = Constr.prototype.hasComplexStateFn('url_part')
-    if (has_compx) {
-      return null
-    }
-
-    return {
-      url_part: '/' + sp_name
-    }
-  }
-
-  var selectModern = function(self, sp_name) {
-    for (var i = 0; i < self.__routes_matchers_defs.length; i++) {
-      var cur = self.__routes_matchers_defs[i];
-      var matched = matchRoute(cur.route, sp_name)
-      if (!matched) {
-        continue;
-      }
-
-      return {matched: matched, routedcl: cur}
-    }
-  }
-
-  var createModern = function(self, sp_name) {
-    var selected = selectModern(self, sp_name)
-    if (!selected) {
-      return
-    }
-
-    var Constr = getNestingConstr(self.app, self, selected.routedcl.dest)
-
-    return self.initSi(Constr, {
-      by: 'routePathByModels',
-      init_version: 2,
-      states: createStates(Constr, sp_name),
-      head: selected.matched,
-    });
-  }
 
   return function getSPI(self, sp_name, options) {
     var autocreate = !options || options.autocreate !== false
