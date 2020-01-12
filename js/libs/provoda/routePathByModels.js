@@ -186,6 +186,10 @@ function getterSPI(){
   };
 
   return function getSPI(self, sp_name, options) {
+    if (self.__modern_subpages && self.__modern_subpages[sp_name]) {
+      return self.__modern_subpages[sp_name]
+    }
+
     var reuse = options && options.reuse;
     var autocreate = !options || options.autocreate !== false
 

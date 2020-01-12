@@ -8,6 +8,7 @@ var initNestSel = require('../dcl/nest_sel/init');
 var initNestConcat = require('../dcl/nest_conj/init');
 var initNestCompx = require('../dcl/nest_compx/init');
 var initApis = require('../dcl/effects/legacy/api/init')
+var initRoutes = require('../dcl/routes/init')
 var __handleInit = require('../dcl/passes/handleInit/handle');
 
 
@@ -43,6 +44,7 @@ return function postInitModel(self) {
   connectNests(self)
 
   initWatchList(self, self.st_nest_matches)
+  initRoutes(self)
 
 
   if (self.init_v2_data) {
