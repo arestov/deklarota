@@ -201,7 +201,7 @@ function getterSPI(){
     }
   }
 
-  var createModern = function(self, sp_name) {
+  var selectModern = function(self, sp_name) {
     for (var i = 0; i < self.__routes_matchers_defs.length; i++) {
       var cur = self.__routes_matchers_defs[i];
       var matched = matchRoute(cur.route, sp_name)
@@ -209,15 +209,24 @@ function getterSPI(){
         continue;
       }
 
-      var Constr = getNestingConstr(self.app, self, cur.dest)
-
-      return self.initSi(Constr, {
-        by: 'routePathByModels',
-        init_version: 2,
-        states: createStates(Constr, sp_name),
-        head: matched,
-      });
+      return {matched: matched, routedcl: cur}
     }
+  }
+
+  var createModern = function(self, sp_name) {
+    var selected = selectModern(self, sp_name)
+    if (!selected) {
+      return
+    }
+
+    var Constr = getNestingConstr(self.app, self, selected.routedcl.dest)
+
+    return self.initSi(Constr, {
+      by: 'routePathByModels',
+      init_version: 2,
+      states: createStates(Constr, sp_name),
+      head: selected.matched,
+    });
   }
 
   return function getSPI(self, sp_name, options) {
