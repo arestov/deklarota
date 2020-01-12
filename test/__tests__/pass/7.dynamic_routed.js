@@ -49,7 +49,7 @@ test('change for dynamic routed resource calculated', async t => {
       },
     })
 
-    const StartPage = mdl({
+    const StartPage = {
       zero_map_level: true,
       sub_pager: {
         item: [
@@ -78,12 +78,13 @@ test('change for dynamic routed resource calculated', async t => {
           ],
         },
       },
-    })
+    }
+
+    console.log(1)
 
     const app = (await init({
-      'chi-start__page': StartPage,
-    }, self => {
-      self.start_page = self.initChi('start__page') // eslint-disable-line
+      ...StartPage,
+      // 'chi-start__page': StartPage,
     })).app_model
 
     return app

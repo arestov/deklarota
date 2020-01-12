@@ -131,8 +131,7 @@ var HModel = spv.inh(Model, {
       self.map_parent = null;
     }
 
-    if (!self.skip_map_init){
-
+    if (!self.skip_map_init && !self.zero_map_level){
       if (!opts || !opts.map_parent) {
         if (!self.zero_map_level){
           throw new Error('who is your map parent model?');

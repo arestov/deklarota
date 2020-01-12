@@ -4,7 +4,7 @@ var pv = require('../provoda');
 var spv = require('spv');
 var BrowseMap = require('./BrowseMap');
 
-var AppModelBase = spv.inh(pv.Model, {
+var AppModelBase = spv.inh(BrowseMap.Model, {
   init: function(target) {
     target.app = target
 
@@ -13,17 +13,25 @@ var AppModelBase = spv.inh(pv.Model, {
     target.views_strucs = {};
   },
   postInit: function(target) {
-    if (!target['chi-start__page']) {
-      console.warn('add chi-start__page to AppModelBase')
+    if (target.zero_map_level) {
+      // start_page will be app root
+      target.start_page = target.start_page || target
       return
     }
-    target.start_page = target.start_page || target.initChi('start__page') // eslint-disable-line
+
+    if (!target['chi-start__page']) {
+      console.warn('add chi-start__page or zero_map_level:true to AppModelBase')
+      return
+    }
+
+    target.start_page = target.start_page || target.initChi('start__page')
   }
 }, {
   checkActingRequestsPriority: function() {
     console.warn('add checkActingRequestsPriority')
   },
   model_name: 'app_model',
+  skip_map_init: true,
 
   animationMark: function(models, mark) {
     for (var i = 0; i < models.length; i++) {
