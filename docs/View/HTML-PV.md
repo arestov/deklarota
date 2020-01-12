@@ -9,6 +9,7 @@ HTML атрибуты для data-binding
   - отрендерит каждый элемент из `nest` `services-list`,
   - `<span pv-nest='services-list' class="nice-card" ></span>` отрендерится в 7 span, когда в services-list 7 элементов
   - `controller:service-card` позволяет использовать особенный Controller/View с которым будет связан отрендеренный DOM
+  - `pv-nest='services-list for_model:Service'` отрендерит html только для модели, где `model_name: "Service"`
   - pv-nest создает новый `scope`, внутри которого декларации состояния и события связываются с соответствтующим элементом из nest
 
 - `pv-class="mdc-tab--active: !selectedNav" pv-class="mdc-tab-indicator--active: {{!selectedNav}}"`
