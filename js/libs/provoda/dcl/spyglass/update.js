@@ -39,6 +39,7 @@ var getProbeChange = function (toggle) {
     var probe_name = data.probe_name;
     var value = data.value;
     var probe_container_uri = data.probe_container_uri
+    var req = data.req
 
     var app = bwlev.app;
 
@@ -65,6 +66,10 @@ var getProbeChange = function (toggle) {
     var prev_subpage = probe_md.getNesting('current_md');
     var prev_nested_bwlev = prev_subpage && getBWlev(probe_md, prev_subpage);
 
+    if (nested_bwlev && req) {
+      nested_bwlev.updateState('currentReq', req)
+    }
+
     if (!toggle) {
       changeCurrentLev(probe_md, nested_bwlev, prev_nested_bwlev)
       return;
@@ -76,6 +81,7 @@ var getProbeChange = function (toggle) {
     } else {
       changeCurrentLev(probe_md, nested_bwlev, prev_nested_bwlev)
     }
+
   };
 };
 

@@ -132,16 +132,17 @@ var initView = function(target, view_otps, opts){
 
 
 var changeSpyglassUniversal = function (method) {
-  return function () {
+  return function (e, node, probe_name, value, req) {
     var bwlev_view = this.root_view.parent_view;
     var parent_bwlev_view = getBwlevView(this);
-    var event_data = Array.prototype.slice.call(arguments, 2);
+
     var data = {
       context_md: parent_bwlev_view && parent_bwlev_view.children_models.pioneer._provoda_id,
       bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._provoda_id,
       target_id: this.mpx._provoda_id,
-      probe_name: event_data[0],
-      value: event_data[1],
+      probe_name: probe_name,
+      value: value,
+      req: req,
       probe_container_uri: null,
     };
 
