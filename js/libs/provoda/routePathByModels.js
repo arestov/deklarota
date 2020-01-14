@@ -158,6 +158,10 @@ function getSPOpts(md, sp_name, slashed, byType) {
   }
 
   function selectModern(self, sp_name) {
+    if (!self.__routes_matchers_defs) {
+      return
+    }
+
     for (var i = 0; i < self.__routes_matchers_defs.length; i++) {
       var cur = self.__routes_matchers_defs[i];
       var matched = matchRoute(cur.route, sp_name)
