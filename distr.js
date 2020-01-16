@@ -17,6 +17,7 @@ const build = ({
       'js/libs/provoda/provoda/View',
       'js/libs/provoda/provoda/SyncReceiver',
       'js/libs/provoda/provoda/CallbacksFlow',
+      'js/libs/FuncsQueue',
       'js/models/spyglasses/FakeSpyglassCore',
       'js/utils/init.js',
       'js/initBrowsing',
