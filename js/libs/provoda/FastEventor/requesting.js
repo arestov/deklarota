@@ -585,8 +585,11 @@ return {
     */
 
     if (request.queued_promise) {
-      _this.sputnik.updateState(nesting_name + '$waiting_queue', true); // legacy
-      _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), true);
+      var startWaiting = function () {
+        _this.sputnik.updateState(nesting_name + '$waiting_queue', true); // legacy
+        _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), true);
+      };
+      this.sputnik.input(startWaiting)
 
       var stopWaiting = function () {
         _this.sputnik.updateState(nesting_name + '$waiting_queue', false); // legacy
