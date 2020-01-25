@@ -251,15 +251,13 @@ return {
             resolve(failed(new Error(has_error || 'no Result')));
           })
         })
-      }).then(function (response) {
-        self.sputnik.nextTick(function () {
-          anyway();
-          handleResponse(response);
-          markAttemptComplete()
-        }, null, false, null);
-      }, function(err) {
-        self.sputnik.nextTick(anyway, null, false, null);
-        self.sputnik.nextTick(markAttemptComplete, null, false, null);
+      }).then(self.sputnik.inputFn(function (response) {
+        anyway();
+        handleResponse(response);
+        markAttemptComplete()
+      }), function(err) {
+        self.sputnik.input(anyway);
+        self.sputnik.input(markAttemptComplete);
         throw err
       });
 
@@ -603,17 +601,17 @@ return {
       if (release) {
         _this.sputnik.nextTick(release, null, false, initiator);
       }
-      _this.sputnik.nextTick(_this.sputnik.inputFn(function () {
+      _this.sputnik.input(function () {
         handleResponse(response);
         anyway();
         markAttemptComplete()
-      }), null, false);
+      });
 
     }, function () {
       if (release) {
         _this.sputnik.nextTick(release, null, false, initiator);
       }
-      _this.sputnik.nextTick(handleError, null, false);
+      _this.sputnik.input(handleError);
 
 
     });
