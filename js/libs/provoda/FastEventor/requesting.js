@@ -482,18 +482,21 @@ return {
     if (store.process || store.has_all_items) {
       return;
     }
+    var _this = this;
 
     var is_main_list = nesting_name == this.sputnik.main_list_name;
 
-    this.sputnik.updateState(nesting_name + '$load_attempting', true); // legacy
-    this.sputnik.updateState(nestingMark(nesting_name, 'load_attempting'), true);
+    this.sputnik.input(function() {
+      _this.sputnik.updateState(nesting_name + '$load_attempting', true); // legacy
+      _this.sputnik.updateState(nestingMark(nesting_name, 'load_attempting'), true);
 
-    this.sputnik.updateState('loading_nesting_' + nesting_name, true); // old legacy
-    this.sputnik.updateState(nesting_name + '$loading', true); // legacy
-    this.sputnik.updateState(nestingMark(nesting_name, 'loading'), true);
-    if (is_main_list) {
-      this.sputnik.updateState('main_list_loading', true); // old old legacy
-    }
+      _this.sputnik.updateState('loading_nesting_' + nesting_name, true); // old legacy
+      _this.sputnik.updateState(nesting_name + '$loading', true); // legacy
+      _this.sputnik.updateState(nestingMark(nesting_name, 'loading'), true);
+      if (is_main_list) {
+        _this.sputnik.updateState('main_list_loading', true); // old old legacy
+      }
+    })
 
     var parse_items = dclt.parse_items;
     var parse_serv = dclt.parse_serv;
@@ -521,7 +524,6 @@ return {
     var source_name = network_api.source_name;
 
     store.process = true;
-    var _this = this;
 
     function markAttemptComplete() {
       var states = {}
