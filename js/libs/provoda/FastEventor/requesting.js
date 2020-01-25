@@ -585,13 +585,14 @@ return {
     */
 
     if (request.queued_promise) {
+      _this.sputnik.updateState(nesting_name + '$waiting_queue', true); // legacy
+      _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), true);
+
       var stopWaiting = function () {
         _this.sputnik.updateState(nesting_name + '$waiting_queue', false); // legacy
         _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), false);
       };
 
-      _this.sputnik.updateState(nesting_name + '$waiting_queue', true); // legacy
-      _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), true);
       request.queued_promise.then(stopWaiting, stopWaiting);
     }
 
