@@ -430,18 +430,20 @@ return {
 
       store.process = true;
 
-      var states = {}
-      makeLoadingMarks('loading', selected_map.states_list, true, states)
-      makeLoadingMarks('load_attempting', selected_map.states_list, true, states)
+      var self = this;
 
-      this.sputnik.updateManyStates(states);
+      this.sputnik.input(function () {
+        var states = {}
+        makeLoadingMarks('loading', selected_map.states_list, true, states)
+        makeLoadingMarks('load_attempting', selected_map.states_list, true, states)
+        self.sputnik.updateManyStates(states);
+      })
 
 
       if (!selected_map.dependencies) {
         return bindRequest(sendRequest(selected_map, store, this), selected_map, store, this);
       }
 
-      var self = this;
 
       var req = requestDependencies(self, selected_map.dependencies).then(function () {
         return checkDependencies(selected_map, store, self);
