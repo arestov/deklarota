@@ -183,12 +183,20 @@ function getSPOpts(md, sp_name, slashed, byType) {
 
     var Constr = selected.Constr
 
-    return self.initSi(Constr, {
+    var created = self.initSi(Constr, {
       by: 'routePathByModels',
       init_version: 2,
       states: createStates(Constr, sp_name),
       head: selected.matched,
     });
+
+    var nesting_name = selected.routedcl.dest
+    var cur_list = self.getNesting(selected.routedcl.dest)
+    var new_list = cur_list ? cur_list.slice(0) : []
+    new_list.push(created)
+    self.updateNesting(nesting_name, new_list)
+
+    return created
   }
 
 function getterSPI(){
