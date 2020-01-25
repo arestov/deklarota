@@ -600,20 +600,21 @@ return {
 
 
     request.then(function (response) {
+      if (release) {
+        _this.sputnik.nextTick(release, null, false, initiator);
+      }
       _this.sputnik.nextTick(_this.sputnik.inputFn(function () {
         handleResponse(response);
         anyway();
         markAttemptComplete()
       }), null, false);
-      if (release) {
-        _this.sputnik.nextTick(release, null, false, initiator);
-      }
 
     }, function () {
-      _this.sputnik.nextTick(handleError, null, false);
       if (release) {
         _this.sputnik.nextTick(release, null, false, initiator);
       }
+      _this.sputnik.nextTick(handleError, null, false);
+
 
     });
 
