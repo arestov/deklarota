@@ -253,7 +253,7 @@ return {
         })
       }).then(self.sputnik.inputFn(function (response) {
         anyway();
-        handleResponse(response);
+        handleStatesResponse(response);
         markAttemptComplete()
       }), function(err) {
         self.sputnik.input(anyway);
@@ -262,7 +262,7 @@ return {
       });
 
 
-      function handleResponse(result){
+      function handleStatesResponse(result){
         var i;
         var result_states;
 
@@ -606,7 +606,7 @@ return {
         _this.sputnik.nextTick(release, null, false, initiator);
       }
       _this.sputnik.input(function () {
-        handleResponse(response);
+        handleNestResponse(response);
         anyway();
         markAttemptComplete()
       });
@@ -620,7 +620,7 @@ return {
 
     });
 
-    function handleResponse(r){
+    function handleNestResponse(r){
       var sputnik = _this.sputnik;
       var has_error = network_api.errors_fields ? findErrorByList(r, network_api.errors_fields) : network_api.checkResponse(r);
 
