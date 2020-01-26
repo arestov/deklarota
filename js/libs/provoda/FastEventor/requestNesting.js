@@ -28,6 +28,19 @@ function statesAnyway(states, nesting_name, is_main_list) {
   return states
 }
 
+function statesComplete(states, nesting_name) {
+  states[nesting_name + '$load_attempting'] = false // legacy
+  states[nestingMark(nesting_name, 'load_attempting')] = false
+
+  states[nesting_name + '$load_attempted'] = true // legacy
+  states[nestingMark(nesting_name, 'load_attempted')] = true
+
+  var now = Date.now()
+  states[nesting_name + '$load_attempted_at'] = now // legacy
+  states[nestingMark(nesting_name, 'load_attempted_at')] = now
+  return states
+}
+
 return function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -102,16 +115,7 @@ return function(dclt, nesting_name, limit) {
 
   function markAttemptComplete() {
     var states = {}
-    states[nesting_name + '$load_attempting'] = false // legacy
-    states[nestingMark(nesting_name, 'load_attempting')] = false
-
-    states[nesting_name + '$load_attempted'] = true // legacy
-    states[nestingMark(nesting_name, 'load_attempted')] = true
-
-    var now = Date.now()
-    states[nesting_name + '$load_attempted_at'] = now // legacy
-    states[nestingMark(nesting_name, 'load_attempted_at')] = now
-
+    statesComplete(states, nesting_name)
      _this.sputnik.updateManyStates(states);
   }
 
