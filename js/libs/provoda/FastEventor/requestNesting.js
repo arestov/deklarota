@@ -226,7 +226,10 @@ return function(dclt, nesting_name, limit) {
     _this.sputnik.input(function () {
       var has_error = detectError(response)
       if (!has_error){
-        handleNestResponse(response);
+        store.has_all_items = true
+        handleNestResponse(response, function() {
+          store.has_all_items = false
+        });
       } else {
         store.error = true;
         var states = {}
@@ -255,7 +258,7 @@ return function(dclt, nesting_name, limit) {
     return has_error
   }
 
-  function handleNestResponse(r){
+  function handleNestResponse(r, markListIncomplete){
     // should be in data bus queue - use `.input` wrap
     var sputnik = _this.sputnik;
 
@@ -264,8 +267,8 @@ return function(dclt, nesting_name, limit) {
     var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers);
     var can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
 
-    if (!can_load_more) {
-      store.has_all_items = true;
+    if (can_load_more) {
+      markListIncomplete()
     }
 
     var many_states = {};
