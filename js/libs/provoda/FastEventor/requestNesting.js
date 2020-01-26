@@ -238,12 +238,18 @@ return function(dclt, nesting_name, limit) {
 
   });
 
+  function detectError(resp) {
+    var has_error = network_api.errors_fields
+      ? findErrorByList(resp, network_api.errors_fields)
+      : network_api.checkResponse(resp);
+
+    return has_error
+  }
+
   function handleNestResponse(r){
     // should be in data bus queue - use `.input` wrap
     var sputnik = _this.sputnik;
-    var has_error = network_api.errors_fields
-      ? findErrorByList(r, network_api.errors_fields)
-      : network_api.checkResponse(r);
+    var has_error = detectError(r)
 
     if (has_error){
       store.error = true;
