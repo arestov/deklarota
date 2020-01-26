@@ -187,15 +187,14 @@ function checkRequest(request) {
 
 
 function findErrorByList(data, errors_selectors) {
-  var i, cur, has_error;
+  var i;
   for (i = 0; i < errors_selectors.length; i++) {
-    cur = errors_selectors[i];
-    has_error = getTargetField(data, cur);
+    var cur = errors_selectors[i];
+    var has_error = getTargetField(data, cur);
     if (has_error){
-      break;
+      return has_error;
     }
   }
-  return has_error;
 }
 
 function onPromiseFail(promise, cb) {
