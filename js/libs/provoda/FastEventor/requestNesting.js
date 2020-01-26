@@ -42,6 +42,27 @@ function statesComplete(states, nesting_name) {
 }
 
 
+
+function statesData(states, nesting_name, can_load_more, is_main_list) {
+  states[nesting_name + "$error"] = null;
+  states[nestingMark(nesting_name, "error")] = null;
+
+  states[nesting_name + "$has_any"] = true;
+  states[nestingMark(nesting_name, "has_any")] = true;
+
+  if (can_load_more) {
+    return
+  }
+
+  if (is_main_list) {
+    states['all_data_loaded'] = true // old old legacy
+  }
+
+  states[nesting_name + "$all_loaded"] = true;
+  states[nestingMark(nesting_name, "all_loaded")] = true;
+}
+
+
 function statesStart(states, nesting_name, is_main_list) {
   states[nesting_name + '$load_attempting'] = true // legacy
   states[nestingMark(nesting_name, 'load_attempting')] = true;
@@ -237,22 +258,7 @@ return function(dclt, nesting_name, limit) {
     }
 
     var many_states = {};
-    many_states[nesting_name + "$error"] = null;
-    many_states[nestingMark(nesting_name, "error")] = null;
-
-    many_states[nesting_name + "$has_any"] = true;
-    many_states[nestingMark(nesting_name, "has_any")] = true;
-
-    if (!can_load_more) {
-      if (is_main_list) {
-        many_states['all_data_loaded'] = true // old old legacy
-      }
-
-      many_states[nesting_name + "$all_loaded"] = true;
-      many_states[nestingMark(nesting_name, "all_loaded")] = true;
-
-    }
-
+    statesData(many_states, nesting_name, can_load_more, is_main_list)
     sputnik.updateManyStates(many_states);
 
     items = paging_opts.remainder ? items.slice( paging_opts.remainder ) : items;
