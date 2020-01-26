@@ -240,7 +240,7 @@ return function(dclt, nesting_name, limit) {
     var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api);
     var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers);
 
-    if (!supports_paging) {
+    if (!supports_paging || !hasMoreData(serv_data, limit_value, paging_opts, items)) {
       store.has_all_items = true;
       if (is_main_list) {
         many_states['all_data_loaded'] = true // old old legacy
@@ -249,19 +249,6 @@ return function(dclt, nesting_name, limit) {
       many_states[nesting_name + "$all_loaded"] = true;
       many_states[nestingMark(nesting_name, "all_loaded")] = true;
 
-    } else {
-      var has_more_data = hasMoreData(serv_data, limit_value, paging_opts, items);
-
-      if (!has_more_data) {
-        store.has_all_items = true;
-
-        if (is_main_list) {
-          many_states['all_data_loaded'] = true // old old legacy
-        }
-
-        many_states[nesting_name + "$all_loaded"] = true; // legacy
-        many_states[nestingMark(nesting_name, "all_loaded")] = true;
-      }
     }
 
     sputnik.updateManyStates(many_states);
