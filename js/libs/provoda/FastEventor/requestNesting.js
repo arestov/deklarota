@@ -41,6 +41,20 @@ function statesComplete(states, nesting_name) {
   return states
 }
 
+
+function statesStart(states, nesting_name, is_main_list) {
+  states[nesting_name + '$load_attempting'] = true // legacy
+  states[nestingMark(nesting_name, 'load_attempting')] = true;
+
+  states['loading_nesting_' + nesting_name] = true; // old legacy
+  states[nesting_name + '$loading'] = true; // legacy
+  states[nestingMark(nesting_name, 'loading')] = true
+  if (is_main_list) {
+    states['main_list_loading'] = true // old old legacy
+  }
+  return states
+}
+
 return function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -75,15 +89,9 @@ return function(dclt, nesting_name, limit) {
   var is_main_list = nesting_name == this.sputnik.main_list_name;
 
   this.sputnik.input(function() {
-    _this.sputnik.updateState(nesting_name + '$load_attempting', true); // legacy
-    _this.sputnik.updateState(nestingMark(nesting_name, 'load_attempting'), true);
-
-    _this.sputnik.updateState('loading_nesting_' + nesting_name, true); // old legacy
-    _this.sputnik.updateState(nesting_name + '$loading', true); // legacy
-    _this.sputnik.updateState(nestingMark(nesting_name, 'loading'), true);
-    if (is_main_list) {
-      _this.sputnik.updateState('main_list_loading', true); // old old legacy
-    }
+    var states = {}
+    statesStart(states, nesting_name, is_main_list)
+    _this.sputnik.updateManyStates(states)
   })
 
   var parse_items = dclt.parse_items;
