@@ -5,7 +5,6 @@ var batching = require('./batching')
 var req_utils = require('./req-utils')
 var getRequestByDeclr = req_utils.getRequestByDeclr
 var findErrorByList = req_utils.findErrorByList
-var onPromiseFail = req_utils.onPromiseFail
 
 var releaseBatch = batching.releaseBatch
 var batch = batching.batch
@@ -167,7 +166,7 @@ return function(dclt, nesting_name, limit) {
   }
 
   function handleError() {
-
+    store.error = true
     var states = {}
     statesError(states, nesting_name)
     _this.sputnik.updateManyStates(states)
@@ -176,10 +175,6 @@ return function(dclt, nesting_name, limit) {
     markAttemptComplete()
 
   }
-
-  onPromiseFail(request, function(){
-    store.error = true;
-  });
 
   var initiator = _this.sputnik.current_motivator;
   var release;
@@ -226,7 +221,6 @@ return function(dclt, nesting_name, limit) {
 
     var has_error = detectError(response)
     if (has_error){
-      store.error = true;
       _this.sputnik.input(handleError);
       return
     }
@@ -242,7 +236,6 @@ return function(dclt, nesting_name, limit) {
     });
 
   }, function () {
-    store.error = true;
     if (release) {
       _this.sputnik.nextTick(release, null, false, initiator);
     }
