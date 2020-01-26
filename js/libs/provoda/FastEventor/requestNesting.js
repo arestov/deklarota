@@ -223,23 +223,22 @@ return function(dclt, nesting_name, limit) {
     if (release) {
       _this.sputnik.nextTick(release, null, false, initiator);
     }
+
+    var has_error = detectError(response)
+    if (has_error){
+      store.error = true;
+      _this.sputnik.input(handleError);
+      return
+    }
+
     _this.sputnik.input(function () {
-      var has_error = detectError(response)
-      if (!has_error){
-        store.error = false
-        store.has_all_items = true
-        handleNestResponse(response, function() {
-          store.has_all_items = false
-        });
-        anyway();
-        markAttemptComplete()
-        return
-      } else {
-        store.error = true;
-        handleError()
-      }
-
-
+      store.error = false
+      store.has_all_items = true
+      handleNestResponse(response, function() {
+        store.has_all_items = false
+      });
+      anyway();
+      markAttemptComplete()
     });
 
   }, function () {
