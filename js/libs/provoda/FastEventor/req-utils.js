@@ -198,11 +198,11 @@ function findErrorByList(data, errors_selectors) {
 }
 
 function onPromiseFail(promise, cb) {
-  if (promise.fail) {
-    return promise.fail(cb);
-  } else {
+  if (promise.catch) {
     return promise.catch(cb);
   }
+
+  return promise.fail(cb);
 }
 
 
