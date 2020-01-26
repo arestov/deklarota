@@ -16,6 +16,18 @@ function nestingMark(nesting_name, name) {
   return '$meta$nests$' + nesting_name + '$' + name;
 }
 
+function statesAnyway(states, nesting_name, is_main_list) {
+  states['loading_nesting_' + nesting_name] = false // old legacy
+  states[nesting_name + '$loading'] = false; // legacy
+  if (is_main_list) {
+    states['main_list_loading'] = false // old old legacy
+  }
+
+  states[nestingMark(nesting_name, 'loading')] = false
+
+  return states
+}
+
 return function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -106,13 +118,9 @@ return function(dclt, nesting_name, limit) {
   function anyway() {
     store.process = false;
 
-    _this.sputnik.updateState('loading_nesting_' + nesting_name, false); // old legacy
-    _this.sputnik.updateState(nesting_name + '$loading', false); // legacy
-    _this.sputnik.updateState(nestingMark(nesting_name, 'loading'), false);
-
-    if (is_main_list) {
-      _this.sputnik.updateState('main_list_loading', false); // old old legacy
-    }
+    var states = {}
+    statesAnyway(states, nesting_name, is_main_list)
+    _this.sputnik.updateManyStates(states);
   }
 
   function handleError() {
