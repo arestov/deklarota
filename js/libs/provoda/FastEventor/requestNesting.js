@@ -221,8 +221,9 @@ return function(dclt, nesting_name, limit) {
 
     if (has_error){
       store.error = true;
-      sputnik.updateState(nesting_name + "$error", true); // legacy
-      sputnik.updateState(nestingMark(nesting_name, 'error'), true);
+      var states = {}
+      statesError(states, nesting_name)
+      sputnik.updateManyStates(states)
       return;
     }
 
