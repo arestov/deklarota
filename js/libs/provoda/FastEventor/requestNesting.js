@@ -81,6 +81,11 @@ function statesError(states, nesting_name) {
   states[nestingMark(nesting_name, 'error')] = true
 }
 
+function statesQueue(states, nesting_name, mark) {
+  states[nesting_name + '$waiting_queue'] = mark // legacy
+  states[nestingMark(nesting_name, 'waiting_queue')] = mark
+}
+
 return function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -201,14 +206,12 @@ return function(dclt, nesting_name, limit) {
 
   if (request.queued_promise) {
     var startWaiting = function () {
-      _this.sputnik.updateState(nesting_name + '$waiting_queue', true); // legacy
-      _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), true);
+      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, true))
     };
     this.sputnik.input(startWaiting)
 
     var stopWaiting = function () {
-      _this.sputnik.updateState(nesting_name + '$waiting_queue', false); // legacy
-      _this.sputnik.updateState(nestingMark(nesting_name, 'waiting_queue'), false);
+      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, false))
     };
 
     request.queued_promise.then(stopWaiting, stopWaiting);
