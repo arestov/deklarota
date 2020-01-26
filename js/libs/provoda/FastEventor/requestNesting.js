@@ -224,7 +224,16 @@ return function(dclt, nesting_name, limit) {
       _this.sputnik.nextTick(release, null, false, initiator);
     }
     _this.sputnik.input(function () {
-      handleNestResponse(response);
+      var has_error = detectError(response)
+      if (!has_error){
+        handleNestResponse(response);
+      } else {
+        store.error = true;
+        var states = {}
+        statesError(states, nesting_name)
+        _this.sputnik.updateManyStates(states)
+      }
+
       anyway();
       markAttemptComplete()
     });
@@ -249,15 +258,6 @@ return function(dclt, nesting_name, limit) {
   function handleNestResponse(r){
     // should be in data bus queue - use `.input` wrap
     var sputnik = _this.sputnik;
-    var has_error = detectError(r)
-
-    if (has_error){
-      store.error = true;
-      var states = {}
-      statesError(states, nesting_name)
-      sputnik.updateManyStates(states)
-      return;
-    }
 
     var morph_helpers = sputnik.app.morph_helpers;
     var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api);
