@@ -226,6 +226,7 @@ return function(dclt, nesting_name, limit) {
     _this.sputnik.input(function () {
       var has_error = detectError(response)
       if (!has_error){
+        store.error = false
         store.has_all_items = true
         handleNestResponse(response, function() {
           store.has_all_items = false
@@ -246,6 +247,7 @@ return function(dclt, nesting_name, limit) {
     });
 
   }, function () {
+    store.error = true;
     if (release) {
       _this.sputnik.nextTick(release, null, false, initiator);
     }
