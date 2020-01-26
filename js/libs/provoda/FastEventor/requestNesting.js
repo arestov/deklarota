@@ -236,11 +236,7 @@ return function(dclt, nesting_name, limit) {
         return
       } else {
         store.error = true;
-        var states = {}
-        statesError(states, nesting_name)
-        _this.sputnik.updateManyStates(states)
-        anyway();
-        markAttemptComplete()
+        handleError()
       }
 
 
