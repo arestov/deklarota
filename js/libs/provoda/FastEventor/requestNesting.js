@@ -230,6 +230,7 @@ return function(dclt, nesting_name, limit) {
     var morph_helpers = sputnik.app.morph_helpers;
     var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api);
     var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers);
+    var can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
 
     var many_states = {};
     many_states[nesting_name + "$error"] = null;
@@ -238,7 +239,7 @@ return function(dclt, nesting_name, limit) {
     many_states[nesting_name + "$has_any"] = true;
     many_states[nestingMark(nesting_name, "has_any")] = true;
 
-    if (!supports_paging || !hasMoreData(serv_data, limit_value, paging_opts, items)) {
+    if (!can_load_more) {
       store.has_all_items = true;
       if (is_main_list) {
         many_states['all_data_loaded'] = true // old old legacy
