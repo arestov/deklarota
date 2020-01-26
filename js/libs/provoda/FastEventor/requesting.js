@@ -7,6 +7,8 @@ var batching = require('./batching')
 
 var req_utils = require('./req-utils')
 var getRequestByDeclr = req_utils.getRequestByDeclr
+var findErrorByList = req_utils.findErrorByList
+var onPromiseFail = req_utils.onPromiseFail
 
 var releaseBatch = batching.releaseBatch
 var batch = batching.batch
@@ -573,28 +575,6 @@ function hasMoreData(serv_data, page_limit, paging_opts, items) {
   }
 
 }
-
-function findErrorByList(data, errors_selectors) {
-  var i, cur, has_error;
-  for (i = 0; i < errors_selectors.length; i++) {
-    cur = errors_selectors[i];
-    has_error = spv.getTargetField(data, cur);
-    if (has_error){
-      break;
-    }
-  }
-  return has_error;
-}
-
-function onPromiseFail(promise, cb) {
-  if (promise.fail) {
-    return promise.fail(cb);
-  } else {
-    return promise.catch(cb);
-  }
-}
-
-
 
 
 });

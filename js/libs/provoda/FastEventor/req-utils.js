@@ -2,7 +2,9 @@ define(function(require) {
 'use strict'
 var hex_md5 = require('hex_md5');
 var extendPromise = require('js/modules/extendPromise');
+var spv = require('spv');
 var getApiPart = require('./getApiPart')
+var getTargetField = spv.getTargetField;
 var toBigPromise = extendPromise.toBigPromise;
 var hp = require('../helpers');
 var batching = require('./batching')
@@ -184,7 +186,30 @@ function checkRequest(request) {
 }
 
 
+function findErrorByList(data, errors_selectors) {
+  var i, cur, has_error;
+  for (i = 0; i < errors_selectors.length; i++) {
+    cur = errors_selectors[i];
+    has_error = getTargetField(data, cur);
+    if (has_error){
+      break;
+    }
+  }
+  return has_error;
+}
+
+function onPromiseFail(promise, cb) {
+  if (promise.fail) {
+    return promise.fail(cb);
+  } else {
+    return promise.catch(cb);
+  }
+}
+
+
 return {
   getRequestByDeclr: getRequestByDeclr,
+  findErrorByList: findErrorByList,
+  onPromiseFail: onPromiseFail,
 }
 })
