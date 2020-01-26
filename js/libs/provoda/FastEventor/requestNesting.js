@@ -55,6 +55,11 @@ function statesStart(states, nesting_name, is_main_list) {
   return states
 }
 
+function statesError(states, nesting_name) {
+  states[nesting_name + "$error"] = true // legacy
+  states[nestingMark(nesting_name, 'error')] = true
+}
+
 return function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -136,9 +141,10 @@ return function(dclt, nesting_name, limit) {
   }
 
   function handleError() {
-    //
-    _this.sputnik.updateState(nesting_name + "$error", true); // legacy
-    _this.sputnik.updateState(nestingMark(nesting_name, 'error'), true);
+
+    var states = {}
+    statesError(states, nesting_name)
+    _this.sputnik.updateManyStates(states)
 
     anyway();
     markAttemptComplete()
