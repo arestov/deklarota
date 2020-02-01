@@ -82,14 +82,10 @@ var iterate = function( models_index, all_for_parse, local_index, big_result) {
     var cur_md = all_for_parse.shift();
     var can_push = !models_index[cur_md._provoda_id];
     if (!can_push) {
-      // console.log('skip toSimpleStructure!', cur_md)
-      // continue;
+      continue;
     }
 
-    if (can_push) {
-      models_index[cur_md._provoda_id] = true;
-    }
-
+    models_index[cur_md._provoda_id] = true;
 
     var result = {
       _provoda_id: cur_md._provoda_id,
