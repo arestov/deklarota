@@ -17,6 +17,39 @@ var hasId = function(value) {
   return value && value._provoda_id
 }
 
+var handleNesting = function(cur, models_index, local_index, all_for_parse) {
+  if (!cur) {
+    return cur;
+  }
+
+  if (!Array.isArray(cur)) {
+    if (cur.each_items) {
+      for (var i = 0; i < cur.each_items.length; i++) {
+        checkModel(cur.each_items[i], models_index, local_index, all_for_parse);
+      }
+
+      var copy = cloneObj({
+        $not_model: true,
+      }, cur)
+      delete copy.each_items
+
+      return copy;
+    }
+
+    if (!cur._provoda_id) {
+      throw new Error('unknown data structure inside nesting')
+    }
+
+    return checkModel(cur, models_index, local_index, all_for_parse);
+  }
+
+  var array = new Array(cur.length);
+  for (var i = 0; i < cur.length; i++) {
+    array[i] = checkModel(cur[i], models_index, local_index, all_for_parse);
+  }
+  return array
+}
+
 var toSimpleStructure = function(models_index, big_result) {
   //используется для получения массива всех ПОДДЕЛЬНЫХ, пригодных для отправки через postMessage моделей, связанных с текущей
   models_index = models_index || {};
@@ -54,9 +87,15 @@ var toSimpleStructure = function(models_index, big_result) {
   while (all_for_parse.length) {
     var cur_md = all_for_parse.shift();
     var can_push = !models_index[cur_md._provoda_id];
+    if (!can_push) {
+      // console.log('skip toSimpleStructure!', cur_md)
+      // continue;
+    }
+
     if (can_push) {
       models_index[cur_md._provoda_id] = true;
     }
+
 
     var result = {
       _provoda_id: cur_md._provoda_id,
@@ -78,38 +117,9 @@ var toSimpleStructure = function(models_index, big_result) {
 
     for (var nesting_name in cur_md.children_models){
       var cur = cur_md.children_models[nesting_name];
-      if (!cur) {
-        continue;
-      }
+      result.children_models[nesting_name] = handleNesting(cur, models_index, local_index, all_for_parse)
 
-      if (!Array.isArray(cur)) {
-        if (cur.each_items) {
-          for (var i = 0; i < cur.each_items.length; i++) {
-            checkModel(cur.each_items[i], models_index, local_index, all_for_parse);
-          }
 
-          var copy = cloneObj({
-            $not_model: true,
-          }, cur)
-          delete copy.each_items
-
-          result.children_models[nesting_name] = copy
-          continue;
-        }
-
-        if (!cur._provoda_id) {
-          throw new Error('unknown data structure inside nesting')
-        }
-
-        result.children_models[nesting_name] = checkModel(cur, models_index, local_index, all_for_parse);
-        continue;
-      }
-
-      var array = new Array(cur.length);
-      for (var i = 0; i < cur.length; i++) {
-        array[i] = checkModel(cur[i], models_index, local_index, all_for_parse);
-      }
-      result.children_models[nesting_name] = array;
     }
     if (can_push) {
       big_result.push(result);
