@@ -50,13 +50,7 @@ var handleNesting = function(cur, models_index, local_index, all_for_parse) {
   return array
 }
 
-var toSimpleStructure = function(models_index, big_result) {
-  //используется для получения массива всех ПОДДЕЛЬНЫХ, пригодных для отправки через postMessage моделей, связанных с текущей
-  models_index = models_index || {};
-  var local_index = {};
-  var all_for_parse = [this];
-  big_result = big_result || [];
-
+var iterate = function( models_index, all_for_parse, local_index, big_result) {
   var replaceItem = function(item) {
     if (!hasId(item)) {
       return item
@@ -129,6 +123,17 @@ var toSimpleStructure = function(models_index, big_result) {
 
 
   return big_result;
+}
+
+var toSimpleStructure = function(models_index, big_result) {
+  //используется для получения массива всех ПОДДЕЛЬНЫХ, пригодных для отправки через postMessage моделей, связанных с текущей
+  models_index = models_index || {};
+  var all_for_parse = [this];
+  var local_index = {};
+
+  big_result = big_result || [];
+
+  return iterate(models_index, all_for_parse, local_index, big_result)
 };
 
 return toSimpleStructure
