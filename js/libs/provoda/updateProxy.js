@@ -48,10 +48,12 @@ var release = function(pool, item) {
   pool.free.push(item);
 };
 
+var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
+
 
 function updateProxy(etr, changes_list, opts) {
   if (etr._lbr && etr._lbr.undetailed_states){
-    iterateChList(changes_list, etr, _setUndetailedState);
+    iterateSetUndetailed(changes_list, etr)
     return etr;
   }
 
@@ -175,6 +177,15 @@ function updateProxy(etr, changes_list, opts) {
   return etr;
 }
 
+// mirco optimisations for monomorphism of args
+function createIterate0arg(cb) {
+  return function iterageChListWith0Args(changes_list, context) {
+    for (var i = 0; i < changes_list.length; i+=3) {
+      cb(context, i, changes_list[i+1], changes_list[i+2]);
+    }
+  }
+}
+
 function iterateChList(changes_list, context, cb, zdsv) {
   for (var i = 0; i < changes_list.length; i+=3) {
     cb(context, i, changes_list[i+1], changes_list[i+2], zdsv);
@@ -184,6 +195,7 @@ function iterateChList(changes_list, context, cb, zdsv) {
 function _setUndetailedState(etr, i, state_name, value) {
   etr._lbr.undetailed_states[state_name] = value;
 }
+
 
 
 function proxyStch(target, value, state_name) {
