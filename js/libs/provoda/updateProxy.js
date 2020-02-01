@@ -49,7 +49,7 @@ var release = function(pool, item) {
 };
 
 var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
-
+var iterateVipChanges = createIterate1arg(_triggerVipChanges)
 
 function updateProxy(etr, changes_list, opts) {
   if (etr._lbr && etr._lbr.undetailed_states){
@@ -132,10 +132,7 @@ function updateProxy(etr, changes_list, opts) {
     //устраняем измененное дважды и более
     compressStatesChanges(all_i_cg);
 
-
-
-    iterateChList(all_i_cg, etr, _triggerVipChanges, zdsv);
-
+    iterateVipChanges(changes_list, etr, zdsv)
 
 
     if (all_i_cg.length){
@@ -182,6 +179,14 @@ function createIterate0arg(cb) {
   return function iterageChListWith0Args(changes_list, context) {
     for (var i = 0; i < changes_list.length; i+=3) {
       cb(context, i, changes_list[i+1], changes_list[i+2]);
+    }
+  }
+}
+
+function createIterate1arg(cb) {
+  return function iterageChListWith1Args(changes_list, context, arg1) {
+    for (var i = 0; i < changes_list.length; i+=3) {
+      cb(context, i, changes_list[i+1], changes_list[i+2], arg1);
     }
   }
 }
