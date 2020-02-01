@@ -192,12 +192,6 @@ function createIterate1arg(cb) {
   }
 }
 
-function iterateChList(changes_list, context, cb, zdsv) {
-  for (var i = 0; i < changes_list.length; i+=3) {
-    cb(context, i, changes_list[i+1], changes_list[i+2], zdsv);
-  }
-}
-
 function _setUndetailedState(etr, i, state_name, value) {
   etr._lbr.undetailed_states[state_name] = value;
 }
