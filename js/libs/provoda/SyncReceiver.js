@@ -113,34 +113,41 @@ SyncReceiver.prototype = {
       return this.buildTree(message.value);
     },
     update_states: function(message) {
-      var target_model = this.models_index[message._provoda_id];
-      var target_md_proxy = this.md_proxs_index[message._provoda_id];
-
-      for (var i = 0; i < message.value.length; i+=3) {
-        var state_name = message.value[ i +1 ];
-        var state_value = message.value[ i +2 ];
-        target_model.states[state_name] = target_md_proxy.states[state_name] = state_value;
-      }
-
-
-      this.md_proxs_index[message._provoda_id].stackReceivedStates(message.value);
+      this.updateStates(message._provoda_id, message.value)
     },
     update_nesting: function(message) {
-      if (message.struc) {
-        this.buildTree(message.struc);
-      }
-
-      var target_model = this.models_index[message._provoda_id];
-      var target_md_proxy = this.md_proxs_index[message._provoda_id];
-
-      var fakes_models = idToModel(this.models_index, message.value);
-
-
-      target_model.children_models[message.name]= fakes_models;
-      //target_md_proxy.children_models[message.name] = fakes_models;
-      target_md_proxy.sendCollectionChange(message.name, fakes_models);
+      this.updateNesting(message._provoda_id, message.struc, message.name, message.value)
     }
-  }
+  },
+  updateStates: function(_provoda_id, value) {
+    var target_model = this.models_index[_provoda_id];
+    var target_md_proxy = this.md_proxs_index[_provoda_id];
+
+    for (var i = 0; i < value.length; i+=3) {
+      var state_name = value[ i +1 ];
+      var state_value = value[ i +2 ];
+      target_model.states[state_name] = target_md_proxy.states[state_name] = state_value;
+    }
+
+
+    this.md_proxs_index[_provoda_id].stackReceivedStates(value);
+
+  },
+  updateNesting: function(_provoda_id, struc, name, value) {
+    if (struc) {
+      this.buildTree(struc);
+    }
+
+    var target_model = this.models_index[_provoda_id];
+    var target_md_proxy = this.md_proxs_index[_provoda_id];
+
+    var fakes_models = idToModel(this.models_index, value);
+
+
+    target_model.children_models[name]= fakes_models;
+    //target_md_proxy.children_models[name] = fakes_models;
+    target_md_proxy.sendCollectionChange(name, fakes_models);
+  },
 };
 return SyncReceiver;
 });
