@@ -112,6 +112,21 @@ SyncReceiver.prototype = {
     buildtree: function(message) {
       return this.buildTree(message.value);
     },
+    update: function(list) {
+      for (var i = 0; i < list.length; i++) {
+        var cur = list[i]
+        var change_name = cur[0]
+        switch (change_name) {
+          case "state-ch": {
+            this.updateStates(cur[1], cur[2])
+            continue
+          }
+          case "nest-ch": {
+            this.updateNesting(cur[1], cur[2], cur[3], cur[4])
+          }
+        }
+      }
+    },
     update_states: function(message) {
       this.updateStates(message._provoda_id, message.value)
     },
