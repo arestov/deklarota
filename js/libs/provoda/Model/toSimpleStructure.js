@@ -136,5 +136,16 @@ var toSimpleStructure = function(models_index, big_result) {
   return iterate(models_index, all_for_parse, local_index, big_result)
 };
 
+var parseNesting = function(models_index, cur, big_result) {
+  var all_for_parse = []
+  var local_index = {};
+
+  handleNesting(cur, models_index, local_index, all_for_parse)
+
+  return iterate(models_index, all_for_parse, local_index, big_result)
+}
+
+toSimpleStructure.parseNesting = parseNesting
+
 return toSimpleStructure
 })

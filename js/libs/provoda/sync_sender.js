@@ -3,6 +3,8 @@ define(function(require) {
 
 var spv = require('spv');
 var toTransferableStatesList = require('./Model/toTransferableStatesList')
+var toSimpleStructure = require('./Model/toSimpleStructure')
+var parseNesting = toSimpleStructure.parseNesting
 
 var SyncSender = function() {
   this.sockets = {};
@@ -122,7 +124,12 @@ SyncSender.prototype = {
         continue;
       }
 
-      var struc = toSimpleStructure(this.sockets_m_index[cur.id]);
+      var struc
+
+      if (value) {
+        struc = []
+        struc = parseNesting(this.sockets_m_index[cur.id], value, [])
+      }
 
       var list = this.batched_by_id[cur.id]
       list.push(
