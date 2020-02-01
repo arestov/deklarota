@@ -51,6 +51,7 @@ var release = function(pool, item) {
 var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
 var iterateVipChanges = createIterate1arg(_triggerVipChanges)
 var iterateStChanges = createIterate1arg(_triggerStChanges)
+var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
 
 function updateProxy(etr, changes_list, opts) {
   if (etr._lbr && etr._lbr.undetailed_states){
@@ -371,19 +372,22 @@ function compressChangesList(result_changes, changes_list, i, prop_name, value, 
   return true;
 }
 
-function reversedIterateChList(changes_list, context, cb) {
-  var counter = 0;
-  for (var i = changes_list.length - 1; i >= 0; i-=3) {
-    if (cb(context, changes_list, i, changes_list[i-1], changes_list[i], counter)){
-      counter++;
+function createReverseIterate0arg(cb) {
+  return function reverseIterateChListWith0Args(changes_list, context) {
+    var counter = 0;
+    for (var i = changes_list.length - 1; i >= 0; i-=3) {
+      if (cb(context, changes_list, i, changes_list[i-1], changes_list[i], counter)){
+        counter++;
+      }
     }
+    return counter;
   }
-  return counter;
 }
+
 
 function compressStatesChanges(changes_list) {
   var result_changes = {};
-  var counter = reversedIterateChList(changes_list, result_changes, compressChangesList);
+  var counter = reversedCompressChanges(changes_list, result_changes);
   counter = counter * 3;
   while (changes_list.length != counter){
     changes_list.shift();
