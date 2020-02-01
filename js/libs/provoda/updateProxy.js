@@ -83,7 +83,6 @@ function updateProxy(etr, changes_list, opts) {
   var all_ch_compxs = serv_st.all_ch_compxs;
   var changed_states = serv_st.changed_states;
 
-  spv.cloneObj(zdsv.total_original_states, etr.states);
 
   while (serv_st.states_changing_stack.length){
 
@@ -93,14 +92,14 @@ function updateProxy(etr, changes_list, opts) {
     var cur_changes_opts = serv_st.states_changing_stack.shift();
 
     //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, original_states, cur_changes_list, cur_changes_opts, changed_states);
+    getChanges(etr, zdsv.total_original_states, original_states, cur_changes_list, cur_changes_opts, changed_states);
     //var changed_states = ... ↑
 
     cur_changes_list = cur_changes_opts = null;
 
     if (etr.full_comlxs_index) {
       //проверить комплексные состояния
-      var first_compxs_chs = getComplexChanges(etr, original_states, changed_states);
+      var first_compxs_chs = getComplexChanges(etr, zdsv.total_original_states, original_states, changed_states);
       if (first_compxs_chs.length){
         push.apply(all_ch_compxs, first_compxs_chs);
       }
@@ -108,7 +107,7 @@ function updateProxy(etr, changes_list, opts) {
       var current_compx_chs = first_compxs_chs;
       //довести изменения комплексных состояний до самого конца
       while (current_compx_chs.length){
-        var cascade_part = getComplexChanges(etr, original_states, current_compx_chs);
+        var cascade_part = getComplexChanges(etr, zdsv.total_original_states, original_states, current_compx_chs);
         current_compx_chs = cascade_part;
         if (cascade_part.length){
           push.apply(all_ch_compxs, cascade_part);
@@ -167,7 +166,7 @@ function updateProxy(etr, changes_list, opts) {
     total_ch.length = 0;
   }
 
-  utils_simple.nullObjValues(zdsv.total_original_states)
+  utils_simple.wipeObj(zdsv.total_original_states)
 
 
   serv_st.collecting_states_changing = false;
@@ -233,11 +232,11 @@ function _handleStch(etr, original_states, state_name, value, skip_handler, sync
   }
 }
 
-function getChanges(etr, original_states, changes_list, opts, result_arr) {
+function getChanges(etr, total_original_states, original_states, changes_list, opts, result_arr) {
   var changed_states = result_arr || [];
   var i;
   for (i = 0; i < changes_list.length; i+=3) {
-    _replaceState(etr, original_states, changes_list[i+1], changes_list[i+2], changed_states);
+    _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
   }
 
   if (etr.updateTemplatesStates){
@@ -259,12 +258,12 @@ function getChanges(etr, original_states, changes_list, opts, result_arr) {
   return changed_states;
 }
 
-function getComplexChanges(etr, original_states, changes_list) {
-  return getChanges(etr, original_states, checkComplexStates(etr, changes_list));
+function getComplexChanges(etr, total_original_states, original_states, changes_list) {
+  return getChanges(etr, total_original_states, original_states, checkComplexStates(etr, changes_list));
 }
 
 
-function _replaceState(etr, original_states, state_name, value, stack) {
+function _replaceState(etr, total_original_states, original_states, state_name, value, stack) {
   if (!state_name) {
     return;
   }
@@ -276,6 +275,9 @@ function _replaceState(etr, original_states, state_name, value, stack) {
 
   //value = value || false;
   //less calculations? (since false and "" and null and undefined now os equeal and do not triggering changes)
+  if (!total_original_states.hasOwnProperty(state_name)) {
+    total_original_states[state_name] = old_value;
+  }
 
   if (!original_states.hasOwnProperty(state_name)) {
     original_states[state_name] = old_value;
