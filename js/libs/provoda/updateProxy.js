@@ -161,10 +161,9 @@ function updateProxy(etr, changes_list, opts) {
 
   if (etr.sendStatesToMPX && total_ch.length){
     etr.sendStatesToMPX(total_ch);
-    total_ch.length = 0;
-  } else {
-    total_ch.length = 0;
   }
+
+  total_ch.length = 0;
 
   utils_simple.wipeObj(zdsv.total_original_states)
 
