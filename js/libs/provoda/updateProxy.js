@@ -50,6 +50,7 @@ var release = function(pool, item) {
 
 var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
 var iterateVipChanges = createIterate1arg(_triggerVipChanges)
+var iterateStChanges = createIterate1arg(_triggerStChanges)
 
 function updateProxy(etr, changes_list, opts) {
   if (etr._lbr && etr._lbr.undetailed_states){
@@ -152,7 +153,7 @@ function updateProxy(etr, changes_list, opts) {
 
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch);
-  iterateChList(total_ch, etr, _triggerStChanges, zdsv);
+  iterateStChanges(total_ch, etr, zdsv)
   produceEffects(total_ch, etr);
 
   //utils_simple.wipeObj(original_states);
