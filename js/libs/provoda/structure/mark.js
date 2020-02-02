@@ -22,7 +22,8 @@ function mark(Constr, RootConstr) {
     }, {
       pconstr_id: self.constr_id,
       _parent_constr: Constr,
-      _root_constr: RootConstr
+      _root_constr: RootConstr,
+      legacy_rel_helpers: RootConstr.prototype.legacy_rel_helpers,
     });
 
     self._all_chi[prop] = item && mark(item, RootConstr);

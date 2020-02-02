@@ -151,7 +151,7 @@ BrowseMap.Model = spv.inh(pv.HModel, {
       self.updateManyStates(data);
     }
 
-    if (self.preview_nesting_source) {
+    if (self.legacy_rel_helpers && self.preview_nesting_source) {
       self.on('child_change-' + self.preview_nesting_source, function(e) {
         pv.updateNesting(this, 'preview_list', e.value);
       });
