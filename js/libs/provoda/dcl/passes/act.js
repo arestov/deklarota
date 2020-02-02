@@ -162,8 +162,10 @@ return function pass(md, pass_name, data) {
   var deps = dcl.deps;
 
   var deps_values = getDepsValues(md, deps, data)
-
-  var args = deps_values ? [data].concat(deps_values) : [data]
+  var args = [data]
+  if (deps_values) {
+    Array.prototype.push.apply(args, deps_values)
+  }
 
   var result = fn.apply(null, args)
   saveResult(md, dcl, result, data)
