@@ -54,6 +54,7 @@ var checkSideeffects = function(self, props, typed_state_dcls, params) {
       // `handling_v2_init` is mark for invoker that it can pass new structure to Constr
       // means that init fn can handle both legacy and v2 structure
       self.handling_v2_init = false
+      console.warn('handling_v2_init = false')
     }
 
     if (init.length > 2 && !self.hasOwnProperty('network_data_as_states')) {
