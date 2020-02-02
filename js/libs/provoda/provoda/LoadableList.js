@@ -29,7 +29,11 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     self.loadable_lists = null;
 
     //self.loadable_lists[ self.main_list_name ] = [];
-    pv.updateNesting(self,  self.main_list_name, []);
+
+    if (self.legacy_rel_helpers) {
+      pv.updateNesting(self,  self.main_list_name, []);
+    }
+
 
     var has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name]);
     if (has_loader){
@@ -95,6 +99,9 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   bindStaCons: function() {
+    if (!this.legacy_rel_helpers) {
+      return
+    }
     if (!this.manual_previews){
       this.on('child_change-' + this.main_list_name, this.hndCheckPreviews);
     }
