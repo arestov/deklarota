@@ -56,7 +56,9 @@ var routePathByModels = function routePathByModels(start_md, pth_string, need_co
 
     var path_full_string;
     if (tree_parts_group){
-      path_full_string = [].concat(tree_parts_group, [pth[i]]).join('/');
+      var full = tree_parts_group.slice(0)
+      full.push(pth[i])
+      path_full_string = full.join('/');
     } else {
       path_full_string = pth[i];
     }
