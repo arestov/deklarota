@@ -181,7 +181,9 @@ var initOneDeclaredNesting = function(md, el) {
     var init_func = function(state) {
 
       if (state) {
-        this.updateNesting(el.nesting_name, getSubpages( this, el ));
+        if (!this.getNesting(el.nesting_name)) {
+          this.updateNesting(el.nesting_name, getSubpages( this, el ));
+        }
         if (el.preload_on && this.state(el.preload_on)) {
           executePreload(this, el.nesting_name);
         }
@@ -193,7 +195,9 @@ var initOneDeclaredNesting = function(md, el) {
     md.on('lgh_sch-' + el.idle_until, init_func);
 
   } else {
-    md.updateNesting(el.nesting_name, getSubpages( md, el ));
+    if (!md.getNesting(el.nesting_name)) {
+      md.updateNesting(el.nesting_name, getSubpages( md, el ));
+    }
   }
 
   if (el.preload_on) {
