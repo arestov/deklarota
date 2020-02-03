@@ -1,6 +1,7 @@
 define(function(require) {
 'use strict'
 var hex_md5 = require('hex_md5');
+var Promise = require('Promise');
 var extendPromise = require('js/modules/extendPromise');
 var spv = require('spv');
 var getApiPart = require('./getApiPart')
@@ -176,6 +177,9 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
 };
 
 function checkRequest(request) {
+  if (!request) {
+    return Promise.reject(new Error('not-requested'))
+  }
   if (!request.catch) {
     if (!request.abort && !request.db) {
       throw new Error('request must have `abort` method');
