@@ -25,6 +25,24 @@ var fromArray = function(state_name, cur) {
   };
 };
 
+var toParsedDeps = function(array) {
+  var result = new Array(array.length)
+  var require_marks = []
+  for (var i = 0; i < array.length; i++) {
+    var cur = array[i]
+
+    if (cur.charAt(0) != '&') {
+      result[i] = cur
+      continue
+    }
+
+    result[i] = cur.slice(1)
+    require_marks.push(i)
+  }
+
+  return {fixed_deps: result, require_marks: require_marks}
+}
+
 var declr = function(comlx_name, cur) {
   var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur;
   item.raw_depends_on = item.depends_on
@@ -32,6 +50,10 @@ var declr = function(comlx_name, cur) {
   if (!Array.isArray(item.raw_depends_on)) {
     throw new Error('should be list');
   }
+
+  var parsed = toParsedDeps(item.raw_depends_on)
+  item.depends_on = parsed.fixed_deps
+  item.require_marks = parsed.require_marks
 
   item.name = comlx_name;
 

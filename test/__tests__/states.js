@@ -47,3 +47,41 @@ test('simple compx calculated', async t => {
     },
   ])
 })
+
+test('prechecked compx calculated', async t => {
+  const { app_model, steps } = await init({
+    '+states': {
+      full_name: [
+        'compx',
+        ['&first_name', 'last_name'],
+        (first_name, last_name) => {
+          if (!first_name) { // function should never be runned with first_name == null
+            throw new Error('should never happen')
+          }
+          return `${first_name} ${last_name}`
+        },
+      ],
+    },
+  })
+
+  t.is(undefined, pvState(app_model, 'full_name'))
+
+  await steps([
+    () => {
+      pvUpdate(app_model, 'last_name', 'Smith')
+    },
+    app_model => {
+      t.true(pvState(app_model, 'full_name') == null)
+    },
+  ])
+
+  await steps([
+    () => {
+      pvUpdate(app_model, 'first_name', 'John')
+      pvUpdate(app_model, 'last_name', 'Smith')
+    },
+    app_model => {
+      t.is('John Smith', pvState(app_model, 'full_name'))
+    },
+  ])
+})
