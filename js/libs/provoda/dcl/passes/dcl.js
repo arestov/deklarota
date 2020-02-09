@@ -2,6 +2,7 @@ define(function(require){
 'use strict';
 var spv = require('spv')
 var parseMultiPath = require('../../utils/multiPath/parse')
+var noop = require('./noop')
 // var utils = require('../../utils/index.js');
 // var getParsedState = utils.getParsedState
 
@@ -95,6 +96,13 @@ var getDeps = function(deps) {
 
   var result = new Array(deps.length)
   for (var i = 0; i < deps.length; i++) {
+    if (deps[i] === '$noop') {
+      result[i] = noop
+      if (i !== 0) {
+        throw new Error('$noop should be first in dependencies list')
+      }
+      continue
+    }
     var cur = parseMultiPath(deps[i], true);
     if (cur.result_type != 'nesting' && cur.result_type != 'state' && cur.as_string != '<<<<') {
       console.warn('please use nesting and state', deps[i])

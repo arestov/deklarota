@@ -25,6 +25,14 @@ const action = {
   },
 }
 
+const action2 = {
+  to: ['< customNoopProp'],
+  fn: [
+    ['$noop'],
+    (data, noop) => noop,
+  ],
+}
+
 
 const test = require('ava')
 
@@ -77,6 +85,16 @@ test('multiple state by pass calculated', async t => {
         ),
       )
     },
+    () => {
+      pvUpdate(app.start_page, 'customNoopProp', 'untouched')
+      pvPass(app.start_page, 'action2', 13)
+    },
+    () => {
+      t.is(
+        'untouched',
+        pvState(app.start_page, 'customNoopProp'),
+      )
+    },
   ])
 
   async function setup() {
@@ -114,6 +132,7 @@ test('multiple state by pass calculated', async t => {
         },
         '+passes': {
           action,
+          action2,
         },
       }),
     }, self => {
