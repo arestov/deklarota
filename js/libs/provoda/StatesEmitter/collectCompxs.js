@@ -27,6 +27,12 @@ var fromArray = function(state_name, cur) {
 
 var declr = function(comlx_name, cur) {
   var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur;
+  item.raw_depends_on = item.depends_on
+
+  if (!Array.isArray(item.raw_depends_on)) {
+    throw new Error('should be list');
+  }
+
   item.name = comlx_name;
 
   if (!item.depends_on.length && typeof item.fn !== 'function') {
