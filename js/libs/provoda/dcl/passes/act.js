@@ -15,6 +15,8 @@ var getModelById = require('../../utils/getModelById');
 var prepareNestingValue = require('./act/prepareNestingValue')
 var getTargetModels = require('./act/getTargetModels')
 var prepareResults = require('./act/prepareResults')
+var noopForPass = require('./noop')
+
 /* EXEC
 
 1. один результат, адресат результата определен, обычное указание адресата
@@ -123,6 +125,8 @@ var saveResultToTarget = function(current_motivator, exec_item) {
 
 var saveResult = function (md, dcl, value, data) {
   var current_motivator = md._currentMotivator()
+  debugger
+
   var semi_result = prepareResults(md, dcl, value, data)
 
   for (var i = 0; i < semi_result.length; i++) {
@@ -131,6 +135,11 @@ var saveResult = function (md, dcl, value, data) {
 }
 
 var getDep = function(md, dep, data) {
+  if (dep === noopForPass) {
+    return noopForPass
+  }
+
+
   var models = getModels(md, dep, data)
   return models && getValues(models, dep)
 }
@@ -139,6 +148,8 @@ var getDepsValues = function (md, deps, data) {
   if (!deps) {
     return null
   }
+
+  debugger
 
   var args = new Array(deps.length)
   for (var i = 0; i < deps.length; i++) {
@@ -168,6 +179,10 @@ return function pass(md, pass_name, data) {
   }
 
   var result = fn.apply(null, args)
+  if (result === noopForPass) {
+    return
+  }
+
   saveResult(md, dcl, result, data)
 }
 
