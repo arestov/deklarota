@@ -352,6 +352,13 @@ function getTargetComplexStates(etr, changes_list) {
 }
 
 function compoundComplexState(etr, temp_comx) {
+  for (var i = 0; i < temp_comx.require_marks.length; i++) {
+    var cur = temp_comx.require_marks[i]
+    var state_name = temp_comx.depends_on[cur]
+    if (etr.state(state_name) == null) {
+      return null
+    }
+  }
   var values = new Array(temp_comx.depends_on.length);
   for (var i = 0; i < temp_comx.depends_on.length; i++) {
     values[i] = etr.state(temp_comx.depends_on[i]);
