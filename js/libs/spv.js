@@ -1,12 +1,13 @@
-define(function() {
-
+define(function(require) {
 "use strict";
 var spv = {};
+
+var cloneObj = require('./spv/cloneObj')
 
 var addEvent, removeEvent, getDefaultView, domReady,
   doesContain, shuffleArray, arrayExclude, getFields, matchWords, searchInArray, getStringPattern,
   ttime, toRealArray, getTargetField, sortByRules, makeIndexByField, $filter,
-  cloneObj, createObjClone, getDiffObj, getUnitBaseNum, stringifyParams, separateNum, Class,
+  createObjClone, getDiffObj, getUnitBaseNum, stringifyParams, separateNum, Class,
   debounce, throttle;
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function (obj, start) {
@@ -677,41 +678,7 @@ $filter = function(array, field, value_or_testfunc){
   return r;
 };
 
-var simpleClone = function(_no, donor) {
-  for (var prop in donor) {
-    if (!donor.hasOwnProperty(prop)){
-      continue;
-    }
-    _no[prop] = donor[prop];
-  }
-  return _no;
-};
-
-var doClone = Object.assign ? function(_no, donor) {
-  return Object.assign(_no, donor);
-} : simpleClone;
-
-
-cloneObj= spv.cloneObj = function(acceptor, donor, black_list, white_list){
-  //not deep!
-  var _no = acceptor || {};
-  var prop;
-  if (black_list || white_list){
-    for(prop in donor){
-      if (!donor.hasOwnProperty(prop)){
-        continue;
-      }
-      if (!white_list || !!~white_list.indexOf(prop)){
-        if (!black_list || !~black_list.indexOf(prop)){
-          _no[prop] = donor[prop];
-        }
-      }
-    }
-    return _no;
-  } else {
-    return doClone(_no, donor);
-  }
-};
+spv.cloneObj = cloneObj
 
 getUnitBaseNum = function(_c){
   if (_c > 0){
