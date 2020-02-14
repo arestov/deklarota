@@ -1,10 +1,8 @@
 define(function(require) {
 'use strict';
 
-var spv = require('spv');
-var hp = require('./helpers');
-var cloneObj = spv.cloneObj
-var getRemovedNestingItems = hp.getRemovedNestingItems;
+var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
+var cloneObj = require('spv/cloneObj');
 
 var MDProxy = function(_provoda_id, states, children_models, md) {
   this._provoda_id = _provoda_id;
