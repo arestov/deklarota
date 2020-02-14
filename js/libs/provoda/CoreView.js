@@ -217,6 +217,9 @@ var View = spv.inh(StatesEmitter, {
     bwlev_view.RPCLegacy('navGetBack')
   },
   tpl_events: {
+    updateState: function(e, node, state_name, value) {
+      this.updateState(state_name, value);
+    },
     requestPage: function() {
       this.requestPage();
     },
