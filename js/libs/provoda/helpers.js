@@ -11,6 +11,7 @@ var selecPoineertDeclr = require('./structure/selecPoineertDeclr');
 var getPropsPrefixChecker = require('./utils/getPropsPrefixChecker');
 var getEncodedState = require('./utils/getEncodedState');
 var getShortStateName = require('./utils/getShortStateName');
+var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
 var nil = spv.nil;
 var memorize = spv.memorize
 var startsWith = spv.startsWith;
@@ -120,26 +121,7 @@ return {
   getSTEVNameDefault: utils_simple.getSTEVNameDefault,
   getSTEVNameLight: utils_simple.getSTEVNameLight,
   getFullChilChEvName: utils_simple.getFullChilChEvName,
-  getRemovedNestingItems: function(array, old_value) {
-    var removed;
-    if (Array.isArray(old_value)){
-      if (!array){
-        removed = old_value.slice(0);
-      } else {
-        removed = [];
-        for (var i = 0; i < old_value.length; i++) {
-          var cur = old_value[i];
-          if (array.indexOf(cur) == -1){
-            removed.push(cur);
-          }
-        }
-      }
-      //console.log(removed);
-    } else if (old_value && array != old_value) {
-      removed = [old_value];
-    }
-    return removed;
-  },
+  getRemovedNestingItems: getRemovedNestingItems,
   oop_ext: {
     hndMotivationWrappper: function(motivator, fn, context, args, arg) {
       if (motivator.p_space) {
