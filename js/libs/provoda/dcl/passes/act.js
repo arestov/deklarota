@@ -125,7 +125,6 @@ var saveResultToTarget = function(current_motivator, exec_item) {
 
 var saveResult = function (md, dcl, value, data) {
   var current_motivator = md._currentMotivator()
-  debugger
 
   var semi_result = prepareResults(md, dcl, value, data)
 
@@ -149,7 +148,6 @@ var getDepsValues = function (md, deps, data) {
     return null
   }
 
-  debugger
 
   var args = new Array(deps.length)
   for (var i = 0; i < deps.length; i++) {
