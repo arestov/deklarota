@@ -314,6 +314,7 @@ var BnddChunk = function(type, data) {
   this.data = data;
   this.dead = false;
   this.handled = false;
+  this.states_inited = false;
   this.destroyer = null;
 };
 
@@ -604,8 +605,12 @@ spv.Class.extendTo(PvTemplate, {
 
       var remainded_stwats = this.states_watchers
       for (var i = 0; i < remainded_stwats.length; i++) {
-        remainded_stwats[i].checkFunc(states_summ, async_changes, current_motivator);
         if (this.dead) {return;}
+        var cur = remainded_stwats[i]
+        if (cur.states_inited) {
+          continue
+        }
+        cur.checkFunc(states_summ, async_changes, current_motivator);
       }
 
       return
