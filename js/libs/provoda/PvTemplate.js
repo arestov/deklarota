@@ -596,6 +596,21 @@ spv.Class.extendTo(PvTemplate, {
       // throw new Error('should be current_motivator');
     }
     //вместо того что бы собирать новый хэш на основе массива изменений используются объект всеъ состояний
+    var states_summ = this.getStatesSumm(full_states);
+
+    if (!this.states_inited){
+      this.states_inited = true;
+      // we should try render every states_watchers since states could not have every key
+
+      var remainded_stwats = this.states_watchers
+      for (var i = 0; i < remainded_stwats.length; i++) {
+        remainded_stwats[i].checkFunc(states_summ, async_changes, current_motivator);
+        if (this.dead) {return;}
+      }
+
+      return
+    }
+
     var matched = [], i = 0;
     for (i = 0; i < changes.length; i+= 3 ) { //ищем подходящие директивы
       var name = changes[i+1];
@@ -606,17 +621,6 @@ spv.Class.extendTo(PvTemplate, {
 
     matched = spv.getArrayNoDubs(matched);//устраняем повторяющиеся директивы
 
-    var states_summ = this.getStatesSumm(full_states);
-
-    if (!this.states_inited){
-      this.states_inited = true;
-
-      var remainded_stwats = spv.arrayExclude(this.states_watchers, matched);
-      for (i = 0; i < remainded_stwats.length; i++) {
-        remainded_stwats[i].checkFunc(states_summ, async_changes, current_motivator);
-        if (this.dead) {return;}
-      }
-    }
 
     for (i = 0; i < matched.length; i++) {
       matched[i].checkFunc(states_summ, async_changes, current_motivator);
