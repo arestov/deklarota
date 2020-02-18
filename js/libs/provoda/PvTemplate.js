@@ -78,6 +78,7 @@ var PvTemplate = function(opts) {
   if (!this.calls_flow) {
     //debugger;
   }
+  this.received_states = null
   this.calls_flow_index = this.calls_flow ? {} : null;
   this.scope = null;
   if (opts.scope){
@@ -591,6 +592,20 @@ spv.Class.extendTo(PvTemplate, {
       scope: this.scope
     });
   },
+  initStates: function(async_changes, current_motivator) {
+    // we should try render every states_watchers since states could not have every key
+
+    var states_summ = this.received_states
+    var remainded_stwats = this.states_watchers
+    for (var i = 0; i < remainded_stwats.length; i++) {
+      if (this.dead) {return;}
+      var cur = remainded_stwats[i]
+      if (cur.states_inited) {
+        continue
+      }
+      cur.checkFunc(states_summ, async_changes, current_motivator);
+    }
+  },
   checkChanges: function(changes, full_states, async_changes, current_motivator) {
     if (this.dead) {return;}
     if (async_changes && !current_motivator) {
@@ -598,20 +613,11 @@ spv.Class.extendTo(PvTemplate, {
     }
     //вместо того что бы собирать новый хэш на основе массива изменений используются объект всеъ состояний
     var states_summ = this.getStatesSumm(full_states);
+    this.received_states = states_summ
 
     if (!this.states_inited){
       this.states_inited = true;
-      // we should try render every states_watchers since states could not have every key
-
-      var remainded_stwats = this.states_watchers
-      for (var i = 0; i < remainded_stwats.length; i++) {
-        if (this.dead) {return;}
-        var cur = remainded_stwats[i]
-        if (cur.states_inited) {
-          continue
-        }
-        cur.checkFunc(states_summ, async_changes, current_motivator);
-      }
+      this.initStates()
 
       return
     }
