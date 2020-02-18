@@ -791,7 +791,9 @@ spv.Class.extendTo(PvTemplate, {
     return result;
   },
   parseAppended: function(node) {
-    return this.parsePvDirectives(node);
+    var result = this.parsePvDirectives(node);
+    this.initStates()
+    return result
   },
   iterateBindingList: (function() {
 
