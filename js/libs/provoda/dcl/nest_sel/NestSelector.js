@@ -84,7 +84,10 @@ function handleChdDestState(motivator, fn, head, args) {
   }
 
   var state_name = args[0];
-  var value = args[1];
+
+  // dont trust state changes. can be outdated. read real state
+  // var value = args[1];
+  var value = pvState(args[3], state_name)
 
   var states = head.base_states;
   states[state_name] = value;
@@ -100,8 +103,10 @@ function handleChdDeepState(motivator, _, lnwatch, args) {
   // input - changed "deep source" state
   // expected - invalidated one item condition, rerunned query, updated nesting
   var state_name = args[0];
-  var value = args[1];
   var md = args[3];
+  // dont trust state changes. can be outdated. read real state
+  // var value = args[1];
+  var value = pvState(md, state_name)
 
   var hands = lnwatch.data;
 
