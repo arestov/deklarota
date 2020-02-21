@@ -6,6 +6,7 @@ var spv = require('spv')
 var countKeys = spv.countKeys
 var getModelById = require('../../../utils/getModelById');
 var initPassedValue = prepareNestingValue.initPassedValue
+var noopForPass = require('../noop')
 
 var prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref) {
   var multi_path = target.target_path
@@ -139,7 +140,11 @@ return function(md, dcl, value, data) {
     if (!value.hasOwnProperty(cur.result_name)) {
       continue;
     }
-    unwrap(md, cur, value[cur.result_name], data, mut_refs_index, mut_wanted_ref, mut_result)
+    var cur_value =  value[cur.result_name]
+    if (cur_value === noopForPass) {
+      continue;
+    }
+    unwrap(md, cur, cur_value, data, mut_refs_index, mut_wanted_ref, mut_result)
   }
 
   completeValues(mut_result, mut_refs_index, mut_wanted_ref)
