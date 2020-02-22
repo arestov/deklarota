@@ -8,8 +8,7 @@ var getNesting = require('../../provoda/getNesting')
 var updateNesting = require('../../provoda/updateNesting')
 var mreadDepValue = require('../../utils/readDepValue')
 var readDepValue = mreadDepValue.depValue
-var getModels = require('../../utils/multiPath/getModels')
-var getValues = require('../../utils/multiPath/getValues')
+var getDepValue = require('../../utils/multiPath/getDepValue')
 var getModelById = require('../../utils/getModelById');
 
 var prepareNestingValue = require('./act/prepareNestingValue')
@@ -138,9 +137,7 @@ var getDep = function(md, dep, data) {
     return noopForPass
   }
 
-
-  var models = getModels(md, dep, data)
-  return models && getValues(models, dep)
+  return getDepValue(md, dep, data)
 }
 
 var getDepsValues = function (md, deps, data) {
