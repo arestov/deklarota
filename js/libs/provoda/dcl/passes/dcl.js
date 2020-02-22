@@ -63,6 +63,10 @@ var targetData = function(to, result_name) {
   var options = to[1];
   var parsed_path = parseMultiPath(target_path, true)
 
+  if (parsed_path.result_type != 'nesting' && parsed_path.result_type != 'state') {
+    throw new Error('we can put result to nesting or state only')
+  }
+
   if (parsed_path.result_type == 'nesting' && (!options || !options.schema)) {
     console.warn('implement schema parsing. add schema to pass dcl')
   }
@@ -104,9 +108,6 @@ var getDeps = function(deps) {
       continue
     }
     var cur = parseMultiPath(deps[i], true);
-    if (cur.result_type != 'nesting' && cur.result_type != 'state' && cur.as_string != '<<<<') {
-      console.warn('please use nesting and state', deps[i])
-    }
     result[i] = cur
 
   }
