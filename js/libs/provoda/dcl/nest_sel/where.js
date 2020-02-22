@@ -56,6 +56,11 @@ function getOperatorFn(operator, convert) {
         return convert(left) === convert(right);
       };
     }
+    case '!=': {
+      return function (left, right) {
+        return convert(left) !== convert(right);
+      };
+    }
     default: {
       throw new Error('unsupported operator ' + operator);
     }
