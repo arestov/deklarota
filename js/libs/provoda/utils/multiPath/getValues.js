@@ -4,10 +4,6 @@ var pvState = require('../../provoda/state')
 var getNesting = require('../../provoda/getNesting')
 
 var getValue = function(md, multi_path) {
-  if (multi_path.zip_name) {
-    throw new Error('implenent me')
-  }
-
   switch (multi_path.result_type) {
     case "nesting": {
       if (!multi_path.nesting.target_nest_name) {
@@ -28,6 +24,10 @@ var getValue = function(md, multi_path) {
 }
 
 return function(models, multi_path) {
+  if (multi_path.zip_name) {
+    throw new Error('implenent me')
+  }
+
   if (!Array.isArray(models)) {
     return getValue(models, multi_path)
   }
