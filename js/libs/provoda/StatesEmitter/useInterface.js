@@ -45,6 +45,7 @@ return function (self, interface_name, obj) {
 
   if (!obj) {
     pvUpdate(self, '_api_used_' + interface_name, false);
+    pvUpdate(self, '$meta$apis$' + interface_name + '$used', false);
     return;
   }
 
@@ -54,5 +55,7 @@ return function (self, interface_name, obj) {
   self._interfaces_using = using
 
   pvUpdate(self, '_api_used_' + interface_name, true);
+  pvUpdate(self, '$meta$apis$' + interface_name + '$used', true);
+
 };
 });
