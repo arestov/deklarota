@@ -3,6 +3,8 @@ define(function(require) {
 
 var updateNesting = require('../../Model/updateNesting');
 var multiPathAsString = require('../../utils/multiPath/asString')
+var getDepValue = require('../../utils/multiPath/getDepValue')
+
 var isNestingChanged = require('../../utils/isNestingChanged')
 var pvState = require('pv/state')
 
@@ -19,8 +21,10 @@ var prepareArgs = function(dcl, _runStates) {
 var createInitialStates = function(dcl, runner) {
   var _runStates = {}
 
-  for (var i = 0; i < dcl.deps.length; i++) {
-    _runStates[dcl.deps[i]] = null
+  for (var i = 0; i < dcl.raw_deps.length; i++) {
+    var cur = dcl.raw_deps[i]
+    var val = getDepValue(runner.md, cur, null)
+    _runStates[dcl.deps[i]] = val
   }
 
   if (runner.needs_self) {

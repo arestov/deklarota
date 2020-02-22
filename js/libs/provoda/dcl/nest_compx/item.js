@@ -82,6 +82,8 @@ var NestCompxDcl = function(name, data) {
 
   var list = deps.map(getDeps)
 
+  this.raw_deps = list
+
   this.deps = list.map(asString);
 
   this.calcFn = fn || same;
