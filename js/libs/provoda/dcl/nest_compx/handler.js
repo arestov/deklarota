@@ -85,27 +85,30 @@ var mapList = function(dep, list) {
   return result
 }
 
+var zip_fns = {
+  'one': function(list, dep) {
+    return list && getOneValue(dep, list[0])
+  },
+  'every': function(list, dep) {
+    return list && mapList(dep, list).every(isMeaningfulValue)
+  },
+  'some': function(list, dep) {
+    return list && mapList(dep, list).some(isMeaningfulValue)
+  },
+  'find': function(list, dep) {
+    return list && mapList(dep, list).find(isMeaningfulValue)
+  },
+  'all': function(list, dep) {
+    return list && mapList(dep, list)
+  }
+}
+
 var zipValue = function(runner, lwroot, list) {
   var dep = lwroot.data.dep
+  var zip_name = dep.zip_name || 'all'
+  var zipFn = zip_fns[zip_name]
 
-  switch (dep.zip_name) {
-    case "one": {
-      return list && getOneValue(dep, list[0])
-    }
-    case "every": {
-      return list && mapList(dep, list).every(isMeaningfulValue)
-    }
-    case "some": {
-      return list && mapList(dep, list).some(isMeaningfulValue)
-    }
-    case "find": {
-      return list && mapList(dep, list).find(isMeaningfulValue)
-    }
-    case "all":
-    default: {
-      return list && mapList(dep, list)
-    }
-  }
+  return zipFn(list, dep)
 }
 
 var getValue = function(runner, lwroot, list) {
