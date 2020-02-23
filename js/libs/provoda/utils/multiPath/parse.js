@@ -201,10 +201,16 @@ function getNestInfo(string) {
     throw new Error('dont use. use < @[zip_name] [statename] < [nestingname]')
   }
 
+  var target_nest_name = full_path[full_path.length-1] // last one
+
+  if (!target_nest_name) {
+    throw new Error('wrong nest path: ' + string)
+  }
+
   return {
     path: full_path,
-    base: full_path.slice(0, full_path.length-1),
-    target_nest_name: full_path[full_path.length-1],
+    base: full_path.slice(0, full_path.length-1), // all, except last
+    target_nest_name: target_nest_name,
   }
 }
 
