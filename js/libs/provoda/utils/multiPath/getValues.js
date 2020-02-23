@@ -3,21 +3,15 @@ define(function(require) {
 var pvState = require('../../provoda/state')
 var getNesting = require('../../provoda/getNesting')
 
-var getValue = function(md, multi_path) {
-  switch (multi_path.result_type) {
-    case "nesting": {
-      if (!multi_path.nesting.target_nest_name) {
-        return md
-      }
-      return getNesting(md, multi_path.nesting.target_nest_name)
-    }
-    case "state": {
-      return pvState(md, multi_path.state.base)
-    }
+var readState = function(md, multi_path) {
+  return pvState(md, multi_path.state.base)
+}
+
+var readNesting = function(md, multi_path) {
+  if (!multi_path.nesting.target_nest_name) {
+    return md
   }
-
-
-  return md
+  return getNesting(md, multi_path.nesting.target_nest_name)
 }
 
 var getOne = function (items) {
@@ -36,16 +30,16 @@ return function(models, multi_path) {
   switch (multi_path.result_type) {
     case "state": {
       if (!Array.isArray(models)) {
-        return getValue(models, multi_path)
+        return readState(models, multi_path)
       }
 
       if (multi_path.zip_name == 'one') {
-        return models[0] && getValue(models[0], multi_path)
+        return models[0] && readState(models[0], multi_path)
       }
 
       var result = new Array(models.length)
       for (var i = 0; i < models.length; i++) {
-        result[i] = getValue(models[i], multi_path)
+        result[i] = readState(models[i], multi_path)
       }
 
       return result
@@ -54,16 +48,16 @@ return function(models, multi_path) {
     case "nesting": {
       if (multi_path.zip_name == 'one') {
         if (!Array.isArray(models)) {
-          return getOne(getValue(models, multi_path))
+          return getOne(readNesting(models, multi_path))
         }
 
-        return models[0] && getOne(getValue(models[0], multi_path))
+        return models[0] && getOne(readNesting(models[0], multi_path))
       }
 
       // results is always array here
       var result = []
       for (var i = 0; i < models.length; i++) {
-        var cur = getValue(models[i], multi_path)
+        var cur = readNesting(models[i], multi_path)
         if (!cur) {continue}
 
         result.push(cur)
