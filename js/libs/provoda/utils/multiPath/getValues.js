@@ -74,6 +74,10 @@ return function(models, multi_path) {
     }
   }
 
+  if (multi_path.zip_name) {
+    throw new Error('unexpected zip')
+  }
+
   if (multi_path.as_string != '<<<<') {
     /*
       ok to get
