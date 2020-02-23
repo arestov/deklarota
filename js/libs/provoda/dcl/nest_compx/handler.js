@@ -7,6 +7,7 @@ var getDepValue = require('../../utils/multiPath/getDepValue')
 var isMeaningfulValue = require('../../utils/isMeaningfulValue')
 
 var isNestingChanged = require('../../utils/isNestingChanged')
+var zip_fns = require('../../utils/zip/nest-compx')
 var pvState = require('pv/state')
 
 var prepareArgs = function(dcl, _runStates) {
@@ -65,43 +66,6 @@ var changeValue = function(current_motivator, runner, dep_full_name, value) {
   recalc(dcl, runner, current_motivator)
 }
 
-var getOneValue = function(dep, item) {
-  if (!item) {
-    return item;
-  }
-
-  if (dep.result_type != 'state') {
-    return item
-  }
-
-  return pvState(item, dep.state.base)
-}
-
-var mapList = function(dep, list) {
-  var result = new Array(list.length)
-  for (var i = 0; i < list.length; i++) {
-    result[i] = getOneValue(dep, list[i])
-  }
-  return result
-}
-
-var zip_fns = {
-  'one': function(list, dep) {
-    return list && getOneValue(dep, list[0])
-  },
-  'every': function(list, dep) {
-    return list && mapList(dep, list).every(isMeaningfulValue)
-  },
-  'some': function(list, dep) {
-    return list && mapList(dep, list).some(isMeaningfulValue)
-  },
-  'find': function(list, dep) {
-    return list && mapList(dep, list).find(isMeaningfulValue)
-  },
-  'all': function(list, dep) {
-    return list && mapList(dep, list)
-  }
-}
 
 var zipValue = function(runner, lwroot, list) {
   var dep = lwroot.data.dep
