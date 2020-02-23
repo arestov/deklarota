@@ -7,7 +7,6 @@ var getDepValue = require('../../utils/multiPath/getDepValue')
 var isMeaningfulValue = require('../../utils/isMeaningfulValue')
 
 var isNestingChanged = require('../../utils/isNestingChanged')
-var zip_fns = require('../../utils/zip/nest-compx')
 var pvState = require('pv/state')
 
 var prepareArgs = function(dcl, _runStates) {
@@ -69,8 +68,7 @@ var changeValue = function(current_motivator, runner, dep_full_name, value) {
 
 var zipValue = function(runner, lwroot, list) {
   var dep = lwroot.data.dep
-  var zip_name = dep.zip_name || 'all'
-  var zipFn = zip_fns[zip_name]
+  var zipFn = lwroot.data.zipFn
 
   return zipFn(list, dep)
 }
