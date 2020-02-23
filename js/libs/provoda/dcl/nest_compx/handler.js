@@ -4,6 +4,7 @@ define(function(require) {
 var updateNesting = require('../../Model/updateNesting');
 var multiPathAsString = require('../../utils/multiPath/asString')
 var getDepValue = require('../../utils/multiPath/getDepValue')
+var isMeaningfulValue = require('../../utils/isMeaningfulValue')
 
 var isNestingChanged = require('../../utils/isNestingChanged')
 var pvState = require('pv/state')
@@ -82,13 +83,6 @@ var mapList = function(dep, list) {
     result[i] = getOneValue(dep, list[i])
   }
   return result
-}
-
-var empty = ''
-var isMeaningfulValue = function(value) {
-  // https://twitter.com/jonathoda/status/960952613507231744
-  // https://twitter.com/jonathoda/status/1138881930399703041
-  return value != null && value !== empty;
 }
 
 var zipValue = function(runner, lwroot, list) {
