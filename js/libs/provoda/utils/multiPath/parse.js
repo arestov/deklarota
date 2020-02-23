@@ -5,6 +5,8 @@ var spv = require('spv')
 var initDeclaredNestings = require('../../initDeclaredNestings');
 var getParsedPath = initDeclaredNestings.getParsedPath;
 
+var supportedZip = require('./supportedZip')
+
 var splitByDot = spv.splitByDot;
 var fromLegacy = require('./fromLegacy')
 var empty = {}
@@ -143,6 +145,15 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   if (zip_state_string && !state_string && nest_string) {
     throw new Error('use nest zip')
   }
+
+  if (zip_state_string && !supportedZip(zip_state_string, 'state')) {
+    throw new Error('unsupported zip for state: ' + zip_state_string)
+  }
+
+  if (zip_nest_string && !supportedZip(zip_nest_string, 'nesting')) {
+    throw new Error('unsupported zip for state: ' + zip_nest_string)
+  }
+
 
   var zip_name = zip_state_string || zip_nest_string || null
   var state_info = getStateInfo(state_string);
