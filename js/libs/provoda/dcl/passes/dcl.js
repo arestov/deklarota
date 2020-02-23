@@ -110,6 +110,10 @@ var getDeps = function(deps) {
     var cur = parseMultiPath(deps[i], true);
     result[i] = cur
 
+    if (cur.nesting && cur.nesting.path && !cur.zip_name) {
+      throw new Error('zip name `@one:` or `@all:` should be provided for: ' + deps[i])
+    }
+
   }
   return result;
 }
