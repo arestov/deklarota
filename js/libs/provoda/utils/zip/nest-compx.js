@@ -37,6 +37,9 @@ var zip_fns = {
   'find': function(list, dep) {
     return list && mapList(dep, list).find(isMeaningfulValue)
   },
+  'filter': function(list, dep) {
+    return list && mapList(dep, list).filter(isMeaningfulValue)
+  },
   'all': function(list, dep) {
     return list && mapList(dep, list)
   }
