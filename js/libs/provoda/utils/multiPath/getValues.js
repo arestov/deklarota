@@ -29,7 +29,7 @@ var getOne = function (items) {
 }
 
 return function(models, multi_path) {
-  if (multi_path.zip_name) {
+  if (multi_path.zip_name && multi_path.zip_name != 'one') {
     throw new Error('implenent me')
   }
 
@@ -37,6 +37,10 @@ return function(models, multi_path) {
     case "state": {
       if (!Array.isArray(models)) {
         return getValue(models, multi_path)
+      }
+
+      if (multi_path.zip_name == 'one') {
+        return getValue(models[0], multi_path)
       }
 
       var result = new Array(models.length)
@@ -48,6 +52,13 @@ return function(models, multi_path) {
     }
 
     case "nesting": {
+      if (multi_path.zip_name == 'one') {
+        if (!Array.isArray(models)) {
+          return getOne(getValue(models, multi_path))
+        }
+
+        return getOne(getValue(models[0], multi_path))
+      }
 
       // results is always array here
       var result = []
