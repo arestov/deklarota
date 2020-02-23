@@ -2,6 +2,7 @@ define(function(require) {
 'use strict';
 var pvState = require('../../provoda/state')
 var getNesting = require('../../provoda/getNesting')
+var zip_fns = require('../zip/multipath-as-dep')
 
 var readState = function(md, multi_path) {
   return pvState(md, multi_path.state.base)
@@ -39,7 +40,9 @@ return function(models, multi_path) {
         result[i] = readState(models[i], multi_path)
       }
 
-      return result
+      var zipFn = zip_fns[multi_path.zip_name || 'all']
+
+      return zipFn(result)
     }
 
     case "nesting": {
