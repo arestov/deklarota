@@ -46,6 +46,7 @@ function addExisting(result, from, nest_name) {
   }
   if (!Array.isArray(subject)) {
     result.push(subject)
+    return
   }
 
   Array.prototype.push.apply(result, subject)
@@ -58,6 +59,7 @@ function add(result, list, nest_name) {
 
   if (!Array.isArray(list)) {
     addExisting(result, list, nest_name)
+    return
   }
 
   for (var i = 0; i < list.length; i++) {
