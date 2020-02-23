@@ -29,7 +29,7 @@ var getOne = function (items) {
 }
 
 return function(models, multi_path) {
-  if (multi_path.zip_name && multi_path.zip_name != 'one') {
+  if (multi_path.zip_name && (multi_path.zip_name != 'one' && multi_path.zip_name != 'all')) {
     throw new Error('implenent me')
   }
 
