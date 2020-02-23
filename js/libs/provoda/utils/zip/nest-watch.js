@@ -38,6 +38,18 @@ var every = toZipFunc(function(state) {
   };
 });
 
+var find = toZipFunc(function(state) {
+  return function(array) {
+    return array.every(state);
+  };
+});
+
+var filter = toZipFunc(function(state) {
+  return function(array) {
+    return array.every(state);
+  };
+});
+
 var one = toZipFunc(function(state) {
   return function(array) {
     return array[0] && state(array[0]);
@@ -56,7 +68,13 @@ return {
   },
   'every': function(state_name) {
     return every(state_name)
-  }
+  },
+  'find': function(state_name) {
+    return find(state_name)
+  },
+  'filter': function(state_name) {
+    return filter(state_name)
+  },
 }
 
 })
