@@ -15,6 +15,9 @@ var zip_fns = {
   'find': function(list) {
     return list && list.find(isMeaningfulValue)
   },
+  'filter': function(list) {
+    return list && list.filter(isMeaningfulValue)
+  },
   'all': function(list) {
     return list
   }
