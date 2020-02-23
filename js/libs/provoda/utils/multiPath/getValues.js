@@ -8,9 +8,6 @@ var readState = function(md, multi_path) {
 }
 
 var readNesting = function(md, multi_path) {
-  if (!multi_path.nesting.target_nest_name) {
-    return md
-  }
   return getNesting(md, multi_path.nesting.target_nest_name)
 }
 
