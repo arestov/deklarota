@@ -27,6 +27,7 @@ var runNestWatches = function(self, md, list) {
       runner: self,
       dep: list[i],
       num: i,
+      zipFn: list[i].zipFn,
       // index: i,
     });
 

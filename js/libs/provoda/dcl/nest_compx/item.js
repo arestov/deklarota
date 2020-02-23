@@ -4,6 +4,7 @@ var spv = require('spv')
 var NestWatch = require('../../nest-watch/NestWatch');
 var parseMultiPath = require('../../utils/multiPath/parse')
 var asString = require('../../utils/multiPath/asString')
+var zip_fns = require('../../utils/zip/nest-compx')
 
 var handler = require('./handler')
 var hnest = handler.hnest
@@ -45,6 +46,10 @@ var getDeps = spv.memorize(function getEncodedState(string) {
 
   var copy = spv.cloneObj({}, result);
   copy.nwatch = nwatch
+
+  var zip_name = result.zip_name || 'all'
+  var zipFn = zip_fns[zip_name]
+  copy.zipFn = zipFn
 
   return copy
 });
