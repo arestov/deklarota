@@ -21,10 +21,6 @@ var getOne = function (items) {
 }
 
 return function(models, multi_path) {
-  if (multi_path.zip_name && (multi_path.zip_name != 'one' && multi_path.zip_name != 'all')) {
-    throw new Error('implenent me')
-  }
-
   switch (multi_path.result_type) {
     case "state": {
       if (!Array.isArray(models)) {
