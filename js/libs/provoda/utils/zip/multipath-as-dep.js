@@ -1,22 +1,21 @@
-define(function(require) {
+define(function() {
 'use strict'
-var isMeaningfulValue = require('../isMeaningfulValue')
 
 var zip_fns = {
   'one': function(list) {
     return list && list[0]
   },
   'every': function(list) {
-    return list && list.every(isMeaningfulValue)
+    return list && list.every(Boolean)
   },
   'some': function(list) {
-    return list && list.some(isMeaningfulValue)
+    return list && list.some(Boolean)
   },
   'find': function(list) {
-    return list && list.find(isMeaningfulValue)
+    return list && list.find(Boolean)
   },
   'filter': function(list) {
-    return list && list.filter(isMeaningfulValue)
+    return list && list.filter(Boolean)
   },
   'all': function(list) {
     return list
