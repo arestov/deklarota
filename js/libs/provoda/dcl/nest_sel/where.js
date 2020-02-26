@@ -99,6 +99,9 @@ function getConvertor(convertor) {
 function same(value) {return value;}
 
 function getCompareFn(comparing) {
+  if (typeof comparing == 'function') {
+    return comparing
+  }
   // convertor
   // operator
   var convert = comparing.convertor
@@ -227,6 +230,9 @@ function getCriteriaValue(dcl) {
 }
 
 function getComparing(comparing_part) {
+  if (typeof comparing_part == 'function') {
+    return comparing_part
+  }
   if (typeof comparing_part == 'string') {
     return {
       operator: comparing_part
