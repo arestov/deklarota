@@ -55,7 +55,7 @@ var noop = require('./noop')
 //     }
 // },
 
-var targetData = function(to, result_name) {
+var targetData = function(to, result_name, dsl_options) {
   if (!Array.isArray(to)) {
     throw new Error('to: should be array ' + to)
   }
@@ -67,8 +67,10 @@ var targetData = function(to, result_name) {
     throw new Error('we can put result to nesting or state only')
   }
 
-  if (parsed_path.result_type == 'nesting' && (!options || !options.schema)) {
-    console.warn('implement schema parsing. add schema to pass dcl')
+  if (dsl_options && dsl_options.warn) {
+    if (parsed_path.result_type == 'nesting' && (!options || !options.schema)) {
+      console.warn('implement schema parsing. add schema to pass dcl')
+    }
   }
 
   return {
