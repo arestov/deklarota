@@ -49,31 +49,33 @@ function getArgsSchema(list) {
   return args_schema;
 }
 
+function makeCompare(convert, compare) {
+  return function(left, right) {
+    return compare(convert(left), convert(right))
+  }
+}
+
 function getOperatorFn(operator, convert) {
   switch (operator) {
     case '=': {
-      return function (left, right) {
-        return convert(left) === convert(right);
-      };
+      return makeCompare(convert, function (left, right) {
+        return left === right;
+      });
     }
     case '!=': {
-      return function (left, right) {
-        return convert(left) !== convert(right);
-      };
+      return makeCompare(convert, function (left, right) {
+        return left !== right;
+      });
     }
     case 'regexp_match': {
-      return function (left, right) {
-        var reg_exp = convert(left)
-        var string = convert(right);
+      return makeCompare(convert, function (reg_exp, string) {
         return Boolean(reg_exp && reg_exp.match(string))
-      };
+      });
     }
     case 'string_test': {
-      return function (left, right) {
-        var string = convert(left);
-        var reg_exp = convert(right)
+      return makeCompare(convert, function (string, reg_exp) {
         return Boolean(string && string.test(reg_exp))
-      };
+      });
     }
     default: {
       throw new Error('unsupported operator ' + operator);
