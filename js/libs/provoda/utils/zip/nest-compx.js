@@ -1,7 +1,6 @@
 define(function(require) {
 'use strict'
 var pvState = require('../state')
-var isMeaningfulValue = require('../isMeaningfulValue')
 
 
 var getOneValue = function(dep, item) {
@@ -29,16 +28,16 @@ var zip_fns = {
     return list && getOneValue(dep, list[0])
   },
   'every': function(list, dep) {
-    return list && mapList(dep, list).every(isMeaningfulValue)
+    return list && mapList(dep, list).every(Boolean)
   },
   'some': function(list, dep) {
-    return list && mapList(dep, list).some(isMeaningfulValue)
+    return list && mapList(dep, list).some(Boolean)
   },
   'find': function(list, dep) {
-    return list && mapList(dep, list).find(isMeaningfulValue)
+    return list && mapList(dep, list).find(Boolean)
   },
   'filter': function(list, dep) {
-    return list && mapList(dep, list).filter(isMeaningfulValue)
+    return list && mapList(dep, list).filter(Boolean)
   },
   'all': function(list, dep) {
     return list && mapList(dep, list)
