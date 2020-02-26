@@ -28,6 +28,9 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
   }
 }, {
   checkActingRequestsPriority: function() {
+    if (!this.__dsl_options || !this.__dsl_options.warn) {
+      return
+    }
     console.warn('add checkActingRequestsPriority')
   },
   model_name: 'app_model',

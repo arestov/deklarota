@@ -43,6 +43,8 @@ var check = /initStates/gi;
 
 var checkSideeffects = function(self, props, typed_state_dcls, params) {
 
+  var dsl_options = self.__dsl_options
+
   collectStateChangeHandlers(self, props, typed_state_dcls);
   checkEffects(self, props, typed_state_dcls)
 
@@ -54,7 +56,10 @@ var checkSideeffects = function(self, props, typed_state_dcls, params) {
       // `handling_v2_init` is mark for invoker that it can pass new structure to Constr
       // means that init fn can handle both legacy and v2 structure
       self.handling_v2_init = false
-      console.warn('handling_v2_init = false')
+
+      if (dsl_options && dsl_options.warn) {
+        console.warn('handling_v2_init = false')
+      }
     }
 
     if (init.length > 2 && !self.hasOwnProperty('network_data_as_states')) {
