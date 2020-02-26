@@ -131,13 +131,13 @@ function bindCheck(dcl, args_to_states) {
     break;
   }
 
-  var compare = getCompareFn(dcl.comparing);
+  var compareFn = dcl.compareFn;
 
   return function () {
     var left_value = getLeft.apply(null, arguments);
     var right_value = getRight.apply(null, arguments);
 
-    return compare(left_value, right_value);
+    return compareFn(left_value, right_value);
   };
 }
 
@@ -199,7 +199,8 @@ function indexableQuery(query) {
     items.push({
       compare_from: prop,
       comparing: comparing,
-      criteria: criteria
+      criteria: criteria,
+      compareFn: getCompareFn(comparing)
     });
   }
   if (!items.length) {
