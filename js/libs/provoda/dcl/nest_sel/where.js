@@ -67,6 +67,26 @@ function getOperatorFn(operator, convert) {
         return left !== right;
       });
     }
+    case '>': {
+      return makeCompare(convert, function (left, right) {
+        return left > right;
+      });
+    }
+    case '>=': {
+      return makeCompare(convert, function (left, right) {
+        return left >= right;
+      });
+    }
+    case '<': {
+      return makeCompare(convert, function (left, right) {
+        return left < right;
+      });
+    }
+    case '<=': {
+      return makeCompare(convert, function (left, right) {
+        return left <= right;
+      });
+    }
     case 'regexp_match': {
       return makeCompare(convert, function (reg_exp, string) {
         return Boolean(reg_exp && reg_exp.match(string))
