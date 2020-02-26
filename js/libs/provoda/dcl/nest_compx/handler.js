@@ -4,10 +4,6 @@ define(function(require) {
 var updateNesting = require('../../Model/updateNesting');
 var multiPathAsString = require('../../utils/multiPath/asString')
 var getDepValue = require('../../utils/multiPath/getDepValue')
-var isMeaningfulValue = require('../../utils/isMeaningfulValue')
-
-var isNestingChanged = require('../../utils/isNestingChanged')
-var pvState = require('pv/state')
 
 var prepareArgs = function(dcl, _runStates) {
   var result = new Array(dcl.deps.length);
