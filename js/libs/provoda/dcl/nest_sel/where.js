@@ -61,6 +61,20 @@ function getOperatorFn(operator, convert) {
         return convert(left) !== convert(right);
       };
     }
+    case 'regexp_match': {
+      return function (left, right) {
+        var reg_exp = convert(left)
+        var string = convert(right);
+        return Boolean(reg_exp && reg_exp.match(string))
+      };
+    }
+    case 'string_test': {
+      return function (left, right) {
+        var string = convert(left);
+        var reg_exp = convert(right)
+        return Boolean(string && string.test(reg_exp))
+      };
+    }
     default: {
       throw new Error('unsupported operator ' + operator);
     }
