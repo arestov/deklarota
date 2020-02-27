@@ -1,6 +1,7 @@
 const { rollup } = require('rollup');
 const amd = require('rollup-plugin-amd');
 const lookup = require('module-lookup-amd');
+const replace = require('rollup-plugin-replace')
 
 const build = ({
   all = false,
@@ -65,7 +66,10 @@ const build = ({
           })
           return result;
         }
-      })
+      }),
+      replace({
+        NODE_ENV: `'${process.env.NODE_ENV}'`,
+      }),
     ]
   })
   .then(async bundle => {

@@ -26,6 +26,13 @@ var transportName = function(spyglass_name) {
   return 'spyglass__' + spyglass_name.replace('/', '__');
 }
 
+var warnStruct = function() {
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
+  console.warn('add struct')
+}
+
 var BrowseLevel = spv.inh(Model, {
   strict: true,
   naming: function(fn) {
@@ -113,14 +120,14 @@ var BrowseLevel = spv.inh(Model, {
         if (!struc || !pioneer || !probe_name) {return;}
 
         if (!struc.m_children.children) {
-          console.warn('add struct')
+          warnStruct()
           return
         }
 
         var spyglass_view_name = transportName(probe_name)
 
         if (!struc.m_children.children[spyglass_view_name]) {
-          console.warn('add struct')
+          warnStruct()
           return
         }
 

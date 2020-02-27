@@ -35,8 +35,16 @@ var getMap = function(map_chunk) {
   }
 }
 
-var SelectNestingDeclaration = function(dest_name, data) {
+var warnSel = function() {
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
   console.warn('sel does not follow source reorder')
+}
+
+var SelectNestingDeclaration = function(dest_name, data) {
+  warnSel()
+
   this.map = null;
   if (data.map) {
     this.map = getMap(data.map)
