@@ -251,6 +251,9 @@ function getCriteriaValue(dcl) {
 
 function getComparing(comparing_part) {
   if (typeof comparing_part == 'function') {
+    if (comparing_part.length != 2) {
+      throw Error('comparing fn should accept 2 args')
+    }
     return comparing_part
   }
   if (typeof comparing_part == 'string') {
