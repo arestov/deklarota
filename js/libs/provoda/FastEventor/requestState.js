@@ -63,7 +63,7 @@ function bindRequest(request, selected_map, store, self) {
         if (!has_error) {
           var morph_helpers = self.sputnik.morph_helpers;
           var result = parse.call(self.sputnik, r, null, morph_helpers);
-          if (result) {
+          if (result != null) {
             return resolve(result)
           }
         }
@@ -85,7 +85,7 @@ function bindRequest(request, selected_map, store, self) {
   function handleStatesResponse(result){
     // should be in data bus queue - use `.input` wrap
     var i;
-    var result_states;
+    var result_states = {};
 
     if (Array.isArray(result)) {
       if (result.length != states_list.length) {
