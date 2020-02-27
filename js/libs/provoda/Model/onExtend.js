@@ -41,9 +41,15 @@ var updateStatesDcls = function(self, props, original) {
 
 var check = /initStates/gi;
 
-var checkSideeffects = function(self, props, typed_state_dcls, params) {
+var warnV2Bad = function() {
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
 
-  var dsl_options = self.__dsl_options
+  console.warn('handling_v2_init = false')
+}
+
+var checkSideeffects = function(self, props, typed_state_dcls, params) {
 
   collectStateChangeHandlers(self, props, typed_state_dcls);
   checkEffects(self, props, typed_state_dcls)
@@ -57,9 +63,7 @@ var checkSideeffects = function(self, props, typed_state_dcls, params) {
       // means that init fn can handle both legacy and v2 structure
       self.handling_v2_init = false
 
-      if (dsl_options && dsl_options.warn) {
-        console.warn('handling_v2_init = false')
-      }
+      warnV2Bad()
     }
 
     if (init.length > 2 && !self.hasOwnProperty('network_data_as_states')) {

@@ -2,6 +2,14 @@ define(function(require) {
 'use strict'
 var spv = require('spv')
 
+var warnStateUsing = function() {
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
+
+  console.warn('please use pass_name, not state_name')
+}
+
 return function StateBindDeclr(key, data) {
   this.key = key
   this.apis = null;
@@ -15,7 +23,7 @@ return function StateBindDeclr(key, data) {
   } else if (data.pass_name) {
     this.pass_name = data.pass_name
   } if (data.state_name) {
-    console.warn('please use pass_name, not state_name')
+    warnStateUsing()
     this.state_name = data.state_name
   }
 
