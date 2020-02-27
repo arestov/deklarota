@@ -91,8 +91,6 @@ function bindRequest(request, selected_map, store, self) {
       if (result.length != states_list.length) {
         throw new Error('values array does not match states array');
       }
-
-      result_states = {};
       for (i = 0; i < states_list.length; i++) {
         result_states[ states_list[i] ] = result[ i ];
       }
