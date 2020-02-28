@@ -205,7 +205,7 @@ BrowseMap.Model = spv.inh(pv.HModel, {
   }
 });
 
-function hookRoot(rootmd, start_page) {
+function hookRoot(rootmd, start_page, states) {
   var CurBrowseLevel = rootmd.BWLev ? prepare(spv.inh(RootLev, {}, rootmd.BWLev)) : RootLev;
   var bwlev_root = initBWlev(CurBrowseLevel, rootmd, '', -2, null, null)
   if (!start_page) {
@@ -213,6 +213,9 @@ function hookRoot(rootmd, start_page) {
   }
 
   bwlev_root.nextTick(function() {
+    if (states) {
+      bwlev_root.updateManyStates(states)
+    }
     getSPByPathTemplate(bwlev_root.app, bwlev_root, 'spyglass-navigation')
   });
 
