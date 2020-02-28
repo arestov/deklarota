@@ -3,8 +3,8 @@ define(require => {
   const pv = require('pv')
   const animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges')
 
-  function initBrowsing(app) {
-    const map = BrowseMap.hookRoot(app, app.start_page)
+  function initBrowsing(app, states) {
+    const map = BrowseMap.hookRoot(app, app.start_page, states)
     app.map = map
 
     initMapTree(app, app.start_page)
