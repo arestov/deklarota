@@ -104,9 +104,6 @@ var getDeps = function(deps) {
   for (var i = 0; i < deps.length; i++) {
     if (deps[i] === '$noop') {
       result[i] = noop
-      if (i !== 0) {
-        throw new Error('$noop should be first in dependencies list')
-      }
       continue
     }
     var cur = parseMultiPath(deps[i], true);
