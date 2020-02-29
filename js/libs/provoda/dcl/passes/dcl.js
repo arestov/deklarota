@@ -3,6 +3,7 @@ define(function(require){
 var spv = require('spv')
 var parseMultiPath = require('../../utils/multiPath/parse')
 var noop = require('./noop')
+var now = require('./deps/now')
 // var utils = require('../../utils/index.js');
 // var getParsedState = utils.getParsedState
 
@@ -106,6 +107,12 @@ var getDeps = function(deps) {
       result[i] = noop
       continue
     }
+
+    if (deps[i] === '$now') {
+      result[i] = now
+      continue
+    }
+
     var cur = parseMultiPath(deps[i], true);
     result[i] = cur
 

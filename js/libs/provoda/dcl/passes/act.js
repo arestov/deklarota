@@ -15,6 +15,7 @@ var prepareNestingValue = require('./act/prepareNestingValue')
 var getTargetModels = require('./act/getTargetModels')
 var prepareResults = require('./act/prepareResults')
 var noopForPass = require('./noop')
+var now = require('./deps/now')
 
 /* EXEC
 
@@ -135,6 +136,10 @@ var saveResult = function (md, dcl, value, data) {
 var getDep = function(md, dep, data) {
   if (dep === noopForPass) {
     return noopForPass
+  }
+
+  if (dep === now) {
+    return now()
   }
 
   return getDepValue(md, dep, data)
