@@ -2,13 +2,14 @@ define(require => {
   const pv = require('pv')
 
   const glo = typeof global !== 'undefined' ? global : window
-  const initApp = (App, env) => {
+  const initApp = (App, env, interfaces) => {
     const views_proxies = new pv.views_proxies.Proxies()
     const sync_sender = new pv.SyncSender()
     const flow = new pv.CallbacksFlow(glo)
     return new Promise(resolve => {
       flow.input(() => {
         const app_model = new App({
+          interfaces,
           _highway: {
             models_counters: 1,
             sync_sender,
