@@ -11,7 +11,14 @@ var connectRootApis = function(self, list) {
   }
 }
 
-return function(self) {
+return function(self, apis_as_arg) {
+
+  if (apis_as_arg) {
+    for (var name in apis_as_arg) {
+      self.useInterface(name, apis_as_arg[name]);
+    }
+  }
+
   if (self.__apis_$_usual && self.__apis_$_usual.length) {
     for (var i = 0; i < self.__apis_$_usual.length; i++) {
       var cur = self.__apis_$_usual[i];

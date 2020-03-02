@@ -39,7 +39,7 @@ function markInitied(md) {
   md.updateState('$meta$inited', true);
 }
 
-return function postInitModel(self) {
+return function postInitModel(self, opts) {
   connectStates(self)
   connectNests(self)
 
@@ -54,7 +54,7 @@ return function postInitModel(self) {
     __handleInit(self, null)
   }
 
-  initApis(self)
+  initApis(self, opts && opts.interfaces)
 
   self.nextTick(markInitied, null, false, self.current_motivator);
 }
