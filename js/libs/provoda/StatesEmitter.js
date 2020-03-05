@@ -122,8 +122,8 @@ add({
 
   // 	return this;
   // },
-  useInterface: function(interface_name, obj) {
-    useInterface(this, interface_name, obj);
+  useInterface: function(interface_name, obj, destroy) {
+    useInterface(this, interface_name, obj, destroy);
   },
 
   'regfr-vipstev': regfr_vipstev,
