@@ -25,7 +25,7 @@ var template = function () {
 };
 
 
-return function (self, interface_name, obj) {
+return function (self, interface_name, obj, destroy) {
   var using = self._interfaces_using;
   var old_interface = using && using.used[interface_name];
   if (obj === old_interface) {
@@ -42,6 +42,10 @@ return function (self, interface_name, obj) {
 
   using = runOnApiRemoved(self, using, interface_name, values_original)
   self._interfaces_using = using
+
+  if (old_interface && destroy) {
+    destroy(old_interface)
+  }
 
   if (!obj) {
     pvUpdate(self, '_api_used_' + interface_name, false);

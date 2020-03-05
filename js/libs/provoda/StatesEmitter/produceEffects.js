@@ -193,7 +193,7 @@ function iterateEffects(changes_list, self) {
 
 function checkApi(declr, value, self) {
   if (!value) {
-    self.useInterface(declr.name, null);
+    self.useInterface(declr.name, null, declr.destroy);
     return;
   }
 

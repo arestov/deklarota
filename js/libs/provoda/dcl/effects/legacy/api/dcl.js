@@ -44,7 +44,8 @@ return function ApiDeclr(name, data) {
         ];
       }
       break;
-      case 3:{
+      case 3:
+      case 4:{
         this.triggering_deps = wrapDeps(data[0]);
         this.triggering_deps_name = '_triggered_api_' + name;
 
@@ -62,6 +63,7 @@ return function ApiDeclr(name, data) {
         ];
 
         this.fn = data[2];
+        this.destroy = data[3];
       }
       break;
     }
