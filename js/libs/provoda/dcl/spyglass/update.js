@@ -35,10 +35,11 @@ var ensureBwLev = function(BWL, probe_md, probe_name, md) {
 
 var getProbeChange = function (toggle) {
   return function (BWL, bwlev, data) {
-    var target_id = data.target_id;
-    var probe_name = data.probe_name;
-    var value = data.value;
-    var probe_container_uri = data.probe_container_uri
+    // data.bwlev + data.context_md - optional
+    var target_id = data.target_id; // required
+    var probe_name = data.probe_name; // required
+    var value = data.value; // optional
+    var probe_container_uri = data.probe_container_uri // optional
     var req = data.req
 
     var app = bwlev.app;
