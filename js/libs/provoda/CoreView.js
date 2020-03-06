@@ -158,6 +158,17 @@ var changeSpyglassUniversal = function (method) {
   }
 }
 
+var changeSpyglassUniversalM = function(method) {
+  return function (probe_name, target_id, value, req) {
+    var data = getSpyglassData(this, target_id, probe_name, value, req)
+
+    var bwlev_view = this.root_view.parent_view;
+    bwlev_view.RPCLegacy.apply(
+      bwlev_view, [method, data]
+    );
+  }
+}
+
 var selectParent = function (view) {
   return view.parent_view
 }
@@ -257,6 +268,8 @@ var View = spv.inh(StatesEmitter, {
     toggleSpyglass: changeSpyglassUniversal('toggleSpyglass'),
     updateSpyglass: changeSpyglassUniversal('updateSpyglass'),
   },
+  updateSpyglass: changeSpyglassUniversalM('updateSpyglass'),
+  toggleSpyglass: changeSpyglassUniversalM('toggleSpyglass'),
   onExtend: spv.precall(StatesEmitter.prototype.onExtend, function (md, props, original, params) {
     return onPropsExtend(md, props, original, params);
   }),
