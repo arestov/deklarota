@@ -131,21 +131,27 @@ var initView = function(target, view_otps, opts){
 };
 
 
+var getSpyglassData = function(current_view, target_view, probe_name, value, req) {
+  var parent_bwlev_view = getBwlevView(current_view);
+
+  var data = {
+    context_md: parent_bwlev_view && parent_bwlev_view.children_models.pioneer._provoda_id,
+    bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._provoda_id,
+    target_id: target_view.mpx._provoda_id,
+    probe_name: probe_name,
+    value: value,
+    req: req,
+    probe_container_uri: null,
+  };
+
+  return data
+}
+
 var changeSpyglassUniversal = function (method) {
   return function (e, node, probe_name, value, req) {
+    var data = getSpyglassData(this, this, probe_name, value, req)
+
     var bwlev_view = this.root_view.parent_view;
-    var parent_bwlev_view = getBwlevView(this);
-
-    var data = {
-      context_md: parent_bwlev_view && parent_bwlev_view.children_models.pioneer._provoda_id,
-      bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._provoda_id,
-      target_id: this.mpx._provoda_id,
-      probe_name: probe_name,
-      value: value,
-      req: req,
-      probe_container_uri: null,
-    };
-
     bwlev_view.RPCLegacy.apply(
       bwlev_view, [method, data]
     );
