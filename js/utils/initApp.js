@@ -2,7 +2,7 @@ define(require => {
   const pv = require('pv')
 
   const glo = typeof global !== 'undefined' ? global : window
-  const initApp = (App, env, interfaces) => {
+  const initApp = (App, env, interfaces, { logger } = {}) => {
     const views_proxies = new pv.views_proxies.Proxies()
     const sync_sender = new pv.SyncSender()
     const flow = new pv.CallbacksFlow(glo)
@@ -18,6 +18,7 @@ define(require => {
             calls_flow: flow,
             proxies: views_proxies,
             env,
+            logger,
           },
         })
 
