@@ -8,7 +8,7 @@ return function addSubpage(self, name, cur) {
   if (self._sub_pages[name]) {
     throw new Error('already have ' + name);
   }
-  var item = getSubpageItem(cur, 'sub-page-' + name);
+  var item = getSubpageItem(cur, 'sub-page-' + name, false, name, 'spad');
   self._sub_pages[name] = item;
 
   if (!self.hasOwnProperty('_chi_sub_pages_side')) {

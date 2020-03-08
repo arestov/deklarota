@@ -21,7 +21,7 @@ var buildOne = function(self, props) {
 
     var item;
     if (props.hasOwnProperty(prop_name)) {
-      item = props[prop_name] && getSubpageItem(props[prop_name], 'sub-page-' + name);
+      item = props[prop_name] && getSubpageItem(props[prop_name], 'sub-page-' + name, false, name, 'sp');
     } else {
       item = build_index[name];
     }
@@ -35,7 +35,7 @@ var buildOne = function(self, props) {
 var buildMany = function(self) {
   self._build_cache_subpage_many = {};
   for (var prop_name in self.sub_page) {
-    self._build_cache_subpage_many[prop_name] = getSubpageItem(self.sub_page[prop_name], 'sub-page-' + prop_name);
+    self._build_cache_subpage_many[prop_name] = getSubpageItem(self.sub_page[prop_name], 'sub-page-' + prop_name, false, prop_name, 'sp');
   }
 };
 
