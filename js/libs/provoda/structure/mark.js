@@ -2,7 +2,16 @@ define(function(require) {
 'use strict';
 var spv = require('spv');
 
-function mark(Constr, RootConstr) {
+function makePath(parent_path, current_name) {
+  var used_name = [current_name || 'unknown']
+  if (!parent_path) {
+    return used_name
+  }
+
+  return parent_path.concat(used_name)
+}
+
+function mark(Constr, RootConstr, parent_path) {
   var self = Constr.prototype;
 
   self._all_chi = {};
@@ -23,6 +32,8 @@ function mark(Constr, RootConstr) {
       continue
     }
 
+    var hierarchy_path = makePath(parent_path, cur.prototype.hierarchy_name)
+
     var item = spv.inh(all[prop], {
       skip_code_path: true
     }, {
@@ -30,9 +41,11 @@ function mark(Constr, RootConstr) {
       _parent_constr: Constr,
       _root_constr: RootConstr,
       legacy_rel_helpers: RootConstr.prototype.legacy_rel_helpers,
+      hierarchy_path: hierarchy_path,
+      hierarchy_path_raw: hierarchy_path.join(' => ')
     });
 
-    self._all_chi[prop] = mark(item, RootConstr);
+    self._all_chi[prop] = mark(item, RootConstr, hierarchy_path);
   }
 
   return Constr;

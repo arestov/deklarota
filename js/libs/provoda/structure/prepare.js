@@ -8,7 +8,7 @@ BrowseLevel.prototype.BWL = BrowseLevel;
 
 return function prepare(root) {
   var augmented = spv.inh(root, {}, {});
-  return mark(augmented, augmented);
+  return mark(augmented, augmented, null);
 };
 
 });
