@@ -3,6 +3,7 @@ define(function(require) {
 
 var spv = require('spv');
 var hp = require('../helpers');
+var structureChild = require('../structure/child')
 
 var getUnprefixed = spv.getDeprefixFunc( 'chi-' );
 var hasPrefixedProps = hp.getPropsPrefixChecker( getUnprefixed );
@@ -21,7 +22,7 @@ return function checkChildrenConstuctors(self, props) {
     var chi_name = getUnprefixed(prop_name);
     if (!chi_name) {continue;}
 
-    self._build_cache_chi[chi_name] = props[prop_name];
+    self._build_cache_chi[chi_name] = structureChild(prop_name, props[prop_name], 'custom-chi')
   }
 
   self._chi = {};
