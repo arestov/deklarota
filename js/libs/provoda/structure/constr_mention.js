@@ -9,7 +9,10 @@ var nestConstructor = function(name, item, raw_key) {
       value: item
     };
   } else {
-    var key = raw_key || 'nest_rqc-' + name;
+    if (!raw_key) {
+      throw new Error('key should be provided')
+    }
+    var key = raw_key;
 
     return {
       name: name,
