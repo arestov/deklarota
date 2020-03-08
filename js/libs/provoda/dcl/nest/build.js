@@ -1,5 +1,7 @@
 define(function(require) {
 'use strict'
+var structureChild = require('../../structure/child')
+
 var build = function(self, result) {
   self.nestings_declarations = [];
   self.idx_nestings_declarations = result;
@@ -17,13 +19,14 @@ var build = function(self, result) {
     var item = cur.subpages_names_list;
     if (Array.isArray(item)) {
       for (var kk = 0; kk < item.length; kk++) {
-        if (item[kk].type == 'constr') {
-          self._chi_nest[item[kk].key] = item[kk].value;
+        var cur = item[kk]
+        if (cur.type == 'constr') {
+          self._chi_nest[item[kk].key] = structureChild(cur.name, cur.value, 'nest-nest');
         }
       }
     } else {
       if (item.type == 'constr') {
-        self._chi_nest[item.key] = item.value;
+        self._chi_nest[item.key] = structureChild(item.name, item.value, 'nest-nest');
       }
     }
   }
