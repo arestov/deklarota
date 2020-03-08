@@ -1,16 +1,16 @@
 define(function (require) {
 'use strict';
-
 var spv = require('spv');
+var structureChild = require('../../structure/child')
 
-var subPageHeaded = function(Constr, head, key, getKey) {
+var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
   if (!key) {
     throw new Error('should be key');
   }
 
   return {
     key: key,
-    constr: Constr,
+    constr: structureChild(name, Constr, prefix),
     byType: null,
     can_be_reusable: null,
     head: head,
@@ -21,7 +21,7 @@ var subPageHeaded = function(Constr, head, key, getKey) {
   };
 };
 
-return function getSubpageItem(cur, key, byType) {
+return function getSubpageItem(cur, key, byType, name, prefix) {
   var item;
   if (Array.isArray(cur)) {
     if (!cur[1] && !cur[2]) {
@@ -45,14 +45,16 @@ return function getSubpageItem(cur, key, byType) {
       ]
       */
 
-      var instance = cur[1] ? spv.inh(cur[0], {}, {
+      var instance = cur[1] ? spv.inh(cur[0], {
+        skip_code_path: true
+      }, {
         '+states': {
           nav_title: [
             'compx'
           ].concat(cur[1])
         }
       }) : cur[0];
-      item = subPageHeaded(instance, cur[2], key);
+      item = subPageHeaded(instance, cur[2], key, null, name, prefix);
     }
   } else if (typeof cur == 'object') {
     // semi compatibility (migration) mode
@@ -81,7 +83,7 @@ return function getSubpageItem(cur, key, byType) {
       skip_code_path: true
     }, {
       '+states': extend
-    }), cur.head, key, cur.getKey);
+    }), cur.head, key, cur.getKey, name, prefix);
 
     item.can_be_reusable = Boolean(cur.reusable);
 
@@ -89,7 +91,7 @@ return function getSubpageItem(cur, key, byType) {
     /* EXAMPLE
     'sub_page-similar': SimilarTags
     */
-    item = subPageHeaded(cur, null, key);
+    item = subPageHeaded(cur, null, key, null, name, prefix);
   }
 
   var prototype = item.constr.prototype;
