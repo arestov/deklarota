@@ -17,7 +17,13 @@ function mark(Constr, RootConstr) {
   spv.cloneObj(all, self._chi_nest_rqc);
 
   for (var prop in all) {
-    var item = all[prop] && spv.inh(all[prop], {
+    var cur = all[prop]
+    if (!cur) {
+      self._all_chi[prop] = null
+      continue
+    }
+
+    var item = spv.inh(all[prop], {
       skip_code_path: true
     }, {
       pconstr_id: self.constr_id,
@@ -26,7 +32,7 @@ function mark(Constr, RootConstr) {
       legacy_rel_helpers: RootConstr.prototype.legacy_rel_helpers,
     });
 
-    self._all_chi[prop] = item && mark(item, RootConstr);
+    self._all_chi[prop] = mark(item, RootConstr);
   }
 
   return Constr;
