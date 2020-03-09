@@ -17,6 +17,7 @@ var postInitModel = require('./Model/postInit')
 var initSi = require('./Model/initConstr/subitem')
 var getLinedStructure = require('./Model/getLinedStructure')
 var toSimpleStructure = require('./Model/toSimpleStructure')
+var logger = require('./dx/logger')
 
 var wrapInputCall = require('pv/wrapInputCall')
 
@@ -387,9 +388,7 @@ add({
   },
   sendCollectionChange: function(collection_name, array, old_value, removed) {
     //this.removeDeadViews();
-    if (this._highway.logger) {
-      this._highway.logger.pushNesting(this, collection_name, array, old_value, removed);
-    }
+    logger.logNesting(this, collection_name, array, old_value, removed)
     this._highway.sync_sender.pushNesting(this, collection_name, array, old_value, removed);
     this._highway.views_proxies.pushNesting(this, collection_name, array, old_value, removed);
     if (this.mpx) {
@@ -400,9 +399,7 @@ add({
   sendStatesToMPX: function(states_list) {
     //this.removeDeadViews();
     var dubl = states_list.slice();
-    if (this._highway.logger) {
-      this._highway.logger.pushStates(this, dubl);
-    }
+    logger.logStates(this, dubl)
     this._highway.sync_sender.pushStates(this, dubl);
     this._highway.views_proxies.pushStates(this, dubl);
     if (this.mpx) {
