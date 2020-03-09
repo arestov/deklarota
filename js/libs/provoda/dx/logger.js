@@ -1,16 +1,38 @@
 define(function() {
 'use strict'
 
-var checkModel = function(owner) {
-  if (!owner._highway.logger.checkModel && !owner._highway.logger.selectModels) {
+var selectModel = function(owner) {
+  var list = owner._highway.logger.selectModels
+  if (!list) {
     return true
   }
 
+
+  for (var i = 0; i < list.length; i++) {
+    var cur = list[i]
+    if (cur === owner.hierarchy_path) {
+      return true
+    }
+  }
+
+  return false
+}
+
+var checkModel = function(owner) {
   if (owner.dx && owner.dx.logging === true) {
     return true
   }
 
-  return owner._highway.logger.checkModel && owner._highway.logger.checkModel(owner)
+  var fine = selectModel(owner)
+  if (!fine) {
+    return false
+  }
+
+  if (!owner._highway.logger.checkModel) {
+    return true
+  }
+
+  return owner._highway.logger.checkModel(owner)
 }
 
 var checkState = function(owner, state_name) {
