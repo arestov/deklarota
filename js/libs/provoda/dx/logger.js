@@ -2,11 +2,15 @@ define(function() {
 'use strict'
 
 var checkModel = function(owner) {
-  if (!owner._highway.logger.checkModel) {
+  if (!owner._highway.logger.checkModel && !owner._highway.logger.selectModels) {
     return true
   }
 
-  return owner._highway.logger.checkModel(owner)
+  if (owner.dx && owner.dx.logging === true) {
+    return true
+  }
+
+  return owner._highway.logger.checkModel && owner._highway.logger.checkModel(owner)
 }
 
 var checkState = function(owner, state_name) {
