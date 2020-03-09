@@ -54,6 +54,11 @@ var logNesting = function(owner, collection_name, array, old_value, removed) {
   if (!owner._highway.logger) {
     return
   }
+
+  if (!checkModel(owner)) {
+    return
+  }
+
   owner._highway.logger.pushNesting(owner, collection_name, array, old_value, removed);
 
 }
