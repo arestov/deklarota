@@ -1,9 +1,21 @@
 define(function() {
 'use strict'
 
+var checkModel = function(owner) {
+  if (!owner._highway.logger.checkModel) {
+    return true
+  }
+
+  return owner._highway.logger.checkModel(owner)
+}
+
 var checkState = function(owner, state_name) {
   if (!owner._highway.logger.checkState) {
     return true
+  }
+
+  if (!checkModel(owner)) {
+    return
   }
 
   return owner._highway.logger.checkState(state_name, owner)
@@ -11,6 +23,10 @@ var checkState = function(owner, state_name) {
 
 var logStates = function(owner, dubl) {
   if (!owner._highway.logger) {
+    return
+  }
+
+  if (!checkModel(owner)) {
     return
   }
 
