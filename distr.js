@@ -21,7 +21,10 @@ const build = ({
       'js/libs/provoda/provoda/appRoot.js',
       'js/libs/FuncsQueue',
       'js/models/spyglasses/FakeSpyglassCore',
+
       'js/utils/init.js',
+      'js/utils/initApp.js',
+
       'js/initBrowsing',
       'js/modules/route',
       'js/views/map_slice/MapSliceSpyglassCore',
