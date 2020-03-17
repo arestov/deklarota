@@ -106,7 +106,8 @@ return function(dclt, nesting_name, limit) {
       has_all_items: false,
       last_page: 0,
       error: false,
-      process: false
+      process: false,
+      req: null,
     };
   }
 
@@ -150,6 +151,7 @@ return function(dclt, nesting_name, limit) {
   var source_name = network_api.source_name;
 
   store.process = true;
+  store.req = request
 
   function markAttemptComplete() {
     var states = {}
@@ -159,6 +161,9 @@ return function(dclt, nesting_name, limit) {
 
   function anyway() {
     store.process = false;
+    if (store.req == request) {
+      store.req = null
+    }
 
     var states = {}
     statesAnyway(states, nesting_name, is_main_list)
