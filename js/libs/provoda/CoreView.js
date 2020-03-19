@@ -152,9 +152,7 @@ var changeSpyglassUniversal = function (method) {
     var data = getSpyglassData(this, this.mpx._provoda_id, probe_name, value, req)
 
     var bwlev_view = this.root_view.parent_view;
-    bwlev_view.RPCLegacy.apply(
-      bwlev_view, [method, data]
-    );
+    bwlev_view.RPCLegacy(method, data);
   }
 }
 
@@ -163,9 +161,7 @@ var changeSpyglassUniversalM = function(method) {
     var data = getSpyglassData(this, target_id, probe_name, value, req)
 
     var bwlev_view = this.root_view.parent_view;
-    bwlev_view.RPCLegacy.apply(
-      bwlev_view, [method, data]
-    );
+    bwlev_view.RPCLegacy(method, data);
   }
 }
 
