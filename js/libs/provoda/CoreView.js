@@ -266,6 +266,7 @@ var View = spv.inh(StatesEmitter, {
   },
   updateSpyglass: changeSpyglassUniversalM('updateSpyglass'),
   toggleSpyglass: changeSpyglassUniversalM('toggleSpyglass'),
+  getSpyglassData: getSpyglassData,
   onExtend: spv.precall(StatesEmitter.prototype.onExtend, function (md, props, original, params) {
     return onPropsExtend(md, props, original, params);
   }),
