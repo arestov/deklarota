@@ -154,6 +154,11 @@ function updateProxy(etr, changes_list, opts) {
 
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch);
+
+  if (etr.updateTemplatesStates) {
+    etr.updateTemplatesStates(total_ch, opts && opts.sync_tpl);
+  }
+
   iterateStChanges(total_ch, etr, zdsv)
   produceEffects(total_ch, etr);
 
@@ -249,11 +254,6 @@ function getChanges(etr, total_original_states, original_states, changes_list, o
   var i;
   for (i = 0; i < changes_list.length; i+=3) {
     _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
-  }
-
-  if (etr.updateTemplatesStates){
-    etr.updateTemplatesStates(changes_list, opts && opts.sync_tpl);
-
   }
 
   if (etr.__syncStatesChanges) {
