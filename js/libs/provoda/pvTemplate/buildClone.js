@@ -24,10 +24,20 @@ var getAll = function(node) {
   return result;
 };
 
+var getAllCached = function(node) {
+  if (node.__pv_all_nodes) {
+    return node.__pv_all_nodes
+  }
+
+  var result = getAll(node)
+  node.__pv_all_nodes = result
+  return result
+}
+
 return function buildClone(onode, struc_store, sample_id) {
   var cloned = onode.cloneNode(true);
 
-  var all_onodes = getAll(onode);
+  var all_onodes = getAllCached(onode);
   var all_cnodes = getAll(cloned);
 
   if (all_onodes.length !== all_cnodes.length){
