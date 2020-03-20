@@ -232,6 +232,30 @@ spv.cloneObj(props, {
       //console.log(add);
     }
   },
+  recalcTotalStatesList: function(states) {
+    this.__total_states_list.length = 0
+    for (var state_name in states) {
+      if (!states.hasOwnProperty(state_name)) {
+        continue
+      }
+      this.__total_states_list.push(true, state_name, states[state_name])
+    }
+  },
+  ensureTotalChangesUpdates: function() {
+    if (this.__total_states_list) {
+      return
+    }
+
+    this.__total_states_list = []
+    this.recalcTotalStatesList(this.states)
+  },
+  keepTotalChangesUpdates: function(states) {
+    if (!this.__total_states_list) {
+      return
+    }
+    this.recalcTotalStatesList(states)
+
+  },
   updateTemplatesStates: function(total_ch, sync_tpl) {
     var i = 0;
     //var states = this.states;
@@ -495,18 +519,16 @@ spv.cloneObj(props, {
   checkTplTreeChange: function(current_motivator) {
     var old_mt = this.current_motivator;
     this.current_motivator = current_motivator;
-    var total_ch = [];
 
-    for (var state_name in this.states) {
-      total_ch.push(true, state_name, this.states[total_ch]);
-    }
-
+    this.ensureTotalChangesUpdates()
+    var total_ch = this.__total_states_list
     this.updateTemplatesStates(total_ch);
 
     for (var nesname in this.children_models) {
 
       this.pvCollectionChange(nesname, this.children_models[nesname]);
     }
+
     this.current_motivator = old_mt;
   },
 })
