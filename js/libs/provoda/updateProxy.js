@@ -156,6 +156,7 @@ function updateProxy(etr, changes_list, opts) {
   compressStatesChanges(total_ch);
 
   if (etr.updateTemplatesStates) {
+    etr.keepTotalChangesUpdates(etr.states)
     etr.updateTemplatesStates(total_ch, opts && opts.sync_tpl);
   }
 
