@@ -15,7 +15,7 @@ test('routes', async t => {
     '+nests': {
       tracklist: ['model', BrowseMap],
     },
-    '+passes': {
+    actions: {
       handleInit: {
         to: ['<< tracklist', { method: 'set_many' }],
         fn: () => ([

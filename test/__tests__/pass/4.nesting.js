@@ -253,7 +253,7 @@ test('special nestings by pass calculated', async t => {
         '+nests': {
           all_playlists: ['nest', [['playlists/1', 'playlists/2']]],
         },
-        '+passes': {
+        actions: {
           addToStart: createAction('at_start'),
           addToEnd: createAction('at_end'),
           addToIndex: createAction('at_index'),

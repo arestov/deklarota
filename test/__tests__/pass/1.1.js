@@ -63,7 +63,7 @@ test('simple pass by * calculated', async t => {
     '+nests': {
       my_friend: ['nest', [TargetChild]],
     },
-    '+passes': {
+    actions: {
       action1: action,
     },
   })

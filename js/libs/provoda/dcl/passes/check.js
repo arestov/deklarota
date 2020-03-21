@@ -9,18 +9,18 @@ var rebuildHandleNesting = require('./handleNesting/rebuild')
 var rebuildHandleInit = require('./handleInit/rebuild')
 
 return function checkPasses(self, props) {
-  if (!props.hasOwnProperty('+passes')) {
+  if (!props.hasOwnProperty('actions')) {
     return
   }
 
   var result = {}
   cloneObj(result, self._extendable_passes_index || {})
 
-  for (var name in props['+passes']) {
-    if (!props['+passes'].hasOwnProperty(name)) {
+  for (var name in props['actions']) {
+    if (!props['actions'].hasOwnProperty(name)) {
       continue;
     }
-    result[name] = new Dcl(name, props['+passes'][name])
+    result[name] = new Dcl(name, props['actions'][name])
   }
 
   rebuildHandleState(self, result)

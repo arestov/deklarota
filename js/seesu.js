@@ -261,7 +261,7 @@ var SeesuApp = spv.inh(AppModel, {
   },
 
 }, {
-  "+passes": {
+  actions: {
     "handleState:lfm_auth_params": {
       to: ['<< lfm_auth', {method: 'set_one'}],
       fn: function(data) {

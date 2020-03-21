@@ -110,7 +110,7 @@ test('multiple state to arg base by pass calculated', async t => {
           nest_a: ['nest', [createDeepChild('nestA')]],
           nest_b: ['nest', [createDeepChild('nestB')]],
         },
-        '+passes': {
+        actions: {
           'handleNesting:selected': action,
         },
       }),

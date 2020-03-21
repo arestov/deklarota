@@ -85,7 +85,7 @@ test('auto dispatch and handle `handleInit` pass', async t => {
 
   async function setup() {
     const Song = createDeepChild('Song', {
-      '+passes': {
+      actions: {
         handleInit: {
           to: ['< special_prop'],
           fn: [
@@ -118,7 +118,7 @@ test('auto dispatch and handle `handleInit` pass', async t => {
         '+nests': {
           all_playlists: ['nest', [['playlists/1', 'playlists/2']]],
         },
-        '+passes': {
+        actions: {
           addToEnd: createAction('at_end'),
         },
         sub_pager: {

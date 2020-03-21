@@ -130,7 +130,7 @@ test('multiple state by pass calculated', async t => {
         '+nests': {
           target_child: ['nest', [TargetChild]],
         },
-        '+passes': {
+        actions: {
           action,
           action2,
         },

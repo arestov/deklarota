@@ -63,7 +63,7 @@ test('change for dynamic routed resource calculated', async t => {
       '+nests': {
         placeholder: ['nest', ['nice_resource']],
       },
-      '+passes': {
+      actions: {
         change: {
           to: {
             title: ['< title << [:head.name]'],
