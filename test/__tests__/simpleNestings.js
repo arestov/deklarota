@@ -34,7 +34,7 @@ test('nestings new inited', async t => {
   })
 
   const person = (await init({
-    '+nests': {
+    rels: {
       appartment: ['nest', [Appartment]],
     },
   })).app_model

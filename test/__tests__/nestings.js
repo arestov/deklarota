@@ -145,7 +145,7 @@ test('nest compx calculated', async t => {
   const indie = createDeepChild('indie')
 
   const TargetChild = spv.inh(Model, {}, {
-    '+nests': {
+    rels: {
       indie: ['nest', [indie]],
       list: [
         'nest', [[createDeepChild(1), createDeepChild(2)]],
@@ -170,7 +170,7 @@ test('nest compx calculated', async t => {
 
   const startModel = createDeepChild('start', {
     model_name: 'startModel',
-    '+nests': {
+    rels: {
       target_child: ['nest', [TargetChild]],
     },
   })

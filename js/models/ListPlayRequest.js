@@ -4,7 +4,7 @@ var spv = require('spv');
 var PlayRequest = require('./PlayRequest')
 
 return spv.inh(PlayRequest, {}, {
-  '+nests': {
+  rels: {
     wanted_song: [
       'compx',
       ['<< @one:wanted_playlist.possible_playlist_song'],

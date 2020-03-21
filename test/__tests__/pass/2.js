@@ -99,7 +99,7 @@ test('multiple state by pass calculated', async t => {
 
   async function setup() {
     const TargetChild = mdl({
-      '+nests': {
+      rels: {
         indie: [
           'nest', [createDeepChild('indie')],
         ],
@@ -127,7 +127,7 @@ test('multiple state by pass calculated', async t => {
     return init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
-        '+nests': {
+        rels: {
           target_child: ['nest', [TargetChild]],
         },
         actions: {

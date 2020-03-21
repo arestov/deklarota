@@ -12,7 +12,7 @@ const waitFlow = require('../waitFlow')
 test('routes', async t => {
   const app = (await init({
     zero_map_level: true,
-    '+nests': {
+    rels: {
       tracklist: ['model', BrowseMap],
     },
     actions: {

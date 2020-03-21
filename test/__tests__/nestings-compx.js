@@ -51,7 +51,7 @@ test('compx-nests', async t => {
 
   async function setup() {
     const target_child = mdl({
-      '+nests': {
+      rels: {
         calculated_child: [
           'compx',
           [
@@ -82,7 +82,7 @@ test('compx-nests', async t => {
     const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
-        '+nests': {
+        rels: {
           target_child: ['nest', [target_child]],
           list_source: [
             'nest', [[createDeepChild(1), createDeepChild(2)]],

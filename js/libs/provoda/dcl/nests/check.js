@@ -136,13 +136,13 @@ var rebuild = function(self, newV, oldV) {
 }
 
 var checkModern = function(self, props) {
-  if (!props['+nests']) {
+  if (!props['rels']) {
     return;
   }
 
   self._extendable_nest_index = extend(
     self._extendable_nest_index,
-    props['+nests']
+    props['rels']
   );
 }
 

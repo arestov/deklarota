@@ -91,7 +91,7 @@ return {
       checkRepeat
     ]
   },
-  '+nests': Object.assign({},
+  rels: Object.assign({},
     {
       'vis_neig_prev': [
         'compx', ['<< @one:modern_prev_possible'],
