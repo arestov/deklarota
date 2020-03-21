@@ -1,4 +1,4 @@
-`+passes`
+`actions`
 
 ​	routing: параметры должны содержаться в данных передаваемых в pass (pass без выполнения должен знать к какие ресурсы будет вестись запись)
 
@@ -19,14 +19,14 @@
   fn: [
     ['<title', '<<list'],
     (passed_data, title, list) => {
-    
+
     }
   ]
   ```
 
   позволяет получить дополнительные данные из state (вытащить части из global state) для выполнения обработчика. зависимости указываются в формате addresses - modernPath
 
-- 
+-
 
 ```
 markAsLastActive: {
@@ -74,7 +74,6 @@ remove: {
 
 
 
-autodispatched passes on state changes
-`handleState:state_names`
-
-`handleNesting:nest_name`
+autodispatched `actions`
+`handleState:state_names` - on state changes
+`handleNesting:nest_name` - on nest changes

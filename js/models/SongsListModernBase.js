@@ -54,7 +54,7 @@ return {
       ['< @one:vis_neig_next < being_viewed_song'],
     ],
   },
-  '+passes': {
+  actions: {
     'handleNesting:vis_prev_modern': {
       to: {
         next: [

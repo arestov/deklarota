@@ -133,7 +133,7 @@ test('simple state by pass1 && pass2 calculated', async t => {
         '+nests': {
           target_child: ['nest', [TargetChild]],
         },
-        '+passes': {
+        actions: {
           action1,
           action2,
         },
