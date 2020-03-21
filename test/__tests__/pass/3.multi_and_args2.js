@@ -98,7 +98,7 @@ test('map_values_list_to_target in pass', async t => {
           nest_b: ['nest', [createDeepChild('nestB')]],
         },
         actions: {
-          'handleNesting:selected': action,
+          'handleRel:selected': action,
         },
       }),
     }, self => {

@@ -109,8 +109,8 @@ test('simple state by pass1 && pass2 calculated', async t => {
           target_child: ['nest', [TargetChild]],
         },
         actions: {
-          'handleState:some_prop': action1,
-          'handleState:some_prop2': action2,
+          'handleAttr:some_prop': action1,
+          'handleAttr:some_prop2': action2,
         },
       }),
     }, self => {

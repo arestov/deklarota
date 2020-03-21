@@ -55,7 +55,7 @@ return {
     ],
   },
   actions: {
-    'handleNesting:vis_prev_modern': {
+    'handleRel:vis_prev_modern': {
       to: {
         next: [
           '< marked_as', {
@@ -70,7 +70,7 @@ return {
       },
       fn: marks('prev'),
     },
-    'handleNesting:vis_next_modern': {
+    'handleRel:vis_next_modern': {
       to: {
         next: [
           '< marked_as', {
@@ -85,7 +85,7 @@ return {
       },
       fn: marks('next'),
     },
-    'handleNesting:songs-list':  {
+    'handleRel:songs-list':  {
       to: {
         new_prev_cicled: targetPathNext('<< prev_cicled_by_number'),
         new_prev:  targetPathNext('<< prev_by_number'),
