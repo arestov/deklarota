@@ -48,13 +48,13 @@ var extend = function(index, more) {
 }
 
 var checkModern = function(self, props) {
-  if (!props['+routes']) {
+  if (!props['routes']) {
     return;
   }
 
   self._extendable_routes_index = extend(
     self._extendable_routes_index,
-    props['+routes']
+    props['routes']
   );
 }
 
