@@ -37,11 +37,11 @@ HTML атрибуты для data-binding
 
   - pv-events="click:updateState:changeNav:all" обновит состояние `changeNav` в view на значение `all`
 
-  - pv-events="click::^^^updateState:recipeId:%states%id" - отправит в качестве аргумента для updateState состояние id из локального контроллера. updateState будет отправлено в модель которой принаждлежит 3я view вверх по иерархии рендеринга
+  - pv-events="click::^^^updateState:recipeId:%attrs%id" - отправит в качестве аргумента для updateState состояние id из локального контроллера. updateState будет отправлено в модель которой принаждлежит 3я view вверх по иерархии рендеринга
 
-  - перед отправкой в обработчик можно собрать дополнительные данные: с помощью записи `:%states%id`. данные можно изьять из
+  - перед отправкой в обработчик можно собрать дополнительные данные: с помощью записи `:%attrs%id`. данные можно изьять из
 
-    - состояния локальной view. через `:%states%some_state`
+    - состояния локальной view. через `:%attrs%some_state`
     - свойства DOM event, `:%event%timestamp`
     - свойства DOM node, `:%node%value` (полезно при использовании с input), `:%node%!value` - работает как `!true` в js
 

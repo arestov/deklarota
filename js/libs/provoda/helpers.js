@@ -234,7 +234,7 @@ return {
                   argument = getTargetField(e.event, path);
                   break;
                 }
-                case "states": {
+                case "attrs": {
                   argument = pvState(view, path)
                   break;
                 }
