@@ -113,6 +113,9 @@ var EvConxOpts = function(context, immediately) {
 
 add({
   __act: act,
+  dispatch: function(action_name, data) {
+    this._calls_flow.pushToFlow(act, this, [this, action_name, data])
+  },
   onDie: function(cb) {
     this.on('die', cb);
   },
