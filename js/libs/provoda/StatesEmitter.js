@@ -204,7 +204,10 @@ add({
 //	full_comlxs_index: {},
   state: function(state_path) {
     return pvState(this, state_path)
-  }
+  },
+  getAttr: function(state_path) {
+    return pvState(this, state_path)
+  },
 });
 
 var updateAttr = function(state_name, value, opts){
