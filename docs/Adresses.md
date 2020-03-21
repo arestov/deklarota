@@ -28,5 +28,5 @@
   '< album_name << /artists/blink 182/tracks/miss you' // state from resource by routing address
   ```
 
-  used in relativly new dcls: `actions`, `+nests` `"compx"`
+  used in relativly new dcls: `actions`, `rels` `"compx"`
 

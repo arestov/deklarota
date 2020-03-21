@@ -93,7 +93,7 @@ test('map_values_list_to_target in pass', async t => {
     const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
-        '+nests': {
+        rels: {
           nest_a: ['nest', [createDeepChild('nestA')]],
           nest_b: ['nest', [createDeepChild('nestB')]],
         },

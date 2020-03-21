@@ -37,7 +37,7 @@ var marks = function(value) {
 }
 
 return {
-  '+nests': {
+  rels: {
     'first_song': [
       'compx', ['<< @one:songs-list'],
     ],

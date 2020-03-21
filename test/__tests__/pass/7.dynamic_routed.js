@@ -60,7 +60,7 @@ test('change for dynamic routed resource calculated', async t => {
           },
         ],
       },
-      '+nests': {
+      rels: {
         placeholder: ['nest', ['nice_resource']],
       },
       actions: {

@@ -102,7 +102,7 @@ test('simple state by pass1 && pass2 calculated', async t => {
 
   async function setup() {
     const TargetChild = mdl({
-      '+nests': {
+      rels: {
         indie: [
           'nest', [createDeepChild('indie')],
         ],
@@ -130,7 +130,7 @@ test('simple state by pass1 && pass2 calculated', async t => {
     const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
-        '+nests': {
+        rels: {
           target_child: ['nest', [TargetChild]],
         },
         actions: {

@@ -60,7 +60,7 @@ test('simple pass by * calculated', async t => {
 
   const startModel = createDeepChild('start', {
     model_name: 'startModel',
-    '+nests': {
+    rels: {
       my_friend: ['nest', [TargetChild]],
     },
     actions: {

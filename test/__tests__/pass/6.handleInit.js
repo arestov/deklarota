@@ -115,7 +115,7 @@ test('auto dispatch and handle `handleInit` pass', async t => {
     const app = (await init({
       'chi-start__page': createDeepChild('start', {
         model_name: 'startModel',
-        '+nests': {
+        rels: {
           all_playlists: ['nest', [['playlists/1', 'playlists/2']]],
         },
         actions: {
