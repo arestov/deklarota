@@ -324,7 +324,7 @@ add({
   RPCLegacy: wrapInputCall(function() {
     var args = Array.prototype.slice.call(arguments);
     var method_name = args.shift();
-    if (method_name == 'pass') {
+    if (method_name == 'dispatch') {
       var fn = this.__act
       args.unshift(this)
       fn.apply(null, args)
