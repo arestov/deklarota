@@ -68,7 +68,7 @@
   '' - вызовы сайдэффектов
 }
 
-'pass'
+'dispatch'
 
 
 'nest_push'

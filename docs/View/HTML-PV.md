@@ -31,9 +31,9 @@ HTML атрибуты для data-binding
     - `click:` - обработка событий локально, внутри view. данные не попадают в `truth` state. обработчики должны быть объявлены в `tpl_events`. существую встроенные обработчики:
       - `requestPage`, `requestPageById`, `followTo`, `followURL`, `toggleSpyglass`, `updateSpyglass`
     - `click::` - обработка событий "удаленно" в модели (может применяться задержка на обработку), данные попадают напрямую в `truth` state.
-      - есть два основных способа `click::pass:changeNav` и
+      - есть два основных способа `click::dispatch:changeNav` и
 
-  - pv-events="click::pass:changeNav:all" - отправит pass `changeNav` и data = `'all'` в модель, которой принадлежит данная view
+  - pv-events="click::dispatch:changeNav:all" - отправит pass `changeNav` и data = `'all'` в модель, которой принадлежит данная view
 
   - pv-events="click:updateState:changeNav:all" обновит состояние `changeNav` в view на значение `all`
 
@@ -47,7 +47,7 @@ HTML атрибуты для data-binding
 
 
 
-  - чтобы создать два обработчика просто перечислите их через пробел: `pv-events="click::pass:setActive click::^pass:setActive">`
+  - чтобы создать два обработчика просто перечислите их через пробел: `pv-events="click::dispatch:setActive click::^dispatch:setActive">`
 
 
 
