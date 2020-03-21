@@ -9,7 +9,7 @@
 
     - ```
       fillCurrentDomain: {
-        type: 'subscribe', // при type: 'subscribe' и отсутствии поля state_name данные буду переданы в соотвествующий имени ключа pass. в данном случае key - fillCurrentDomain
+        type: 'subscribe', // при type: 'subscribe' и отсутствии поля attr_name данные буду переданы в соотвествующий имени ключа pass. в данном случае key - fillCurrentDomain
         api: ['chromeForCurrenUser'], // используемый API
         fn: (pass, chrome) => { // первый аргумент - функция которая вызовет соотвествующий pass и передаст в нее данные
           const handleChange = url => {

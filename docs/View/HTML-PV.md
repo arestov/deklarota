@@ -41,7 +41,7 @@ HTML атрибуты для data-binding
 
   - перед отправкой в обработчик можно собрать дополнительные данные: с помощью записи `:%attrs%id`. данные можно изьять из
 
-    - состояния локальной view. через `:%attrs%some_state`
+    - состояния локальной view. через `:%attrs%some_attr`
     - свойства DOM event, `:%event%timestamp`
     - свойства DOM node, `:%node%value` (полезно при использовании с input), `:%node%!value` - работает как `!true` в js
 
@@ -61,7 +61,7 @@ HTML атрибуты для data-binding
   </div>
   ```
 
-  работает по аналогии с nest но в качестве источника для повторения использует массив с обычного state модели, а не nest. `{states: {image_previews: []}, rels:{'services-list': []}}`
+  работает по аналогии с nest но в качестве источника для повторения использует массив с обычного attr модели, а не nest. `{attrs: {image_previews: []}, rels:{'services-list': []}}`
 
 
 ```
