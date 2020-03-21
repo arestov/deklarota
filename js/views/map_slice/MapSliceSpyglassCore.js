@@ -447,7 +447,7 @@ return spv.inh(View, {
       ////MUST UPDATE VIEW, NOT MODEL!!!!!
     }
   }),
-  "+states": {
+  attrs: {
     "map_animating": [
       "compx",
       ['map_animation_num_started', 'map_animation_num_completed'],

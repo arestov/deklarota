@@ -6,7 +6,7 @@ var View = require('View');
 var nav = require('./nav');
 
 var BrowseLevNavView = spv.inh(View, {}, {
-  "+states": {
+  attrs: {
     "nav_clickable": [
       "compx",
       ['mp_stack', 'mp_has_focus'],

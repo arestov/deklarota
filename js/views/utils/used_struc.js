@@ -7,7 +7,7 @@ var bhv = {
   'stch-used_struc': function(self, value) {
     self.RPCLegacy('updateState', 'used_struc', value);
   },
-  "+states": {
+  attrs: {
     "view_path": [
       "compx",
       ['_provoda_id'],

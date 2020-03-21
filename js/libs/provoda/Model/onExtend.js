@@ -19,17 +19,17 @@ var checkNest = require('../dcl/nest/check');
 var collectStateChangeHandlers= require('../dcl/m-collectStateChangeHandlers');
 
 var updateStatesDcls = function(self, props, original) {
-  if (!props['+states']) {
+  if (!props['attrs']) {
     return;
   }
   var original_ext = original.__states_dcls || {};
   var __states_dcls = spv.cloneObj({}, original_ext);
-  __states_dcls = spv.cloneObj(__states_dcls, props['+states']);
+  __states_dcls = spv.cloneObj(__states_dcls, props['attrs']);
   self.__states_dcls = __states_dcls;
 
   /*
   {
-    '+states': {
+    attrs: {
       full_name: null
     }
   }
@@ -85,7 +85,7 @@ var checkNests = function(self, props) {
 
 return function(self, props, original, params) {
   updateStatesDcls(self, props, original);
-  var typed_state_dcls = getTypedDcls(props['+states']) || {};
+  var typed_state_dcls = getTypedDcls(props['attrs']) || {};
 
   checkSideeffects(self, props, typed_state_dcls, params)
 

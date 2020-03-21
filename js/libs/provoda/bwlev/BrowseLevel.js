@@ -61,7 +61,7 @@ var BrowseLevel = spv.inh(Model, {
   }
 }, {
   model_name: 'bwlev',
-  "+states": {
+  attrs: {
     'check_focus_leave': [
       'compx',
       ['mp_has_focus'],

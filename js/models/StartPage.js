@@ -40,7 +40,7 @@ var converNews = function(list) {
 };
 
 var AppNews = spv.inh(BrowseMap.Model, {}, {
-  "+states": {
+  attrs: {
     "news_list": ["compx", ['#news_list']]
   },
 

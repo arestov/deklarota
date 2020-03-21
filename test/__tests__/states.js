@@ -21,7 +21,7 @@ test('state updated', async t => {
 
 test('simple compx calculated', async t => {
   const { app_model, steps } = await init({
-    '+states': {
+    attrs: {
       full_name: [
         'compx',
         ['first_name', 'last_name'],
@@ -50,7 +50,7 @@ test('simple compx calculated', async t => {
 
 test('prechecked compx calculated', async t => {
   const { app_model, steps } = await init({
-    '+states': {
+    attrs: {
       full_name: [
         'compx',
         ['&first_name', 'last_name'],

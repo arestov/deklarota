@@ -10,7 +10,7 @@
   '#state_name' // # - state_name from root
   ```
 
-  used almost everywhere: `+states` `"compx"`, `effects` require, trigger
+  used almost everywhere: `attrs` `"compx"`, `effects` require, trigger
 
 - modernPath
 

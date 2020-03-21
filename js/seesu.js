@@ -280,7 +280,7 @@ var SeesuApp = spv.inh(AppModel, {
     }
   },
   effects: effects,
-  "+states": {
+  attrs: {
     "app_lang": ["compx", ['env.lang']],
 
     "locales": [

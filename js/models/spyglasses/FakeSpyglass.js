@@ -27,7 +27,7 @@ return spv.inh(FakeSpyglassCore, {
   'nest_sel-player': {
     from: '#>player',
   },
-  "+states": {
+  attrs: {
     "now_playing": [
       "compx",
       ['#now_playing'],

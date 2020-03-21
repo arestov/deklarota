@@ -20,7 +20,7 @@ return spv.inh(SongUI, {}, {
     artist: ArtcardUI.ArtistInSongConstroller,
     songcard: SongcardPage.SongcardController,
   },
-  "+states": {
+  attrs: {
     "vmp_show": [
       'compx',
       ['^vmp_show'],

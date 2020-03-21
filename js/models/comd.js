@@ -208,7 +208,7 @@ var VkLoginB = spv.inh(pv.Model, {
 
   }
 }, {
-  "+states": {
+  attrs: {
     "has_session": [
       "compx",
       ['@one:has_token:auth', 'target_bits', '@one:settings_bits:auth'],

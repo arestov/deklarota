@@ -26,7 +26,7 @@ var Probe = spv.inh(Model, {
   'stch-used_struc': function(self, value) {
     console.log('GOT used_struc', value);
   },
-  '+states': {
+  attrs: {
     struc: [
       "compx", ['used_struc', '@current_md', 'name'],
   		function(struc, pioneer, probe_name) {
