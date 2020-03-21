@@ -5,7 +5,7 @@ var spv = require('spv');
 var NotifyCounter = require('./NotifyCounter')
 
 return spv.inh(NotifyCounter, {}, {
-  '+effects': {
+  effects: {
     api: {
       "sf_notf": [
         ['_provoda_id'],

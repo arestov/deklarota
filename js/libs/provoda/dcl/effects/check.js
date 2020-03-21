@@ -149,26 +149,26 @@ var rebuild = function(self, newV, oldV, listByType, typed_state_dcls) {
 }
 
 var checkModern = function(self, props) {
-  if (!props['+effects']) {
+  if (!props['effects']) {
     return;
   }
 
   self._extendable_effect_index = extend(
     'consume',
     self._extendable_effect_index,
-    props['+effects'].consume
+    props['effects'].consume
   );
 
   self._extendable_effect_index = extend(
     'produce',
     self._extendable_effect_index,
-    props['+effects'].produce
+    props['effects'].produce
   );
 
   self._extendable_effect_index = extend(
     'api',
     self._extendable_effect_index,
-    props['+effects'].api
+    props['effects'].api
   );
 }
 
