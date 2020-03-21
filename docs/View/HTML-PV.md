@@ -35,9 +35,9 @@ HTML атрибуты для data-binding
 
   - pv-events="click::dispatch:changeNav:all" - отправит pass `changeNav` и data = `'all'` в модель, которой принадлежит данная view
 
-  - pv-events="click:updateState:changeNav:all" обновит состояние `changeNav` в view на значение `all`
+  - pv-events="click:updateAttr:changeNav:all" обновит состояние `changeNav` в view на значение `all`
 
-  - pv-events="click::^^^updateState:recipeId:%attrs%id" - отправит в качестве аргумента для updateState состояние id из локального контроллера. updateState будет отправлено в модель которой принаждлежит 3я view вверх по иерархии рендеринга
+  - pv-events="click::^^^updateAttr:recipeId:%attrs%id" - отправит в качестве аргумента для updateState состояние id из локального контроллера. updateState будет отправлено в модель которой принаждлежит 3я view вверх по иерархии рендеринга
 
   - перед отправкой в обработчик можно собрать дополнительные данные: с помощью записи `:%attrs%id`. данные можно изьять из
 

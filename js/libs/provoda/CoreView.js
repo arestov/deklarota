@@ -233,6 +233,9 @@ var View = spv.inh(StatesEmitter, {
     updateState: function(e, node, state_name, value) {
       this.updateState(state_name, value);
     },
+    updateAttr: function(e, node, state_name, value) {
+      this.updateAttr(state_name, value);
+    },
     requestPage: function() {
       this.requestPage();
     },

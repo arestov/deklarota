@@ -207,31 +207,36 @@ add({
   }
 });
 
+var updateAttr = function(state_name, value, opts){
+  /*if (state_name.indexOf('-') != -1 && console.warn){
+    console.warn('fix prop state_name: ' + state_name);
+  }*/
+  if (this.hasComplexStateFn(state_name)){
+    throw new Error("you can't change complex state in this way");
+  }
+  return this._updateProxy([true, state_name, value], opts);
+}
+
+var updateManyAttrs = function(obj) {
+  var changes_list = [];
+  for (var state_name in obj) {
+    if (obj.hasOwnProperty(state_name)){
+      if (this.hasComplexStateFn(state_name)) {
+        throw new Error("you can't change complex state " + state_name);
+      }
+      changes_list.push(true, state_name, obj[state_name]);
+    }
+  }
+  this._updateProxy(changes_list);
+}
+
 add({
 
 
-  updateManyStates: function(obj) {
-    var changes_list = [];
-    for (var state_name in obj) {
-      if (obj.hasOwnProperty(state_name)){
-        if (this.hasComplexStateFn(state_name)) {
-          throw new Error("you can't change complex state " + state_name);
-        }
-        changes_list.push(true, state_name, obj[state_name]);
-      }
-    }
-    this._updateProxy(changes_list);
-  },
-
-  updateState: function(state_name, value, opts){
-    /*if (state_name.indexOf('-') != -1 && console.warn){
-      console.warn('fix prop state_name: ' + state_name);
-    }*/
-    if (this.hasComplexStateFn(state_name)){
-      throw new Error("you can't change complex state in this way");
-    }
-    return this._updateProxy([true, state_name, value], opts);
-  },
+  updateManyStates: updateManyAttrs,
+  updateManyAttrs: updateManyAttrs,
+  updateState: updateAttr,
+  updateAttr: updateAttr,
   setStateDependence: function(state_name, source_id, value) {
     if (typeof source_id == 'object') {
       source_id = source_id._provoda_id;
