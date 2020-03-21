@@ -44,7 +44,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   }
 }, {
   handling_v2_init: true,
-  "+states": {
+  attrs: {
     "$needs_load": [
       "compx",
       ['more_load_available', 'mp_has_focus'],

@@ -40,7 +40,7 @@ const makeStepsRunner = require('../../steps')
 
 const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({
-  '+states': {
+  attrs: {
     desc: [
       'compx',
       [],

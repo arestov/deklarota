@@ -14,7 +14,7 @@ const waitFlow = require('../waitFlow')
 
 test('nestings legacy inited', async t => {
   const Appartment = spv.inh(Model, {}, {
-    '+states': {},
+    attrs: {},
   })
 
   const person = (await init({
@@ -30,7 +30,7 @@ test('nestings legacy inited', async t => {
 
 test('nestings new inited', async t => {
   const Appartment = spv.inh(Model, {}, {
-    '+states': {},
+    attrs: {},
   })
 
   const person = (await init({

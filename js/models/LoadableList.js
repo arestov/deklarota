@@ -15,7 +15,7 @@ var LoadableList = spv.inh(LoadableListBase, {
 });
 
 var TagsList = spv.inh(LoadableList, {}, {
-  "+states": {
+  attrs: {
     "simple_tags_list": [
       "compx",
       ['tags_list', 'preview_list'],

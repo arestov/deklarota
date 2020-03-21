@@ -44,7 +44,7 @@ return spv.inh(Model, {
   }
 }, {
   BWL: BrowseLevel,
-  "+states": {
+  attrs: {
     "used_data_structure": [
       'compx',
       ['^used_data_structure'],

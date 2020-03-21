@@ -27,7 +27,7 @@
 },
 
 'compx-'
-'+states': {
+attrs: {
   'daa': [
     'compx',
     ['asd', 'asdf'],

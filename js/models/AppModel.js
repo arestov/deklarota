@@ -25,7 +25,7 @@ var updatePlayedListsHistory = function(target, mo) {
 
 var AppModel = spv.inh(AppModelBase, {}, (function(){
 var props = {
-  "+states": {
+  attrs: {
     "now_playing_text": [
       "compx",
       ['locales.now_playing', 'now_playing'],

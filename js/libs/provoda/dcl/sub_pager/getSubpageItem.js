@@ -48,7 +48,7 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
       var instance = cur[1] ? spv.inh(cur[0], {
         skip_code_path: true
       }, {
-        '+states': {
+        attrs: {
           nav_title: [
             'compx'
           ].concat(cur[1])
@@ -82,7 +82,7 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
     item = subPageHeaded(spv.inh(cur.constr, {
       skip_code_path: true
     }, {
-      '+states': extend
+      attrs: extend
     }), cur.head, key, cur.getKey, name, prefix);
 
     item.can_be_reusable = Boolean(cur.reusable);

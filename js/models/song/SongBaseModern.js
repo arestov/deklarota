@@ -73,7 +73,7 @@ return {
       ]
     }
   },
-  '+states': {
+  attrs: {
     'vis_neig_prev': [
       'compx', ['@modern_prev_possible'],
       oneNotArray,

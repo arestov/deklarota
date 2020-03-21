@@ -50,7 +50,7 @@ var getBaseTreeCheckList = function(start) {
 };
 
 return function(self, props, original) {
-  var typed_state_dcls = getTypedDcls(props['+states']) || {};
+  var typed_state_dcls = getTypedDcls(props['attrs']) || {};
 
   checkNestBorrow(self, props);
   // check effects

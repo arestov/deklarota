@@ -46,7 +46,7 @@ var TrackImages  = spv.inh(ImagesPack, {}, {
   'nest-artist_images': ['#art_images/by_artist_name/[:artist_name]', {
     ask_for: 'artist_name'
   }],
-  "+states": {
+  attrs: {
     "image-to-use": [
       "compx",
       ['best_image', 'just_image', 'artist_image'],
@@ -70,7 +70,7 @@ var TrackImages  = spv.inh(ImagesPack, {}, {
 });
 
 var ArtistImages = spv.inh(ImagesPack, {}, {
-  "+states": {
+  attrs: {
     "image-to-use": [
       "compx",
       ['best_image', 'just_image'],

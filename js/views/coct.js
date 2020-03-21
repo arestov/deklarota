@@ -49,7 +49,7 @@ var ListPreview = spv.inh(View, {}, {
 });
 
 var ListPreviewLine = spv.inh(View, {}, {
-  "+states": {
+  attrs: {
     "selected_title": [
       "compx",
       ['nav_title', 'nav_short_title'],
@@ -82,7 +82,7 @@ var LiListsPreview = spv.inh(ListPreview, {}, {
 
 
 var SPView = spv.inh(View, {}, {
-  "+states": {
+  attrs: {
     "lvmp_show": [
       "compx",
       ['^vmp_show'],

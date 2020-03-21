@@ -43,7 +43,7 @@ const makeStepsRunner = require('../../steps')
 test('simple pass by * calculated', async t => {
   const createDeepChild = (num, props) => {
     const DeepChild = spv.inh(Model, {}, {
-      '+states': {
+      attrs: {
         desc: [
           'compx',
           [],

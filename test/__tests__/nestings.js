@@ -21,7 +21,7 @@ const toIds = md_list => {
 
 test('nestings updated', async t => {
   const Appartment = spv.inh(Model, {}, {
-    '+states': {
+    attrs: {
       number: [
         'compx',
         [],
@@ -49,7 +49,7 @@ test('compx with nestings calculated', async t => {
 
   const { app_model: person, steps } = await init({
     'nest-brother': [Brother],
-    '+states': {
+    attrs: {
       richest: [
         'compx',
         ['@one:money:brother', 'money'],
@@ -77,7 +77,7 @@ test('compx with nestings calculated', async t => {
 
 test('state compx calculated from parent and root states', async t => {
   const DeepestChild = spv.inh(Model, {}, {
-    '+states': {
+    attrs: {
       description_name: [
         'compx',
         ['#family_name', '^name', 'name'],
@@ -130,7 +130,7 @@ test('state compx calculated from parent and root states', async t => {
 test('nest compx calculated', async t => {
   const createDeepChild = (num, props) => {
     const DeepChild = spv.inh(Model, {}, {
-      '+states': {
+      attrs: {
         desc: [
           'compx',
           [],

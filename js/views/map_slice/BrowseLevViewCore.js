@@ -9,7 +9,7 @@ var used_str = require('../utils/used_struc')
 var used_struc_bhv = used_str.bhv;
 
 var BrowseLevView = spv.inh(View, {}, pv.mergeBhv({
-  "+states": {
+  attrs: {
     "mp_show_end": [
       "compx",
       ['animation_started', 'animation_completed', 'vmp_show'],

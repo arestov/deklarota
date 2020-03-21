@@ -39,7 +39,7 @@ test('state loaded', async t => {
     model_name: 'start_page',
     zero_map_level: true,
 
-    '+states': {
+    attrs: {
       someid: [
         'compx',
         [],

@@ -12,7 +12,7 @@ var finup = function(callback) {
 };
 
 var StartPageView = spv.inh(coct.SPView, {}, {
-  "+states": {
+  attrs: {
     "autofocus": [
       "compx",
       ['mp_show_end', 'mp_has_focus'],

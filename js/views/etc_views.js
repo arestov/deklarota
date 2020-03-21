@@ -124,7 +124,7 @@ var LfmLoginView = spv.inh(View, {}, {
 });
 
 var LfmLoveItView = spv.inh(LfmLoginView, {}, {
-  "+states": {
+  attrs: {
     "lo_button_text": [
       "compx",
       ['#locales.addto-lfm-favs']
