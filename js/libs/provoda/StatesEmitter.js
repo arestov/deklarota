@@ -138,7 +138,7 @@ add({
     }
     return this.conx_optsi;
   },
-  ___stateToSync: function() {
+  ___attrsToSync: function() {
     return this.states;
   },
   getContextOpts: function() {
