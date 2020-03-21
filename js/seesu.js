@@ -262,7 +262,7 @@ var SeesuApp = spv.inh(AppModel, {
 
 }, {
   actions: {
-    "handleState:lfm_auth_params": {
+    "handleAttr:lfm_auth_params": {
       to: ['<< lfm_auth', {method: 'set_one'}],
       fn: function(data) {
         return {
@@ -270,7 +270,7 @@ var SeesuApp = spv.inh(AppModel, {
         }
       }
     },
-    "handleState:vk_auth_params": {
+    "handleAttr:vk_auth_params": {
       to: ['<< vk_auth', {method: 'set_one'}],
       fn: function(data) {
         return {

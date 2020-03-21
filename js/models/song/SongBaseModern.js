@@ -49,7 +49,7 @@ var buildFlow = function(name_next_base, name_flow, name_possbile, name_matched)
 
 return {
   actions: {
-    'handleState:mp_show': {
+    'handleAttr:mp_show': {
       to: {
         to_change: ['<< being_viewed_song << ^', {method: 'set_one'}],
       },

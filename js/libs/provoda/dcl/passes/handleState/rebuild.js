@@ -3,7 +3,7 @@ define(function(require) {
 
 var spv = require('spv')
 var getDeprefixFunc = spv.getDeprefixFunc
-var check = getDeprefixFunc('handleState:')
+var check = getDeprefixFunc('handleAttr:')
 
 return function rebuild(self, index) {
   var result = {}

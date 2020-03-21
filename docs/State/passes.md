@@ -75,5 +75,5 @@ remove: {
 
 
 autodispatched `actions`
-`handleState:state_names` - on state changes
-`handleNesting:rel_name` - on rel changes
+`handleAttr:attr_name` - on attr changes
+`handleRel:rel_name` - on rel changes
