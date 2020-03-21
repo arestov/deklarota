@@ -14,7 +14,7 @@ const fakeInterface = require('../../fakeInterface')
 
 test('state loaded', async t => {
   const StartPage = spv.inh(BrowseMap.Model, {}, {
-    '+effects': {
+    effects: {
       consume: {
         0: {
           type: 'state_request',
@@ -51,7 +51,7 @@ test('state loaded', async t => {
   })
 
   const app = (await init({
-    '+effects': {
+    effects: {
       api: {
         fake() {
           return fakeInterface()

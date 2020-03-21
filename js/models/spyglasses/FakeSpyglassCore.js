@@ -115,7 +115,7 @@ return spv.inh(Model, {
     bwlev.showOnMap();
     bwlev.updateState('currentReq', req)
   },
-  "+effects": {
+  effects: {
     "produce": {
       "browser-location": {
         api: ["navi", "self"],
