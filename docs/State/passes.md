@@ -4,10 +4,10 @@
 
 `to` - цель для записи. одна [цель], или множественные {название_цели1: [цель1]...},
 
-​	сейчас поддерживается state и nesting (см. addresses - modernPath)
+​	сейчас поддерживается state и rel (см. addresses - modernPath)
 
 - `< state_name`
-- `<< nesting_name`
+- `<< rel_name`
 
 `fn` обработчик
 
@@ -76,4 +76,4 @@ remove: {
 
 autodispatched `actions`
 `handleState:state_names` - on state changes
-`handleNesting:nest_name` - on nest changes
+`handleNesting:rel_name` - on rel changes

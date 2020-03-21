@@ -6,7 +6,7 @@
 
 - ```
   sub_page: {
-    nested_start: {
+    rel_start: {
       constr: NestedStart,
       title: [[]],
     },
@@ -64,11 +64,11 @@
         if (name === 'me') {
           return 'user_current'
         }
-  
+
         return null
       },
     },
   },
   ```
 
-- 
+-

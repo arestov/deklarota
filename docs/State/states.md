@@ -31,9 +31,9 @@
 
 `'#first_name'`взять состояние `first_name` с *конерной*  модели
 
-`'@first_name:friends'` взять состояние `first_name` с каждой модели внутри nesting под названием friends с текущей модели. список
+`'@first_name:friends'` взять состояние `first_name` с каждой модели внутри rel под названием friends с текущей модели. список
 
-`'@one:first_name:friends'` взять состояние `first_name` с первой модели внутри nesting под названием friends с текущей модели
+`'@one:first_name:friends'` взять состояние `first_name` с первой модели внутри rel под названием friends с текущей модели
 
 
 
