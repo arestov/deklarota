@@ -11,6 +11,10 @@ const build = ({
     external: ['jquery'],
     input: [
       'js/libs/provoda/provoda.js',
+      'js/libs/provoda/provoda/getAttr.js',
+      'js/libs/provoda/provoda/updateAttr.js',
+      'js/libs/provoda/provoda/updateManyAttrs.js',
+      'js/libs/provoda/provoda/getRel.js',
       'js/libs/provoda/provoda/updateRel.js',
       'js/libs/provoda/structure/getUsageTree',
       'js/libs/provoda/provoda/routePathByModels.js',
