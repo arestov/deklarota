@@ -22,6 +22,9 @@ var getPath = spv.memorize(function(full_name) {
 })
 
 var createStateInfo = function(full_state_name, base_state_name) {
+  if (!full_state_name) {
+    return {}
+  }
   return {
     base: base_state_name || splitByDot(full_state_name)[0],
     path: full_state_name,
@@ -66,7 +69,7 @@ var getFullPathInfo = spv.memorize(function(full_path) {
         zip_name: info.zip_name || null,
         state: createStateInfo(info.state_name),
         nesting: {
-          path: info.nesting_source.selector.join('.'),
+          path: parts,
           base: parts.slice(0, parts.length-1),
           target_nest_name: parts[parts.length-1],
         },
