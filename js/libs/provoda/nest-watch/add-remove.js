@@ -27,8 +27,8 @@ function handlePosition(subw) {
   subw.handeled_position = subw.position;
   subw.nwatch.ordered_items_changed = true;
 
-  var key = getKey(subw.md, subw.skip);
   if (subw.position == -1) {
+    var key = getKey(subw.md, subw.skip);
     delete subw.nwatch.model_groups[key];
     subw.nwatch.handled_subl_wtchs[key] = false;
   }
