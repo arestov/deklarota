@@ -222,6 +222,13 @@ function handleEndItems(motivator, _, lnwatch) {
 
 
 function removeNestWatch(self, nwatch, skip) {
+  var key = getKey(self, skip);
+  if (!nwatch.handled_subl_wtchs[key]) {
+    console.warn('there is no handled_subl_wtchs for key. should it be!?');
+  }
+
+  delete nwatch.handled_subl_wtchs[key];
+
   if (isDeepestLevel(nwatch, skip)) {
     if (self.states_links) {
       removeNWatchFromSI(self.states_links, nwatch);
@@ -233,7 +240,6 @@ function removeNestWatch(self, nwatch, skip) {
     var nesting_name = nwatch.selector[skip];
     if (self.nes_match_index && self.nes_match_index[nesting_name]) {
       // nes_match_index содержит только subl_wtchs, поэтому удалять из nes_match_index нужно subl_wtch
-      var key = getKey(self, skip);
       var subl_wtch = nwatch.model_groups[key];
       if (!subl_wtch) {
         console.warn('there is no subl_wtch. should it be!?');
