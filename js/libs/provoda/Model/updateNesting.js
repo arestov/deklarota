@@ -1,6 +1,7 @@
 define(function (require) {
 'use strict';
 var spv = require('spv');
+var spvSet = spv.set
 var hp = require('../helpers');
 var StatesLabour = require('../StatesLabour');
 var updateProxy = require('../updateProxy');
@@ -15,6 +16,19 @@ var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1;
 });
 
+function getUniqCopy(input) {
+  var tempSet = spvSet.create()
+  for (var i = 0; i < input.length; i++) {
+    var cur = input[i]
+    if (!cur) {
+      continue;
+    }
+    spvSet.add(tempSet, cur._provoda_id, cur)
+  }
+
+  return tempSet.list
+}
+
 return function updateNesting(self, collection_name, input, opts, spec_data) {
   if (hasDot(collection_name)){
     throw new Error('remove "." (dot) from name');
@@ -26,7 +40,9 @@ return function updateNesting(self, collection_name, input, opts, spec_data) {
 
   var old_value = self.children_models[collection_name];
 
-  if (!isNestingChanged(old_value, input)) {
+  var array = Array.isArray(input) ? getUniqCopy(input) : input
+
+  if (!isNestingChanged(old_value, array)) {
     return self
   }
 
@@ -35,7 +51,6 @@ return function updateNesting(self, collection_name, input, opts, spec_data) {
     zdsv.abortFlowSteps('collch', collection_name);
   }
 
-  var array = Array.isArray(input) ? input.slice(0) : input
 
   self.children_models[collection_name] = array;
 
