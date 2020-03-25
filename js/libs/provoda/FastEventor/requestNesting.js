@@ -117,6 +117,11 @@ return function(dclt, nesting_name, limit) {
   }
   var _this = this;
 
+  var isValidRequest = function(req) {
+    var store = _this.nesting_requests[nesting_name];
+    return store && store.req == req
+  }
+
   var is_main_list = nesting_name == this.sputnik.main_list_name;
 
   this.sputnik.input(function() {
@@ -206,11 +211,17 @@ return function(dclt, nesting_name, limit) {
 
   if (request.queued_promise) {
     var startWaiting = function () {
+      if (!isValidRequest(request)) {
+        return
+      }
       _this.sputnik.updateManyStates(statesQueue({}, nesting_name, true))
     };
     this.sputnik.input(startWaiting)
 
     var stopWaiting = function () {
+      if (!isValidRequest(request)) {
+        return
+      }
       _this.sputnik.updateManyStates(statesQueue({}, nesting_name, false))
     };
 
@@ -222,6 +233,9 @@ return function(dclt, nesting_name, limit) {
   request.then(function (response) {
     if (release) {
       _this.sputnik.nextTick(release, null, false, initiator);
+    }
+    if (!isValidRequest(request)) {
+      return
     }
 
     var has_error = detectError(response)
@@ -244,6 +258,10 @@ return function(dclt, nesting_name, limit) {
     if (release) {
       _this.sputnik.nextTick(release, null, false, initiator);
     }
+    if (!isValidRequest(request)) {
+      return
+    }
+
     _this.sputnik.input(handleError);
 
 
