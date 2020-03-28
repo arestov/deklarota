@@ -24,6 +24,9 @@ var getDeps = spv.memorize(function getEncodedState(string) {
   }
 
   if (result.result_type !== 'nesting' && result.result_type !== 'state') {
+    if (!result.resource || !result.resource.path) {
+      return result
+    }
     throw new Error('implement runner part')
   }
 
@@ -58,6 +61,7 @@ var groupBySubscribing = function(list) {
   var result = {
     nest_watch: [],
     usual: [],
+    static: [],
     self: false,
   }
 
@@ -68,7 +72,13 @@ var groupBySubscribing = function(list) {
     } else if (cur.nwatch) {
       result.nest_watch.push(cur);
     } else {
-      result.usual.push(cur);
+      if (cur.result_type != "state" && (!cur.resource || !cur.resource.path)) {
+        // ascendors
+        // parent/root
+        result.static.push(cur)
+      } else {
+        result.usual.push(cur);
+      }
     }
   }
 
