@@ -73,6 +73,75 @@ var enc_states = {
   }
 }
 
+var simulateLegacyPath = {
+  '^': function(multi_path, full_name) {
+    debugger
+
+    return {
+      rel_type: 'parent',
+      full_name: full_name,
+      state_name: multi_path.state.base,
+      full_state_name: multi_path.state.path,
+      base_state_name: multi_path.state.base,
+
+      ancestors: multi_path.from_base.steps,
+    };
+  },
+  '@': function(multi_path, full_name) {
+    return {
+      rel_type: 'nesting',
+      full_name: full_name,
+      state_name: multi_path.state.base,
+      full_state_name: multi_path.state.path,
+      base_state_name: multi_path.state.base,
+
+
+      nesting_source: {
+        start_point: false,
+        selector: multi_path.nesting.path,
+      },
+      nesting_name: multi_path.nesting.path.join('.'),
+      zip_name: multi_path.zip_name,
+      zip_func: multi_path.zip_name || itself,
+    };
+  },
+  '#': function(multi_path, full_name) {
+    debugger
+    return {
+      rel_type: 'root',
+      full_name: full_name,
+      state_name: multi_path.state.base,
+      full_state_name: multi_path.state.path,
+      base_state_name: multi_path.state.base,
+    };
+  }
+}
+
+var fromMultiPath = function(multi_path, fullString) {
+
+  if (multi_path.resource.path) {
+    throw new Error('dont use route: for attr.compx (runtime not implemented)')
+  }
+
+  if (multi_path.from_base.type && multi_path.nesting.path) {
+    throw new Error('dont use asc: and rel: for attr.compx (runtime not implemented)')
+  }
+
+  if (multi_path.from_base.type == 'parent') {
+    return simulateLegacyPath['^'](multi_path, fullString)
+  }
+
+  if (multi_path.from_base.type == 'root') {
+    return simulateLegacyPath['#'](multi_path, fullString)
+  }
+
+  if (multi_path.nesting.path) {
+    return simulateLegacyPath['@'](multi_path, fullString)
+  }
+
+  return null
+}
+
 var getParsedState = spv.memorize(function getParsedState(state_name) {
   // isSpecialState
   var start = state_name.charAt(0);
@@ -82,5 +151,7 @@ var getParsedState = spv.memorize(function getParsedState(state_name) {
     return null;
   }
 });
+
+getParsedState.fromMultiPath = fromMultiPath
 return getParsedState
 })
