@@ -5,19 +5,19 @@ var NestWatch = require('../nest-watch/NestWatch');
 var getStateWriter = require('../nest-watch/getStateWriter');
 var getParsedState = require('./getParsedState')
 var toMultiPath = require('./NestingSourceDr/toMultiPath')
-// var asString = require('./multiPath/asString')
-// var fromLegacy = require('./multiPath/fromLegacy')
+var asString = require('./multiPath/asString')
+var fromLegacy = require('./multiPath/fromLegacy')
 var modernAsLegacyParsed = require('./modernAsLegacyParsed')
 
 var getEncodedState = spv.memorize(function getEncodedState(state_name) {
 
 
   var result1 = getParsedState(state_name)
-  // if (result1) { // uncomment to help migrate
-  //   var nice = fromLegacy(state_name)
-  //   var best = asString(nice)
-  //   console.warn('replace ' + state_name + ' by ' + best)
-  // }
+  if (result1) { // uncomment to help migrate
+    var nice = fromLegacy(state_name)
+    var best = asString(nice)
+    console.warn('replace ' + state_name + ' by ' + best)
+  }
 
   var result = result1 || modernAsLegacyParsed(state_name)
 
