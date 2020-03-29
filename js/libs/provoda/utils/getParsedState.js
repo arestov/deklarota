@@ -75,12 +75,10 @@ var enc_states = {
 
 var simulateLegacyPath = {
   '^': function(multi_path, full_name) {
-    debugger
-
     return {
       rel_type: 'parent',
       full_name: full_name,
-      state_name: multi_path.state.base,
+      state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
 
@@ -91,7 +89,7 @@ var simulateLegacyPath = {
     return {
       rel_type: 'nesting',
       full_name: full_name,
-      state_name: multi_path.state.base,
+      state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
 
@@ -106,11 +104,11 @@ var simulateLegacyPath = {
     };
   },
   '#': function(multi_path, full_name) {
-    debugger
+
     return {
       rel_type: 'root',
       full_name: full_name,
-      state_name: multi_path.state.base,
+      state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
     };
