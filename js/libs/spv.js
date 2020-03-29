@@ -2,7 +2,7 @@ define(function(require) {
 "use strict";
 var spv = {};
 
-var cloneObj = require('./spv/cloneObj')
+var cloneObj = require('./spv/cloneObj.js')
 
 var addEvent, removeEvent, getDefaultView, domReady,
   doesContain, shuffleArray, arrayExclude, getFields, matchWords, searchInArray, getStringPattern,
