@@ -1,10 +1,15 @@
 define(function(require) {
 'use strict';
-
 var spv = require('spv')
+var parse = require('../utils/multiPath/parse')
 var memorize = spv.memorize
 var isPrivate = memorize(function(str) {
-  return str.startsWith('__') || str.startsWith('@')
+  if (str.startsWith('__') || str.startsWith('@')) {
+    return true
+  }
+
+  var parsed = parse(str, true)
+  return parsed.result_type != 'state'
 });
 return isPrivate
 })
