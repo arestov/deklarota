@@ -68,14 +68,14 @@ var BrowseLevel = spv.inh(Model, {
     ],
     "should_be_redirected": [
       'compx',
-      ['@one:nav_item_removed:pioneer', '@one:_provoda_id:pioneer', 'mp_show'],
+      ['< @one:nav_item_removed < pioneer <<', '< @one:_provoda_id < pioneer <<', 'mp_show'],
       function(state, _provoda_id, show) {
         return state && show && _provoda_id
       }
     ],
     "source_of_item": [
       'compx',
-      ['@pioneer'],
+      ['<< pioneer <<'],
       function(pioneer) {
         if (!pioneer) {
           return;
@@ -86,7 +86,7 @@ var BrowseLevel = spv.inh(Model, {
     ],
     "sources_of_item_details_by_space": [
       "compx",
-      ['struc', '@pioneer'],
+      ['struc', '<< pioneer <<'],
       function(struc, pioneer) {
         if (!pioneer) {return;}
 
@@ -95,7 +95,7 @@ var BrowseLevel = spv.inh(Model, {
     ],
     enabled_loading: [
       'compx',
-      ['@one:disable_auto_loading:map'],
+      ['< @one:disable_auto_loading < map <<'],
       function(disabled) {
         return !disabled
       }
@@ -104,8 +104,8 @@ var BrowseLevel = spv.inh(Model, {
     "struc": [
       "compx",
       ['enabled_loading',
-      '@one:used_data_structure:map',
-      '@pioneer', 'map_level_num', 'probe_name'],
+      '< @one:used_data_structure < map <<',
+      '<< pioneer <<', 'map_level_num', 'probe_name'],
       function(
         enabled_loading,
         struc,

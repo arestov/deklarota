@@ -47,18 +47,18 @@ return spv.inh(Model, {
   attrs: {
     "used_data_structure": [
       'compx',
-      ['^used_data_structure'],
+      ['< used_data_structure <<< ^'],
     ],
     "full_url": [
       "compx",
-      ['@url_part:navigation.pioneer', '@navigation'],
+      ['< url_part < navigation.pioneer <<', '<< navigation <<'],
       function (nil, list) {
         return list && joinNavURL(list);
       }
     ],
     "doc_title": [
       "compx",
-      ['@nav_title:navigation.pioneer'],
+      ['< nav_title < navigation.pioneer <<'],
       function (list) {
         if (!list) {
           return 'Seesu';
@@ -73,11 +73,11 @@ return spv.inh(Model, {
     ],
     'current_song': [
       'compx',
-      ['@one:current_song:player'],
+      ['< @one:current_song < player <<'],
     ],
     resolved_navigation_desire: [
       'compx',
-      ['resolved_navigation_desire', 'wantedReq', '#createdByReqIdResources'],
+      ['resolved_navigation_desire', 'wantedReq', '< createdByReqIdResources <<< #'],
       function(currentValue, req, index) {
         if (!req) {
           return null
