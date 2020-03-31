@@ -20,7 +20,7 @@ var FlowStep = function(num, fn, context, args, arg, cb_wrapper, real_context, p
   this.fn = fn;
   this.context = context;
   this.args = args;
-  this.arg = arg || null;
+  this.arg = (arg == null) ? null : arg;
   this.cb_wrapper = cb_wrapper || null;
   this.real_context = real_context;
   this.finup = !!finup || null;
