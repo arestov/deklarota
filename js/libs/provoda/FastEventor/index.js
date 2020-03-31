@@ -155,7 +155,7 @@ add({
 
     if (reg_fires && reg_fires.length){
       one_reg_arg = reg_fires[0].fn.call(this.sputnik, ev_name);
-      if (typeof one_reg_arg != 'undefined') {
+      if (one_reg_arg != null) {
         fired = true;
       }
 
