@@ -51,14 +51,14 @@ return spv.inh(Model, {
     ],
     "full_url": [
       "compx",
-      ['< url_part < navigation.pioneer <<', '<< navigation <<'],
+      ['< @all:url_part < navigation.pioneer <<', '<< @all:navigation <<'],
       function (nil, list) {
         return list && joinNavURL(list);
       }
     ],
     "doc_title": [
       "compx",
-      ['< nav_title < navigation.pioneer <<'],
+      ['< @all:nav_title < navigation.pioneer <<'],
       function (list) {
         if (!list) {
           return 'Seesu';

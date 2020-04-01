@@ -75,7 +75,7 @@ var BrowseLevel = spv.inh(Model, {
     ],
     "source_of_item": [
       'compx',
-      ['<< pioneer <<'],
+      ['<< @one:pioneer <<'],
       function(pioneer) {
         if (!pioneer) {
           return;
@@ -86,7 +86,7 @@ var BrowseLevel = spv.inh(Model, {
     ],
     "sources_of_item_details_by_space": [
       "compx",
-      ['struc', '<< pioneer <<'],
+      ['struc', '<< @one:pioneer <<'],
       function(struc, pioneer) {
         if (!pioneer) {return;}
 
@@ -105,7 +105,7 @@ var BrowseLevel = spv.inh(Model, {
       "compx",
       ['enabled_loading',
       '< @one:used_data_structure < map <<',
-      '<< pioneer <<', 'map_level_num', 'probe_name'],
+      '<< @one:pioneer <<', 'map_level_num', 'probe_name'],
       function(
         enabled_loading,
         struc,
