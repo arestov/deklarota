@@ -3,6 +3,7 @@ define(function(require) {
 var spv = require('spv');
 var splitByDot = spv.splitByDot
 var parse = require('./NestingSourceDr/parse');
+var asString = require('./multiPath/asString')
 
 function itself(item) {return item;}
 
@@ -74,10 +75,10 @@ var enc_states = {
 }
 
 var simulateLegacyPath = {
-  '^': function(multi_path, full_name) {
+  '^': function(multi_path) {
     return {
       rel_type: 'parent',
-      full_name: full_name,
+      full_name: asString(multi_path),
       state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
@@ -85,10 +86,10 @@ var simulateLegacyPath = {
       ancestors: multi_path.from_base.steps,
     };
   },
-  '@': function(multi_path, full_name) {
+  '@': function(multi_path) {
     return {
       rel_type: 'nesting',
-      full_name: full_name,
+      full_name: asString(multi_path),
       state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
@@ -103,11 +104,11 @@ var simulateLegacyPath = {
       zip_func: multi_path.zip_name || itself,
     };
   },
-  '#': function(multi_path, full_name) {
+  '#': function(multi_path) {
 
     return {
       rel_type: 'root',
-      full_name: full_name,
+      full_name: asString(multi_path),
       state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
@@ -115,7 +116,7 @@ var simulateLegacyPath = {
   }
 }
 
-var fromMultiPath = function(multi_path, fullString) {
+var fromMultiPath = function(multi_path, as_string, original) {
 
   if (multi_path.resource.path) {
     throw new Error('dont use route: for attr.compx (runtime not implemented)')
@@ -126,15 +127,15 @@ var fromMultiPath = function(multi_path, fullString) {
   }
 
   if (multi_path.from_base.type == 'parent') {
-    return simulateLegacyPath['^'](multi_path, fullString)
+    return simulateLegacyPath['^'](multi_path)
   }
 
   if (multi_path.from_base.type == 'root') {
-    return simulateLegacyPath['#'](multi_path, fullString)
+    return simulateLegacyPath['#'](multi_path)
   }
 
   if (multi_path.nesting.path) {
-    return simulateLegacyPath['@'](multi_path, fullString)
+    return simulateLegacyPath['@'](multi_path)
   }
 
   return null
