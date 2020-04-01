@@ -99,6 +99,18 @@ function handleChdDestState(motivator, fn, head, args) {
   runHeadFilter(motivator, head, hands);
 }
 
+function resetCondCache(hands, _provoda_id) {
+  if (hands.can_filter_here) {
+    delete hands.item_cond_index[_provoda_id];
+    hands.items_filtered = null;
+  } else {
+    for (var i = 0; i < hands.heads.length; i++) {
+      var head = hands.heads[i];
+      delete head.item_cond_index[_provoda_id];
+    }
+  }
+}
+
 function handleChdDeepState(motivator, _, lnwatch, args) {
   // input - changed "deep source" state
   // expected - invalidated one item condition, rerunned query, updated nesting
@@ -121,16 +133,7 @@ function handleChdDeepState(motivator, _, lnwatch, args) {
 
   var deep = hands.dcl.deps.deep;
   if (deep.cond && deep.cond.index[state_name] === true) {
-
-    if (hands.can_filter_here) {
-      delete hands.item_cond_index[_provoda_id];
-      hands.items_filtered = null;
-    } else {
-      for (var i = 0; i < hands.heads.length; i++) {
-        var head = hands.heads[i];
-        delete head.item_cond_index[_provoda_id];
-      }
-    }
+    resetCondCache(hands, _provoda_id)
   }
   if (hands.can_sort_here && deep.sort && deep.sort.index[state_name] === true) {
     hands.items_sorted = null;
@@ -332,6 +335,7 @@ function handleRemoving(md, lnwatch, skip) {
   }
   var _provoda_id = md._provoda_id;
   delete hands.deep_item_states_index[_provoda_id];
+  resetCondCache(hands, _provoda_id)
 }
 
 return NestSelector;
