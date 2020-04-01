@@ -18,7 +18,7 @@ var ensureResult = function(full_name) {
     return null
   }
 
-  return fromMultiPath(multi_path, asString(multi_path))
+  return fromMultiPath(multi_path, asString(multi_path), full_name)
 }
 
 return ensureResult

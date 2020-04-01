@@ -126,6 +126,10 @@ var fromMultiPath = function(multi_path, as_string, original) {
     throw new Error('dont use asc: and rel: for attr.compx (runtime not implemented)')
   }
 
+  if (multi_path.nesting.path && !multi_path.zip_name) {
+    console.warn('zip name `@one:` or `@all:` should be provided for ' + original)
+  }
+
   if (multi_path.from_base.type == 'parent') {
     return simulateLegacyPath['^'](multi_path)
   }
