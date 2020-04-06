@@ -878,6 +878,10 @@ var empty = function() {};
 var extendTo = Class.extendTo;
 
 function extend(Class, params, propsArg) {
+  if (params == null) {
+    params = {}
+  }
+
   var parentNaming = Class.naming || stNaming;
   var naming = params.naming || parentNaming;
   var building;
