@@ -66,8 +66,8 @@ function updateProxy(etr, changes_list, opts) {
   }
 
   var zdsv = etr.zdsv;
-  var serv_st = getFree(pool);
-
+  var serv_st = etr.serv_st || getFree(pool);
+  etr.serv_st = serv_st
 
   serv_st.states_changing_stack.push(changes_list, opts);
 
@@ -176,6 +176,7 @@ function updateProxy(etr, changes_list, opts) {
 
 
   serv_st.collecting_states_changing = false;
+  etr.serv_st = null
 
   release(pool, serv_st);
   //zdsv = null;
