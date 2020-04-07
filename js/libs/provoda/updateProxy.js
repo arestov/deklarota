@@ -253,7 +253,13 @@ function _handleStch(etr, original_states, state_name, value, skip_handler, sync
 function getChanges(etr, total_original_states, original_states, changes_list, opts, result_arr) {
   var changed_states = result_arr || [];
   var i;
-  for (i = 0; i < changes_list.length; i+=3) {
+
+  // input array can be same as output array
+  // we are going mutate output array
+  // so we will mutate length of input during processing!
+  // preventing infinit circle here
+  var inputLength = changes_list.length
+  for (i = 0; i < inputLength; i+=3) {
     _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
   }
 
