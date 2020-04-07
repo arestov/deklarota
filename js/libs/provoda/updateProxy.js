@@ -257,12 +257,15 @@ function getChanges(etr, total_original_states, original_states, changes_list, o
     _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
   }
 
-  if (etr.__syncStatesChanges) {
-    etr.__syncStatesChanges.call(null, etr, changes_list, etr.states);
-  }
+  if (etr.__syncStatesChanges || etr.__handleHookedSync) {
+    var to_send = changes_list
+    if (etr.__syncStatesChanges) {
+      etr.__syncStatesChanges.call(null, etr, to_send, etr.states);
+    }
 
-  if (etr.__handleHookedSync) {
-    etr.__handleHookedSync.call(null, etr, changes_list, etr.states);
+    if (etr.__handleHookedSync) {
+      etr.__handleHookedSync.call(null, etr, to_send, etr.states);
+    }
   }
 
   for (i = 0; i < changes_list.length; i+=3) {
