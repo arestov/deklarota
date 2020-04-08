@@ -104,7 +104,7 @@ function updateProxy(etr, changes_list, opts) {
       //проверить комплексные состояния
       while (currentChangesLength !== total_ch.length) {
         var lengthToHandle = total_ch.length
-        getComplexChanges(etr, zdsv.total_original_states, original_states, currentChangesLength, total_ch);
+        applyComplexStates(etr, zdsv.total_original_states, original_states, currentChangesLength, total_ch);
         currentChangesLength = lengthToHandle
       }
     }
@@ -237,11 +237,6 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   // return changed_states;
 }
 
-function getComplexChanges(etr, total_original_states, original_states, start_from, input_and_output) {
-  getChanges(etr, total_original_states, original_states,
-    0, checkComplexStates(etr, start_from, input_and_output), input_and_output);
-}
-
 
 function _replaceState(etr, total_original_states, original_states, state_name, value, stack) {
   if (!state_name) {
@@ -278,45 +273,35 @@ function getComplexInitList(etr) {
   return result_array;
 }
 
-
-function checkComplexStates(etr, start_from, changes_list) {
-  return getTargetComplexStates(etr, start_from, changes_list);
-}
-
-function getTargetComplexStates(etr, start_from, changes_list) {
+function applyComplexStates(etr, total_original_states, original_states, start_from, input_and_output) {
   var uniq = {};
-  var matched_compxs = [];
 
   var i, cur;
 
-  for ( i = start_from; i < changes_list.length; i+=3) {
-    cur = etr.full_comlxs_index[changes_list[i+1]];
+  var originalLength = input_and_output.length
+
+  for ( i = start_from; i < originalLength; i+=3) {
+    cur = etr.full_comlxs_index[input_and_output[i+1]];
     if (!cur){
       continue;
     }
     for (var jj = 0; jj < cur.length; jj++) {
-      var name = cur[jj].name;
+      var subj = cur[jj]
+      var name = subj.name;
       if (uniq.hasOwnProperty(name)) {
         continue;
       }
       uniq[name] = true;
-      matched_compxs.push(cur[jj]);
+
+      var value = compoundComplexState(etr, subj)
+      _replaceState(
+        etr, total_original_states, original_states,
+
+        subj.name, value, input_and_output
+      )
     }
   }
 
-  var length = matched_compxs.length;
-  matched_compxs.length = matched_compxs.length * 3;
-
-
-  for (i = length - 1; i >= 0; i--) {
-    cur = matched_compxs[i];
-    var ti = i * 3;
-    matched_compxs[ti] = true;
-    matched_compxs[ti + 1] = cur.name;
-    matched_compxs[ti + 2] = compoundComplexState(etr, cur);
-  }
-
-  return matched_compxs;
 }
 
 function compoundComplexState(etr, temp_comx) {
