@@ -21,7 +21,6 @@ var ServStates = function() {
   this.states_changing_stack = [];
   this.all_i_cg = [];
 
-  this.changed_states = [];
   this.total_ch = [];
 
   // this.stch_states = {};
@@ -83,8 +82,6 @@ function updateProxy(etr, changes_list, opts) {
 
   var total_ch = serv_st.total_ch;
   var all_i_cg = serv_st.all_i_cg;
-  var changed_states = serv_st.changed_states;
-
 
   while (serv_st.states_changing_stack.length){
 
@@ -93,30 +90,26 @@ function updateProxy(etr, changes_list, opts) {
     var cur_changes_list = serv_st.states_changing_stack.shift();
     var cur_changes_opts = serv_st.states_changing_stack.shift();
 
-    var currentChangesLength = changed_states.length
+    var currentChangesLength = all_i_cg.length
+    // remember current length before any changes in this iteration
+
 
     //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, changed_states);
-    //var changed_states = ... ↑
+    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, all_i_cg);
+    //var all_i_cg = ... ↑
 
     cur_changes_list = cur_changes_opts = null;
 
     if (etr.full_comlxs_index) {
       //проверить комплексные состояния
-
-      while (currentChangesLength !== changed_states.length) {
-        var lengthToHandle = changed_states.length
-        getComplexChanges(etr, zdsv.total_original_states, original_states, currentChangesLength, changed_states);
+      while (currentChangesLength !== all_i_cg.length) {
+        var lengthToHandle = all_i_cg.length
+        getComplexChanges(etr, zdsv.total_original_states, original_states, currentChangesLength, all_i_cg);
         currentChangesLength = lengthToHandle
       }
     }
 
 
-
-    //собираем все группы изменений
-    if (changed_states.length){
-      push.apply(all_i_cg, changed_states);
-    }
     //устраняем измененное дважды и более
     compressStatesChanges(all_i_cg);
 
@@ -129,7 +122,7 @@ function updateProxy(etr, changes_list, opts) {
 
 
     utils_simple.wipeObj(original_states);
-    all_i_cg.length = changed_states.length = 0;
+    all_i_cg.length = 0;
 
     //объекты используются повторно, ради выиграша в производительности
     //которые заключается в исчезновении пауз на сборку мусора
