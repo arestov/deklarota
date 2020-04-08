@@ -25,7 +25,6 @@ var ServStates = function() {
   this.total_ch = [];
 
   // this.stch_states = {};
-  this.all_ch_compxs = [];
 };
 
 var pool = {
@@ -84,7 +83,6 @@ function updateProxy(etr, changes_list, opts) {
 
   var total_ch = serv_st.total_ch;
   var all_i_cg = serv_st.all_i_cg;
-  var all_ch_compxs = serv_st.all_ch_compxs;
   var changed_states = serv_st.changed_states;
 
 
@@ -96,30 +94,20 @@ function updateProxy(etr, changes_list, opts) {
     var cur_changes_opts = serv_st.states_changing_stack.shift();
 
     //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, zdsv.total_original_states, original_states, cur_changes_list, cur_changes_opts, changed_states);
+    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, changed_states);
     //var changed_states = ... ↑
 
     cur_changes_list = cur_changes_opts = null;
 
     if (etr.full_comlxs_index) {
       //проверить комплексные состояния
-      var first_compxs_chs = getComplexChanges(etr, zdsv.total_original_states, original_states, changed_states);
-      if (first_compxs_chs.length){
-        push.apply(all_ch_compxs, first_compxs_chs);
-      }
 
-      var current_compx_chs = first_compxs_chs;
-      //довести изменения комплексных состояний до самого конца
-      while (current_compx_chs.length){
-        var cascade_part = getComplexChanges(etr, zdsv.total_original_states, original_states, current_compx_chs);
-        current_compx_chs = cascade_part;
-        if (cascade_part.length){
-          push.apply(all_ch_compxs, cascade_part);
-        }
-        cascade_part = null;
-
+      var currentChangesLength = 0
+      while (currentChangesLength !== changed_states.length) {
+        var lengthToHandle = changed_states.length
+        getComplexChanges(etr, zdsv.total_original_states, original_states, currentChangesLength, changed_states);
+        currentChangesLength = lengthToHandle
       }
-      current_compx_chs = null;
     }
 
 
@@ -127,9 +115,6 @@ function updateProxy(etr, changes_list, opts) {
     //собираем все группы изменений
     if (changed_states.length){
       push.apply(all_i_cg, changed_states);
-    }
-    if (all_ch_compxs && all_ch_compxs.length){
-      push.apply(all_i_cg, all_ch_compxs);
     }
     //устраняем измененное дважды и более
     compressStatesChanges(all_i_cg);
@@ -144,9 +129,6 @@ function updateProxy(etr, changes_list, opts) {
 
     utils_simple.wipeObj(original_states);
     all_i_cg.length = changed_states.length = 0;
-    if (all_ch_compxs) {
-      all_ch_compxs.length = 0;
-    }
 
     //объекты используются повторно, ради выиграша в производительности
     //которые заключается в исчезновении пауз на сборку мусора
@@ -251,8 +233,8 @@ function _handleStch(etr, original_states, state_name, value, skip_handler, sync
   }
 }
 
-function getChanges(etr, total_original_states, original_states, changes_list, opts, result_arr) {
-  var changed_states = result_arr || [];
+function getChanges(etr, total_original_states, original_states, start_from, changes_list, opts, result_arr) {
+  var changed_states = result_arr;
   var i;
 
   // input array can be same as output array
@@ -260,12 +242,12 @@ function getChanges(etr, total_original_states, original_states, changes_list, o
   // so we will mutate length of input during processing!
   // preventing infinit circle here
   var inputLength = changes_list.length
-  for (i = 0; i < inputLength; i+=3) {
+  for (i = start_from; i < inputLength; i+=3) {
     _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
   }
 
   if (etr.__syncStatesChanges || etr.__handleHookedSync) {
-    var to_send = changes_list
+    var to_send = changes_list.slice(start_from, inputLength)
     if (etr.__syncStatesChanges) {
       etr.__syncStatesChanges.call(null, etr, to_send, etr.states);
     }
@@ -275,14 +257,15 @@ function getChanges(etr, total_original_states, original_states, changes_list, o
     }
   }
 
-  for (i = 0; i < changes_list.length; i+=3) {
+  for (i = start_from; i < inputLength; i+=3) {
     _handleStch(etr, original_states, changes_list[i+1], changes_list[i+2], opts && opts.skip_handler, opts && opts.sync_tpl);
   }
-  return changed_states;
+  // return changed_states;
 }
 
-function getComplexChanges(etr, total_original_states, original_states, changes_list) {
-  return getChanges(etr, total_original_states, original_states, checkComplexStates(etr, changes_list));
+function getComplexChanges(etr, total_original_states, original_states, start_from, input_and_output) {
+  getChanges(etr, total_original_states, original_states,
+    0, checkComplexStates(etr, start_from, input_and_output), undefined, input_and_output);
 }
 
 
@@ -322,17 +305,17 @@ function getComplexInitList(etr) {
 }
 
 
-function checkComplexStates(etr, changes_list) {
-  return getTargetComplexStates(etr, changes_list);
+function checkComplexStates(etr, start_from, changes_list) {
+  return getTargetComplexStates(etr, start_from, changes_list);
 }
 
-function getTargetComplexStates(etr, changes_list) {
+function getTargetComplexStates(etr, start_from, changes_list) {
   var uniq = {};
   var matched_compxs = [];
 
   var i, cur;
 
-  for ( i = 0; i < changes_list.length; i+=3) {
+  for ( i = start_from; i < changes_list.length; i+=3) {
     cur = etr.full_comlxs_index[changes_list[i+1]];
     if (!cur){
       continue;
