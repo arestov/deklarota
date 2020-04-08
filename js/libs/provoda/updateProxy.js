@@ -110,6 +110,9 @@ function updateProxy(etr, changes_list, opts) {
     }
 
     iterateVipChanges(cur_changes_list, etr, zdsv)
+
+    legacySideEffects(etr, total_ch, lengthBeforeAnyChanges, total_ch.length, cur_changes_opts)
+
     cur_changes_list = cur_changes_opts = null;
 
 
@@ -229,8 +232,6 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   for (i = start_from; i < inputLength; i+=3) {
     _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
   }
-
-  legacySideEffects(etr, changes_list, start_from, inputLength, opts)
 
 
   // return changed_states;
