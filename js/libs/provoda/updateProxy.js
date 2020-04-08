@@ -80,6 +80,7 @@ function updateProxy(etr, changes_list, opts) {
   var original_states = zdsv.original_states;
 
   var total_ch = serv_st.total_ch;
+  var currentChangesLength
 
   while (serv_st.states_changing_stack.length){
 
@@ -88,7 +89,9 @@ function updateProxy(etr, changes_list, opts) {
     var cur_changes_list = serv_st.states_changing_stack.shift();
     var cur_changes_opts = serv_st.states_changing_stack.shift();
 
-    var currentChangesLength = total_ch.length
+    var lengthBeforeAnyChanges = total_ch.length
+
+    currentChangesLength = lengthBeforeAnyChanges
     // remember current length before any changes in this iteration
 
 
