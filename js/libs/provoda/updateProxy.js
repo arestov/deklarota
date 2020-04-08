@@ -93,6 +93,8 @@ function updateProxy(etr, changes_list, opts) {
     var cur_changes_list = serv_st.states_changing_stack.shift();
     var cur_changes_opts = serv_st.states_changing_stack.shift();
 
+    var currentChangesLength = changed_states.length
+
     //получить изменения для состояний, которые изменил пользователь через публичный метод
     getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, changed_states);
     //var changed_states = ... ↑
@@ -102,7 +104,6 @@ function updateProxy(etr, changes_list, opts) {
     if (etr.full_comlxs_index) {
       //проверить комплексные состояния
 
-      var currentChangesLength = 0
       while (currentChangesLength !== changed_states.length) {
         var lengthToHandle = changed_states.length
         getComplexChanges(etr, zdsv.total_original_states, original_states, currentChangesLength, changed_states);
