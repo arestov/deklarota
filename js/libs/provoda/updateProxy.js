@@ -230,20 +230,9 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
     _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
   }
 
-  if (etr.__syncStatesChanges || etr.__handleHookedSync) {
-    var to_send = changes_list.slice(start_from, inputLength)
-    if (etr.__syncStatesChanges) {
-      etr.__syncStatesChanges.call(null, etr, to_send, etr.states);
-    }
+  legacySideEffects(etr, changes_list, start_from, inputLength, opts)
 
-    if (etr.__handleHookedSync) {
-      etr.__handleHookedSync.call(null, etr, to_send, etr.states);
-    }
-  }
 
-  for (i = start_from; i < inputLength; i+=3) {
-    _handleStch(etr, changes_list[i+1], changes_list[i+2], opts && opts.skip_handler, opts && opts.sync_tpl);
-  }
   // return changed_states;
 }
 
@@ -386,6 +375,24 @@ var PVStateChangeEvent = function(type, value, old_value, target) {
   this.old_value = old_value;
   this.target = target;
 };
+
+
+function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
+  if (etr.__syncStatesChanges || etr.__handleHookedSync) {
+    var to_send = changes_list.slice(start_from, inputLength)
+    if (etr.__syncStatesChanges) {
+      etr.__syncStatesChanges.call(null, etr, to_send, etr.states);
+    }
+
+    if (etr.__handleHookedSync) {
+      etr.__handleHookedSync.call(null, etr, to_send, etr.states);
+    }
+  }
+
+  for (var i = start_from; i < inputLength; i+=3) {
+    _handleStch(etr, changes_list[i+1], changes_list[i+2], opts && opts.skip_handler, opts && opts.sync_tpl);
+  }
+}
 
 
 //var st_event_name_default = ;
