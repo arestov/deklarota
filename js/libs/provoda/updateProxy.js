@@ -96,7 +96,7 @@ function updateProxy(etr, changes_list, opts) {
 
 
     //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, total_ch);
+    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, total_ch);
     //var total_ch = ... ↑
 
 
@@ -220,7 +220,7 @@ function _handleStch(etr, state_name, value, skip_handler, sync_tpl) {
   }
 }
 
-function getChanges(etr, total_original_states, original_states, start_from, changes_list, opts, result_arr) {
+function getChanges(etr, total_original_states, original_states, start_from, changes_list, result_arr) {
   var changed_states = result_arr;
   var i;
 
@@ -239,7 +239,7 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
 
 function getComplexChanges(etr, total_original_states, original_states, start_from, input_and_output) {
   getChanges(etr, total_original_states, original_states,
-    0, checkComplexStates(etr, start_from, input_and_output), undefined, input_and_output);
+    0, checkComplexStates(etr, start_from, input_and_output), input_and_output);
 }
 
 
