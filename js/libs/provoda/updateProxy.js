@@ -19,7 +19,6 @@ var ServStates = function() {
   // this.original_states = {};
 
   this.states_changing_stack = [];
-  this.all_i_cg = [];
 
   this.total_ch = [];
 
@@ -81,7 +80,6 @@ function updateProxy(etr, changes_list, opts) {
   var original_states = zdsv.original_states;
 
   var total_ch = serv_st.total_ch;
-  var all_i_cg = serv_st.all_i_cg;
 
   while (serv_st.states_changing_stack.length){
 
@@ -90,40 +88,29 @@ function updateProxy(etr, changes_list, opts) {
     var cur_changes_list = serv_st.states_changing_stack.shift();
     var cur_changes_opts = serv_st.states_changing_stack.shift();
 
-    var currentChangesLength = all_i_cg.length
+    var currentChangesLength = total_ch.length
     // remember current length before any changes in this iteration
 
 
     //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, all_i_cg);
-    //var all_i_cg = ... ↑
+    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, total_ch);
+    //var total_ch = ... ↑
 
     cur_changes_list = cur_changes_opts = null;
 
     if (etr.full_comlxs_index) {
       //проверить комплексные состояния
-      while (currentChangesLength !== all_i_cg.length) {
-        var lengthToHandle = all_i_cg.length
-        getComplexChanges(etr, zdsv.total_original_states, original_states, currentChangesLength, all_i_cg);
+      while (currentChangesLength !== total_ch.length) {
+        var lengthToHandle = total_ch.length
+        getComplexChanges(etr, zdsv.total_original_states, original_states, currentChangesLength, total_ch);
         currentChangesLength = lengthToHandle
       }
     }
 
-
-    //устраняем измененное дважды и более
-    compressStatesChanges(all_i_cg);
-
     iterateVipChanges(changes_list, etr, zdsv)
 
 
-    if (all_i_cg.length){
-      push.apply(total_ch, all_i_cg);
-    }
-
-
     utils_simple.wipeObj(original_states);
-    all_i_cg.length = 0;
-
     //объекты используются повторно, ради выиграша в производительности
     //которые заключается в исчезновении пауз на сборку мусора
   }
