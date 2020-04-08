@@ -181,7 +181,7 @@ function proxyStch(target, value, state_name) {
   method(target, value, old_value);
 }
 
-function _handleStch(etr, original_states, state_name, value, skip_handler, sync_tpl) {
+function _handleStch(etr, state_name, value, skip_handler, sync_tpl) {
   var stateChanger = !skip_handler && (etr[ getSTCHfullname( state_name ) ] || (etr.state_change && etr.state_change[state_name]));
   if (!stateChanger) {
     return;
@@ -239,7 +239,7 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   }
 
   for (i = start_from; i < inputLength; i+=3) {
-    _handleStch(etr, original_states, changes_list[i+1], changes_list[i+2], opts && opts.skip_handler, opts && opts.sync_tpl);
+    _handleStch(etr, changes_list[i+1], changes_list[i+2], opts && opts.skip_handler, opts && opts.sync_tpl);
   }
   // return changed_states;
 }
