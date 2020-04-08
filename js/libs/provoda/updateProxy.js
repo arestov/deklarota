@@ -96,7 +96,6 @@ function updateProxy(etr, changes_list, opts) {
     getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, cur_changes_opts, total_ch);
     //var total_ch = ... ↑
 
-    cur_changes_list = cur_changes_opts = null;
 
     if (etr.full_comlxs_index) {
       //проверить комплексные состояния
@@ -107,7 +106,8 @@ function updateProxy(etr, changes_list, opts) {
       }
     }
 
-    iterateVipChanges(changes_list, etr, zdsv)
+    iterateVipChanges(cur_changes_list, etr, zdsv)
+    cur_changes_list = cur_changes_opts = null;
 
 
     utils_simple.wipeObj(original_states);
