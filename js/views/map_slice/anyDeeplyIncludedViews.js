@@ -30,7 +30,7 @@ return function(spyglass_view, current_bwlev_mdr, target_bwlev_mdr) {
   var target_bwlev = getModelFromR(spyglass_view, target_bwlev_mdr)
   var target_md = getNesting(target_bwlev, 'pioneer');
 
-  var views = target_md.mpx.views
+  var views = spyglass_view.getStoredMpx(target_md).getViews();
   if (!views) {
     return null;
   }
