@@ -6,7 +6,9 @@ var flatStruc = require('./structure/flatStruc');
 
 function fetchData(db, App, schema, url) {
   var proxies = new pv.views_proxies.Proxies();
-  var calls_flow = new pv.CallbacksFlow(global);
+  var globthis = typeof globalThis !== 'undefined' ? globalThis : window
+
+  var calls_flow = new pv.CallbacksFlow(globthis);
 
   var highway = {
     models_counters: 1,
