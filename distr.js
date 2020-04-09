@@ -78,6 +78,7 @@ const build = ({
         }
       }),
       replace({
+        "process.versions": '({})',
         NODE_ENV: `'${process.env.NODE_ENV}'`,
       }),
     ]
