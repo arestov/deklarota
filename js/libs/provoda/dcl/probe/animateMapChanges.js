@@ -237,6 +237,7 @@ var asMDR = function(md) {
 
   updateNesting(fake_spyglass, 'map_slice', {
     residents_struc: mp_show_wrap,
+    $not_model: true,
     each_items: all_items,
     transaction: changes
   });
