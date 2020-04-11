@@ -19,6 +19,7 @@ var create = require('./create');
 var addSubpage = require('./dcl/sub_pager/addSubpage');
 var behavior = require('./provoda/bhv')
 var mergeBhv = require('./provoda/_lmerge');
+var mpxUpdateAttr = require('./provoda/v/mpxUpdateAttr')
 
 var provoda, pv;
 var pvUpdate = updateProxy.update;
@@ -95,9 +96,7 @@ pv = provoda = {
     md.updateNesting(nesting_name, nesting_value, opts, spec_data);
   },
   mpx: {
-    update: function(mpx, state_name, state_value, opts) {
-      mpx.updateState(state_name, state_value, opts);
-    }
+    update: mpxUpdateAttr,
   },
   update: updateProxy.update,
   state: hp.state,
