@@ -4,7 +4,8 @@ var spv = require('spv');
 var CoreView = require('./CoreView')
 var PvTemplate = require('./PvTemplate');
 var appending = require('./View/appending')
-var hp = require('./helpers');
+var getBwlevView = require('./View/getBwlevView')
+var createTemplate = require('./View/createTemplate')
 var dom_helpers = require('./utils/dom_helpers')
 
 var dFind = dom_helpers.find;
@@ -12,13 +13,11 @@ var dAppend = dom_helpers.append;
 var dPrepend = dom_helpers.prepend;
 var dAfter = dom_helpers.after;
 var dDetach = dom_helpers.detach;
-var dBefore = dom_helpers.before;
 var dWrap = dom_helpers.wrap;
 var dRemove = dom_helpers.remove;
 var dUnwrap = dom_helpers.unwrap;
 var dParent = dom_helpers.parent;
 
-var $v = hp.$v;
 var way_points_counter = 0;
 
 var stackEmergency = function(fn, eventor, args) {
@@ -130,7 +129,7 @@ spv.cloneObj(props, {
   },
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {
-      var bwlev_view = $v.getBwlevView(this);
+      var bwlev_view = getBwlevView(this);
       var bwlev_id = bwlev_view && bwlev_view.mpx._provoda_id;
       this.RPCLegacy(method, bwlev_id);
     } else {
@@ -146,7 +145,7 @@ spv.cloneObj(props, {
       throw new Error('cant create template');
     }
 
-    var tpl = $v.createTemplate(this, con);
+    var tpl = createTemplate(this, con);
 
     if (!ext_node) {
       this.tpl = tpl;
