@@ -1,13 +1,11 @@
 define(function(require) {
 'use strict'
 var spv = require('spv');
-var hp = require('../helpers');
 var updateProxy = require('../updateProxy');
 var dom_helpers = require('../utils/dom_helpers')
-
+var getViewLocationId = require('./getViewLocationId')
 
 var pvUpdate = updateProxy.update;
-var $v = hp.$v;
 
 var append = dom_helpers.append;
 var after = dom_helpers.after;
@@ -109,7 +107,7 @@ return {
 
   },
   appendCollection: function(space, funcs, view_opts, nesname, array, not_request) {
-    var location_id = $v.getViewLocationId(this, nesname, space || 'main');
+    var location_id = getViewLocationId(this, nesname, space || 'main');
 
 
 
@@ -165,7 +163,7 @@ return {
     }
     var cur = null, view = null, i = 0, prev_view = null, next_view = null;
 
-    var location_id = $v.getViewLocationId(this, funcs.nesname, space || 'main');
+    var location_id = getViewLocationId(this, funcs.nesname, space || 'main');
     var detached = [];
     var ordered_part;
 

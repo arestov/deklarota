@@ -15,13 +15,12 @@ var nestBorrowDestroy = require('./dcl_view/nest_borrow/destroy');
 var nestBorrowCheckChange = require('./dcl_view/nest_borrow/check-change');
 
 var initSpyglasses = require('./dcl_view/spyglass/init');
-var getRootBwlevView = require('./dcl_view/spyglass/getRootBwlevView');
 var getBwlevView = require('./dcl_view/getBwlevView');
+var getViewLocationId = require('./View/getViewLocationId')
 
 // var spyglassDestroy = require('./dcl_view/spyglass/destroy');
 
 var cloneObj = spv.cloneObj;
-var $v = hp.$v;
 
 var ViewLabour = function() {
   this.has_details = null;
@@ -209,7 +208,7 @@ var View = spv.inh(StatesEmitter, {
     this.root_view.parent_view.RPCLegacy('requestPage', md_id);
   },
   navShowByReq: function(reqId, goal, data) {
-    var bwlev_view = $v.getBwlevView(this);
+    var bwlev_view = getBwlevView(this);
     var context_bwlev = bwlev_view.mpx._provoda_id
     var current_bwlev_map = bwlev_view.mpx.md.children_models.map.children_models.current_mp_bwlev._provoda_id;
 
@@ -222,11 +221,11 @@ var View = spv.inh(StatesEmitter, {
     });
   },
   navCheckGoalToGetBack: function(goal) {
-    var bwlev_view = $v.getBwlevView(this)
+    var bwlev_view = getBwlevView(this)
     bwlev_view.RPCLegacy('navCheckGoalToGetBack', goal)
   },
   navGetBack: function() {
-    var bwlev_view = $v.getBwlevView(this)
+    var bwlev_view = getBwlevView(this)
     bwlev_view.RPCLegacy('navGetBack')
   },
   tpl_events: {
@@ -257,11 +256,11 @@ var View = spv.inh(StatesEmitter, {
     },
     followTo: function() {
       var md_id = this.mpx._provoda_id;
-      var bwlev_view = $v.getBwlevView(this);
+      var bwlev_view = getBwlevView(this);
       this.root_view.parent_view.RPCLegacy('followTo', bwlev_view.mpx._provoda_id, md_id);
     },
     followURL: function(e, node, url) {
-      var bwlev_view = $v.getBwlevView(this);
+      var bwlev_view = getBwlevView(this);
       this.root_view.parent_view.RPCLegacy('followURL', bwlev_view.mpx._provoda_id, url);
     },
     toggleSpyglass: changeSpyglassUniversal('toggleSpyglass'),
@@ -412,7 +411,7 @@ var View = spv.inh(StatesEmitter, {
     var
       child_name = address_opts.nesting_name,
       view_space = address_opts.nesting_space || 'main',
-      location_id = $v.getViewLocationId(this, address_opts.nesting_name, view_space),
+      location_id = getViewLocationId(this, address_opts.nesting_name, view_space),
       view = mpx.getView(location_id);
 
     if (view){
@@ -833,7 +832,7 @@ var View = spv.inh(StatesEmitter, {
     if (!array){
       return;
     }
-    var location_id = $v.getViewLocationId(this, nesname, space || 'main');
+    var location_id = getViewLocationId(this, nesname, space || 'main');
     for (var i = 0; i < array.length; i++) {
 
       var view = this.getStoredMpx(array[i]).getView(location_id);
@@ -883,7 +882,7 @@ var View = spv.inh(StatesEmitter, {
 
   __injecViewMetaStates: function(self, nesting_name, space, items) {
 
-    var location_id = $v.getViewLocationId(self, nesting_name, 'main');
+    var location_id = getViewLocationId(self, nesting_name, 'main');
     var array = spv.toRealArray(items);
 
 
@@ -947,7 +946,7 @@ var View = spv.inh(StatesEmitter, {
   },
   __mapListToViews: function(nesting_name, items) {
     var self = this
-    var location_id = $v.getViewLocationId(this, nesting_name, 'main');
+    var location_id = getViewLocationId(this, nesting_name, 'main');
     var array = spv.toRealArray(items);
     var views = array
       .map(function(cur) {
