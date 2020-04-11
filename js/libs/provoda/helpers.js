@@ -8,6 +8,7 @@ var stateGetter = require('./utils/stateGetter');
 var probeDiff = require('./probeDiff');
 var selecPoineertDeclr = require('./structure/selecPoineertDeclr');
 var createTemplate = require('./View/createTemplate')
+var getBwlevView = require('./View/getBwlevView')
 var getPropsPrefixChecker = require('./utils/getPropsPrefixChecker');
 var getEncodedState = require('./utils/getEncodedState');
 var getShortStateName = require('./utils/getShortStateName');
@@ -21,19 +22,6 @@ var emergency_opt = {
   emergency: true
 };
 
-
-function getBwlevView(target) {
-  var cur = target;
-
-  while (!nil(cur)) {
-    if (cur.mpx.md.model_name == 'bwlev') {
-      return cur;
-    }
-
-    cur = cur.parent_view;
-  }
-
-};
 
 function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id;
