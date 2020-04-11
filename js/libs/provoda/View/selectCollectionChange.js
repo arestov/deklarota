@@ -1,7 +1,6 @@
 define(function (require) {
 'use strict';
-var hp = require('../helpers');
-var $v = hp.$v;
+var selecPoineertDeclr = require('../structure/selecPoineertDeclr')
 
 return function (target, nesname, items, removed, old_value) {
   if (target.pvCollectionChange) {
@@ -27,7 +26,7 @@ return function (target, nesname, items, removed, old_value) {
   }
 
   if (!Array.isArray(items)) {
-    var dclr = $v.selecPoineertDeclr(
+    var dclr = selecPoineertDeclr(
       target.dclrs_fpckgs, target.dclrs_selectors,
       nesname, items.model_name, target.nesting_space
     ) || collch;
@@ -38,7 +37,7 @@ return function (target, nesname, items, removed, old_value) {
 
   for (var i = 0; i < items.length; i++) {
     var cur = items[i];
-    var dclr = $v.selecPoineertDeclr(target.dclrs_fpckgs, target.dclrs_selectors,
+    var dclr = selecPoineertDeclr(target.dclrs_fpckgs, target.dclrs_selectors,
       nesname, cur.model_name, target.nesting_space);
 
     if (!dclr) {
