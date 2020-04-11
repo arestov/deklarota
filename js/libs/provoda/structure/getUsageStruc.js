@@ -1,11 +1,10 @@
 define(function (require) {
 'use strict';
 var spv = require('spv');
-var hp = require('../helpers');
+var selecPoineertDeclr = require('./selecPoineertDeclr');
 var get_constr = require('./get_constr');
 
 var getNestingConstr = get_constr.getNestingConstr;
-var selecPoineertDeclr = hp.$v.selecPoineertDeclr;
 
 var general_path = 'm_children.children.%replace_by_switch_nesting_name%.main.m_children.children_by_mn.pioneer'.split('.');
 // usualy it will be 'm_children.children.map_slice.main.m_children.children_by_mn.pioneer';
