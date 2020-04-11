@@ -18,7 +18,7 @@ var markStrucure = require('./structure/mark');
 var create = require('./create');
 var addSubpage = require('./dcl/sub_pager/addSubpage');
 var behavior = require('./provoda/bhv')
-var mergeBhv = require('./mergeBhv');
+var mergeBhv = require('./provoda/_lmerge');
 
 var provoda, pv;
 var pvUpdate = updateProxy.update;
