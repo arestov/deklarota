@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 var find = function(con, selector) {
   return $(con).find(selector)

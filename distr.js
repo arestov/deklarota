@@ -9,6 +9,7 @@ const build = ({
 }) => rollup({
     preserveModules: true,
     external: ['jquery'],
+    external: ['cash-dom'],
     input: [
       'js/libs/provoda/provoda.js',
       'js/libs/provoda/provoda/getAttr.js',

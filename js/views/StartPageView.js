@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict';
 var spv = require('spv');
-var $ = require('jquery');
+var $ = require('cash-dom');
 var UserCardPreview = require('./UserCardPreview');
 var coct = require('./coct');
 

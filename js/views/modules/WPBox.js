@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict';
 var spv = require('spv');
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 var getMapSliceView = require('../map_slice/getMapSliceView');
 

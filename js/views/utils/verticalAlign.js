@@ -1,6 +1,6 @@
 define(function (require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 return function verticalAlign(img, opts){
   //target_height, fix

@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict';
 
-// var $ = require('jquery');
+// var $ = require('cash-dom');
 var spv = require('spv');
 var pvUpdate = require('pv/update');
 var hp = require('./helpers');
