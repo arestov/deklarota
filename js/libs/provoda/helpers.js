@@ -14,15 +14,13 @@ var getPropsPrefixChecker = require('./utils/getPropsPrefixChecker');
 var getEncodedState = require('./utils/getEncodedState');
 var getShortStateName = require('./utils/getShortStateName');
 var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
+var groupMotive = require('./helpers/groupMotive')
+var triggerDestroy = require('./helpers/triggerDestroy')
+
+
 var nil = spv.nil;
 var memorize = spv.memorize
 var startsWith = spv.startsWith;
-
-
-var emergency_opt = {
-  emergency: true
-};
-
 
 function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id;
@@ -49,12 +47,7 @@ return {
 
   })(),
   state: pvState,
-  triggerDestroy: function(md) {
-    var array = md.evcompanion.getMatchedCallbacks('die');
-    if (array.length) {
-      md.evcompanion.triggerCallbacks(array, false, emergency_opt, 'die');
-    }
-  },
+  triggerDestroy: triggerDestroy,
   wipeObj: utils_simple.wipeObj,
   markFlowSteps: utils_simple.markFlowSteps,
   getRightNestingName: function(md, nesting_name) {
@@ -85,24 +78,7 @@ return {
     return sputnik._interfaces_using.used[api_name];
   },
   getPropsPrefixChecker: getPropsPrefixChecker,
-  _groupMotive: function(fn) {
-    return function() {
-      var self = this;
-      var need = !this._currentMotivator();
-      if (!need) {
-        return fn.apply(self, arguments);
-      }
-
-      var flow = self._getCallsFlow()
-      var motivator = flow.startGroup();
-      self.current_motivator = motivator
-      var result = fn.apply(self, arguments);
-      flow.completeGroup(motivator)
-      self.current_motivator = null;
-      flow.checkCallbacksFlow()
-      return result;
-    };
-  },
+  _groupMotive: groupMotive,
   getSTEVNameVIP: utils_simple.getSTEVNameVIP,
   getSTEVNameDefault: utils_simple.getSTEVNameDefault,
   getSTEVNameLight: utils_simple.getSTEVNameLight,
