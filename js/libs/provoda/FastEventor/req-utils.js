@@ -7,7 +7,7 @@ var spv = require('spv');
 var getApiPart = require('./getApiPart')
 var getTargetField = spv.getTargetField;
 var toBigPromise = extendPromise.toBigPromise;
-var hp = require('../helpers');
+var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
 var batching = require('./batching')
 var doBatch = batching
 
@@ -103,7 +103,7 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
   var requests_by_declarations = sputnik._highway.requests_by_declarations;
 
 
-  var network_api = hp.getNetApiByDeclr(send_declr, sputnik);
+  var network_api = getNetApiByDeclr(send_declr, sputnik);
   var api_part = getApiPart(send_declr, sputnik);
 
   if (!network_api) {

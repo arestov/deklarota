@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
 var Promise = require('Promise');
-var hp = require('../helpers');
+var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
 var spv = require('spv');
 var req_utils = require('./req-utils')
 
@@ -29,7 +29,7 @@ function failed(err) {
 }
 
 function bindRequest(request, selected_map, store, self) {
-  var network_api = hp.getNetApiByDeclr(selected_map.send_declr, self.sputnik);
+  var network_api = getNetApiByDeclr(selected_map.send_declr, self.sputnik);
 
 
   var states_list = selected_map.states_list;
