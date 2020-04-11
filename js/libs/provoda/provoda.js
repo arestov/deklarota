@@ -2,7 +2,6 @@ define(function(require) {
 'use strict';
 
 var spv = require('spv');
-var angbo = require('angbo');
 var sync_sender = require('./sync_sender');
 var MDProxy = require('./MDProxy');
 var hp = require('./helpers');
@@ -68,9 +67,6 @@ pv = provoda = {
     })();
   },
   getModelById: getModelById,
-  setTplFilterGetFn: function(fn) {
-    angbo.getFilterFn = fn;
-  },
   MDProxy: MDProxy,
   SyncSender: sync_sender,
   SyncR: SyncReceiver,
