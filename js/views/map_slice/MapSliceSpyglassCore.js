@@ -3,9 +3,14 @@ define(function(require) {
 var View = require('View');
 var spv = require('spv');
 var view_serv = require('view_serv');
-var pv = require('pv');
 var pvState = require('pv/state');
 var pvUpdate = require('pv/update');
+var updateAttr = require('pv/updateAttr');
+var mpxUpdateAttr = require('pv/v/mpxUpdateAttr')
+var selecPoineertDeclr = require('pv/v/selecPoineertDeclr')
+var createTemplate = require('pv/v/createTemplate')
+var probeDiff = require('pv/probeDiff')
+
 var getNesting = require('pv/getNesting')
 var $ = require('cash-dom');
 var wrapInputCall = require('pv/wrapInputCall')
@@ -66,14 +71,14 @@ return spv.inh(View, {
   // ],
   tpl_events: {
     showFullNavHelper: function() {
-      pv.update(this, 'nav_helper_full', true);
+      updateAttr(this, 'nav_helper_full', true);
     },
   },
   'collch-current_mp_md': function(name, value) {
-    pv.update(this, 'current_mp_md', value._provoda_id);
+    updateAttr(this, 'current_mp_md', value._provoda_id);
   },
   'collch-current_mp_bwlev': function(name, value) {
-    pv.update(this, 'current_mp_bwlev', value._provoda_id);
+    updateAttr(this, 'current_mp_bwlev', value._provoda_id);
   },
   'collch-navigation': {
     place: 'nav.daddy'
@@ -87,19 +92,19 @@ return spv.inh(View, {
     this.tpls.push(tpl);
   },
   buildNavHelper: function() {
-    this.tpls.push( pv.$v.createTemplate(
+    this.tpls.push( createTemplate(
       this, this.root_view.els.nav_helper
     ) );
   },
   buildNowPlayingButton: function() {
     var _this = this;
     var np_button = this.nav.justhead.find('.np-button').detach();
-    _this.tpls.push( pv.$v.createTemplate( this, np_button ) );
+    _this.tpls.push( createTemplate( this, np_button ) );
     this.nav.daddy.append(np_button);
   },
   'stch-nav_helper_is_needed': function(target, state) {
     if (!state) {
-      pv.update(target, 'nav_helper_full', false);
+      updateAttr(target, 'nav_helper_full', false);
     }
   },
 
@@ -227,7 +232,7 @@ return spv.inh(View, {
     };
   },
   setVMpshow: function(target_mpx, value) {
-    pv.mpx.update(target_mpx, 'vmp_show', value, sync_opt);
+    mpxUpdateAttr(target_mpx, 'vmp_show', value, sync_opt);
   },
 
   'model-mapch': {
@@ -280,7 +285,7 @@ return spv.inh(View, {
     var transaction = nesting_data.transaction;
     var old_transaction = old_nesting_data && old_nesting_data.transaction;
 
-    var diff = pv.hp.probeDiff(this, nesting_data.transaction.bwlev, old_nesting_data && old_nesting_data.transaction.bwlev);
+    var diff = probeDiff(this, nesting_data.transaction.bwlev, old_nesting_data && old_nesting_data.transaction.bwlev);
 
     var bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs;
     var mds = nesting_data.residents_struc.items;
@@ -296,7 +301,7 @@ return spv.inh(View, {
       var cur_md = getModelFromR(this, mds[i]);
       cur = getModelFromR(this, array[i]);
 
-      var dclr = pv.$v.selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
+      var dclr = selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
               nesname, cur_md.model_name, this.nesting_space);
 
       this.callCollectionChangeDeclaration(dclr, nesname, cur);
@@ -409,7 +414,7 @@ return spv.inh(View, {
 
   },
   getMapSliceView: function(bwlev, md) {
-    var dclr = pv.$v.selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
+    var dclr = selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
       'map_slice', md.model_name, this.nesting_space);
     var target_bwlev = dclr.is_wrapper_parent ? bwlev.map_parent: bwlev;
     return findMpxViewInChildren( this, this.getStoredMpx(target_bwlev), dclr.space, 'map_slice' );
@@ -432,16 +437,16 @@ return spv.inh(View, {
     return target_in_parent;
   },
   markAnimationStart: function(models, changes_number) {
-    pv.update(this, 'map_animation_num_started', changes_number, sync_opt);
+    updateAttr(this, 'map_animation_num_started', changes_number, sync_opt);
     for (var i = 0; i < models.length; i++) {
-      pv.mpx.update(this.getStoredMpx(getModelFromR(this, models[i])), 'animation_started', changes_number, sync_opt);
+      mpxUpdateAttr(this.getStoredMpx(getModelFromR(this, models[i])), 'animation_started', changes_number, sync_opt);
       ////MUST UPDATE VIEW, NOT MODEL!!!!!
     }
   },
 
   markAnimationEnd: wrapInputCall(function(models, changes_number) {
     if (this.state('map_animation_num_started') == changes_number) {
-      pv.update(this, 'map_animation_num_completed', changes_number, sync_opt);
+      updateAttr(this, 'map_animation_num_completed', changes_number, sync_opt);
     }
 
 
@@ -450,7 +455,7 @@ return spv.inh(View, {
       var mpx = this.getStoredMpx(getModelFromR(this, models[i]));
 
       if (mpx.state('animation_started') == changes_number){
-        pv.mpx.update(mpx, 'animation_completed', changes_number, sync_opt);
+        mpxUpdateAttr(mpx, 'animation_completed', changes_number, sync_opt);
       }
       ////MUST UPDATE VIEW, NOT MODEL!!!!!
     }
