@@ -1,9 +1,8 @@
 define(function(require) {
 'use strict'
 var spv = require('spv');
-var hp = require('../helpers');
 var getTargetField = spv.getTargetField;
-var getNetApiByDeclr = hp.getNetApiByDeclr
+var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
 
 var getApiPart = function (send_declr, sputnik, app) {
   var network_api = getNetApiByDeclr(send_declr, sputnik, app);
