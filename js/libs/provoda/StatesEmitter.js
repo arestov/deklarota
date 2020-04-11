@@ -2,7 +2,9 @@ define(function(require) {
 'use strict';
 
 var spv = require('spv');
-var hp = require('./helpers');
+var hndMotivationWrappper = require('./helpers/hndMotivationWrappper')
+var utils_simple = require('./utils/simple')
+
 var updateProxy = require('./updateProxy');
 var StatesLabour = require('./StatesLabour');
 var Eventor = require('./Eventor');
@@ -54,7 +56,7 @@ var regfr_vipstev = (function() {
       };
     },
     getWrapper: function() {
-      return hp.oop_ext.hndMotivationWrappper;
+      return hndMotivationWrappper;
     },
     getFSNamespace: function(namespace) {
       return getState(namespace);
@@ -78,7 +80,7 @@ var regfr_stev = (function() {
       };
     },
     getWrapper: function() {
-      return hp.oop_ext.hndMotivationWrappper;
+      return hndMotivationWrappper;
     },
     getFSNamespace: function(namespace) {
       return getState(namespace);
@@ -97,7 +99,7 @@ var regfr_lightstev = (function() {
       return this.state(getState(namespace));
     },
     getWrapper: function() {
-      return hp.oop_ext.hndMotivationWrappper;
+      return hndMotivationWrappper;
     },
     getFSNamespace: function(namespace) {
       return getState(namespace);
@@ -162,10 +164,10 @@ add({
     }
   },
   lwch: function(donor, donor_state, func) {
-    this._bindLight(donor, hp.getSTEVNameLight(donor_state), func);
+    this._bindLight(donor, utils_simple.getSTEVNameLight(donor_state), func);
   },
   wlch: function(donor, donor_state, acceptor_state) {
-    var event_name = hp.getSTEVNameLight(donor_state);
+    var event_name = utils_simple.getSTEVNameLight(donor_state);
     var acceptor_state_name = acceptor_state || donor_state;
     var cb = getLightConnector(acceptor_state_name);
     this._bindLight(donor, event_name, cb);
@@ -177,8 +179,8 @@ add({
     var cb;
 
     var event_name = immediately ?
-      hp.getSTEVNameVIP(donor_state) :
-      hp.getSTEVNameDefault(donor_state);
+      utils_simple.getSTEVNameVIP(donor_state) :
+      utils_simple.getSTEVNameDefault(donor_state);
 
     if (typeof acceptor_state == 'function'){
       cb = acceptor_state;
