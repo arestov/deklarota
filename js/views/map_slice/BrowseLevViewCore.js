@@ -3,12 +3,12 @@ define(function(require) {
 var spv = require('spv');
 var View = require('View');
 var pvUpdate = require('pv/update');
-var pv = require('pv');
+var mergeBhv = require('pv/_lmerge')
 
 var used_str = require('../utils/used_struc')
 var used_struc_bhv = used_str.bhv;
 
-var BrowseLevView = spv.inh(View, {}, pv.mergeBhv({
+var BrowseLevView = spv.inh(View, {}, mergeBhv({
   attrs: {
     "mp_show_end": [
       "compx",

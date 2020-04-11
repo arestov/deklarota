@@ -1,9 +1,10 @@
 define(function (require) {
 'use strict';
-var pv = require('pv');
 var spv = require('spv');
 var view_serv = require('view_serv');
 var getModelFromR = require('pv/v/getModelFromR')
+var updateAttr = require('pv/updateAttr');
+var getAttr = require('pv/getAttr');
 
 var sync_opt = {sync_tpl: true};
 
@@ -87,15 +88,15 @@ return function(view, transaction_data, animation_data) {
 
   if (transaction_data.bwlev){
     var target_md = getModelFromR(view, transaction_data.bwlev);
-    var current_lev_num = pv.state(target_md, 'map_level_num');
+    var current_lev_num = getAttr(target_md, 'map_level_num');
 
     if (animation_data){
-      pv.update(view, 'disallow_animation', true, sync_opt);
+      updateAttr(view, 'disallow_animation', true, sync_opt);
       animation_data.lc.c.css(animation_data.transform_values);
-      pv.update(view, 'disallow_animation', false, sync_opt);
+      updateAttr(view, 'disallow_animation', false, sync_opt);
     }
 
-    pv.update(view, 'current_lev_num', current_lev_num, sync_opt);
+    updateAttr(view, 'current_lev_num', current_lev_num, sync_opt);
     //сейчас анимация происходит в связи с сменой класса при изменении состояния current_lev_num
 
     if (animation_data && animation_data.lc){
