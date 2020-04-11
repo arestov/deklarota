@@ -2,7 +2,8 @@ define(function(require) {
 'use strict';
 
 var spv = require('spv');
-var hp = require('../helpers');
+var utils_simple = require('../utils/simple');
+var wipeObj = utils_simple.wipeObj
 var requesting = require('./requesting');
 
 var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
@@ -581,7 +582,7 @@ add({
         }
       }
     }
-    hp.wipeObj(this.requests);
+    wipeObj(this.requests);
     return this;
   },
   getModelImmediateRequests: function(space) {
