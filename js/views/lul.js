@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var coct = require('./coct');
 var env = require('env');
-var $ = require('jquery');
+var $ = require('cash-dom');
 var spv = require('spv');
 var View = require('View');
 

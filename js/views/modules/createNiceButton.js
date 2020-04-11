@@ -1,6 +1,6 @@
 define(function (require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 return function createNiceButton(position) {
   var c = $('<span class="button-hole"><a class="nicebutton"></a></span>');

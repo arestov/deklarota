@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 
 var dom_style_obj = window.document.createElement('div').style;

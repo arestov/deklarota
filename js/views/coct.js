@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var spv = require('spv');
 var pv = require('pv');
-var $ = require('jquery');
+var $ = require('cash-dom');
 var etc_views = require('./etc_views');
 var View = require('View');
 var loadImage = require('./utils/loadImage');

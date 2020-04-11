@@ -3,7 +3,7 @@ define(function(require) {
 var spv = require('spv');
 var env = require('env');
 var localizer = require('localizer');
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 var serv = {};
 

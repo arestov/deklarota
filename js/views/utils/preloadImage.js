@@ -1,6 +1,6 @@
 define(function (require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 return function preloadImage(src, alt, callback, place){
   var image = window.document.createElement('img');

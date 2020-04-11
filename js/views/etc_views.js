@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 var spv = require('spv');
 var View = require('View');
 var createNiceButton = require('./modules/createNiceButton');

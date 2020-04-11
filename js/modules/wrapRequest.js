@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 var Promise = require('Promise');
 var extendPromise = require('./extendPromise');
 

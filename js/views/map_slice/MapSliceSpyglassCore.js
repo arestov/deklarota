@@ -7,7 +7,7 @@ var pv = require('pv');
 var pvState = require('pv/state');
 var pvUpdate = require('pv/update');
 var getNesting = require('pv/getNesting')
-var $ = require('jquery');
+var $ = require('cash-dom');
 var wrapInputCall = require('pv/wrapInputCall')
 var getModelFromR = require('pv/v/getModelFromR')
 
@@ -374,6 +374,14 @@ return spv.inh(View, {
     var md = target.getNesting('current_mp_md');
 
 
+    var scrollTop = function(wNode, value) {
+      var node = wNode.get(0)
+      if (value == null) {
+        return node.scrollTop
+      }
+
+      node.scrollTop = value
+    }
 
     setTimeout(function() {
       if (!target.isAlive()){
@@ -395,7 +403,7 @@ return spv.inh(View, {
           node: target.getLevByBwlev(parent_bwlev).scroll_con
         }, {vp_limit: 0.4, animate: 117});
       } else {
-        target.getLevByBwlev(parent_bwlev).scroll_con.scrollTop(0);
+        scrollTop(target.getLevByBwlev(parent_bwlev).scroll_con, 0)
       }
     }, 150);
 

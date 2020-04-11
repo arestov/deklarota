@@ -3,7 +3,7 @@ define(function(require) {
 var spv = require('spv');
 var app_serv = require('app_serv');
 var pv = require('pv');
-var $ = require('jquery');
+var $ = require('cash-dom');
 var LfmAuth = require('./LfmAuth');
 var AppModel = require('./models/AppModel');
 var comd = require('./models/comd');

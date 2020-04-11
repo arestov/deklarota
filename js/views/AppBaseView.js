@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var pv = require('pv');
 var spv = require('spv');
-var $ = require('jquery');
+var $ = require('cash-dom');
 var filters = require('./modules/filters');
 var getUsageTree = require('js/libs/provoda/structure/getUsageTree');
 var View = require('View');
@@ -115,11 +115,21 @@ var AppBaseView = spv.inh(BrowserAppRootView, {}, {
       return;
     }
 
+    var scrollTop = function(wNode, value) {
+      var node = wNode.get(0)
+      if (value == null) {
+        return node.scrollTop
+      }
+
+      node.scrollTop = value
+    }
+
+
     var view_port_limit = (opts && opts.vp_limit) || 1;
 
     var svp = view_port || this.getScrollVP(),
       scroll_c = svp.offset ? svp.node :  svp.node,
-      scroll_top = scroll_c.scrollTop(), //top
+      scroll_top = scrollTop(scroll_c), //top
       scrolling_viewport_height = svp.node.height(), //height
       padding = (scrolling_viewport_height * (1 - view_port_limit))/2,
       scroll_bottom = scroll_top + scrolling_viewport_height; //bottom
@@ -154,14 +164,10 @@ var AppBaseView = spv.inh(BrowserAppRootView, {}, {
     }
     if (new_position){
       if (opts && opts.animate){
-        scroll_c
-          .stop(false, true)
-          .animate({
-            scrollTop: new_position
-          }, opts.animate);
-
+        console.warn('animate scrolling')
+        scrollTop(scroll_c, new_position)
       } else {
-        scroll_c.scrollTop(new_position);
+        scrollTop(scroll_c, new_position)
       }
 
     }

@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict';
-var $ = require('jquery');
+var $ = require('cash-dom');
 
 var create_jsonp_callback;
 (function(){
