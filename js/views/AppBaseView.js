@@ -5,10 +5,12 @@ var spv = require('spv');
 var $ = require('cash-dom');
 var filters = require('./modules/filters');
 var getUsageTree = require('js/libs/provoda/structure/getUsageTree');
+var mutateGlobalTplFilters = require('js/libs/provoda/mutateGlobalTplFilters');
+
 var View = require('View');
 
 
-pv.setTplFilterGetFn(function(filter_name) {
+mutateGlobalTplFilters(function(filter_name) {
   if (filters[filter_name]){
     return filters[filter_name];
   } else {
