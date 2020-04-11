@@ -17,6 +17,7 @@ var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
 var groupMotive = require('./helpers/groupMotive')
 var triggerDestroy = require('./helpers/triggerDestroy')
 var getNetApiByDeclr = require('./helpers/getNetApiByDeclr')
+var hndMotivationWrappper = require('./helpers/hndMotivationWrappper')
 
 
 var nil = spv.nil;
@@ -71,46 +72,7 @@ return {
   getFullChilChEvName: utils_simple.getFullChilChEvName,
   getRemovedNestingItems: getRemovedNestingItems,
   oop_ext: {
-    hndMotivationWrappper: function(motivator, fn, context, args, arg) {
-      if (motivator.p_space) {
-        this.zdsv.removeFlowStep(motivator.p_space, motivator.p_index_key, motivator);
-      }
-
-      if (this.isAliveFast && !this.isAliveFast()) {
-        return;
-      }
-
-      //устанавливаем мотиватор конечному пользователю события
-      var ov_c = context.current_motivator;
-      context.current_motivator = motivator;
-
-      var ov_t;
-
-      if (this != context) {
-        //устанавливаем мотиватор реальному владельцу события, чтобы его могли взять вручную
-        //что-то вроде api
-        ov_t = this.current_motivator;
-        this.current_motivator = motivator;
-      }
-
-      if (args){
-        fn.apply(context, args);
-      } else {
-        fn.call(context, arg);
-      }
-
-      if (context.current_motivator != motivator){
-        throw new Error('wrong motivator'); //тот кто поменял current_motivator должен был вернуть его обратно
-      }
-      context.current_motivator = ov_c;
-
-      if (this != context) {
-        if (this.current_motivator != motivator){
-          throw new Error('wrong motivator'); //тот кто поменял current_motivator должен был вернуть его обратно
-        }
-        this.current_motivator = ov_t;
-      }
-    }
+    hndMotivationWrappper: hndMotivationWrappper,
   },
   $v: {
     getBwlevView: getBwlevView,
