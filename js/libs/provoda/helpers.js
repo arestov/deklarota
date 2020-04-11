@@ -20,9 +20,7 @@ var getNetApiByDeclr = require('./helpers/getNetApiByDeclr')
 var hndMotivationWrappper = require('./helpers/hndMotivationWrappper')
 
 
-var nil = spv.nil;
 var memorize = spv.memorize
-var startsWith = spv.startsWith;
 
 function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id;
