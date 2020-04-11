@@ -16,6 +16,7 @@ var getShortStateName = require('./utils/getShortStateName');
 var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
 var groupMotive = require('./helpers/groupMotive')
 var triggerDestroy = require('./helpers/triggerDestroy')
+var getNetApiByDeclr = require('./helpers/getNetApiByDeclr')
 
 
 var nil = spv.nil;
@@ -61,22 +62,7 @@ return {
   getShortStateName: getShortStateName,
   stateGetter: stateGetter,
   getEncodedState: getEncodedState,
-  getNetApiByDeclr: function(send_declr, sputnik, app) {
-    var api_name = send_declr.api_name;
-    if (typeof api_name == 'function') {
-      return api_name.call(sputnik);
-    }
-
-    if (typeof api_name !== 'string') {
-      return;
-    }
-
-    if (startsWith(api_name, '#')) {
-      return (app || sputnik.app)._interfaces_using.used[api_name.replace('#', '')];
-    }
-
-    return sputnik._interfaces_using.used[api_name];
-  },
+  getNetApiByDeclr: getNetApiByDeclr,
   getPropsPrefixChecker: getPropsPrefixChecker,
   _groupMotive: groupMotive,
   getSTEVNameVIP: utils_simple.getSTEVNameVIP,
