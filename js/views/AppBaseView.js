@@ -7,8 +7,6 @@ var filters = require('./modules/filters');
 var getUsageTree = require('js/libs/provoda/structure/getUsageTree');
 var View = require('View');
 
-var pvUpdate = pv.update;
-
 
 pv.setTplFilterGetFn(function(filter_name) {
   if (filters[filter_name]){
