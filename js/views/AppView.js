@@ -1,6 +1,5 @@
 define(function(require) {
 'use strict';
-var pv = require('pv');
 var spv = require('spv');
 var $ = require('cash-dom');
 var app_serv = require('app_serv');
