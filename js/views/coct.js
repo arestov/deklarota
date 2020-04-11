@@ -1,13 +1,11 @@
 define(function(require) {
 'use strict';
 var spv = require('spv');
-var pv = require('pv');
+var pvUpdate = require('pv/update');
 var $ = require('cash-dom');
 var etc_views = require('./etc_views');
 var View = require('View');
 var loadImage = require('./utils/loadImage');
-
-var pvUpdate = pv.update;
 
 var SoftVkLoginUI = spv.inh(etc_views.VkLoginUI, {}, {
   createBase: function() {
