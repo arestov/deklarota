@@ -4,7 +4,8 @@ define(function(require) {
 // var $ = require('cash-dom');
 var spv = require('spv');
 var pvUpdate = require('pv/update');
-var hp = require('./helpers');
+var groupMotive = require('./helpers/groupMotive')
+var triggerDestroy = require('./helpers/triggerDestroy')
 var updateProxy = require('./updateProxy');
 var prsStCon =  require('./prsStCon');
 var StatesEmitter = require('./StatesEmitter');
@@ -344,7 +345,7 @@ var View = spv.inh(StatesEmitter, {
     this.mpx.RPCLegacy.apply(this.mpx, arguments);
   },
   children_views: {},
-  connectChildrenModels: hp._groupMotive(function() {
+  connectChildrenModels: groupMotive(function() {
     var udchm = this._lbr.undetailed_children_models;
     this._lbr.undetailed_children_models = null;
     this.setMdChildren(udchm);
@@ -584,7 +585,7 @@ var View = spv.inh(StatesEmitter, {
     this.dead = true; //new DeathMarker();
     this.stopRequests();
 
-    hp.triggerDestroy(this);
+    triggerDestroy(this);
     if (!skip_md_call){
       this.mpx.removeDeadViews();
     }
@@ -621,7 +622,7 @@ var View = spv.inh(StatesEmitter, {
   requestView: function() {
     this.requestAll();
   },
-  requestAll: hp._groupMotive(function(){
+  requestAll: groupMotive(function(){
     return this.requestDeepDetLevels();
   }),
   __tickDetRequest: function() {
@@ -684,7 +685,7 @@ var View = spv.inh(StatesEmitter, {
   isAlive: function() {
     return this.isAliveFast()
   },
-  _setStates: hp._groupMotive(function(states){
+  _setStates: groupMotive(function(states){
     this._lbr._states_set_processing = true;
     //disallow chilren request untill all states will be setted
 
@@ -755,7 +756,7 @@ var View = spv.inh(StatesEmitter, {
       self.__sync_hooks[i].call(null, self, changes, all)
     }
   },
-  receiveStatesChanges: hp._groupMotive(function(changes_list, opts) {
+  receiveStatesChanges: groupMotive(function(changes_list, opts) {
     if (!this.isAlive()){
       return;
     }
