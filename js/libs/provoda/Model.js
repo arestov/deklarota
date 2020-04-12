@@ -17,6 +17,10 @@ var postInitModel = require('./Model/postInit')
 var initSi = require('./Model/initConstr/subitem')
 var getLinedStructure = require('./Model/getLinedStructure')
 var toSimpleStructure = require('./Model/toSimpleStructure')
+var addrFromObj = require('./provoda/dcl/addr.js')
+var getDepValue = require('./utils/multiPath/getDepValue')
+var parseAddr = require('./utils/multiPath/parse')
+
 var logger = require('./dx/logger')
 
 var wrapInputCall = require('pv/wrapInputCall')
@@ -412,6 +416,20 @@ add({
   getLinedStructure: getLinedStructure,
   toSimpleStructure: toSimpleStructure
 });
+
+var getParsedAddr = function(addr) {
+  if (typeof addr == 'object') {
+    return parseAddr(addrFromObj(addr))
+  }
+  return parseAddr(addr)
+}
+
+add({
+  readAddr: function(addr) {
+    var parsed = getParsedAddr(addr)
+    return getDepValue(this, parsed)
+  },
+})
 }
 
 return Model;
