@@ -26,6 +26,7 @@ const build = ({
       'js/libs/provoda/provoda/CallbacksFlow',
       'js/libs/provoda/provoda/appRoot.js',
       'js/libs/provoda/provoda/dcl/addr.js',
+      'js/libs/provoda/provoda/dcl/attrs/input.js',
       'js/libs/FuncsQueue',
       'js/models/spyglasses/FakeSpyglassCore',
 

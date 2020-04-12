@@ -11,6 +11,7 @@ var prsStCon =  require('./prsStCon');
 var StatesEmitter = require('./StatesEmitter');
 var onPropsExtend = require('./View/onExtend');
 var selectCollectionChange = require('./View/selectCollectionChange');
+var initInputAttrs = require('./dcl/attrs/input/init')
 var nestBorrowInit = require('./dcl_view/nest_borrow/init');
 var nestBorrowDestroy = require('./dcl_view/nest_borrow/destroy');
 var nestBorrowCheckChange = require('./dcl_view/nest_borrow/check-change');
@@ -117,6 +118,11 @@ var initView = function(target, view_otps, opts){
 
   cloneObj(target._lbr.undetailed_states, target.mpx.states);
   cloneObj(target._lbr.undetailed_states, target.mpx.vstates);
+  var default_attrs = initInputAttrs(target)
+  if (default_attrs) {
+    cloneObj(target._lbr.undetailed_states, default_attrs)
+  }
+
   cloneObj(target._lbr.undetailed_children_models, target.mpx.nestings);
 
   prsStCon.connect.parent(target, target);
