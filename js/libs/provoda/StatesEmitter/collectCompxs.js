@@ -1,9 +1,8 @@
 define(function(require) {
 'use strict';
 
-var prsStCon = require('../prsStCon');
-
 var spv = require('spv');
+var cloneObj = spv.cloneObj
 var groupDeps = require('../utils/groupDeps')
 var getEncodedState= require('../utils/getEncodedState');
 var getShortStateName= require('../utils/getShortStateName');
@@ -114,7 +113,7 @@ var makeWatchIndex = function(full_comlxs_list) {
 }
 
 var extendTyped = function(self, typed_state_dcls) {
-  var result = spv.cloneObj(null, self._dcl_cache__compx) || {};
+  var result = cloneObj(null, self._dcl_cache__compx) || {};
 
   var extending_part = {};
 
@@ -125,7 +124,7 @@ var extendTyped = function(self, typed_state_dcls) {
     extending_part[name] = declr(name, typed_state_dcls[name]);
   }
 
-  result = spv.cloneObj(result, extending_part);
+  result = cloneObj(result, extending_part);
 
   self._dcl_cache__compx = result;
 };
