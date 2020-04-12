@@ -5,11 +5,8 @@ var StatesLabour = require('./StatesLabour');
 var utils_simple = require('./utils/simple');
 var spv = require('spv');
 var produceEffects = require('./StatesEmitter/produceEffects');
-var push = Array.prototype.push;
 var getSTCHfullname = spv.getPrefixingFunc('stch-');
-var getFinupFullname = spv.getPrefixingFunc('finup-');
-var nestWIndex = require('./nest-watch/index');
-var checkStates = nestWIndex.checkStates;
+var checkStates = require('./nest-watch/checkStates');
 var _passHandleState = require('./dcl/passes/handleState/handle')
 
 var serv_counter = 1;
