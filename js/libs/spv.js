@@ -1015,10 +1015,7 @@ function extend(Class, params, propsArg) {
 var path = typeof window !== 'undefined' ? window.location.origin + '/' : '';
 
 function codePath() {
-  var err = new Error();
-  var stack = err.stack.split('\n');
-  var path = stack[3];
-  return path.replace('    at ', '').replace(path, '');
+  return new Error();
 }
 
 function makeInit(builder) {

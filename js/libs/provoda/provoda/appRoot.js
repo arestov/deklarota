@@ -16,6 +16,7 @@ return function (props, init) {
   if (init) {
     all.init = init
   }
+  all.skip_code_path = true
 
   var App = spv.inh(AppModel, all, props)
   return prepare(App)
