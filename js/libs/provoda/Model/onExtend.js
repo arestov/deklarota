@@ -4,6 +4,7 @@ define(function(require){
 var spv = require('spv');
 var getTypedDcls = require('../dcl-h/getTypedDcls');
 var collectCompxs = require('../StatesEmitter/collectCompxs');
+var buildInputAttrs = require('../dcl/attrs/input/build')
 var checkChi = require('../StatesEmitter/checkChi');
 var checkNestRqC = require('../dcl/nest_model/check');
 var checkNestSel = require('../dcl/nest_sel/check');
@@ -90,6 +91,8 @@ return function(self, props, original, params) {
   checkSideeffects(self, props, typed_state_dcls, params)
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx']);
+  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
+
 
   collectSubpages(self, props);
   checkSubpager(self, props);
@@ -101,6 +104,14 @@ return function(self, props, original, params) {
 
 
   checkChi(self, props);
+
+  if (props.default_states) {
+    console.warn(
+      'use attrs.input to define default attr, check «dk/dcl/attrs/input helper',
+      self.model_name,
+      self.__code_path
+    )
+  }
 
 };
 

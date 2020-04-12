@@ -5,6 +5,7 @@ var cloneObj = spv.cloneObj;
 
 var getTypedDcls = require('../dcl-h/getTypedDcls');
 var collectCompxs = require('../StatesEmitter/collectCompxs');
+var buildInputAttrs = require('../dcl/attrs/input/build')
 var collectSelectorsOfCollchs = require('../dcl_view/collectSelectorsOfCollchs');
 var collectCollectionChangeDeclarations = require('../dcl_view/collectCollectionChangeDeclarations');
 var changeChildrenViewsDeclarations = require('../dcl_view/changeChildrenViewsDeclarations');
@@ -63,6 +64,7 @@ return function(self, props, original) {
   collectSelectorsOfCollchs(self, props);
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx']);
+  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
   var base_tree_mofified = props.hasOwnProperty('base_tree');
   if (base_tree_mofified) {

@@ -4,6 +4,7 @@ define(function (require) {
 var spv = require('spv')
 var cloneObj = spv.cloneObj;
 var initSubPager = require('../dcl/sub_pager/init');
+var initInputAttrs = require('../dcl/attrs/input/init')
 
 function buildHead(self, data) {
   var init_v2 = data && data.init_version === 2
@@ -135,11 +136,11 @@ function prepareStates(self, data, states) {
   self.init_states = self.init_states || null;
 
   var iss = createISS(self, data, states)
-
-  if (self.default_states) {
+  var default_attrs = initInputAttrs(self)
+  if (default_attrs) {
     var cur = self.init_states
     self.init_states = {}
-    cloneObj(self.init_states, self.default_states);
+    cloneObj(self.init_states, default_attrs);
     cloneObj(self.init_states, cur);
   }
 
