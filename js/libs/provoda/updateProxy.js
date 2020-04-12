@@ -227,7 +227,9 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   // preventing infinit circle here
   var inputLength = changes_list.length
   for (i = start_from; i < inputLength; i+=3) {
-    _replaceState(etr, total_original_states, original_states, changes_list[i+1], changes_list[i+2], changed_states);
+    var state_name = changes_list[i+1]
+    reportBadChange(etr, state_name)
+    _replaceState(etr, total_original_states, original_states, state_name, changes_list[i+2], changed_states);
   }
 
 
@@ -443,6 +445,24 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
 
   // states_links
 
+}
+
+function reportBadChange(etr, state_name) {
+  // if (etr.__default_attrs && etr.__default_attrs.hasOwnProperty(state_name)) {
+  //   return
+  // }
+  //
+  // if (etr.__bad_attrs_reported && etr.__bad_attrs_reported.hasOwnProperty(state_name)) {
+  //   return
+  // }
+  //
+  // if (!etr.__bad_attrs_reported) {
+  //   // __bad_attss_reported should be shared for all model instances
+  //   etr.constructor.prototype.__bad_attrs_reported = {}
+  // }
+  //
+  // etr.__bad_attrs_reported[state_name] = true
+  // console.warn('unexpectd change of attr: ', state_name, etr.model_name || 'Noname', etr.__code_path)
 }
 
 updateProxy.update = function(md, state_name, state_value, opts) {
