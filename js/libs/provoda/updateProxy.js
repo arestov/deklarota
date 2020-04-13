@@ -4,6 +4,7 @@ define(function(require) {
 var StatesLabour = require('./StatesLabour');
 var utils_simple = require('./utils/simple');
 var spv = require('spv');
+var assignPublicAttrs = require('./Model/assignPublicAttrs')
 var produceEffects = require('./StatesEmitter/produceEffects');
 var getSTCHfullname = spv.getPrefixingFunc('stch-');
 var checkStates = require('./nest-watch/checkStates');
@@ -132,6 +133,8 @@ function updateProxy(etr, changes_list, opts) {
   //utils_simple.wipeObj(original_states);
   //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
 
+  assignPublicAttrs(etr, total_ch)
+
   if (etr.sendStatesToMPX && total_ch.length){
     etr.sendStatesToMPX(total_ch);
   }
@@ -169,7 +172,6 @@ function createIterate1arg(cb) {
 function _setUndetailedState(etr, i, state_name, value) {
   etr._lbr.undetailed_states[state_name] = value;
 }
-
 
 
 function proxyStch(target, value, state_name) {
