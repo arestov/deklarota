@@ -50,33 +50,35 @@ var handleNesting = function(cur, models_index, local_index, all_for_parse) {
   return array
 }
 
+var replaceItem = function(item) {
+  if (!hasId(item)) {
+    return item
+  }
+
+  return {
+    _provoda_id: item._provoda_id,
+  };
+}
+
+var replaceModelInState = function(value) {
+  if (!value) {
+    return value
+  }
+
+  if (!Array.isArray(value)) {
+    return replaceItem(value)
+
+  }
+
+  if (!value.some(hasId)) {
+    return value
+  }
+
+  return value.map(replaceItem)
+}
+
 var iterate = function( models_index, all_for_parse, local_index, big_result) {
-  var replaceItem = function(item) {
-    if (!hasId(item)) {
-      return item
-    }
 
-    return {
-      _provoda_id: checkModel(item, models_index, local_index, all_for_parse)
-    };
-  }
-
-  var replaceModelInState = function(value) {
-    if (!value) {
-      return value
-    }
-
-    if (!Array.isArray(value)) {
-      return replaceItem(value)
-
-    }
-
-    if (!value.some(hasId)) {
-      return value
-    }
-
-    return value.map(replaceItem)
-  }
 
   while (all_for_parse.length) {
     var cur_md = all_for_parse.shift();
