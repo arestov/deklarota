@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var View = require('View');
 var spv = require('spv');
-var view_serv = require('view_serv');
+var css = require('view_serv/css');
 var pvState = require('pv/state');
 var pvUpdate = require('pv/update');
 var updateAttr = require('pv/updateAttr');
@@ -20,7 +20,7 @@ var readMapSliceAnimationData = require('./readMapSliceAnimationData');
 var animateMapSlice = require('./animateMapSlice');
 var findMpxViewInChildren = require('./findMpxViewInChildren');
 
-var can_animate = view_serv.css.transform && view_serv.css.transition;
+var can_animate = css.transform && css.transition;
 
 var sync_opt = {sync_tpl: true};
 

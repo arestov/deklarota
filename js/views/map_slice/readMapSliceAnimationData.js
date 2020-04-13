@@ -1,14 +1,14 @@
 define(function (require) {
 'use strict';
-var view_serv = require('view_serv');
+var css = require('view_serv/css');
 var getAttr = require('pv/getAttr');
 var getModelFromR = require('pv/v/getModelFromR')
 var anyDeeplyIncludedViews = require('./anyDeeplyIncludedViews')
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')
 
-var can_animate = view_serv.css.transform && view_serv.css.transition;
-var css_transform = view_serv.css.transform;
+var can_animate = css.transform && css.transition;
+var css_transform = css.transform;
 var transform_props = css_transform ? [css_transform] : [];
 
 var getNavOHeight = function() {
