@@ -1,14 +1,14 @@
 define(function (require) {
 'use strict';
 var spv = require('spv');
-var view_serv = require('view_serv');
+var css = require('view_serv/css');
 var getModelFromR = require('pv/v/getModelFromR')
 var updateAttr = require('pv/updateAttr');
 var getAttr = require('pv/getAttr');
 
 var sync_opt = {sync_tpl: true};
 
-var css_transform = view_serv.css.transform;
+var css_transform = css.transform;
 var transform_props = css_transform ? [css_transform] : [];
 //['-webkit-transform', '-moz-transform', '-o-transform', 'transform'];
 var empty_transform_props = {};
