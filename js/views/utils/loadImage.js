@@ -1,6 +1,6 @@
 define(function (require) {
 'use strict';
-var view_serv = require('view_serv');
+var loadImageS = require('view_serv/loadImage');
 
 return function loadImage(view, opts) {
   var root_view = view.root_view;
@@ -18,6 +18,6 @@ return function loadImage(view, opts) {
   opts.timeout = opts.timeout || 40000;
   opts.queue = opts.queue || queue;
 
-  return view_serv.loadImage(opts);
+  return loadImageS(opts);
 };
 })
