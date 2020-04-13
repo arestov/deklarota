@@ -3,10 +3,10 @@ define(function(require) {
 
 var spv = require('spv');
 var angbo = require('angbo');
-var dom_helpers = require('./utils/dom_helpers')
-var parser = require('./pvTemplate/parser');
-var PvSimpleSampler = require('./pvTemplate/PvSimpleSampler');
-var parseEasy = require('./pvTemplate/parseEasy');
+var dom_helpers = require('../utils/dom_helpers')
+var parser = require('./parser');
+var PvSimpleSampler = require('./PvSimpleSampler');
+var parseEasy = require('./parseEasy');
 
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;

@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var spv = require('spv');
 var CoreView = require('./CoreView')
-var PvTemplate = require('./PvTemplate');
+var PvTemplate = require('./pvTemplate/PvTemplate');
 var appending = require('./View/appending')
 var getBwlevView = require('./View/getBwlevView')
 var createTemplate = require('./View/createTemplate')
