@@ -8,8 +8,7 @@ const build = ({
   path = 'dist/esm'
 }) => rollup({
     preserveModules: true,
-    external: ['jquery'],
-    external: ['cash-dom'],
+    external: ['jquery', 'cash-dom'],
     input: [
       'js/libs/provoda/provoda.js',
       'js/libs/provoda/provoda/getAttr.js',
@@ -91,26 +90,27 @@ const build = ({
         dir: path,
         format: 'esm',
         name: 'library',
-        output: {
-          globals: {
-            jquery: '$'
-          },
+        globals: {
+          'cash-dom': '$'
         },
         // sourcemap: true
       }),
-      all && bundle.write({
-        dir: 'dist/cjs', // use umd?
-        format: 'cjs',
-        name: 'library',
-        output: {
-          globals: {
-            jquery: '$'
-          },
-        },
-        // sourcemap: true
-      })
+      // all && bundle.write({
+      //   dir: 'dist/cjs', // use umd?
+      //   format: 'cjs',
+      //   name: 'library',
+      //   output: {
+      //     globals: {
+      //       jquery: '$'
+      //     },
+      //   },
+      //   // sourcemap: true
+      // })
     ])
   })
-  .catch(console.error)
+  .catch(e => {
+    console.error(e)
+    throw e
+  })
 
 module.exports = build
