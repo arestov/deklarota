@@ -3,6 +3,7 @@ define(function(require) {
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 var isPrivate = require('./isPrivateState')
+var replaceModelInState = require('./replaceModelInState')
 
 var checkModel = function(md, models_index, local_index, all_for_parse) {
   var cur_id = md._provoda_id;
@@ -12,10 +13,6 @@ var checkModel = function(md, models_index, local_index, all_for_parse) {
   }
   return cur_id;
 };
-
-var hasId = function(value) {
-  return value && value._provoda_id
-}
 
 var handleNesting = function(cur, models_index, local_index, all_for_parse) {
   if (!cur) {
@@ -48,33 +45,6 @@ var handleNesting = function(cur, models_index, local_index, all_for_parse) {
     array[i] = checkModel(cur[i], models_index, local_index, all_for_parse);
   }
   return array
-}
-
-var replaceItem = function(item) {
-  if (!hasId(item)) {
-    return item
-  }
-
-  return {
-    _provoda_id: item._provoda_id,
-  };
-}
-
-var replaceModelInState = function(value) {
-  if (!value) {
-    return value
-  }
-
-  if (!Array.isArray(value)) {
-    return replaceItem(value)
-
-  }
-
-  if (!value.some(hasId)) {
-    return value
-  }
-
-  return value.map(replaceItem)
 }
 
 var iterate = function( models_index, all_for_parse, local_index, big_result) {
