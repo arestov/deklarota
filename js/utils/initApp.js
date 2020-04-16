@@ -2,10 +2,16 @@ define(require => {
   const pv = require('pv')
 
   const glo = typeof global !== 'undefined' ? global : window
+
+  const makeFlow = function (arg1, arg2) {
+    const flow = new pv.CallbacksFlow(glo)
+    return flow
+  }
+
   const initApp = (App, env, interfaces, { logger } = {}) => {
     const views_proxies = new pv.views_proxies.Proxies()
     const sync_sender = new pv.SyncSender()
-    const flow = new pv.CallbacksFlow(glo)
+    const flow = interfaces.flow || makeFlow()
     return new Promise(resolve => {
       flow.input(() => {
         const app_model = new App({
@@ -36,5 +42,7 @@ define(require => {
     //   initBrowsing(app_model)
     // }
   }
+
+  initApp.makeFlow = makeFlow
   return initApp
 })
