@@ -214,10 +214,18 @@ var View = spv.inh(StatesEmitter, {
 
     this.root_view.parent_view.RPCLegacy('requestPage', md_id);
   },
-  navShowByReq: function(reqId, goal, data) {
+  navShowByReq: function(reqId, goal, options, data) {
+    var router_name = options && options.router
+    var remember_context = !options || options.remember_context === true
+
     var bwlev_view = getBwlevView(this);
-    var context_bwlev = bwlev_view.mpx._provoda_id
-    var current_bwlev_map = bwlev_view.mpx.md.children_models.map.children_models.current_mp_bwlev._provoda_id;
+
+    var context_bwlev = remember_context
+      ? bwlev_view.mpx._provoda_id
+      : null
+    var current_bwlev_map = remember_context
+      ? bwlev_view.mpx.md.children_models.map.children_models.current_mp_bwlev._provoda_id
+      : null;
 
     this.root_view.parent_view.RPCLegacy('navShowByReq', {
       id: reqId,
@@ -225,7 +233,7 @@ var View = spv.inh(StatesEmitter, {
       data: data,
       context_bwlev: context_bwlev,
       current_bwlev_map: current_bwlev_map,
-    });
+    }, router_name);
   },
   navCheckGoalToGetBack: function(goal) {
     var bwlev_view = getBwlevView(this)

@@ -57,8 +57,12 @@ var RootLev = spv.inh(Model, {}, {
       this.used_data_structure = used_data_structure;
       pvUpdate(this, 'used_data_structure', used_data_structure);
     },
-    navShowByReq: function(req) {
-      var map = getSPByPathTemplate(this.app, this, 'spyglass-navigation')
+    navShowByReq: function(req, router_name_arg) {
+      var router_name = router_name_arg
+        ? ('spyglass-' + router_name_arg)
+        : 'spyglass-navigation'
+
+      var map = getSPByPathTemplate(this.app, this, router_name)
 
       map.input(function() {
         map.updateState('wantedReq', req)
