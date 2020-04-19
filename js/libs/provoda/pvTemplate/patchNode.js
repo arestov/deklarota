@@ -4,6 +4,7 @@ var d_parsers = require('./directives_parsers');
 var getCachedPVData = require('./getCachedPVData');
 var getTemplateOptions = require('./pv-import/getTemplateOptions');
 // var patching_directives = d_parsers.patching_directives;
+var patchPvWhen = require('./pv-when/patch')
 var makePvWhen = require('./pv-when-condition/makeDirective.js')
 var getIndexList = d_parsers.getIndexList;
 var setStrucKey = getCachedPVData.setStrucKey;
@@ -28,21 +29,7 @@ var patching_directives = {
       return instance;
     };
   })(),
-  'pv-when': function(node, params, getSample, opts) {
-    var parent_node = node.parentNode;
-    var full_declaration = params;
-
-    var comment_anchor = window.document.createComment('anchor for pv-when');
-    parent_node.replaceChild(comment_anchor, node);
-    var directives_data = {
-      new_scope_generator: true,
-      instructions: {
-        'pv-when-condition': makePvWhen(comment_anchor, full_declaration, false, node)
-      }
-    };
-    comment_anchor.directives_data = directives_data;
-    return comment_anchor;
-  },
+  'pv-when': patchPvWhen,
   'pv-replace': function(node, params, getSample, opts) {
     params.done = true;
     var map = opts && opts.samples;
