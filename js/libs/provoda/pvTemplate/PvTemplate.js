@@ -7,6 +7,7 @@ var dom_helpers = require('../utils/dom_helpers')
 var parser = require('./parser');
 var PvSimpleSampler = require('./PvSimpleSampler');
 var parseEasy = require('./parseEasy');
+var BnddChunk = require('./BnddChunk')
 
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;
@@ -309,16 +310,6 @@ var indexPvView = function(item, index) {
     //result[real_name][space] = cur;
   }
 };
-
-var BnddChunk = function(type, data) {
-  this.type = type;
-  this.data = data;
-  this.dead = false;
-  this.handled = false;
-  this.states_inited = false;
-  this.destroyer = null;
-};
-
 
 var handleChunks = (function() {
   var chunk_destroyers = {
