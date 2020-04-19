@@ -4,18 +4,15 @@ define(function(require) {
 var spv = require('spv');
 var angbo = require('angbo');
 var StandartChange = require('./StandartChange');
-var dom_helpers = require('../utils/dom_helpers')
 var parsePvWhen= require('./pv-when/parseDirective')
 var parsePvReplace = require('./pv-replace/parseDirective')
+var parsePvText = require('./pv-text/parseDirective')
 var regxp_props = require('./regxp_props')
 
 var capitalize = spv.capitalize;
 var startsWith = spv.startsWith;
 var getTargetField = spv.getTargetField;
 var setTargetField = spv.setTargetField;
-
-var getText = dom_helpers.getText;
-var setText = dom_helpers.setText;
 
 var regxp_props_com = regxp_props.regxp_props_com
 var regxp_props_spaces = regxp_props.regxp_props_spaces
@@ -156,21 +153,7 @@ return {
     'pv-replace': parsePvReplace,
   },
   directives_p: {
-    'pv-text': (function() {
-      var getTextValue = function(node) {
-        return getText(node);
-      };
-      var setTextValue = function(node, new_value) {
-        return setText(node, new_value)
-      };
-      return function(node, full_declaration, directive_name) {
-        return new StandartChange(node, {
-          complex_statement: full_declaration,
-          getValue: getTextValue,
-          setValue: setTextValue
-        }, directive_name);
-      };
-    })(),
+    'pv-text': parsePvText,
     'pv-class': (function() {
       var getClassName = function(node, class_name) {
         return node.classList.contains(class_name);
