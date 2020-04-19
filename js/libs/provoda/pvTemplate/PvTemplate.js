@@ -9,6 +9,8 @@ var PvSimpleSampler = require('./PvSimpleSampler');
 var parseEasy = require('./parseEasy');
 var BnddChunk = require('./BnddChunk')
 
+var initPvWhenCond = require('./pv-when-condition/init')
+
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;
 var removeEvent = spv.removeEvent;
@@ -677,20 +679,7 @@ spv.Class.extendTo(PvTemplate, {
       // 		}
       // 	}
       // },
-      'pv-when-condition': function(node, standch) {
-        if (standch) {
-          var wwtch = standch.createBinding(node, this);
-          var destroyer = function() {
-            if (wwtch.destroyer) {
-              wwtch.destroyer();
-            }
-          };
-          var chunk = new BnddChunk('states_watcher', wwtch);
-          chunk.destroyer = destroyer;
-          return chunk;
-        }
-
-      },
+      'pv-when-condition': initPvWhenCond,
       'pv-text': function(node, standch){
         if (standch){
           var wwtch = standch.createBinding(node, this);
