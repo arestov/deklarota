@@ -12,6 +12,7 @@ var BnddChunk = require('./BnddChunk')
 var initPvWhenCond = require('./pv-when-condition/init')
 var initPvClass = require('./pv-class/init')
 var initPvText = require('./pv-text/init')
+var initPvProps = require('./pv-props/init')
 
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;
@@ -684,16 +685,7 @@ spv.Class.extendTo(PvTemplate, {
       'pv-when-condition': initPvWhenCond,
       'pv-text': initPvText,
       'pv-class': initPvClass,
-      'pv-props': function(node, standches) {
-        if (standches){
-          var result = [];
-          for (var i = 0; i < standches.length; i++) {
-            var wwtch = standches[i].createBinding(node, this);
-            result.push(new BnddChunk('states_watcher', wwtch));
-          }
-          return result;
-        }
-      },
+      'pv-props': initPvProps,
 
       'pv-anchor': function(node, full_declaration) {
         var anchor_name = full_declaration;
