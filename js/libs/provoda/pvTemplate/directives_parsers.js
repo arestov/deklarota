@@ -5,6 +5,7 @@ var spv = require('spv');
 var angbo = require('angbo');
 var StandartChange = require('./StandartChange');
 var dom_helpers = require('../utils/dom_helpers')
+var parsePvWhen= require('./pv-when/parseDirective')
 
 var capitalize = spv.capitalize;
 var startsWith = spv.startsWith;
@@ -257,12 +258,7 @@ return {
       //пример:
       //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
     },
-    'pv-when': function(node, full_declaration, directive_name) {
-      if (!full_declaration){
-        return;
-      }
-      return full_declaration;
-    },
+    'pv-when': parsePvWhen,
     'pv-type': (function() {
       var getPVTypes = function() {
         return '';
