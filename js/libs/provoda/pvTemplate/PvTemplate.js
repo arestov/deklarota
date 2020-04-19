@@ -13,6 +13,7 @@ var initPvWhenCond = require('./pv-when-condition/init')
 var initPvClass = require('./pv-class/init')
 var initPvText = require('./pv-text/init')
 var initPvProps = require('./pv-props/init')
+var initPvType = require('./pv-type/init')
 
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;
@@ -694,21 +695,7 @@ spv.Class.extendTo(PvTemplate, {
           node: node
         });
       },
-      'pv-type': function(node, standch) {
-        if (standch){
-          var pv_type_data = {node: node, marks: null};
-
-          var wwtch = standch.createBinding(node, this);
-          wwtch.pv_type_data = pv_type_data;
-          wwtch.checkFunc(this.empty_state_obj);
-
-          return [
-            new BnddChunk('states_watcher', wwtch),
-            new BnddChunk('pv_type', pv_type_data)
-          ];
-
-        }
-      },
+      'pv-type': initPvType,
       'pv-events': function(node, pv_events_data) {
         if (pv_events_data){
 
