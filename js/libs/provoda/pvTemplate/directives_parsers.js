@@ -1,7 +1,6 @@
 define(function(require) {
 'use strict';
 
-var angbo = require('angbo');
 var StandartChange = require('./StandartChange');
 var parsePvWhen= require('./pv-when/parseDirective')
 var parsePvReplace = require('./pv-replace/parseDirective')
@@ -11,6 +10,7 @@ var parsePvProps = require('./pv-props/parseDirective')
 var parsePvType = require('./pv-type/parseDirective')
 var parsePvEvents = require('./pv-events/parseDirective')
 var parsePvNest = require('./pv-nest/parseDirective')
+var parsePvRepeat = require('./pv-repeat/parseDirective')
 
 var getFieldsTreesBases = StandartChange.getFieldsTreesBases;
 
@@ -98,39 +98,7 @@ return {
   },
   scope_generators_p: {
     'pv-nest': parsePvNest,
-    'pv-repeat': function(node, full_declaration) {
-
-      //start of angular.js code
-      var expression = full_declaration;//attr.ngRepeat;
-      var match = expression.match(/^\s*(.+)\s+in\s+(.*)\s*$/),
-        lhs, rhs, valueIdent, keyIdent;
-      if (! match) {
-        throw new Error("Expected ngRepeat in form of '_item_ in _collection_' but got '" +
-        expression + "'.");
-      }
-      lhs = match[1];
-      rhs = match[2];
-      match = lhs.match(/^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/);
-      if (!match) {
-        throw new Error("'item' in 'item in collection' should be identifier or (key, value) but got '" +
-        lhs + "'.");
-      }
-      valueIdent = match[3] || match[1];
-      keyIdent = match[2];
-      //end of angular.js code
-
-      var calculator = angbo.parseExpression(rhs);
-      var all_values = calculator.propsToWatch;
-      var sfy_values = getFieldsTreesBases(all_values);
-
-      return {
-        expression: expression,
-        valueIdent: valueIdent,
-        keyIdent: keyIdent,
-        calculator: calculator,
-        sfy_values: sfy_values
-      };
-    }
+    'pv-repeat': parsePvRepeat,
   }
 };
 
