@@ -6,6 +6,7 @@ var angbo = require('angbo');
 var StandartChange = require('./StandartChange');
 var dom_helpers = require('../utils/dom_helpers')
 var parsePvWhen= require('./pv-when/parseDirective')
+var regxp_props = require('./regxp_props')
 
 var capitalize = spv.capitalize;
 var startsWith = spv.startsWith;
@@ -14,6 +15,12 @@ var setTargetField = spv.setTargetField;
 
 var getText = dom_helpers.getText;
 var setText = dom_helpers.setText;
+
+var regxp_props_com = regxp_props.regxp_props_com
+var regxp_props_com_soft = regxp_props.regxp_props_com_soft
+var regxp_props_spaces = regxp_props.regxp_props_spaces
+var regxp_props_coms_part = regxp_props.regxp_props_coms_part
+var regxp_props_statement = regxp_props.regxp_props_statement
 
 
 var DOT = '.';
@@ -71,16 +78,6 @@ var createPropChange = (function() {
     }, directive_name);
   };
 })();
-
-
-
-
-
-var regxp_props_com = /\S[\S\s]*?\:[\s]*?\{\{[\S\s]+?\}\}/gi;
-var regxp_props_com_soft = /\S[\S\s]*?\:[\s]*?(?:\{\{[\S\s]+?\}\})|(?:\S+?(\s|$))/gi;
-var regxp_props_spaces = /^\s*|s*?$/;
-var regxp_props_coms_part = /\s*\:\s*?(?=\{\{)/;
-var regxp_props_statement = /(^\{\{)|(\}\}$)/gi;
 
 var getFieldsTreesBases = StandartChange.getFieldsTreesBases;
 
