@@ -2,8 +2,8 @@ define(function(require) {
 'use strict';
 var d_parsers = require('./directives_parsers');
 var getCachedPVData = require('./getCachedPVData');
-var getTemplateOptions = require('./pv-import/getTemplateOptions');
 // var patching_directives = d_parsers.patching_directives;
+var patchPvImport = require('./pv-import/patch')
 var patchPvWhen = require('./pv-when/patch')
 var patchPvReplace = require('./pv-replace/patch')
 var getIndexList = d_parsers.getIndexList;
@@ -12,23 +12,7 @@ var setStrucKey = getCachedPVData.setStrucKey;
 
 
 var patching_directives = {
-  'pv-import': (function(){
-    var counter = 1;
-
-    function createKey() {
-      return counter++;
-    }
-
-    return function(node, params, getSample, opts) {
-      var template_options = getTemplateOptions(params, createKey);
-      var instance = getSample(params.sample_name, true, template_options);
-
-      var parent_node = node.parentNode;
-      parent_node.replaceChild(instance, node);
-
-      return instance;
-    };
-  })(),
+  'pv-import': patchPvImport,
   'pv-when': patchPvWhen,
   'pv-replace': patchPvReplace,
 };
