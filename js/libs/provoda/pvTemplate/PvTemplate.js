@@ -14,6 +14,7 @@ var initPvClass = require('./pv-class/init')
 var initPvText = require('./pv-text/init')
 var initPvProps = require('./pv-props/init')
 var initPvType = require('./pv-type/init')
+var initPvEvents = require('./pv-events/init')
 
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;
@@ -696,21 +697,7 @@ spv.Class.extendTo(PvTemplate, {
         });
       },
       'pv-type': initPvType,
-      'pv-events': function(node, pv_events_data) {
-        if (pv_events_data){
-
-          if (!this.sendCallback){
-            throw new Error('provide the events callback handler to the Template init func');
-          }
-          var result = [];
-
-          for (var i = 0; i < pv_events_data.length; i++) {
-            var evdata = pv_events_data[i];
-            result.push(new BnddChunk('pv_event', {node: node, evdata: evdata}));
-          }
-          return result;
-        }
-      }
+      'pv-events': initPvEvents,
     };
 
     return function(directive_name, node, full_declaration) {
