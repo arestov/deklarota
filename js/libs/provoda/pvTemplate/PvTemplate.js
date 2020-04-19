@@ -18,6 +18,8 @@ var initPvProps = require('./pv-props/init')
 var initPvType = require('./pv-type/init')
 var initPvEvents = require('./pv-events/init')
 
+var initPvNest = require('./pv-nest/init')
+
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;
 var removeEvent = spv.removeEvent;
@@ -330,29 +332,7 @@ spv.Class.extendTo(PvTemplate, {
 
   scope_generators:{
 
-    'pv-nest': function(node, data) {
-      //coll_name for_model filter
-      if (typeof data.coll_name == 'string'){
-        var pv_view = {
-          views: [],
-          node: node,
-          sampler: new PvSimpleSampler(node, this.struc_store, this.getSample),
-          coll_name: data.coll_name,
-          controller_name: data.controller_name,
-          for_model: data.for_model,
-          space: data.space,
-          filterFn: data.filterFn,
-          destroyers: null,
-          onDie: function(cb) {
-            if (!pv_view.destroyers) {
-              pv_view.destroyers = [];
-            }
-            pv_view.destroyers.push(cb);
-          }
-        };
-        return new BnddChunk('pv_view', pv_view);
-      }
-    },
+    'pv-nest': initPvNest,
     'pv-repeat': function(node, data) {
       if (node == this.root_node){
         return;
