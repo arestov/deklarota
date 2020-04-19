@@ -79,6 +79,11 @@ var hndPVRepeat = function(new_fv, states) {
       scope.$middle = !(scope.$first || scope.$last);
 
       var cur_node = sampler.getClone();
+
+      // TODO:
+      // 1. reuse prev template
+      // 2. remove removed templated
+
       var template = new PvTemplate({
         node: cur_node,
         pv_repeat_context: full_pv_context,
