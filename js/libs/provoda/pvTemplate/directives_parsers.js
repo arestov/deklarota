@@ -6,6 +6,7 @@ var angbo = require('angbo');
 var StandartChange = require('./StandartChange');
 var dom_helpers = require('../utils/dom_helpers')
 var parsePvWhen= require('./pv-when/parseDirective')
+var parsePvReplace = require('./pv-replace/parseDirective')
 var regxp_props = require('./regxp_props')
 
 var capitalize = spv.capitalize;
@@ -17,7 +18,6 @@ var getText = dom_helpers.getText;
 var setText = dom_helpers.setText;
 
 var regxp_props_com = regxp_props.regxp_props_com
-var regxp_props_com_soft = regxp_props.regxp_props_com_soft
 var regxp_props_spaces = regxp_props.regxp_props_spaces
 var regxp_props_coms_part = regxp_props.regxp_props_coms_part
 var regxp_props_statement = regxp_props.regxp_props_statement
@@ -153,26 +153,7 @@ return {
   getIndexList: getIndexList,
   getFieldsTreesBases: getFieldsTreesBases,
   comment_directives_p: {
-    'pv-replace': function(node, full_declaration, directive_name, getSample) {
-      var index = {};
-      var complex_value = full_declaration;
-      var complects = complex_value.match( regxp_props_com_soft );
-
-      for (var i = 0; i < complects.length; i++) {
-        complects[i] = complects[i].replace( regxp_props_spaces, '' );
-        var splitter_index = complects[i].indexOf(':');
-
-        var prop = complects[i].slice( 0, splitter_index );
-        var statement = complects[i].slice( splitter_index + 1 ).replace( regxp_props_statement, '' );
-
-        if (!prop || !statement){
-          throw new Error('wrong declaration: ' + complex_value);
-        }
-        index[prop] = statement;
-      }
-
-      return index;
-    }
+    'pv-replace': parsePvReplace,
   },
   directives_p: {
     'pv-text': (function() {
