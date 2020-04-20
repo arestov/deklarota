@@ -3,6 +3,8 @@ define(function(require) {
 var batching = require('./batching')
 
 var req_utils = require('./req-utils')
+var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
+
 var getRequestByDeclr = req_utils.getRequestByDeclr
 var findErrorByList = req_utils.findErrorByList
 
@@ -134,6 +136,12 @@ return function(dclt, nesting_name, limit) {
   var parse_serv = dclt.parse_serv;
   var side_data_parsers = dclt.side_data_parsers;
   var send_declr = dclt.send_declr;
+
+  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
+    console.warn(new Error('api not ready yet'), send_declr)
+    return
+  }
+
   var supports_paging = !!parse_serv;
   var limit_value = limit && (limit[1] - limit[0]);
   var paging_opts = this.sputnik.getPagingInfo(nesting_name, limit_value);
