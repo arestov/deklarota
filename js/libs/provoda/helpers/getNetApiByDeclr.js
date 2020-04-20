@@ -17,6 +17,6 @@ return function getNetApiByDeclr(send_declr, sputnik, app) {
     return (app || sputnik.app)._interfaces_using.used[api_name.replace('#', '')];
   }
 
-  return sputnik._interfaces_using.used[api_name];
+  return sputnik._interfaces_using && sputnik._interfaces_using.used[api_name];
 }
 })
