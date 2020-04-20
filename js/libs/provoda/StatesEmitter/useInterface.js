@@ -24,8 +24,12 @@ var template = function () {
   };
 };
 
+var update = function(self, interface_name, value) {
+  pvUpdate(self, '_api_used_' + interface_name, value);
+  pvUpdate(self, '$meta$apis$' + interface_name + '$used', value);
+}
 
-return function (self, interface_name, obj, destroy) {
+var useInterface = function (self, interface_name, obj, destroy) {
   var using = self._interfaces_using;
   var old_interface = using && using.used[interface_name];
   if (obj === old_interface) {
@@ -48,8 +52,7 @@ return function (self, interface_name, obj, destroy) {
   }
 
   if (!obj) {
-    pvUpdate(self, '_api_used_' + interface_name, false);
-    pvUpdate(self, '$meta$apis$' + interface_name + '$used', false);
+    update(self, interface_name, false)
     return;
   }
 
@@ -58,8 +61,11 @@ return function (self, interface_name, obj, destroy) {
   using = runOnApiAdded(self, using, interface_name, values_original2)
   self._interfaces_using = using
 
-  pvUpdate(self, '_api_used_' + interface_name, true);
-  pvUpdate(self, '$meta$apis$' + interface_name + '$used', true);
+  update(self, interface_name, Date.now())
 
 };
+
+return function useInterfaceWrap(self, interface_name, obj, destroy) {
+  self.nextTick(useInterface, [self, interface_name, obj, destroy], false, false)
+}
 });
