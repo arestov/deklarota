@@ -1,13 +1,22 @@
-define(function() {
+define(function(require) {
 'use strict';
+var spv = require('spv')
+var updateRootInterface = spv.memorize(function(name) {
+  return function(val) {
+    var interface_instance = val
+      ? this.app._interfaces_using.used[name]
+      : null
+    this.useInterface('#' + name, interface_instance);
+  }
+})
 var connectRootApis = function(self, list) {
   if (!list) {
     return
   }
   for (var i = 0; i < list.length; i++) {
     var cur = list[i];
-    var api = self.app._interfaces_using.used[cur]
-    self.useInterface('#' + cur, api);
+    var meta_state_name = '$meta$apis$' + cur + '$used'
+    self.lwch(self.app, meta_state_name, updateRootInterface(cur))
   }
 }
 
