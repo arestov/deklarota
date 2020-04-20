@@ -230,6 +230,12 @@ return function(state_name) {
   }
 
   var selected_map = maps_for_state[0]; //take first
+
+  if (!getNetApiByDeclr(selected_map.send_declr, this.sputnik)) {
+    console.warn(new Error('api not ready yet'), selected_map.send_declr)
+    return
+  }
+
   var selected_map_num = selected_map.num;
   if (!this.mapped_reqs) {
     this.mapped_reqs = {};
