@@ -178,7 +178,7 @@ arrayExclude = spv.arrayExclude = function(arr, obj){
     return r;
   }
 
-  if (obj instanceof Array){
+  if (Array.isArray(obj)){
     return arExclComplex(r, arr, obj);
   } else {
     return arExclSimple(r, arr, obj);
@@ -379,7 +379,7 @@ spv.collapseAll = function(){
   var r= [];
   for (var i=0; i < arguments.length; i++) {
     var c = arguments[i];
-    if (c instanceof Array){
+    if (Array.isArray(c)){
       for (var ii=0; ii < c.length; ii++) {
         if (r.indexOf(c[ii]) == -1){
           r.push(c[ii]);
@@ -396,7 +396,7 @@ spv.collapseAll = function(){
 };
 
 toRealArray = spv.toRealArray = function(array, check_field){
-  if (array instanceof Array){
+  if (Array.isArray(array)){
     return array;
   } else if (array && (typeof array == 'object') && array.length){
     return Array.prototype.slice.call(array);
