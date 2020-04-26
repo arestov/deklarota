@@ -7,11 +7,21 @@ var get_constr = require('./get_constr');
 
 var getEncodedState = hp.getEncodedState;
 var getNestingConstr = get_constr.getNestingConstr;
+
+var modelInfo = function(md)  {
+  if (typeof md == 'function') {
+    return md.prototype
+  }
+
+  return md
+}
+
+
 var getNestReq = function(md, nest_name) {
-  return md._nest_reqs && md._nest_reqs[nest_name];
+  return modelInfo(md)._nest_reqs && modelInfo(md)._nest_reqs[nest_name];
 }
 var getNestConstr = function(md, nest_name) {
-  return md._nest_rqc && md._nest_rqc[nest_name]
+  return modelInfo(md)._nest_rqc && modelInfo(md)._nest_rqc[nest_name]
 }
 
 var dep_counter = 1;
@@ -49,7 +59,7 @@ function checkNestingPath(app, md, dep, path, original_need) {
   for (var i = 0; i < path.length; i++) {
     var nesting_name = path[i];
 
-    var constr = getNestingConstr(app, cur, nesting_name);
+    var constr = getNestingConstr(modelInfo(app), cur, nesting_name);
     var right_nesting_name = hp.getRightNestingName(cur, nesting_name);
     if (!constr) {
       console.log('no const', nesting_name);
@@ -123,11 +133,11 @@ function checkNestingPath(app, md, dep, path, original_need) {
 var relatedDeps = function(app, md, state_name) {
   var short_name = hp.getShortStateName(state_name);
 
-  var is_compx_state = md.hasComplexStateFn(short_name);
+  var is_compx_state = modelInfo(md).hasComplexStateFn(short_name);
   if (!is_compx_state) {
     return null;
   }
-  var dependence_list = md.compx_check[short_name].watch_list;
+  var dependence_list = modelInfo(md).compx_check[short_name].watch_list;
 
 
   var related = [];
@@ -208,7 +218,7 @@ function chechTreeStructure(app, md, dep) {
         console.log(new Error('should not be `needed` here'));
       }
       var short_name = hp.getShortStateName(dep.value);
-      var can_request = md._states_reqs_index && md._states_reqs_index[short_name];
+      var can_request = modelInfo(md)._states_reqs_index && modelInfo(md)._states_reqs_index[short_name];
       if (can_request) {
         dep.can_request = true;
         return dep;
@@ -241,13 +251,13 @@ function chechTreeStructure(app, md, dep) {
 
     var parent_md;
     for (var i = 0; i < dep.value; i++) {
-      parent_md = md._parent_constr.prototype;
+      parent_md = modelInfo(md)._parent_constr.prototype;
     }
     dep.related = getRelated(app, parent_md, dep.needed);
     return dep;
 
   } else if (dep.type == 'root') {
-    dep.related = getRelated(app, md._root_constr.prototype, dep.needed);
+    dep.related = getRelated(app, modelInfo(md)._root_constr.prototype, dep.needed);
     return dep;
   }
 
@@ -274,7 +284,7 @@ var flatStruc = spv.memorize(function flatStruc(md, struc, appArg) {
   console.log(result);
   return result;
 }, function(md) {
-  return md.constr_id;
+  return modelInfo(md).constr_id;
 });
 
 return flatStruc;
