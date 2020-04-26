@@ -48,6 +48,15 @@ function mark(Constr, RootConstr, parent_path) {
     self._all_chi[prop] = mark(item, RootConstr, hierarchy_path);
   }
 
+  if (Constr == RootConstr) {
+    if (self.zero_map_level) {
+      self.start_page = self
+    } else {
+      var start_page = self._all_chi['chi-start__page']
+      self.start_page = (start_page && start_page.prototype) || self
+    }
+  }
+
   return Constr;
 }
 
