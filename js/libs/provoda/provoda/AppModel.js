@@ -15,7 +15,11 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
   postInit: function(target) {
     if (target.zero_map_level) {
       // start_page will be app root
-      target.start_page = target.start_page || target
+
+      if (target.hasOwnProperty('start_page')) {
+        return
+      }
+      target.start_page = target
       return
     }
 
@@ -24,7 +28,10 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
       return
     }
 
-    target.start_page = target.start_page || target.initChi('start__page')
+    if (target.hasOwnProperty('start_page')) {
+      return
+    }
+    target.start_page = target.initChi('start__page')
   }
 }, {
   checkActingRequestsPriority: function() {
