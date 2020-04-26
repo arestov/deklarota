@@ -255,10 +255,10 @@ function chechTreeStructure(app, md, dep) {
 };
 
 
-var flatStruc = spv.memorize(function flatStruc(md, struc) {
+var flatStruc = spv.memorize(function flatStruc(md, struc, appArg) {
   var result = [];
 
-  var app = md.app;
+  var app = appArg || md.app;
 
   var list = flatSources(struc);
   for (var i = 0; i < list.length; i++) {
