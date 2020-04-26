@@ -17,6 +17,7 @@ const build = ({
       'js/libs/provoda/provoda/getRel.js',
       'js/libs/provoda/provoda/updateRel.js',
       'js/libs/provoda/structure/getUsageTree',
+      'js/libs/provoda/structure/flatStruc',
       'js/libs/provoda/provoda/routePathByModels.js',
       'js/libs/provoda/provoda/LoadableList.js',
       'js/libs/provoda/provoda/CoreView',
