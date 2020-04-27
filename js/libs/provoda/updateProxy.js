@@ -239,6 +239,40 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
 }
 
 
+function shallowEqual(objA, objB) {
+  if (objA == null || objB == null) {
+    return false
+  }
+
+  if (typeof objA !== 'object' || typeof objB !== 'object') {
+    return false
+  }
+
+  /*
+    fast check. just 1st level of props
+  */
+
+  for (var name in objA) {
+    if (objA.hasOwnProperty(name)) {
+      if (objA[name] !== objB[name]) {
+        return false
+      }
+    }
+  }
+
+  // objA and objB can have dirrenent keys number. so check both
+
+  for (var name in objB) {
+    if (objB.hasOwnProperty(name)) {
+      if (objB[name] !== objA[name]) {
+        return false
+      }
+    }
+  }
+
+  return true
+}
+
 function _replaceState(etr, total_original_states, original_states, state_name, value, stack) {
   if (!state_name) {
     return;
@@ -247,6 +281,10 @@ function _replaceState(etr, total_original_states, original_states, state_name, 
   var old_value = etr.states[state_name];
   if (old_value === value){
     return;
+  }
+
+  if (shallowEqual(old_value, value)) {
+    return
   }
 
   //value = value || false;
