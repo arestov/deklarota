@@ -1,5 +1,6 @@
-define(function () {
+define(function (require) {
 'use strict';
+var pvState = require('../utils/state');
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
   var index = self.__api_effects_$_index;
@@ -18,6 +19,46 @@ function checkAndMutateCondReadyEffects(changes_list, self) {
   }
 }
 
+function getCurrentTransactionId(self) {
+  var current_motivator = self._currentMotivator()
+  var id = current_motivator.complex_order[0]
+  if (id) {
+    return id
+  }
+  console.warn('no id for transaction. using shared')
+  return 'temp'
+}
+
+function agendaKey(self, effect_name, initial_transaction_id) {
+  return initial_transaction_id + '-' + self._provoda_id + '-' + effect_name
+}
+
+function ensureEffectStore(self, effect_name, initial_transaction_id) {
+  if (!self._highway.__produce_side_effects_schedule) {
+    self._highway.__produce_side_effects_schedule = {}
+  }
+
+  var key = agendaKey(self, effect_name, initial_transaction_id)
+  if (!self._highway.__produce_side_effects_schedule[key]) {
+    self._highway.__produce_side_effects_schedule[key] = {
+      prev_values: {},
+      next_values: {},
+    }
+  }
+
+  return self._highway.__produce_side_effects_schedule[key]
+}
+
+function scheduleEffect(self, effect_name, state_name, new_value, skip_prev) {
+  var initial_transaction_id = getCurrentTransactionId(self)
+  var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
+  if (!skip_prev && !effectAgenda.prev_values.hasOwnProperty(state_name)) {
+    effectAgenda.prev_values[state_name] = self.zdsv.total_original_states[state_name]
+  }
+
+  effectAgenda.next_values[state_name] = new_value
+}
+
 function checkAndMutateInvalidatedEffects(changes_list, self) {
   var index = self.__api_effects_$_index_by_triggering;
   var using = self._effects_using;
@@ -33,10 +74,20 @@ function checkAndMutateInvalidatedEffects(changes_list, self) {
       if (!using.conditions_ready[effect_name]) {
         continue;
       }
+
+      // mark state
+      scheduleEffect(self, list[jj].name, state_name, changes_list[i+2], false)
       self._effects_using.invalidated[list[jj].name] = true;
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
     // self._effects_using.invalidated[index[state_name].name] = true;
+  }
+}
+
+function prefillAgenda(self, effect_name, effect) {
+  for (var i = 0; i < effect.triggering_states.length; i++) {
+    scheduleEffect(self, effect_name, effect.deps[i], pvState(self, effect.triggering_states[i]), true)
+
   }
 }
 
@@ -91,6 +142,7 @@ function checkAndMutateDepReadyEffects(self) {
 
     if (!effect.effects_deps) {
       using.dep_effects_ready[effect_name] = true;
+      prefillAgenda(self, effect_name, effect)
       has_one = true;
       continue;
     }
@@ -107,6 +159,9 @@ function checkAndMutateDepReadyEffects(self) {
 
 
     using.dep_effects_ready[effect_name] = deps_ready;
+    if (using.dep_effects_ready[effect_name]) {
+      prefillAgenda(self, effect_name, effect)
+    }
   }
   using.dep_effects_ready_is_empty = using.dep_effects_ready_is_empty && !has_one;
 }
@@ -128,27 +183,51 @@ function handleEffectResult(self, effect, result) {
 
 }
 
+function getValue(self, agenda, state_name) {
+  if (agenda.next_values.hasOwnProperty(state_name)) {
+    return agenda.next_values[state_name]
+  }
+
+  return pvState(self, state_name)
+}
+
+function executeEffect(self, effect_name, transaction_id) {
+  var key = agendaKey(self, effect_name, transaction_id)
+  var agenda = self._highway.__produce_side_effects_schedule[key]
+  if (!agenda) {
+    return
+  }
+
+  var effect = self.__api_effects[effect_name];
+
+  var args = new Array(effect.apis.length + effect.triggering_states.length);
+  for (var i = 0; i < effect.apis.length; i++) {
+    args[i] = self._interfaces_using.used[effect.apis[i]];
+  }
+  for (var jj = 0; jj < effect.triggering_states.length; jj++) {
+    args[effect.apis.length + jj] = getValue(self, agenda, effect.triggering_states[jj])
+  }
+
+  var result = effect.fn.apply(null, args);
+  handleEffectResult(self, effect, result);
+
+  self._highway.__produce_side_effects_schedule[key] = null
+
+}
+
 function checkExecuteMutateEffects(self) {
+  var flow = self._getCallsFlow();
+
   var using = self._effects_using;
-  var effects = self.__api_effects;
 
   for (var effect_name in using.dep_effects_ready) {
     if (!using.dep_effects_ready[effect_name]) {
       continue;
     }
 
-    var effect = effects[effect_name];
-
-    var args = new Array(effect.apis.length + effect.triggering_states.length);
-    for (var i = 0; i < effect.apis.length; i++) {
-      args[i] = self._interfaces_using.used[effect.apis[i]];
-    }
-    for (var jj = 0; jj < effect.triggering_states.length; jj++) {
-      args[effect.apis.length + jj] = self.state(effect.triggering_states[jj]);
-    }
-
-    var result = effect.fn.apply(null, args);
-    handleEffectResult(self, effect, result);
+    // we can push anytimes we want
+    // 1st handler will erase agenda, so effects will be called just 1 time
+    flow.pushToFlow(executeEffect, this, [self, effect_name, getCurrentTransactionId(self)]);
 
     using.invalidated[effect_name] = false;
     using.dep_effects_ready[effect_name] = false;
