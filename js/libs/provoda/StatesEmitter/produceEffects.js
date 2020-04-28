@@ -71,7 +71,7 @@ function checkAndMutateDepReadyEffects(self) {
     }
 
     if (!deps_ready) {
-      using.dep_effects_ready[effect_name] = deps_ready;
+      using.dep_effects_ready[effect_name] = false;
       continue;
     }
 
@@ -85,7 +85,7 @@ function checkAndMutateDepReadyEffects(self) {
     }
 
     if (!deps_ready) {
-      using.dep_effects_ready[effect_name] = deps_ready;
+      using.dep_effects_ready[effect_name] = false;
       continue;
     }
 
