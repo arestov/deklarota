@@ -21,7 +21,7 @@ function checkAndMutateCondReadyEffects(changes_list, self) {
 
 function getCurrentTransactionId(self) {
   var current_motivator = self._currentMotivator()
-  var id = current_motivator.complex_order[0]
+  var id = current_motivator && current_motivator.complex_order[0]
   if (id) {
     return id
   }
