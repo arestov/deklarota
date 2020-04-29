@@ -202,7 +202,13 @@ function executeEffect(self, effect_name, transaction_id) {
 
   var args = new Array(effect.apis.length + effect.triggering_states.length);
   for (var i = 0; i < effect.apis.length; i++) {
-    args[i] = self._interfaces_using.used[effect.apis[i]];
+    var api = self._interfaces_using.used[effect.apis[i]];
+    if (!api) {
+      // do not call effect fn
+      self._highway.__produce_side_effects_schedule[key] = null
+      return
+    }
+    args[i] = api
   }
   for (var jj = 0; jj < effect.triggering_states.length; jj++) {
     args[effect.apis.length + jj] = getValue(self, agenda, effect.triggering_states[jj])
