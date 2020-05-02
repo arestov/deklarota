@@ -238,13 +238,29 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   // return changed_states;
 }
 
-
-function shallowEqual(objA, objB) {
-  if (objA == null || objB == null) {
+function isSimpleObject(obj) {
+  if (obj == null) {
     return false
   }
 
-  if (typeof objA !== 'object' || typeof objB !== 'object') {
+  if (Array.isArray(obj)) {
+    return true
+  }
+
+  if (typeof obj != 'object') {
+    return false
+  }
+
+  if (obj.constructor != Object) {
+    // Don't allow custom instances like Date, URL, etc...
+    return false
+  }
+
+  return true
+}
+
+function shallowEqual(objA, objB) {
+  if (!isSimpleObject(objA) || !isSimpleObject(objB)) {
     return false
   }
 
