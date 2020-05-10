@@ -46,7 +46,7 @@
     "module-lookup-amd": "^6.2.0",
     "postcss": "5.0.5",
     "rollup": "^2.6.1",
-    "rollup-plugin-amd": "^4.0.0",
+    "rollup-plugin-amd": "shashkovdanil/rollup-plugin-amd#5c9fcee",
     "xmldom": "0.1.19"
   },
   "dependencies": {
