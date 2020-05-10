@@ -264,8 +264,7 @@ function chechTreeStructure(app, md, dep) {
   return dep;
 };
 
-
-var flatStruc = spv.memorize(function flatStruc(md, struc, appArg) {
+function flatStruc(md, struc, appArg) {
   var result = [];
 
   var app = appArg || md.app;
@@ -283,11 +282,14 @@ var flatStruc = spv.memorize(function flatStruc(md, struc, appArg) {
   }
   console.log(result);
   return result;
-}, function(md) {
+}
+var result = spv.memorize(flatStruc, function(md) {
   return modelInfo(md).constr_id;
 });
 
-return flatStruc;
+result.flatStruc = flatStruc
+
+return result;
 
 function flatSources(struc, parent_path) {
   if (!struc || !struc.main) {return;}
