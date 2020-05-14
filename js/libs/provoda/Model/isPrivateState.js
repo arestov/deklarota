@@ -9,7 +9,16 @@ var isPrivate = memorize(function(str) {
   }
 
   var parsed = parse(str, true)
-  return parsed.result_type != 'state'
+
+  if (parsed.result_type != 'state') {
+    return true
+  }
+
+  if ((parsed.nesting && parsed.nesting.path) || (parsed.resource && parsed.resource.path) || (parsed.from_base && parsed.from_base.type)) {
+    return true
+  }
+
+  return false
 });
 return isPrivate
 })
