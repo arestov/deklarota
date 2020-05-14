@@ -4,7 +4,7 @@ define(function(require) {
 var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
 var cloneObj = require('spv/cloneObj');
 
-var MDProxy = function(_provoda_id, states, children_models, md) {
+var MDProxy = function(_provoda_id, states, children_models, md, space) {
   this._provoda_id = _provoda_id;
   this.views = null;
   this.views_index = null;
@@ -13,6 +13,7 @@ var MDProxy = function(_provoda_id, states, children_models, md) {
   //this.children_models = children_models;
   this.md = md;
   this.nestings = cloneObj({}, children_models);
+  this.space = space || null
 };
 
 MDProxy.prototype = {

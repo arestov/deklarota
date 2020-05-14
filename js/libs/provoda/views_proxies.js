@@ -8,14 +8,14 @@ var push = Array.prototype.push;
 var all_nestings = {};
 
 
-var createMPXes = function(array, store) {
+var createMPXes = function(array, store, space) {
   for (var i = 0; i < array.length; i++) {
     var cur = array[i];
-    store[cur._provoda_id] = new MDProxy(cur._provoda_id, cur.states, cur.children_models, cur);
+    store[cur._provoda_id] = new MDProxy(cur._provoda_id, cur.states, cur.children_models, cur, space);
   }
 };
 
-var createMPXesByRawData = function(raw_array, ids_index, mpxes_index) {
+var createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
   if (!raw_array.length) {
     return;
   }
@@ -34,10 +34,16 @@ var createMPXesByRawData = function(raw_array, ids_index, mpxes_index) {
       push.apply(full_array, clean_array[i].getLinedStructure(ids_index));
 
     }
-    createMPXes(full_array, mpxes_index);
+    createMPXes(full_array, mpxes_index, space);
   }
 
 };
+
+var Space = function(id) {
+  this.id = id
+  this.mpxes_index = {}
+  this.ids_index = {}
+}
 
 var Proxies = function() {
   this.spaces = {};
@@ -65,14 +71,12 @@ Proxies.prototype = {
   },
   addSpaceById: function(id, root_md) {
     if (!this.spaces[id]) {
-      this.spaces[id] = {
-        mpxes_index: {},
-        ids_index: {}
-      };
+      var space = new Space(id)
+      this.spaces[id] = space;
       this.spaces_list.push(this.spaces[id]);
 
       var array = root_md.getLinedStructure(this.spaces[id].ids_index);
-      createMPXes(array, this.spaces[id].mpxes_index);
+      createMPXes(array, this.spaces[id].mpxes_index, space);
     } else {
       throw new Error();
     }
@@ -112,7 +116,7 @@ Proxies.prototype = {
             }
           }
         }
-        createMPXesByRawData(raw_array, cur.ids_index, cur.mpxes_index);
+        createMPXesByRawData(raw_array, cur.ids_index, cur.mpxes_index, cur);
         cur.mpxes_index[md._provoda_id].sendCollectionChange(nesname, value, oldv, removed);
       }
     }
