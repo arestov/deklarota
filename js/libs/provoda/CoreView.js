@@ -190,6 +190,8 @@ var getStrucParent = function(item, _count) {
   return target
 }
 
+var emptyFakeList = {length:0}
+
 var View = spv.inh(StatesEmitter, {
   naming: function(fn) {
     return function View(view_otps, opts) {
@@ -607,7 +609,7 @@ var View = spv.inh(StatesEmitter, {
     this.markDomDead()
 
     var children = this.children;
-    this.children = [];
+    this.children = emptyFakeList;
     for (i = 0; i < children.length; i++) {
       children[i].markAsDead();
     }
