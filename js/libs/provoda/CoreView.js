@@ -590,6 +590,12 @@ var View = spv.inh(StatesEmitter, {
 
   },
   markAsDead: function(skip_md_call) {
+    if (this.__marked_as_dead) {
+      return
+    }
+
+    this.__marked_as_dead = true
+
     if (this.__disconnectAdapter) {
       this.__disconnectAdapter.call(null, this)
     }
