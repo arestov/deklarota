@@ -42,7 +42,7 @@ function mark(Constr, RootConstr, parent_path) {
       _root_constr: RootConstr,
       legacy_rel_helpers: RootConstr.prototype.legacy_rel_helpers,
       hierarchy_path: hierarchy_path,
-      hierarchy_path_raw: hierarchy_path.join(' => ')
+      hierarchy_path_string: hierarchy_path.join('  ')
     });
 
     self._all_chi[prop] = mark(item, RootConstr, hierarchy_path);
