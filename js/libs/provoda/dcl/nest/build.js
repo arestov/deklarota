@@ -21,12 +21,12 @@ var build = function(self, result) {
       for (var kk = 0; kk < item.length; kk++) {
         var cur = item[kk]
         if (cur.type == 'constr') {
-          self._chi_nest[item[kk].key] = structureChild(cur.name, cur.value, 'nest-nest');
+          self._chi_nest[item[kk].key] = structureChild(cur.name, cur.value, ['nest', 'nest']);
         }
       }
     } else {
       if (item.type == 'constr') {
-        self._chi_nest[item.key] = structureChild(item.name, item.value, 'nest-nest');
+        self._chi_nest[item.key] = structureChild(item.name, item.value, ['nest', 'nest']);
       }
     }
   }

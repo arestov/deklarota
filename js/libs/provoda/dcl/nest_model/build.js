@@ -19,7 +19,7 @@ var build = function(self, nest_rqc) {
 
       self._nest_rqc[name] = cur;
       if (cur.type == 'constr') {
-        self._chi_nest_rqc[cur.key] = structureChild(name, cur.value, 'nest-model');
+        self._chi_nest_rqc[cur.key] = structureChild(name, cur.value, ['nest', 'model']);
       } else {
         self._chi_nest_rqc[key] = null;
       }

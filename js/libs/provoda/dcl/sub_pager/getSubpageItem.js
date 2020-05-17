@@ -10,7 +10,7 @@ var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
 
   return {
     key: key,
-    constr: structureChild(name, Constr, prefix),
+    constr: structureChild(name, Constr, [prefix]),
     byType: null,
     can_be_reusable: null,
     head: head,
