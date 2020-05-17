@@ -22,7 +22,7 @@ return function checkChildrenConstuctors(self, props) {
     var chi_name = getUnprefixed(prop_name);
     if (!chi_name) {continue;}
 
-    self._build_cache_chi[chi_name] = structureChild(prop_name, props[prop_name], 'custom-chi')
+    self._build_cache_chi[chi_name] = structureChild(prop_name, props[prop_name], ['custom-chi'])
   }
 
   self._chi = {};
