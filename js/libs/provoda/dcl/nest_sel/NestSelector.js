@@ -148,6 +148,10 @@ function rerun(motivator, _, lnwatch) {
 
 function checkCondition(head, hands, _provoda_id) {
   var deep_states = hands.deep_item_states_index[_provoda_id];
+  if (!deep_states) {
+    // item was removed by handleRemoving, so it can't match any condition
+    return false
+  }
   var base_states = head.base_states;
   var args_schema = head.declr.args_schema;
 
