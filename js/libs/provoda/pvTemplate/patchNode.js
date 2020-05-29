@@ -162,11 +162,17 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
           wwtch.context.checkChunks();
         };
 
-        wwtch.context.pvTreeChange(this.current_motivator);
+        // hotfix for pv-repeat
+        // pvTreeChange should be passed inside pv-repeat
+        if (wwtch.context.pvTreeChange) {
+          wwtch.context.pvTreeChange(this.current_motivator);
+        }
 
         // debugger
       } else if (!new_value && node.pvwhen_content) {
-        wwtch.destroyer();
+        if (wwtch.destroyer) {
+          wwtch.destroyer();
+        }
       }
       //	this.setValue(wwtch.node, new_value, old_value, wwtch);
 
