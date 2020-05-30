@@ -235,6 +235,8 @@ return {
       };
     })(),
     'pv-props': function(node, full_declaration, directive_name) {
+      // example:
+      //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
       var result = [];
       var complex_value = full_declaration;
       var complects = complex_value.match(regxp_props_com);
@@ -254,8 +256,6 @@ return {
 
       }
       return result;
-      //пример:
-      //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
     },
     'pv-when': function(node, full_declaration, directive_name) {
       if (!full_declaration){
