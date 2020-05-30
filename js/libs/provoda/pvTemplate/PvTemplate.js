@@ -672,6 +672,16 @@ spv.Class.extendTo(PvTemplate, {
     }
   },*/
   handleDirective: (function() {
+    var multipleStandChes = function(node, standches) {
+      if (standches){
+        var result = [];
+        for (var i = 0; i < standches.length; i++) {
+          var wwtch = standches[i].createBinding(node, this);
+          result.push(new BnddChunk('states_watcher', wwtch));
+        }
+        return result;
+      }
+    }
     var directives_h = {
       // 'pv-replace': function(node, index) {
       // 	if (index) {
@@ -706,27 +716,8 @@ spv.Class.extendTo(PvTemplate, {
           return new BnddChunk('states_watcher', wwtch);
         }
       },
-      'pv-class': function(node, standches) {
-        if (standches){
-          var result = [];
-          for (var i = 0; i < standches.length; i++) {
-            var wwtch = standches[i].createBinding(node, this);
-            result.push(new BnddChunk('states_watcher', wwtch));
-          }
-          return result;
-        }
-      },
-      'pv-props': function(node, standches) {
-        if (standches){
-          var result = [];
-          for (var i = 0; i < standches.length; i++) {
-            var wwtch = standches[i].createBinding(node, this);
-            result.push(new BnddChunk('states_watcher', wwtch));
-          }
-          return result;
-        }
-      },
-
+      'pv-class': multipleStandChes,
+      'pv-props': multipleStandChes,
       'pv-anchor': function(node, full_declaration) {
         var anchor_name = full_declaration;
         return new BnddChunk('ancs', {
