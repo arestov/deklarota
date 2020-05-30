@@ -91,6 +91,32 @@ var getIndexList = function(obj, arr) {
   return result;
 };
 
+function multipleParts(createChange) {
+  return function(node, full_declaration, directive_name) {
+    // example:
+    //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
+    var result = [];
+    var complex_value = full_declaration;
+    var complects = complex_value.match(regxp_props_com);
+    for (var i = 0; i < complects.length; i++) {
+      complects[i] = complects[i].replace(regxp_props_spaces,'').split(regxp_props_coms_part);
+      var prop = complects[i][0];
+      var statement = complects[i][1] && complects[i][1].replace(regxp_props_statement,'');
+
+      if (!prop || !statement){
+        throw new Error('wrong declaration: ' + complex_value);
+        //return;
+      }
+      var item = createChange(node, prop, statement, prop + '$' + directive_name);
+      if (item){
+        result.push(item);
+      }
+
+    }
+    return result;
+  }
+}
+
 return {
   config: (function(){
     var config = {
@@ -234,29 +260,7 @@ return {
         return result;
       };
     })(),
-    'pv-props': function(node, full_declaration, directive_name) {
-      // example:
-      //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
-      var result = [];
-      var complex_value = full_declaration;
-      var complects = complex_value.match(regxp_props_com);
-      for (var i = 0; i < complects.length; i++) {
-        complects[i] = complects[i].replace(regxp_props_spaces,'').split(regxp_props_coms_part);
-        var prop = complects[i][0];
-        var statement = complects[i][1] && complects[i][1].replace(regxp_props_statement,'');
-
-        if (!prop || !statement){
-          throw new Error('wrong declaration: ' + complex_value);
-          //return;
-        }
-        var item = createPropChange(node, prop, statement, prop + '$' + directive_name);
-        if (item){
-          result.push(item);
-        }
-
-      }
-      return result;
-    },
+    'pv-props': multipleParts(createPropChange),
     'pv-when': function(node, full_declaration, directive_name) {
       if (!full_declaration){
         return;
