@@ -39,6 +39,9 @@ var PvSimpleSampler = (function(){
     this.pstd_cache = null;
   };
   (function() {
+    var likeAttrs = {
+      'pv-props': true,
+    }
     var setStructureData = function(struc_store, is_root_node, cur_node, bind_data, states_list, children_list, getSample) {
       if (!is_root_node) {
         if (bind_data.instructions['pv-nest']) {
@@ -72,13 +75,14 @@ var PvSimpleSampler = (function(){
           continue;
         }
 
-        if (cur !== 'pv-props') {
+        // 'pv-props'
+        if (likeAttrs[cur] !== true) {
           push.apply(states_list, bind_data.instructions[cur].sfy_values);
           continue;
         }
 
-        for (var iii = 0; iii < bind_data.instructions['pv-props'].length; iii++) {
-          var sub_cur = bind_data.instructions['pv-props'][iii].sfy_values;
+        for (var iii = 0; iii < bind_data.instructions[cur].length; iii++) {
+          var sub_cur = bind_data.instructions[cur][iii].sfy_values;
           push.apply(states_list, sub_cur)
         }
       }
