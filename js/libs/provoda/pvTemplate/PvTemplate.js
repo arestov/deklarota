@@ -673,14 +673,16 @@ spv.Class.extendTo(PvTemplate, {
   },*/
   handleDirective: (function() {
     var multipleStandChes = function(node, standches) {
-      if (standches){
-        var result = [];
-        for (var i = 0; i < standches.length; i++) {
-          var wwtch = standches[i].createBinding(node, this);
-          result.push(new BnddChunk('states_watcher', wwtch));
-        }
-        return result;
+      if (!standches){
+        return
       }
+
+      var result = [];
+      for (var i = 0; i < standches.length; i++) {
+        var wwtch = standches[i].createBinding(node, this);
+        result.push(new BnddChunk('states_watcher', wwtch));
+      }
+      return result;
     }
     var directives_h = {
       // 'pv-replace': function(node, index) {
