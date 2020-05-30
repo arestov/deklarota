@@ -699,24 +699,28 @@ spv.Class.extendTo(PvTemplate, {
       // 	}
       // },
       'pv-when-condition': function(node, standch) {
-        if (standch) {
-          var wwtch = standch.createBinding(node, this);
-          var destroyer = function() {
-            if (wwtch.destroyer) {
-              wwtch.destroyer();
-            }
-          };
-          var chunk = new BnddChunk('states_watcher', wwtch);
-          chunk.destroyer = destroyer;
-          return chunk;
+        if (!standch) {
+          return
         }
+
+        var wwtch = standch.createBinding(node, this);
+        var destroyer = function() {
+          if (wwtch.destroyer) {
+            wwtch.destroyer();
+          }
+        };
+        var chunk = new BnddChunk('states_watcher', wwtch);
+        chunk.destroyer = destroyer;
+        return chunk;
 
       },
       'pv-text': function(node, standch){
-        if (standch){
-          var wwtch = standch.createBinding(node, this);
-          return new BnddChunk('states_watcher', wwtch);
+        if (!standch){
+          return
         }
+
+        var wwtch = standch.createBinding(node, this);
+        return new BnddChunk('states_watcher', wwtch);
       },
       'pv-class': multipleStandChes,
       'pv-props': multipleStandChes,
@@ -728,34 +732,37 @@ spv.Class.extendTo(PvTemplate, {
         });
       },
       'pv-type': function(node, standch) {
-        if (standch){
-          var pv_type_data = {node: node, marks: null};
-
-          var wwtch = standch.createBinding(node, this);
-          wwtch.pv_type_data = pv_type_data;
-          wwtch.checkFunc(this.empty_state_obj);
-
-          return [
-            new BnddChunk('states_watcher', wwtch),
-            new BnddChunk('pv_type', pv_type_data)
-          ];
-
+        if (!standch){
+          return
         }
+
+        var pv_type_data = {node: node, marks: null};
+
+        var wwtch = standch.createBinding(node, this);
+        wwtch.pv_type_data = pv_type_data;
+        wwtch.checkFunc(this.empty_state_obj);
+
+        return [
+          new BnddChunk('states_watcher', wwtch),
+          new BnddChunk('pv_type', pv_type_data)
+        ];
+
       },
       'pv-events': function(node, pv_events_data) {
-        if (pv_events_data){
-
-          if (!this.sendCallback){
-            throw new Error('provide the events callback handler to the Template init func');
-          }
-          var result = [];
-
-          for (var i = 0; i < pv_events_data.length; i++) {
-            var evdata = pv_events_data[i];
-            result.push(new BnddChunk('pv_event', {node: node, evdata: evdata}));
-          }
-          return result;
+        if (!pv_events_data){
+          return
         }
+
+        if (!this.sendCallback){
+          throw new Error('provide the events callback handler to the Template init func');
+        }
+        var result = [];
+
+        for (var i = 0; i < pv_events_data.length; i++) {
+          var evdata = pv_events_data[i];
+          result.push(new BnddChunk('pv_event', {node: node, evdata: evdata}));
+        }
+        return result;
       }
     };
 
