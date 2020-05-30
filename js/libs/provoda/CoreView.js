@@ -10,7 +10,10 @@ var updateProxy = require('./updateProxy');
 var prsStCon =  require('./prsStCon');
 var StatesEmitter = require('./StatesEmitter');
 var onPropsExtend = require('./View/onExtend');
+
 var selectCollectionChange = require('./View/selectCollectionChange');
+
+var initApis = require('./dcl/effects/legacy/api/init')
 var initInputAttrs = require('./dcl/attrs/input/init')
 var nestBorrowInit = require('./dcl_view/nest_borrow/init');
 var nestBorrowDestroy = require('./dcl_view/nest_borrow/destroy');
@@ -134,6 +137,9 @@ var initView = function(target, view_otps, opts){
   if (target.__connectAdapter) {
     target.__connectAdapter.call(null, target)
   }
+
+  initApis(target, opts && opts.interfaces)
+
 };
 
 

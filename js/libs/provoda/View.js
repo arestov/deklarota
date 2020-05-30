@@ -68,6 +68,8 @@ spv.cloneObj(props, {
       return
     }
 
+    this.useInterface('con', this.getCNode())
+
     this.c._provoda_view = this;
 
     if (!this.c.length || !this.c[0]) {
@@ -384,6 +386,11 @@ spv.cloneObj(props, {
   markDomDead: function() {
     stackEmergency(this.remove, this, [this.getC(), this._lbr._anchor]);
 
+
+    // TODO: check that nextTick will be executed when global window is dead
+    // and setTimeout/requestAnimationFrame won't work
+    this.useInterface('con', null)
+
     this.c = null;
 
     if (this.base_skeleton) {
@@ -435,8 +442,11 @@ spv.cloneObj(props, {
       this._lbr._anchor = null;
       dDetach(anchor);
       this.setVisState('con_appended', true);
+      this.updateAttr('$meta$apis$con$appended', true)
+
     } else if (con && dUnwrap(dParent(con))){
       this.setVisState('con_appended', true);
+      this.updateAttr('$meta$apis$con$appended', true)
 
     }
   },
