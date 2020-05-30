@@ -6,10 +6,13 @@ var cloneObj = spv.cloneObj;
 var getTypedDcls = require('../dcl-h/getTypedDcls');
 var collectCompxs = require('../StatesEmitter/collectCompxs');
 var buildInputAttrs = require('../dcl/attrs/input/build')
+var checkEffects = require('../dcl/effects/check')
+
 var collectSelectorsOfCollchs = require('../dcl_view/collectSelectorsOfCollchs');
 var collectCollectionChangeDeclarations = require('../dcl_view/collectCollectionChangeDeclarations');
 var changeChildrenViewsDeclarations = require('../dcl_view/changeChildrenViewsDeclarations');
 var collectStateChangeHandlers = require('../dcl_view/v-collectStateChangeHandlers');
+
 var checkNestBorrow = require('../dcl_view/nest_borrow/check-dcl');
 var checkNestBorrowWatch = require('../dcl_view/nest_borrow/watch');
 var checkSpyglass = require('../dcl_view/spyglass/check-dcl')
@@ -62,6 +65,8 @@ return function(self, props, original) {
   collectCollectionChangeDeclarations(self, props);
 
   collectSelectorsOfCollchs(self, props);
+
+  checkEffects(self, props, typed_state_dcls)
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx']);
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
