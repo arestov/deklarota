@@ -128,18 +128,23 @@ var getDeps = function(deps) {
   return result;
 }
 
+function targetedResult(self, to) {
+  self.by_named_result = !Array.isArray(to)
+
+  self.targeted_results_list = null;
+  self.targeted_single_result = null;
+
+  if (self.by_named_result) {
+    self.targeted_results_list = targetsList(to)
+  } else {
+    self.targeted_single_result = targetData(to)
+  }
+}
+
 var PassDcl = function(name, data) {
   this.name = name;
-  this.by_named_result = !Array.isArray(data.to)
 
-  this.targeted_results_list = null;
-  this.targeted_single_result = null;
-
-  if (this.by_named_result) {
-    this.targeted_results_list = targetsList(data.to)
-  } else {
-    this.targeted_single_result = targetData(data.to)
-  }
+  targetedResult(this, data.to)
 
   this.deps = null
   this.fn = null
