@@ -1,18 +1,11 @@
 define(function(require) {
 'use strict';
-var spv = require('spv')
 var pvUpdate = require('../../provoda/update')
-var pvState = require('../../provoda/state')
-var getNesting = require('../../provoda/getNesting')
 
 var updateNesting = require('../../provoda/updateNesting')
-var mreadDepValue = require('../../utils/readDepValue')
-var readDepValue = mreadDepValue.depValue
 var getDepValue = require('../../utils/multiPath/getDepValue')
 var getModelById = require('../../utils/getModelById');
 
-var prepareNestingValue = require('./act/prepareNestingValue')
-var getTargetModels = require('./act/getTargetModels')
 var prepareResults = require('./act/prepareResults')
 var noopForPass = require('./noop')
 var now = require('./deps/now')
