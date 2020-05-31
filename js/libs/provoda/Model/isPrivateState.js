@@ -8,6 +8,18 @@ var isPrivate = memorize(function(str) {
     return true
   }
 
+  if (str.startsWith('_api_') || str.startsWith('_apis_') || str.startsWith('_triggered_api_')) {
+    return true
+  }
+
+  if (str.startsWith('_need_api')) {
+    return true
+  }
+
+  if (str.startsWith('$meta$apis$')) {
+    return true
+  }
+
   var parsed = parse(str, true)
 
   if (parsed.result_type != 'state') {
