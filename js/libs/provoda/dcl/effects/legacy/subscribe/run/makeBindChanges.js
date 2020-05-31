@@ -4,7 +4,7 @@ var saveResult = require('../../../../passes/targetedResult/save.js')
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
-var ensureHandler = function(fn) {
+var ensureHandler = function(fn, use_input) {
   return function(em, dcl, exactPart) {
     if (!em._highway._subscribe_effect_handlers) {
       em._highway._subscribe_effect_handlers  = {}
@@ -18,9 +18,13 @@ var ensureHandler = function(fn) {
       return store[key]
     }
 
-    store[key] = em.inputFn(function(value) {
-      fn(this, exactPart, value)
-    });
+    store[key] = use_input !== false ?
+      em.inputFn(function(value) {
+        fn(this, exactPart, value)
+      })
+      : function(value) {
+        fn(em, exactPart, value)
+      };
 
     return store[key]
   }
@@ -38,7 +42,27 @@ var getTargetedResultSaver = ensureHandler(function(em, dcl, data) {
   saveResult(em, dcl, data, data)
 })
 
+var getRemoteHandler = ensureHandler(function(em, dcl, data) {
+  if (dcl.targeted_result) {
+    throw new Error('unsupported')
+  }
+  if (dcl.pass_name) {
+    em.RPCLegacy('dispatch', dcl.pass_name, data)
+    return
+  }
+
+  if (dcl.state_name) {
+    em.RPCLegacy('updateAttr', dcl.state_name, data)
+    return
+  }
+}, false)
+
+
 var getHandler = function(self, dcl) {
+  if (dcl.remote) {
+    return getRemoteHandler(self, dcl, dcl)
+  }
+
   if (dcl.pass_name) {
     return getPassDispatcher(self, dcl, dcl.pass_name)
   }
