@@ -105,7 +105,7 @@ SyncReceiver.prototype = {
       cur = array[i];
       cur_pvid = cur._provoda_id;
       if (!this.md_proxs_index[cur_pvid]){
-        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, cur.states, cur.children_models, this.models_index[cur_pvid]);
+        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, cur._getPublisAttrs(), cur.children_models, this.models_index[cur_pvid]);
         this.models_index[cur_pvid].mpx = this.md_proxs_index[cur_pvid];
       }
     }

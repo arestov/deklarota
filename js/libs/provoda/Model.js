@@ -15,6 +15,7 @@ var initModel = require('./Model/init');
 var updateNesting = require('./Model/updateNesting');
 var postInitModel = require('./Model/postInit')
 var initSi = require('./Model/initConstr/subitem')
+var isPrivate = require('./Model/isPrivateState')
 var getLinedStructure = require('./Model/getLinedStructure')
 var toSimpleStructure = require('./Model/toSimpleStructure')
 var ensurePublicAttrs = require('./Model/ensurePublicAttrs')
@@ -307,7 +308,7 @@ add({
   },
   connectMPX: function() {
     if (!this.mpx) {
-      this.mpx = new MDProxy(this._provoda_id, this.states, this.children_models, this);
+      this.mpx = new MDProxy(this._provoda_id, this._getPublisAttrs(), this.children_models, this);
     }
     return this.mpx;
   },
@@ -408,7 +409,18 @@ add({
 
   sendStatesToMPX: function(states_list) {
     //this.removeDeadViews();
-    var dubl = states_list.slice();
+    var dubl = [];
+
+    for (var i = 0; i < states_list.length; i+=3) {
+      var unknown_part = states_list[i]
+      var state_name = states_list[i+1]
+      var value = states_list[i+2]
+      if (isPrivate(state_name)) {
+        continue
+      }
+      dubl.push(unknown_part, state_name, value)
+    }
+
     logger.logStates(this, dubl)
     this._highway.sync_sender.pushStates(this, dubl);
     this._highway.views_proxies.pushStates(this, dubl);
