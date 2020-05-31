@@ -32,6 +32,8 @@ return function StateBindDeclr(key, data) {
     this.pass_name = data.pass_name
   } if (data.state_name) {
     warnStateUsing()
+
+    // consider to use targetedResult(this, [data.state_name]) and remove getStateUpdater from makeBindChanges
     this.state_name = data.state_name
   }
 
