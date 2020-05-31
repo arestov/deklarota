@@ -23,6 +23,9 @@ var MDReplace = function(_provoda_id){
 };
 
 FakeModel.prototype = {
+  _getPublisAttrs: function() {
+    return this.states
+  },
   getParentMapModel: function() {
     return this.map_parent;
   },
