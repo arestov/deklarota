@@ -128,7 +128,19 @@ return function(view, con) {
     };
   }
 
+  if (!view._lbr.anchorStateChange) {
+    view._lbr.anchorStateChange = function(name, node) {
+      view.useInterface('anchor-' + name, node)
+    };
+  }
 
-  return view.getTemplate(con, view._lbr.hndTriggerTPLevents, view._lbr.hndPvTypeChange, view._lbr.hndPvTreeChange);
+
+  return view.getTemplate(
+    con,
+    view._lbr.hndTriggerTPLevents,
+    view._lbr.hndPvTypeChange,
+    view._lbr.hndPvTreeChange,
+    view._lbr.anchorStateChange
+  );
 }
 })

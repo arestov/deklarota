@@ -138,8 +138,8 @@ spv.cloneObj(props, {
       this.RPCLegacy.apply(this, arguments);
     }
   },
-  getTemplate: function(node, callCallbacks, pvTypesChange, pvTreeChange) {
-    return this.root_view.pvtemplate(node, callCallbacks, pvTypesChange, false, pvTreeChange);
+  getTemplate: function(node, callCallbacks, pvTypesChange, pvTreeChange, anchorStateChange) {
+    return this.root_view.pvtemplate(node, callCallbacks, pvTypesChange, false, pvTreeChange, anchorStateChange);
   },
   createTemplate: function(ext_node) {
     var con = ext_node || this.c;
