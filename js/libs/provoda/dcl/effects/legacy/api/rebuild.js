@@ -69,12 +69,17 @@ var notEmpty = function(input) {
   return input
 }
 
+var needSelf = checkApi(function(acc, api) {
+  return acc || api.needed_apis.indexOf('self') != -1
+})
+
 return function rebuild(self, apis, typed_state_dcls) {
   getDepsToInsert(apis, self, typed_state_dcls);
 
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index;
   self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual;
   self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null
+  self.__apis_$__needs_self = needSelf(apis, false)
 }
 
 })

@@ -20,6 +20,14 @@ var connectRootApis = function(self, list) {
   }
 }
 
+function needsSelf(self) {
+  if (self.__apis_$__needs_self == true) {
+    return true
+  }
+
+  return self.__api_effects_$_index_by_apis && self.__api_effects_$_index_by_apis['self']
+}
+
 return function(self, apis_as_arg) {
 
   if (apis_as_arg) {
@@ -39,7 +47,7 @@ return function(self, apis_as_arg) {
   connectRootApis(self, self.__api_root_dep_apis)
   connectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
 
-  if (self.__api_effects_$_index_by_apis && self.__api_effects_$_index_by_apis['self']) {
+  if (needsSelf(self)) {
     self.useInterface('self', self);
   }
 }
