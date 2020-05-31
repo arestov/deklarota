@@ -4,7 +4,7 @@ var spv = require('spv')
 var updateRootInterface = spv.memorize(function(name) {
   return function(val) {
     var interface_instance = val
-      ? this.app._interfaces_using.used[name]
+      ? this.getStrucRoot()._interfaces_using.used[name]
       : null
     this.useInterface('#' + name, interface_instance);
   }
@@ -16,7 +16,7 @@ var connectRootApis = function(self, list) {
   for (var i = 0; i < list.length; i++) {
     var cur = list[i];
     var meta_state_name = '$meta$apis$' + cur + '$used'
-    self.lwch(self.app, meta_state_name, updateRootInterface(cur))
+    self.lwch(self.getStrucRoot(), meta_state_name, updateRootInterface(cur))
   }
 }
 
