@@ -68,6 +68,10 @@ var targetData = function(to, result_name, dsl_options) {
     throw new Error('we can put result to nesting or state only')
   }
 
+  if (parsed_path.result_type === 'nesting' && (!options || !options.method)) {
+    throw new Error('use options.method to describe how to save relation')
+  }
+
   if (dsl_options && dsl_options.warn) {
     if (parsed_path.result_type == 'nesting' && (!options || !options.schema)) {
       console.warn('implement schema parsing. add schema to pass dcl')
