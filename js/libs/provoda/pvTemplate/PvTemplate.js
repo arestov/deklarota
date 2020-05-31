@@ -17,6 +17,7 @@ var after = dom_helpers.after;
 var detach = dom_helpers.detach;
 var before = dom_helpers.before;
 var wrap = dom_helpers.wrap;
+var unwrap = dom_helpers.unwrap
 
 /*
 
@@ -94,6 +95,7 @@ var PvTemplate = function(opts) {
   }
   this.pvTypesChange = opts.pvTypesChange;
   this.pvTreeChange = opts.pvTreeChange;
+  this.anchorStateChange = opts.anchorStateChange
   this.struc_store = opts.struc_store;
   this.ancs = null;
   //this.pv_views = [];
@@ -326,8 +328,17 @@ var handleChunks = (function() {
       tpl.states_watchers = spv.findAndRemoveItem(tpl.states_watchers, chunk.data);
     },
     'ancs': function(chunk, tpl) {
-      if (!tpl.ancs) {return;}
+
       var anchor_name = chunk.data.anchor_name;
+
+      if (tpl.anchorStateChange) {
+        tpl.anchorStateChange(anchor_name, null)
+      }
+
+      if (!tpl.ancs) {return;}
+
+
+
       tpl.ancs[anchor_name] = null;
     },
     'pv_type': function(chunk, tpl) {
@@ -364,6 +375,10 @@ var handleChunks = (function() {
       if (tpl.ancs[anchor_name]){
         throw new Error('anchors exists');
       } else {
+        if (tpl.anchorStateChange) {
+          tpl.anchorStateChange(anchor_name, unwrap(chunk.data.node))
+        }
+
         tpl.ancs[anchor_name] = wrap(chunk.data.node);
       }
     },
@@ -901,12 +916,13 @@ PvTemplate.SimplePVSampler = PvSimpleSampler;
 
 PvTemplate.templator = function(calls_flow, getSample, struc_store) {
   struc_store = struc_store || {};
-  function template(node, callCallbacks, pvTypesChange, spec_states, pvTreeChange) {
+  function template(node, callCallbacks, pvTypesChange, spec_states, pvTreeChange, anchorStateChange) {
     return new PvTemplate({
       node: node[0] || node,
       spec_states: spec_states,
       callCallbacks: callCallbacks,
       pvTypesChange: pvTypesChange,
+      anchorStateChange: anchorStateChange,
       struc_store: struc_store,
       calls_flow: calls_flow,
       getSample: getSample,
