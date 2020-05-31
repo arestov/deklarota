@@ -65,6 +65,8 @@ var useInterface = function (self, interface_name, obj, destroy) {
 
 };
 
+useInterface.skipAliveCheck = true
+
 return function useInterfaceWrap(self, interface_name, obj, destroy) {
   self.nextTick(useInterface, [self, interface_name, obj, destroy], false, false)
 }

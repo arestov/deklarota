@@ -5,7 +5,7 @@ return function hndMotivationWrappper(motivator, fn, context, args, arg) {
     this.zdsv.removeFlowStep(motivator.p_space, motivator.p_index_key, motivator);
   }
 
-  if (this.isAliveFast && !this.isAliveFast()) {
+  if (this.isAliveFast && !this.isAliveFast() && !fn.skipAliveCheck) {
     return;
   }
 
