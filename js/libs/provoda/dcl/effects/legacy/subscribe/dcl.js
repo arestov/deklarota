@@ -1,6 +1,7 @@
 define(function(require) {
 'use strict'
 var spv = require('spv')
+var targetedResult = require('../../../passes/targetedResult/dcl.js')
 
 var warnStateUsing = function() {
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
@@ -20,8 +21,12 @@ return function StateBindDeclr(key, data) {
 
   this.state_name = null;
   this.pass_name = null
+  this.targeted_result = null
 
-  if (!data.state_name && !data.pass_name) {
+  if (data.to) {
+    this.targeted_result = true
+    targetedResult(this, data.to)
+  } else if (!data.state_name && !data.pass_name) {
     this.pass_name = key
   } else if (data.pass_name) {
     this.pass_name = data.pass_name

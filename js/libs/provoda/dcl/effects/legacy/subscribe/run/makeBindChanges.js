@@ -1,5 +1,7 @@
-define(function() {
+define(function(require) {
 'use strict'
+var saveResult = require('../../../../passes/targetedResult/save.js')
+
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
 var ensureHandler = function(fn) {
@@ -32,10 +34,19 @@ var getPassDispatcher = ensureHandler(function(em, pass_name, data) {
   em.__act(em, pass_name, data);
 })
 
+var getTargetedResultSaver = ensureHandler(function(em, dcl, data) {
+  saveResult(em, dcl, data, data)
+})
+
 var getHandler = function(self, dcl) {
   if (dcl.pass_name) {
     return getPassDispatcher(self, dcl, dcl.pass_name)
   }
+
+  if (dcl.targeted_result) {
+    return getTargetedResultSaver(self, dcl, dcl)
+  }
+
   return getStateUpdater(self, dcl, dcl.state_name);
 }
 
