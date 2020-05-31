@@ -26,29 +26,47 @@ var usualApis = function (obj) {
   return result;
 };
 
-function rootApis(apis_index) {
-  if (!apis_index) {return;}
+function checkApi(fn) {
+  return function(apis_index, input_acc) {
+    if (!apis_index) {return;}
 
-  var result = []
-  for (var api_name in apis_index) {
-    if (!apis_index.hasOwnProperty(api_name)) {
-      continue
-    }
-    var api = apis_index[api_name]
-    if (!api || !api.needed_apis) {
-      continue
-    }
-
-    for (var i = 0; i < apis_index[api_name].needed_apis.length; i++) {
-      var cur = apis_index[api_name].needed_apis[i]
-      if (!spv.startsWith(cur, '#')) {
+    var acc = input_acc
+    for (var api_name in apis_index) {
+      if (!apis_index.hasOwnProperty(api_name)) {
         continue
       }
-      result.push(cur.slice(1))
+      var api = apis_index[api_name]
+      if (!api || !api.needed_apis) {
+        continue
+      }
+
+      acc = fn(acc, api)
+
     }
+
+    return acc
+  }
+}
+
+var rootApis = checkApi(function(acc, api) {
+
+  for (var i = 0; i < api.needed_apis.length; i++) {
+    var cur = api.needed_apis[i]
+    if (!spv.startsWith(cur, '#')) {
+      continue
+    }
+    acc.push(cur.slice(1))
   }
 
-  return result.length ? result : null;
+  return acc
+})
+
+var notEmpty = function(input) {
+  if (!input || !input.length) {
+    return null
+  }
+
+  return input
 }
 
 return function rebuild(self, apis, typed_state_dcls) {
@@ -56,7 +74,7 @@ return function rebuild(self, apis, typed_state_dcls) {
 
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index;
   self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual;
-  self.__apis_$__needs_root_apis = rootApis(apis) || null
+  self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null
 }
 
 })
