@@ -301,6 +301,9 @@ var View = spv.inh(StatesEmitter, {
   getStrucParent: function(count) {
     return getStrucParent(this, count)
   },
+  getInstanceKey: function() {
+    return this.view_id
+  },
   getNesting: function(collection_name) {
     return this.children_models[collection_name];
   },

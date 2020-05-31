@@ -212,6 +212,9 @@ add({
   getStrucParent: function(count, soft) {
     return getStrucParent(this, count, soft)
   },
+  getInstanceKey: function() {
+    return this._provoda_id
+  },
   getSiOpts: function() {
     return getSiOpts(this);
   },
