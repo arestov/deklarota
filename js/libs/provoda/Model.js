@@ -17,6 +17,7 @@ var postInitModel = require('./Model/postInit')
 var initSi = require('./Model/initConstr/subitem')
 var getLinedStructure = require('./Model/getLinedStructure')
 var toSimpleStructure = require('./Model/toSimpleStructure')
+var ensurePublicAttrs = require('./Model/ensurePublicAttrs')
 var addrFromObj = require('./provoda/dcl/addr.js')
 var getDepValue = require('./utils/multiPath/getDepValue')
 var parseAddr = require('./utils/multiPath/parse')
@@ -310,7 +311,9 @@ add({
     }
     return this.mpx;
   },
-
+  _getPublisAttrs: function() {
+    return ensurePublicAttrs(this)
+  },
   getReqsOrderField: function() {
     if (!this.req_order_field) {
       this.req_order_field = ['mdata', 'm', this._provoda_id, 'order'];
