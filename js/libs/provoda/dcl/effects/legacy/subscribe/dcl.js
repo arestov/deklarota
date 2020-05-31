@@ -10,7 +10,10 @@ var warnStateUsing = function() {
   console.warn('please use pass_name, not state_name')
 }
 
+var count = 0;
+
 return function StateBindDeclr(key, data) {
+  this.id = ++count
   this.key = key
   this.apis = null;
   this.fn = null;
