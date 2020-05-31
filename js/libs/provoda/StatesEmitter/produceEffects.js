@@ -284,6 +284,7 @@ function checkApi(declr, value, self) {
 
   if (!declr.needed_apis) {
     self.useInterface(declr.name, declr.fn());
+    return
   }
 
   var args = new Array(declr.needed_apis.length);
