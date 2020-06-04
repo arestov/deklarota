@@ -74,9 +74,9 @@ var RootLev = spv.inh(Model, {}, {
         ? current_mp_bwlev && current_mp_bwlev._provoda_id
         : null)
 
-      var fullReq = cloneObj({
+      var fullReq = cloneObj(cloneObj({}, req), {
         current_bwlev_map,
-      }, req)
+      })
 
       map.input(function() {
         map.updateState('wantedReq', fullReq)
