@@ -64,7 +64,7 @@ var RootLev = spv.inh(Model, {}, {
         ? ('spyglass-' + router_name_arg)
         : 'spyglass-navigation'
 
-      var remember_context = !req || req.remember_context === true
+      var remember_context = !req || req.remember_context !== false
 
       var map = getSPByPathTemplate(this.app, this, router_name)
 
