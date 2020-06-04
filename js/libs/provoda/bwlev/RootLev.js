@@ -16,6 +16,8 @@ var followFromTo = require('./followFromTo');
 var initDeclaredNestings = require('../initDeclaredNestings')
 var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
 
+var cloneObj = require('spv/cloneObj');
+
 
 var RootLev = spv.inh(Model, {}, {
   model_name: 'root_bwlev',
@@ -62,10 +64,22 @@ var RootLev = spv.inh(Model, {}, {
         ? ('spyglass-' + router_name_arg)
         : 'spyglass-navigation'
 
+      var remember_context = !req || req.remember_context === true
+
       var map = getSPByPathTemplate(this.app, this, router_name)
 
+      var current_mp_bwlev = map.getNesting('current_mp_bwlev')
+
+      var current_bwlev_map = req.current_bwlev_map || (remember_context
+        ? current_mp_bwlev && current_mp_bwlev._provoda_id
+        : null)
+
+      var fullReq = cloneObj({
+        current_bwlev_map,
+      }, req)
+
       map.input(function() {
-        map.updateState('wantedReq', req)
+        map.updateState('wantedReq', fullReq)
       })
     }
   },
