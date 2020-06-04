@@ -229,16 +229,17 @@ var View = spv.inh(StatesEmitter, {
     var bwlev_view = getBwlevView(this);
 
     var context_bwlev = remember_context
-      ? bwlev_view.mpx._provoda_id
+      ? (bwlev_view && bwlev_view.mpx._provoda_id)
       : null
     var current_bwlev_map = remember_context
-      ? bwlev_view.mpx.md.children_models.map.children_models.current_mp_bwlev._provoda_id
+      ? (bwlev_view && bwlev_view.mpx.md.children_models.map.children_models.current_mp_bwlev._provoda_id)
       : null;
 
     this.root_view.parent_view.RPCLegacy('navShowByReq', {
       id: reqId,
       goal: goal,
       data: data,
+      remember_context: remember_context,
       context_bwlev: context_bwlev,
       current_bwlev_map: current_bwlev_map,
     }, router_name);
