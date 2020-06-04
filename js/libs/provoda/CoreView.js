@@ -224,7 +224,7 @@ var View = spv.inh(StatesEmitter, {
   },
   navShowByReq: function(reqId, goal, options, data) {
     var router_name = options && options.router
-    var remember_context = !options || options.remember_context === true
+    var remember_context = !options || options.remember_context !== false
 
     var bwlev_view = getBwlevView(this);
 
