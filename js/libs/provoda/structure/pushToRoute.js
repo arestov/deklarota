@@ -9,15 +9,21 @@ return function(md, nesting_name, data) {
 
   if (mentioned.type == 'route') {
     var app = md.app;
-    var result = getSPByPathTemplateAndData(app, md, mentioned.value, false, data);
+
+    var states = {}
+
+    for (var prop in data) {
+      if (!data.hasOwnProperty(prop)) {
+        continue
+      }
+      states[prop] = data[prop]
+      states['$meta$states$' + prop + '$routed'] = true
+    }
+
+    var result = getSPByPathTemplateAndData(app, md, mentioned.value, false, data, false, null, states);
 
     md.useMotivator(result, function () {
-      result.updateManyStates(data);
 
-      var states = {}
-      for (var prop in data) {
-        states['$meta$states$' + prop + '$routed'] = true
-      }
       result.updateManyStates(states);
     });
 

@@ -10,7 +10,7 @@ var cloneObj = spv.cloneObj;
 var getSPI = getterSPI();
 var getSPIConstr = getterSPIConstr();
 
-var routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options) {
+var routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options, extra_states) {
 
   if (!pth_string) {
     throw new Error('Empty path can\'t be used. Use / to get start page')
@@ -75,7 +75,7 @@ var routePathByModels = function routePathByModels(start_md, pth_string, need_co
       continue;
     }
 
-    var md = getSPI(cur_md, path_full_string, options);
+    var md = getSPI(cur_md, path_full_string, options, extra_states);
     if (md){
       cur_md = md;
       result = md;
@@ -128,6 +128,14 @@ function selectRouteItem(self, sp_name) {
   }
 }
 
+function allStates(main_states, extra_states) {
+  if (!main_states) {
+    return extra_states || {}
+  }
+  cloneObj(main_states, extra_states)
+  return main_states
+}
+
 function getSPOpts(md, sp_name, slashed, byType) {
   var normal_part = byType ? slashed.slice(1) : slashed;
   var by_colon = normal_part[0].split(':').map(decodeURIComponent);
@@ -148,15 +156,15 @@ function getSPOpts(md, sp_name, slashed, byType) {
 };
 
 
-  var createStates = function (Constr, sp_name) {
+  var createStates = function (Constr, sp_name, extra_states) {
     var has_compx = Constr.prototype.hasComplexStateFn('url_part')
     if (has_compx) {
-      return null
+      return allStates(null, extra_states)
     }
 
-    return {
+    return allStates({
       url_part: '/' + sp_name
-    }
+    }, extra_states)
   }
 
   function selectModern(self, sp_name) {
@@ -177,7 +185,7 @@ function getSPOpts(md, sp_name, slashed, byType) {
     }
   }
 
-  function createModern(self, sp_name) {
+  function createModern(self, sp_name, extra_states) {
     var selected = selectModern(self, sp_name)
     if (!selected) {
       return
@@ -188,7 +196,7 @@ function getSPOpts(md, sp_name, slashed, byType) {
     var created = self.initSi(Constr, {
       by: 'routePathByModels',
       init_version: 2,
-      states: createStates(Constr, sp_name),
+      states: createStates(Constr, sp_name, extra_states),
       head: selected.matched,
     });
 
@@ -212,7 +220,7 @@ function getterSPI(){
     return target;
   };
 
-  var prepare = function(self, item, sp_name, slashed) {
+  var prepare = function(self, item, sp_name, slashed, extra_states) {
     var Constr = self._all_chi[item.key];
     /*
 
@@ -233,7 +241,7 @@ function getterSPI(){
       return self.initSi(Constr, {
         by: 'routePathByModels',
         init_version: 2,
-        states: states,
+        states: allStates(states, extra_states),
         head: head_by_urlname,
         url_params: common_opts[1],
       });
@@ -243,11 +251,11 @@ function getterSPI(){
     cloneObj(instance_data, states)
     instance_data.head = head_by_urlname
 
-    return self.initSi(Constr, instance_data, null, null, common_opts[0]);
+    return self.initSi(Constr, allStates(instance_data, extra_states), null, null, common_opts[0]);
   };
 
 
-  return function getSPI(self, sp_name, options) {
+  return function getSPI(self, sp_name, options, extra_states) {
     var autocreate = !options || options.autocreate !== false
     var reuse = options && options.reuse;
 
@@ -284,7 +292,7 @@ function getterSPI(){
         return null
       }
 
-      var instance = item && prepare(self, item, sp_name, slash(sp_name));
+      var instance = item && prepare(self, item, sp_name, slash(sp_name), extra_states);
       if (instance) {
         watchSubPageKey(self, instance, key);
         self.sub_pages[key] = instance;

@@ -70,8 +70,8 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
     this.checkActingRequestsPriority();
   },
 
-  routePathByModels: function(pth_string, start_md, need_constr, strict, options) {
-    return BrowseMap.routePathByModels(start_md || this.start_page, pth_string, need_constr, strict, options);
+  routePathByModels: function(pth_string, start_md, need_constr, strict, options, extra_states) {
+    return BrowseMap.routePathByModels(start_md || this.start_page, pth_string, need_constr, strict, options, extra_states);
   },
 });
 
