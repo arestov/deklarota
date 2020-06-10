@@ -16,9 +16,23 @@ var oneFromArray = function (array) {
   return array
 }
 
+var getLength = function(array) {
+  if (Array.isArray(array)) {
+    return array.length
+  }
+
+  return array ? 1 : 0
+}
+
+var notEmpty = function(array) {
+  return Boolean(getLength(array))
+}
+
 return {
   'all': arrayClone,
   'one': oneFromArray,
+  'length': getLength,
+  'notEmpty': notEmpty,
 }
 
 })

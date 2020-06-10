@@ -13,6 +13,8 @@ var states = {
 var nestings = {
   'one': true,
   'all': true,
+  'notEmpty': true,
+  'length': true,
 }
 
 return function(zip_name, type) {
