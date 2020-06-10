@@ -443,6 +443,10 @@ function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
 var st_event_opt = {force_async: true};
 
 function _triggerVipChanges(etr, i, state_name, value, zdsv) {
+  if (!etr._highway._legacy_vip_events) {
+    return
+  }
+
   var vip_name = utils_simple.getSTEVNameVIP( state_name);
   zdsv.abortFlowSteps('vip_stdch_ev', state_name);
 
