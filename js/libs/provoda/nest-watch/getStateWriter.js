@@ -2,7 +2,7 @@ define(function (require) {
 'use strict';
 
 var spv = require('spv');
-var zip_fns = require('../utils/zip/nest-watch')
+var attr_zip_fns = require('../utils/zip/nest-watch-attr')
 var updateProxy = require('../updateProxy');
 var pvUpdate = updateProxy.update;
 var standart = require('./standartNWH');
@@ -39,7 +39,7 @@ var getZipFunc = spv.memorize(function(state_name, zip_name_raw) {
 
   }
 
-  var createZipFn = zip_fns[zip_name]
+  var createZipFn = attr_zip_fns[zip_name]
   if (!createZipFn) {
     throw new Error('unknow zip func ' + zip_name);
   }
