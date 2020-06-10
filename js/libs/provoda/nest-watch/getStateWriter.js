@@ -3,40 +3,23 @@ define(function (require) {
 
 var spv = require('spv');
 var attr_zip_fns = require('../utils/zip/nest-watch-attr')
+var rel_zip_fns = require('../utils/zip/nest-watch-rel')
 var updateProxy = require('../updateProxy');
 var pvUpdate = updateProxy.update;
 var standart = require('./standartNWH');
 
 
 
-var arrayClone = function(array) {
-  if (Array.isArray(array)) {
-    return array.slice(0);
-  } else {
-    return array;
-  }
-};
-
-var oneFromArray = function (array) {
-  if (Array.isArray(array)) {
-    return array[0]
-  }
-  return array
-}
 
 
 var getZipFunc = spv.memorize(function(state_name, zip_name_raw) {
   var zip_name = zip_name_raw || 'all'
   if (!state_name) {
-    switch (zip_name) {
-      case "all":
-        return arrayClone;
-      case "one":
-        return oneFromArray
-      default:
-        throw new Error('unknow zip func ' + zip_name);
+    var zip_fn = rel_zip_fns[zip_name]
+    if (!zip_fn) {
+      throw new Error('unknow zip func ' + zip_name);
     }
-
+    return zip_fn
   }
 
   var createZipFn = attr_zip_fns[zip_name]
