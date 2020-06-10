@@ -41,7 +41,14 @@ var zip_fns = {
   },
   'all': function(list, dep) {
     return list && mapList(dep, list)
-  }
+  },
+  'length': function(list) {
+    return list && list.length
+  },
+  'notEmpty': function(list) {
+    return Boolean(list && list.length)
+  },
+
 }
 
 return zip_fns
