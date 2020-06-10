@@ -17,13 +17,29 @@ var arrayClone = function(array) {
   }
 };
 
+var oneFromArray = function (array) {
+  if (Array.isArray(array)) {
+    return array[0]
+  }
+  return array
+}
 
-var getZipFunc = spv.memorize(function(state_name, zip_name) {
+
+var getZipFunc = spv.memorize(function(state_name, zip_name_raw) {
+  var zip_name = zip_name_raw || 'all'
   if (!state_name) {
-    return arrayClone;
+    switch (zip_name) {
+      case "all":
+        return arrayClone;
+      case "one":
+        return oneFromArray
+      default:
+        throw new Error('unknow zip func ' + zip_name);
+    }
+
   }
 
-  var createZipFn = zip_fns[zip_name || 'all']
+  var createZipFn = zip_fns[zip_name]
   if (!createZipFn) {
     throw new Error('unknow zip func ' + zip_name);
   }
