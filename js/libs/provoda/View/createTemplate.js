@@ -61,7 +61,7 @@ return function(view, con) {
               break;
             }
             case "attrs": {
-              argument = pvState(view, path)
+              argument = e.scope ? getTargetField(e.scope, path) : pvState(view, path)
               break;
             }
             default: {
