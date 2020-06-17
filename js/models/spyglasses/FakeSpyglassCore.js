@@ -25,6 +25,10 @@ return spv.inh(Model, {
 
     self.bwlevs = {};
 
+    if (self.is_simple_router) {
+      return
+    }
+
     var spyglass_name = 'navigation';
 
     self.mainLevelResident = self.app.start_page;

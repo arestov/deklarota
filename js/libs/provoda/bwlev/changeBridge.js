@@ -14,22 +14,30 @@ var redirected = function(map, pioneer) {
 
 }
 
-return function changeBridge(bwlev_raw) {
-  var pioneer = bwlev_raw.getNesting('pioneer')
+return function changeBridge(bwlev_raw, map_raw) {
+  var bwlev = bwlev_raw && (redirected(bwlev_raw.map, bwlev_raw.getNesting('pioneer')) || bwlev_raw)
+  var map = map_raw || bwlev.map
 
-  var map = bwlev_raw.map
-  var bwlev = redirected(map, pioneer) || bwlev_raw
   if (map.bridge_bwlev === bwlev) {
     return bwlev;
   }
 
-  bwlev.map.bridge_bwlev = bwlev;
+  map.bridge_bwlev = bwlev;
+
+  if (map.is_simple_router) {
+    map.updateNesting('current_bwlev', bwlev)
+    map.updateNesting('current_md', bwlev && bwlev.getNesting('pioneer'))
+    if (bwlev) {
+      bwlev.updateNesting('focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
+    }
+    return
+  }
 
   var copy = bwlev.ptree.slice();
   copy.reverse();
 
-  bwlev.map.updateNesting('wanted_bwlev_chain', copy);
-  bwlev.updateNesting('focus_referrer_bwlev', bwlev.map.getNesting('current_mp_bwlev'))
+  map.updateNesting('wanted_bwlev_chain', copy);
+  bwlev.updateNesting('focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
   bwlev.updateState('currentReq', null)
   return bwlev;
 }
