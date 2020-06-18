@@ -305,7 +305,7 @@ var BrowseLevel = spv.inh(Model, {
       return
     }
 
-    changeBridge(self.map_parent || self.map.start_bwlev)
+    changeBridge(self.map_parent || self.map.start_bwlev, self.map)
   }
 });
 
