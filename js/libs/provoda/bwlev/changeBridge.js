@@ -16,7 +16,11 @@ var redirected = function(map, pioneer) {
 
 return function changeBridge(bwlev_raw, map_raw) {
   var bwlev = bwlev_raw && (redirected(bwlev_raw.map, bwlev_raw.getNesting('pioneer')) || bwlev_raw)
-  var map = map_raw || bwlev.map
+  var map = map_raw || (bwlev && bwlev.map)
+
+  if (!map) {
+    console.warn('no bw map')
+  }
 
   if (map.bridge_bwlev === bwlev) {
     return bwlev;
