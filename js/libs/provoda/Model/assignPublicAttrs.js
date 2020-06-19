@@ -2,6 +2,7 @@ define(function(require) {
 'use strict'
 var isPrivate = require('./isPrivateState')
 var replaceModelInState = require('./replaceModelInState')
+var sameName = require('../sameName')
 
 var assignAttr = function(md, attr_name, value) {
   if (isPrivate(attr_name)) {
@@ -19,7 +20,7 @@ return function(md, changes_list) {
     var state_name = changes_list[i+1];
     var value = changes_list[i+2];
 
-    assignAttr(md, state_name, value)
+    assignAttr(md, sameName(state_name), value)
 
   }
 
