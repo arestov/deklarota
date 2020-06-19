@@ -11,9 +11,21 @@ var replaceItem = function(item) {
     return item
   }
 
-  return {
+  if (!item._highway) {
+    return {
+      _provoda_id: item._provoda_id,
+    };
+  }
+
+  if (!item._highway.__model_replacers) {
+    item._highway.__model_replacers = {}
+  }
+
+  item._highway.__model_replacers[item._provoda_id] = {
     _provoda_id: item._provoda_id,
-  };
+  }
+
+  return item._highway.__model_replacers[item._provoda_id] 
 }
 
 var replaceModelInState = function(value) {
