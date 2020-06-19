@@ -3,6 +3,7 @@ define(function(require) {
 
 var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
 var cloneObj = require('spv/cloneObj');
+var sameName = require('./sameName')
 
 var MDProxy = function(_provoda_id, states, children_models, md, space) {
   this._provoda_id = _provoda_id;
@@ -30,7 +31,7 @@ MDProxy.prototype = {
     }
     var changes_list = [];
     for (var name in obj) {
-      this.vstates[name] = obj[name];
+      this.vstates[sameName(name)] = obj[name];
       changes_list.push(true, name, obj[name]);
     }
     this.sendStatesToViews(changes_list);
@@ -46,7 +47,7 @@ MDProxy.prototype = {
     if (!this.vstates) {
       this.vstates = {};
     }
-    this.vstates[name] = value;
+    this.vstates[sameName(name)] = value;
     this.sendStatesToViews([true, name, value], opts);
     return this;
   },

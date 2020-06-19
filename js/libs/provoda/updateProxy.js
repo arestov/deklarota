@@ -9,6 +9,7 @@ var produceEffects = require('./StatesEmitter/produceEffects');
 var getSTCHfullname = spv.getPrefixingFunc('stch-');
 var checkStates = require('./nest-watch/checkStates');
 var _passHandleState = require('./dcl/passes/handleState/handle')
+var sameName = require('./sameName')
 
 var serv_counter = 1;
 var ServStates = function() {
@@ -231,7 +232,7 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   for (i = start_from; i < inputLength; i+=3) {
     var state_name = changes_list[i+1]
     reportBadChange(etr, state_name)
-    _replaceState(etr, total_original_states, original_states, state_name, changes_list[i+2], changed_states);
+    _replaceState(etr, total_original_states, original_states, sameName(state_name), changes_list[i+2], changed_states);
   }
 
 
@@ -352,7 +353,7 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
       _replaceState(
         etr, total_original_states, original_states,
 
-        subj.name, value, input_and_output
+        sameName(subj.name), value, input_and_output
       )
     }
   }
