@@ -45,7 +45,6 @@ var release = function(pool, item) {
 };
 
 var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
-var iterateVipChanges = createIterate1arg(_triggerVipChanges)
 var iterateStChanges = createIterate1arg(_triggerStChanges)
 var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
 
@@ -107,8 +106,6 @@ function updateProxy(etr, changes_list, opts) {
         currentChangesLength = lengthToHandle
       }
     }
-
-    iterateVipChanges(cur_changes_list, etr, zdsv)
 
     legacySideEffects(etr, total_ch, lengthBeforeAnyChanges, total_ch.length, cur_changes_opts)
 
@@ -438,32 +435,10 @@ function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
 
 
 //var st_event_name_default = ;
-//var st_event_name_vip = 'vip_state_change-';
 //var st_event_name_light = 'lgh_sch-';
 
 var st_event_opt = {force_async: true};
 
-function _triggerVipChanges(etr, i, state_name, value, zdsv) {
-  if (!etr._highway._legacy_vip_events) {
-    return
-  }
-
-  var vip_name = utils_simple.getSTEVNameVIP( state_name);
-  zdsv.abortFlowSteps('vip_stdch_ev', state_name);
-
-
-  var vip_cb_cs = etr.evcompanion.getMatchedCallbacks(vip_name);
-  if (!vip_cb_cs.length) {
-    return;
-  }
-
-  var flow_steps = zdsv.createFlowStepsArray('vip_stdch_ev', state_name);
-  var event_arg = new PVStateChangeEvent(state_name, value, zdsv.original_states[state_name], etr);
-
-  //вызов внутреннего для самого объекта события
-  etr.evcompanion.triggerCallbacks(vip_cb_cs, false, false, vip_name, event_arg, flow_steps);
-  utils_simple.markFlowSteps(flow_steps, 'vip_stdch_ev', state_name);
-}
 
 function triggerLegacySChEv(etr, state_name, value, old_value, default_cb_cs, default_name, flow_steps) {
   var event_arg = new PVStateChangeEvent(state_name, value, old_value, etr);

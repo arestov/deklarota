@@ -41,30 +41,6 @@ var stackStateFlowStep = function(flow_step, state_name) {
   this.zdsv.createFlowStepsArray('stev', state_name).push(flow_step);
 };
 
-var regfr_vipstev = (function() {
-  var getState = spv.getDeprefixFunc('vip_state_change-');
-  return {
-    test: function(namespace) {
-
-      return !!getState(namespace);
-    },
-    fn: function(namespace) {
-      var state_name = getState(namespace);
-      return {
-        value: this.state(state_name),
-        target: this
-      };
-    },
-    getWrapper: function() {
-      return hndMotivationWrappper;
-    },
-    getFSNamespace: function(namespace) {
-      return getState(namespace);
-    },
-    handleFlowStep: stackStateFlowStep
-  };
-
-})();
 
 var regfr_stev = (function() {
   var getState = spv.getDeprefixFunc('state_change-');
@@ -130,8 +106,6 @@ add({
   useInterface: function(interface_name, obj, destroy) {
     useInterface(this, interface_name, obj, destroy);
   },
-
-  'regfr-vipstev': regfr_vipstev,
   'regfr-stev': regfr_stev,
   'regfr-lightstev': regfr_lightstev,
   getContextOptsI: function() {
@@ -178,9 +152,11 @@ add({
 
     var cb;
 
-    var event_name = immediately ?
-      utils_simple.getSTEVNameVIP(donor_state) :
-      utils_simple.getSTEVNameDefault(donor_state);
+    if (immediately) {
+      throw new Error('no supported anymore')
+    }
+
+    var event_name = utils_simple.getSTEVNameDefault(donor_state);
 
     if (typeof acceptor_state == 'function'){
       cb = acceptor_state;

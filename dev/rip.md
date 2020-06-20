@@ -7,3 +7,5 @@
 - `child_change-` event
 
 - authInit -> switchPmd
+
+- `vip_state_change-`, _legacy_vip_events 

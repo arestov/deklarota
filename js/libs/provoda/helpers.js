@@ -59,7 +59,6 @@ return {
   getNetApiByDeclr: getNetApiByDeclr,
   getPropsPrefixChecker: getPropsPrefixChecker,
   _groupMotive: groupMotive,
-  getSTEVNameVIP: utils_simple.getSTEVNameVIP,
   getSTEVNameDefault: utils_simple.getSTEVNameDefault,
   getSTEVNameLight: utils_simple.getSTEVNameLight,
   getRemovedNestingItems: getRemovedNestingItems,
