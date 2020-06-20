@@ -365,20 +365,6 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     pv.updateNesting(this, nesting_name, work_array, ml_ch_opts);
     return item;
   },
-
-  //auth things:
-
-  authInit: function() {
-    var _this = this;
-    if (this.map_parent){
-      this.switchPmd(false);
-      this.map_parent.on('state_change-mp_has_focus', function(e) {
-        if (!e.value){
-          _this.switchPmd(false);
-        }
-      });
-    }
-  },
 });
 
 function convertNamed(list) {

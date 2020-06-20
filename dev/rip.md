@@ -5,3 +5,5 @@
 - bindStaCons, preseting main_list_name, legacy_rel_helpers
 
 - `child_change-` event
+
+- authInit -> switchPmd
