@@ -5,7 +5,6 @@ return {
   getSTEVNameVIP: spv.getPrefixingFunc('vip_state_change-'),
   getSTEVNameDefault: spv.getPrefixingFunc('state_change-'),
   getSTEVNameLight: spv.getPrefixingFunc('lgh_sch-'),
-  getFullChilChEvName: spv.getPrefixingFunc('child_change-'),
   wipeObj: function (obj){
     if (!obj) {
       return obj
