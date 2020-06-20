@@ -142,16 +142,8 @@ add({
       (matched_reg_fire && matched_reg_fire.getWrapper && matched_reg_fire.getWrapper.call(this.sputnik)) ||
       this.hndUsualEvCallbacksWrapper
 
-    var fired = false;
-
-    if (matched_reg_fire){
-      one_reg_arg = matched_reg_fire.fn.call(this.sputnik, ev_name);
-      if (one_reg_arg != null) {
-        fired = true;
-      }
-
-    }
-
+    var one_reg_arg = matched_reg_fire && matched_reg_fire.fn.call(this.sputnik, ev_name);
+    var fired = one_reg_arg != null;
 
     if (fired){
       if (!skip_reg){
