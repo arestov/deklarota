@@ -4,6 +4,8 @@ define(function(require) {
 var spv = require('spv');
 var parsePath = require('./routes/legacy/parse')
 var pathExecutor = require('./routes/legacy/stringify')
+var utils_simple = require('./utils/simple')
+
 var getTargetField = spv.getTargetField
 
 var preloadStart = function (md) {
@@ -203,10 +205,10 @@ var initOneDeclaredNesting = function(md, el) {
       executePreload(this, el.nesting_name);
     }
 
-    md.off('lgh_sch-' + el.idle_until, init_func);
+    md.off(utils_simple.getSTEVNameLight(el.idle_until), init_func);
   };
 
-  md.on('lgh_sch-' + el.idle_until, init_func);
+  md.on(utils_simple.getSTEVNameLight(el.idle_until), init_func);
 
 };
 
