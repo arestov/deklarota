@@ -8,7 +8,6 @@
 ```
 'regfr-'
 'sel-coll-'
-'vip_state_change-'
 'state_change-'
 'lgh_sch-'
 'chi-'
