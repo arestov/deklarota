@@ -181,31 +181,32 @@ var initOneDeclaredNesting = function(md, el) {
   if (el.preload_on) {
     bindPreload(md, el.preload_on, el.nesting_name);
   }
-  
-  if (el.idle_until) {
-    var init_func = function(state) {
-      if (!state) {
-        return
-      }
 
-      if (!this.getNesting(el.nesting_name)) {
-        this.updateNesting(el.nesting_name, getSubpages( this, el ));
-      }
 
-      if (el.preload_on && this.state(el.preload_on)) {
-        executePreload(this, el.nesting_name);
-      }
-
-      md.off('lgh_sch-' + el.idle_until, init_func);
-    };
-
-    md.on('lgh_sch-' + el.idle_until, init_func);
-
-  } else {
+  if (!el.idle_until) {
     if (!md.getNesting(el.nesting_name)) {
       md.updateNesting(el.nesting_name, getSubpages( md, el ));
     }
+    return
   }
+
+  var init_func = function(state) {
+    if (!state) {
+      return
+    }
+
+    if (!this.getNesting(el.nesting_name)) {
+      this.updateNesting(el.nesting_name, getSubpages( this, el ));
+    }
+
+    if (el.preload_on && this.state(el.preload_on)) {
+      executePreload(this, el.nesting_name);
+    }
+
+    md.off('lgh_sch-' + el.idle_until, init_func);
+  };
+
+  md.on('lgh_sch-' + el.idle_until, init_func);
 
 };
 
