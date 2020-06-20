@@ -181,33 +181,6 @@ add({
 
     return this.netsources_of_all.full_list;
   },
-  'regfr-childchev': (function() {
-    var getNestingName = spv.getDeprefixFunc('child_change-');
-    return {
-      test: function(namespace) {
-
-        return getNestingName(namespace);
-      },
-      fn: function(namespace) {
-        var nesting_name = getNestingName(namespace);
-        var child = this.getNesting(nesting_name);
-        if (child){
-          return {
-            value: child,
-            target: this,
-            nesting_name: nesting_name
-          };
-        }
-      },
-      getWrapper: function() {
-        return hp.oop_ext.hndMotivationWrappper;
-      },
-      getFSNamespace: function(namespace) {
-        return getNestingName(namespace);
-      },
-      handleFlowStep: stackNestingFlowStep
-    };
-  })(),
   getStrucRoot: function() {
     return this.app;
   },

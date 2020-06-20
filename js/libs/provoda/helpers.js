@@ -62,7 +62,6 @@ return {
   getSTEVNameVIP: utils_simple.getSTEVNameVIP,
   getSTEVNameDefault: utils_simple.getSTEVNameDefault,
   getSTEVNameLight: utils_simple.getSTEVNameLight,
-  getFullChilChEvName: utils_simple.getFullChilChEvName,
   getRemovedNestingItems: getRemovedNestingItems,
   oop_ext: {
     hndMotivationWrappper: hndMotivationWrappper,
