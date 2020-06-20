@@ -179,17 +179,19 @@ var initOneDeclaredNesting = function(md, el) {
   */
   if (el.idle_until) {
     var init_func = function(state) {
-
-      if (state) {
-        if (!this.getNesting(el.nesting_name)) {
-          this.updateNesting(el.nesting_name, getSubpages( this, el ));
-        }
-        if (el.preload_on && this.state(el.preload_on)) {
-          executePreload(this, el.nesting_name);
-        }
-
-        md.off('lgh_sch-' + el.idle_until, init_func);
+      if (!state) {
+        return
       }
+
+      if (!this.getNesting(el.nesting_name)) {
+        this.updateNesting(el.nesting_name, getSubpages( this, el ));
+      }
+
+      if (el.preload_on && this.state(el.preload_on)) {
+        executePreload(this, el.nesting_name);
+      }
+
+      md.off('lgh_sch-' + el.idle_until, init_func);
     };
 
     md.on('lgh_sch-' + el.idle_until, init_func);
