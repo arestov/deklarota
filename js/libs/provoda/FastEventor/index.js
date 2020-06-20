@@ -51,14 +51,6 @@ var resetSubscribesCache = iterateSubsCache(function() {
   return null;
 });
 
-var getNsName = function(convertEventName, ev_name_raw) {
-  if (!convertEventName) {
-    return ev_name_raw;
-  } else {
-    return convertEventName(ev_name_raw);
-  }
-};
-
 var FastEventor = function(context) {
   this.sputnik = context;
   this.subscribes = null;
@@ -135,7 +127,7 @@ add({
   _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg, once, easy_bind_control){
     //common opts allowed
 
-    var ev_name = getNsName(this.sputnik.convertEventName, ev_name_raw);
+    var ev_name = ev_name_raw;
 
     var
       fired = false,
@@ -216,7 +208,7 @@ add({
       opts && opts.easy_bind_control);
   },
   off: function(event_name, cb, obj, context){
-    var ev_name = getNsName(this.sputnik.convertEventName, event_name);
+    var ev_name = event_name;
 
     var items = this.subscribes && this.subscribes[ev_name];
 
@@ -279,8 +271,6 @@ add({
       return matched;
     };
 
-    var getName = getNsName;
-
     var setCache = function(self, ev_name, value) {
       if (!self.subscribes_cache) {
         self.subscribes_cache = {};
@@ -290,7 +280,7 @@ add({
     };
 
     return function(ev_name_raw){
-      var ev_name = getName(this.sputnik.convertEventName, ev_name_raw);
+      var ev_name = ev_name_raw;
 
       var cb_cs = this.subscribes && this.subscribes[ev_name];
 
@@ -333,7 +323,7 @@ add({
   cleanOnceEvents: function(event_name) {
     // this.off(ev_name, false, cur);
 
-    var ev_name = getNsName(this.sputnik.convertEventName, event_name);
+    var ev_name = event_name;
 
     var items = this.subscribes && this.subscribes[ev_name];
     if (items) {
