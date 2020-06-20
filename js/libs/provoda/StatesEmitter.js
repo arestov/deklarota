@@ -2,13 +2,13 @@ define(function(require) {
 'use strict';
 
 var spv = require('spv');
-var hndMotivationWrappper = require('./helpers/hndMotivationWrappper')
 var utils_simple = require('./utils/simple')
 
 var updateProxy = require('./updateProxy');
-var StatesLabour = require('./StatesLabour');
 var Eventor = require('./Eventor');
 var useInterface = require('./StatesEmitter/useInterface');
+var regfr_lightstev = require('./internal_events/light_attr_change/regfire');
+
 var onPropsExtend = require('./onExtendSE');
 var act = require('./dcl/passes/act');
 var pvState = require('./utils/state')
@@ -23,37 +23,6 @@ var getLightConnector = spv.memorize(function(state_name) {
 
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
-
-
-var stackStateFlowStep = function(flow_step, state_name) {
-  if (!this.zdsv) {
-    this.zdsv = new StatesLabour(!!this.full_comlxs_index, this._has_stchs);
-    //debugger;
-  }
-  flow_step.p_space = 'stev';
-  flow_step.p_index_key = state_name;
-  this.zdsv.createFlowStepsArray('stev', state_name).push(flow_step);
-};
-
-
-var regfr_lightstev = (function() {
-  var getState = spv.getDeprefixFunc('lgh_sch-');
-  return {
-    test: function(namespace) {
-      return !!getState(namespace);
-    },
-    fn: function(namespace) {
-      return this.state(getState(namespace));
-    },
-    getWrapper: function() {
-      return hndMotivationWrappper;
-    },
-    getFSNamespace: function(namespace) {
-      return getState(namespace);
-    },
-    handleFlowStep: stackStateFlowStep
-  };
-})();
 
 var EvConxOpts = function(context, immediately) {
   this.context = context;

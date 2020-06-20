@@ -1,8 +1,9 @@
 define(function (require) {
 'use strict';
-var spv = require('spv');
+var getSTEVNameLight = require('../internal_events/light_attr_change/getNameByAttr')
+
 return {
-  getSTEVNameLight: spv.getPrefixingFunc('lgh_sch-'),
+  getSTEVNameLight: getSTEVNameLight,
   wipeObj: function (obj){
     if (!obj) {
       return obj
