@@ -1,5 +1,7 @@
 const { rollup } = require('rollup');
 const replace = require('rollup-plugin-replace')
+const babel = require('@rollup/plugin-babel').default;
+const pathm = require('path')
 
 const build = ({
   all = false,
@@ -51,11 +53,16 @@ const build = ({
     ].map(path => (__dirname + '/' + path)),
 
     plugins: [
+      process.env.MEMORY_SLICER && babel({
+        babelHelpers: 'bundled',
+        include: ['*/js/libs/**/**'],
+        "plugins": [pathm.join(__dirname, "./node_modules/babel-plugin-memory-consumers-slicer")],
+      }),
       replace({
         "process.versions": '({})',
         NODE_ENV: `'${process.env.NODE_ENV}'`,
       }),
-    ]
+    ].filter(Boolean)
   })
   .then(async bundle => {
     await Promise.all([
