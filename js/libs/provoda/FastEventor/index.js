@@ -135,13 +135,12 @@ add({
 
     var one_reg_arg = null;
 
-    var callbacks_wrapper = this.hndUsualEvCallbacksWrapper;
-
     var reg_fires = this.getPossibleRegfires(ev_name);
     var matched_reg_fire = (reg_fires && reg_fires.length && reg_fires[0]) || null
-    if (matched_reg_fire && matched_reg_fire.getWrapper){
-      callbacks_wrapper = matched_reg_fire.getWrapper.call(this.sputnik);
-    }
+
+    var callbacks_wrapper =
+      (matched_reg_fire && matched_reg_fire.getWrapper && matched_reg_fire.getWrapper.call(this.sputnik)) ||
+      this.hndUsualEvCallbacksWrapper
 
     var fired = false;
 
