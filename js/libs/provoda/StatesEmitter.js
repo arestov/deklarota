@@ -42,29 +42,6 @@ var stackStateFlowStep = function(flow_step, state_name) {
 };
 
 
-var regfr_stev = (function() {
-  var getState = spv.getDeprefixFunc('state_change-');
-  return {
-    test: function(namespace) {
-      return !!getState(namespace);
-    },
-    fn: function(namespace) {
-      var state_name = getState(namespace);
-      return {
-        value: this.state(state_name),
-        target: this
-      };
-    },
-    getWrapper: function() {
-      return hndMotivationWrappper;
-    },
-    getFSNamespace: function(namespace) {
-      return getState(namespace);
-    },
-    handleFlowStep: stackStateFlowStep
-  };
-})();
-
 var regfr_lightstev = (function() {
   var getState = spv.getDeprefixFunc('lgh_sch-');
   return {
@@ -106,7 +83,6 @@ add({
   useInterface: function(interface_name, obj, destroy) {
     useInterface(this, interface_name, obj, destroy);
   },
-  'regfr-stev': regfr_stev,
   'regfr-lightstev': regfr_lightstev,
   getContextOptsI: function() {
     if (!this.conx_optsi){
@@ -146,29 +122,6 @@ add({
     var cb = getLightConnector(acceptor_state_name);
     this._bindLight(donor, event_name, cb);
 
-
-  },
-  wch: function(donor, donor_state, acceptor_state, immediately) {
-
-    var cb;
-
-    if (immediately) {
-      throw new Error('no supported anymore')
-    }
-
-    var event_name = utils_simple.getSTEVNameDefault(donor_state);
-
-    if (typeof acceptor_state == 'function'){
-      cb = acceptor_state;
-    } else {
-      acceptor_state = acceptor_state || donor_state;
-      cb = getConnector(acceptor_state);
-
-    }
-    this._bindLight(donor, event_name, cb, immediately);
-
-
-    return this;
 
   },
   onExtend: function(props, original) {

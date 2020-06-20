@@ -2,7 +2,6 @@ define(function (require) {
 'use strict';
 var spv = require('spv');
 return {
-  getSTEVNameDefault: spv.getPrefixingFunc('state_change-'),
   getSTEVNameLight: spv.getPrefixingFunc('lgh_sch-'),
   wipeObj: function (obj){
     if (!obj) {

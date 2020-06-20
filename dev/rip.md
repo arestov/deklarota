@@ -8,4 +8,6 @@
 
 - authInit -> switchPmd
 
-- `vip_state_change-`, _legacy_vip_events 
+- `vip_state_change-`, _legacy_vip_events
+
+- state_change-
