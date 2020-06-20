@@ -129,10 +129,6 @@ add({
 
     var ev_name = ev_name_raw;
 
-    var
-      fired = false,
-      _this = this;
-
     if (exlusive){
       this.off(ev_name);
     }
@@ -147,6 +143,8 @@ add({
       callbacks_wrapper = matched_reg_fire.getWrapper.call(this.sputnik);
     }
 
+    var fired = false;
+
     if (matched_reg_fire){
       one_reg_arg = matched_reg_fire.fn.call(this.sputnik, ev_name);
       if (one_reg_arg != null) {
@@ -158,7 +156,7 @@ add({
 
     if (fired){
       if (!skip_reg){
-        var mo_context = context || _this.sputnik;
+        var mo_context = context || this.sputnik;
         if (soft_reg === false){
           cb.call(mo_context, one_reg_arg);
 
