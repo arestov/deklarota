@@ -177,6 +177,11 @@ var initOneDeclaredNesting = function(md, el) {
   preload: cur[1],
   idle_until: cur[2]
   */
+
+  if (el.preload_on) {
+    bindPreload(md, el.preload_on, el.nesting_name);
+  }
+  
   if (el.idle_until) {
     var init_func = function(state) {
       if (!state) {
@@ -200,10 +205,6 @@ var initOneDeclaredNesting = function(md, el) {
     if (!md.getNesting(el.nesting_name)) {
       md.updateNesting(el.nesting_name, getSubpages( md, el ));
     }
-  }
-
-  if (el.preload_on) {
-    bindPreload(md, el.preload_on, el.nesting_name);
   }
 
 };
