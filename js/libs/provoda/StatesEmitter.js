@@ -14,12 +14,6 @@ var act = require('./dcl/passes/act');
 var pvState = require('./utils/state')
 var initEffectsSubscribe = require('./dcl/effects/legacy/subscribe/init');
 
-var getConnector = spv.memorize(function(state_name) {
-  return function updateStateBinded(e) {
-    this.updateState(state_name, e.value);
-  };
-});
-
 var getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
     this.updateState(state_name, value);
