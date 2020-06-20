@@ -51,6 +51,24 @@ var resetSubscribesCache = iterateSubsCache(function() {
   return null;
 });
 
+var fireFire = function(context, sputnik, matched_reg_fire, soft_reg, callbacks_wrapper, ev_name, cb, one_reg_arg) {
+  var mo_context = context || sputnik;
+  if (soft_reg === false){
+    cb.call(mo_context, one_reg_arg);
+    return
+  }
+
+  var flow_step = sputnik._getCallsFlow().pushToFlow(
+    cb, mo_context, null, one_reg_arg, callbacks_wrapper, sputnik, sputnik.current_motivator
+  );
+
+  if (!matched_reg_fire.handleFlowStep) {
+    return
+  }
+  matched_reg_fire.handleFlowStep.call(sputnik, flow_step, matched_reg_fire.getFSNamespace(ev_name));
+
+}
+
 var FastEventor = function(context) {
   this.sputnik = context;
   this.subscribes = null;
@@ -144,23 +162,9 @@ add({
 
     var one_reg_arg = matched_reg_fire && matched_reg_fire.fn.call(this.sputnik, ev_name);
     var fired = one_reg_arg != null;
-
-    if (fired){
-      if (!skip_reg){
-        var mo_context = context || this.sputnik;
-        if (soft_reg === false){
-          cb.call(mo_context, one_reg_arg);
-
-        } else {
-          var flow_step = this.sputnik._getCallsFlow().pushToFlow(cb, mo_context, null, one_reg_arg, callbacks_wrapper, this.sputnik, this.sputnik.current_motivator);
-          if (matched_reg_fire.handleFlowStep) {
-
-            matched_reg_fire.handleFlowStep.call(this.sputnik, flow_step, matched_reg_fire.getFSNamespace(ev_name));
-          }
-        }
-      }
+    if (fired && !skip_reg) {
+      fireFire(context, this.sputnik, matched_reg_fire, soft_reg, callbacks_wrapper, ev_name, cb, one_reg_arg)
     }
-
 
     var subscr_opts = new EventSubscribingOpts(ev_name, cb, once, context, immediately, callbacks_wrapper);
 
