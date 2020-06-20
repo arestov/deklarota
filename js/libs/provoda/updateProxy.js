@@ -437,14 +437,6 @@ function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
 //var st_event_name_default = ;
 //var st_event_name_light = 'lgh_sch-';
 
-var st_event_opt = {force_async: true};
-
-
-function triggerLegacySChEv(etr, state_name, value, old_value, default_cb_cs, default_name, flow_steps) {
-  var event_arg = new PVStateChangeEvent(state_name, value, old_value, etr);
-      //вызов стандартного события
-  etr.evcompanion.triggerCallbacks(default_cb_cs, false, st_event_opt, default_name, event_arg, flow_steps);
-}
 
 function _triggerStChanges(etr, i, state_name, value, zdsv) {
 
@@ -455,13 +447,11 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
 
   checkStates(etr, zdsv, state_name, value, zdsv.total_original_states[state_name]);
 
-  var default_name = utils_simple.getSTEVNameDefault( state_name );
   var light_name = utils_simple.getSTEVNameLight( state_name );
 
-  var default_cb_cs = etr.evcompanion.getMatchedCallbacks(default_name);
   var light_cb_cs = etr.evcompanion.getMatchedCallbacks(light_name);
 
-  if (!light_cb_cs.length && !default_cb_cs.length) {
+  if (!light_cb_cs.length) {
     return;
   }
 
@@ -471,9 +461,6 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
     etr.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value, flow_steps);
   }
 
-  if (default_cb_cs.length) {
-    triggerLegacySChEv(etr, state_name, value, zdsv.total_original_states[state_name], default_cb_cs, default_name, flow_steps);
-  }
 
   if (flow_steps) {
     utils_simple.markFlowSteps(flow_steps, 'stev', state_name);
