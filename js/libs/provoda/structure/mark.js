@@ -40,7 +40,6 @@ function mark(Constr, RootConstr, parent_path) {
       pconstr_id: self.constr_id,
       _parent_constr: Constr,
       _root_constr: RootConstr,
-      legacy_rel_helpers: RootConstr.prototype.legacy_rel_helpers,
       hierarchy_path: hierarchy_path,
       hierarchy_path_string: hierarchy_path.join('  ')
     });
