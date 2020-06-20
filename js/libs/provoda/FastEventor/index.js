@@ -142,12 +142,13 @@ add({
     var callbacks_wrapper = this.hndUsualEvCallbacksWrapper;
 
     var reg_fires = this.getPossibleRegfires(ev_name);
-    if (reg_fires && reg_fires.length && reg_fires[0].getWrapper){
-      callbacks_wrapper = reg_fires[0].getWrapper.call(this.sputnik);
+    var matched_reg_fire = (reg_fires && reg_fires.length && reg_fires[0]) || null
+    if (matched_reg_fire && matched_reg_fire.getWrapper){
+      callbacks_wrapper = matched_reg_fire.getWrapper.call(this.sputnik);
     }
 
-    if (reg_fires && reg_fires.length){
-      one_reg_arg = reg_fires[0].fn.call(this.sputnik, ev_name);
+    if (matched_reg_fire){
+      one_reg_arg = matched_reg_fire.fn.call(this.sputnik, ev_name);
       if (one_reg_arg != null) {
         fired = true;
       }
@@ -163,9 +164,9 @@ add({
 
         } else {
           var flow_step = this.sputnik._getCallsFlow().pushToFlow(cb, mo_context, null, one_reg_arg, callbacks_wrapper, this.sputnik, this.sputnik.current_motivator);
-          if (reg_fires[0].handleFlowStep) {
+          if (matched_reg_fire.handleFlowStep) {
 
-            reg_fires[0].handleFlowStep.call(this.sputnik, flow_step, reg_fires[0].getFSNamespace(ev_name));
+            matched_reg_fire.handleFlowStep.call(this.sputnik, flow_step, matched_reg_fire.getFSNamespace(ev_name));
           }
         }
       }
