@@ -150,18 +150,11 @@ BrowseMap.Model = spv.inh(pv.HModel, {
     if (self.allow_data_init && !init_v2) {
       self.updateManyStates(data);
     }
-
-    if (self.legacy_rel_helpers && self.preview_nesting_source) {
-      self.on('child_change-' + self.preview_nesting_source, function(e) {
-        pv.updateNesting(this, 'preview_list', e.value);
-      });
-    }
   }
 }, {
   handling_v2_init: true,
   network_data_as_states: true,
   '__required-nav_title': true,
-  preview_nesting_source: 'lists_list',
   /*
 
   */

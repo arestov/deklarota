@@ -86,12 +86,6 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     ]
   },
 
-  hndCheckPreviews: function(e) {
-    if (!e.skip_report){
-      pv.updateNesting(this, this.preview_mlist_name, e.value);
-    }
-  },
-
   'stch-$needs_load': function (target, state) {
     if (state) {
       target.preloadStart();
@@ -102,9 +96,6 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     if (!this.legacy_rel_helpers) {
       return
     }
-    if (!this.manual_previews){
-      this.on('child_change-' + this.main_list_name, this.hndCheckPreviews);
-    }
   },
 
   handleNetworkSideData: function(target, source_name, ns, data) {
@@ -112,8 +103,6 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   main_list_name: 'lists_list',
-  preview_mlist_name: 'preview_list',
-  preview_nesting_source: null,
   getMainListChangeOpts: function() {},
   page_limit: 30,
 
