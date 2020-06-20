@@ -51,11 +51,6 @@ return {
   wipeObj: utils_simple.wipeObj,
   markFlowSteps: utils_simple.markFlowSteps,
   getRightNestingName: function(md, nesting_name) {
-    if (md.preview_nesting_source && nesting_name == 'preview_list') {
-      nesting_name = md.preview_nesting_source;
-    } else if (nesting_name == md.preview_mlist_name){
-      nesting_name = md.main_list_name;
-    }
     return nesting_name;
   },
   getShortStateName: getShortStateName,
