@@ -21,12 +21,14 @@ var iterateSubsCache = function(func) {
       return;
     }
     for (var trigger_name in bhv.subscribes_cache){
+      if (listener_name != trigger_name){
+        continue
+      }
       if (!bhv.subscribes_cache[trigger_name]){
         continue;
       }
-      if (listener_name == trigger_name){
-        bhv.subscribes_cache[trigger_name] = func(bhv.subscribes_cache[trigger_name], obj, listener_name);
-      }
+
+      bhv.subscribes_cache[trigger_name] = func(bhv.subscribes_cache[trigger_name], obj, listener_name);
     }
     return bhv.subscribes_cache;
   };
