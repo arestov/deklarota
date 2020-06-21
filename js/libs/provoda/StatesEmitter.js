@@ -8,6 +8,7 @@ var updateProxy = require('./updateProxy');
 var Eventor = require('./Eventor');
 var useInterface = require('./StatesEmitter/useInterface');
 var regfr_lightstev = require('./internal_events/light_attr_change/regfire');
+var subscribeToDie = require('./internal_events/die/subscribe')
 
 var onPropsExtend = require('./onExtendSE');
 var act = require('./dcl/passes/act');
@@ -35,7 +36,7 @@ add({
     this._calls_flow.pushToFlow(act, this, [this, action_name, data])
   },
   onDie: function(cb) {
-    this.on('die', cb);
+    subscribeToDie(this, cb)
   },
   // init: function(){
   // 	this._super();

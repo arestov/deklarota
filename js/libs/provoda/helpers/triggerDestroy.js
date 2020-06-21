@@ -1,14 +1,9 @@
-define (function() {
+define (function(require) {
 'use strict'
-var emergency_opt = {
-  emergency: true
-};
 
+var triggerDie = require('../internal_events/die/trigger')
 
-return function(md) {
-  var array = md.evcompanion.getMatchedCallbacks('die');
-  if (array.length) {
-    md.evcompanion.triggerCallbacks(array, false, emergency_opt, 'die');
-  }
+return function(self) {
+  triggerDie(self)
 }
 })
