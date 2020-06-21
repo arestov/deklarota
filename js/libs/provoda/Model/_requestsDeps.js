@@ -210,8 +210,7 @@ var unhandleCountlessNesting = function(dep, req_dep, self) {
   if (!dep.state) {
     return
   }
-
-  self.off(hp.getSTEVNameLight(dep.state), req_dep.anchor, false, self);
+  self.removeLwch(self, dep.state, req_dep.anchor)
   unwatchDependence(req_dep.supervision, self, dep.related, req_dep.id + 'countless_nesting');
 
 
