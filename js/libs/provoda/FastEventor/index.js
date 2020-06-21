@@ -280,17 +280,17 @@ add({
 
       if (!cb_cs){
         return _empty_callbacks_package;
-      } else {
-        var cached_r = this.subscribes_cache && this.subscribes_cache[ev_name];
-        if (cached_r){
-          return cached_r;
-        } else {
-          var value = find(ev_name, cb_cs);
-
-          setCache(this, ev_name, value);
-          return value;
-        }
       }
+
+      var cached_r = this.subscribes_cache && this.subscribes_cache[ev_name];
+      if (cached_r){
+        return cached_r;
+      }
+
+      var value = find(ev_name, cb_cs);
+
+      setCache(this, ev_name, value);
+      return value;
     };
   })(),
   callEventCallback: function(cur, args, opts, arg) {
