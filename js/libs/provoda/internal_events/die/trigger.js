@@ -1,17 +1,19 @@
 define(function() {
 'use strict'
 
-var emergency_opt = {
-  emergency: true
-};
-
-return function(md) {
-  var array = md.evcompanion.getMatchedCallbacks('die');
-  if (!array.length) {
+return function(self) {
+  if (!self.evcompanion._die_subscribers) {
     return
   }
 
-  md.evcompanion.triggerCallbacks(array, false, emergency_opt, 'die');
+  var wrapper = self.evcompanion.hndUsualEvCallbacksWrapper
+
+  for (var i = 0; i < self.evcompanion._die_subscribers.length; i++) {
+    var cur = self.evcompanion._die_subscribers[i]
+    self.evcompanion.callCallback(self, cur, wrapper, null, null, true)
+  }
+
+  self.evcompanion._die_subscribers = null
 
 }
 

@@ -5,6 +5,7 @@ var spv = require('spv');
 var utils_simple = require('../utils/simple');
 var wipeObj = utils_simple.wipeObj
 var requesting = require('./requesting');
+var onInstanceInitDie = require('../internal_events/die/onInstanceInit')
 
 var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
   this.ev_name = ev_name;
@@ -80,6 +81,8 @@ var FastEventor = function(context) {
   this._requestsSortFunc = null;
   this.mapped_reqs = null
   this.nesting_requests = null;
+  onInstanceInitDie(this)
+
 };
 FastEventor.prototype = spv.coe(function(add) {
 
