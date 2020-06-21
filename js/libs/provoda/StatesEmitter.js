@@ -80,10 +80,9 @@ add({
     this._bindLight(donor, utils_simple.getSTEVNameLight(donor_state), func);
   },
   wlch: function(donor, donor_state, acceptor_state) {
-    var event_name = utils_simple.getSTEVNameLight(donor_state);
     var acceptor_state_name = acceptor_state || donor_state;
     var cb = getLightConnector(acceptor_state_name);
-    this._bindLight(donor, event_name, cb);
+    this._bindLight(donor, utils_simple.getSTEVNameLight(donor_state), cb);
 
 
   },
