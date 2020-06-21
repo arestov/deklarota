@@ -457,10 +457,7 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
 
   var flow_steps = zdsv.createFlowStepsArray('stev', state_name);
 
-  if (light_cb_cs.length) {
-    etr.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value, flow_steps);
-  }
-
+  etr.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value, flow_steps);
 
   if (flow_steps) {
     utils_simple.markFlowSteps(flow_steps, 'stev', state_name);
