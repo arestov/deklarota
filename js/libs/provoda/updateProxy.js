@@ -3,6 +3,7 @@ define(function(require) {
 
 var StatesLabour = require('./StatesLabour');
 var utils_simple = require('./utils/simple');
+var triggerLightAttrChange = require('./internal_events/light_attr_change/trigger')
 var spv = require('spv');
 var assignPublicAttrs = require('./Model/assignPublicAttrs')
 var produceEffects = require('./StatesEmitter/produceEffects');
@@ -430,32 +431,6 @@ function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
 
   for (var i = start_from; i < inputLength; i+=3) {
     _handleStch(etr, changes_list[i+1], changes_list[i+2], opts && opts.skip_handler, opts && opts.sync_tpl);
-  }
-}
-
-
-//var st_event_name_default = ;
-//var st_event_name_light = 'lgh_sch-';
-
-function triggerLightAttrChange(self, attr_name, value, zdsv) {
-
-  zdsv.abortFlowSteps('stev', attr_name);
-
-
-  var light_name = utils_simple.getSTEVNameLight( attr_name );
-
-  var light_cb_cs = self.evcompanion.getMatchedCallbacks(light_name);
-
-  if (!light_cb_cs.length) {
-    return;
-  }
-
-  var flow_steps = zdsv.createFlowStepsArray('stev', attr_name);
-
-  self.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value, flow_steps);
-
-  if (flow_steps) {
-    utils_simple.markFlowSteps(flow_steps, 'stev', attr_name);
   }
 }
 
