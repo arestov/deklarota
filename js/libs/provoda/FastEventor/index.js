@@ -306,14 +306,19 @@ add({
     }
 
     var callback_context = cur.context || this.sputnik;
-    var wrapper_context = this.sputnik;
 
-    var calls_flow = (opts && opts.emergency) ? this.sputnik._calls_flow : this.sputnik._getCallsFlow();
-    return calls_flow.pushToFlow(cur.cb, callback_context, args, arg, cur.wrapper, wrapper_context, this.sputnik.current_motivator);
+    return this.callCallback(callback_context, cur.cb, cur.wrapper, args, arg, (opts && opts.emergency))
     /*
     setTimeout(function() {
       cur.cb.apply(_this, args);
     },1);*/
+  },
+  callCallback: function(callback_context, cb, wrapper, args, arg, emergency) {
+    var wrapper_context = this.sputnik;
+
+    var calls_flow = (emergency) ? this.sputnik._calls_flow : this.sputnik._getCallsFlow();
+    return calls_flow.pushToFlow(cb, callback_context, args, arg, wrapper, wrapper_context, this.sputnik.current_motivator);
+
   },
   cleanOnceEvents: function(event_name) {
     // this.off(ev_name, false, cur);
