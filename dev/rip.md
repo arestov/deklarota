@@ -11,3 +11,5 @@
 - `vip_state_change-`, _legacy_vip_events
 
 - state_change-
+
+- this.trigger('requests', added, space);

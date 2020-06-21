@@ -514,8 +514,6 @@ add({
       if (!opts || !opts.skip_sort){
         this.sortRequests(space);
       }
-
-      this.trigger('requests', added, space);
     }
 
 
