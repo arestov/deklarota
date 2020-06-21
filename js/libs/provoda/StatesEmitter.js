@@ -81,6 +81,10 @@ add({
   lwch: function(donor, donor_state, func) {
     this._bindLight(donor, donor_state, func);
   },
+  removeLwch: function(donor, donor_state, func) {
+    donor.evcompanion.off(utils_simple.getSTEVNameLight(donor_state), func, false, this);
+  },
+
   wlch: function(donor, donor_state, acceptor_state) {
     var acceptor_state_name = acceptor_state || donor_state;
     var cb = getLightConnector(acceptor_state_name);
