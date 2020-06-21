@@ -62,7 +62,8 @@ add({
     }
     return this.conx_opts;
   },
-  _bindLight: function(donor, event_name, cb, immediately) {
+  _bindLight: function(donor, state_name, cb, immediately) {
+    var event_name = utils_simple.getSTEVNameLight(state_name)
     donor.evcompanion._addEventHandler(event_name, cb, this, immediately);
 
     if (this != donor && this instanceof StatesEmitter){
@@ -77,12 +78,12 @@ add({
     }
   },
   lwch: function(donor, donor_state, func) {
-    this._bindLight(donor, utils_simple.getSTEVNameLight(donor_state), func);
+    this._bindLight(donor, donor_state, func);
   },
   wlch: function(donor, donor_state, acceptor_state) {
     var acceptor_state_name = acceptor_state || donor_state;
     var cb = getLightConnector(acceptor_state_name);
-    this._bindLight(donor, utils_simple.getSTEVNameLight(donor_state), cb);
+    this._bindLight(donor, donor_state, cb);
 
 
   },
