@@ -437,34 +437,37 @@ function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
 //var st_event_name_default = ;
 //var st_event_name_light = 'lgh_sch-';
 
+function triggerLightAttrChange(self, attr_name, value, zdsv) {
 
-function _triggerStChanges(etr, i, state_name, value, zdsv) {
-
-  _passHandleState(etr, zdsv.total_original_states, state_name, value);
+  zdsv.abortFlowSteps('stev', attr_name);
 
 
-  zdsv.abortFlowSteps('stev', state_name);
+  var light_name = utils_simple.getSTEVNameLight( attr_name );
 
-  checkStates(etr, zdsv, state_name, value, zdsv.total_original_states[state_name]);
-
-  var light_name = utils_simple.getSTEVNameLight( state_name );
-
-  var light_cb_cs = etr.evcompanion.getMatchedCallbacks(light_name);
+  var light_cb_cs = self.evcompanion.getMatchedCallbacks(light_name);
 
   if (!light_cb_cs.length) {
     return;
   }
 
-  var flow_steps = zdsv.createFlowStepsArray('stev', state_name);
+  var flow_steps = zdsv.createFlowStepsArray('stev', attr_name);
 
-  etr.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value, flow_steps);
+  self.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value, flow_steps);
 
   if (flow_steps) {
-    utils_simple.markFlowSteps(flow_steps, 'stev', state_name);
+    utils_simple.markFlowSteps(flow_steps, 'stev', attr_name);
   }
+}
 
+
+function _triggerStChanges(etr, i, state_name, value, zdsv) {
+
+  _passHandleState(etr, zdsv.total_original_states, state_name, value);
+
+  checkStates(etr, zdsv, state_name, value, zdsv.total_original_states[state_name]);
   // states_links
 
+  triggerLightAttrChange(etr, state_name, value, zdsv)
 }
 
 function reportBadChange(etr, state_name) {
