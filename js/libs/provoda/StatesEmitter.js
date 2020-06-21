@@ -75,7 +75,7 @@ add({
       if (!donor) {
         return;
       }
-      donor.off(event_name, cb, false, this);
+      this.removeLwch(donor, state_name, cb)
       donor = null;
       cb = null;
     });
