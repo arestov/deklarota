@@ -295,11 +295,13 @@ add({
   callEventCallback: function(cur, args, opts, arg) {
   //	var _this = this;
     if (cur.immediately && (!opts || !opts.force_async)){
-      if (args){
-        cur.cb.apply(cur.context || this.sputnik, args);
-      } else {
+      if (!args){
         cur.cb.call(cur.context || this.sputnik, arg);
+        return
       }
+
+      cur.cb.apply(cur.context || this.sputnik, args);
+
       return
     }
 
