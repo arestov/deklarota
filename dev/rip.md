@@ -6,10 +6,10 @@
 
 - `child_change-` event
 
-- authInit -> switchPmd
+- `authInit` -> `switchPmd`
 
-- `vip_state_change-`, _legacy_vip_events
+- `vip_state_change-`, `_legacy_vip_events`
 
-- state_change-
+- `state_change-`
 
-- this.trigger('requests', added, space);
+- `this.trigger('requests', added, space);`
