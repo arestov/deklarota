@@ -129,7 +129,7 @@ return spv.inh(View, {
       // ext_search_query: ext_search_query
     });
 
-    this.on('die', function() {
+    this.onDie(function() {
       this.RPCLegacy('detachUI', this.root_view.root_view_uid);
     });
 
