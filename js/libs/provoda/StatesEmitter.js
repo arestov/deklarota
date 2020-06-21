@@ -67,16 +67,18 @@ add({
     var event_name = utils_simple.getSTEVNameLight(state_name)
     donor.evcompanion._addEventHandler(event_name, cb, this);
 
-    if (this != donor && this instanceof StatesEmitter){
-      this.onDie(function() {
-        if (!donor) {
-          return;
-        }
-        donor.off(event_name, cb, false, this);
-        donor = null;
-        cb = null;
-      });
+    if (this == donor || !(this instanceof StatesEmitter)) {
+      return
     }
+
+    this.onDie(function() {
+      if (!donor) {
+        return;
+      }
+      donor.off(event_name, cb, false, this);
+      donor = null;
+      cb = null;
+    });
   },
   lwch: function(donor, donor_state, func) {
     this._bindLight(donor, donor_state, func);
