@@ -63,9 +63,9 @@ add({
     }
     return this.conx_opts;
   },
-  _bindLight: function(donor, state_name, cb, immediately) {
+  _bindLight: function(donor, state_name, cb) {
     var event_name = utils_simple.getSTEVNameLight(state_name)
-    donor.evcompanion._addEventHandler(event_name, cb, this, immediately);
+    donor.evcompanion._addEventHandler(event_name, cb, this);
 
     if (this != donor && this instanceof StatesEmitter){
       this.onDie(function() {
