@@ -300,18 +300,18 @@ add({
       } else {
         cur.cb.call(cur.context || this.sputnik, arg);
       }
-
-    } else {
-      var callback_context = cur.context || this.sputnik;
-      var wrapper_context = this.sputnik;
-
-      var calls_flow = (opts && opts.emergency) ? this.sputnik._calls_flow : this.sputnik._getCallsFlow();
-      return calls_flow.pushToFlow(cur.cb, callback_context, args, arg, cur.wrapper, wrapper_context, this.sputnik.current_motivator);
-      /*
-      setTimeout(function() {
-        cur.cb.apply(_this, args);
-      },1);*/
+      return
     }
+
+    var callback_context = cur.context || this.sputnik;
+    var wrapper_context = this.sputnik;
+
+    var calls_flow = (opts && opts.emergency) ? this.sputnik._calls_flow : this.sputnik._getCallsFlow();
+    return calls_flow.pushToFlow(cur.cb, callback_context, args, arg, cur.wrapper, wrapper_context, this.sputnik.current_motivator);
+    /*
+    setTimeout(function() {
+      cur.cb.apply(_this, args);
+    },1);*/
   },
   cleanOnceEvents: function(event_name) {
     // this.off(ev_name, false, cur);
