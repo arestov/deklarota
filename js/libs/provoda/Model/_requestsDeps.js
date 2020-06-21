@@ -211,9 +211,7 @@ var unhandleCountlessNesting = function(dep, req_dep, self) {
     return
   }
 
-  var event_name = hp.getSTEVNameLight(dep.state);
-
-  self.off(event_name, req_dep.anchor, false, self);
+  self.off(hp.getSTEVNameLight(dep.state), req_dep.anchor, false, self);
   unwatchDependence(req_dep.supervision, self, dep.related, req_dep.id + 'countless_nesting');
 
 
