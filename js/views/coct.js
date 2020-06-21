@@ -214,7 +214,7 @@ var AlbumsListPreviewItem = spv.inh(View, {}, {
       }, function(){
       });
       target.addRequest(req);
-      target.on('die', function() {
+      target.onDie(function() {
         req.abort();
       });
     } else {
@@ -246,7 +246,7 @@ var ImageLoader = spv.inh(View, {}, {
       }
 
       target.addRequest(req);
-      target.on('die', function() {
+      target.onDie(function() {
         req.abort();
       });
     } else {
@@ -273,7 +273,7 @@ var BigAlbumPreview = spv.inh(View, {}, {
         node.src = url;
       });
       target.addRequest(req);
-      target.on('die', function() {
+      target.onDie(function() {
         req.abort();
       });
     } else {
