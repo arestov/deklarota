@@ -22,6 +22,31 @@ var toArray = function(value) {
   return Array.isArray(value) ? value : [value]
 }
 
+var without = function(old_value, value) {
+  if (!old_value || !old_value.length) {
+    // nothing to erase. keep that old "nothing" value
+    return old_value
+  }
+
+  if (!Array.isArray(old_value)) {
+
+    // erase old value it is input
+    if (!Array.isArray(value)) {
+      return old_value === value ? null : old_value
+    }
+
+    // erase old value if it was in input
+    if (value.indexOf(old_value) != -1) {
+      return null
+    }
+
+    // keep old value
+    return old_value
+  }
+
+  return spv.arrayExclude(old_value, value)
+}
+
 var toStart = function(old_value, value) {
   var old_list = toArray(old_value)
   var to_add = toArray(value)
@@ -264,6 +289,9 @@ var prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted
 
 
   switch (target.options.method) {
+    case "without": {
+      return without(current_value, value)
+    }
     case "at_start": {
       return toStart(current_value, initItemsList(md, target, value, mut_refs_index, mut_wanted_ref))
     }
