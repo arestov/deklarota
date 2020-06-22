@@ -26,6 +26,7 @@ var saveToDestModel = function(current_motivator, exec_item) {
         multi_path.nesting.target_nest_name,
         value
       )
+      return
     }
     case "state": {
       pvUpdate(target_md, multi_path.state.base, value)
