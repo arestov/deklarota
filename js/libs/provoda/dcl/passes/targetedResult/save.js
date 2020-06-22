@@ -6,6 +6,7 @@ var getModelById = require('../../../utils/getModelById');
 
 var updateNesting = require('../../../provoda/updateNesting')
 var prepareResults = require('../act/prepareResults')
+var act = require('../act')
 
 
 var saveToDestModel = function(current_motivator, exec_item) {
@@ -18,6 +19,11 @@ var saveToDestModel = function(current_motivator, exec_item) {
   var target = exec_item.target
 
   var multi_path = target.target_path
+
+  if (target.action) {
+    act(target_md, target.action, value)
+    return
+  }
 
   switch (multi_path.result_type) {
     case "nesting": {

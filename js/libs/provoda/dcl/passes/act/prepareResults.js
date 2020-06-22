@@ -8,6 +8,10 @@ var getModelById = require('../../../utils/getModelById');
 var initPassedValue = prepareNestingValue.initPassedValue
 var noopForPass = require('../noop')
 
+var isRedirectAction = function(target) {
+  return Boolean(target.action)
+}
+
 var prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref) {
   var multi_path = target.target_path
 
@@ -38,6 +42,11 @@ var getProperDestValue = function (target, value, i) {
 }
 
 var unwrap = function (md, target, value, data, mut_refs_index, mut_wanted_ref, mut_result) {
+  if (isRedirectAction(target)) {
+    mut_result.push(value)
+    return
+  }
+
   if (target.path_type == 'by_provoda_id') {
     mut_result.push({target: target, md: md, value: value, data: data})
     return
@@ -93,7 +102,7 @@ var completeValues = function(list, mut_refs_index, mut_wanted_ref) {
       var cur = list[i]
       var target = cur.target
       var multi_path = target.target_path
-      if (multi_path.result_type !== 'nesting') {
+      if (multi_path.result_type !== 'nesting' || isRedirectAction(multi_path)) {
         continue
       }
 
