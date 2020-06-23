@@ -87,19 +87,29 @@ var getDeps = function(deps) {
   return result;
 }
 
+function same(arg) {
+  return arg
+}
+
 var PassDcl = function(name, data) {
   this.name = name;
 
   targetedResult(this, data.to)
 
   this.deps = null
-  this.fn = null
+  this.fn = same
+
+  if (!data.fn) {
+    return
+  }
 
   if (typeof data.fn === 'function') {
     this.fn = data.fn
-  } else {
+  } else if (Array.isArray(data.fn)) {
     this.deps = getDeps(data.fn[0]);
     this.fn = data.fn[1];
+  } else {
+    throw new Error('unknow fn declaration')
   }
 
 }
