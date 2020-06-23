@@ -26,12 +26,13 @@ var getStart = require('./getStart')
 //   },
 // }
 
-var getModels = function(md, multi_path, data) {
+var getModels = function(md, multi_path, data, all_nestings) {
   var start_md = getStart(md, multi_path, false, data)
 
   return getDeepNesting(
     start_md,
-    multi_path
+    multi_path,
+    all_nestings
   )
   // var base;
   // var resource;
@@ -67,7 +68,7 @@ function add(result, list, nest_name) {
   }
 }
 
-function getDeepNesting(md, multi_path) {
+function getDeepNesting(md, multi_path, all_nestings) {
   /*
   {
     path: path,
@@ -75,7 +76,7 @@ function getDeepNesting(md, multi_path) {
   }
   */
   var info = multi_path.nesting
-  var just_base = multi_path.result_type === 'nesting'
+  var just_base = !all_nestings && multi_path.result_type === 'nesting'
 
   if (!info || !info.path) {
     return md;
