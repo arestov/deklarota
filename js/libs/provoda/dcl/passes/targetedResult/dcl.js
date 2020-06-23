@@ -9,12 +9,17 @@ var targetData = function(to, result_name, dsl_options) {
   var target_path = to[0];
   var options = to[1];
   var parsed_path = parseMultiPath(target_path, true)
+  var isAction = Boolean(options && options.action)
 
-  if (parsed_path.result_type != 'nesting' && parsed_path.result_type != 'state') {
+  if (parsed_path.result_type != 'nesting' && parsed_path.result_type != 'state' && !isAction) {
     throw new Error('we can put result to nesting or state only')
   }
 
-  if (parsed_path.result_type === 'nesting' && (!options || !options.method)) {
+  if (parsed_path.result_type == 'state' && isAction) {
+    throw new Error('attr cant be target for action')
+  }
+
+  if (parsed_path.result_type === 'nesting' && (!options || !(options.method || isAction))) {
     throw new Error('use options.method to describe how to save relation')
   }
 
