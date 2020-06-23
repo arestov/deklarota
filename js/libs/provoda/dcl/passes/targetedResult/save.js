@@ -20,8 +20,8 @@ var saveToDestModel = function(current_motivator, exec_item) {
 
   var multi_path = target.target_path
 
-  if (target.action) {
-    act(target_md, target.action, value)
+  if (target.options && target.options.action) {
+    act(target_md, target.options.action, value)
     return
   }
 

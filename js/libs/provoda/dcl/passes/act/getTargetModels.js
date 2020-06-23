@@ -5,7 +5,7 @@ var getModels = require('../../../utils/multiPath/getModels')
 
 var getModelsFromBase = function(base, target, passed_data) {
   var multi_path = target.target_path
-  return getModels(base, multi_path, passed_data);
+  return getModels(base, multi_path, passed_data, Boolean(target.options && target.options.action));
 }
 
 var getModelsFromManyBases = function(bases, target, passed_data) {
