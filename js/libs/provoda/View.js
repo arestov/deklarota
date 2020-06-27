@@ -89,7 +89,6 @@ spv.cloneObj(props, {
       this.bindBase();
     }
   },
-  parts_builder: {},
   addWayPoint: function(point, opts) {
     var obj = {
       node: point,
@@ -269,67 +268,6 @@ spv.cloneObj(props, {
       }
     }
 
-  },
-  requireAllParts: function() {
-    for (var a in this.parts_builder){
-      this.requirePart(a);
-    }
-    return this;
-  },
-  getPart: function(part_name) {
-    return this.view_parts && this.view_parts[part_name];
-  },
-  requirePart: function(part_name) {
-    if (!this.isAlive()){
-      return dWrap();
-    }
-    if (this.view_parts && this.view_parts[part_name]){
-      return this.view_parts[part_name];
-    } else {
-      if (!this.view_parts){
-        this.view_parts = {};
-      }
-
-      var parts_builder = this.parts_builder[part_name];
-      if (!parts_builder) {
-        throw new Error('cant build part ' + part_name)
-      }
-
-      var part = typeof parts_builder == 'string' ? this.root_view.getSample(parts_builder) : parts_builder.call(this);
-
-
-      this.view_parts[part_name] = part;
-      if (!this.view_parts[part_name]){
-        throw new Error('"return" me some build result please');
-      }
-
-      for (var i = 0; i < this.stch_hs.length; i++) {
-        var cur = this.stch_hs[i];
-        if (this.states.hasOwnProperty(cur.name) && typeof cur.item != 'function'){
-          if (this.checkDepVP(cur.item, part_name)){
-            cur.item.fn.call(this, this.state(cur.name));
-          }
-        }
-
-      }
-      return this.view_parts[part_name];
-    }
-  },
-  checkDepVP: function(state_changer, builded_vp_name) {
-    var has_all_dependings;
-    if (builded_vp_name && state_changer.dep_vp.indexOf(builded_vp_name) == -1){
-      return false;
-    }
-    for (var i = 0; i < state_changer.dep_vp.length; i++) {
-      var cur = state_changer.dep_vp[i];
-      if (!this.view_parts || !this.view_parts[cur]){
-        has_all_dependings = false;
-        break;
-      } else {
-        has_all_dependings = true;
-      }
-    }
-    return has_all_dependings;
   },
   getT: function(){
     return this.c || this.pv_view_node || dWrap(this.getA());
