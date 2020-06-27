@@ -4,10 +4,8 @@ define(function(require) {
 var StatesLabour = require('./StatesLabour');
 var utils_simple = require('./utils/simple');
 var triggerLightAttrChange = require('./internal_events/light_attr_change/trigger')
-var spv = require('spv');
 var assignPublicAttrs = require('./Model/assignPublicAttrs')
 var produceEffects = require('./StatesEmitter/produceEffects');
-var getSTCHfullname = spv.getPrefixingFunc('stch-');
 var checkStates = require('./nest-watch/checkStates');
 var _passHandleState = require('./dcl/passes/handleState/handle')
 var sameName = require('./sameName')
@@ -172,6 +170,16 @@ function _setUndetailedState(etr, i, state_name, value) {
   etr._lbr.undetailed_states[state_name] = value;
 }
 
+function getStateChangeEffect(target, state_name) {
+  if (!target.__state_change_index) {
+    return null
+  }
+
+  if (!target.__state_change_index.hasOwnProperty(state_name)) {
+    return null
+  }
+  return target.__state_change_index[state_name]
+}
 
 function proxyStch(target, value, state_name) {
   var old_value = target.zdsv.stch_states[state_name];
@@ -180,14 +188,14 @@ function proxyStch(target, value, state_name) {
   }
 
   target.zdsv.stch_states[state_name] = value;
-  var method = (target[ getSTCHfullname( state_name ) ] || (target.state_change && target.state_change[state_name]));
+  var method = getStateChangeEffect(target, state_name)
 
   method(target, value, old_value);
 }
 
 function _handleStch(etr, state_name, value, skip_handler, sync_tpl) {
-  var stateChanger = !skip_handler && (etr[ getSTCHfullname( state_name ) ] || (etr.state_change && etr.state_change[state_name]));
-  if (!stateChanger) {
+  var method = !skip_handler && getStateChangeEffect(etr, state_name);
+  if (!method) {
     return;
   }
 
@@ -195,16 +203,6 @@ function _handleStch(etr, state_name, value, skip_handler, sync_tpl) {
 
   var old_value = etr.zdsv.stch_states[state_name];
   if (old_value === value) {
-    return;
-  }
-
-  var method = stateChanger && (
-    typeof stateChanger == 'function'
-      ? stateChanger
-      : null
-  );
-
-  if (!method) {
     return;
   }
 
