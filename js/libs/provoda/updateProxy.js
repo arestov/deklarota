@@ -201,7 +201,7 @@ function _handleStch(etr, state_name, value, skip_handler, sync_tpl) {
   var method = stateChanger && (
     typeof stateChanger == 'function'
       ? stateChanger
-      : (etr.checkDepVP && etr.checkDepVP(stateChanger) && stateChanger.fn)
+      : null
   );
 
   if (!method) {

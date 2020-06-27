@@ -6,6 +6,14 @@ var getUnprefixed = spv.getDeprefixFunc( 'stch-' );
 var hasPrefixedProps = getPropsPrefixChecker( getUnprefixed );
 
 
+function checkStchType(fn) {
+  if (typeof fn == 'function') {
+    return fn
+  }
+
+  throw new Error('stch should be fn. old object dcl depricated')
+}
+
 return function (self, props) {
   if (!props.hasOwnProperty('state_change') && !hasPrefixedProps(props)) {
     return;
@@ -14,7 +22,7 @@ return function (self, props) {
   var result_index = spv.cloneObj({}, self.__state_change_index || {});
 
   for (var lprop in props.state_change) {
-    result_index[lprop] = props.state_change[lprop];
+    result_index[lprop] = checkStchType(props.state_change[lprop]);
   }
 
   for (var prop_name in props) {
@@ -23,7 +31,7 @@ return function (self, props) {
       if (props.state_change && props.state_change[string]) {
         throw new Error('stch dup for: ' + string);
       }
-      result_index[string] = props[prop_name];
+      result_index[string] = checkStchType(props[prop_name]);
     }
   }
 

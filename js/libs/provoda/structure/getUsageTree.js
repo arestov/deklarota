@@ -277,9 +277,6 @@ function getBaseTree(cur_view, root_view) {
 
 
     var sample_name = cur.sample_name;
-    if (!sample_name && cur.part_name && typeof cur_view.parts_builder[cur.part_name] == 'string') {
-      sample_name = cur_view.parts_builder[cur.part_name];
-    }
 
     if (!sample_name) {
       throw new Error('can\'t get sampler');

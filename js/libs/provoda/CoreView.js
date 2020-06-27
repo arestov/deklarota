@@ -98,7 +98,6 @@ var initView = function(target, view_otps, opts){
 
   target.children = [];
   target.children_models = {};
-  target.view_parts = null;
 
   if (target.parent_view && !view_otps.location_name){
     throw new Error('give me location name!');
@@ -630,8 +629,6 @@ var View = spv.inh(StatesEmitter, {
       children[i].markAsDead();
     }
     //debugger?
-    this.view_parts = null;
-
 
 
   },
