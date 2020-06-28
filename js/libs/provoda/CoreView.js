@@ -59,7 +59,6 @@ var ViewLabour = function() {
 };
 
 var initView = function(target, view_otps, opts){
-  target._lbr = new ViewLabour();
 
   target.used_data_structure = view_otps.used_data_structure || target.used_data_structure;
 
@@ -117,6 +116,7 @@ var initView = function(target, view_otps, opts){
   if (target.dom_rp){
     target.dom_related_props = [];
   }
+  target._lbr = new ViewLabour();
 
   cloneObj(target._lbr.undetailed_states, target.mpx.states);
   cloneObj(target._lbr.undetailed_states, target.mpx.vstates);
