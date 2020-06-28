@@ -1,7 +1,5 @@
 define(function(require) {
 'use strict'
-var spv = require('spv')
-var cloneObj = spv.cloneObj
 var isPrivate = require('./isPrivateState')
 var replaceModelInState = require('./replaceModelInState')
 
@@ -11,12 +9,11 @@ var ensurePublicAttrs = function(cur_md) {
     return cur_md._prepared_public_attrs_snapshot
   }
 
-  var result = cloneObj({}, cur_md.states)
+  var result = {}
 
-  for (var state_name in result){
-    var state = result[state_name];
+  for (var state_name in cur_md.states){
+    var state = cur_md.states[state_name];
     if (isPrivate(state_name)) {
-      delete result[state_name];
       continue;
     }
     result[state_name] = replaceModelInState(state)
