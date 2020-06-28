@@ -281,12 +281,9 @@ add({
   },
   connectMPX: function() {
     if (!this.mpx) {
-      this.mpx = new MDProxy(this._provoda_id, this._getPublisAttrs(), this.children_models, this);
+      this.mpx = new MDProxy(this._provoda_id, this.children_models, this);
     }
     return this.mpx;
-  },
-  _getPublisAttrs: function() {
-    return ensurePublicAttrs(this)
   },
   _assignPublicAttrs: function(target) {
     return ensurePublicAttrs.assignPublicAttrs(this, target)
