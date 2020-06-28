@@ -623,6 +623,7 @@ spv.Class.extendTo(PvTemplate, {
     }
   },
   checkChanges: function(changes, full_states, async_changes, current_motivator) {
+    // async_changes is always true?
     if (this.dead) {return;}
     if (async_changes && !current_motivator) {
       // throw new Error('should be current_motivator');
