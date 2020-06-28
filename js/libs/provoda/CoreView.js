@@ -118,7 +118,7 @@ var initView = function(target, view_otps, opts){
   }
   target._lbr = new ViewLabour();
 
-  cloneObj(target._lbr.undetailed_states, target.mpx.states);
+  target.mpx._assignPublicAttrs(target._lbr.undetailed_states)
   cloneObj(target._lbr.undetailed_states, target.mpx.vstates);
   var default_attrs = initInputAttrs(target)
   if (default_attrs) {

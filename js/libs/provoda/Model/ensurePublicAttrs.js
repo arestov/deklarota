@@ -28,5 +28,7 @@ var ensurePublicAttrs = function(cur_md) {
   return result
 }
 
+ensurePublicAttrs.assignPublicAttrs = assignPublicAttrs
+
 return ensurePublicAttrs
 })

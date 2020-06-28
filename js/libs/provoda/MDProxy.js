@@ -21,6 +21,9 @@ MDProxy.prototype = {
   __getAttr: function(name) {
     return this.md.states[name]
   },
+  _assignPublicAttrs: function(target){
+    return this.md._assignPublicAttrs(target)
+  },
   RPCLegacy: function() {
     this.md.RPCLegacy.apply(this.md, arguments);
 
