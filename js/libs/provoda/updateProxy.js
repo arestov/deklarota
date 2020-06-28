@@ -48,6 +48,10 @@ var iterateStChanges = createIterate1arg(_triggerStChanges)
 var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
 
 function updateProxy(etr, changes_list, opts) {
+  if (opts != null) {
+    throw new Error('options are depricated')
+  }
+
   if (etr._lbr != null && etr._lbr.undetailed_states != null){
     iterateSetUndetailed(changes_list, etr)
     return etr;
@@ -63,7 +67,7 @@ function updateProxy(etr, changes_list, opts) {
   var serv_st = etr.serv_st || getFree(pool);
   etr.serv_st = serv_st
 
-  serv_st.states_changing_stack.push(changes_list, opts);
+  serv_st.states_changing_stack.push(changes_list);
 
   if (serv_st.collecting_states_changing){
     return etr;
@@ -84,7 +88,6 @@ function updateProxy(etr, changes_list, opts) {
     //spv.cloneObj(original_states, etr.states);
 
     var cur_changes_list = serv_st.states_changing_stack.shift();
-    var cur_changes_opts = serv_st.states_changing_stack.shift();
 
     var lengthBeforeAnyChanges = total_ch.length
 
@@ -106,9 +109,9 @@ function updateProxy(etr, changes_list, opts) {
       }
     }
 
-    legacySideEffects(etr, total_ch, lengthBeforeAnyChanges, total_ch.length, cur_changes_opts)
+    legacySideEffects(etr, total_ch, lengthBeforeAnyChanges, total_ch.length)
 
-    cur_changes_list = cur_changes_opts = null;
+    cur_changes_list = null;
 
 
     utils_simple.wipeObj(original_states);
@@ -406,7 +409,7 @@ var PVStateChangeEvent = function(type, value, old_value, target) {
 };
 
 
-function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
+function legacySideEffects(etr, changes_list, start_from, inputLength) {
   if (etr.__syncStatesChanges != null || etr.__handleHookedSync != null) {
     var to_send = changes_list.slice(start_from, inputLength)
     if (etr.__syncStatesChanges != null) {

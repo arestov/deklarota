@@ -25,3 +25,5 @@
 - removed sync_tpl from updateProxy
 
 - removed skip_handler from updateProxy
+
+- deprecate opts for updateProxy
