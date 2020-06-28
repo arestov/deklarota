@@ -18,6 +18,11 @@ var assignPublicAttrs = function(cur_md, target) {
 }
 
 var ensurePublicAttrs = function(cur_md) {
+  /*
+    consider to send all props to view and clean it up on view side
+    this will let remove big _prepared_public_attrs_snapshot
+  */
+
   if (cur_md._prepared_public_attrs_snapshot) {
     return cur_md._prepared_public_attrs_snapshot
   }
