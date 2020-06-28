@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict';
-
+var spv = require('spv')
 var MDProxy = require('./MDProxy');
 
 var slice = Array.prototype.slice;
@@ -25,6 +25,9 @@ var MDReplace = function(_provoda_id){
 FakeModel.prototype = {
   _getPublisAttrs: function() {
     return this.states
+  },
+  _assignPublicAttrs: function(target) {
+    return spv.cloneObj(target, this.states)
   },
   getParentMapModel: function() {
     return this.map_parent;

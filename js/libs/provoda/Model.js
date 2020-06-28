@@ -288,6 +288,9 @@ add({
   _getPublisAttrs: function() {
     return ensurePublicAttrs(this)
   },
+  _assignPublicAttrs: function(target) {
+    return ensurePublicAttrs.assignPublicAttrs(this, target)
+  },
   getReqsOrderField: function() {
     if (!this.req_order_field) {
       this.req_order_field = ['mdata', 'm', this._provoda_id, 'order'];
