@@ -791,9 +791,6 @@ var View = spv.inh(StatesEmitter, {
     }
     updateProxy(this, changes_list, opts);
   }),
-  overrideStateSilently: function(name, value) {
-    updateProxy(this, [true, name, value], {skip_handler: true});
-  },
   promiseStateUpdate: function(name, value) {
     updateProxy(this, [true, name, value]);
   },
