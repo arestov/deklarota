@@ -654,22 +654,20 @@ spv.Class.extendTo(PvTemplate, {
     }
   },
   getStatesSumm: function(states) {
-    var states_summ;
-    if (this.spec_states_props_list){
-      states_summ = Object.create(states);
-
-      for (var i = 0; i < this.spec_states_props_list.length; i+=3) {
-        var state_name = this.spec_states_props_list[ i + 1 ];
-        var state_value = this.spec_states_props_list[ i + 2];
-        states_summ[ state_name ] = state_value;
-      }
-
-      spv.cloneObj(states_summ, this.spec_states);
-
-    } else {
-      states_summ = states;
+    if (!this.spec_states_props_list) {
+      return states;
     }
-    return states_summ;
+
+    var states_summ = Object.create(states);
+
+    for (var i = 0; i < this.spec_states_props_list.length; i+=3) {
+      var state_name = this.spec_states_props_list[ i + 1 ];
+      var state_value = this.spec_states_props_list[ i + 2];
+      states_summ[ state_name ] = state_value;
+    }
+
+    spv.cloneObj(states_summ, this.spec_states);
+    return states_summ
   },
   setStates: function(states) {
     var states_summ = this.getStatesSumm(states);
