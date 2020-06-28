@@ -18,6 +18,9 @@ var MDProxy = function(_provoda_id, states, children_models, md, space) {
 };
 
 MDProxy.prototype = {
+  __getAttr: function(name) {
+    return this.md.states[name]
+  },
   RPCLegacy: function() {
     this.md.RPCLegacy.apply(this.md, arguments);
 
