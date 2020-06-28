@@ -272,7 +272,7 @@ return spv.inh(View, {
   findBMapTarget: function(array) {
     var target_md, i;
     for (i = 0; i < array.length; i++) {
-      if (this.getStoredMpx(array[i]).states.mp_has_focus) {
+      if (this.getStoredMpx(array[i]).__getAttr('mp_has_focus')) {
         target_md = array[i];
         break;
       }
