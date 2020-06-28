@@ -23,9 +23,6 @@ var MDReplace = function(_provoda_id){
 };
 
 FakeModel.prototype = {
-  _getPublisAttrs: function() {
-    return this.states
-  },
   _assignPublicAttrs: function(target) {
     return spv.cloneObj(target, this.states)
   },
@@ -108,7 +105,7 @@ SyncReceiver.prototype = {
       cur = array[i];
       cur_pvid = cur._provoda_id;
       if (!this.md_proxs_index[cur_pvid]){
-        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, cur._getPublisAttrs(), cur.children_models, this.models_index[cur_pvid]);
+        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, cur.children_models, this.models_index[cur_pvid]);
         this.models_index[cur_pvid].mpx = this.md_proxs_index[cur_pvid];
       }
     }
@@ -142,12 +139,11 @@ SyncReceiver.prototype = {
   },
   updateStates: function(_provoda_id, value) {
     var target_model = this.models_index[_provoda_id];
-    var target_md_proxy = this.md_proxs_index[_provoda_id];
 
     for (var i = 0; i < value.length; i+=3) {
       var state_name = value[ i +1 ];
       var state_value = value[ i +2 ];
-      target_model.states[state_name] = target_md_proxy.states[state_name] = state_value;
+      target_model.states[state_name] = state_value;
     }
 
 

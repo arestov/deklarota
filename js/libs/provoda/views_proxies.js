@@ -11,7 +11,7 @@ var all_nestings = {};
 var createMPXes = function(array, store, space) {
   for (var i = 0; i < array.length; i++) {
     var cur = array[i];
-    store[cur._provoda_id] = new MDProxy(cur._provoda_id, cur._getPublisAttrs(), cur.children_models, cur, space);
+    store[cur._provoda_id] = new MDProxy(cur._provoda_id, cur.children_models, cur, space);
   }
 };
 

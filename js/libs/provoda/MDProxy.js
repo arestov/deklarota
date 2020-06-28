@@ -5,11 +5,10 @@ var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
 var cloneObj = require('spv/cloneObj');
 var sameName = require('./sameName')
 
-var MDProxy = function(_provoda_id, states, children_models, md, space) {
+var MDProxy = function(_provoda_id, children_models, md, space) {
   this._provoda_id = _provoda_id;
   this.views = null;
   this.views_index = null;
-  this.states = states;
   this.vstates = null;
   //this.children_models = children_models;
   this.md = md;
