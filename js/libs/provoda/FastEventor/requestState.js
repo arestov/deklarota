@@ -78,7 +78,7 @@ function bindRequest(request, selected_map, store, self) {
   }), function(err) {
     self.sputnik.input(anyway);
     self.sputnik.input(markAttemptComplete);
-    throw err
+    console.log(err)
   });
 
 
