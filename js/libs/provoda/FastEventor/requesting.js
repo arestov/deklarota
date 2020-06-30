@@ -6,6 +6,7 @@ var requestNesting = require('./requestNesting')
 
 return {
   requestState: requestState,
+  resetRequestedState: requestState.resetRequestedState,
   requestNesting: requestNesting,
 };
 
