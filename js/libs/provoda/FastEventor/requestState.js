@@ -54,11 +54,17 @@ function bindRequest(request, selected_map, store, self) {
     store.error = true;
   });
 
+  function wasReset() {
+    var current_store = self.mapped_reqs && self.mapped_reqs[selected_map.num]
+    return current_store != store
+  }
 
 
   return request.then(function(r) {
     return new Promise(function(resolve) {
       self.sputnik.nextTick(function() {
+        if (wasReset()) {return}
+
         var has_error = network_api.errors_fields ? findErrorByList(r, network_api.errors_fields) : network_api.checkResponse(r);
         if (!has_error) {
           var morph_helpers = self.sputnik.morph_helpers;
@@ -72,10 +78,14 @@ function bindRequest(request, selected_map, store, self) {
       })
     })
   }).then(self.sputnik.inputFn(function (response) {
+    if (wasReset()) {return}
+
     anyway();
     handleStatesResponse(response);
     markAttemptComplete()
   }), function(err) {
+    if (wasReset()) {return}
+
     self.sputnik.input(anyway);
     self.sputnik.input(markAttemptComplete);
     console.log(err)
@@ -198,7 +208,38 @@ function makeLoadingMarks(suffix, states_list, value, result) {
   return loading_marks;
 }
 
-return function(state_name) {
+function resetRequestedState(state_name) {
+  var maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name];
+  if (!maps_for_state) {
+    console.warn('cant reset requested state:', state_name, 'but tried. should not try without dcl')
+  }
+  var selected_map = maps_for_state[0]; //take first
+  var selected_map_num = selected_map.num;
+  var store = this.mapped_reqs && this.mapped_reqs[selected_map_num];
+  if (!store) {
+    return
+  }
+
+  this.mapped_reqs[selected_map_num] = null
+  var self = this
+  this.sputnik.input(function() {
+    var states = {}
+    var list = [state_name]
+
+
+    makeLoadingMarks('loading', list, null, states)
+    makeLoadingMarks('load_attempting', list, null, states)
+    makeLoadingMarks('load_attempted', list, null, states)
+    makeLoadingMarks('load_attempted_at', list, null, states)
+    makeLoadingMarks('complete', list, null, states)
+    states[state_name] = null
+
+    self.sputnik.updateManyStates(states);
+  })
+
+}
+
+var requestState = function(state_name) {
   var current_value = this.sputnik.state(state_name);
   if (current_value != null) {
     return;
@@ -257,6 +298,9 @@ return function(state_name) {
   var self = this;
 
   this.sputnik.input(function () {
+    if (self.mapped_reqs[selected_map.num] != store) {
+      return
+    }
     var states = {}
     makeLoadingMarks('loading', selected_map.states_list, true, states)
     makeLoadingMarks('load_attempting', selected_map.states_list, true, states)
@@ -276,5 +320,9 @@ return function(state_name) {
   return bindRequest(req, selected_map, store, self);
 
 };
+
+requestState.resetRequestedState = resetRequestedState
+
+return requestState
 
 })

@@ -88,6 +88,9 @@ var Eventor = spv.inh(function() {}, {
     requestState: function() {
       return this.evcompanion.requestState.apply(this.evcompanion, arguments);
     },
+    resetRequestedState: function() {
+      return this.evcompanion.resetRequestedState.apply(this.evcompanion, arguments);
+    },
     requestNesting: function() {
       return this.evcompanion.requestNesting.apply(this.evcompanion, arguments);
     }
