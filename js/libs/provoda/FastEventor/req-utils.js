@@ -14,6 +14,7 @@ var doBatch = batching
 
 var usualRequest = function (send_declr, sputnik, opts, network_api_opts) {
   var api_name = send_declr.api_name;
+  var allow_cache = send_declr.allow_cache === true
   var api_method = send_declr.api_method_name;
   var api_args = send_declr.getArgs.call(sputnik, opts);
   var manual_nocache = api_args[2] && api_args[2].nocache;
@@ -25,7 +26,7 @@ var usualRequest = function (send_declr, sputnik, opts, network_api_opts) {
   }
 
   var cache_key;
-  if (!non_standart_api_opts && !manual_nocache) {
+  if (allow_cache && !non_standart_api_opts && !manual_nocache) {
     var big_string = JSON.stringify([
       'usual', api_name, send_declr.api_resource_path, api_method, api_args
     ]);
@@ -42,6 +43,7 @@ var usualRequest = function (send_declr, sputnik, opts, network_api_opts) {
 var manualRequest = function (send_declr, sputnik, opts) {
   var declr = send_declr.manual;
   var api_name = send_declr.api_name;
+  var allow_cache = send_declr.allow_cache === true
 
   var args = new Array(declr.dependencies + 2);
 
@@ -52,7 +54,7 @@ var manualRequest = function (send_declr, sputnik, opts) {
     args[i+2] = sputnik.state(declr.dependencies[i]);
   }
 
-  var cache_key = hex_md5(JSON.stringify([
+  var cache_key = allow_cache && hex_md5(JSON.stringify([
     'manual', api_name, send_declr.api_resource_path, opts, declr.fn_body, args
   ]));
 
@@ -67,10 +69,11 @@ var manualRequest = function (send_declr, sputnik, opts) {
 var idsRequest = function (send_declr, sputnik) {
   var declr = send_declr.ids_declr;
   var api_name = send_declr.api_name;
+  var allow_cache = send_declr.allow_cache === true
 
   var ids = sputnik.state(declr.arrayof);
 
-  var cache_key = hex_md5(JSON.stringify([
+  var cache_key = allow_cache && hex_md5(JSON.stringify([
     'ids', api_name, send_declr.api_resource_path, declr.fn_body, ids
   ]));
 
