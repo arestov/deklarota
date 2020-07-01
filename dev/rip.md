@@ -17,3 +17,5 @@
 - view_parts, parts_builder, checkDepVP, getPart, requirePart, requireAllParts
 
 - overrideStateSilently
+
+- removed cache everything. use `allow_cache` if you want requests cache
