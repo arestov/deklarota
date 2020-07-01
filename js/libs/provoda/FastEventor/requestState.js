@@ -63,7 +63,10 @@ function bindRequest(request, selected_map, store, self) {
   return request.then(function(r) {
     return new Promise(function(resolve) {
       self.sputnik.nextTick(function() {
-        if (wasReset()) {return}
+        if (wasReset()) {
+          resolve(failed('reset'));
+          return
+        }
 
         var has_error = network_api.errors_fields ? findErrorByList(r, network_api.errors_fields) : network_api.checkResponse(r);
         if (!has_error) {
