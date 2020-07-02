@@ -23,7 +23,7 @@ var toArray = function(value) {
 }
 
 var without = function(old_value, value) {
-  if (!old_value || !old_value.length) {
+  if (!old_value || (Array.isArray(old_value) && !old_value.length)) {
     // nothing to erase. keep that old "nothing" value
     return old_value
   }
