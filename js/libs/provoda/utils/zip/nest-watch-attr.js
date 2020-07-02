@@ -40,13 +40,15 @@ var every = toZipFunc(function(state) {
 
 var find = toZipFunc(function(state) {
   return function(array) {
-    return array.every(state);
+    var item = array.find(state)
+    return item && state(item);
   };
 });
 
 var filter = toZipFunc(function(state) {
   return function(array) {
-    return array.every(state);
+    var list = array.filter(state)
+    return list && list.map(state);
   };
 });
 
