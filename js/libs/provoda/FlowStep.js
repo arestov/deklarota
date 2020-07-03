@@ -16,21 +16,32 @@ var FlowStep = function(num, fn, context, args, arg, cb_wrapper, real_context, p
   this.aborted = false;
   this.p_space = '';
   this.p_index_key = '';
+  this.num = 1 // just hint type for engine
   this.num = num;
+  this.fn = Function.prototype // just hint type for engine
   this.fn = fn;
+  this.context = Object.prototype
   this.context = context;
   this.args = args;
   this.arg = (arg == null) ? null : arg;
+  this.cb_wrapper = Function.prototype // just hint type for engine
   this.cb_wrapper = cb_wrapper || null;
+
+  this.real_context = Object.prototype
   this.real_context = real_context;
-  this.finup = !!finup || null;
+  this.finup = !!finup;
+
+  this.complex_order = Array.prototype
   this.complex_order = ( parent_motivator && parent_motivator.complex_order.slice() ) || [];
   this.complex_order.push(this.num);
+
+  this.inited_order = Array.prototype
   this.inited_order = initedOrder(initiator, parent_motivator);
   this.inited_order.push(this.num);
-  this.init_end = Boolean(init_end) || null;
+  this.init_end = Boolean(init_end);
 
-  this.next = null;
+  this.next = FlowStep.prototype;
+  this.next = null
 
   if (!this.fn && !this.cb_wrapper) {
     throw new Error('how to handle this step!?');
