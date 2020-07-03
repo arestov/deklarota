@@ -259,11 +259,16 @@ CallbacksFlow.prototype = {
         this.current_step = null;
       }
 
+      var toClean = cur
+
       if (this.flow_start == cur) {
         cur = cur.next;
       } else {
         cur = this.flow_start;
       }
+
+      // clean
+      toClean.next = null
     }
     this.flow_start = stopped;
     if (!stopped) {
