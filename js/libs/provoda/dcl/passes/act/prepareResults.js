@@ -45,13 +45,20 @@ var unwrap = function (md, target, value, data, mut_refs_index, mut_wanted_ref, 
   if (isRedirectAction(target)) {
     var models = getTargetModels(md, target, data);
     if (!Array.isArray(models)) {
-      mut_result.push({target: target, target_md: models, value: value})
+      mut_result.push({
+        target: target,
+        target_md: models,
+        value: prepareNestingValue.useRefIfNeeded(md, getProperDestValue(target, value, 0), mut_refs_index, mut_wanted_ref)
+      })
       return
     }
 
     for (var i = 0; i < models.length; i++) {
       var cur = models[i]
-      mut_result.push({target: target, target_md: cur, value: value})
+      mut_result.push({
+        target: target,
+        target_md: cur,
+        value: prepareNestingValue.useRefIfNeeded(md, getProperDestValue(target, value, i), mut_refs_index, mut_wanted_ref)})
     }
     return
   }

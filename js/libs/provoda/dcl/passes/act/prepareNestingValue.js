@@ -192,6 +192,18 @@ var callInit = function(md, nesting_name, value) {
   return created_model
 }
 
+var useRefIfNeeded = function(md, raw_value, mut_refs_index, mut_wanted_ref) {
+  if (isOk(raw_value)) {
+    return raw_value;
+  }
+  
+  if (!needsRefs(raw_value)) {
+    return raw_value
+  }
+
+  return replaceRefs(md, raw_value, {}, mut_refs_index)
+}
+
 var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
   if (isOk(raw_value)) {
     return raw_value;
@@ -336,6 +348,7 @@ var prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted
 
 prepareNestingValue.initValue = initValue
 prepareNestingValue.initPassedValue = initPassedValue
+prepareNestingValue.useRefIfNeeded = useRefIfNeeded
 
 return prepareNestingValue;
 
