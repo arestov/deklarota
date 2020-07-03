@@ -4,6 +4,7 @@ define(function(require) {
 var FlowStep = require('./FlowStep');
 
 var Group = function(num) {
+  this.num = 1 // just hint type for js engine
   this.num = num;
   this.complex_order = [num];
   this.inited_order = this.complex_order;
