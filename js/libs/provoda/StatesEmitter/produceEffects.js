@@ -205,7 +205,7 @@ function executeEffect(self, effect_name, transaction_id) {
     var api = self._interfaces_using.used[effect.apis[i]];
     if (!api) {
       // do not call effect fn
-      self._highway.__produce_side_effects_schedule[key] = null
+      delete self._highway.__produce_side_effects_schedule[key]
       return
     }
     args[i] = api
@@ -217,7 +217,7 @@ function executeEffect(self, effect_name, transaction_id) {
   var result = effect.fn.apply(null, args);
   handleEffectResult(self, effect, result);
 
-  self._highway.__produce_side_effects_schedule[key] = null
+  delete self._highway.__produce_side_effects_schedule[key]
 
 }
 
