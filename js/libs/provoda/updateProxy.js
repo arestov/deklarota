@@ -19,6 +19,7 @@ var ServStates = function() {
   this.states_changing_stack = [];
 
   this.total_ch = [];
+  Object.seal(this)
 
   // this.stch_states = {};
 };
