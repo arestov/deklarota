@@ -139,53 +139,54 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
         return
       }
 
-      if (new_value && !node.pvwhen_content) {
-        node.pvwhen_content = true;
-        var root_node;
-        var tpl  = wwtch.context;
-        if (wwtch.data.getSample) {
-          root_node = wwtch.data.getSample();
-        } else {
-          if (!wwtch.data.sampler) {
-            wwtch.data.sampler = new PvSimpleSampler(wwtch.data.sample_node, tpl.struc_store, tpl.getSample);
-          }
-          root_node = wwtch.data.sampler.getClone();
-        }
+      // (new_value && !node.pvwhen_content)
 
-        wwtch.root_node = root_node;
-
-        dAfter(node, root_node);
-        var all_chunks = wwtch.context.parseAppended(root_node);
-
-        wwtch.destroyer = function() {
-          dRemove(this.root_node);
-          for (var i = 0; i < all_chunks.length; i++) {
-            var cur = all_chunks[i]
-            if (cur.destroyer) {
-              cur.destroyer()
-            }
-            cur.dead = true;
-          }
-          this.root_node = null
-          this.destroyer = null
-
-          this.context.checkChunks();
-
-        };
-
-        // hotfix for pv-repeat
-        // pvTreeChange should be passed inside pv-repeat
-        if (wwtch.context.pvTreeChange) {
-          wwtch.context.pvTreeChange(this.current_motivator);
-        }
-
-        // clean this for GC
-        wwtch = null
-        root_node = null
-
-        // debugger
+      if (node.pvwhen_content) {
+        return
       }
-      //	this.setValue(wwtch.node, new_value, old_value, wwtch);
+
+      node.pvwhen_content = true;
+      var root_node;
+      var tpl  = wwtch.context;
+      if (wwtch.data.getSample) {
+        root_node = wwtch.data.getSample();
+      } else {
+        if (!wwtch.data.sampler) {
+          wwtch.data.sampler = new PvSimpleSampler(wwtch.data.sample_node, tpl.struc_store, tpl.getSample);
+        }
+        root_node = wwtch.data.sampler.getClone();
+      }
+
+      wwtch.root_node = root_node;
+
+      dAfter(node, root_node);
+      var all_chunks = wwtch.context.parseAppended(root_node);
+
+      wwtch.destroyer = function() {
+        dRemove(this.root_node);
+        for (var i = 0; i < all_chunks.length; i++) {
+          var cur = all_chunks[i]
+          if (cur.destroyer) {
+            cur.destroyer()
+          }
+          cur.dead = true;
+        }
+        this.root_node = null
+        this.destroyer = null
+
+        this.context.checkChunks();
+
+      };
+
+      // hotfix for pv-repeat
+      // pvTreeChange should be passed inside pv-repeat
+      if (wwtch.context.pvTreeChange) {
+        wwtch.context.pvTreeChange(this.current_motivator);
+      }
+
+      // clean this for GC
+      wwtch = null
+      root_node = null
 
     }
   }, 'pv-when');
