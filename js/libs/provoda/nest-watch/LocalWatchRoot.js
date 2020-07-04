@@ -35,5 +35,8 @@ return function LocalWatchRoot(md, nwatch, data) {
     // а из состояния этих моделей с соостветствующим названим
 
     this.nwatch = nwatch;
+    this.handled_subl_wtchs = null
+    this.model_groups = null
+    Object.seal(this)
   };
 });

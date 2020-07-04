@@ -47,7 +47,7 @@ var SyncSender = function() {
       self.schedule_timer = null
     }
   }
-
+  Object.seal(this)
 };
 
 var toTransferableNestings = function(value) {
