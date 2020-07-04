@@ -69,18 +69,20 @@ FlowStep.prototype.call = function() {
 
     */
     this.cb_wrapper.call(this.real_context, this, this.fn, this.context, this.args, this.arg);
-  } else {
-    if (this.args){
-      if (this.args.length > 1) {
-        this.fn.apply(this.context, this.args);
-      } else {
-        this.fn.call(this.context, this.args[0]);
-      }
-
-    } else {
-      this.fn.call(this.context, this.arg);
-    }
+    return
   }
+
+  if (!this.args){
+    this.fn.call(this.context, this.arg);
+    return
+  }
+
+  if (this.args.length > 1) {
+    this.fn.apply(this.context, this.args);
+    return
+  }
+
+  this.fn.call(this.context, this.args[0]);
 
 };
 return FlowStep;
