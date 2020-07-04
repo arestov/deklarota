@@ -158,7 +158,7 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
 
         wwtch.destroyer = function() {
           node.pvwhen_content = false;
-          dRemove(wwtch.root_node);
+          dRemove(this.root_node);
           for (var i = 0; i < all_chunks.length; i++) {
             var cur = all_chunks[i]
             if (cur.destroyer) {
@@ -166,7 +166,11 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
             }
             cur.dead = true;
           }
-          wwtch.context.checkChunks();
+          this.root_node = null
+          this.destroyer = null
+
+          this.context.checkChunks();
+
         };
 
         // hotfix for pv-repeat
@@ -174,6 +178,10 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
         if (wwtch.context.pvTreeChange) {
           wwtch.context.pvTreeChange(this.current_motivator);
         }
+
+        // clean this for GC
+        wwtch = null
+        root_node = null
 
         // debugger
       }
