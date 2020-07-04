@@ -5,7 +5,6 @@ var spv = require('spv');
 var MDProxy = require('./MDProxy');
 
 var push = Array.prototype.push;
-var all_nestings = {};
 
 
 var createMPXes = function(array, store, space) {
