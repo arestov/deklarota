@@ -46,6 +46,8 @@ var FlowStep = function(num, fn, context, args, arg, cb_wrapper, real_context, p
   if (!this.fn && !this.cb_wrapper) {
     throw new Error('how to handle this step!?');
   }
+
+  Object.seal(this);
   //this.custom_order = null;
 };
 FlowStep.prototype.abort = function() {
