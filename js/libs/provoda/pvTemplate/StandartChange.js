@@ -103,7 +103,13 @@ var StandartChange = function(node, opts, w_cache_subkey) {
       original_value = this.simplifyValue.call(this, original_value);
     }
     this.original_value = original_value;
+  } else {
+    this.original_value = null;    
   }
+
+
+
+  Object.seal(this)
 
   if (!node.pvprsd) {
     //debugger;
