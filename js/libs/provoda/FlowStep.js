@@ -22,8 +22,25 @@ var FlowStep = function(num, fn, context, args, arg, cb_wrapper, real_context, p
   this.fn = fn;
   this.context = Object.prototype
   this.context = context;
-  this.args = args;
-  this.arg = (arg == null) ? null : arg;
+
+  this.args = Array.prototype
+  this.arg = Object.prototype
+
+  if (args && args.length > 1) {
+    if (arg) {
+      throw new Error('only args or arg should be provide')
+    }
+
+    this.args = args
+    this.arg = null
+  } else if (args) {
+    this.args = null
+    this.arg = args[0]
+  } else {
+    this.args = null
+    this.arg = (arg == null) ? null : arg;
+  }
+
   this.cb_wrapper = Function.prototype // just hint type for engine
   this.cb_wrapper = cb_wrapper || null;
 
@@ -77,13 +94,10 @@ FlowStep.prototype.call = function() {
     return
   }
 
-  if (this.args.length > 1) {
+  if (this.args.length) {
     this.fn.apply(this.context, this.args);
     return
   }
-
-  this.fn.call(this.context, this.args[0]);
-
 };
 return FlowStep;
 });
