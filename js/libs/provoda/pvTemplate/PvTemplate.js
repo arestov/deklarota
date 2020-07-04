@@ -56,6 +56,7 @@ var makeSpecStatesList = function(states) {
   return result;
 };
 var PvTemplate = function(opts) {
+  this.dead = false
   this.pv_types_collecting = false;
   this.states_inited = false;
   this.waypoints = null;
@@ -138,7 +139,7 @@ var PvTemplate = function(opts) {
     this._pvTypesChange();
   }
 
-
+  Object.seal(this)
 };
 
 
