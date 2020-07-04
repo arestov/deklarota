@@ -612,12 +612,13 @@ spv.Class.extendTo(PvTemplate, {
 
     var states_summ = this.received_states
     var remainded_stwats = this.states_watchers
-    for (var i = 0; i < remainded_stwats.length; i++) {
+    for (var i = 0; i < remainded_stwats.length; i++) { // UsualWWtch, BnddChunk, ...?
       if (this.dead) {return;}
       var cur = remainded_stwats[i]
       if (cur.states_inited) {
         continue
       }
+      cur.states_inited = true
       cur.checkFunc(states_summ, async_changes, current_motivator);
     }
   },
