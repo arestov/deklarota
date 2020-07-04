@@ -328,6 +328,15 @@ spv.cloneObj(props, {
     // TODO: check that nextTick will be executed when global window is dead
     // and setTimeout/requestAnimationFrame won't work
     this.useInterface('con', null)
+    if (this.c) {
+      this.c._provoda_view = null;
+
+      // legacy. when this.c is jquery wrapper
+      for (var i = 0; i < this.c.length; i++) {
+        this.c[i]._provoda_view = null;
+      }
+    }
+
 
     this.c = null;
 
