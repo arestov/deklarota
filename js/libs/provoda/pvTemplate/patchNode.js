@@ -131,6 +131,13 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       // debugger
     },
     setValue: function(node, new_value, old_value, wwtch) {
+      if (!new_value && node.pvwhen_content) {
+        if (wwtch.destroyer) {
+          wwtch.destroyer();
+        }
+        return
+      }
+
       if (new_value && !node.pvwhen_content) {
         node.pvwhen_content = true;
         var root_node;
@@ -169,10 +176,6 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
         }
 
         // debugger
-      } else if (!new_value && node.pvwhen_content) {
-        if (wwtch.destroyer) {
-          wwtch.destroyer();
-        }
       }
       //	this.setValue(wwtch.node, new_value, old_value, wwtch);
 
