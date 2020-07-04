@@ -805,6 +805,9 @@ spv.Class.extendTo(PvTemplate, {
   },
   parseAppended: function(node) {
     var result = this.parsePvDirectives(node);
+    if (!result.length) {
+      return result
+    }
     this.initStates()
     return result
   },
