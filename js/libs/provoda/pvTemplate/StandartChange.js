@@ -88,7 +88,7 @@ var StandartChange = function(node, opts, w_cache_subkey) {
 
   this.current_motivator = null;
   this.w_cache_subkey = w_cache_subkey;
-  this.data = opts.data;
+  this.data = opts.data == null ? null : opts.data;
   this.needs_recheck = Boolean(opts.needs_recheck);
   this.calculator = calculator;
   this.all_vs = all_vs;
@@ -104,7 +104,7 @@ var StandartChange = function(node, opts, w_cache_subkey) {
     }
     this.original_value = original_value;
   } else {
-    this.original_value = null;    
+    this.original_value = null;
   }
 
 
@@ -156,21 +156,32 @@ StandartChange.prototype = {
       this.standch.checkFunc(states, this, async_changes, current_motivator);
     };
 
-    return function(node, context) {
-      var wwtch = {
-        w_cache_key: node.pvprsd + '_' + node.pvprsd_inst + '*' + this.w_cache_subkey,
-        data: this.data,
-        standch: this,
-        context: context,
-        node: node,
-        current_value: this.original_value,
-        pv_type_data: null,
+    function UsualWWtch(node, data, standch, context) {
+      var ExtraState = data && data.ExtraState
 
-        values: this.all_vs,
-        sfy_values: this.sfy_values,
-        checkFunc: checkFuncPublic
-      };
-      return wwtch;
+      this.states_inited = false
+      this.w_cache_key = node.pvprsd + '_' + node.pvprsd_inst + '*' + standch.w_cache_subkey
+      this.standch = standch
+      this.context = context
+      this.node = node
+      this.pv_type_data = null
+
+      this.values = standch.all_vs
+      this.sfy_values = standch.sfy_values
+      this.checkFunc = checkFuncPublic
+      this.data = data == null ? null : data
+      // allow to mutate wwtch.local_state
+      this.local_state = ExtraState ? new ExtraState(this) : null
+      this.current_value = standch.original_value
+
+      this.destroyer = Function.prototype
+      this.destroyer = null
+
+      Object.seal(this)
+    }
+
+    return function(node, context) {
+      return new UsualWWtch(node, this.data, this, context);
     };
   })()
 };
