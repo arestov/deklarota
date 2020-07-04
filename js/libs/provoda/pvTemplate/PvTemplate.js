@@ -609,8 +609,7 @@ spv.Class.extendTo(PvTemplate, {
   },
   initStates: function(async_changes, current_motivator) {
     // we should try render every states_watchers since states could not have every key
-
-    var states_summ = this.received_states
+    var states_summ = this.received_states || this.scope
     var remainded_stwats = this.states_watchers
     for (var i = 0; i < remainded_stwats.length; i++) { // UsualWWtch, BnddChunk, ...?
       if (this.dead) {return;}
