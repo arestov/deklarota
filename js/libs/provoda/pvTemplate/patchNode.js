@@ -115,37 +115,45 @@ var patchNode = function(node, struc_store, directives_data, getSample, opts) {
   }
 };
 
+function PvWhenState(wwtch) {
+  // local state for pv when
+  this.wwtch = wwtch
+  this.all_chunks = Array.prototype
+  this.all_chunks = null
+  this.root_node = null
+  this.value = false
+  Object.seal(this)
+}
+
 function makePvWhen(anchor, expression, getSample, sample_node) {
-  // debugger;
+  // Make instructions how to handle this pv when;
   return new StandartChange(anchor, {
     data: {
+      ExtraState: PvWhenState, // we are going to mutate wwtch.local_state
       sample_node: sample_node,
       getSample: getSample
     },
     simplifyValue: function(value) {
-      return !!value;
+      return Boolean(value);
     },
     statement: expression,
-    getValue: function(node, data) {
-      return node.pvwhen_content;
-      // debugger
+    getValue: function() {
+      // node is comment-anchor. we are not mutating it. so nothing to read
+      return false;
     },
     setValue: function(node, new_value, old_value, wwtch) {
-      if (!new_value && node.pvwhen_content) {
-        node.pvwhen_content = false;
-        if (wwtch.destroyer) {
-          wwtch.destroyer();
-        }
+      var real_value = wwtch.local_state.value
+      if (!new_value && real_value) {
+        wwtch.local_state.value = false
+        wwtch.destroyer();
         return
       }
 
-      // (new_value && !node.pvwhen_content)
-
-      if (node.pvwhen_content) {
+      if (real_value) {
         return
       }
 
-      node.pvwhen_content = true;
+      wwtch.local_state.value = true;
       var root_node;
       var tpl  = wwtch.context;
       if (wwtch.data.getSample) {
@@ -156,23 +164,26 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
         }
         root_node = wwtch.data.sampler.getClone();
       }
-
-      wwtch.root_node = root_node;
+      wwtch.local_state.root_node = root_node
 
       dAfter(node, root_node);
-      var all_chunks = wwtch.context.parseAppended(root_node);
-
+      wwtch.local_state.all_chunks = wwtch.context.parseAppended(root_node);
       wwtch.destroyer = function() {
-        dRemove(this.root_node);
-        for (var i = 0; i < all_chunks.length; i++) {
-          var cur = all_chunks[i]
+        if (!this.local_state.root_node) {
+          return
+        }
+        dRemove(this.local_state.root_node);
+        this.local_state.root_node = null
+
+        for (var i = 0; i < this.local_state.all_chunks.length; i++) {
+          var cur = this.local_state.all_chunks[i] // BnddChunk
           if (cur.destroyer) {
             cur.destroyer()
           }
           cur.dead = true;
         }
-        this.root_node = null
-        this.destroyer = null
+
+        this.local_state.all_chunks = null
 
         this.context.checkChunks();
 
