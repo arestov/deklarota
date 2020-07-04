@@ -57,5 +57,6 @@ return function postInitModel(self, opts) {
   initApis(self, opts && opts.interfaces)
 
   self.nextTick(markInitied, null, false, self.current_motivator);
+  Object.seal(self)
 }
 })
