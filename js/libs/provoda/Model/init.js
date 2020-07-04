@@ -59,6 +59,9 @@ return function initModel(self, opts, data, params, more, states) {
 
   self._calls_flow = self._highway.calls_flow;
 
+  // end-user place to add extra props
+  self.extra = self.use_extra ? {} : null
+
   initSubPager(self);
 
   if (opts && opts.map_parent){
