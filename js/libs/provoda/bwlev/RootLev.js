@@ -19,7 +19,11 @@ var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
 var cloneObj = require('spv/cloneObj');
 
 
-var RootLev = spv.inh(Model, {}, {
+var RootLev = spv.inh(Model, {
+  init: function(self) {
+    self.used_data_structure = null
+  }
+}, {
   model_name: 'root_bwlev',
   BWL: BrowseLevel,
   rpc_legacy: {

@@ -5,12 +5,18 @@ var spv = require('spv');
 var BrowseMap = require('./BrowseMap');
 
 var AppModelBase = spv.inh(BrowseMap.Model, {
+  naming: function(fn) {
+    return function AppModelBase(opts, data, params, more, states) {
+      fn(this, opts, data, params, more, states);
+    };
+  },
   init: function(target) {
     target.app = target
 
     target.all_queues = target.all_queues || []
 
     target.views_strucs = {};
+    target.important_model = null
   },
   postInit: function(target) {
     if (target.zero_map_level) {

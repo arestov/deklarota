@@ -42,6 +42,7 @@ var BrowseLevel = spv.inh(Model, {
   },
   init: function(self, opts, data, params, more, states) {
     self.children_bwlevs = {};
+    self.map = null
 
     // self.model_name = states['model_name'];
     //

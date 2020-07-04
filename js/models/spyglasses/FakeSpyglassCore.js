@@ -17,7 +17,17 @@ var BrowseMap = require('js/libs/BrowseMap');
 var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges');
 
 return spv.inh(Model, {
+  naming: function(fn) {
+    return function FakeSpyglassCore(opts, data, params, more, states) {
+      fn(this, opts, data, params, more, states);
+    };
+  },
   init: function(self) {
+    self.mainLevelResidents = null // BrowseLevel, showMOnMap
+    self.bridge_bwlev = null
+    self.mainLevelResidents = null
+    self.current_mp_bwlev = null
+
     self.binded_models = {};
     // target.navigation = [];
     // target.map = ;
