@@ -125,6 +125,32 @@ function PvWhenState(wwtch) {
   Object.seal(this)
 }
 
+PvWhenState.prototype = {
+  destroyer: function() {
+    if (!this.root_node) {
+      return
+    }
+    dRemove(this.root_node);
+    this.root_node = null
+
+    for (var i = 0; i < this.all_chunks.length; i++) {
+      var cur = this.all_chunks[i] // BnddChunk
+      if (cur.destroyer) {
+        cur.destroyer()
+      }
+      cur.dead = true;
+    }
+
+    this.all_chunks = null
+
+    this.wwtch.context.checkChunks();
+  }
+}
+
+var destroyerUsualWWtch = function destroyerUsualWWtch() {
+  this.local_state.destroyer()
+}
+
 function makePvWhen(anchor, expression, getSample, sample_node) {
   // Make instructions how to handle this pv when;
   return new StandartChange(anchor, {
@@ -168,26 +194,7 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
 
       dAfter(node, root_node);
       wwtch.local_state.all_chunks = wwtch.context.parseAppended(root_node);
-      wwtch.destroyer = function() {
-        if (!this.local_state.root_node) {
-          return
-        }
-        dRemove(this.local_state.root_node);
-        this.local_state.root_node = null
-
-        for (var i = 0; i < this.local_state.all_chunks.length; i++) {
-          var cur = this.local_state.all_chunks[i] // BnddChunk
-          if (cur.destroyer) {
-            cur.destroyer()
-          }
-          cur.dead = true;
-        }
-
-        this.local_state.all_chunks = null
-
-        this.context.checkChunks();
-
-      };
+      wwtch.destroyer = destroyerUsualWWtch
 
       // hotfix for pv-repeat
       // pvTreeChange should be passed inside pv-repeat
