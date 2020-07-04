@@ -197,6 +197,11 @@ MDProxy.prototype = {
     //(= this.views_index[complex_id] || []).push(v);
     return this;
   },
+  dispose: function() {
+    this.md = null
+    this.nestings = null
+    this.space = null
+  }
 };
 return MDProxy;
 });

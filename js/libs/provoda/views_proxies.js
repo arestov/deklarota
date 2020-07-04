@@ -43,6 +43,19 @@ var Space = function(id) {
   this.mpxes_index = {}
   this.ids_index = {}
 }
+Space.prototype = {
+  dispose: function() {
+    this.ids_index = null
+    for (var id in this.mpxes_index ) {
+      if (!this.mpxes_index .hasOwnProperty(id)) {
+        continue
+      }
+      this.mpxes_index[id].dispose()
+      this.mpxes_index[id] = null
+    }
+    this.mpxes_index = null
+  }
+}
 
 var Proxies = function() {
   this.spaces = {};
@@ -85,6 +98,7 @@ Proxies.prototype = {
     if (!space) {
       throw new Error();
     }
+    space.dispose()
     this.spaces[id] = null;
     this.spaces_list = spv.arrayExclude(this.spaces_list, space);
   },
