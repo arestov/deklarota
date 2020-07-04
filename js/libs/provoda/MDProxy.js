@@ -14,6 +14,7 @@ var MDProxy = function(_provoda_id, children_models, md, space) {
   this.md = md;
   this.nestings = cloneObj({}, children_models);
   this.space = space || null
+  Object.seal(this)
 };
 
 MDProxy.prototype = {

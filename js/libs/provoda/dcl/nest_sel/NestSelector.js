@@ -18,7 +18,7 @@ function Hands(dcl) {
   this.heads = [];
   this.hands = this;
   this.deep_item_states_index = null;
-  this.deep_item_states_index = dcl.selectFn && {};
+  this.deep_item_states_index = dcl.selectFn ? {} : null;
 
   // sometimes different heads can share one `hands` object
 
@@ -34,6 +34,7 @@ function Hands(dcl) {
 
   this.items_filtered = null;
   this.items_sorted = null;
+  Object.seal(this)
 }
 
 var count = 1;
@@ -60,7 +61,9 @@ var NestSelector = function (md, declr, hands) {
     }
     this.base_states = base_states;
   }
-
+  this.handled_subl_wtchs = null
+  this.ordered_items = null
+  Object.seal(this)
 };
 
 NestSelector.Hands = Hands;

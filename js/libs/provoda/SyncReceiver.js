@@ -16,6 +16,7 @@ var FakeModel = function(model_skeleton, stream) {
   this.mpx = model_skeleton.mpx;
   this.states = model_skeleton.states;
   this.md_replacer = null;
+  Object.seal(this)
 };
 
 var MDReplace = function(_provoda_id){

@@ -28,6 +28,7 @@ function props(add) {
 var EvConxOpts = function(context, immediately) {
   this.context = context;
   this.immediately = immediately;
+  Object.seal(this)
 };
 
 add({

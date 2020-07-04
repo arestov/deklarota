@@ -23,6 +23,7 @@ var StatesLabour = function(has_complex_states, need_stch_storage) {
   // this.all_ch_compxs = has_complex_states ? [] : null;
 
   this.total_original_states = {};
+  Object.seal(this)
 
 };
 StatesLabour.prototype.abortFlowSteps = function(space, index_key, is_one_item) {

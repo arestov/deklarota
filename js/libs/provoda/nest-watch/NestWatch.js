@@ -40,7 +40,7 @@ var NestWatch = function(multi_path, state_name, handler, addHandler, removeHand
 
   this.handle_state_change = handler && handler.onchd_state;
   this.handle_count_or_order_change = handler && handler.onchd_count;
-
+  Object.seal(this)
 };
 
 return NestWatch;

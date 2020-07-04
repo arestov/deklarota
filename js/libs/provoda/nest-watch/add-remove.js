@@ -18,6 +18,8 @@ var SublWtch = function SublWtch(nwatch, skip, md, parent) {
   this.handeled_position = 0;
   this.position = 0;
   this.models_list = null;
+  this.one_item_mode = false;
+  Object.seal(this)
 };
 
 function handlePosition(subw) {

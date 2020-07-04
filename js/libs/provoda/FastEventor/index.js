@@ -14,6 +14,7 @@ var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wra
   this.context = context;
   this.immediately = immediately;
   this.wrapper = wrapper || null;
+  Object.seal(this)
 };
 
 var iterateSubsCache = function(func) {
@@ -82,7 +83,7 @@ var FastEventor = function(context) {
   this.mapped_reqs = null
   this.nesting_requests = null;
   onInstanceInitDie(this)
-
+  Object.seal(this)
 };
 FastEventor.prototype = spv.coe(function(add) {
 
