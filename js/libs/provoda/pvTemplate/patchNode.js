@@ -132,6 +132,7 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
     },
     setValue: function(node, new_value, old_value, wwtch) {
       if (!new_value && node.pvwhen_content) {
+        node.pvwhen_content = false;
         if (wwtch.destroyer) {
           wwtch.destroyer();
         }
@@ -157,7 +158,6 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
         var all_chunks = wwtch.context.parseAppended(root_node);
 
         wwtch.destroyer = function() {
-          node.pvwhen_content = false;
           dRemove(this.root_node);
           for (var i = 0; i < all_chunks.length; i++) {
             var cur = all_chunks[i]
