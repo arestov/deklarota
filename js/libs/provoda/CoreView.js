@@ -723,7 +723,7 @@ var View = spv.inh(StatesEmitter, {
     this._lbr._states_set_processing = true;
     //disallow chilren request untill all states will be setted
 
-    this.states = {};
+    this.states = this._attrs_collector.makeAttrsValues();
     //var _this = this;
 
 
