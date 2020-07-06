@@ -19,10 +19,10 @@ var checkModel = function(md, models_index, local_index, all_for_parse) {
   return cur_id;
 };
 
-var getLinedStructure = function(models_index, local_index) {
+var getLinedStructure = function(models_index_raw, local_index_raw) {
   //используется для получения массива всех РЕАЛЬНЫХ моделей, связанных с текущей
-  local_index = local_index || {};
-  models_index = models_index || {};
+  var local_index = local_index_raw || {};
+  var models_index = models_index_raw || {};
   var big_result_array = [];
   var all_for_parse = [this];
 
