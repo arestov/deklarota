@@ -1,6 +1,9 @@
 define(function(require) {
 'use strict';
 var spv = require('spv')
+
+var isPrivate = require('./isPrivateState')
+
 var checkModel = function(md, models_index, local_index, all_for_parse) {
   if (!md) {
     return;
@@ -37,6 +40,9 @@ var getLinedStructure = function(models_index, local_index) {
 
 
     for (var state_name in cur_md.states){
+      if (isPrivate(state_name)) {
+        continue
+      }
       checkModel(cur_md.states[state_name], models_index, local_index, all_for_parse);
 
     }
