@@ -23,6 +23,9 @@ var initSpyglasses = require('./dcl_view/spyglass/init');
 var getBwlevView = require('./dcl_view/getBwlevView');
 var getViewLocationId = require('./View/getViewLocationId')
 
+var makeAttrsCollector = require('./View/makeAttrsCollector')
+
+
 // var spyglassDestroy = require('./dcl_view/spyglass/destroy');
 
 var cloneObj = spv.cloneObj;
@@ -109,6 +112,8 @@ var initView = function(target, view_otps, opts){
 
   target.mpx = view_otps.mpx;
   target.proxies_space = (target.parent_view && target.parent_view.proxies_space) || view_otps.proxies_space || null;
+
+  makeAttrsCollector(target)
 
   target.way_points = null;
 

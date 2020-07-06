@@ -311,6 +311,7 @@ function _replaceState(etr, total_original_states, original_states, state_name, 
     original_states[state_name] = old_value;
   }
   etr.states[state_name] = value;
+  etr._attrs_collector.ensureAttr(state_name)
   stack.push(true, state_name, value);
 }
 

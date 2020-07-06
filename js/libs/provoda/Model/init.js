@@ -5,6 +5,7 @@ var spv = require('spv')
 var cloneObj = spv.cloneObj;
 var initSubPager = require('../dcl/sub_pager/init');
 var initInputAttrs = require('../dcl/attrs/input/init')
+var makeAttrsCollector = require('./makeAttrsCollector')
 
 function buildHead(self, data) {
   var init_v2 = data && data.init_version === 2
@@ -56,6 +57,8 @@ return function initModel(self, opts, data, params, more, states) {
   }
 
   self._highway = self._highway || null;
+
+  makeAttrsCollector(self)
 
   self._calls_flow = self._highway.calls_flow;
 
