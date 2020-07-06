@@ -10,6 +10,16 @@ var supportedZip = require('./supportedZip')
 var splitByDot = spv.splitByDot;
 var fromLegacy = require('./fromLegacy')
 var empty = {}
+var root = {
+  type: 'root',
+  steps: null,
+}
+var parents = spv.memorize(function(num) {
+  return {
+    type: 'parent',
+    steps: num,
+  }
+})
 var parent_count_regexp = /\^+/gi;
 
 /*
@@ -231,18 +241,12 @@ function getBaseInfo(string) {
   }
 
   if (string == '#') {
-    return {
-      type: 'root',
-      steps: null,
-    }
+    return root
   }
 
   var from_parent_num = string.match(parent_count_regexp)
   if (from_parent_num) {
-    return {
-      type: 'parent',
-      steps: from_parent_num[0].length,
-    }
+    return parents(from_parent_num[0].length)
   }
 
   throw new Error('unsupported base: ' + string)
