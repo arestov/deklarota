@@ -12,7 +12,11 @@ function makePath(parent_path, current_name) {
 }
 
 function mark(Constr, RootConstr, parent_path) {
+  RootConstr.hierarchy_counter = RootConstr.hierarchy_counter || 0
+
   var self = Constr.prototype;
+
+  self.hierarchy_num = RootConstr.hierarchy_counter++
 
   self._all_chi = {};
 

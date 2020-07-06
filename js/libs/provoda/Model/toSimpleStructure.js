@@ -64,6 +64,8 @@ var iterate = function( models_index, all_for_parse, local_index, big_result) {
     var result = {
       _provoda_id: cur_md._provoda_id,
       model_name: cur_md.model_name,
+      hierarchy_num: cur_md.hierarchy_num,
+      constr_id: cur_md.constr_id,
       states: public_attrs,
       map_parent: cur_md.map_parent && checkModel(cur_md.map_parent, models_index, local_index, all_for_parse),
       children_models: {},
