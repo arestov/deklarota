@@ -1,6 +1,8 @@
 define(function(require) {
 'use strict';
 var spv = require('spv');
+var definedAttrs = require('../Model/definedAttrs')
+var AttrsCollector = require('../StatesEmitter/AttrsCollector')
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -59,6 +61,9 @@ function mark(Constr, RootConstr, parent_path) {
       self.start_page = (start_page && start_page.prototype) || self
     }
   }
+
+  self._attrs_collector = new AttrsCollector(definedAttrs(self))
+
 
   return Constr;
 }
