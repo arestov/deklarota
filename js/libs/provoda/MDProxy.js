@@ -21,6 +21,9 @@ MDProxy.prototype = {
   __getAttr: function(name) {
     return this.md.states[name]
   },
+  __getBhvId: function() {
+    return this.md.constr_id
+  },
   _assignPublicAttrs: function(target){
     return this.md._assignPublicAttrs(target)
   },
