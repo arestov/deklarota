@@ -126,7 +126,7 @@ spv.cloneObj(props, {
   },
   parseAppendedTPLPart: function(node) {
     this.tpl.parseAppended(node);
-    this.tpl.setStates(this.states);
+    this.tpl.setStates(this._lbr.undetailed_states || this.states);
   },
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {
@@ -235,9 +235,9 @@ spv.cloneObj(props, {
   recalcTotalStatesList: function(states) {
     this.__total_states_list.length = 0
     for (var state_name in states) {
-      if (!states.hasOwnProperty(state_name)) {
-        continue
-      }
+      // if (!states.hasOwnProperty(state_name)) {
+      //   continue
+      // }
       this.__total_states_list.push(true, state_name, states[state_name])
     }
   },

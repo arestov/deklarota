@@ -193,7 +193,6 @@ var StatesEmitter = spv.inh(Eventor, {
 
     initEffectsSubscribe(self)
 
-    self.states = {};
   },
   onExtend: onPropsExtend,
   props: props,

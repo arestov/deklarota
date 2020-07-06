@@ -187,7 +187,7 @@ return spv.inh(View, {
       });
 
       this.tpls.push(tpl);
-      tpl.setStates(this.states);
+      tpl.setStates(this._lbr.undetailed_states || this.states);
 
       var next_lev_con;
       for (var i = num; i <= this.max_level_num; i++) {

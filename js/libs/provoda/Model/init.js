@@ -59,6 +59,8 @@ return function initModel(self, opts, data, params, more, states) {
   self._highway = self._highway || null;
 
   makeAttrsCollector(self)
+  self.states = self._attrs_collector.makeAttrsValues();
+
 
   self._calls_flow = self._highway.calls_flow;
 
