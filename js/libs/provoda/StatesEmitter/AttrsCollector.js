@@ -19,7 +19,8 @@ var Wrap = function() {}
 
 Wrap.prototype = {
   get: function(target, name) {
-    var num = target[0].getAttrNum(name)
+    var collector = target[0]
+    var num = collector.getAttrNum(name)
     if (num == null) {
       return
     }
@@ -31,7 +32,9 @@ Wrap.prototype = {
     return target[num]
   },
   set: function(target, name, value) {
-    var num = target[0].ensureAttr(name)
+    var collector = target[0]
+
+    var num = collector.ensureAttr(name)
     var length = target.length
     if (num > length) {
       target.length = num + 1
