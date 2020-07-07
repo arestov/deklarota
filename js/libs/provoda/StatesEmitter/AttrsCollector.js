@@ -1,7 +1,7 @@
 define(function() {
 'use strict'
 
-
+var reserved = 1
 
 var ok = Object.freeze({
   enumerable: true,
@@ -77,7 +77,8 @@ if (wrap.__nothing) {
 
 function AttrsCollector(defined_attrs) {
   // Collect possible attrs
-  this.counter = 0;
+  this.counter = reserved;
+  // 0 is reserved to ref to collector
   this.indexByName = Object.create( null )
   this.publicNums = []
   this.all = []
@@ -97,7 +98,7 @@ AttrsCollector.prototype = {
       return this.indexByName[name]
     }
 
-    this.indexByName[name] = ++this.counter
+    this.indexByName[name] = this.counter++
 
     this.all.push(name)
   },
@@ -111,7 +112,7 @@ AttrsCollector.prototype = {
 
     // console.warn(new Error('define ' + name))
 
-    var num = ++this.counter
+    var num = this.counter++
     this.indexByName[name] = num
 
     this.all.push(name)
