@@ -79,7 +79,7 @@ var RootLev = spv.inh(Model, {
         : null)
 
       var fullReq = cloneObj(cloneObj({}, req), {
-        current_bwlev_map,
+        current_bwlev_map: current_bwlev_map,
       })
 
       map.input(function() {
