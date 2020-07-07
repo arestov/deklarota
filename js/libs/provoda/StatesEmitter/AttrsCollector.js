@@ -1,7 +1,9 @@
-define(function() {
+define(function(require) {
 'use strict'
 
-var reserved = 1
+var BitField = require('./BitField')
+
+var reserved = 2
 
 var ok = Object.freeze({
   enumerable: true,
@@ -20,6 +22,17 @@ var Wrap = function() {}
 Wrap.prototype = {
   get: function(target, name) {
     var collector = target[0]
+
+    var bitnum = collector.boolByName[name]
+    if (bitnum != null) {
+      var bitfield = target[1]
+      if (!bitfield) {
+        return false
+      }
+      return bitfield.get(bitnum)
+    }
+
+
     var num = collector.getAttrNum(name)
     if (num == null) {
       return
@@ -33,6 +46,16 @@ Wrap.prototype = {
   },
   set: function(target, name, value) {
     var collector = target[0]
+
+    var bitnum = collector.boolByName[name]
+    if (bitnum != null) {
+      var bitfield = target[1]
+      if (!bitfield) {
+        target[1] = collector.makeBitField()
+      }
+      bitfield.set(bitnum, Boolean(value))
+      return true
+    }
 
     var num = collector.ensureAttrNum(name)
     var length = target.length
@@ -79,7 +102,12 @@ function AttrsCollector(defined_attrs) {
   // Collect possible attrs
   this.counter = reserved;
   // 0 is reserved to ref to collector
+  // 1 is reserved to bitfield
   this.indexByName = Object.create( null )
+
+  this.bools = 0
+  this.boolByName = Object.create( null )
+
   this.publicNums = []
   this.all = []
 
@@ -92,18 +120,28 @@ function AttrsCollector(defined_attrs) {
   }
 }
 
+var grow = {grow: Infinity}
+
 AttrsCollector.prototype = {
   defineAttr: function(name, type) {
     if (this.hasAttr(name)) {
       return
     }
 
-    this.indexByName[name] = this.counter++
+    switch (type) {
+      case "bool": {
+        this.boolByName[name] = this.bools++
+      }
+      break;
+      default: {
+        this.indexByName[name] = this.counter++
+      }
+    }
 
     this.all.push(name)
   },
   hasAttr: function(name) {
-    return name in this.indexByName
+    return name in this.indexByName || name in this.boolByName
   },
   ensureAttr: function (name) {
     // ensure usual attr without type
@@ -129,10 +167,16 @@ AttrsCollector.prototype = {
   getAttrNum: function(name) {
     return this.indexByName[name]
   },
-
+  makeBitField: function() {
+    return new BitField(this.bools, grow)
+  },
   makeAttrsValues: function() {
     // Create object that will store values in shape of our attrs
-    return new Proxy([this], Wrap.prototype)
+    var array = [
+      this, // 0 - reserved for collector
+      this.bools ? this.makeBitField() : null,// 1 - reserved for BitField
+    ]
+    return new Proxy(array, Wrap.prototype)
   }
 }
 
