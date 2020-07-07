@@ -57,7 +57,7 @@ var getDep = function(md, dep, data) {
 }
 
 var getDepsValues = function (md, deps, data) {
-  if (!deps) {
+  if (deps == null) {
     return null
   }
 
