@@ -6,7 +6,7 @@ var definedAttrs = require('./definedAttrs')
 return function(self) {
   if (!self._attrs_collector) {
     // ensure that prototype has AttrsCollector
-    self.constructor.prototype._attrs_collector =  new AttrsCollector(definedAttrs(self))
+    self.constructor.prototype._attrs_collector =  new AttrsCollector(definedAttrs(self.constructor.prototype))
     return
   }
 
