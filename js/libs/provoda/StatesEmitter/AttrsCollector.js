@@ -34,7 +34,7 @@ Wrap.prototype = {
   set: function(target, name, value) {
     var collector = target[0]
 
-    var num = collector.ensureAttr(name)
+    var num = collector.ensureAttrNum(name)
     var length = target.length
     if (num > length) {
       target.length = num + 1
@@ -106,6 +106,14 @@ AttrsCollector.prototype = {
     return name in this.indexByName
   },
   ensureAttr: function (name) {
+    // ensure usual attr without type
+    if (this.hasAttr(name)) {
+      return
+    }
+
+    this.ensureAttrNum(name)
+  },
+  ensureAttrNum: function(name) {
     if (name in this.indexByName) {
       return this.indexByName[name]
     }
