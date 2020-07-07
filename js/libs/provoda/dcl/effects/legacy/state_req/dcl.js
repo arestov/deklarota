@@ -1,6 +1,7 @@
 define(function(require) {
 'use strict';
 var utils = require('../utils')
+var getAttrsOfRequestStates = require('./getAttrsOfRequestStates')
 
 var SendDeclaration = utils.SendDeclaration
 var toSchemaFn = utils.toSchemaFn
@@ -11,11 +12,13 @@ return function StateReqMap(num, req_item) {
   this.dependencies = null;
   this.send_declr = null;
   this.states_list = null;
+  this.boolean_attrs = Array.prototype
   this.parse = null;
 
   if (!Array.isArray(req_item)) {
     this.parse = toSchemaFn(req_item.parse);
     this.states_list = req_item.states
+    getAttrsOfRequestStates(this)
     this.dependencies = req_item.fn[0]
     this.send_declr = new SendDeclaration([req_item.api, req_item.fn]);
     return
@@ -28,6 +31,7 @@ return function StateReqMap(num, req_item) {
   }
 
   this.states_list = relations;
+  getAttrsOfRequestStates(this)
 
   this.parse = toSchemaFn(req_item[1]);
   var send_declr = req_item[2];
