@@ -94,8 +94,8 @@ function AttrsCollector(defined_attrs) {
 
 AttrsCollector.prototype = {
   defineAttr: function(name, type) {
-    if (name in this.indexByName) {
-      return this.indexByName[name]
+    if (this.hasAttr(name)) {
+      return
     }
 
     this.indexByName[name] = this.counter++
