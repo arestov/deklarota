@@ -7,10 +7,10 @@ var assignPublicAttrs = function(cur_md, target) {
   var result = target
 
   for (var state_name in cur_md.states){
-    var state = cur_md.states[state_name];
     if (isPrivate(state_name)) {
       continue;
     }
+    var state = cur_md.states[state_name];
     result[state_name] = replaceModelInState(state)
   }
 
