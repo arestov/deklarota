@@ -4,6 +4,7 @@ var Promise = require('Promise');
 var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
 var spv = require('spv');
 var req_utils = require('./req-utils')
+var types = require('./stateReqTypes')
 
 var arrayExclude = spv.arrayExclude
 
@@ -37,15 +38,15 @@ function bindRequest(request, selected_map, store, self) {
 
   function anyway() {
     store.process = false;
-    self.sputnik.updateManyStates(makeLoadingMarks('loading', states_list, false));
+    self.sputnik.updateManyStates(makeLoadingMarks(types.loading, states_list, false));
   }
 
   function markAttemptComplete() {
     var states = {}
 
-    makeLoadingMarks('load_attempting', selected_map.states_list, false, states)
-    makeLoadingMarks('load_attempted', selected_map.states_list, true, states)
-    makeLoadingMarks('load_attempted_at', selected_map.states_list, Date.now(), states)
+    makeLoadingMarks(types.load_attempting, selected_map.states_list, false, states)
+    makeLoadingMarks(types.load_attempted, selected_map.states_list, true, states)
+    makeLoadingMarks(types.load_attempted_at, selected_map.states_list, Date.now(), states)
 
     self.sputnik.updateManyStates(states);
   }
@@ -230,11 +231,11 @@ function resetRequestedState(state_name) {
     var list = [state_name]
 
 
-    makeLoadingMarks('loading', list, null, states)
-    makeLoadingMarks('load_attempting', list, null, states)
-    makeLoadingMarks('load_attempted', list, null, states)
-    makeLoadingMarks('load_attempted_at', list, null, states)
-    makeLoadingMarks('complete', list, null, states)
+    makeLoadingMarks(types.loading, list, null, states)
+    makeLoadingMarks(types.load_attempting, list, null, states)
+    makeLoadingMarks(types.load_attempting, list, null, states)
+    makeLoadingMarks(types.load_attempted_at, list, null, states)
+    makeLoadingMarks(types.complete, list, null, states)
     states[state_name] = null
 
     self.sputnik.updateManyStates(states);
@@ -305,8 +306,8 @@ var requestState = function(state_name) {
       return
     }
     var states = {}
-    makeLoadingMarks('loading', selected_map.states_list, true, states)
-    makeLoadingMarks('load_attempting', selected_map.states_list, true, states)
+    makeLoadingMarks(types.loading, selected_map.states_list, true, states)
+    makeLoadingMarks(types.load_attempting, selected_map.states_list, true, states)
     self.sputnik.updateManyStates(states);
   })
 
