@@ -4,18 +4,14 @@ var AttrsCollector = require('../StatesEmitter/AttrsCollector')
 var definedAttrs = require('./definedAttrs')
 
 return function(self) {
-  if (self._attrs_collector) {
-    // from prototype to instance
-    self._attrs_collector = self._attrs_collector
+  if (!self._attrs_collector) {
+    // ensure that prototype has AttrsCollector
+    self.constructor.prototype._attrs_collector =  new AttrsCollector(definedAttrs(self))
     return
   }
 
-
-  var atrrs_collector_key = self.constr_id
-  self._highway._model_attr_collectors = self._highway._model_attr_collectors || {}
-  self._highway._model_attr_collectors[atrrs_collector_key] = self._highway._model_attr_collectors[atrrs_collector_key] || new AttrsCollector(definedAttrs(self))
-
-  self._attrs_collector = self._highway._model_attr_collectors[atrrs_collector_key]
+  // from prototype to instance
+  self._attrs_collector = self._attrs_collector
 }
 
 })
