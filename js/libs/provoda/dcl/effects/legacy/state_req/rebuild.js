@@ -19,6 +19,7 @@ var doIndex = function(list, value) {
 
 return function buildStateReqs (self, list) {
   self._states_reqs_index = {};
+  self._states_reqs_list = list
   var states_index = {};
 
   for (var i = 0; i < list.length; i++) {
