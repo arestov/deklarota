@@ -55,8 +55,7 @@ Wrap.prototype = {
     return target[0].all;
   },
   has: function (target, name) {
-    var num = target[0].getAttrNum(name)
-    return num != null
+    return target[0].hasAttr(name)
   },
 
   getOwnPropertyDescriptor: function(target, prop) { // вызывается для каждого свойства
@@ -101,6 +100,9 @@ AttrsCollector.prototype = {
     this.indexByName[name] = ++this.counter
 
     this.all.push(name)
+  },
+  hasAttr: function(name) {
+    return name in this.indexByName
   },
   ensureAttr: function (name) {
     if (name in this.indexByName) {
