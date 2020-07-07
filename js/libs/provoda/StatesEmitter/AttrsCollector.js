@@ -118,9 +118,7 @@ AttrsCollector.prototype = {
     return num
   },
   getAttrNum: function(name) {
-    if (name in this.indexByName) {
-      return this.indexByName[name]
-    }
+    return this.indexByName[name]
   },
 
   makeAttrsValues: function() {
