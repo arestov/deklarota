@@ -3,6 +3,7 @@ define(function(require) {
 var batching = require('./batching')
 
 var req_utils = require('./req-utils')
+var types = require('./nestReqTypes')
 var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
 
 var getRequestByDeclr = req_utils.getRequestByDeclr
@@ -13,78 +14,79 @@ var batch = batching.batch
 
 var clean_obj = {};
 
+
 function nestingMark(nesting_name, name) {
   return '$meta$nests$' + nesting_name + '$' + name;
 }
 
 function statesAnyway(states, nesting_name, is_main_list) {
-  states['loading_nesting_' + nesting_name] = false // old legacy
-  states[nesting_name + '$loading'] = false; // legacy
+  states[types.loading_nesting + '_' + nesting_name] = false // old legacy
+  states[nesting_name + '$' + types.loading] = false; // legacy
   if (is_main_list) {
-    states['main_list_loading'] = false // old old legacy
+    states[types.main_list_loading] = false // old old legacy
   }
 
-  states[nestingMark(nesting_name, 'loading')] = false
+  states[nestingMark(nesting_name, types.loading)] = false
 
   return states
 }
 
 function statesComplete(states, nesting_name) {
-  states[nesting_name + '$load_attempting'] = false // legacy
-  states[nestingMark(nesting_name, 'load_attempting')] = false
+  states[nesting_name + '$' + types.load_attempting] = false // legacy
+  states[nestingMark(nesting_name, types.load_attempting)] = false
 
-  states[nesting_name + '$load_attempted'] = true // legacy
-  states[nestingMark(nesting_name, 'load_attempted')] = true
+  states[nesting_name + '$' + types.load_attempted] = true // legacy
+  states[nestingMark(nesting_name, types.load_attempted)] = true
 
   var now = Date.now()
-  states[nesting_name + '$load_attempted_at'] = now // legacy
-  states[nestingMark(nesting_name, 'load_attempted_at')] = now
+  states[nesting_name + '$' + types.load_attempted_at] = now // legacy
+  states[nestingMark(nesting_name, types.load_attempted_at)] = now
   return states
 }
 
 
 
 function statesData(states, nesting_name, can_load_more, is_main_list) {
-  states[nesting_name + "$error"] = null;
-  states[nestingMark(nesting_name, "error")] = null;
+  states[nesting_name + "$" + types.error] = null;
+  states[nestingMark(nesting_name, types.error)] = null;
 
-  states[nesting_name + "$has_any"] = true;
-  states[nestingMark(nesting_name, "has_any")] = true;
+  states[nesting_name + "$" + types.has_any] = true;
+  states[nestingMark(nesting_name, types.has_any)] = true;
 
   if (can_load_more) {
     return
   }
 
   if (is_main_list) {
-    states['all_data_loaded'] = true // old old legacy
+    states[types.all_data_loaded] = true // old old legacy
   }
 
-  states[nesting_name + "$all_loaded"] = true;
-  states[nestingMark(nesting_name, "all_loaded")] = true;
+  states[nesting_name + "$" + types.all_loaded] = true;
+  states[nestingMark(nesting_name, types.all_loaded)] = true;
 }
 
 
 function statesStart(states, nesting_name, is_main_list) {
-  states[nesting_name + '$load_attempting'] = true // legacy
-  states[nestingMark(nesting_name, 'load_attempting')] = true;
+  states[nesting_name + '$' + types.load_attempting] = true // legacy
+  states[nestingMark(nesting_name, types.load_attempting)] = true;
 
-  states['loading_nesting_' + nesting_name] = true; // old legacy
-  states[nesting_name + '$loading'] = true; // legacy
-  states[nestingMark(nesting_name, 'loading')] = true
+  states[types.loading_nesting + '_' + nesting_name] = true; // old legacy
+  states[nesting_name + '$' + types.loading] = true; // legacy
+  states[nestingMark(nesting_name, types.loading)] = true
   if (is_main_list) {
-    states['main_list_loading'] = true // old old legacy
+    states[types.main_list_loading] = true // old old legacy
   }
   return states
 }
 
 function statesError(states, nesting_name) {
-  states[nesting_name + "$error"] = true // legacy
-  states[nestingMark(nesting_name, 'error')] = true
+  states[nesting_name + "$" + types.error] = true // legacy
+  states[nestingMark(nesting_name, types.error)] = true
 }
 
 function statesQueue(states, nesting_name, mark) {
-  states[nesting_name + '$waiting_queue'] = mark // legacy
-  states[nestingMark(nesting_name, 'waiting_queue')] = mark
+  states[nesting_name + '$' + types.waiting_queue] = mark // legacy
+  states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 
 return function(dclt, nesting_name, limit) {
