@@ -113,6 +113,7 @@ return function(self, props, original, params) {
     )
   }
 
+  self._attrs_collector = null
 };
 
 });
