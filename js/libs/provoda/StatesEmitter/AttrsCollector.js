@@ -53,7 +53,7 @@ Wrap.prototype = {
   },
   has: function (target, name) {
     var num = target[0].getAttrNum(name)
-    return num == null
+    return num != null
   },
 
   getOwnPropertyDescriptor: function(target, prop) { // вызывается для каждого свойства
