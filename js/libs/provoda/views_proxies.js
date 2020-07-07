@@ -38,7 +38,8 @@ var createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
 
 };
 
-var Space = function(id) {
+var Space = function(id, checkAlive) {
+  this.checkAlive = checkAlive || Function.prototype
   this.id = id
   this.mpxes_index = {}
   this.ids_index = {}
@@ -57,12 +58,18 @@ Space.prototype = {
   }
 }
 
-var Proxies = function() {
+var Proxies = function(check_interval) {
   this.spaces = {};
   this.spaces_list = [];
   //инициализация простанства
   //поддержка простанства в актуальном состоянии
   //очистка пространства
+
+  var self = this
+
+  setInterval(function() {
+    self.checkAlive()
+  }, check_interval || 10000)
 };
 
 Proxies.prototype = {
@@ -81,9 +88,9 @@ Proxies.prototype = {
 
     return mpx;
   },
-  addSpaceById: function(id, root_md) {
+  addSpaceById: function(id, root_md, checkAlive) {
     if (!this.spaces[id]) {
-      var space = new Space(id)
+      var space = new Space(id, checkAlive)
       this.spaces[id] = space;
       this.spaces_list.push(this.spaces[id]);
 
@@ -152,6 +159,15 @@ Proxies.prototype = {
       if (cur.ids_index[md._provoda_id]) {
         cur.mpxes_index[md._provoda_id].die();
 
+      }
+    }
+  },
+  checkAlive: function() {
+    for (var i = 0; i < this.spaces_list.length; i++) {
+      var cur = this.spaces_list[i];
+      var dead = cur.checkAlive()
+      if (dead) {
+        console.log('leak prevented')
       }
     }
   }
