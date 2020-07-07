@@ -74,6 +74,7 @@ if (wrap.__nothing) {
 
 
 function AttrsCollector(defined_attrs) {
+  // Collect possible attrs
   this.counter = 0;
   this.indexByName = Object.create( null )
   this.publicNums = []
@@ -118,6 +119,7 @@ AttrsCollector.prototype = {
   },
 
   makeAttrsValues: function() {
+    // Create object that will store values in shape of our attrs
     return new Proxy([this], Wrap.prototype)
   }
 }
