@@ -1,15 +1,12 @@
 define(function(require) {
 'use strict'
-var isPrivate = require('./isPrivateState')
 var replaceModelInState = require('./replaceModelInState')
 
 var assignPublicAttrs = function(cur_md, target) {
   var result = target
-
-  for (var state_name in cur_md.states){
-    if (isPrivate(state_name)) {
-      continue;
-    }
+  var public_attrs = cur_md.__getPublicAttrs()
+  for (var i = 0; i < public_attrs.length; i++) {
+    var state_name = public_attrs[i]
     var state = cur_md.states[state_name];
     result[state_name] = replaceModelInState(state)
   }
