@@ -141,7 +141,7 @@ AttrsCollector.prototype = {
     this.all.push(name)
   },
   hasAttr: function(name) {
-    return name in this.indexByName || name in this.boolByName
+    return (name in this.indexByName) || (name in this.boolByName)
   },
   ensureAttr: function (name) {
     // ensure usual attr without type
