@@ -16,6 +16,10 @@ return function(self) {
     }
   }
 
+  if (self.__defined_api_attrs_bool) {
+    push.apply(result, self.__defined_api_attrs_bool)
+  }
+
   self.__defined_attrs_bool = result
   return result
 
