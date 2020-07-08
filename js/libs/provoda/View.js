@@ -234,11 +234,14 @@ spv.cloneObj(props, {
   },
   recalcTotalStatesList: function(states) {
     this.__total_states_list.length = 0
-    for (var state_name in states) {
-      // if (!states.hasOwnProperty(state_name)) {
-      //   continue
-      // }
-      this.__total_states_list.push(true, state_name, states[state_name])
+
+    this.__total_states_list.length = this._attrs_collector.all.length * 3
+
+    for (var i = 0; i < this._attrs_collector.all.length; i++) {
+      var state_name = this._attrs_collector.all[i]
+      this.__total_states_list[i * 3] = true
+      this.__total_states_list[i * 3 + 1] = state_name
+      this.__total_states_list[i * 3 + 2] = states[state_name]
     }
   },
   ensureTotalChangesUpdates: function() {
