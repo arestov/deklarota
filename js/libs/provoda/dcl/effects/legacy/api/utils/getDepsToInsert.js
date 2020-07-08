@@ -10,8 +10,12 @@ var doCopy = function (item, self, typed_state_dcls) {
   }
 };
 
+var empty = []
+
 return function getDepsToInsert (source, self, typed_state_dcls) {
-  if (!source) {return;}
+  if (!source) {return empty}
+
+  var result = []
 
   for (var name in source) {
     if (!source.hasOwnProperty(name)) {continue;}
@@ -19,7 +23,11 @@ return function getDepsToInsert (source, self, typed_state_dcls) {
     var cur = source[name];
     if (!cur.compxes) {continue;}
 
+    result.push(name)
+
     doCopy(cur, self, typed_state_dcls);
   }
+
+  return result
 };
 })

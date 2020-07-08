@@ -73,8 +73,22 @@ var needSelf = checkApi(function(acc, api) {
   return acc || api.needed_apis.indexOf('self') != -1
 })
 
+function BooleanAttr(name) {
+  this.name = name
+}
+
+BooleanAttr.prototype = {
+  type: 'bool',
+}
+
+function wrapAttr(name) {
+  return new BooleanAttr(name)
+}
+
+
 return function rebuild(self, apis, typed_state_dcls) {
-  getDepsToInsert(apis, self, typed_state_dcls);
+  var inserted_names = getDepsToInsert(apis, self, typed_state_dcls);
+  self.__defined_api_attrs_bool = inserted_names.map(wrapAttr)
 
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index;
   self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual;
