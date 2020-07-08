@@ -3,6 +3,8 @@ define(function(require) {
 
 var BitField = require('./BitField')
 
+var isPrivate = require('../Model/isPrivateState')
+
 var reserved = 2
 
 var ok = Object.freeze({
@@ -109,7 +111,7 @@ function AttrsCollector(defined_attrs) {
   this.bools = 0
   this.boolByName = Object.create( null )
 
-  this.publicNums = []
+  this.public_attrs = []
   this.all = []
 
   this.defineAttr('length')
@@ -139,7 +141,12 @@ AttrsCollector.prototype = {
       }
     }
 
+
     this.all.push(name)
+
+    if (!isPrivate(name)) {
+      this.public_attrs.push(name)
+    }
   },
   hasAttr: function(name) {
     return (name in this.indexByName) || (name in this.boolByName)
@@ -163,6 +170,11 @@ AttrsCollector.prototype = {
     this.indexByName[name] = num
 
     this.all.push(name)
+
+    if (!isPrivate(name)) {
+      this.public_attrs.push(name)
+    }
+
     return num
   },
   getAttrNum: function(name) {

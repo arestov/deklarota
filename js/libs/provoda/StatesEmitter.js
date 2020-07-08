@@ -110,6 +110,9 @@ add({
   getAttr: function(state_path) {
     return pvState(this, state_path)
   },
+  __getPublicAttrs: function() {
+    return this._attrs_collector.public_attrs
+  }
 });
 
 var updateAttr = function(state_name, value, opts){
