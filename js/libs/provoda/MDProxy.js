@@ -28,8 +28,15 @@ MDProxy.prototype = {
     return this.md._assignPublicAttrs(target)
   },
   RPCLegacy: function() {
-    this.md.RPCLegacy.apply(this.md, arguments);
+    var args = Array.prototype.slice.call(arguments);
+    var data = JSON.parse(JSON.stringify(args))
 
+    if (this.space == null || this.space.sendRPCLegacy == null) {
+      this.md.RPCLegacy.apply(this.md, data);
+      return
+    }
+
+    this.space.sendRPCLegacy(this._provoda_id, args)
   },
   setStates: function() {},
   updateStates: function() {},
