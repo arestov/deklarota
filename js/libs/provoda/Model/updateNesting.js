@@ -77,10 +77,21 @@ return function updateNesting(self, collection_name, input, opts, spec_data) {
     ? array.length
     : (array ? 1 : 0);
 
-  pvUpdate(self, collection_name + '$length', count);
-  pvUpdate(self, '$meta$nests$' + collection_name + '$length', count);
-  pvUpdate(self, collection_name + '$exists', Boolean(count));
-  pvUpdate(self, '$meta$nests$' + collection_name + '$exists', Boolean(count));
+  var name_for_length_legacy = collection_name + '$length'
+  var name_for_length_modern = '$meta$nests$' + collection_name + '$length'
+
+  var name_for_exists_legacy = collection_name + '$exists'
+  var name_for_exists_modern = '$meta$nests$' + collection_name + '$exists'
+
+  self._attrs_collector.defineAttr(name_for_length_legacy, 'int')
+  self._attrs_collector.defineAttr(name_for_length_modern, 'int')
+  self._attrs_collector.defineAttr(name_for_exists_legacy, 'bool')
+  self._attrs_collector.defineAttr(name_for_exists_modern, 'bool')
+
+  pvUpdate(self, name_for_length_legacy, count);
+  pvUpdate(self, name_for_length_modern, count);
+  pvUpdate(self, name_for_exists_legacy, Boolean(count));
+  pvUpdate(self, name_for_exists_modern, Boolean(count));
 
   return self;
 }
