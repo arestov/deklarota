@@ -49,10 +49,11 @@ Wrap.prototype = {
 
     var bitnum = collector.boolByName[name]
     if (bitnum != null) {
-      var bitfield = target[1]
-      if (!bitfield) {
+      if (!target[1]) {
         target[1] = collector.makeBitField()
       }
+      var bitfield = target[1]
+
       bitfield.set(bitnum, Boolean(value))
       return true
     }
