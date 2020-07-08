@@ -49,15 +49,15 @@ var iterateStChanges = createIterate1arg(_triggerStChanges)
 var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
 
 function updateProxy(etr, changes_list, opts) {
-  if (etr._lbr && etr._lbr.undetailed_states){
+  if (etr._lbr != null && etr._lbr.undetailed_states != null){
     iterateSetUndetailed(changes_list, etr)
     return etr;
   }
 
   //порождать события изменившихся состояний (в передлах одного стэка/вызова)
   //для пользователя пока пользователь не перестанет изменять новые состояния
-  if (!etr.zdsv){
-    etr.zdsv = new StatesLabour(!!etr.full_comlxs_index, etr._has_stchs);
+  if (etr.zdsv == null){
+    etr.zdsv = new StatesLabour(etr.full_comlxs_index != null, etr._has_stchs);
   }
 
   var zdsv = etr.zdsv;
@@ -98,9 +98,9 @@ function updateProxy(etr, changes_list, opts) {
     //var total_ch = ... ↑
 
 
-    if (etr.full_comlxs_index) {
+    if (etr.full_comlxs_index != null) {
       //проверить комплексные состояния
-      while (currentChangesLength !== total_ch.length) {
+      while (currentChangesLength != total_ch.length) {
         var lengthToHandle = total_ch.length
         applyComplexStates(etr, zdsv.total_original_states, original_states, currentChangesLength, total_ch);
         currentChangesLength = lengthToHandle
@@ -120,7 +120,7 @@ function updateProxy(etr, changes_list, opts) {
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch);
 
-  if (etr.updateTemplatesStates) {
+  if (etr.updateTemplatesStates != null) {
     etr.keepTotalChangesUpdates(etr.states)
     etr.updateTemplatesStates(total_ch, opts && opts.sync_tpl);
   }
@@ -133,7 +133,7 @@ function updateProxy(etr, changes_list, opts) {
 
   assignPublicAttrs(etr, total_ch)
 
-  if (etr.sendStatesToMPX && total_ch.length){
+  if (etr.sendStatesToMPX != null && total_ch.length){
     etr.sendStatesToMPX(total_ch);
   }
 
@@ -172,7 +172,7 @@ function _setUndetailedState(etr, i, state_name, value) {
 }
 
 function getStateChangeEffect(target, state_name) {
-  if (!target.__state_change_index) {
+  if (target.__state_change_index == null) {
     return null
   }
 
@@ -316,7 +316,7 @@ function _replaceState(etr, total_original_states, original_states, state_name, 
 }
 
 function getComplexInitList(etr) {
-  if (!etr.full_comlxs_list) {return;}
+  if (etr.full_comlxs_list == null) {return;}
   var result_array = [];
 
   for (var i = 0; i < etr.full_comlxs_list.length; i++) {
@@ -418,13 +418,13 @@ var PVStateChangeEvent = function(type, value, old_value, target) {
 
 
 function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
-  if (etr.__syncStatesChanges || etr.__handleHookedSync) {
+  if (etr.__syncStatesChanges != null || etr.__handleHookedSync != null) {
     var to_send = changes_list.slice(start_from, inputLength)
-    if (etr.__syncStatesChanges) {
+    if (etr.__syncStatesChanges != null) {
       etr.__syncStatesChanges.call(null, etr, to_send, etr.states);
     }
 
-    if (etr.__handleHookedSync) {
+    if (etr.__handleHookedSync != null) {
       etr.__handleHookedSync.call(null, etr, to_send, etr.states);
     }
   }
