@@ -38,11 +38,14 @@ var createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
 
 };
 
-var Space = function(id, checkAlive) {
-  this.checkAlive = checkAlive || Function.prototype
+var noop = function() {}
+
+var Space = function(id, checkAlive, sendRPCLegacy) {
+  this.checkAlive = checkAlive || noop
   this.id = id
   this.mpxes_index = {}
   this.ids_index = {}
+  this.sendRPCLegacy = sendRPCLegacy || null
 }
 Space.prototype = {
   dispose: function() {
@@ -88,9 +91,9 @@ Proxies.prototype = {
 
     return mpx;
   },
-  addSpaceById: function(id, root_md, checkAlive) {
+  addSpaceById: function(id, root_md, checkAlive, sendRPCLegacy) {
     if (!this.spaces[id]) {
-      var space = new Space(id, checkAlive)
+      var space = new Space(id, checkAlive, sendRPCLegacy)
       this.spaces[id] = space;
       this.spaces_list.push(this.spaces[id]);
 
