@@ -13,7 +13,7 @@ function BitField (data_raw, opts) {
   var grow = opts != null && opts.grow
   this.grow = (grow && isFinite(grow) && getByteSize(grow)) || grow || 0
   this.buffer = typeof data === 'number' ? new Uint8Array(getByteSize(data)) : data
-
+  Object.seal(this)
 }
 
 BitField.prototype = {
