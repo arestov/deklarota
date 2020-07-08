@@ -10,6 +10,8 @@ return function(md, nesting_name, data) {
   if (mentioned.type == 'route') {
     var app = md.app;
 
+    var result = getSPByPathTemplateAndData(app, md, mentioned.value, false, data, false, null, data);
+
     var states = {}
 
     for (var prop in data) {
@@ -17,13 +19,12 @@ return function(md, nesting_name, data) {
         continue
       }
       states[prop] = data[prop]
-      states['$meta$states$' + prop + '$routed'] = true
+      var attr_name = '$meta$states$' + prop + '$routed'
+      result._attrs_collector.defineAttr(attr_name, 'bool')
+      states[attr_name] = true
     }
 
-    var result = getSPByPathTemplateAndData(app, md, mentioned.value, false, data, false, null, states);
-
     md.useMotivator(result, function () {
-
       result.updateManyStates(states);
     });
 
