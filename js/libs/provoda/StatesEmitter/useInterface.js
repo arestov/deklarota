@@ -25,8 +25,14 @@ var template = function () {
 };
 
 var update = function(self, interface_name, value) {
-  pvUpdate(self, '_api_used_' + interface_name, value);
-  pvUpdate(self, '$meta$apis$' + interface_name + '$used', value);
+  var name_for_used_legacy = '_api_used_' + interface_name
+  var name_for_used_modern = '$meta$apis$' + interface_name + '$used'
+
+  self._attrs_collector.defineAttr(name_for_used_legacy, 'bool')
+  self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
+
+  pvUpdate(self, name_for_used_legacy, value);
+  pvUpdate(self, name_for_used_modern, value);
 }
 
 var useInterface = function (self, interface_name, obj, destroy) {
