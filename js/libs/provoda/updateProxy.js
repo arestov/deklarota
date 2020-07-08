@@ -288,10 +288,6 @@ function shallowEqual(objA, objB) {
 }
 
 function _replaceState(etr, total_original_states, original_states, state_name, value, stack) {
-  if (!state_name) {
-    return;
-  }
-
   var old_value = etr.states[state_name];
   if (old_value === value){
     return;
