@@ -7,6 +7,8 @@ var asString = require('./multiPath/asString')
 
 function itself(item) {return item;}
 
+var selfRef = {rel_type: 'self'}
+
 var enc_states = {
   '^': (function(){
     // parent
@@ -117,6 +119,10 @@ var simulateLegacyPath = {
 }
 
 var fromMultiPath = function(multi_path, as_string, original) {
+
+  if (multi_path.base_itself) {
+    return selfRef
+  }
 
   if (multi_path.resource.path) {
     throw new Error('dont use route: for attr.compx (runtime not implemented)')

@@ -166,6 +166,7 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   }
 
   self.compx_nest_matches = compx_nest_matches;
+  self.connect_self = result.connect_self
 
   self.conndst_parent = result.conndst_parent
   self.conndst_nesting = result.conndst_nesting
