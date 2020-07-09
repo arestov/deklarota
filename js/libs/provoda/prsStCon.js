@@ -53,6 +53,12 @@ var copyStates = function(md, target, state_name, full_name) {
   return {
     bind: bind,
     prefill: {
+      self: function(md, states_list) {
+        if (!md.connect_self) {
+          return
+        }
+        states_list.push(true, '<<<<', md)
+      },
       parent: function (md, states_list) {
         var list = md.conndst_parent;
         if (!list){

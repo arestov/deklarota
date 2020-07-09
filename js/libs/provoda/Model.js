@@ -261,6 +261,7 @@ add({
       }
     }
 
+    prsStCon.prefill.self(this, changes_list);
     prsStCon.prefill.parent(this, changes_list);
     prsStCon.prefill.root(this, changes_list);
 

@@ -1,10 +1,12 @@
 define(function(require) {
 'use strict';
+
 function groupDeps(parse, getDeps) {
   return function(list) {
     var states_of_parent = {};
     var states_of_nesting = {};
     var states_of_root = {};
+    var connect_self = false;
 
     for (var i = 0; i < list.length; i++) {
       var cur = list[i];
@@ -34,12 +36,17 @@ function groupDeps(parse, getDeps) {
               states_of_parent[state_name] = parsing_result;
             }
           }
+          break
+          case 'self': {
+            connect_self = connect_self || true
+          }
           break;
         }
       }
     }
 
     return {
+      connect_self: connect_self,
       conndst_parent: toList(states_of_parent),
       conndst_nesting: toList(states_of_nesting),
       conndst_root: toList(states_of_root),
