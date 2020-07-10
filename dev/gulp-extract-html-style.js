@@ -16,7 +16,7 @@ function copyFile(src, data, name) {
 
 module.exports = plugin('gulp-extract-html-style', function (options, file, enc, done) {
 	var stream = this;
-	parse(file.contents.toString(), {}, function(err, root) {
+	parse(file.contents.toString(), {strict: options.strict}, function(err, root) {
 
 		if (err) {return done(err);}
 		var styles = parse.select('style', root);
