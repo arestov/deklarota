@@ -15,7 +15,7 @@ module.exports = function(string, options, callback) {
 
 	var attributes = [];
 
-	var parser = sax.parser(true , {
+	var parser = sax.parser(options.strict === false ? false : true , {
 		isSelfClosing: isSelfClosing,
 		trim: false,
 		// normalize: false,
