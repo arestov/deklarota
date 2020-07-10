@@ -64,8 +64,6 @@ return function initModel(self, opts, data, params, more, states) {
 
   self._calls_flow = self._highway.calls_flow;
 
-  self._prepared_public_attrs_snapshot = null
-
   // end-user place to add extra props
   self.extra = self.use_extra ? {} : null
 

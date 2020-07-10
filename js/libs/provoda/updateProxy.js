@@ -4,7 +4,6 @@ define(function(require) {
 var StatesLabour = require('./StatesLabour');
 var utils_simple = require('./utils/simple');
 var triggerLightAttrChange = require('./internal_events/light_attr_change/trigger')
-var assignPublicAttrs = require('./Model/assignPublicAttrs')
 var produceEffects = require('./StatesEmitter/produceEffects');
 var checkStates = require('./nest-watch/checkStates');
 var _passHandleState = require('./dcl/passes/handleState/handle')
@@ -130,8 +129,6 @@ function updateProxy(etr, changes_list, opts) {
 
   //utils_simple.wipeObj(original_states);
   //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
-
-  assignPublicAttrs(etr, total_ch)
 
   if (etr.sendStatesToMPX != null && total_ch.length){
     etr.sendStatesToMPX(total_ch);
