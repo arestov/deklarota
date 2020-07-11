@@ -15,8 +15,13 @@ var targetData = function(to, result_name, dsl_options) {
     throw new Error('we can put result to nesting or state only')
   }
 
-  if (parsed_path.result_type == 'state' && isAction) {
-    throw new Error('attr cant be target for action')
+  if (parsed_path.result_type == 'state') {
+    if (isAction) {
+      throw new Error('attr cant be target for action')
+    }
+    if (parsed_path.state.path != parsed_path.state.base) {
+      throw new Error('paths in state is not supported yet')
+    }
   }
 
   if (parsed_path.result_type === 'nesting' && (!options || !(options.method || isAction))) {
