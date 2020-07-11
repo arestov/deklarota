@@ -5,7 +5,7 @@ var getNesting = require('../../provoda/getNesting')
 var zip_fns = require('../zip/multipath-as-dep')
 
 var readState = function(md, multi_path) {
-  return pvState(md, multi_path.state.base)
+  return pvState(md, multi_path.state.path)
 }
 
 var readNesting = function(md, multi_path) {
