@@ -12,7 +12,7 @@ var getOneValue = function(dep, item) {
     return item
   }
 
-  return pvState(item, dep.state.base)
+  return pvState(item, dep.state.path)
 }
 
 var mapList = function(dep, list) {
