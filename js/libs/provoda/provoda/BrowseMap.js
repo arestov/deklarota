@@ -8,8 +8,6 @@ var toProperNavParent = require('../bwlev/toProperNavParent');
 var showInterest = require('../bwlev/showInterest');
 var getBwlevFromParentBwlev = require('../bwlev/getBwlevFromParentBwlev');
 var get_constr = require('../structure/get_constr');
-var prepare = require('../structure/prepare');
-var RootLev = require('../bwlev/RootLev');
 var initDeclaredNestings = require('../initDeclaredNestings');
 var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
 
@@ -199,7 +197,7 @@ BrowseMap.Model = spv.inh(pv.HModel, {
 });
 
 function hookRoot(rootmd, start_page, states) {
-  var CurBrowseLevel = rootmd.BWLev ? prepare(spv.inh(RootLev, {}, rootmd.BWLev)) : RootLev;
+  var CurBrowseLevel = rootmd.__BWLev
   var bwlev_root = initBWlev(CurBrowseLevel, rootmd, '', -2, null, null)
   if (!start_page) {
     return bwlev_root;

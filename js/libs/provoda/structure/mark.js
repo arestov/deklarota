@@ -3,6 +3,7 @@ define(function(require) {
 var spv = require('spv');
 var definedAttrs = require('../Model/definedAttrs')
 var AttrsCollector = require('../StatesEmitter/AttrsCollector')
+var RootLev = require('../bwlev/RootLev');
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -60,6 +61,11 @@ function mark(Constr, RootConstr, parent_path) {
       var start_page = self._all_chi['chi-start__page']
       self.start_page = (start_page && start_page.prototype) || self
     }
+
+    var __BWLev = spv.inh(RootLev, {}, self.BWLev || {})
+    __BWLev.hierarchy_counter = RootConstr.hierarchy_counter++
+
+    self.__BWLev = mark(__BWLev, RootConstr);
   }
 
   self._attrs_collector = new AttrsCollector(definedAttrs(self))
