@@ -21,3 +21,5 @@
 - removed cache everything. use `allow_cache` if you want requests cache
 
 - TEMP Broken animateMapSlice/MapSliceSpyglassCore
+
+- removed sync_tpl from updateProxy
