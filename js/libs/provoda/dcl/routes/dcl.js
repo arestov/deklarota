@@ -11,7 +11,7 @@ var run = require('./run')
 
 var getMatched = function(runner) {
   if (!runner.matched) {
-    runner.matched = {}
+    runner.matched = []
   }
 
   return runner.matched
@@ -29,15 +29,15 @@ var areStatesValid = function(md, states) {
   return true
 }
 
-var handleChangedCount = function(motivator, n2, lnwatch, n3, ordered_items) {
+var handleChangedCount = function handleChangedCount(motivator, n2, lnwatch, n3, ordered_items) {
 
   var runner = lnwatch.data.route_runner
 
   var result = getMatched(runner)
   runner.matched = null
 
-
-  wipeObj(result) // reusing
+  // reusing
+  result.length = 0
   if (!ordered_items) {
     return
   }
@@ -50,7 +50,7 @@ var handleChangedCount = function(motivator, n2, lnwatch, n3, ordered_items) {
     }
 
     var key = stringifyRoute(runner.dcl.route, cur.states)
-    result[key] = cur
+    result.push(key, cur)
   }
 
   runner.matched = result
