@@ -7,6 +7,7 @@ var dom_helpers = require('../utils/dom_helpers')
 var parser = require('./parser');
 var PvSimpleSampler = require('./PvSimpleSampler');
 var parseEasy = require('./parseEasy');
+var CH_GR_LE = 2
 
 var push = Array.prototype.push;
 var addEvent = spv.addEvent;
@@ -51,7 +52,7 @@ var makeSpecStatesList = function(states) {
     if (!states.hasOwnProperty(state_name)){
       continue;
     }
-    result.push(true, state_name, states[state_name]);
+    result.push(state_name, states[state_name]);
   }
   return result;
 };
@@ -640,8 +641,8 @@ spv.Class.extendTo(PvTemplate, {
     }
 
     var matched = [], i = 0;
-    for (i = 0; i < changes.length; i+= 3 ) { //ищем подходящие директивы
-      var name = changes[i+1];
+    for (i = 0; i < changes.length; i+= CH_GR_LE ) { //ищем подходящие директивы
+      var name = changes[i];
       if (this.stwat_index[name]){
         push.apply(matched, this.stwat_index[name]);
       }
@@ -662,9 +663,9 @@ spv.Class.extendTo(PvTemplate, {
 
     var states_summ = Object.create(states);
 
-    for (var i = 0; i < this.spec_states_props_list.length; i+=3) {
-      var state_name = this.spec_states_props_list[ i + 1 ];
-      var state_value = this.spec_states_props_list[ i + 2];
+    for (var i = 0; i < this.spec_states_props_list.length; i+=2) {
+      var state_name = this.spec_states_props_list[ i ];
+      var state_value = this.spec_states_props_list[ i + 1];
       states_summ[ state_name ] = state_value;
     }
 

@@ -1,5 +1,6 @@
 define(function() {
 'use strict'
+var CH_GR_LE = 2
 
 var selectModel = function(owner) {
   var list = owner._highway.logger.selectModels
@@ -58,13 +59,13 @@ var logStates = function(owner, dubl) {
 
   var list = dubl
   var changes = []
-  for (var i = 0; i < list.length; i += 3) {
-    var name = list[i + 1]
+  for (var i = 0; i < list.length; i += CH_GR_LE) {
+    var name = list[i]
     if (!checkState(owner, name)) {
       continue
     }
 
-    var newValue = list[i + 2]
+    var newValue = list[i + 1]
 
     changes.push([name, newValue])
   }

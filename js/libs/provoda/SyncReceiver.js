@@ -2,6 +2,7 @@ define(function(require) {
 'use strict';
 var spv = require('spv')
 var MDProxy = require('./MDProxy');
+var CH_GR_LE = 2
 
 var slice = Array.prototype.slice;
 
@@ -143,9 +144,9 @@ SyncReceiver.prototype = {
   updateStates: function(_provoda_id, value) {
     var target_model = this.models_index[_provoda_id];
 
-    for (var i = 0; i < value.length; i+=3) {
-      var state_name = value[ i +1 ];
-      var state_value = value[ i +2 ];
+    for (var i = 0; i < value.length; i+=CH_GR_LE) {
+      var state_name = value[ i ];
+      var state_value = value[ i +1];
       target_model.states[state_name] = state_value;
     }
 

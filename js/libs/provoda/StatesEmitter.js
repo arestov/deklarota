@@ -122,7 +122,7 @@ var updateAttr = function(state_name, value, opts){
   if (this.hasComplexStateFn(state_name)){
     throw new Error("you can't change complex state in this way");
   }
-  return this._updateProxy([true, state_name, value], opts);
+  return this._updateProxy([state_name, value], opts);
 }
 
 var updateManyAttrs = function(obj) {
@@ -132,7 +132,7 @@ var updateManyAttrs = function(obj) {
       if (this.hasComplexStateFn(state_name)) {
         throw new Error("you can't change complex state " + state_name);
       }
-      changes_list.push(true, state_name, obj[state_name]);
+      changes_list.push(state_name, obj[state_name]);
     }
   }
   this._updateProxy(changes_list);

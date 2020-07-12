@@ -1,15 +1,16 @@
 define(function (require) {
 'use strict';
 var pvState = require('../utils/state');
+var CH_GR_LE = 2
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
   var index = self.__api_effects_$_index;
 
-  for (var i = 0; i < changes_list.length; i+=3) {
-    var state_name = changes_list[i+1];
+  for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
+    var state_name = changes_list[i];
     if (!index[state_name]) {continue;}
 
-    var value = changes_list[i+2];
+    var value = changes_list[i+1];
 
     var old_ready = self._effects_using.conditions_ready[index[state_name].name];
     self._effects_using.conditions_ready[index[state_name].name] = Boolean(value);
@@ -63,8 +64,8 @@ function checkAndMutateInvalidatedEffects(changes_list, self) {
   var index = self.__api_effects_$_index_by_triggering;
   var using = self._effects_using;
 
-  for (var i = 0; i < changes_list.length; i+=3) {
-    var state_name = changes_list[i+1];
+  for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
+    var state_name = changes_list[i];
     if (!index[state_name]) {
       continue;
     }
@@ -76,7 +77,7 @@ function checkAndMutateInvalidatedEffects(changes_list, self) {
       }
 
       // mark state
-      scheduleEffect(self, list[jj].name, state_name, changes_list[i+2], false)
+      scheduleEffect(self, list[jj].name, state_name, changes_list[i+1], false)
       self._effects_using.invalidated[list[jj].name] = true;
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
@@ -303,13 +304,13 @@ function iterateApis(changes_list, context) {
     return;
   }
 
-  for (var i = 0; i < changes_list.length; i+=3) {
-    var state_name = changes_list[i+1];
+  for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
+    var state_name = changes_list[i];
     if (!index[state_name]) {
       continue;
     }
 
-    checkApi(index[state_name], changes_list[i+2], context);
+    checkApi(index[state_name], changes_list[i+1], context);
   }
 }
 
