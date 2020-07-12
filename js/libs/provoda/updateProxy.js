@@ -191,8 +191,8 @@ function proxyStch(target, value, state_name) {
   method(target, value, old_value);
 }
 
-function _handleStch(etr, state_name, value, skip_handler) {
-  var method = !skip_handler && getStateChangeEffect(etr, state_name);
+function _handleStch(etr, state_name, value) {
+  var method = getStateChangeEffect(etr, state_name);
   if (!method) {
     return;
   }
@@ -419,7 +419,7 @@ function legacySideEffects(etr, changes_list, start_from, inputLength, opts) {
   }
 
   for (var i = start_from; i < inputLength; i+=3) {
-    _handleStch(etr, changes_list[i+1], changes_list[i+2], opts && opts.skip_handler, opts && opts.sync_tpl);
+    _handleStch(etr, changes_list[i+1], changes_list[i+2]);
   }
 }
 
