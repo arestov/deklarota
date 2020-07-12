@@ -6,7 +6,9 @@ var getModelFromR = require('pv/v/getModelFromR')
 var updateAttr = require('pv/updateAttr');
 var getAttr = require('pv/getAttr');
 
-var sync_opt = {sync_tpl: true};
+/*
+  ANIMATION IS BROKEN
+*/
 
 var css_transform = css.transform;
 var transform_props = css_transform ? [css_transform] : [];
@@ -91,15 +93,19 @@ return function(view, transaction_data, animation_data) {
     var current_lev_num = getAttr(target_md, 'map_level_num');
 
     if (animation_data){
-      updateAttr(view, 'disallow_animation', true, sync_opt);
+      updateAttr(view, 'disallow_animation', true);
       animation_data.lc.c.css(animation_data.transform_values);
-      updateAttr(view, 'disallow_animation', false, sync_opt);
+      updateAttr(view, 'disallow_animation', false);
     }
 
-    updateAttr(view, 'current_lev_num', current_lev_num, sync_opt);
+    updateAttr(view, 'current_lev_num', current_lev_num);
     //сейчас анимация происходит в связи с сменой класса при изменении состояния current_lev_num
 
     if (animation_data && animation_data.lc){
+      /*
+        TODO: refactor lack of sync_opts
+      */
+
       animation_data.lc.c.height(); //заставляем всё пересчитать
       animation_data.lc.c.css(empty_transform_props);
       /*view.nextLocalTick(function() {

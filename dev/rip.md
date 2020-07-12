@@ -19,3 +19,5 @@
 - overrideStateSilently
 
 - removed cache everything. use `allow_cache` if you want requests cache
+
+- TEMP Broken animateMapSlice/MapSliceSpyglassCore

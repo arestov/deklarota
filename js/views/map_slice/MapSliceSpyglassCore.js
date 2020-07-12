@@ -22,8 +22,6 @@ var findMpxViewInChildren = require('./findMpxViewInChildren');
 
 var can_animate = css.transform && css.transition;
 
-var sync_opt = {sync_tpl: true};
-
 var LevContainer = function(con, scroll_con, material, tpl, context) {
   this.c = con;
   this.scroll_con = scroll_con;
@@ -232,7 +230,7 @@ return spv.inh(View, {
     };
   },
   setVMpshow: function(target_mpx, value) {
-    mpxUpdateAttr(target_mpx, 'vmp_show', value, sync_opt);
+    mpxUpdateAttr(target_mpx, 'vmp_show', value);
   },
 
   'model-mapch': {
@@ -314,7 +312,7 @@ return spv.inh(View, {
         if (!transaction.bwlev){
           target_md = this.findBMapTarget(array);
           if (target_md){
-            pvUpdate(this, 'current_lev_num', pvState(target_md, 'map_level_num'), sync_opt);
+            pvUpdate(this, 'current_lev_num', pvState(target_md, 'map_level_num'));
           }
 
         }
@@ -332,7 +330,7 @@ return spv.inh(View, {
       for (i = 0; i < models.length; i++) {
         this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i]);
       }
-      pvUpdate(this, 'current_lev_num', pvState(target_md, 'map_level_num'), sync_opt);
+      pvUpdate(this, 'current_lev_num', pvState(target_md, 'map_level_num'));
       this.markAnimationEnd(models, -1);
       this.completely_rendered_once['map_slice'] = true;
     }
@@ -437,16 +435,16 @@ return spv.inh(View, {
     return target_in_parent;
   },
   markAnimationStart: function(models, changes_number) {
-    updateAttr(this, 'map_animation_num_started', changes_number, sync_opt);
+    updateAttr(this, 'map_animation_num_started', changes_number);
     for (var i = 0; i < models.length; i++) {
-      mpxUpdateAttr(this.getStoredMpx(getModelFromR(this, models[i])), 'animation_started', changes_number, sync_opt);
+      mpxUpdateAttr(this.getStoredMpx(getModelFromR(this, models[i])), 'animation_started', changes_number);
       ////MUST UPDATE VIEW, NOT MODEL!!!!!
     }
   },
 
   markAnimationEnd: wrapInputCall(function(models, changes_number) {
     if (this.state('map_animation_num_started') == changes_number) {
-      updateAttr(this, 'map_animation_num_completed', changes_number, sync_opt);
+      updateAttr(this, 'map_animation_num_completed', changes_number);
     }
 
 
@@ -455,7 +453,7 @@ return spv.inh(View, {
       var mpx = this.getStoredMpx(getModelFromR(this, models[i]));
 
       if (mpx.state('animation_started') == changes_number){
-        mpxUpdateAttr(mpx, 'animation_completed', changes_number, sync_opt);
+        mpxUpdateAttr(mpx, 'animation_completed', changes_number);
       }
       ////MUST UPDATE VIEW, NOT MODEL!!!!!
     }
