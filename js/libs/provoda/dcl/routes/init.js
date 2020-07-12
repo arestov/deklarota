@@ -5,11 +5,12 @@ var RouteRunner = require('./RouteRunner')
 
 
 return function(self) {
+  self.__modern_subpages = null
+  self.__routes_matchers_runs = null
+
   if (!self.__routes_matchers_defs) {
     return;
   }
-
-  self.__modern_subpages = null;
 
   var list = new Array(self.__routes_matchers_defs.length)
 
