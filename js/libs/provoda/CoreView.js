@@ -24,6 +24,7 @@ var getBwlevView = require('./dcl_view/getBwlevView');
 var getViewLocationId = require('./View/getViewLocationId')
 
 var makeAttrsCollector = require('./View/makeAttrsCollector')
+var CH_GR_LE = 2
 
 
 // var spyglassDestroy = require('./dcl_view/spyglass/destroy');
@@ -733,7 +734,7 @@ var View = spv.inh(StatesEmitter, {
     var states_list = [];
 
     for (var name in states){
-      states_list.push(true, name, states[name]);
+      states_list.push(name, states[name]);
     }
 
     this._updateProxy(states_list);
@@ -773,9 +774,8 @@ var View = spv.inh(StatesEmitter, {
   },
   __changesToObject: function (changes_list) {
     var result = {}
-
-    for (var i = 0; i < changes_list.length; i += 3) {
-      result[changes_list[i + 1]] = changes_list[i + 2]
+    for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+      result[changes_list[i]] = changes_list[i + 1]
       result = result
     }
 
@@ -797,10 +797,10 @@ var View = spv.inh(StatesEmitter, {
     updateProxy(this, changes_list, opts);
   }),
   promiseStateUpdate: function(name, value) {
-    updateProxy(this, [true, name, value]);
+    updateProxy(this, [name, value]);
   },
   setVisState: function(name, value) {
-    updateProxy(this, [true, 'vis_' + name, value]);
+    updateProxy(this, ['vis_' + name, value]);
   },
   checkChildrenModelsRendering: function() {
     var obj = cloneObj(false, this.children_models);

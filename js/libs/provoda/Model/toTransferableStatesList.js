@@ -1,6 +1,7 @@
 define(function(require) {
 'use strict'
 var isPrivate = require('./isPrivateState')
+var CH_GR_LE = 2
 
 var hasId = function(value) {
   return value && value._provoda_id
@@ -13,7 +14,7 @@ function toTransferableStatesList(states_raw) {
   var needs_changes, fixed_values;
   var states = states_raw
 
-  for ( var jj = 2; jj < states.length; jj += 3 ) {
+  for ( var jj = 1; jj < states.length; jj += CH_GR_LE ) {
     var cur_value = states[jj];
 
     if (isPrivate(states[jj - 1])) {

@@ -245,7 +245,7 @@ add({
     }
 
     var changes_list = getComplexInitList(this) || [];
-    changes_list.push(true, '_provoda_id', this._provoda_id);
+    changes_list.push('_provoda_id', this._provoda_id);
 
     if (this.init_states) {
       for (var state_name in this.init_states) {
@@ -257,7 +257,7 @@ add({
           throw new Error("you can't change complex state " + state_name);
         }
 
-        changes_list.push(true, state_name, this.init_states[state_name]);
+        changes_list.push(state_name, this.init_states[state_name]);
       }
     }
 
@@ -385,14 +385,13 @@ add({
     //this.removeDeadViews();
     var dubl = [];
 
-    for (var i = 0; i < states_list.length; i+=3) {
-      var unknown_part = states_list[i]
-      var state_name = states_list[i+1]
-      var value = states_list[i+2]
+    for (var i = 0; i < states_list.length; i+=2) {
+      var state_name = states_list[i]
+      var value = states_list[i+1]
       if (isPrivate(state_name)) {
         continue
       }
-      dubl.push(unknown_part, state_name, value)
+      dubl.push(state_name, value)
     }
 
     logger.logStates(this, dubl)

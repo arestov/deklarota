@@ -9,6 +9,8 @@ var checkStates = require('./nest-watch/checkStates');
 var _passHandleState = require('./dcl/passes/handleState/handle')
 var sameName = require('./sameName')
 
+var CH_GR_LE = 2
+
 var serv_counter = 1;
 var ServStates = function() {
   this.num = ++serv_counter;
@@ -62,6 +64,7 @@ function updateProxy(etr, changes_list, opts) {
   if (etr.zdsv == null){
     etr.zdsv = new StatesLabour(etr.full_comlxs_index != null, etr._has_stchs);
   }
+
 
   var zdsv = etr.zdsv;
   var serv_st = etr.serv_st || getFree(pool);
@@ -153,16 +156,16 @@ function updateProxy(etr, changes_list, opts) {
 // mirco optimisations for monomorphism of args
 function createIterate0arg(cb) {
   return function iterageChListWith0Args(changes_list, context) {
-    for (var i = 0; i < changes_list.length; i+=3) {
-      cb(context, i, changes_list[i+1], changes_list[i+2]);
+    for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
+      cb(context, i, changes_list[i], changes_list[i+1]);
     }
   }
 }
 
 function createIterate1arg(cb) {
   return function iterageChListWith1Args(changes_list, context, arg1) {
-    for (var i = 0; i < changes_list.length; i+=3) {
-      cb(context, i, changes_list[i+1], changes_list[i+2], arg1);
+    for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
+      cb(context, i, changes_list[i], changes_list[i+1], arg1);
     }
   }
 }
@@ -222,10 +225,10 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   // so we will mutate length of input during processing!
   // preventing infinit circle here
   var inputLength = changes_list.length
-  for (i = start_from; i < inputLength; i+=3) {
-    var state_name = changes_list[i+1]
+  for (i = start_from; i < inputLength; i+=CH_GR_LE) {
+    var state_name = changes_list[i]
     reportBadChange(etr, state_name)
-    _replaceState(etr, total_original_states, original_states, sameName(state_name), changes_list[i+2], changed_states);
+    _replaceState(etr, total_original_states, original_states, sameName(state_name), changes_list[i+1], changed_states);
   }
 
 
@@ -304,7 +307,7 @@ function _replaceState(etr, total_original_states, original_states, state_name, 
   }
   etr._attrs_collector.ensureAttr(state_name)
   etr.states[state_name] = value;
-  stack.push(true, state_name, value);
+  stack.push(state_name, value);
 }
 
 function getComplexInitList(etr) {
@@ -313,7 +316,7 @@ function getComplexInitList(etr) {
 
   for (var i = 0; i < etr.full_comlxs_list.length; i++) {
     var cur = etr.full_comlxs_list[i];
-    result_array.push(true, cur.name, compoundComplexState(etr, cur));
+    result_array.push(cur.name, compoundComplexState(etr, cur));
   }
 
   return result_array;
@@ -326,8 +329,8 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
 
   var originalLength = input_and_output.length
 
-  for ( i = start_from; i < originalLength; i+=3) {
-    cur = etr.full_comlxs_index[input_and_output[i+1]];
+  for ( i = start_from; i < originalLength; i+=CH_GR_LE) {
+    cur = etr.full_comlxs_index[input_and_output[i]];
     if (!cur){
       continue;
     }
@@ -370,7 +373,7 @@ function compressChangesList(result_changes, changes_list, i, prop_name, value, 
     return;
   }
 
-  var num = (changes_list.length - 1) - counter * 3;
+  var num = (changes_list.length - 1) - counter * CH_GR_LE;
   changes_list[ num - 1 ] = prop_name;
   changes_list[ num ] = value;
 
@@ -381,7 +384,7 @@ function compressChangesList(result_changes, changes_list, i, prop_name, value, 
 function createReverseIterate0arg(cb) {
   return function reverseIterateChListWith0Args(changes_list, context) {
     var counter = 0;
-    for (var i = changes_list.length - 1; i >= 0; i-=3) {
+    for (var i = changes_list.length - 1; i >= 0; i-=CH_GR_LE) {
       if (cb(context, changes_list, i, changes_list[i-1], changes_list[i], counter)){
         counter++;
       }
@@ -394,7 +397,7 @@ function createReverseIterate0arg(cb) {
 function compressStatesChanges(changes_list) {
   var result_changes = {};
   var counter = reversedCompressChanges(changes_list, result_changes);
-  counter = counter * 3;
+  counter = counter * CH_GR_LE;
   while (changes_list.length != counter){
     changes_list.shift();
   }
@@ -421,8 +424,8 @@ function legacySideEffects(etr, changes_list, start_from, inputLength) {
     }
   }
 
-  for (var i = start_from; i < inputLength; i+=3) {
-    _handleStch(etr, changes_list[i+1], changes_list[i+2]);
+  for (var i = start_from; i < inputLength; i+=CH_GR_LE) {
+    _handleStch(etr, changes_list[i], changes_list[i+1]);
   }
 }
 
@@ -465,7 +468,7 @@ updateProxy.update = function(md, state_name, state_value, opts) {
   if (md.hasComplexStateFn(state_name)){
     throw new Error("you can't change complex state " + state_name);
   }
-  return updateProxy(md, [true, state_name, state_value], opts);
+  return updateProxy(md, [state_name, state_value], opts);
 
 
   // md.updateState(state_name, state_value, opts);

@@ -57,7 +57,7 @@ var copyStates = function(md, target, state_name, full_name) {
         if (!md.connect_self) {
           return
         }
-        states_list.push(true, '<<<<', md)
+        states_list.push('<<<<', md)
       },
       parent: function (md, states_list) {
         var list = md.conndst_parent;
@@ -69,7 +69,7 @@ var copyStates = function(md, target, state_name, full_name) {
           var cur = list[i];
           var value = read.parent(md, cur);
 
-          states_list.push(true, cur.full_name, value);
+          states_list.push(cur.full_name, value);
         }
       },
       root: function (md, states_list) {
@@ -80,7 +80,7 @@ var copyStates = function(md, target, state_name, full_name) {
         for (var i = 0; i < list.length; i++) {
           var cur = list[i];
           var value = read.root(md, cur);
-          states_list.push(true, cur.full_name, value);
+          states_list.push(cur.full_name, value);
         }
       }
     },

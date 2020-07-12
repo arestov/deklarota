@@ -18,6 +18,8 @@ var dRemove = dom_helpers.remove;
 var dUnwrap = dom_helpers.unwrap;
 var dParent = dom_helpers.parent;
 
+var CH_GR_LE = 2
+
 var way_points_counter = 0;
 
 var stackEmergency = function(fn, eventor, args) {
@@ -235,13 +237,12 @@ spv.cloneObj(props, {
   recalcTotalStatesList: function(states) {
     this.__total_states_list.length = 0
 
-    this.__total_states_list.length = this._attrs_collector.all.length * 3
+    this.__total_states_list.length = this._attrs_collector.all.length * CH_GR_LE
 
     for (var i = 0; i < this._attrs_collector.all.length; i++) {
       var state_name = this._attrs_collector.all[i]
-      this.__total_states_list[i * 3] = true
-      this.__total_states_list[i * 3 + 1] = state_name
-      this.__total_states_list[i * 3 + 2] = states[state_name]
+      this.__total_states_list[i * CH_GR_LE] = state_name
+      this.__total_states_list[i * CH_GR_LE + 1] = states[state_name]
     }
   },
   ensureTotalChangesUpdates: function() {
