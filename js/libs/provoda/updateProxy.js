@@ -121,7 +121,7 @@ function updateProxy(etr, changes_list, opts) {
 
   if (etr.updateTemplatesStates != null) {
     etr.keepTotalChangesUpdates(etr.states)
-    etr.updateTemplatesStates(total_ch, opts && opts.sync_tpl);
+    etr.updateTemplatesStates(total_ch);
   }
 
   iterateStChanges(total_ch, etr, zdsv)
@@ -191,7 +191,7 @@ function proxyStch(target, value, state_name) {
   method(target, value, old_value);
 }
 
-function _handleStch(etr, state_name, value, skip_handler, sync_tpl) {
+function _handleStch(etr, state_name, value, skip_handler) {
   var method = !skip_handler && getStateChangeEffect(etr, state_name);
   if (!method) {
     return;
@@ -204,14 +204,10 @@ function _handleStch(etr, state_name, value, skip_handler, sync_tpl) {
     return;
   }
 
-  if (!sync_tpl) {
-    var flow_step = etr.nextLocalTick(proxyStch, [etr, value, state_name], true, method.finup);
-    flow_step.p_space = 'stch';
-    flow_step.p_index_key = state_name;
-    etr.zdsv.createFlowStepsArray('stch', state_name, flow_step);
-  } else {
-    proxyStch(etr, value, state_name);
-  }
+  var flow_step = etr.nextLocalTick(proxyStch, [etr, value, state_name], true, method.finup);
+  flow_step.p_space = 'stch';
+  flow_step.p_index_key = state_name;
+  etr.zdsv.createFlowStepsArray('stch', state_name, flow_step);
 }
 
 function getChanges(etr, total_original_states, original_states, start_from, changes_list, result_arr) {
