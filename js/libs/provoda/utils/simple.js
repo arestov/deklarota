@@ -5,7 +5,7 @@ var getSTEVNameLight = require('../internal_events/light_attr_change/getNameByAt
 return {
   getSTEVNameLight: getSTEVNameLight,
   wipeObj: function (obj){
-    if (!obj) {
+    if (obj == null) {
       return obj
     }
 
