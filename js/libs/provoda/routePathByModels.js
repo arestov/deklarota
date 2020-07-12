@@ -260,7 +260,7 @@ function getterSPI(){
     var autocreate = !options || options.autocreate !== false
     var reuse = options && options.reuse;
 
-    if (self.__routes_matchers_defs) {
+    if (self.__routes_matchers_defs != null) {
       var item = getModernPage(self, sp_name)
       if (item != null) {
         return item
@@ -274,7 +274,7 @@ function getterSPI(){
 
 
     var item = selectRouteItem(self, sp_name);
-    if (item) {
+    if (item != null) {
       var can_be_reusable = item.can_be_reusable;
       if (reuse && can_be_reusable && self._last_subpages[item.key]) {
         var instance = self._last_subpages[item.key];
@@ -305,7 +305,7 @@ function getterSPI(){
       }
     }
 
-    if (self.subPager){
+    if (self.subPager != null){
       if (self.sub_pages[sp_name]) {
         return self.sub_pages[sp_name];
       }
