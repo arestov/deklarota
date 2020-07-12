@@ -169,7 +169,7 @@ function getSPOpts(md, sp_name, slashed, byType) {
   }
 
   function selectModern(self, sp_name) {
-    if (!self.__routes_matchers_defs) {
+    if (self.__routes_matchers_defs == null) {
       return
     }
 
