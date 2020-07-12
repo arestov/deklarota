@@ -193,7 +193,7 @@ function proxyStch(target, value, state_name) {
 
 function _handleStch(etr, state_name, value) {
   var method = getStateChangeEffect(etr, state_name);
-  if (!method) {
+  if (method == null) {
     return;
   }
 
