@@ -3,6 +3,7 @@ define(function (require) {
 var spv = require('spv');
 var matchRoute = require('./routes/match')
 var get_constr = require('./structure/get_constr');
+var getModernPage = require('./dcl/routes/getByName')
 
 var getNestingConstr = get_constr.getNestingConstr
 
@@ -260,8 +261,9 @@ function getterSPI(){
     var reuse = options && options.reuse;
 
     if (self.__routes_matchers_defs) {
-      if (self.__modern_subpages && self.__modern_subpages[sp_name]) {
-        return self.__modern_subpages[sp_name]
+      var item = getModernPage(self, sp_name)
+      if (item != null) {
+        return item
       }
 
       var created = autocreate && createModern(self, sp_name)
