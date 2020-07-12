@@ -3,6 +3,7 @@ define(function (require) {
 var spv = require('spv');
 var matchRoute = require('./routes/match')
 var get_constr = require('./structure/get_constr');
+var allStates = require('./dcl/routes/allStates')
 var getModernPage = require('./dcl/routes/getByName')
 
 var getNestingConstr = get_constr.getNestingConstr
@@ -129,13 +130,6 @@ function selectRouteItem(self, sp_name) {
   }
 }
 
-function allStates(main_states, extra_states) {
-  if (!main_states) {
-    return extra_states || {}
-  }
-  cloneObj(main_states, extra_states)
-  return main_states
-}
 
 function getSPOpts(md, sp_name, slashed, byType) {
   var normal_part = byType ? slashed.slice(1) : slashed;
