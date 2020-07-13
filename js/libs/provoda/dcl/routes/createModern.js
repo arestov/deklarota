@@ -58,5 +58,7 @@ function createModern(self, sp_name, extra_states) {
   return created
 }
 
+createModern.selectModern = selectModern
+
 return createModern
 })

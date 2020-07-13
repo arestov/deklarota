@@ -4,7 +4,7 @@ var spv = require('spv');
 var allStates = require('./dcl/routes/allStates')
 var getModernPage = require('./dcl/routes/getByName')
 var createModern = require('./dcl/routes/createModern')
-
+var selectModern = createModern.selectModern
 
 var cloneObj = spv.cloneObj;
 var getSPI = getterSPI();
