@@ -232,10 +232,9 @@ getTargetField = function(obj, path){
   if (!path) {return obj;}
 
   var tree = getFieldsTree(path);
-  var nothing;
   var target = obj;
   for (var i=0; i < tree.length; i++) {
-    if (target[tree[i]] != nothing){
+    if (target[tree[i]] != null){
       target = target[tree[i]];
     } else{
       return;
