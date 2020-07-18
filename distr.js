@@ -22,6 +22,8 @@ const build = ({
       'js/libs/provoda/provoda/LoadableList.js',
       'js/libs/provoda/provoda/CoreView',
       'js/libs/provoda/provoda/View',
+      'js/libs/provoda/provoda/runtime/app/prepare',
+      'js/libs/provoda/provoda/runtime/app/start',
       'js/libs/provoda/provoda/SyncReceiver',
       'js/libs/provoda/provoda/CallbacksFlow',
       'js/libs/provoda/provoda/getModelById',
