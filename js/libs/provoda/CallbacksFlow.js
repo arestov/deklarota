@@ -46,7 +46,7 @@ var compareInitOrder = function (array_one, array_two, end_one, end_two) {
     var item_two_step = array_two[i];
 
     if (typeof item_one_step == 'undefined' && typeof item_two_step == 'undefined'){
-      return;
+      return 0;
     }
     if (typeof item_one_step == 'undefined'){
       // __[1, 2]*END, [1, 2, 3]*END => [1, 2, 3]*END, __[1, 2]*END
@@ -100,7 +100,7 @@ var sortFlows = function(item_one, item_two) {
   var none_two = !item_two || item_two.aborted;
 
   if (none_one && none_two) {
-    return;
+    return 0;
   } else if (none_one) {
     return -1;
   } else if (none_two) {
@@ -108,7 +108,7 @@ var sortFlows = function(item_one, item_two) {
   }
 
   if (item_one.finup && item_two.finup) {
-
+    return 0
   } else if (item_one.finup){
     return 1;
   } else if (item_two.finup) {
