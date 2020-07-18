@@ -94,10 +94,8 @@ FlowStep.prototype.call = function() {
     return
   }
 
-  if (this.args.length) {
-    this.fn.apply(this.context, this.args);
-    return
-  }
+  this.fn.apply(this.context, this.args);
+  return
 };
 return FlowStep;
 });
