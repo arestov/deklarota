@@ -62,7 +62,7 @@ var ListPreviewLine = spv.inh(View, {}, {
   },
 
   expandBase: function() {
-    this.setVisState('img_allowed', this.extended_viewing);
+    this.updateAttr('vis_img_allowed', this.extended_viewing);
   }
 });
 

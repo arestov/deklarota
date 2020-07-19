@@ -307,7 +307,7 @@ var WebAppView = spv.inh(AppBaseView, {}, {
 
     this.useInterface('con', this.getCNode())
     this.updateAttr('$meta$apis$con$appended', true)
-    this.setVisState('con_appended', true);
+    this.updateAttr('vis_con_appended', true);
 
   },
   ui_samples_csel: '#ui-samples'
