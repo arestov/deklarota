@@ -4,7 +4,7 @@ define(function(require) {
 var _updateAttr = require('_updateAttr')
 var getModelById = require('../../../utils/getModelById');
 
-var updateNesting = require('../../../provoda/updateNesting')
+var _updateRel = require('_updateRel')
 var prepareResults = require('../act/prepareResults')
 var act = require('../act')
 
@@ -27,7 +27,7 @@ var saveToDestModel = function(current_motivator, exec_item) {
 
   switch (multi_path.result_type) {
     case "nesting": {
-      updateNesting(
+      _updateRel(
         target_md,
         multi_path.nesting.target_nest_name,
         value
@@ -65,7 +65,7 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
       if (!nestings.hasOwnProperty(nesting)) {
         continue;
       }
-      updateNesting(model, nesting, nestings[nesting])
+      _updateRel(model, nesting, nestings[nesting])
     }
   }
 

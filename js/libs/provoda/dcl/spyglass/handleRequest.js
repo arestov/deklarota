@@ -3,7 +3,7 @@ define(function(require) {
 var spv = require('spv');
 var pvState = require('pv/state')
 var _updateAttr = require('_updateAttr');
-var updateNesting = require('pv/updateNesting');
+var _updateRel = require('_updateRel');
 var getModelById = require('../../utils/getModelById');
 var getKey = require('./getKey');
 var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
@@ -22,7 +22,7 @@ return function(request) {
   if (old_index[spyglass_key] !== index[spyglass_key]) {
     var list = (self.getNesting('spyglasses') || []).slice();
     list.push(getModelById(self, spyglass))
-    updateNesting(self, 'spyglasses', list)
+    _updateRel(self, 'spyglasses', list)
   }
 
   _updateAttr(self, 'spyglasses_index', index)

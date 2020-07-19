@@ -1,7 +1,7 @@
 define(function (require) {
 'use strict';
 var spv = require('spv');
-var updateNesting = require('../../Model/updateNesting');
+var _updateRel = require('_updateRel');
 var _updateAttr = require('_updateAttr');
 var probeDiff = require('../../probeDiff');
 
@@ -148,7 +148,7 @@ var asMDR = function(md) {
   var bwlevs = branch(bwlev);
   var models = bwlevs.map(getPioneer);
 
-  updateNesting(fake_spyglass, 'navigation', bwlevs);
+  _updateRel(fake_spyglass, 'navigation', bwlevs);
 
   var app = fake_spyglass.app;
   if (app.legacy_app) {
@@ -199,15 +199,15 @@ var asMDR = function(md) {
 
     // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
     _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need);
-    updateNesting(fake_spyglass, 'current_mp_md', target_md);
-    updateNesting(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD());
+    _updateRel(fake_spyglass, 'current_mp_md', target_md);
+    _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD());
     //_updateAttr(target_md, 'mp-highlight', false);
 
 
     // // TODO: remove this legacy
 
     if (app.legacy_app) {
-      updateNesting(app, 'current_mp_md', target_md);
+      _updateRel(app, 'current_mp_md', target_md);
       // will be used for `imporant_models`
       // will be using in views for size check?
       _updateAttr(app, 'current_mp_bwlev', diff.bwlev.getMD());
@@ -234,7 +234,7 @@ var asMDR = function(md) {
   }
 
 
-  updateNesting(fake_spyglass, 'map_slice', {
+  _updateRel(fake_spyglass, 'map_slice', {
     residents_struc: mp_show_wrap,
     $not_model: true,
     each_items: all_items,
