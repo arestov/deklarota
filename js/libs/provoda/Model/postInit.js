@@ -10,6 +10,7 @@ var initNestCompx = require('../dcl/nest_compx/init');
 var initApis = require('../dcl/effects/legacy/api/init')
 var initRoutes = require('../dcl/routes/init')
 var __handleInit = require('../dcl/passes/handleInit/handle');
+var _updateAttr = require('_updateAttr');
 
 
 function connectStates(self) {
@@ -36,7 +37,7 @@ function connectNests(self) {
 function markInitied(md) {
   // - this state shuld be true when all preparations, all initial triggers and subscribtions are done
   // - use it to not produce effects for states changes during initialization
-  md.updateState('$meta$inited', true);
+  _updateAttr(md, '$meta$inited', true);
 }
 
 return function postInitModel(self, opts) {

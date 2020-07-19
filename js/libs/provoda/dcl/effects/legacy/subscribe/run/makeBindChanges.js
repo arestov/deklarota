@@ -1,5 +1,7 @@
 define(function(require) {
 'use strict'
+var _updateAttr = require('_updateAttr');
+
 var saveResult = require('../../../../passes/targetedResult/save.js')
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
@@ -31,7 +33,7 @@ var ensureHandler = function(fn, use_input) {
 }
 
 var getStateUpdater = ensureHandler(function(em, state_name, value) {
-  em.updateState(state_name, value);
+  _updateAttr(em, state_name, value);
 })
 
 var getPassDispatcher = ensureHandler(function(em, pass_name, data) {

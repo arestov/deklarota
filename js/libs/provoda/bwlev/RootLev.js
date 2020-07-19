@@ -79,7 +79,7 @@ var RootLev = spv.inh(Model, {
       })
 
       map.input(function() {
-        map.updateState('wantedReq', fullReq)
+        _updateAttr(map, 'wantedReq', fullReq)
       })
     }
   },

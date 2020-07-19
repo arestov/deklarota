@@ -12,6 +12,7 @@ var getNesting = require('pv/getNesting');
 var createLevel = require('js/libs/provoda/bwlev/createLevel');
 var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap');
 var getModelById = require('js/libs/provoda/utils/getModelById');
+var _updateAttr = require('_updateAttr');
 
 var BrowseMap = require('js/libs/BrowseMap');
 var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges');
@@ -119,7 +120,7 @@ return spv.inh(Model, {
       return
     }
 
-    self.updateState('wantedReq', null)
+    _updateAttr(self, 'wantedReq', null)
 
     var req = state.req
     var id = state.id
@@ -127,7 +128,7 @@ return spv.inh(Model, {
 
     var bwlev = showMOnMap(BrowseLevel, self, md)
     bwlev.showOnMap();
-    bwlev.updateState('currentReq', req)
+    _updateAttr(bwlev, 'currentReq', req)
   },
   effects: {
     "produce": {
@@ -187,7 +188,7 @@ return spv.inh(Model, {
     map.trigger('bridge-changed', bwlev);
     map.updateNesting('selected__bwlev', bwlev);
     map.updateNesting('selected__md', bwlev.getNesting('pioneer'));
-    map.updateState('selected__name', bwlev.model_name);
+    _updateAttr(map, 'selected__name', bwlev.model_name);
 
     askAuth(list[ok_bwlev + 1]);
   },
