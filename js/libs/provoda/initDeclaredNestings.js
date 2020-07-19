@@ -1,13 +1,12 @@
 define(function(require) {
 "use strict";
 
-var spv = require('spv');
+
 var pathExecutor = require('./routes/legacy/stringify')
 var getParsedPath = require('./routes/legacy/getParsedPath')
-var followStringTemplate = require('./routes/legacy/followStringTemplate')
 var executeStringTemplate = require('./routes/legacy/executeStringTemplate')
+var getSPByPathTemplateAndData = require('./routes/legacy/getSPByPathTemplateAndData')
 
-var getTargetField = spv.getTargetField
 
 var preloadStart = function (md) {
   md.preloadStart();
@@ -42,17 +41,6 @@ var bindPreload = function(md, preload_state_name, nesting_name) {
       executePreload(md, nesting_name);
     }
   });
-};
-
-var getPathBySimpleData = pathExecutor(function(chunkName, app, data) {
-  return data && getTargetField(data, chunkName);
-});
-
-
-var getSPByPathTemplateAndData = function (app, start_md, string_template, need_constr, data, strict, options, extra_states) {
-  var parsed_template = getParsedPath(string_template);
-  var full_path = getPathBySimpleData(parsed_template, app, data);
-  return followStringTemplate(app, start_md, parsed_template, need_constr, full_path, strict, options, extra_states);
 };
 
 var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
