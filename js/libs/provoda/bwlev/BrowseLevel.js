@@ -8,8 +8,7 @@ var requestPage = require('./requestPage');
 var followFromTo = require('./followFromTo');
 
 var getModelById = require('../utils/getModelById');
-var updateProxy = require('../updateProxy')
-var pvUpdate = updateProxy.update;
+var pvUpdate = require('_updateAttr');
 var pvState = require('../utils/state');
 
 var flatStruc = require('../structure/flatStruc');

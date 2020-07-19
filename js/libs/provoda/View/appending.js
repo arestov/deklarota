@@ -1,11 +1,10 @@
 define(function(require) {
 'use strict'
 var spv = require('spv');
-var updateProxy = require('../updateProxy');
 var dom_helpers = require('../utils/dom_helpers')
 var getViewLocationId = require('./getViewLocationId')
 
-var pvUpdate = updateProxy.update;
+var pvUpdate = require('_updateAttr');
 
 var append = dom_helpers.append;
 var after = dom_helpers.after;

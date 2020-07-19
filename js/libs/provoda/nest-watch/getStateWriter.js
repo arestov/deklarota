@@ -4,8 +4,7 @@ define(function (require) {
 var spv = require('spv');
 var attr_zip_fns = require('../utils/zip/nest-watch-attr')
 var rel_zip_fns = require('../utils/zip/nest-watch-rel')
-var updateProxy = require('../updateProxy');
-var pvUpdate = updateProxy.update;
+var pvUpdate = require('_updateAttr');
 var standart = require('./standartNWH');
 
 

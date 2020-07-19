@@ -8,7 +8,7 @@ var updateProxy = require('../updateProxy');
 var nestWIndex = require('../nest-watch/index');
 var checkNesting = nestWIndex.checkNesting;
 var isNestingChanged = require('../utils/isNestingChanged')
-var pvUpdate = updateProxy.update;
+var pvUpdate = require('_updateAttr');
 var cloneObj = spv.cloneObj;
 var _passHandleNesting = require('../dcl/passes/handleNesting/handle')
 

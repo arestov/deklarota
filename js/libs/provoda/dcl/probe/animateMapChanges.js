@@ -2,8 +2,7 @@ define(function (require) {
 'use strict';
 var spv = require('spv');
 var updateNesting = require('../../Model/updateNesting');
-var updateProxy = require('../../updateProxy')
-var pvUpdate = updateProxy.update;
+var pvUpdate = require('_updateAttr');
 var probeDiff = require('../../probeDiff');
 
 

@@ -22,7 +22,7 @@ var mergeBhv = require('./provoda/_lmerge');
 var mpxUpdateAttr = require('./provoda/v/mpxUpdateAttr')
 
 var provoda, pv;
-var pvUpdate = updateProxy.update;
+var pvUpdate = require('_updateAttr');
 var DeathMarker = function() {
   //helper to find memory leaks; if there is memory leaking DeathMarker will be available in memory heap snapshot;
 };
