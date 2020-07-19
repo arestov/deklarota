@@ -4,7 +4,6 @@ define(function(require) {
 var spv = require('spv');
 var parsePath = require('./routes/legacy/parse')
 var pathExecutor = require('./routes/legacy/stringify')
-var utils_simple = require('./utils/simple')
 
 var getTargetField = spv.getTargetField
 
