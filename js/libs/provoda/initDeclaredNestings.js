@@ -168,7 +168,6 @@ var initDeclaredNestings = function(md) {
   }
 };
 
-initDeclaredNestings.getParsedPath = getParsedPath;
 initDeclaredNestings.getSubpages = getSubpages;
 initDeclaredNestings.pathExecutor = pathExecutor;
 initDeclaredNestings.executeStringTemplate = executeStringTemplate;
