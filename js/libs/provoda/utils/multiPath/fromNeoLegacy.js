@@ -1,9 +1,7 @@
 define(function(require) {
 'use strict';
-var spv = require('spv')
 var initDeclaredNestings = require('../../initDeclaredNestings');
 
-var splitByDot = spv.splitByDot;
 var getParsedPath = initDeclaredNestings.getParsedPath;
 
 // var NestingSourceDr = require('../../utils/NestingSourceDr');
