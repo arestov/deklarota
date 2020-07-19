@@ -3,12 +3,10 @@ define(function (require) {
 var spv = require('spv');
 var spvSet = spv.set
 var hp = require('../helpers');
-var StatesLabour = require('../StatesLabour');
 var nestWIndex = require('../nest-watch/index');
 var checkNesting = nestWIndex.checkNesting;
 var isNestingChanged = require('../utils/isNestingChanged')
 var pvUpdate = require('_updateAttr');
-var cloneObj = spv.cloneObj;
 var _passHandleNesting = require('../dcl/passes/handleNesting/handle')
 
 var hasDot = spv.memorize(function(nesting_name) {
@@ -28,7 +26,7 @@ function getUniqCopy(input) {
   return tempSet.list
 }
 
-return function updateNesting(self, collection_name, input, opts, spec_data) {
+return function updateNesting(self, collection_name, input, opts) {
   if (hasDot(collection_name)){
     throw new Error('remove "." (dot) from name');
   }
