@@ -6,13 +6,6 @@ var pv = require('../provoda');
 var cloneObj = spv.cloneObj
 
 var pushToRoute = require('../structure/pushToRoute')
-var initDeclaredNestings = require('../initDeclaredNestings');
-var getSPByPathTemplateAndData = initDeclaredNestings.getSPByPathTemplateAndData;
-
-var pvUpdate = pv.update;
-var getPath = pv.pathExecutor(function(chunkName, app, data) {
-  return data && data[chunkName];
-});
 
 var getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups;
 
