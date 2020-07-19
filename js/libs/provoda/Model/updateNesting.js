@@ -4,7 +4,6 @@ var spv = require('spv');
 var spvSet = spv.set
 var hp = require('../helpers');
 var StatesLabour = require('../StatesLabour');
-var updateProxy = require('../updateProxy');
 var nestWIndex = require('../nest-watch/index');
 var checkNesting = nestWIndex.checkNesting;
 var isNestingChanged = require('../utils/isNestingChanged')
