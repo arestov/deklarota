@@ -27,3 +27,5 @@
 - removed skip_handler from updateProxy
 
 - deprecate opts for updateProxy
+
+- don't use CallbacksFlow to init app

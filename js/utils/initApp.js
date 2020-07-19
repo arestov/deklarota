@@ -1,6 +1,8 @@
 define(require => {
   const pv = require('pv')
 
+  throw new Error('use runtime/app/start to init app')
+
   const glo = typeof global !== 'undefined' ? global : window
 
   const makeFlow = function (arg1, arg2) {

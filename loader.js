@@ -63,6 +63,8 @@ window._gaq = window._gaq || [];
 	}
 	requirejs(['su', 'pv', 'env', 'js/initBrowsing'], function(SeesuApp, pv, env, initBrowsing) {
 		//app thread;
+		throw new Error('use runtime/app/start to init app')
+
 		var views_proxies = new pv.views_proxies.Proxies();
 		window.views_proxies = views_proxies;
     var flow = new pv.CallbacksFlow(window)
