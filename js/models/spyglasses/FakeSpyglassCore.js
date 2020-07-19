@@ -3,7 +3,7 @@ define(function(require) {
 var Model = require('pv/Model');
 var spv = require('spv');
 var pvState = require('pv/state');
-var updateNesting = require('pv/updateNesting');
+var _updateRel = require('_updateRel');
 var joinNavURL = require('pv/joinNavURL');
 var navi = require('js/libs/navi');
 var changeBridge = require('js/libs/provoda/bwlev/changeBridge');
@@ -186,8 +186,8 @@ return spv.inh(Model, {
     var bwlev = list[ok_bwlev];
 
     map.trigger('bridge-changed', bwlev);
-    map.updateNesting('selected__bwlev', bwlev);
-    map.updateNesting('selected__md', bwlev.getNesting('pioneer'));
+    _updateRel(map, 'selected__bwlev', bwlev);
+    _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'));
     _updateAttr(map, 'selected__name', bwlev.model_name);
 
     askAuth(list[ok_bwlev + 1]);
@@ -197,8 +197,8 @@ return spv.inh(Model, {
 
 function initMapTree(target, start_page, needs_url_history, navi) {
   target.useInterface('navi', needs_url_history && navi);
-  updateNesting(target, 'navigation', []);
-  updateNesting(target, 'start_page', start_page);
+  _updateRel(target, 'navigation', []);
+  _updateRel(target, 'start_page', start_page);
 
   target
     .on('bridge-changed', function(bwlev) {
