@@ -29,3 +29,5 @@
 - deprecate opts for updateProxy
 
 - don't use CallbacksFlow to init app
+
+- animationMark from AppModel
