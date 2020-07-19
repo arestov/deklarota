@@ -799,9 +799,6 @@ var View = spv.inh(StatesEmitter, {
   promiseStateUpdate: function(name, value) {
     updateProxy(this, [name, value]);
   },
-  setVisState: function(name, value) {
-    updateProxy(this, ['vis_' + name, value]);
-  },
   checkChildrenModelsRendering: function() {
     var obj = cloneObj(false, this.children_models);
     this.setMdChildren(obj);

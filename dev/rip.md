@@ -33,3 +33,5 @@
 - animationMark from AppModel
 
 - setFullUrl in BrowseMap
+
+- setVisState from View
