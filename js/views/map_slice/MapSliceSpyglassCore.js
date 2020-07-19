@@ -4,7 +4,6 @@ var View = require('View');
 var spv = require('spv');
 var css = require('view_serv/css');
 var pvState = require('pv/state');
-var pvUpdate = require('pv/update');
 var updateAttr = require('pv/updateAttr');
 var _updateAttr = require('_updateAttr');
 var mpxUpdateAttr = require('pv/v/mpxUpdateAttr')
@@ -313,7 +312,7 @@ return spv.inh(View, {
         if (!transaction.bwlev){
           target_md = this.findBMapTarget(array);
           if (target_md){
-            pvUpdate(this, 'current_lev_num', pvState(target_md, 'map_level_num'));
+            _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'));
           }
 
         }
@@ -331,7 +330,7 @@ return spv.inh(View, {
       for (i = 0; i < models.length; i++) {
         this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i]);
       }
-      pvUpdate(this, 'current_lev_num', pvState(target_md, 'map_level_num'));
+      _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'));
       this.markAnimationEnd(models, -1);
       this.completely_rendered_once['map_slice'] = true;
     }

@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var spv = require('spv');
 var routePathByModels = require('pv/routePathByModels');
-var pvUpdate = require('pv/update');
+var _updateAttr = require('_updateAttr');
 var pvState = require('pv/state');
 var changeBridge = require('js/libs/provoda/bwlev/changeBridge');
 var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap');
@@ -62,19 +62,19 @@ return spv.inh(FakeSpyglassCore, {
   },
   closeNavHelper: function(_provoda_id) {
     if (!_provoda_id) {
-      pvUpdate(this, 'nav_helper_is_needed', false);
+      _updateAttr(this, 'nav_helper_is_needed', false);
     }
 
     var old_value = pvState(this, 'nav_helper_is_needed');
     if (!old_value !== _provoda_id) {
-      pvUpdate(this, 'nav_helper_is_needed', false);
+      _updateAttr(this, 'nav_helper_is_needed', false);
     }
   },
   suggestNavHelper: function() {
     var mo_bwlev = this.map_parent.showNowPlaying();
     if (this.state('played_playlists$length') > 1) {
       // should work!
-      pvUpdate(this, 'nav_helper_is_needed', mo_bwlev._provoda_id);
+      _updateAttr(this, 'nav_helper_is_needed', mo_bwlev._provoda_id);
     }
   },
   showNowPlaying: function(no_stat) {
@@ -121,7 +121,7 @@ return spv.inh(FakeSpyglassCore, {
       this.app.trigger('handle-location');
     }
 
-    pvUpdate(this.app.start_page, 'can_expand', true);
+    _updateAttr(this.app.start_page, 'can_expand', true);
 
   },
   'stch-current_song': function(target, mo, last_mo) {
@@ -159,7 +159,7 @@ function handleQuery(map, md) {
   if (!md || md.model_name !== 'invstg') {return;}
 
   var search_criteria = map.getNesting('search_criteria');
-  pvUpdate(search_criteria, 'query_face', md.state('query'));
+  _updateAttr(search_criteria, 'query_face', md.state('query'));
 }
 
 
