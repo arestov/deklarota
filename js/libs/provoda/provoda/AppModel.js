@@ -1,6 +1,5 @@
 define(function(require) {
 'use strict';
-var pv = require('../provoda');
 var spv = require('spv');
 var BrowseMap = require('./BrowseMap');
 
