@@ -392,11 +392,11 @@ spv.cloneObj(props, {
       //anchor.parentNode.insertBefore(con[0], anchor.nextSibling);
       this._lbr._anchor = null;
       dDetach(anchor);
-      this.setVisState('con_appended', true);
+      this.updateAttr('vis_con_appended', true);
       this.updateAttr('$meta$apis$con$appended', true)
 
     } else if (con && dUnwrap(dParent(con))){
-      this.setVisState('con_appended', true);
+      this.updateAttr('vis_con_appended', true);
       this.updateAttr('$meta$apis$con$appended', true)
 
     }

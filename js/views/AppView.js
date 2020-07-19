@@ -132,7 +132,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
     }
 
     if (cwp.canUse && !cwp.canUse()){
-      this.setVisState('current_wpoint', false);
+      this.updateAttr('vis_current_wpoint', false);
     }
   },
   createDetails: function(){
@@ -141,7 +141,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
     this.wp_box = new WPBox(this, function() {
       return _this.parent_view.important_bwlev_view;
     }, function(waypoint) {
-      _this.setVisState('current_wpoint', waypoint);
+      _this.updateAttr('vis_current_wpoint', waypoint);
     }, function(cwp) {
       $(cwp.node).click();
       $(cwp.node).trigger('activate_waypoint');
@@ -154,7 +154,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
         if (still_in_use){
           _this.scrollToWP(still_in_use);
         } else {
-          _this.setVisState('current_wpoint', false);
+          _this.updateAttr('vis_current_wpoint', false);
         }
       },100);
     }, function() {
@@ -162,7 +162,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
     }, function(wp) {
       var cur_wp = _this.state('vis_current_wpoint');
       if (cur_wp == wp) {
-        _this.setVisState('current_wpoint', false);
+        _this.updateAttr('vis_current_wpoint', false);
       }
     });
 
