@@ -1,6 +1,7 @@
 define(function(require) {
 'use strict';
  // var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
+var _updateRel = require('_updateRel');
 var animateMapChanges = require('../probe/animateMapChanges')
 var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev;
 var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
@@ -15,9 +16,9 @@ var getPioneer = function(lev) {
 }
 
 var changeCurrentLev = function(probe_md, next_lev, prev_lev) {
-  probe_md.updateNesting('current_md', getPioneer(next_lev) || null);
+  _updateRel(probe_md, 'current_md', getPioneer(next_lev) || null);
   switchCurrentBwlev(next_lev, prev_lev);
-  probe_md.updateNesting('current_bwlev', next_lev || null);
+  _updateRel(probe_md, 'current_bwlev', next_lev || null);
 }
 
 var getBWlev = function(probe_md, md) {

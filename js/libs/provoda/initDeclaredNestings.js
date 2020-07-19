@@ -1,6 +1,7 @@
 define(function(require) {
 "use strict";
 
+var _updateRel = require('_updateRel');
 
 var pathExecutor = require('./routes/legacy/stringify')
 var getSPByPathTemplate = require('./routes/legacy/getSPByPathTemplate')
@@ -83,7 +84,7 @@ var initOneDeclaredNesting = function(md, el) {
 
   if (!el.idle_until) {
     if (!md.getNesting(el.nesting_name)) {
-      md.updateNesting(el.nesting_name, getSubpages( md, el ));
+      _updateRel(md, el.nesting_name, getSubpages( md, el ));
     }
     return
   }
@@ -94,7 +95,7 @@ var initOneDeclaredNesting = function(md, el) {
     }
 
     if (!this.getNesting(el.nesting_name)) {
-      this.updateNesting(el.nesting_name, getSubpages( this, el ));
+      _updateRel(this, el.nesting_name, getSubpages( this, el ));
     }
 
     if (el.preload_on && this.state(el.preload_on)) {

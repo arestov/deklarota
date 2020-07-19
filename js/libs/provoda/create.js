@@ -2,6 +2,7 @@ define(function (require) {
 'use strict';
 var spv = require('spv');
 var Model = require('./Model');
+var _updateRel = require('_updateRel');
 
 return function(Constr, states, params, map_parent, app) {
   var BehaviorContr = Constr || Model;
@@ -25,7 +26,7 @@ return function(Constr, states, params, map_parent, app) {
 
     if (params.nestings) {
       spv.forEachKey(params.nestings, function(nesting, nesting_name, model) {
-        model.updateNesting(nesting_name, nesting);
+        _updateRel(model, nesting_name, nesting);
       }, model);
     }
 

@@ -9,6 +9,7 @@ var followFromTo = require('./followFromTo');
 
 var getModelById = require('../utils/getModelById');
 var _updateAttr = require('_updateAttr');
+var _updateRel = require('_updateRel');
 var pvState = require('../utils/state');
 
 var flatStruc = require('../structure/flatStruc');
@@ -259,7 +260,7 @@ var BrowseLevel = spv.inh(Model, {
       return
     }
 
-    target.updateNesting('focus_referrer_bwlev', null)
+    _updateRel(target, 'focus_referrer_bwlev', null)
   },
 
   'stch-mpl_attached': function(target, state) {

@@ -2,6 +2,7 @@ define(function (require) {
 'use strict';
 var pvState = require('../../utils/state');
 var executeStringTemplate = require('__lib/routes/legacy/executeStringTemplate');
+var _updateRel = require('_updateRel');
 
 function addHead(md, hands, head) {
   hands.heads.push(head);
@@ -284,7 +285,7 @@ function runHeadFilter(motivator, head, hands) {
   var md = head.md;
   var old_motivator = md.current_motivator;
   md.current_motivator = motivator;
-  md.updateNesting(head.declr.dest_name, result);
+  _updateRel(md, head.declr.dest_name, result);
   md.current_motivator = old_motivator;
 
   return result;
