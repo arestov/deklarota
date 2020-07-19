@@ -9,6 +9,7 @@ var Eventor = require('./Eventor');
 var useInterface = require('./StatesEmitter/useInterface');
 var regfr_lightstev = require('./internal_events/light_attr_change/regfire');
 var subscribeToDie = require('./internal_events/die/subscribe')
+var _updateAttr = require('_updateAttr');
 
 var onPropsExtend = require('./onExtendSE');
 var act = require('./dcl/passes/act');
@@ -17,7 +18,7 @@ var initEffectsSubscribe = require('./dcl/effects/legacy/subscribe/init');
 
 var getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
-    this.updateState(state_name, value);
+    _updateAttr(this, state_name, value);
   };
 });
 
@@ -165,7 +166,7 @@ add({
 
 
 
-    this.updateState(state_name, {
+    _updateAttr(this, state_name, {
       index: old_value.index,
       count: count
     });

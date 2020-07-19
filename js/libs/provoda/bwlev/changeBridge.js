@@ -1,6 +1,7 @@
 define(function (require) {
 'use strict';
 var showMOnMap = require('./showMOnMap')
+var _updateAttr = require('_updateAttr');
 
 var redirected = function(map, pioneer) {
   var BWL = map.BWL; // kinda hack?! TODO FIXME
@@ -42,7 +43,7 @@ return function changeBridge(bwlev_raw, map_raw) {
 
   map.updateNesting('wanted_bwlev_chain', copy);
   bwlev.updateNesting('focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
-  bwlev.updateState('currentReq', null)
+  _updateAttr(bwlev, 'currentReq', null)
   return bwlev;
 }
 });

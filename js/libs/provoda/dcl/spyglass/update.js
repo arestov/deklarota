@@ -9,6 +9,7 @@ var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
 var getModelById = require('../../utils/getModelById');
 var createLevel = require('../../bwlev/createLevel');
 var pvState = require('pv/state');
+var _updateAttr = require('_updateAttr');
 var getKey = require('./getKey');
 
 var getPioneer = function(lev) {
@@ -68,7 +69,7 @@ var getProbeChange = function (toggle) {
     var prev_nested_bwlev = prev_subpage && getBWlev(probe_md, prev_subpage);
 
     if (nested_bwlev && req) {
-      nested_bwlev.updateState('currentReq', req)
+      _updateAttr(nested_bwlev, 'currentReq', req)
     }
 
     if (!toggle) {
