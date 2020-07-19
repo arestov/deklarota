@@ -1,5 +1,5 @@
 define(function(require) {
 'use strict';
-var updateProxy = require('../updateProxy');
-return updateProxy.update;
+var gentlyUpdateAttr = require('../StatesEmitter/gentlyUpdateAttr');
+return gentlyUpdateAttr;
 });

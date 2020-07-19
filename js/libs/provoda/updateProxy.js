@@ -50,6 +50,11 @@ var iterateStChanges = createIterate1arg(_triggerStChanges)
 var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
 
 function updateProxy(etr, changes_list, opts) {
+
+  if (etr._currentMotivator() == null) {
+    throw new Error('wrap pvUpdate call in `.input()`')
+  }
+
   if (opts != null) {
     throw new Error('options are depricated')
   }
@@ -451,9 +456,6 @@ function reportBadChange(etr, state_name) {
 }
 
 updateProxy.update = function(md, state_name, state_value, opts) {
-  if (!md._currentMotivator()) {
-    console.warn(new Error('wrap pvUpdate call in `.input()`'))
-  }
   /*if (state_name.indexOf('-') != -1 && console.warn){
     console.warn('fix prop state_name: ' + state_name);
   }*/

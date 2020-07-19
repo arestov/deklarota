@@ -7,6 +7,7 @@ var utils_simple = require('./utils/simple')
 var updateProxy = require('./updateProxy');
 var Eventor = require('./Eventor');
 var useInterface = require('./StatesEmitter/useInterface');
+var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr')
 var regfr_lightstev = require('./internal_events/light_attr_change/regfire');
 var subscribeToDie = require('./internal_events/die/subscribe')
 var _updateAttr = require('_updateAttr');
@@ -117,13 +118,7 @@ add({
 });
 
 var updateAttr = function(state_name, value, opts){
-  /*if (state_name.indexOf('-') != -1 && console.warn){
-    console.warn('fix prop state_name: ' + state_name);
-  }*/
-  if (this.hasComplexStateFn(state_name)){
-    throw new Error("you can't change complex state in this way");
-  }
-  return this._updateProxy([state_name, value], opts);
+  gentlyUpdateAttr(this, state_name, value, opts)
 }
 
 var updateManyAttrs = function(obj) {
@@ -136,7 +131,17 @@ var updateManyAttrs = function(obj) {
       changes_list.push(state_name, obj[state_name]);
     }
   }
-  this._updateProxy(changes_list);
+
+  if (this._currentMotivator() != null) {
+    this._updateProxy(changes_list);
+    return
+  }
+
+  var self = this
+  this.input(function() {
+    self._updateProxy(changes_list);
+  })
+
 }
 
 add({

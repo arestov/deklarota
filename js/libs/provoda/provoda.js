@@ -13,7 +13,7 @@ var StatesEmitter = require('./StatesEmitter');
 var CallbacksFlow = require('./CallbacksFlow');
 var Model = require('./Model');
 var HModel = require('./Model/HModel')
-var updateProxy = require('./updateProxy');
+var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr');
 var initDeclaredNestings = require('./initDeclaredNestings');
 var markStrucure = require('./structure/mark');
 var create = require('./create');
@@ -98,7 +98,7 @@ pv = provoda = {
   mpx: {
     update: mpxUpdateAttr,
   },
-  update: updateProxy.update,
+  update: gentlyUpdateAttr,
   state: hp.state,
   behavior: behavior,
   create: create,
