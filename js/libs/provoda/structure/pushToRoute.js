@@ -1,8 +1,7 @@
 define(function(require) {
 'use strict';
 
-var initDeclaredNestings = require('../initDeclaredNestings');
-var getSPByPathTemplateAndData = initDeclaredNestings.getSPByPathTemplateAndData;
+var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData');
 
 return function(md, nesting_name, data) {
   var mentioned = md._nest_rqc[nesting_name];
