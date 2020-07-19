@@ -1,7 +1,7 @@
 define(function(require) {
 "use strict";
-var pv = require('pv');
 var spv = require('spv');
+var HModel = require('../Model/HModel')
 var changeBridge = require('../bwlev/changeBridge');
 var initBWlev = require('../bwlev/initBWlev');
 var toProperNavParent = require('../bwlev/toProperNavParent');
@@ -113,7 +113,7 @@ BrowseMap.routePathByModels = routePathByModels;
 
 BrowseMap.getDeclrConstr = getDeclrConstr;
 
-BrowseMap.Model = spv.inh(pv.HModel, {
+BrowseMap.Model = spv.inh(HModel, {
   strict: true,
   naming: function(fn) {
     return function BrowseMapModel(opts, data, params, more, states) {
