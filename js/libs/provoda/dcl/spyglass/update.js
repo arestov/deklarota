@@ -3,8 +3,7 @@ define(function(require) {
  // var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
 var animateMapChanges = require('../probe/animateMapChanges')
 var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev;
-var initDeclaredNestings = require('../../initDeclaredNestings');
-var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
 var getModelById = require('../../utils/getModelById');
 var createLevel = require('../../bwlev/createLevel');
 var pvState = require('pv/state');

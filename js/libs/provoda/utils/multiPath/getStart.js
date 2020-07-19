@@ -1,8 +1,7 @@
 define(function(require) {
 'use strict';
-var initDeclaredNestings = require('../../initDeclaredNestings');
 var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData');
-var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
 
 var empty = {}
 

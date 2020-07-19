@@ -1,7 +1,6 @@
 define(function (require) {
 'use strict';
-var initDeclaredNestings = require('../initDeclaredNestings');
-var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
 var initBWlev = require('./initBWlev')
 
 var getConstr = function(map, model_name) {
