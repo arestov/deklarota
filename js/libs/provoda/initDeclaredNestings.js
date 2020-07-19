@@ -5,6 +5,7 @@ var spv = require('spv');
 var pathExecutor = require('./routes/legacy/stringify')
 var getParsedPath = require('./routes/legacy/getParsedPath')
 var followStringTemplate = require('./routes/legacy/followStringTemplate')
+var executeStringTemplate = require('./routes/legacy/executeStringTemplate')
 
 var getTargetField = spv.getTargetField
 
@@ -43,20 +44,9 @@ var bindPreload = function(md, preload_state_name, nesting_name) {
   });
 };
 
-var getPath = pathExecutor(function(chunkName, app, md) {
-  return md._provoda_id && md.state(chunkName);
-});
-
 var getPathBySimpleData = pathExecutor(function(chunkName, app, data) {
   return data && getTargetField(data, chunkName);
 });
-
-
-var executeStringTemplate = function(app, md, obj, need_constr, md_for_urldata) {
-  var full_path = getPath(obj, app, md_for_urldata || md);
-  return followStringTemplate(app, md, obj, need_constr, full_path);
-};
-
 
 
 var getSPByPathTemplateAndData = function (app, start_md, string_template, need_constr, data, strict, options, extra_states) {
