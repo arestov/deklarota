@@ -22,7 +22,7 @@ var mergeBhv = require('./provoda/_lmerge');
 var mpxUpdateAttr = require('./provoda/v/mpxUpdateAttr')
 
 var provoda, pv;
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var DeathMarker = function() {
   //helper to find memory leaks; if there is memory leaking DeathMarker will be available in memory heap snapshot;
 };
@@ -157,11 +157,11 @@ var HModel = spv.inh(Model, {
   'stch-vswitched': function(target, state, old_state) {
     if (state) {
       var md = pv.getModelById(target, state);
-      pvUpdate(md, 'pmd_vswitched', true);
+      _updateAttr(md, 'pmd_vswitched', true);
     }
     if (old_state) {
       var old_md = pv.getModelById(target, old_state);
-      pvUpdate(old_md, 'pmd_vswitched', false);
+      _updateAttr(old_md, 'pmd_vswitched', false);
     }
   },
   switchPmd: function(toggle) {
@@ -176,16 +176,16 @@ var HModel = spv.inh(Model, {
 
     if (new_state){
       if (!this.state('pmd_vswitched')){
-        pvUpdate(pmd_switch, 'vswitched', this._provoda_id);
+        _updateAttr(pmd_switch, 'vswitched', this._provoda_id);
       }
     } else {
       if (this.state('pmd_vswitched')){
-        pvUpdate(pmd_switch, 'vswitched', false);
+        _updateAttr(pmd_switch, 'vswitched', false);
       }
     }
   },
   checkPMDSwiched: function(value) {
-    pvUpdate(this, 'pmd_vswitched', value == this._provoda_id);
+    _updateAttr(this, 'pmd_vswitched', value == this._provoda_id);
   }
 });
 

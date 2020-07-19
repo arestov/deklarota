@@ -5,7 +5,7 @@ var spv = require('spv');
 var BrowseLevel = require('./BrowseLevel');
 var handleSpyglassRequests = require('../dcl/spyglass/handleRequest')
 var updateSpyglass = require('../dcl/spyglass/update');
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var showMOnMap = require('./showMOnMap');
 var getModelById = require('../utils/getModelById');
 var followFromTo = require('./followFromTo');
@@ -57,7 +57,7 @@ var RootLev = spv.inh(Model, {
       }
 
       this.used_data_structure = used_data_structure;
-      pvUpdate(this, 'used_data_structure', used_data_structure);
+      _updateAttr(this, 'used_data_structure', used_data_structure);
     },
     navShowByReq: function(req, router_name_arg) {
       var router_name = router_name_arg

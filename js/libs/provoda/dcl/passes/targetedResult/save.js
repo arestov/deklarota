@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
 
-var pvUpdate = require('_updateAttr')
+var _updateAttr = require('_updateAttr')
 var getModelById = require('../../../utils/getModelById');
 
 var updateNesting = require('../../../provoda/updateNesting')
@@ -35,7 +35,7 @@ var saveToDestModel = function(current_motivator, exec_item) {
       return
     }
     case "state": {
-      pvUpdate(target_md, multi_path.state.base, value)
+      _updateAttr(target_md, multi_path.state.base, value)
     }
   }
 }
@@ -58,7 +58,7 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
       if (!states.hasOwnProperty(state)) {
         continue;
       }
-      pvUpdate(model, state, states[state])
+      _updateAttr(model, state, states[state])
     }
 
     for (var nesting in nestings) {

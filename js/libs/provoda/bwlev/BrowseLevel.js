@@ -8,7 +8,7 @@ var requestPage = require('./requestPage');
 var followFromTo = require('./followFromTo');
 
 var getModelById = require('../utils/getModelById');
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var pvState = require('../utils/state');
 
 var flatStruc = require('../structure/flatStruc');
@@ -267,8 +267,8 @@ var BrowseLevel = spv.inh(Model, {
     var obj = pvState(md, 'bmpl_attached');
     obj = obj ? cloneObj({}, obj) : {};
     obj[target._provoda_id] = state;
-    pvUpdate(md, 'bmpl_attached', obj);
-    pvUpdate(md, 'mpl_attached', countKeys(obj, true));
+    _updateAttr(md, 'bmpl_attached', obj);
+    _updateAttr(md, 'mpl_attached', countKeys(obj, true));
   },
 
   'stch-to_init': function(target, struc) {
