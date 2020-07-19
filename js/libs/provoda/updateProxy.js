@@ -404,14 +404,6 @@ function compressStatesChanges(changes_list) {
   return changes_list;
 }
 
-var PVStateChangeEvent = function(type, value, old_value, target) {
-  this.type = type;
-  this.value = value;
-  this.old_value = old_value;
-  this.target = target;
-};
-
-
 function legacySideEffects(etr, changes_list, start_from, inputLength) {
   if (etr.__syncStatesChanges != null || etr.__handleHookedSync != null) {
     var to_send = changes_list.slice(start_from, inputLength)
