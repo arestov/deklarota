@@ -2,8 +2,8 @@ define(function(require) {
 "use strict";
 var AppModelBase = require('pv/AppModel');
 var spv = require('spv');
-var pv = require('pv');
 var pvUpdate = require('pv/update');
+var updateNesting = require('pv/updateNesting')
 
 var updatePlayedListsHistory = function(target, mo) {
   var array = target.getNesting('played_playlists');
@@ -20,7 +20,7 @@ var updatePlayedListsHistory = function(target, mo) {
     array.unshift( mo.map_parent );
 
   }
-  pv.updateNesting(target, 'played_playlists', array);
+  updateNesting(target, 'played_playlists', array);
 };
 
 var AppModel = spv.inh(AppModelBase, {}, (function(){
