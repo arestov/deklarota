@@ -2,8 +2,8 @@ define(function(require) {
 "use strict";
 
 var spv = require('spv');
-var parsePath = require('./routes/legacy/parse')
 var pathExecutor = require('./routes/legacy/stringify')
+var getParsedPath = require('./routes/legacy/getParsedPath')
 
 var getTargetField = spv.getTargetField
 
@@ -81,55 +81,6 @@ var executeStringTemplate = function(app, md, obj, need_constr, md_for_urldata) 
   return followStringTemplate(app, md, obj, need_constr, full_path);
 };
 
-var isFromRoot = function(first_char, string_template) {
-  var from_root = first_char == '#';
-  if (!from_root) {return;}
-
-  return {
-    cutted: string_template.slice( 1 )
-  };
-};
-
-var parent_count_regexp = /^\^+/gi;
-var isFromParent = function (first_char, string_template) {
-  if (first_char != '^') {return;}
-
-  var cutted = string_template.replace(parent_count_regexp, '');
-  return {
-    cutted: cutted,
-    count: string_template.length - cutted.length
-  };
-};
-
-var getParsedPath = spv.memorize(function(string_template) {
-  //example "#tracks/[:artist],[:track]"
-  //example "^^tracks/[:artist],[:track]"
-  //example "^"
-  var first_char = string_template.charAt(0);
-  var from_root = isFromRoot(first_char, string_template);
-  var from_parent = !from_root && isFromParent(first_char, string_template);
-
-  var full_usable_string = from_root
-    ? from_root.cutted
-    : (from_parent
-        ? from_parent.cutted
-        : string_template);
-
-
-
-  if (!full_usable_string && !from_parent && !from_root) {
-    throw new Error('path cannot be empty');
-  }
-
-  var parsed = parsePath(full_usable_string)
-
-  return {
-    full_usable_string: full_usable_string,
-    from_root: Boolean(from_root),
-    from_parent: from_parent && from_parent.count,
-    parsed: parsed,
-  };
-});
 
 
 var getSPByPathTemplateAndData = function (app, start_md, string_template, need_constr, data, strict, options, extra_states) {
