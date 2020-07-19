@@ -6,8 +6,7 @@ var _updateAttr = require('_updateAttr');
 var updateNesting = require('pv/updateNesting');
 var getModelById = require('../../utils/getModelById');
 var getKey = require('./getKey');
-var initDeclaredNestings = require('../../initDeclaredNestings')
-var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
 
 return function(request) {
   var self = this;

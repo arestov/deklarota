@@ -8,8 +8,7 @@ var toProperNavParent = require('../bwlev/toProperNavParent');
 var showInterest = require('../bwlev/showInterest');
 var getBwlevFromParentBwlev = require('../bwlev/getBwlevFromParentBwlev');
 var get_constr = require('../structure/get_constr');
-var initDeclaredNestings = require('../initDeclaredNestings');
-var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
 
 var routePathByModels = require('../routePathByModels');
 

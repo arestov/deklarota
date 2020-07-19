@@ -9,8 +9,7 @@ var _updateAttr = require('_updateAttr');
 var showMOnMap = require('./showMOnMap');
 var getModelById = require('../utils/getModelById');
 var followFromTo = require('./followFromTo');
-var initDeclaredNestings = require('../initDeclaredNestings')
-var getSPByPathTemplate = initDeclaredNestings.getSPByPathTemplate;
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
 
 var cloneObj = require('spv/cloneObj');
 
