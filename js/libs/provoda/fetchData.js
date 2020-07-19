@@ -4,6 +4,8 @@ var pv = require('pv');
 var BrowseMap = require('./provoda/BrowseMap');
 var flatStruc = require('./structure/flatStruc');
 
+throw new Error('use runtime/app/start to init app')
+
 function fetchData(db, App, schema, url) {
   var proxies = new pv.views_proxies.Proxies();
   var globthis = typeof globalThis !== 'undefined' ? globalThis : window
