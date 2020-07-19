@@ -2,7 +2,7 @@ define(function (require) {
 'use strict';
 var spv = require('spv');
 var updateNesting = require('../../Model/updateNesting');
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var probeDiff = require('../../probeDiff');
 
 
@@ -19,7 +19,7 @@ var complexBrowsing = function(bwlev, md, value) {
   obj = obj && spv.cloneObj({}, obj) || {};
   var num = bwlev.state('map_level_num');
   obj[num] = value;
-  pvUpdate(md, 'bmp_show', obj);
+  _updateAttr(md, 'bmp_show', obj);
 };
 
 var model_mapch = {
@@ -35,29 +35,29 @@ var model_mapch = {
       var parent = possible_parent && possible_parent.toProperNavParent();
       if (parent){
         var bwlev_parent = change.bwlev.getMD().getParentMapModel();
-        pvUpdate(bwlev_parent, 'mp_has_focus', false);
-        pvUpdate(parent, 'mp_has_focus', false);
+        _updateAttr(bwlev_parent, 'mp_has_focus', false);
+        _updateAttr(parent, 'mp_has_focus', false);
       }
     }
 
-    pvUpdate(bwlev, 'mpl_attached', !change.value);
-    pvUpdate(md, 'mp_show', change.value);
-    pvUpdate(bwlev, 'mp_show', change.value);
+    _updateAttr(bwlev, 'mpl_attached', !change.value);
+    _updateAttr(md, 'mp_show', change.value);
+    _updateAttr(bwlev, 'mp_show', change.value);
     complexBrowsing(bwlev, md,  change.value);
   },
   'zoom-out': function(change) {
     // debugger;
     var md = change.target.getMD();
     var bwlev = change.bwlev.getMD();
-    pvUpdate(bwlev, 'mp_show', false);
-    pvUpdate(md, 'mp_show', false);
+    _updateAttr(bwlev, 'mp_show', false);
+    _updateAttr(md, 'mp_show', false);
     complexBrowsing(bwlev, md,  false);
   },
   'destroy': function(change) {
     var md = change.target.getMD();
     var bwlev = change.bwlev.getMD();
-    pvUpdate(md, 'mp_show', false);
-    pvUpdate(bwlev, 'mp_show', false);
+    _updateAttr(md, 'mp_show', false);
+    _updateAttr(bwlev, 'mp_show', false);
     complexBrowsing(bwlev, md,  false);
   }
 };
@@ -101,9 +101,9 @@ var setDft = function(get_atom_value) {
   return function(bwlev, md, count) {
     var atom_value = get_atom_value(count);
     // var value = depthValue(md.state('bmp_dft'), bwlev._provoda_id, atom_value);
-    // pvUpdate(md, 'bmp_dft', value);
-    // pvUpdate(md, 'mp_dft', minDistance(value));
-    pvUpdate(bwlev, 'mp_dft', atom_value);
+    // _updateAttr(md, 'bmp_dft', value);
+    // _updateAttr(md, 'mp_dft', minDistance(value));
+    _updateAttr(bwlev, 'mp_dft', atom_value);
   };
 };
 
@@ -188,20 +188,20 @@ var asMDR = function(md) {
 
   if (diff.target){
     if (fake_spyglass.current_mp_md) {
-      pvUpdate(fake_spyglass.current_mp_md, 'mp_has_focus', false);
+      _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false);
     }
     var target_md = fake_spyglass.current_mp_md = diff.target.getMD();
 
     fake_spyglass.current_mp_bwlev = depth(diff.bwlev.getMD(), fake_spyglass.current_mp_bwlev);
 
-    pvUpdate(target_md, 'mp_has_focus', true);
-    pvUpdate(diff.bwlev.getMD(), 'mp_has_focus', true);
+    _updateAttr(target_md, 'mp_has_focus', true);
+    _updateAttr(diff.bwlev.getMD(), 'mp_has_focus', true);
 
-    // pvUpdate(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
-    pvUpdate(fake_spyglass, 'full_page_need', !!target_md.full_page_need);
+    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
+    _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need);
     updateNesting(fake_spyglass, 'current_mp_md', target_md);
     updateNesting(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD());
-    //pvUpdate(target_md, 'mp-highlight', false);
+    //_updateAttr(target_md, 'mp-highlight', false);
 
 
     // // TODO: remove this legacy
@@ -210,7 +210,7 @@ var asMDR = function(md) {
       updateNesting(app, 'current_mp_md', target_md);
       // will be used for `imporant_models`
       // will be using in views for size check?
-      pvUpdate(app, 'current_mp_bwlev', diff.bwlev.getMD());
+      _updateAttr(app, 'current_mp_bwlev', diff.bwlev.getMD());
       // will be used for `imporant_models`
 
     }
@@ -245,7 +245,7 @@ var asMDR = function(md) {
 
 function changeZoomSimple(bwlev, value_raw) {
   var value = Boolean(value_raw);
-  pvUpdate(bwlev, 'mp_show', value);
+  _updateAttr(bwlev, 'mp_show', value);
   var md = bwlev.getNesting('pioneer');
   complexBrowsing(bwlev, md,  value);
 };

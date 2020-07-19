@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var spv = require('spv');
 var pvState = require('pv/state')
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var updateNesting = require('pv/updateNesting');
 var getModelById = require('../../utils/getModelById');
 var getKey = require('./getKey');
@@ -26,8 +26,8 @@ return function(request) {
     updateNesting(self, 'spyglasses', list)
   }
 
-  pvUpdate(self, 'spyglasses_index', index)
-  pvUpdate(self, 'spyglasses_requests', requests_index);
+  _updateAttr(self, 'spyglasses_index', index)
+  _updateAttr(self, 'spyglasses_requests', requests_index);
 }
 
 function getModel(bwlev, steps) {

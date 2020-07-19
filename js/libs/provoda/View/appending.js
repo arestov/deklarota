@@ -4,7 +4,7 @@ var spv = require('spv');
 var dom_helpers = require('../utils/dom_helpers')
 var getViewLocationId = require('./getViewLocationId')
 
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 
 var append = dom_helpers.append;
 var after = dom_helpers.after;
@@ -131,11 +131,11 @@ return {
 
         view.current_motivator = this.current_motivator;
 
-        pvUpdate(view, '$index', counter);
-        pvUpdate(view, '$index_back', (array.length - 1) - counter);
-        pvUpdate(view, '$first', $first);
-        pvUpdate(view, '$last', $last);
-        pvUpdate(view, '$middle', !($first || $last));
+        _updateAttr(view, '$index', counter);
+        _updateAttr(view, '$index_back', (array.length - 1) - counter);
+        _updateAttr(view, '$first', $first);
+        _updateAttr(view, '$last', $last);
+        _updateAttr(view, '$middle', !($first || $last));
 
         view.current_motivator = null;
 

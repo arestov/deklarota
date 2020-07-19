@@ -6,7 +6,7 @@ var hp = require('../helpers');
 var nestWIndex = require('../nest-watch/index');
 var checkNesting = nestWIndex.checkNesting;
 var isNestingChanged = require('../utils/isNestingChanged')
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var _passHandleNesting = require('../dcl/passes/handleNesting/handle')
 
 var hasDot = spv.memorize(function(nesting_name) {
@@ -85,10 +85,10 @@ return function updateNesting(self, collection_name, input, opts) {
   self._attrs_collector.defineAttr(name_for_exists_legacy, 'bool')
   self._attrs_collector.defineAttr(name_for_exists_modern, 'bool')
 
-  pvUpdate(self, name_for_length_legacy, count);
-  pvUpdate(self, name_for_length_modern, count);
-  pvUpdate(self, name_for_exists_legacy, Boolean(count));
-  pvUpdate(self, name_for_exists_modern, Boolean(count));
+  _updateAttr(self, name_for_length_legacy, count);
+  _updateAttr(self, name_for_length_modern, count);
+  _updateAttr(self, name_for_exists_legacy, Boolean(count));
+  _updateAttr(self, name_for_exists_modern, Boolean(count));
 
   return self;
 }

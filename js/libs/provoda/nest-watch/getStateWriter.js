@@ -4,7 +4,7 @@ define(function (require) {
 var spv = require('spv');
 var attr_zip_fns = require('../utils/zip/nest-watch-attr')
 var rel_zip_fns = require('../utils/zip/nest-watch-rel')
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var standart = require('./standartNWH');
 
 
@@ -44,7 +44,7 @@ var createWriter = function(write) {
   }, hdkey);
 }
 
-var getStateWriter = createWriter(pvUpdate);
+var getStateWriter = createWriter(_updateAttr);
 
 getStateWriter.createWriter = createWriter;
 

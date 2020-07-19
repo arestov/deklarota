@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
 var spv = require('spv');
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var wrapDeps = require('../api/utils/wrapDeps')
 var toRealArray = spv.toRealArray;
 
@@ -12,7 +12,7 @@ var getHandler = function (schema) {
 
   if (is_one_field) {
     return function (self, result) {
-      pvUpdate(self, schema, result);
+      _updateAttr(self, schema, result);
     };
   }
   return function (self, result) {

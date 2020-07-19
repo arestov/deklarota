@@ -2,7 +2,7 @@ define(function (require) {
 'use strict';
 
 var spv = require('spv');
-var pvUpdate = require('_updateAttr');
+var _updateAttr = require('_updateAttr');
 var runOnApiAdded = require('../dcl/effects/legacy/subscribe/runOnApiAdded');
 var runOnApiRemoved = require('../dcl/effects/legacy/subscribe/runOnApiRemoved');
 
@@ -30,8 +30,8 @@ var update = function(self, interface_name, value) {
   self._attrs_collector.defineAttr(name_for_used_legacy, 'bool')
   self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
 
-  pvUpdate(self, name_for_used_legacy, value);
-  pvUpdate(self, name_for_used_modern, value);
+  _updateAttr(self, name_for_used_legacy, value);
+  _updateAttr(self, name_for_used_modern, value);
 }
 
 var useInterface = function (self, interface_name, obj, destroy) {
