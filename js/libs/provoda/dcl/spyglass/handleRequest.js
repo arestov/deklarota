@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var spv = require('spv');
 var pvState = require('pv/state')
-var pvUpdate = require('pv/update');
+var pvUpdate = require('_updateAttr');
 var updateNesting = require('pv/updateNesting');
 var getModelById = require('../../utils/getModelById');
 var getKey = require('./getKey');

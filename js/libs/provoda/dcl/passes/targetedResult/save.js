@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
 
-var pvUpdate = require('../../../provoda/update')
+var pvUpdate = require('_updateAttr')
 var getModelById = require('../../../utils/getModelById');
 
 var updateNesting = require('../../../provoda/updateNesting')
