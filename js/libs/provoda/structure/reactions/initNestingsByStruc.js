@@ -2,6 +2,8 @@ define(function (require) {
 'use strict';
 
 var hp = require('../../helpers');
+var _updateRel = require('_updateRel');
+
 var initDeclaredNestings = require('../../initDeclaredNestings');
 var getSubpages = initDeclaredNestings.getSubpages;
 
@@ -22,7 +24,7 @@ return function initNestingsByStruc(md, struc) {
     if (md.getNesting(el.nesting_name)) {
       continue;
     }
-    md.updateNesting(el.nesting_name, getSubpages( md, el ));
+    _updateRel(md, el.nesting_name, getSubpages( md, el ));
   }
 }
 

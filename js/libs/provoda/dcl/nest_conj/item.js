@@ -2,6 +2,7 @@ define(function(require) {
 'use strict'
 var asMultiPath = require('../../utils/NestingSourceDr/asMultiPath');
 var NestWatch = require('../../nest-watch/NestWatch');
+var _updateRel = require('_updateRel');
 
 var NestCntDeclr = function(name, data) {
   this.dest_name = name;
@@ -27,7 +28,7 @@ function runConcat(motivator, cnt) {
   var md = cnt.md;
   var old_motivator = md.current_motivator;
   md.current_motivator = motivator;
-  md.updateNesting(cnt.dcl.dest_name, result);
+  _updateRel(md, cnt.dcl.dest_name, result);
   md.current_motivator = old_motivator;
 
   return result;

@@ -1,5 +1,6 @@
 define(function() {
 'use strict'
+var _updateRel = require('_updateRel');
 var matchRoute = require('../../routes/match')
 var get_constr = require('../../structure/get_constr');
 var getNestingConstr = get_constr.getNestingConstr
@@ -53,7 +54,7 @@ function createModern(self, sp_name, extra_states) {
   var cur_list = self.getNesting(selected.routedcl.dest)
   var new_list = cur_list ? cur_list.slice(0) : []
   new_list.push(created)
-  self.updateNesting(nesting_name, new_list)
+  _updateRel(self, nesting_name, new_list)
 
   return created
 }
