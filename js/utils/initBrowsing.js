@@ -1,6 +1,6 @@
 define(require => {
   const BrowseMap = require('js/libs/BrowseMap')
-  const pv = require('pv')
+  const _updateRel = require('_updateRel')
   const animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges')
 
   function initBrowsing(app, states) {
@@ -18,8 +18,8 @@ define(require => {
 
   function initMapTree(app, start_page) {
   // app.useInterface('navi', needs_url_history && navi);
-    pv.updateNesting(app, 'navigation', [])
-    pv.updateNesting(app, 'start_page', start_page)
+    _updateRel(app, 'navigation', [])
+    _updateRel(app, 'start_page', start_page)
 
     app.map
       .on('bridge-changed', bwlev => {
