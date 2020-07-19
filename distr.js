@@ -68,6 +68,7 @@ const build = ({
                   su: 'js/seesu',
 
                   pv: 'js/libs/provoda/provoda',
+                  __lib: 'js/libs/provoda',
                   View: 'js/libs/provoda/View',
                   js: 'js',
                   spv: 'js/libs/spv',
