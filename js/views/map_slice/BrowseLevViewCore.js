@@ -2,7 +2,7 @@ define(function(require) {
 'use strict'
 var spv = require('spv');
 var View = require('View');
-var pvUpdate = require('pv/update');
+var _updateAttr = require('_updateAttr');
 var mergeBhv = require('pv/_lmerge')
 
 var used_str = require('../utils/used_struc')
@@ -82,7 +82,7 @@ var BrowseLevView = spv.inh(View, {}, mergeBhv({
         return
       }
 
-      pvUpdate(target, 'view_sources', state);
+      _updateAttr(target, 'view_sources', state);
     }
   },
 
