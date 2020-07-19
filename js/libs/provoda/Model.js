@@ -12,7 +12,7 @@ var StatesEmitter = require('./StatesEmitter');
 var _requestsDeps = require('./Model/_requestsDeps');
 var onPropsExtend = require('./Model/onExtend');
 var initModel = require('./Model/init');
-var updateNesting = require('./Model/updateNesting');
+var gentlyUpdateNesting = require('./Model/gentlyUpdateNesting');
 var postInitModel = require('./Model/postInit')
 var initSi = require('./Model/initConstr/subitem')
 var isPrivate = require('./Model/isPrivateState')
@@ -368,7 +368,7 @@ add({
   },
 
   updateNesting: function(collection_name, array, opts, spec_data) {
-    updateNesting(this, collection_name, array, opts, spec_data);
+    gentlyUpdateNesting(this, collection_name, array, opts, spec_data);
     return this;
   },
   sendCollectionChange: function(collection_name, array, old_value, removed) {
