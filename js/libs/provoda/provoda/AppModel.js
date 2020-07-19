@@ -50,12 +50,6 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
   model_name: 'app_model',
   skip_map_init: true,
 
-  animationMark: function(models, mark) {
-    for (var i = 0; i < models.length; i++) {
-      pv.update(models[i].getMD(), 'map_animating', mark);
-    }
-  },
-
   resortQueue: function(queue) {
     if (queue){
       queue.removePrioMarks();
