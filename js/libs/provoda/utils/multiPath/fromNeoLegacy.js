@@ -1,8 +1,6 @@
 define(function(require) {
 'use strict';
-var initDeclaredNestings = require('../../initDeclaredNestings');
-
-var getParsedPath = initDeclaredNestings.getParsedPath;
+var getParsedPath = require('__lib/routes/legacy/getParsedPath')
 
 // var NestingSourceDr = require('../../utils/NestingSourceDr');
 

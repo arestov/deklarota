@@ -2,8 +2,7 @@ define(function(require) {
 'use strict'
 
 var spv = require('spv')
-var initDeclaredNestings = require('../../initDeclaredNestings');
-var getParsedPath = initDeclaredNestings.getParsedPath;
+var getParsedPath = require('__lib/routes/legacy/getParsedPath')
 
 var supportedZip = require('./supportedZip')
 
