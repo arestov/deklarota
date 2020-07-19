@@ -185,9 +185,6 @@ BrowseMap.Model = spv.inh(pv.HModel, {
   getParentMapModel: function() {
     return this.map_parent;
   },
-  setFullUrl: function(url) {
-    pv.update(this, 'mp_full_url ', url);
-  },
   getTitle: function() {
     return this.state('nav_title');
   },
