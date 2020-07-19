@@ -3,6 +3,8 @@ define(function(require) {
 var BrowseMap = require('./BrowseMap');
 var spv = require('spv');
 var pv = require('../provoda');
+var _updateAttr = require('_updateAttr');
+
 var cloneObj = spv.cloneObj
 
 var pushToRoute = require('../structure/pushToRoute')
@@ -25,7 +27,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
 
     var has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name]);
     if (has_loader){
-      pv.update(self, "has_data_loader", true);
+      _updateAttr(self, "has_data_loader", true);
     }
   }
 }, {
