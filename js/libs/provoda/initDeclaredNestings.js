@@ -5,7 +5,6 @@ define(function(require) {
 var pathExecutor = require('./routes/legacy/stringify')
 var getParsedPath = require('./routes/legacy/getParsedPath')
 var executeStringTemplate = require('./routes/legacy/executeStringTemplate')
-var getSPByPathTemplateAndData = require('./routes/legacy/getSPByPathTemplateAndData')
 
 
 var preloadStart = function (md) {
@@ -130,7 +129,6 @@ initDeclaredNestings.getConstrByPath = function(app, md, string_template) {
   return getSPByPathTemplate(app, md, string_template, true);
 };
 initDeclaredNestings.getSPByPathTemplate = getSPByPathTemplate;
-initDeclaredNestings.getSPByPathTemplateAndData = getSPByPathTemplateAndData;
 
 return initDeclaredNestings;
 });
