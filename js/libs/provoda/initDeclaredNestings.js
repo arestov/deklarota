@@ -3,9 +3,7 @@ define(function(require) {
 
 
 var pathExecutor = require('./routes/legacy/stringify')
-var getParsedPath = require('./routes/legacy/getParsedPath')
-var executeStringTemplate = require('./routes/legacy/executeStringTemplate')
-
+var getSPByPathTemplate = require('./routes/legacy/getSPByPathTemplate')
 
 var preloadStart = function (md) {
   md.preloadStart();
@@ -40,11 +38,6 @@ var bindPreload = function(md, preload_state_name, nesting_name) {
       executePreload(md, nesting_name);
     }
   });
-};
-
-var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
-  var parsed_template = getParsedPath(string_template);
-  return executeStringTemplate(app, start_md, parsed_template, need_constr, md_for_urldata);
 };
 
 var getSubPByDeclr = function(md, cur) {
