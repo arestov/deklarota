@@ -27,6 +27,11 @@ function getUniqCopy(input) {
 }
 
 return function updateNesting(self, collection_name, input, opts) {
+
+  if (self._currentMotivator() == null) {
+    throw new Error('wrap updateRel call in `.input()`')
+  }
+
   if (hasDot(collection_name)){
     throw new Error('remove "." (dot) from name');
   }
