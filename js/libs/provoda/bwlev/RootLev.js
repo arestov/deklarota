@@ -2,13 +2,9 @@ define(function(require) {
 'use strict';
 var Model = require('../Model');
 var spv = require('spv');
-var getUsageStruc = require('../structure/getUsageStruc');
 var BrowseLevel = require('./BrowseLevel');
 var handleSpyglassRequests = require('../dcl/spyglass/handleRequest')
 var updateSpyglass = require('../dcl/spyglass/update');
-var getNesting = require('pv/getNesting');
-var requestPage = require('./requestPage');
-var pvState = require('pv/state');
 var pvUpdate = require('pv/update');
 var showMOnMap = require('./showMOnMap');
 var getModelById = require('../utils/getModelById');
