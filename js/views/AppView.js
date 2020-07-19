@@ -13,6 +13,7 @@ var arrowsKeysNav = require('./utils/arrowsKeysNav');
 var MapSliceSpyglass = require('./map_slice/MapSliceSpyglass');
 var getAncestorByRooViCon = require('./map_slice/getAncestorByRooViCon');
 var getMapSliceView = require('./map_slice/getMapSliceView');
+var _updateAttr = require('_updateAttr');
 
 var app_env = app_serv.app_env;
 
@@ -132,7 +133,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
     }
 
     if (cwp.canUse && !cwp.canUse()){
-      this.updateAttr('vis_current_wpoint', false);
+      _updateAttr(this, 'vis_current_wpoint', false);
     }
   },
   createDetails: function(){
@@ -141,7 +142,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
     this.wp_box = new WPBox(this, function() {
       return _this.parent_view.important_bwlev_view;
     }, function(waypoint) {
-      _this.updateAttr('vis_current_wpoint', waypoint);
+      __updateAttr(this, 'vis_current_wpoint', waypoint);
     }, function(cwp) {
       $(cwp.node).click();
       $(cwp.node).trigger('activate_waypoint');
@@ -154,7 +155,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
         if (still_in_use){
           _this.scrollToWP(still_in_use);
         } else {
-          _this.updateAttr('vis_current_wpoint', false);
+          __updateAttr(this, 'vis_current_wpoint', false);
         }
       },100);
     }, function() {
@@ -162,7 +163,7 @@ var AppView = spv.inh(AppBaseView.WebComplexTreesView, {}, {
     }, function(wp) {
       var cur_wp = _this.state('vis_current_wpoint');
       if (cur_wp == wp) {
-        _this.updateAttr('vis_current_wpoint', false);
+        __updateAttr(this, 'vis_current_wpoint', false);
       }
     });
 

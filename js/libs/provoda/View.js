@@ -2,6 +2,7 @@ define(function(require) {
 'use strict';
 var spv = require('spv');
 var CoreView = require('./CoreView')
+var _updateAttr = require('_updateAttr');
 var PvTemplate = require('./pvTemplate/PvTemplate');
 var appending = require('./View/appending')
 var getBwlevView = require('./View/getBwlevView')
@@ -392,12 +393,12 @@ spv.cloneObj(props, {
       //anchor.parentNode.insertBefore(con[0], anchor.nextSibling);
       this._lbr._anchor = null;
       dDetach(anchor);
-      this.updateAttr('vis_con_appended', true);
-      this.updateAttr('$meta$apis$con$appended', true)
+      _updateAttr(this, 'vis_con_appended', true);
+      _updateAttr(this, '$meta$apis$con$appended', true)
 
     } else if (con && dUnwrap(dParent(con))){
-      this.updateAttr('vis_con_appended', true);
-      this.updateAttr('$meta$apis$con$appended', true)
+      _updateAttr(this, 'vis_con_appended', true);
+      _updateAttr(this, '$meta$apis$con$appended', true)
 
     }
   },
