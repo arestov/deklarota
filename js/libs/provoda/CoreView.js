@@ -3,7 +3,7 @@ define(function(require) {
 
 // var $ = require('cash-dom');
 var spv = require('spv');
-var pvUpdate = require('pv/update');
+var pvUpdate = require('_updateAttr');
 var groupMotive = require('./helpers/groupMotive')
 var triggerDestroy = require('./helpers/triggerDestroy')
 var updateProxy = require('./updateProxy');
@@ -949,6 +949,7 @@ var View = spv.inh(StatesEmitter, {
       var $back = (real_length - 1) - counter
       var $last = $back == 0;
 
+      // Should it be with as input, not internal state change?
       pvUpdate(view, '$index', counter);
       pvUpdate(view, '$index_back', $back);
       pvUpdate(view, '$first', $first);
