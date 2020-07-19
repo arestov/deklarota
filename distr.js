@@ -61,7 +61,10 @@ const build = ({
               paths: {
                 // jquery: 'js/common-libs/jquery-2.1.4',
                 angbo: 'js/libs/provoda/StatementsAngularParser.min',
-                _updateAttr: 'js/libs/provoda/_internal/_updateAttr.js',
+                _updateAttr: 'js/libs/provoda/_internal/_updateAttr',
+                _getAttr: 'js/libs/provoda/_internal/_getAttr',
+                _updateRel: 'js/libs/provoda/_internal/_updateRel',
+                _getRel: 'js/libs/provoda/_internal/_getRel',
               },
               map: {
                 '*': {
