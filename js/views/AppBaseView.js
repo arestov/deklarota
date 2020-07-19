@@ -5,6 +5,7 @@ var $ = require('cash-dom');
 var filters = require('./modules/filters');
 var getUsageTree = require('js/libs/provoda/structure/getUsageTree');
 var mutateGlobalTplFilters = require('js/libs/provoda/mutateGlobalTplFilters');
+var _updateAttr = require('_updateAttr');
 
 var View = require('View');
 
@@ -306,8 +307,8 @@ var WebAppView = spv.inh(AppBaseView, {}, {
     }
 
     this.useInterface('con', this.getCNode())
-    this.updateAttr('$meta$apis$con$appended', true)
-    this.updateAttr('vis_con_appended', true);
+    _updateAttr(this, '$meta$apis$con$appended', true)
+    _updateAttr(this, 'vis_con_appended', true);
 
   },
   ui_samples_csel: '#ui-samples'

@@ -202,8 +202,8 @@ return {
             if (parent_node){
               parent_node.removeChild(current_node);
             }
-            view.updateAttr('vis_con_appended', false);
-            view.updateAttr('$meta$apis$con$appended', false)
+            _updateAttr(view, 'vis_con_appended', false);
+            _updateAttr(view, '$meta$apis$con$appended', false)
 
             view._lbr.detached = true;
             detached.push(view);
