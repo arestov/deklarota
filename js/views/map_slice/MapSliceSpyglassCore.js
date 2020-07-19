@@ -6,6 +6,7 @@ var css = require('view_serv/css');
 var pvState = require('pv/state');
 var pvUpdate = require('pv/update');
 var updateAttr = require('pv/updateAttr');
+var _updateAttr = require('_updateAttr');
 var mpxUpdateAttr = require('pv/v/mpxUpdateAttr')
 var selecPoineertDeclr = require('pv/v/selecPoineertDeclr')
 var createTemplate = require('pv/v/createTemplate')
@@ -73,10 +74,10 @@ return spv.inh(View, {
     },
   },
   'collch-current_mp_md': function(name, value) {
-    updateAttr(this, 'current_mp_md', value._provoda_id);
+    _updateAttr(this, 'current_mp_md', value._provoda_id);
   },
   'collch-current_mp_bwlev': function(name, value) {
-    updateAttr(this, 'current_mp_bwlev', value._provoda_id);
+    _updateAttr(this, 'current_mp_bwlev', value._provoda_id);
   },
   'collch-navigation': {
     place: 'nav.daddy'
@@ -237,7 +238,7 @@ return spv.inh(View, {
     'move-view': function(change) {
       var parent = getModelFromR(this, change.bwlev).getParentMapModel();
       if (parent){
-      //	parent.updateState('mp_has_focus', false);
+      //	_updateAttr(parent, 'mp_has_focus', false);
       }
       this.setVMpshow(this.getStoredMpx(getModelFromR(this, change.bwlev)), change.value);
     },
@@ -435,7 +436,7 @@ return spv.inh(View, {
     return target_in_parent;
   },
   markAnimationStart: function(models, changes_number) {
-    updateAttr(this, 'map_animation_num_started', changes_number);
+    _updateAttr(this, 'map_animation_num_started', changes_number);
     for (var i = 0; i < models.length; i++) {
       mpxUpdateAttr(this.getStoredMpx(getModelFromR(this, models[i])), 'animation_started', changes_number);
       ////MUST UPDATE VIEW, NOT MODEL!!!!!
@@ -444,7 +445,7 @@ return spv.inh(View, {
 
   markAnimationEnd: wrapInputCall(function(models, changes_number) {
     if (this.state('map_animation_num_started') == changes_number) {
-      updateAttr(this, 'map_animation_num_completed', changes_number);
+      _updateAttr(this, 'map_animation_num_completed', changes_number);
     }
 
 

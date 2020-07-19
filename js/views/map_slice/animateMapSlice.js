@@ -3,7 +3,7 @@ define(function (require) {
 var spv = require('spv');
 var css = require('view_serv/css');
 var getModelFromR = require('pv/v/getModelFromR')
-var updateAttr = require('pv/updateAttr');
+var _updateAttr = require('_updateAttr');
 var getAttr = require('pv/getAttr');
 
 /*
@@ -93,12 +93,12 @@ return function(view, transaction_data, animation_data) {
     var current_lev_num = getAttr(target_md, 'map_level_num');
 
     if (animation_data){
-      updateAttr(view, 'disallow_animation', true);
+      _updateAttr(view, 'disallow_animation', true);
       animation_data.lc.c.css(animation_data.transform_values);
-      updateAttr(view, 'disallow_animation', false);
+      _updateAttr(view, 'disallow_animation', false);
     }
 
-    updateAttr(view, 'current_lev_num', current_lev_num);
+    _updateAttr(view, 'current_lev_num', current_lev_num);
     //сейчас анимация происходит в связи с сменой класса при изменении состояния current_lev_num
 
     if (animation_data && animation_data.lc){
