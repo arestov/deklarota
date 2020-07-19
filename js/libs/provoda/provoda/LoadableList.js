@@ -2,8 +2,8 @@ define(function(require) {
 'use strict';
 var BrowseMap = require('./BrowseMap');
 var spv = require('spv');
-var pv = require('../provoda');
 var _updateAttr = require('_updateAttr');
+var _updateRel = require('_updateRel')
 
 var cloneObj = spv.cloneObj
 
@@ -191,7 +191,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       }
       this.loadable_lists[nesting_name] = array;
     }
-    pv.updateNesting(this, nesting_name, array, mlc_opts);
+    _updateRel(this, nesting_name, array, mlc_opts);
   },
 
   compareItemWithObj: function(item, data) {
@@ -271,7 +271,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
         work_array = this.beforeReportChange( work_array, [item] );
         this.loadable_lists[ nesting_name ] = work_array;
       }
-      pv.updateNesting(this, nesting_name, work_array, ml_ch_opts );
+      _updateRel(this, nesting_name, work_array, ml_ch_opts );
     }
     return item;
   },
@@ -357,7 +357,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     }
     this.loadable_lists[ nesting_name ] = work_array;
 
-    pv.updateNesting(this, nesting_name, work_array, ml_ch_opts);
+    _updateRel(this, nesting_name, work_array, ml_ch_opts);
     return item;
   },
 });
