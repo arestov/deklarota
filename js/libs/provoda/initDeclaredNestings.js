@@ -136,7 +136,6 @@ var initDeclaredNestings = function(md) {
 
 initDeclaredNestings.getSubpages = getSubpages;
 initDeclaredNestings.pathExecutor = pathExecutor;
-initDeclaredNestings.executeStringTemplate = executeStringTemplate;
 
 
 initDeclaredNestings.getConstrByPath = function(app, md, string_template) {

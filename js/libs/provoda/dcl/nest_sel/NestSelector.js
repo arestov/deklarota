@@ -1,8 +1,7 @@
 define(function (require) {
 'use strict';
 var pvState = require('../../utils/state');
-var initDeclaredNestings = require('../../initDeclaredNestings');
-var executeStringTemplate = initDeclaredNestings.executeStringTemplate;
+var executeStringTemplate = require('__lib/routes/legacy/executeStringTemplate');
 
 function addHead(md, hands, head) {
   hands.heads.push(head);
