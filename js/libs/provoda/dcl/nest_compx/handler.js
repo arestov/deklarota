@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
 
-var updateNesting = require('../../Model/updateNesting');
+var _updateRel = require('_updateRel');
 var multiPathAsString = require('../../utils/multiPath/asString')
 var getDepValue = require('../../utils/multiPath/getDepValue')
 
@@ -45,7 +45,7 @@ var recalc = function(dcl, runner, current_motivator) {
     throw new Error('should be current_motivator')
   }
 
-  updateNesting(runner.md, dest_name, result)
+  _updateRel(runner.md, dest_name, result)
 }
 
 var changeValue = function(current_motivator, runner, dep_full_name, value) {
