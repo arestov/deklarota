@@ -54,16 +54,7 @@ return function updateNesting(self, collection_name, input, opts) {
     }
   }
 
-  var removed = hp.getRemovedNestingItems(array, old_value);
-  checkNesting(self, collection_name, array, removed);
-  // !?
 
-
-  if (!opts || !opts.skip_report){
-    self.sendCollectionChange(collection_name, array, old_value, removed);
-  }
-
-  _passHandleNesting(self, collection_name, old_value, array)
 
   var count = Array.isArray(array)
     ? array.length
@@ -84,6 +75,20 @@ return function updateNesting(self, collection_name, input, opts) {
   _updateAttr(self, name_for_length_modern, count);
   _updateAttr(self, name_for_exists_legacy, Boolean(count));
   _updateAttr(self, name_for_exists_modern, Boolean(count));
+
+
+  var removed = hp.getRemovedNestingItems(array, old_value);
+
+  _passHandleNesting(self, collection_name, old_value, array)
+
+
+  checkNesting(self, collection_name, array, removed);
+  // !?
+  
+  if (!opts || !opts.skip_report){
+    self.sendCollectionChange(collection_name, array, old_value, removed);
+  }
+
 
   return self;
 }
