@@ -84,8 +84,8 @@ return function updateNesting(self, collection_name, input, opts) {
 
   checkNesting(self, collection_name, array, removed);
   // !?
-  
-  if (!opts || !opts.skip_report){
+
+  if (opts == null || !opts.skip_report){
     self.sendCollectionChange(collection_name, array, old_value, removed);
   }
 
