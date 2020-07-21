@@ -17,7 +17,7 @@ var bhv = {
     ],
     "used_struc": [
       "compx",
-      ['#view_structure', 'view_path'],
+      ['< view_structure <<< #', 'view_path'],
       function(view_structure, view_path) {
         if (!view_structure || !view_path) {
           return;
