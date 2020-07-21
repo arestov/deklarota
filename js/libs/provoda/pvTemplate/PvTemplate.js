@@ -204,7 +204,7 @@ var hndPVRepeat = function(new_fv, states) {
 
     var fragt = window.document.createDocumentFragment();
 
-    for (var i = 0; i < collection.length; i++) {
+    for (var i = 0; collection != null && i < collection.length; i++) {
       var scope = {};
       scope[valueIdent] = collection[i];
       if (keyIdent) {scope[keyIdent] = i;}
