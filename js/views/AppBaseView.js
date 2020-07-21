@@ -41,6 +41,14 @@ var BrowserAppRootView = spv.inh(View, {}, {
 
     }
 
+    if (opts == null || opts.interfaces == null) {
+      return
+    }
+
+    for (var interface_name in opts.interfaces) {
+      this.useInterface(interface_name, opts.interfaces[interface_name])
+    }
+
   },
   reportDomDeath: function() {
     if (this.can_die && !this.dead){
