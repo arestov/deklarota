@@ -2,23 +2,32 @@ var requirejs = require('./nodejs/require-r-2.2.0.min.js');
 
 requirejs.config({
 	nodeRequire: require,
-  paths: {
-		jquery: 'js/common-libs/jquery-2.1.4',
+	paths: {
+		// jquery: 'js/common-libs/jquery-2.1.4',
 		angbo: 'js/libs/provoda/StatementsAngularParser.min',
-    'js': 'js'
+
+
 	},
 	map: {
 		'*': {
 			su: 'js/seesu',
 
 			pv: 'js/libs/provoda/provoda',
+			__lib: 'js/libs/provoda',
 			View: 'js/libs/provoda/View',
 
+			js: 'js',
 			spv: 'js/libs/spv',
 			app_serv: "js/app_serv",
 			localizer: 'js/libs/localizer',
 			view_serv: "js/views/modules/view_serv",
 			cache_ajax: 'js/libs/cache_ajax',
+
+			_updateAttr: 'js/libs/provoda/_internal/_updateAttr',
+			_getAttr: 'js/libs/provoda/_internal/_getAttr',
+			_updateRel: 'js/libs/provoda/_internal/_updateRel',
+			_getRel: 'js/libs/provoda/_internal/_getRel',
+
 			env: "js/env",
 
 			hex_md5: 'js/common-libs/md5',
