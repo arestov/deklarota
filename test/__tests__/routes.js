@@ -2,7 +2,7 @@ const test = require('ava')
 
 const requirejs = require('../../requirejs-config')
 
-const pvState = requirejs('pv/state')
+const pvState = requirejs('pv/getAttr')
 const BrowseMap = requirejs('pv/Model')
 
 const init = require('../init')

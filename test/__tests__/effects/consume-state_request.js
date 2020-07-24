@@ -3,7 +3,7 @@ const test = require('ava')
 const requirejs = require('../../../requirejs-config')
 
 const spv = requirejs('spv')
-const pvState = requirejs('pv/state')
+const pvState = requirejs('pv/getAttr')
 const BrowseMap = requirejs('js/libs/BrowseMap')
 
 const init = require('../../init')

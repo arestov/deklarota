@@ -2,8 +2,8 @@ const test = require('ava')
 
 const requirejs = require('../../requirejs-config')
 
-const pvUpdate = requirejs('pv/update')
-const pvState = requirejs('pv/state')
+const pvUpdate = requirejs('pv/updateAttr')
+const pvState = requirejs('pv/getAttr')
 
 const init = require('../init')
 
