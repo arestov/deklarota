@@ -125,6 +125,9 @@ var calc = function (calculator, states) {
 
 StandartChange.prototype = {
   changeValue: function(new_value, wwtch) {
+    if (wwtch.context.dead) {
+      return
+    }
     removeFlowStep(wwtch.context, wwtch.w_cache_key);
     if (wwtch.current_value != new_value) {
       var old_value = wwtch.current_value;
