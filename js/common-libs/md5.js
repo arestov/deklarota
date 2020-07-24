@@ -4,7 +4,7 @@ define(function(){
 return true &&
 (function(g) {
   if (typeof process === 'object' && typeof process.versions === 'object' && typeof process.versions.node !== 'undefined') {
-    var crypto = g.require('crypto');
+    var crypto = require('crypto');
     var nodeMd5 = function(string) {
       return crypto.createHash('md5').update(string).digest('hex');
     };
