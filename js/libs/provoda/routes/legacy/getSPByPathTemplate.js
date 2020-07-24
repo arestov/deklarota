@@ -1,4 +1,4 @@
-define(function() {
+define(function(require) {
 'use strict'
 var getParsedPath = require('./getParsedPath')
 var executeStringTemplate = require('./executeStringTemplate')
