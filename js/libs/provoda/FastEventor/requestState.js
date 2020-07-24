@@ -142,10 +142,14 @@ function sendRequest(selected_map, store, self) {
 
 }
 
+function someValue(value) {
+  return value != null
+}
+
 function checkDependencies(selected_map, store, self) {
   var not_ok;
   for (var i = 0; i < selected_map.dependencies.length; i++) {
-    if (!self.sputnik.state(selected_map.dependencies[i])) {
+    if (!someValue(self.sputnik.state(selected_map.dependencies[i]))) {
       not_ok = selected_map.dependencies[i];
       break;
     }
@@ -164,7 +168,7 @@ function compxUsed(self, cur) {
     return null;
   }
 
-  if (self.sputnik.state(cur) != null) {
+  if (someValue(self.sputnik.state(cur))) {
     return self.sputnik.state(cur);
   }
 
@@ -177,7 +181,7 @@ function requestDependencies(self, dependencies, soft) {
   for (var i = 0; i < dependencies.length; i++) {
     var cur = dependencies[i];
     var used_compex = compxUsed(self, cur)
-    if (used_compex != null) {
+    if (someValue(used_compex)) {
       reqs_list.push(used_compex)
       continue
     }
@@ -245,12 +249,12 @@ function resetRequestedState(state_name) {
 
 var requestState = function(state_name) {
   var current_value = this.sputnik.state(state_name);
-  if (current_value != null) {
+  if (someValue(current_value)) {
     return;
   }
 
   var used_compex = compxUsed(this, state_name)
-  if (used_compex != null) {
+  if (someValue(used_compex)) {
     return used_compex
   }
 
