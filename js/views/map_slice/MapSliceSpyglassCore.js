@@ -443,6 +443,10 @@ return spv.inh(View, {
   },
 
   markAnimationEnd: wrapInputCall(function(models, changes_number) {
+    if (!this.isAlive()) {
+      return
+    }
+
     if (this.state('map_animation_num_started') == changes_number) {
       _updateAttr(this, 'map_animation_num_completed', changes_number);
     }
