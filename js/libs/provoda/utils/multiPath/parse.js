@@ -2,7 +2,7 @@ define(function(require) {
 'use strict'
 
 var spv = require('spv')
-var getParsedPath = require('__lib/routes/legacy/getParsedPath')
+var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
 
 var supportedZip = require('./supportedZip')
 

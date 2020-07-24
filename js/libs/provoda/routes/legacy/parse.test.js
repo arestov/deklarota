@@ -1,15 +1,7 @@
 
 var test = require('ava')
 var requirejs = require('requirejs');
-var path = require('path')
-requirejs.config({
-  baseUrl: __dirname,
-  map: {
-		'*': {
-			spv: path.join(process.cwd(), 'js/libs/spv.js'),
-		}
-	},
-})
+require('./require-config')
 var parse = requirejs('./parse')
 
 test('check parsing', function(t) {
