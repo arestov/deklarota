@@ -32,7 +32,7 @@ test('routes', async t => {
         ]),
       },
     },
-    'routes': {
+    routes: {
       'tracks/[:trackName]': 'tracklist',
     },
   })).app_model
