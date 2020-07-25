@@ -44,13 +44,13 @@ var toParsedDeps = function(array) {
 
 var declr = function(comlx_name, cur) {
   var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur;
-  item.raw_depends_on = item.depends_on
+  var raw_depends_on = item.depends_on
 
-  if (!Array.isArray(item.raw_depends_on)) {
+  if (!Array.isArray(raw_depends_on)) {
     throw new Error('should be list');
   }
 
-  var parsed = toParsedDeps(item.raw_depends_on)
+  var parsed = toParsedDeps(raw_depends_on)
   item.depends_on = parsed.fixed_deps
   item.require_marks = parsed.require_marks
 
