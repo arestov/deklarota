@@ -7,6 +7,24 @@ var groupDeps = require('../utils/groupDeps')
 var getEncodedState= require('../utils/getEncodedState');
 var getShortStateName= require('../utils/getShortStateName');
 
+var getParsedState = require('../utils/getParsedState')
+
+var asString = require('../utils/multiPath/asString')
+var fromLegacy = require('../utils/multiPath/fromLegacy')
+var parse = require('../utils/multiPath/parse')
+
+var shortStringWhenPossible = function(addr) {
+  if (addr.result_type !== 'state') {
+    return asString(addr)
+  }
+
+  if (addr.nesting.path || (addr.resource && addr.resource.path) || addr.from_base.type) {
+    return asString(addr)
+  }
+
+  return addr.state.path
+}
+
 var identical = function(state) {
   return state;
 };
@@ -24,6 +42,26 @@ var fromArray = function(state_name, cur) {
   };
 };
 
+var toAddr = function(state_name) {
+  var result1 = getParsedState(state_name)
+  if (result1) {
+    var nice = fromLegacy(state_name)
+    var best = asString(nice)
+    console.warn('replace ' + state_name + ' by ' + best)
+
+    return nice
+  }
+
+  var addr = parse(state_name)
+  if (addr) {
+    return addr
+  }
+
+  // it could be $meta or __, or anything else
+  var last_result = parse.simpleState(state_name)
+  return last_result
+}
+
 var toParsedDeps = function(array) {
   var result = new Array(array.length)
   var require_marks = []
@@ -31,11 +69,11 @@ var toParsedDeps = function(array) {
     var cur = array[i]
 
     if (cur.charAt(0) != '&') {
-      result[i] = cur
+      result[i] = toAddr(cur)
       continue
     }
 
-    result[i] = cur.slice(1)
+    result[i] = toAddr(cur.slice(1))
     require_marks.push(i)
   }
 
@@ -51,7 +89,9 @@ var CompxAttrDecl = function(comlx_name, cur) {
   }
 
   var parsed = toParsedDeps(raw_depends_on)
-  this.depends_on = parsed.fixed_deps
+
+  this.addrs = parsed.fixed_deps
+  this.depends_on = parsed.fixed_deps.map(shortStringWhenPossible)
   this.require_marks = parsed.require_marks
 
   this.name = comlx_name;
