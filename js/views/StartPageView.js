@@ -21,7 +21,7 @@ var StartPageView = spv.inh(coct.SPView, {}, {
       }
     ],
 
-    "lo_at_page": ["compx", []],
+    "lo_at_page": ["input", null],
 
     "ask_rating_help": [
       "compx",

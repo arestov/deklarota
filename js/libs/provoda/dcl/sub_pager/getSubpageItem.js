@@ -45,7 +45,9 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
       ]
       */
 
-      var instance = cur[1] ? spv.inh(cur[0], {
+      var hasCompx = cur[1] && cur[1][0].length
+
+      var instance = hasCompx ? spv.inh(cur[0], {
         skip_code_path: true
       }, {
         attrs: {
@@ -72,7 +74,7 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
     }
 
     var extend = {};
-    if (cur.title) {
+    if (cur.title && cur.title[0].length) {
       extend['nav_title'] = ['compx'].concat(cur.title);
     }
     if (cur.reusable) {
@@ -92,12 +94,6 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
     'sub_page-similar': SimilarTags
     */
     item = subPageHeaded(cur, null, key, null, name, prefix);
-  }
-
-  var prototype = item.constr.prototype;
-
-  if (prototype['__required-nav_title'] && !prototype.compx_check['nav_title']) {
-    throw new Error('sub_page shoud have `title`');
   }
 
   item.byType = Boolean(byType);
