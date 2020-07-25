@@ -8,7 +8,7 @@ const env = {}
 
 // var root_bwlev = initBrowsing(app_model);
 module.exports = async function init(app_props, init) {
-  const App = fakeApp(app_props, init)
+  const App = fakeApp({ zero_map_level: true, ...app_props }, init)
   const inited = await initApp(App, env)
   return {
     ...inited,
