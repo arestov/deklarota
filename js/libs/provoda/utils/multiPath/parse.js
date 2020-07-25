@@ -92,11 +92,8 @@ var parseModern = spv.memorize(function(string) {
 })
 
 var matchNotStateSymbols = /(^\W)|\@|\:/
-var attemptSimpleStateName = function(string) {
-  if (!string || matchNotStateSymbols.test(string)) {
-    return null
-  }
 
+var simpleState = function(string) {
   return {
     result_type: 'state',
     zip_name: null,
@@ -106,6 +103,14 @@ var attemptSimpleStateName = function(string) {
     from_base: {},
     as_string: null,
   }
+}
+
+var attemptSimpleStateName = function(string) {
+  if (!string || matchNotStateSymbols.test(string)) {
+    return null
+  }
+
+  return simpleState(string)
 }
 
 var parseMultiPath = function(string, allow_legacy) {
@@ -128,11 +133,14 @@ var parseMultiPath = function(string, allow_legacy) {
 }
 var matchZip = /(?:\@(.+?)\:)?(.+)?/
 
-
-return spv.memorize(parseMultiPath, function(a1, a2) {
+var parse = spv.memorize(parseMultiPath, function(a1, a2) {
   var legacy_ok = Boolean(a2)
   return legacy_ok + ' - ' + a1
 });
+
+parse.simpleState = simpleState
+
+return parse
 
 function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   var state_part_splited = state_raw && state_raw.match(matchZip)
