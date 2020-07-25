@@ -57,10 +57,7 @@ var declr = function(comlx_name, cur) {
   item.name = comlx_name;
 
   if (!item.depends_on.length && typeof item.fn !== 'function') {
-    var value = item.fn;
-    item.fn = function() {
-      return value;
-    };
+    throw new Error('use attr "input" to define default values')
   }
 
   if (!item.fn) {

@@ -37,3 +37,5 @@
 - setVisState from View
 
 - remove CallbacksFlow from public space
+
+- attrs{some: ['compx', 55]} (use attrs{some: ['input', 55]})
