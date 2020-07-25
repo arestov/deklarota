@@ -19,7 +19,9 @@ var targetData = function(to, result_name, dsl_options) {
     if (isAction) {
       throw new Error('attr cant be target for action')
     }
-    if (parsed_path.state.path != parsed_path.state.base) {
+
+    // * is special case. check __tests__/pass/1.1.js
+    if (parsed_path.state.base != '*' && parsed_path.state.path != parsed_path.state.base) {
       throw new Error('paths in state is not supported yet')
     }
   }
