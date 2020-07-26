@@ -7,6 +7,7 @@ var checkNesting = nestWIndex.checkNesting;
 var isNestingChanged = require('../utils/isNestingChanged')
 var _updateAttr = require('_updateAttr');
 var _passHandleNesting = require('../dcl/passes/handleNesting/handle')
+var handleMentions = require('./mentions/handleRelChange')
 
 var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1;
@@ -81,6 +82,7 @@ return function updateNesting(self, collection_name, input, opts) {
 
   _passHandleNesting(self, collection_name, old_value, array)
 
+  handleMentions(self, collection_name, old_value, array)
 
   checkNesting(self, collection_name, array, removed);
   // !?
@@ -92,4 +94,5 @@ return function updateNesting(self, collection_name, input, opts) {
 
   return self;
 }
+
 });
