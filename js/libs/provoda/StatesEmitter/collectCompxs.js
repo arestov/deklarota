@@ -13,12 +13,21 @@ var asString = require('../utils/multiPath/asString')
 var fromLegacy = require('../utils/multiPath/fromLegacy')
 var parse = require('../utils/multiPath/parse')
 
-var shortStringWhenPossible = function(addr) {
+var isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
-    return asString(addr)
+    return false
   }
 
   if (addr.nesting.path || (addr.resource && addr.resource.path) || addr.from_base.type) {
+    return false
+  }
+
+  return true
+}
+
+var shortStringWhenPossible = function(addr) {
+
+  if (!isJustAttrAddr(addr)) {
     return asString(addr)
   }
 
@@ -183,6 +192,24 @@ return function(self, props, typed_part) {
   return true;
 };
 
+function uniqExternalDeps(full_comlxs_list) {
+  var uniq = spv.set.create()
+
+  for (var i = 0; i < full_comlxs_list.length; i++) {
+    var cur = full_comlxs_list[i]
+    for (var jj = 0; jj < cur.addrs.length; jj++) {
+      var addr = cur.addrs[jj]
+      if (isJustAttrAddr(addr)) {
+        continue
+      }
+
+      spv.set.add(uniq, asString(addr), addr)
+    }
+  }
+
+  return uniq.list
+}
+
 function collectStatesConnectionsProps(self, full_comlxs_list) {
   /*
 
@@ -195,6 +222,8 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
     ['songs-list', 'mf_cor', 'sorted_completcs']
   ]
   */
+  self.__attrs_full_comlxs_list = full_comlxs_list
+  self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list)
   var result = makeGroups(full_comlxs_list);
   var compx_nest_matches = new Array(result.conndst_nesting.length)
   for (var i = 0; i < result.conndst_nesting.length; i++) {

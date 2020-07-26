@@ -5,7 +5,7 @@ var definedAttrs = require('../Model/definedAttrs')
 var AttrsCollector = require('../StatesEmitter/AttrsCollector')
 var RootLev = require('../bwlev/RootLev');
 var BrowseLevel = require('../bwlev/BrowseLevel');
-
+var globalSkeleton = require('./globalSkeleton')
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -20,6 +20,10 @@ function mark(Constr, RootConstr, parent_path) {
   RootConstr.hierarchy_counter = RootConstr.hierarchy_counter || 0
 
   var self = Constr.prototype;
+
+  if (Constr == RootConstr) {
+    self.__global_skeleton = new globalSkeleton.GlobalSkeleton()
+  }
 
   self.hierarchy_num = RootConstr.hierarchy_counter++
 
@@ -74,7 +78,13 @@ function mark(Constr, RootConstr, parent_path) {
 
   self._attrs_collector = new AttrsCollector(definedAttrs(self))
 
+  self.__global_skeleton = RootConstr.prototype.__global_skeleton
+  globalSkeleton.addModel(self.__global_skeleton, self)
 
+
+  if (Constr == RootConstr) {
+    globalSkeleton.complete(self.__global_skeleton)
+  }
   return Constr;
 }
 
