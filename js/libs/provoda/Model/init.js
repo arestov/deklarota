@@ -83,6 +83,7 @@ return function initModel(self, opts, data, params, more, states) {
   //self.states = {};
 
   self.children_models = null;
+  self.__mentions_as_rel = null
   self._network_source = self._network_source || null;
 
 
