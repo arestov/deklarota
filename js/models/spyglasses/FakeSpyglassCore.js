@@ -7,7 +7,6 @@ var _updateRel = require('_updateRel');
 var joinNavURL = require('pv/joinNavURL');
 var navi = require('js/libs/navi');
 var changeBridge = require('js/libs/provoda/bwlev/changeBridge');
-var BrowseLevel = require('js/libs/provoda/bwlev/BrowseLevel');
 var getNesting = require('pv/getNesting');
 var createLevel = require('js/libs/provoda/bwlev/createLevel');
 var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap');
@@ -44,7 +43,7 @@ return spv.inh(Model, {
 
     self.mainLevelResident = self.app.start_page;
     self.start_bwlev = createLevel(
-      BrowseLevel,
+      self.app.CBWL,
       spyglass_name,
       -1,
       false,
@@ -58,7 +57,6 @@ return spv.inh(Model, {
     })
   }
 }, {
-  BWL: BrowseLevel,
   attrs: {
     "used_data_structure": [
       'compx',
@@ -126,7 +124,7 @@ return spv.inh(Model, {
     var id = state.id
     var md = getModelById(self, id);
 
-    var bwlev = showMOnMap(BrowseLevel, self, md)
+    var bwlev = showMOnMap(self.app.CBWL, self, md)
     bwlev.showOnMap();
     _updateAttr(bwlev, 'currentReq', req)
   },

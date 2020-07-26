@@ -37,7 +37,7 @@ function ensureStartBwlev(map, md) {
 
   if (!map.mainLevelResidents[md._provoda_id]) {
     map.mainLevelResidents[md._provoda_id] = createLevel(
-      map.BWL,
+      map.app.CBWL,
       map.spyglass_name,
       -1,
       false,
