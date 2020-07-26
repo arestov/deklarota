@@ -5,7 +5,7 @@ var _updateAttr = require('_updateAttr');
 var _updateRel = require('_updateRel');
 
 var redirected = function(map, pioneer) {
-  var BWL = map.BWL; // kinda hack?! TODO FIXME
+  var BWL = map.app.CBWL;
 
   var redirectBWLev = pioneer.redirectBWLev
   if (!redirectBWLev) {

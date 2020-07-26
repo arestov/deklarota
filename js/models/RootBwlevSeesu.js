@@ -4,7 +4,6 @@ var BrowseMap = require('../libs/BrowseMap');
 var routePathByModels = require('pv/routePathByModels');
 var changeBridge = require('js/libs/provoda/bwlev/changeBridge');
 var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap');
-var BrowseLevel = require('js/libs/provoda/bwlev/BrowseLevel');
 var getUsageStruc = require('js/libs/provoda/structure/getUsageStruc');
 var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
 var Model = require('pv/Model');
@@ -47,7 +46,7 @@ var Probe = spv.inh(Model, {
 });
 
 var showOnMapWrap = function(bwroot, md) {
-  var bwlev = showMOnMap(BrowseLevel, getSPByPathTemplate(bwroot.app, bwroot, 'spyglass-navigation'), md);
+  var bwlev = showMOnMap(bwroot.app.CBWL, getSPByPathTemplate(bwroot.app, bwroot, 'spyglass-navigation'), md);
   changeBridge(bwlev);
 }
 

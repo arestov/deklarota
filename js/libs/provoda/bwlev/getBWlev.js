@@ -21,7 +21,7 @@ return function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_nu
   }
 
   var Constr = map && getConstr(map, md.model_name)
-  var bwlev = initBWlev(Constr || map.BWL, md, probe_name, map_level_num, map, parent_bwlev)
+  var bwlev = initBWlev(Constr || map.app.CBWL, md, probe_name, map_level_num, map, parent_bwlev)
 
   if (cache) {
     cache[key] = bwlev;

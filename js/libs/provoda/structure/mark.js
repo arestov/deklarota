@@ -4,6 +4,8 @@ var spv = require('spv');
 var definedAttrs = require('../Model/definedAttrs')
 var AttrsCollector = require('../StatesEmitter/AttrsCollector')
 var RootLev = require('../bwlev/RootLev');
+var BrowseLevel = require('../bwlev/BrowseLevel');
+
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -66,6 +68,8 @@ function mark(Constr, RootConstr, parent_path) {
     __BWLev.hierarchy_counter = RootConstr.hierarchy_counter++
 
     self.__BWLev = mark(__BWLev, RootConstr);
+
+    self.CBWL = mark(BrowseLevel, RootConstr);
   }
 
   self._attrs_collector = new AttrsCollector(definedAttrs(self))

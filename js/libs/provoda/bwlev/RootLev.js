@@ -2,7 +2,6 @@ define(function(require) {
 'use strict';
 var Model = require('../Model');
 var spv = require('spv');
-var BrowseLevel = require('./BrowseLevel');
 var handleSpyglassRequests = require('../dcl/spyglass/handleRequest')
 var updateSpyglass = require('../dcl/spyglass/update');
 var _updateAttr = require('_updateAttr');
@@ -20,12 +19,11 @@ var RootLev = spv.inh(Model, {
   }
 }, {
   model_name: 'root_bwlev',
-  BWL: BrowseLevel,
   rpc_legacy: {
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
       var md = getModelById(this, id);
-      var bwlev = showMOnMap(BrowseLevel, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), md)
+      var bwlev = showMOnMap(this.app.CBWL, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), md)
       bwlev.showOnMap();
     },
     followURL: function(from_id, url) {
@@ -34,7 +32,7 @@ var RootLev = spv.inh(Model, {
 
       var target_md = getSPByPathTemplate(this.app, md, url);
 
-      var bwlev = followFromTo(BrowseLevel, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, target_md);
+      var bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, target_md);
       bwlev.showOnMap();
       return bwlev;
     },
@@ -46,7 +44,7 @@ var RootLev = spv.inh(Model, {
 
       var from_bwlev = getModelById(this, from_id);
 
-      var bwlev = followFromTo(BrowseLevel, this, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, md);
+      var bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, md);
       bwlev.showOnMap();
       return bwlev;
     },
@@ -83,10 +81,10 @@ var RootLev = spv.inh(Model, {
     }
   },
   updateSpyglass: function(data) {
-    updateSpyglass(BrowseLevel, this, data);
+    updateSpyglass(this.app.CBWL, this, data);
   },
   toggleSpyglass: function(data) {
-    updateSpyglass.toggle(BrowseLevel, this, data);
+    updateSpyglass.toggle(this.app.CWBL, this, data);
   },
   spyglassURL: function(name, pattern, data) {
     // navigation, "/tags/[:tag]" {tag: "tgbbb"}

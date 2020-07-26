@@ -310,9 +310,6 @@ var BrowseLevel = spv.inh(Model, {
   }
 });
 
-BrowseLevel.prototype.BWL = BrowseLevel;
-// kinda hack TODO FIXME
-
 function getStrucSources(md, struc) {
   //console.log(struc);
   var result = {};

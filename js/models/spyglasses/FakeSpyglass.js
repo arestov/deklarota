@@ -6,7 +6,6 @@ var _updateAttr = require('_updateAttr');
 var pvState = require('pv/state');
 var changeBridge = require('js/libs/provoda/bwlev/changeBridge');
 var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap');
-var BrowseLevel = require('js/libs/provoda/bwlev/BrowseLevel');
 
 var BrowseMap = require('js/libs/BrowseMap');
 var SearchQueryModel = require('./SearchQueryModel');
@@ -16,7 +15,7 @@ var app_serv = require('app_serv');
 var app_env = app_serv.app_env;
 
 var showOnMapWrap = function(map, md) {
-  var bwlev = showMOnMap(BrowseLevel, map, md);
+  var bwlev = showMOnMap(map.app.CBWL, map, md);
   changeBridge(bwlev);
 }
 
