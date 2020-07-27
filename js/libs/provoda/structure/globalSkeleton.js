@@ -1,5 +1,7 @@
-define(function() {
+define(function(require) {
 'use strict'
+
+var supportedAddr = require('../Model/mentions/supportedAddr')
 
 function ChainLink(chain, num, rel) {
   this.chain = chain
@@ -30,13 +32,6 @@ function GlobalSkeleton() {
   this.chains_by_attr = null
 
   Object.seal(this)
-}
-
-function supportedAddr(addr) {
-  if (addr.base_itself) {
-    return false
-  }
-  return addr.result_type == "nesting" || addr.nesting.path
 }
 
 function addModel(global_skeleton, model) {
