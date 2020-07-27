@@ -7,6 +7,7 @@ var triggerLightAttrChange = require('./internal_events/light_attr_change/trigge
 var produceEffects = require('./StatesEmitter/produceEffects');
 var checkStates = require('./nest-watch/checkStates');
 var _passHandleState = require('./dcl/passes/handleState/handle')
+var deliverAttrQueryUpdates = require('./Model/mentions/deliverAttrQueryUpdates')
 var sameName = require('./sameName')
 
 var CH_GR_LE = 2
@@ -449,6 +450,7 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
   _passHandleState(etr, zdsv.total_original_states, state_name, value);
 
   checkStates(etr, zdsv, state_name, value, zdsv.total_original_states[state_name]);
+  deliverAttrQueryUpdates(etr, state_name)
   // states_links
 
   triggerLightAttrChange(etr, state_name, value, zdsv)
