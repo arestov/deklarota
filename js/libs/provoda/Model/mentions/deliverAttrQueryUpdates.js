@@ -5,6 +5,9 @@ var matchChainsByLink = require('./matchChainsByLink')
 return function deliverAttrQueryUpdates(self, attr_name) {
 
   var skeleton = self.__global_skeleton
+  if (skeleton == null && self.view_id != null) {
+    return
+  }
 
   var list = skeleton.chains_by_attr[attr_name]
 
