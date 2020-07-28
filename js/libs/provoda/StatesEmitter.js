@@ -9,6 +9,8 @@ var Eventor = require('./Eventor');
 var useInterface = require('./StatesEmitter/useInterface');
 var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr')
 var regfr_lightstev = require('./internal_events/light_attr_change/regfire');
+var getNameByAttr = require('./internal_events/light_attr_change/getNameByAttr')
+
 var subscribeToDie = require('./internal_events/die/subscribe')
 var _updateAttr = require('_updateAttr');
 
@@ -184,6 +186,12 @@ add({
 
   _updateProxy: function(changes_list, opts) {
     updateProxy(this, changes_list, opts);
+  },
+  __count_lightevent_subscriber: function(attr_name) {
+    var light_name = getNameByAttr( attr_name );
+    var light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name);
+
+    return light_cb_cs ? light_cb_cs.length : 0
   }
 });
 }
