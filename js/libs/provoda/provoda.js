@@ -10,7 +10,6 @@ var views_proxies = require('./views_proxies');
 var SyncReceiver = require('./SyncReceiver');
 var Eventor = require('./Eventor');
 var StatesEmitter = require('./StatesEmitter');
-var CallbacksFlow = require('./CallbacksFlow');
 var Model = require('./Model');
 var HModel = require('./Model/HModel')
 var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr');
@@ -39,7 +38,6 @@ var hasPrefixedProps = function(props, prefix) {
 */
 
 pv = provoda = {
-  CallbacksFlow: CallbacksFlow,
   hp: hp,
   $v: hp.$v,
   getRDep: hp.getRDep,
