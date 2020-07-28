@@ -9,7 +9,11 @@ function AppRuntime(optionsRaw) {
   var options = optionsRaw || {}
 
   var glo = typeof global !== 'undefined' ? global : window
-  var flow = new CallbacksFlow({glo: glo, reportLongTask: options.reportLongTask})
+  var flow = new CallbacksFlow({
+    glo: glo,
+    reportLongTask: options.reportLongTask,
+    reportHugeQueue: options.reportHugeQueue
+  })
 
   this.models_counters = 1
   this.models = {}
