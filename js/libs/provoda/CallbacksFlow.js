@@ -203,6 +203,7 @@ var CallbacksFlow = function(options) {
   this.iteration_time = iteration_time || 250;
   this.iteration_delayed = null;
   this.flow_steps_counter = 1;
+
   // this.flow_steps_collating_invalidated = null;
   var _this = this;
   this.hndIterateCallbacksFlow = function() {
@@ -219,6 +220,8 @@ var CallbacksFlow = function(options) {
       return setImmediate(fn);
     };
   }
+
+  this.reportLongTask = options.reportLongTask || null
 };
 
 CallbacksFlow.prototype = {
@@ -269,7 +272,13 @@ CallbacksFlow.prototype = {
         this.current_step = null;
       }
 
-      last_call_at = Date.now()
+      var completed_at = Date.now()
+
+      if (this.reportLongTask != null) {
+        this.reportLongTaskRaw(completed_at - last_call_at, cur)
+      }
+
+      last_call_at = completed_at
 
 
       var toClean = cur
@@ -306,7 +315,16 @@ CallbacksFlow.prototype = {
     this.checkCallbacksFlow();
     return flow_step;
 
-  }
+  },
+  reportLongTaskRaw: function(taskTime, task) {
+    if (taskTime < 500) {
+      return
+    }
+    var reportLongTask = this.reportLongTask
+    this.pushIteration(function() {
+      reportLongTask(task, taskTime)
+    });
+  },
 };
 
 function order(self, flow_step) {
