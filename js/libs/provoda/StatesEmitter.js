@@ -17,6 +17,7 @@ var _updateAttr = require('_updateAttr');
 var onPropsExtend = require('./onExtendSE');
 var act = require('./dcl/passes/act');
 var pvState = require('./utils/state')
+var getDepValue = require('./utils/multiPath/getDepValue')
 var initEffectsSubscribe = require('./dcl/effects/legacy/subscribe/init');
 
 var getLightConnector = spv.memorize(function(state_name) {
@@ -195,6 +196,10 @@ add({
     var light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name);
 
     return light_cb_cs ? light_cb_cs.length : 0
+  },
+  __deliverChainUpdates: function(chain) {
+    var self = this
+    _updateAttr(self, chain.addr.as_string, getDepValue(self, chain.addr))
   }
 });
 }
