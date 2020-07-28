@@ -203,6 +203,7 @@ var CallbacksFlow = function(options) {
   this.iteration_time = iteration_time || 250;
   this.iteration_delayed = null;
   this.flow_steps_counter = 1;
+  this.bad_stops_strike_counter = 0
 
   // this.flow_steps_collating_invalidated = null;
   var _this = this;
@@ -222,6 +223,8 @@ var CallbacksFlow = function(options) {
   }
 
   this.reportLongTask = options.reportLongTask || null
+  this.reportHugeQueue = options.reportHugeQueue || null
+
 };
 
 CallbacksFlow.prototype = {
@@ -294,7 +297,15 @@ CallbacksFlow.prototype = {
     }
     this.flow_start = stopped;
     if (!stopped) {
+      this.bad_stops_strike_counter = 0
       this.flow_end = null;
+    } else {
+      this.bad_stops_strike_counter++
+
+      if (this.bad_stops_strike_counter >= 5) {
+        this.reportHugeQueueRaw(stopped)
+        this.bad_stops_strike_counter = 0
+      }
     }
 
     if (!this.flow_start) {
@@ -325,6 +336,18 @@ CallbacksFlow.prototype = {
       reportLongTask(task, taskTime)
     });
   },
+
+  reportHugeQueueRaw: function(task) {
+    if (this.reportHugeQueue == null) {
+      return
+    }
+
+    var reportHugeQueue = this.reportHugeQueue
+
+    this.pushIteration(function() {
+      reportHugeQueue(task)
+    });
+  }
 };
 
 function order(self, flow_step) {
