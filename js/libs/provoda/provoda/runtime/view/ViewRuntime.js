@@ -7,7 +7,7 @@ function ViewRuntime(optionsRaw) {
   var options = optionsRaw || {}
 
   var glo = typeof global !== 'undefined' ? global : window
-  var flow = new CallbacksFlow(glo)
+  var flow = new CallbacksFlow({glo: glo})
 
   this.views_counter = 1
   this.views_proxies = options.proxies

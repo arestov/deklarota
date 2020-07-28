@@ -190,7 +190,12 @@ var getBoxedRAFFunc = function(win) {
   };
 };
 
-var CallbacksFlow = function(win, rendering_flow, iteration_time) {
+var CallbacksFlow = function(options) {
+  // glo is global/window
+  var glo = options.glo
+  var rendering_flow = options.rendering_flow
+  var iteration_time = options.iteration_time
+
   this.flow = [];
   this.flow_start = null;
   this.flow_end = null;
@@ -203,13 +208,13 @@ var CallbacksFlow = function(win, rendering_flow, iteration_time) {
   this.hndIterateCallbacksFlow = function() {
     _this.iterateCallbacksFlow();
   };
-  var raf = rendering_flow && getBoxedRAFFunc(win);
+  var raf = rendering_flow && getBoxedRAFFunc(glo);
   if ( raf ) {
     this.pushIteration = function(fn) {
       return raf(fn);
     };
   } else {
-    var setImmediate = getBoxedSetImmFunc(win);
+    var setImmediate = getBoxedSetImmFunc(glo);
     this.pushIteration = function(fn) {
       return setImmediate(fn);
     };
