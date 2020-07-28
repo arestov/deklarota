@@ -12,6 +12,7 @@ var getParsedState = require('../utils/getParsedState')
 var asString = require('../utils/multiPath/asString')
 var fromLegacy = require('../utils/multiPath/fromLegacy')
 var parse = require('../utils/multiPath/parse')
+var mentionsSupportedAddr = require('../Model/mentions/supportedAddr')
 
 var isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
@@ -224,10 +225,16 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   */
   self.__attrs_full_comlxs_list = full_comlxs_list
   self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list)
+
   var result = makeGroups(full_comlxs_list);
-  var compx_nest_matches = new Array(result.conndst_nesting.length)
+  var compx_nest_matches = []
   for (var i = 0; i < result.conndst_nesting.length; i++) {
-    compx_nest_matches[i] = result.conndst_nesting[i].nwatch;
+    var nwatch = result.conndst_nesting[i].nwatch
+    var addr = nwatch.nmpath_source
+    if (mentionsSupportedAddr(addr)) {
+      continue
+    }
+    compx_nest_matches.push(nwatch)
   }
 
   self.compx_nest_matches = compx_nest_matches;
