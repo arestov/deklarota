@@ -234,7 +234,9 @@ CallbacksFlow.prototype = {
     this.current_step = null
   },
   iterateCallbacksFlow: function() {
-    var start = Date.now() + this.iteration_time;
+    var started_at = Date.now()
+    var start = started_at + this.iteration_time;
+    var last_call_at = started_at
     this.iteration_delayed = false;
     this.callbacks_busy = true;
 
@@ -244,11 +246,13 @@ CallbacksFlow.prototype = {
       if (!this.flow_start) {
         this.flow_end = null;
       }
-      if (Date.now() > start){
+
+      if (last_call_at > start){
         stopped = cur;
         this.pushIteration(this.hndIterateCallbacksFlow);
         break;
       }
+
       this.flow_start = cur.next;
       if (!this.flow_start) {
         this.flow_end = null;
@@ -259,6 +263,9 @@ CallbacksFlow.prototype = {
         cur.call();
         this.current_step = null;
       }
+
+      last_call_at = Date.now()
+
 
       var toClean = cur
 
