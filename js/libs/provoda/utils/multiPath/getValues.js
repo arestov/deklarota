@@ -60,7 +60,10 @@ return function(models, multi_path) {
       }
 
       result = Array.prototype.concat.apply([], result)
-      return result
+
+      var zipFn = zip_fns[multi_path.zip_name || 'all']
+
+      return zipFn(result)
     }
   }
 
