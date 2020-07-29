@@ -3,6 +3,17 @@ define(function(require) {
 
 var supportedAddr = require('../Model/mentions/supportedAddr')
 
+function addrToLinks(addr, chain) {
+  var list = []
+
+  for (var i = 0; i < addr.nesting.path.length; i++) {
+    var rel = addr.nesting.path[i]
+    list.push(new ChainLink(chain, i, rel))
+  }
+
+  return list
+}
+
 function ChainLink(chain, num, rel) {
   this.chain = chain
   this.num = num
@@ -12,12 +23,7 @@ function ChainLink(chain, num, rel) {
 function Chain(target, addr) {
   this.target_mc = target
   this.addr = addr
-  this.list = []
-  for (var i = 0; i < addr.nesting.path.length; i++) {
-    var rel = addr.nesting.path[i]
-    this.list.push(new ChainLink(this, i, rel))
-  }
-
+  this.list = addrToLinks(addr, this)
 }
 
 function GlobalSkeleton() {
