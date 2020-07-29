@@ -6,6 +6,7 @@ var handler = require('./handler')
 var hstate = handler.hstate
 var recalc = handler.recalc
 var subscribing = require('../../utils/multiPath/subscribing')
+var supportedRelTargetAddr = require('../../Model/mentions/supportedRelTargetAddr')
 
 var copyStates = function(md, target, state_name, full_name, runner) {
   md.lwch(target, state_name, function(value) {
@@ -23,6 +24,11 @@ var runNestWatches = function(self, md, list) {
   var lnwatches = new Array(list.length);
 
   for (var i = 0; i < list.length; i++) {
+
+    if (supportedRelTargetAddr(list[i])) {
+      continue
+    }
+
     var lnwatch = new LocalWatchRoot(md, list[i].nwatch, {
       runner: self,
       dep: list[i],
