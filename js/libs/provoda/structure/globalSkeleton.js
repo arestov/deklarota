@@ -2,8 +2,10 @@ define(function(require) {
 'use strict'
 
 var supportedAttrTargetAddr = require('../Model/mentions/supportedAttrTargetAddr')
+var supportedRelTargetAddr = require('../Model/mentions/supportedRelTargetAddr')
 var target_types = require('../Model/mentions/target_types')
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
+var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
 
 function addrToLinks(addr, chain) {
   var list = []
@@ -22,11 +24,12 @@ function ChainLink(chain, num, rel) {
   this.rel = rel
 }
 
-function Chain(target, target_type, addr) {
+function Chain(target, target_type, addr, target_name) {
   this.target_mc = target
   this.target_type = target_type
   this.addr = addr
   this.list = addrToLinks(addr, this)
+  this.target_name = target_name || ''
 }
 
 function GlobalSkeleton() {
@@ -43,7 +46,33 @@ function GlobalSkeleton() {
   Object.seal(this)
 }
 
+function addCompxNestForModel(global_skeleton, model) {
+  if (model._nest_by_type_listed == null) {
+    return
+  }
+
+  var compx_list = model._nest_by_type_listed.compx
+  if (compx_list == null) {
+    return
+  }
+
+  for (var i = 0; i < compx_list.length; i++) {
+    var cur = compx_list[i]
+    for (var jj = 0; jj < cur.parsed_deps.nest_watch.length; jj++) {
+      var addr = cur.parsed_deps.nest_watch[jj]
+      if (!supportedRelTargetAddr(addr)) {
+        continue
+      }
+
+      global_skeleton.chains.push(new Chain(model, TARGET_TYPE_REL, addr, cur.dest_name))
+    }
+  }
+
+}
+
 function addModel(global_skeleton, model) {
+  addCompxNestForModel(global_skeleton, model)
+
   if (model.__attrs_uniq_external_deps == null || !model.__attrs_uniq_external_deps.length) {
     return
   }
