@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
 
-var supportedAddr = require('../Model/mentions/supportedAddr')
+var supportedAttrTargetAddr = require('../Model/mentions/supportedAttrTargetAddr')
 var target_types = require('../Model/mentions/target_types')
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 
@@ -50,7 +50,7 @@ function addModel(global_skeleton, model) {
 
   for (var i = 0; i < model.__attrs_uniq_external_deps.length; i++) {
     var cur = model.__attrs_uniq_external_deps[i]
-    if (!supportedAddr(cur)) {
+    if (!supportedAttrTargetAddr(cur)) {
       continue
     }
 

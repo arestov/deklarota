@@ -1,6 +1,6 @@
 define(function() {
 'use strict'
-return function supportedAddr(addr) {
+return function supportedAttrTargetAddr(addr) {
   if (addr.base_itself) {
     return false
   }
