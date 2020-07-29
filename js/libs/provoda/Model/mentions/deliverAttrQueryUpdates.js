@@ -1,11 +1,16 @@
 define(function(require) {
 'use strict'
-var matchChainsByLink = require('./matchChainsByLink')
+var getAllOnwers = require('./getAllOnwers')
+var scheduleDelivering = require('./scheduleDelivering')
 
 return function deliverAttrQueryUpdates(self, attr_name) {
 
   var skeleton = self.__global_skeleton
   if (skeleton == null && self.view_id != null) {
+    return
+  }
+
+  if (self.__mentions_as_rel == null) {
     return
   }
 
@@ -15,6 +20,21 @@ return function deliverAttrQueryUpdates(self, attr_name) {
     return
   }
 
-  matchChainsByLink(self, list)
+
+  var result = []
+
+  for (var i = 0; i < list.length; i++) {
+    var link = list[i]
+    var owners = self.__mentions_as_rel[link.rel]
+    if (owners == null) {
+      continue
+    }
+    for (var jj = 0; jj < owners.list.length; jj++) {
+      var owner = owners.list[jj]
+      getAllOnwers(result, owner, link)
+    }
+  }
+
+  scheduleDelivering(self, result)
 }
 })
