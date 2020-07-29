@@ -12,7 +12,7 @@ var getParsedState = require('../utils/getParsedState')
 var asString = require('../utils/multiPath/asString')
 var fromLegacy = require('../utils/multiPath/fromLegacy')
 var parse = require('../utils/multiPath/parse')
-var mentionsSupportedAddr = require('../Model/mentions/supportedAddr')
+var mentionsSupportedAddr = require('../Model/mentions/supportedAttrTargetAddr')
 
 var isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
