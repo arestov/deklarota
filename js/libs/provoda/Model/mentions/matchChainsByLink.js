@@ -11,7 +11,9 @@ var matchChainsByLink = function(mention_owner, links) {
     getAllOnwers(result, mention_owner, links[i])
   }
 
-  scheduleDelivering(mention_owner, result)
+  var motivation_model = mention_owner
+
+  scheduleDelivering(motivation_model, result)
 
   return result
 }

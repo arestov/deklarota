@@ -1,9 +1,9 @@
 define(function() {
 'use strict'
-return function scheduleDelivering(self, list) {
-  var current_motivator = self._currentMotivator()
-  var wrapper = self.evcompanion.hndUsualEvCallbacksWrapper
-  var calls_flow = self._getCallsFlow();
+return function scheduleDelivering(motivation_model, list) {
+  var current_motivator = motivation_model._currentMotivator()
+  var wrapper = motivation_model.evcompanion.hndUsualEvCallbacksWrapper
+  var calls_flow = motivation_model._getCallsFlow();
 
   for (var i = 0; i < list.length; i++) {
     var cur = list[i]
