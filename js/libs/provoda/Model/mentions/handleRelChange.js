@@ -2,7 +2,6 @@ define(function(require) {
 'use strict'
 var spv = require('spv')
 var deliverRelQueryUpdates = require('./deliverRelQueryUpdates')
-var spvSet = spv.set
 
 function handleMentions(self, collection_name, old_value, array) {
   if (old_value != null) {
@@ -46,9 +45,9 @@ function handleRemoveMetionItem(mentioner, collection_name, item) {
   }
 
   var valueOfSet = item.__mentions_as_rel[collection_name]
-  var old_length = valueOfSet.list.length
-  spvSet.remove(valueOfSet, mentioner._provoda_id, mentioner)
-  if (valueOfSet.list.length == old_length) {
+  var old_length = valueOfSet.size
+  valueOfSet.delete(mentioner)
+  if (valueOfSet.size == old_length) {
     return
   }
 }
@@ -61,13 +60,14 @@ function handleAddMetionItem(mentioner, collection_name, item) {
     item.__mentions_as_rel = {}
   }
   if (item.__mentions_as_rel[collection_name] == null) {
-    item.__mentions_as_rel[collection_name] = spvSet.create()
+    item.__mentions_as_rel[collection_name] = new Set()
   }
 
   var valueOfSet = item.__mentions_as_rel[collection_name]
-  var old_length = valueOfSet.list.length
-  spvSet.add(valueOfSet, mentioner._provoda_id, mentioner)
-  if (valueOfSet.list.length == old_length) {
+  var old_length = valueOfSet.size
+  valueOfSet.add(mentioner)
+
+  if (valueOfSet.size == old_length) {
     return
   }
 }

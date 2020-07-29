@@ -29,8 +29,7 @@ return function deliverAttrQueryUpdates(self, attr_name) {
     if (owners == null) {
       continue
     }
-    for (var jj = 0; jj < owners.list.length; jj++) {
-      var owner = owners.list[jj]
+    for (var owner of owners) {
       getAllOnwers(result, owner, link)
     }
   }

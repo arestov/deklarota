@@ -26,9 +26,7 @@ return function getAllOnwers(mut_result_list, mention_owner, link) {
   }
 
 
-  for (var mm = 0; mm < owners.list.length; mm++) {
-    var cur_owner = owners.list[mm]
-
+  for (var cur_owner of owners) {
     getAllOnwers(mut_result_list, cur_owner, next_link)
   }
 
