@@ -2,6 +2,8 @@ define(function(require) {
 'use strict'
 
 var supportedAddr = require('../Model/mentions/supportedAddr')
+var target_types = require('../Model/mentions/target_types')
+var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 
 function addrToLinks(addr, chain) {
   var list = []
@@ -20,8 +22,9 @@ function ChainLink(chain, num, rel) {
   this.rel = rel
 }
 
-function Chain(target, addr) {
+function Chain(target, target_type, addr) {
   this.target_mc = target
+  this.target_type = target_type
   this.addr = addr
   this.list = addrToLinks(addr, this)
 }
@@ -51,7 +54,7 @@ function addModel(global_skeleton, model) {
       continue
     }
 
-    global_skeleton.chains.push(new Chain(model, cur))
+    global_skeleton.chains.push(new Chain(model, TARGET_TYPE_ATTR, cur))
   }
 
 

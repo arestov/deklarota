@@ -8,16 +8,18 @@ var updateProxy = require('./updateProxy');
 var Eventor = require('./Eventor');
 var useInterface = require('./StatesEmitter/useInterface');
 var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr')
+
+var deliverChainUpdates = require('./Model/mentions/deliverChainUpdates')
+
 var regfr_lightstev = require('./internal_events/light_attr_change/regfire');
 var getNameByAttr = require('./internal_events/light_attr_change/getNameByAttr')
-
 var subscribeToDie = require('./internal_events/die/subscribe')
 var _updateAttr = require('_updateAttr');
 
 var onPropsExtend = require('./onExtendSE');
 var act = require('./dcl/passes/act');
 var pvState = require('./utils/state')
-var getDepValue = require('./utils/multiPath/getDepValue')
+
 var initEffectsSubscribe = require('./dcl/effects/legacy/subscribe/init');
 
 var getLightConnector = spv.memorize(function(state_name) {
@@ -198,8 +200,7 @@ add({
     return light_cb_cs ? light_cb_cs.length : 0
   },
   __deliverChainUpdates: function(chain) {
-    var self = this
-    _updateAttr(self, chain.addr.as_string, getDepValue(self, chain.addr))
+    deliverChainUpdates(this, chain)
   }
 });
 }
