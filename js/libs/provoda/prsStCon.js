@@ -46,7 +46,7 @@ var bind = {
   }
 }
 
-var copyStates = function(md, target, state_name, full_name) {
+var subscribe = function(md, target, state_name, full_name) {
   md.wlch(target, state_name, full_name);
 }
 
@@ -86,8 +86,8 @@ var copyStates = function(md, target, state_name, full_name) {
     },
     connect: {
       nesting: function() {},
-      parent: bind.parent(copyStates),
-      root: bind.root(copyStates),
-    }
+      parent: bind.parent(subscribe),
+      root: bind.root(subscribe),
+    },
   };
 });
