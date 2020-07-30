@@ -92,12 +92,9 @@ add({
     donor.evcompanion.off(utils_simple.getSTEVNameLight(donor_state), func, false, this);
   },
 
-  wlch: function(donor, donor_state, acceptor_state) {
-    var acceptor_state_name = acceptor_state || donor_state;
+  wlch: function(donor, donor_state, acceptor_state_name) {
     var cb = getLightConnector(acceptor_state_name);
     this._bindLight(donor, donor_state, cb);
-
-
   },
   onExtend: function(props, original) {
     onPropsExtend(this, props, original);
