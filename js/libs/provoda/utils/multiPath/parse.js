@@ -98,9 +98,9 @@ var simpleState = function(string) {
     result_type: 'state',
     zip_name: null,
     state: getStateInfo(string),
-    nesting: {},
-    resource: {},
-    from_base: {},
+    nesting: empty,
+    resource: empty,
+    from_base: empty,
     as_string: null,
   }
 }
