@@ -1,7 +1,6 @@
 define(function (require) {
 'use strict';
 var spv = require('spv');
-var spvSet = spv.set
 var hp = require('../helpers');
 var nestWIndex = require('../nest-watch/index');
 var checkNesting = nestWIndex.checkNesting;
@@ -14,16 +13,7 @@ var hasDot = spv.memorize(function(nesting_name) {
 });
 
 function getUniqCopy(input) {
-  var tempSet = spvSet.create()
-  for (var i = 0; i < input.length; i++) {
-    var cur = input[i]
-    if (!cur) {
-      continue;
-    }
-    spvSet.add(tempSet, cur._provoda_id, cur)
-  }
-
-  return tempSet.list
+  return Array.from(new Set(input))
 }
 
 return function updateNesting(self, collection_name, input, opts) {
