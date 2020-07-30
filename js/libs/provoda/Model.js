@@ -323,6 +323,9 @@ add({
     }
   }),
   die: function(){
+    prsStCon.disconnect.parent(this, this);
+    prsStCon.disconnect.root(this, this);
+
     this.stopRequests();
     //this.mpx.die();
     this._highway.views_proxies.killMD(this);

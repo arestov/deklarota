@@ -50,6 +50,10 @@ var subscribe = function(md, target, state_name, full_name) {
   md.wlch(target, state_name, full_name);
 }
 
+var unsubscribe = function(md, target, state_name, full_name) {
+  md.unwlch(target, state_name, full_name);
+}
+
   return {
     bind: bind,
     prefill: {
@@ -89,5 +93,10 @@ var subscribe = function(md, target, state_name, full_name) {
       parent: bind.parent(subscribe),
       root: bind.root(subscribe),
     },
+    disconnect: {
+      nesting: function() {},
+      parent: bind.parent(unsubscribe),
+      root: bind.root(unsubscribe),
+    }
   };
 });
