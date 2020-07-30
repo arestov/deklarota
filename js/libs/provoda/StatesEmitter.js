@@ -94,7 +94,13 @@ add({
 
   wlch: function(donor, donor_state, acceptor_state_name) {
     var cb = getLightConnector(acceptor_state_name);
-    this._bindLight(donor, donor_state, cb);
+
+    var event_name = utils_simple.getSTEVNameLight(donor_state)
+    donor.evcompanion._addEventHandler(event_name, cb, this);
+  },
+  unwlch: function(donor, donor_state, acceptor_state_name) {
+    var cb = getLightConnector(acceptor_state_name);
+    this.removeLwch(donor, donor_state, cb)
   },
   onExtend: function(props, original) {
     onPropsExtend(this, props, original);

@@ -648,6 +648,11 @@ var View = spv.inh(StatesEmitter, {
     if (this._lbr.marked_as_dead){
       return this
     }
+
+    prsStCon.disconnect.parent(this, this);
+    prsStCon.disconnect.root(this, this);
+
+
     this.domDie()
     this.markAsDead(opts && opts.skip_md_call);
     nestBorrowDestroy(this);
