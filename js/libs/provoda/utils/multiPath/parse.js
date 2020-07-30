@@ -93,16 +93,22 @@ var parseModern = spv.memorize(function(string) {
 
 var matchNotStateSymbols = /(^\W)|\@|\:/
 
+var SimpleStateAddr = function(string) {
+  this.state = getStateInfo(string);
+}
+
+SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
+  result_type: 'state',
+  zip_name: null,
+  state: null,
+  nesting: empty,
+  resource: empty,
+  from_base: empty,
+  as_string: null,
+})
+
 var simpleState = function(string) {
-  return {
-    result_type: 'state',
-    zip_name: null,
-    state: getStateInfo(string),
-    nesting: empty,
-    resource: empty,
-    from_base: empty,
-    as_string: null,
-  }
+  return new SimpleStateAddr(string)
 }
 
 var attemptSimpleStateName = function(string) {
