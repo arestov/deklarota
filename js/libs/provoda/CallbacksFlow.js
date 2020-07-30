@@ -303,7 +303,7 @@ CallbacksFlow.prototype = {
       this.bad_stops_strike_counter++
 
       if (this.bad_stops_strike_counter >= 5) {
-        this.reportHugeQueueRaw(stopped)
+        this.reportHugeQueueRaw(last_call_at - started_at, stopped)
         this.bad_stops_strike_counter = 0
       }
     }
@@ -332,21 +332,16 @@ CallbacksFlow.prototype = {
       return
     }
     var reportLongTask = this.reportLongTask
-    this.pushIteration(function() {
-      reportLongTask(task, taskTime)
-    });
+    reportLongTask(task, taskTime)
   },
 
-  reportHugeQueueRaw: function(task) {
+  reportHugeQueueRaw: function(duration, task) {
     if (this.reportHugeQueue == null) {
       return
     }
 
     var reportHugeQueue = this.reportHugeQueue
-
-    this.pushIteration(function() {
-      reportHugeQueue(task)
-    });
+    reportHugeQueue(task, duration)
   }
 };
 
