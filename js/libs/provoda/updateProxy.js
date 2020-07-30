@@ -25,6 +25,8 @@ var ServStates = function() {
   // this.stch_states = {};
 };
 
+var free_sets = [new Set()]
+
 var pool = {
   free: [],
   busy: {}
@@ -328,7 +330,8 @@ function getComplexInitList(etr) {
 }
 
 function applyComplexStates(etr, total_original_states, original_states, start_from, input_and_output) {
-  var uniq = new Set(); // consider to reuse set. using `.clear` method
+  var uniq = free_sets.length ? free_sets.pop() : new Set();
+  // reuse set
 
   var i, cur;
 
@@ -356,6 +359,10 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
       )
     }
   }
+
+  // release reused set
+  uniq.clear()
+  free_sets.push(uniq)
 
 }
 
