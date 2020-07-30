@@ -336,7 +336,7 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
 
   for ( i = start_from; i < originalLength; i+=CH_GR_LE) {
     cur = etr.full_comlxs_index[input_and_output[i]];
-    if (!cur){
+    if (cur == null){
       continue;
     }
     for (var jj = 0; jj < cur.length; jj++) {
