@@ -328,7 +328,7 @@ function getComplexInitList(etr) {
 }
 
 function applyComplexStates(etr, total_original_states, original_states, start_from, input_and_output) {
-  var uniq = new Set();
+  var uniq = new Set(); // consider to reuse set. using `.clear` method
 
   var i, cur;
 
