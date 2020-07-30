@@ -328,7 +328,7 @@ function getComplexInitList(etr) {
 }
 
 function applyComplexStates(etr, total_original_states, original_states, start_from, input_and_output) {
-  var uniq = {};
+  var uniq = new Set();
 
   var i, cur;
 
@@ -342,10 +342,11 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
     for (var jj = 0; jj < cur.length; jj++) {
       var subj = cur[jj]
       var name = subj.name;
-      if (uniq.hasOwnProperty(name)) {
+      if (uniq.has(name)) {
         continue;
       }
-      uniq[name] = true;
+
+      uniq.add(name)
 
       var value = compoundComplexState(etr, subj)
       _replaceState(
