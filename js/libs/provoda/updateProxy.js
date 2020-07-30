@@ -382,15 +382,16 @@ function compoundComplexState(etr, temp_comx) {
 }
 
 function compressChangesList(result_changes, changes_list, i, prop_name, value, counter) {
-  if (result_changes[prop_name] === true){
+  if (result_changes.has(prop_name)){
     return;
   }
+
+  result_changes.add(prop_name);
 
   var num = (changes_list.length - 1) - counter * CH_GR_LE;
   changes_list[ num - 1 ] = prop_name;
   changes_list[ num ] = value;
 
-  result_changes[prop_name] = true;
   return true;
 }
 
@@ -408,7 +409,7 @@ function createReverseIterate0arg(cb) {
 
 
 function compressStatesChanges(changes_list) {
-  var result_changes = {};
+  var result_changes = new Set();
   var counter = reversedCompressChanges(changes_list, result_changes);
   counter = counter * CH_GR_LE;
   while (changes_list.length != counter){
