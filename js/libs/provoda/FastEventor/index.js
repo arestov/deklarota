@@ -169,7 +169,10 @@ add({
       fireFire(context, this.sputnik, matched_reg_fire, soft_reg, callbacks_wrapper, ev_name, cb, one_reg_arg)
     }
 
-    var subscr_opts = new EventSubscribingOpts(ev_name, cb, once, context, immediately, callbacks_wrapper);
+    var subscr_opts =
+      matched_reg_fire
+        ? matched_reg_fire.createEventOpts(ev_name, cb, context)
+        : new EventSubscribingOpts(ev_name, cb, once, context, immediately, callbacks_wrapper);
 
     if (!(once && fired)){
       this._pushCallbackToStack(ev_name, subscr_opts);

@@ -16,6 +16,17 @@ var stackStateFlowStep = function(flow_step, state_name) {
   this.zdsv.createFlowStepsArray('stev', state_name).push(flow_step);
 };
 
+var LightEvOpts = function(ev_name, cb, context) {
+  this.ev_name = ev_name;
+  this.cb = cb;
+  this.context = context;
+  Object.seal(this)
+}
+
+LightEvOpts.prototype = {
+  wrapper: hndMotivationWrappper,
+}
+
 return {
   test: function(namespace) {
     return !!getAttrByName(namespace);
@@ -29,6 +40,9 @@ return {
   getFSNamespace: function(namespace) {
     return getAttrByName(namespace);
   },
-  handleFlowStep: stackStateFlowStep
+  handleFlowStep: stackStateFlowStep,
+  createEventOpts: function(ev_name, cb, context) {
+    return new LightEvOpts(ev_name, cb, context)
+  }
 }
 })
