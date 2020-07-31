@@ -73,19 +73,21 @@ var parseFromEnd = spv.memorize(function(string) {
   return parseParts(state, nest, resource, base)
 })
 
-var canParseModern = spv.memorize(function canParseModern(string) {
+function canParseModern(string) {
   var from_start = start.test(string)
   var from_end = end.test(string)
   return (from_start || from_end)
     ? {from_start: from_start, from_end: from_end}
     : null
-})
+}
 
 var parseModern = spv.memorize(function parseModern(string) {
-  var modern = canParseModern(string)
-  if (!modern) {return null}
+  var can_parse = canParseModern(string)
+  if (can_parse == null) {
+    return null
+  }
 
-  if (modern.from_start) {
+  if (can_parse.from_start) {
     return parseFromStart(string)
   }
   return parseFromEnd(string)
@@ -130,9 +132,9 @@ var parseMultiPath = function(string, allow_legacy) {
   }
 
 
-  var modern = canParseModern(string)
+  var modern = parseModern(string)
   if (modern != null) {
-    return parseModern(string)
+    return modern
   }
 
   return attemptSimpleStateName(string) || (
