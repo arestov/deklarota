@@ -370,7 +370,6 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
 
   // release reused set
   releaseSet(uniq)
-  free_sets.push(uniq)
 
 }
 
