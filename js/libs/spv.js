@@ -198,14 +198,14 @@ shuffleArray = spv.shuffleArray = function(obj) {
 
 spv.memorize = function memorize(func, getter) {
   var cache = {};
-  return getter ? function(){
+  return getter ? function chechCacheByGetter(){
     var arg = getter.apply(this, arguments);
     if (!cache.hasOwnProperty(arg)) {
       var result = cache[arg] = func.apply(this, arguments);
       return result;
     }
     return cache[arg];
-  } : function(arg) {
+  } : function checkCache(arg) {
     if (!cache.hasOwnProperty(arg)) {
       var result = cache[arg] = func.apply(this, arguments);
       return result;
