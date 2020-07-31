@@ -131,13 +131,14 @@ var parseMultiPath = function(string, allow_legacy) {
 
 
   var modern = canParseModern(string)
-  if (!modern) {
-    return attemptSimpleStateName(string) || (
-      allow_legacy ? fromLegacy(string) : null
-    )
+  if (modern != null) {
+    return parseModern(string)
   }
 
-  return parseModern(string)
+  return attemptSimpleStateName(string) || (
+    allow_legacy ? fromLegacy(string) : null
+  )
+
 }
 var matchZip = /(?:\@(.+?)\:)?(.+)?/
 
