@@ -33,7 +33,7 @@ function getCurrentTransactionId(self) {
 }
 
 function agendaKey(self, initial_transaction_id) {
-  return initial_transaction_id + '-' + self._provoda_id
+  return initial_transaction_id + '-' + self.getInstanceKey()
 }
 
 function ensureEffectStore(self, effect_name, initial_transaction_id) {
