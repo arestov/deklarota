@@ -119,12 +119,14 @@ var attemptSimpleStateName = function(string) {
   return simpleState(string)
 }
 
+var self = {
+  as_string: '<<<<',
+  base_itself: true,
+}
+
 var parseMultiPath = function(string, allow_legacy) {
   if (string == '<<<<') {
-    return {
-      as_string: string,
-      base_itself: true,
-    }
+    return self
   }
 
 
