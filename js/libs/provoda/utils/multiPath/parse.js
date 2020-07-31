@@ -139,14 +139,22 @@ var parseMultiPath = function(string, allow_legacy) {
 }
 var matchZip = /(?:\@(.+?)\:)?(.+)?/
 
-var parse = spv.memorize(parseMultiPath, function(a1, a2) {
-  var legacy_ok = Boolean(a2)
-  return legacy_ok + ' - ' + a1
-});
+var parseLegacyCached = spv.memorize(parseMultiPath)
+var parseModernCached = spv.memorize(parseMultiPath)
 
-parse.simpleState = simpleState
 
-return parse
+var parseWithCache = function(addr_str, legacy_ok) {
+  if (legacy_ok != true) {
+    return parseModernCached(addr_str, false)
+  }
+
+  return parseLegacyCached(addr_str, true)
+}
+
+
+parseWithCache.simpleState = simpleState
+
+return parseWithCache
 
 function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   var state_part_splited = state_raw && state_raw.match(matchZip)
