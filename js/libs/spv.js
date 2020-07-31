@@ -3,6 +3,7 @@ define(function(require) {
 var spv = {};
 
 var cloneObj = require('./spv/cloneObj.js')
+var memorize = require('./spv/memorize')
 
 var addEvent, removeEvent, getDefaultView, domReady,
   doesContain, shuffleArray, arrayExclude, getFields, matchWords, searchInArray, getStringPattern,
@@ -196,25 +197,7 @@ shuffleArray = spv.shuffleArray = function(obj) {
   return shuffled;
 };
 
-spv.memorize = function memorize(func, getter) {
-  var cache = new Map();
-  return getter ? function chechCacheByGetter(){
-    var key = getter.apply(this, arguments);
-    if (!cache.has(key)) {
-      var result = func.apply(this, arguments);
-      cache.set(key, result)
-      return result;
-    }
-    return cache.get(key);
-  } : function checkCache(key) {
-    if (!cache.has(key)) {
-      var result = func.apply(this, arguments);
-      cache.set(key, result)
-      return result;
-    }
-    return cache.get(key);
-  };
-};
+spv.memorize = memorize
 
 var splitByDot = spv.memorize(function splitByDot(string) {
   return string.split('.');
