@@ -1,6 +1,8 @@
 define(function (require) {
 'use strict';
 var pvState = require('../utils/state');
+var spv =  require('spv')
+var countKeys = spv.countKeys
 var CH_GR_LE = 2
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
@@ -30,24 +32,28 @@ function getCurrentTransactionId(self) {
   return 'temp'
 }
 
-function agendaKey(self, effect_name, initial_transaction_id) {
-  return initial_transaction_id + '-' + self._provoda_id + '-' + effect_name
+function agendaKey(self, initial_transaction_id) {
+  return initial_transaction_id + '-' + self._provoda_id
 }
 
 function ensureEffectStore(self, effect_name, initial_transaction_id) {
   if (!self._highway.__produce_side_effects_schedule) {
-    self._highway.__produce_side_effects_schedule = {}
+    self._highway.__produce_side_effects_schedule = new Map()
   }
 
-  var key = agendaKey(self, effect_name, initial_transaction_id)
-  if (!self._highway.__produce_side_effects_schedule[key]) {
-    self._highway.__produce_side_effects_schedule[key] = {
+  var key = agendaKey(self, initial_transaction_id)
+  if (!self._highway.__produce_side_effects_schedule.get(key)) {
+    self._highway.__produce_side_effects_schedule.set(key, {})
+  }
+
+  if (!self._highway.__produce_side_effects_schedule.get(key)[effect_name]) {
+    self._highway.__produce_side_effects_schedule.get(key)[effect_name] = {
       prev_values: {},
       next_values: {},
     }
   }
 
-  return self._highway.__produce_side_effects_schedule[key]
+  return self._highway.__produce_side_effects_schedule.get(key)[effect_name]
 }
 
 function scheduleEffect(self, effect_name, state_name, new_value, skip_prev) {
@@ -193,11 +199,15 @@ function getValue(self, agenda, state_name) {
 }
 
 function executeEffect(self, effect_name, transaction_id) {
-  var key = agendaKey(self, effect_name, transaction_id)
-  var agenda = self._highway.__produce_side_effects_schedule[key]
+  var key = agendaKey(self, transaction_id)
+  var trans_store = self._highway.__produce_side_effects_schedule.get(key)
+
+  var agenda = trans_store && trans_store[effect_name]
   if (!agenda) {
     return
   }
+
+
 
   var effect = self.__api_effects[effect_name];
 
@@ -206,7 +216,10 @@ function executeEffect(self, effect_name, transaction_id) {
     var api = self._interfaces_using.used[effect.apis[i]];
     if (!api) {
       // do not call effect fn
-      delete self._highway.__produce_side_effects_schedule[key]
+      delete trans_store[effect_name]
+      if (!countKeys(trans_store)) {
+        self._highway.__produce_side_effects_schedule.delete(key)
+      }
       return
     }
     args[i] = api
@@ -218,7 +231,10 @@ function executeEffect(self, effect_name, transaction_id) {
   var result = effect.fn.apply(null, args);
   handleEffectResult(self, effect, result);
 
-  delete self._highway.__produce_side_effects_schedule[key]
+  delete trans_store[effect_name]
+  if (!countKeys(trans_store)) {
+    self._highway.__produce_side_effects_schedule.delete(key)
+  }
 
 }
 
