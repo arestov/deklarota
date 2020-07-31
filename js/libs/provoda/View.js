@@ -355,12 +355,14 @@ spv.cloneObj(props, {
 
     this._lbr._anchor = null;
     if (this.tpl) {
+      this.tpl.root_node_raw._provoda_view = null
       this.tpl.destroy();
       this.tpl = null;
     }
 
     if (this.tpls){
       for (var i = 0; i < this.tpls.length; i++) {
+        this.tpls[i].root_node_raw._provoda_view = null
         this.tpls[i].destroy();
       }
       this.tpls = null;
