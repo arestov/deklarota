@@ -335,6 +335,15 @@ CallbacksFlow.prototype = {
     return flow_step;
 
   },
+  scheduleTransactionEnd: function functionName(starter_id, context, args, fn, cb_wrapper) {
+    var flow_step_num = ++this.flow_steps_counter
+    var complex_order = [starter_id, Infinity, flow_step_num]
+    var inited_order = complex_order
+
+    var flow_step = new FlowStep(flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper);
+    order(this, flow_step);
+    this.checkCallbacksFlow();
+  },
   reportLongTaskRaw: function(taskTime, task) {
     if (taskTime < 500) {
       return

@@ -28,6 +28,13 @@ function getCurrentTransactionId(self) {
   if (id) {
     return id
   }
+}
+
+function getCurrentTransactionKey(self) {
+  var id = getCurrentTransactionId(self)
+  if (id) {
+    return id
+  }
   console.warn('no id for transaction. using shared')
   return 'temp'
 }
@@ -57,7 +64,7 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
 }
 
 function scheduleEffect(self, effect_name, state_name, new_value, skip_prev) {
-  var initial_transaction_id = getCurrentTransactionId(self)
+  var initial_transaction_id = getCurrentTransactionKey(self)
   var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
   if (!skip_prev && !effectAgenda.prev_values.hasOwnProperty(state_name)) {
     effectAgenda.prev_values[state_name] = self.zdsv.total_original_states[state_name]
@@ -240,8 +247,6 @@ function executeEffect(self, effect_name, transaction_id) {
 }
 
 function checkExecuteMutateEffects(self) {
-  var flow = self._getCallsFlow();
-
   var using = self._effects_using;
 
   for (var effect_name in using.dep_effects_ready) {
@@ -251,7 +256,10 @@ function checkExecuteMutateEffects(self) {
 
     // we can push anytimes we want
     // 1st handler will erase agenda, so effects will be called just 1 time
-    flow.pushToFlow(executeEffect, this, [self, effect_name, getCurrentTransactionId(self)]);
+
+    var initial_transaction_id = getCurrentTransactionKey(self)
+    var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
+    effectAgenda.schedule_confirmed = true
 
     using.invalidated[effect_name] = false;
     using.dep_effects_ready[effect_name] = false;
@@ -335,5 +343,76 @@ function iterateApis(changes_list, context) {
 return function (total_ch, self) {
   iterateApis(total_ch, self);
   iterateEffects(total_ch, self);
+  scheduleTransactionEnd(self)
 };
+
+function scheduleTransactionEnd(self) {
+  if (self._highway.__produce_side_effects_schedule == null) {
+    return
+  }
+
+  var calls_flow = self._getCallsFlow()
+
+  var tid = getCurrentTransactionId(self)
+  var key = agendaKey(self, getCurrentTransactionKey(self))
+
+  if (!self._highway.__produce_side_effects_schedule.has(key)) {
+    return
+  }
+
+  calls_flow.scheduleTransactionEnd(
+    tid ? tid : Infinity,
+    null,
+    [self, key],
+    handleTransactionEnd
+  )
+}
+
+function handleTransactionEnd(self, key) {
+  if (!self._highway.__produce_side_effects_schedule.has(key)) {
+    return
+  }
+
+  var flow = self._getCallsFlow()
+  var tkey = getCurrentTransactionKey(self)
+
+  var effects_schedule = self._highway.__produce_side_effects_schedule.get(key)
+  for (var effect_name in effects_schedule) {
+    if (!effects_schedule.hasOwnProperty(effect_name)) {
+      continue
+    }
+    var cur = effects_schedule[effect_name]
+    if (!cur.schedule_confirmed) {
+      continue
+    }
+
+    flow.pushToFlow(
+      executeEffect,
+      self,
+      [self, effect_name, tkey],
+      null,
+      null,
+      null,
+      self._currentMotivator()
+    );
+
+  }
+
+  flow.pushToFlow(
+    eraseTransactionEffectsData,
+    null,
+    [self, key],
+    null,
+    null,
+    null,
+    self._currentMotivator()
+  );
+
+
+}
+
+function eraseTransactionEffectsData(self, key) {
+  self._highway.__produce_side_effects_schedule.delete(key)
+}
+
 });
