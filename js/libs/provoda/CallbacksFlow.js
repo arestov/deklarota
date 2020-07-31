@@ -330,7 +330,7 @@ CallbacksFlow.prototype = {
     inited_order.push(flow_step_num);
 
     var flow_step = new FlowStep(flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end);
-    order(this, flow_step, motivator);
+    order(this, flow_step);
     this.checkCallbacksFlow();
     return flow_step;
 
