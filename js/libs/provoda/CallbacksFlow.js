@@ -321,7 +321,15 @@ CallbacksFlow.prototype = {
     }
   },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
-    var flow_step = new FlowStep(++this.flow_steps_counter, fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end);
+    var flow_step_num = ++this.flow_steps_counter
+
+    var complex_order = ( motivator && motivator.complex_order.slice() ) || [];
+    complex_order.push(flow_step_num);
+
+    var inited_order = initedOrder(initiator, motivator);
+    inited_order.push(flow_step_num);
+
+    var flow_step = new FlowStep(flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end);
     order(this, flow_step, motivator);
     this.checkCallbacksFlow();
     return flow_step;
@@ -389,5 +397,17 @@ function toEnd(self, flow_step) {
 
   return flow_step;
 }
+
+function initedOrder(initiator, parent_motivator) {
+  if (initiator) {
+    return initiator.inited_order.slice();
+  }
+  if (parent_motivator) {
+    return parent_motivator.inited_order.slice();
+  }
+
+  return [];
+}
+
 return CallbacksFlow;
 });
