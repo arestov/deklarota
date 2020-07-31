@@ -73,7 +73,7 @@ var parseFromEnd = spv.memorize(function(string) {
   return parseParts(state, nest, resource, base)
 })
 
-var canParseModern = spv.memorize(function(string) {
+var canParseModern = spv.memorize(function canParseModern(string) {
   var from_start = start.test(string)
   var from_end = end.test(string)
   return (from_start || from_end)
@@ -81,7 +81,7 @@ var canParseModern = spv.memorize(function(string) {
     : null
 })
 
-var parseModern = spv.memorize(function(string) {
+var parseModern = spv.memorize(function parseModern(string) {
   var modern = canParseModern(string)
   if (!modern) {return null}
 
