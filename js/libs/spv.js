@@ -197,20 +197,22 @@ shuffleArray = spv.shuffleArray = function(obj) {
 };
 
 spv.memorize = function memorize(func, getter) {
-  var cache = {};
+  var cache = new Map();
   return getter ? function chechCacheByGetter(){
-    var arg = getter.apply(this, arguments);
-    if (!cache.hasOwnProperty(arg)) {
-      var result = cache[arg] = func.apply(this, arguments);
+    var key = getter.apply(this, arguments);
+    if (!cache.has(key)) {
+      var result = func.apply(this, arguments);
+      cache.set(key, result)
       return result;
     }
-    return cache[arg];
-  } : function checkCache(arg) {
-    if (!cache.hasOwnProperty(arg)) {
-      var result = cache[arg] = func.apply(this, arguments);
+    return cache.get(key);
+  } : function checkCache(key) {
+    if (!cache.has(key)) {
+      var result = func.apply(this, arguments);
+      cache.set(key, result)
       return result;
     }
-    return cache[arg];
+    return cache.get(key);
   };
 };
 
