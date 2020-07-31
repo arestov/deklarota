@@ -26,6 +26,14 @@ var ServStates = function() {
 };
 
 var free_sets = [new Set()]
+var getFreeSet = function() {
+  return free_sets.length ? free_sets.pop() : new Set();
+}
+
+var releaseSet = function(set) {
+  set.clear()
+  free_sets.push(set)
+}
 
 var pool = {
   free: [],
@@ -330,8 +338,8 @@ function getComplexInitList(etr) {
 }
 
 function applyComplexStates(etr, total_original_states, original_states, start_from, input_and_output) {
-  var uniq = free_sets.length ? free_sets.pop() : new Set();
   // reuse set
+  var uniq = getFreeSet()
 
   var i, cur;
 
@@ -361,7 +369,7 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
   }
 
   // release reused set
-  uniq.clear()
+  releaseSet(uniq)
   free_sets.push(uniq)
 
 }
@@ -409,12 +417,13 @@ function createReverseIterate0arg(cb) {
 
 
 function compressStatesChanges(changes_list) {
-  var result_changes = new Set();
+  var result_changes = getFreeSet();
   var counter = reversedCompressChanges(changes_list, result_changes);
   counter = counter * CH_GR_LE;
   while (changes_list.length != counter){
     changes_list.shift();
   }
+  releaseSet(result_changes)
   return changes_list;
 }
 
