@@ -1,18 +1,7 @@
 define(function() {
 'use strict';
 
-function initedOrder(initiator, parent_motivator) {
-  if (initiator) {
-    return initiator.inited_order.slice();
-  }
-  if (parent_motivator) {
-    return parent_motivator.inited_order.slice();
-  }
-
-  return [];
-}
-
-var FlowStep = function(num, fn, context, args, arg, cb_wrapper, real_context, parent_motivator, finup, initiator, init_end) {
+var FlowStep = function(num, complex_order, inited_order, fn, context, args, arg, cb_wrapper, real_context, finup, init_end) {
   this.aborted = false;
   this.p_space = '';
   this.p_index_key = '';
@@ -49,12 +38,11 @@ var FlowStep = function(num, fn, context, args, arg, cb_wrapper, real_context, p
   this.finup = !!finup;
 
   this.complex_order = Array.prototype
-  this.complex_order = ( parent_motivator && parent_motivator.complex_order.slice() ) || [];
-  this.complex_order.push(this.num);
+  this.complex_order = complex_order
 
   this.inited_order = Array.prototype
-  this.inited_order = initedOrder(initiator, parent_motivator);
-  this.inited_order.push(this.num);
+  this.inited_order = inited_order
+
   this.init_end = Boolean(init_end);
 
   this.next = FlowStep.prototype;
