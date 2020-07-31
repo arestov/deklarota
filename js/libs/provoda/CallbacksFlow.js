@@ -199,9 +199,9 @@ var CallbacksFlow = function(options) {
   this.flow = [];
   this.flow_start = null;
   this.flow_end = null;
-  this.busy = null;
+  this.busy = false;
   this.iteration_time = iteration_time || 250;
-  this.iteration_delayed = null;
+  this.iteration_delayed = false;
   this.flow_steps_counter = 1;
   this.bad_stops_strike_counter = 0
 
