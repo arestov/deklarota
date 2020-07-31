@@ -19,6 +19,8 @@ function AppRuntime(optionsRaw) {
   this.models = {}
   this.calls_flow = flow
 
+  this.views_counter = 1 // check to remove
+
   var whenAllReady = function(fn) {
     flow.pushToFlow(fn, null, null, null, null, null, null, true)
   }
