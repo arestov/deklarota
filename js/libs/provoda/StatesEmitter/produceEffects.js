@@ -93,7 +93,8 @@ function checkAndMutateInvalidatedEffects(changes_list, self) {
 
 function prefillAgenda(self, effect_name, effect) {
   for (var i = 0; i < effect.triggering_states.length; i++) {
-    scheduleEffect(self, effect_name, effect.deps[i], pvState(self, effect.triggering_states[i]), true)
+    var state_name = effect.triggering_states[i]
+    scheduleEffect(self, effect_name, state_name, pvState(self, state_name), true)
 
   }
 }
