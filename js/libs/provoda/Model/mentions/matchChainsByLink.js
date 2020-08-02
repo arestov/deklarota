@@ -1,6 +1,5 @@
 define(function(require) {
 'use strict'
-var getDepValue = require('../../utils/multiPath/getDepValue')
 var scheduleDelivering = require('./scheduleDelivering')
 var getAllOnwers = require('./getAllOnwers')
 
