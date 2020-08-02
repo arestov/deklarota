@@ -3,6 +3,7 @@ define(function(require) {
 
 var supportedAttrTargetAddr = require('../Model/mentions/supportedAttrTargetAddr')
 var supportedRelTargetAddr = require('../Model/mentions/supportedRelTargetAddr')
+var numDiff = require('../Model/mentions/numDiff')
 var target_types = require('../Model/mentions/target_types')
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
@@ -105,6 +106,14 @@ function buildRelsIndex(chains) {
     }
   }
 
+  for (var name in result) {
+    if (!result.hasOwnProperty(name)) {
+      continue
+    }
+
+    result[name] = result[name].sort(numDiff)
+  }
+
   return result
 }
 
@@ -121,6 +130,14 @@ function buildAttrsIndex(chains) {
 
     var last_step = cur.list[cur.list.length - 1]
     result[attr].push(last_step)
+  }
+
+  for (var name in result) {
+    if (!result.hasOwnProperty(name)) {
+      continue
+    }
+
+    result[name] = result[name].sort(numDiff)
   }
 
   return result
