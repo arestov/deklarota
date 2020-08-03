@@ -20,8 +20,8 @@
   "scripts": {
     "gulp": "gulp",
     "test": "ava --verbose",
-    "test:current-dev": "ava --verbose --match=\"*routes*\"",
-    "debug:current-dev": "node --inspect --inspect-brk node_modules/ava/profile.js test/__tests__/routes.js"
+    "test:current-dev": "ava --verbose test/__tests__/deep-rels.js",
+    "debug:current-dev": "node --inspect --inspect-brk node_modules/ava/profile.js test/__tests__/deep-rels.js"
   },
   "devDependencies": {
     "autoprefixer": "6.0.2",

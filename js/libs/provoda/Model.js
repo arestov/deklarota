@@ -323,6 +323,9 @@ add({
     }
   }),
   die: function(){
+    prsStCon.disconnect.parent(this, this);
+    prsStCon.disconnect.root(this, this);
+
     this.stopRequests();
     //this.mpx.die();
     this._highway.views_proxies.killMD(this);
@@ -374,9 +377,14 @@ add({
   sendCollectionChange: function(collection_name, array, old_value, removed) {
     //this.removeDeadViews();
     logger.logNesting(this, collection_name, array, old_value, removed)
-    this._highway.sync_sender.pushNesting(this, collection_name, array, old_value, removed);
-    this._highway.views_proxies.pushNesting(this, collection_name, array, old_value, removed);
-    if (this.mpx) {
+    var _highway = this._highway
+    if (_highway.sync_sender != null) {
+      _highway.sync_sender.pushNesting(this, collection_name, array, old_value, removed);
+    }
+    if (_highway.views_proxies != null) {
+      this._highway.views_proxies.pushNesting(this, collection_name, array, old_value, removed);
+    }
+    if (this.mpx != null) {
       this.mpx.sendCollectionChange(collection_name, array, old_value, removed);
     }
   },
@@ -395,9 +403,14 @@ add({
     }
 
     logger.logStates(this, dubl)
-    this._highway.sync_sender.pushStates(this, dubl);
-    this._highway.views_proxies.pushStates(this, dubl);
-    if (this.mpx) {
+    var _highway = this._highway
+    if (_highway.sync_sender != null) {
+      _highway.sync_sender.pushStates(this, dubl);
+    }
+    if (_highway.views_proxies != null) {
+      _highway.views_proxies.pushStates(this, dubl);
+    }
+    if (this.mpx != null) {
       this.mpx.stackReceivedStates(dubl);
     }
     //

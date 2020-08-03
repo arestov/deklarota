@@ -1,4 +1,4 @@
-define(function() {
+define(function(require) {
 'use strict'
 var _updateRel = require('_updateRel');
 var matchRoute = require('../../routes/match')

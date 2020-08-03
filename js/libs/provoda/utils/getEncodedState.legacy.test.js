@@ -1,16 +1,7 @@
 
 var test = require('ava')
 var requirejs = require('requirejs');
-var path = require('path')
-var cloneDeep = require('lodash/cloneDeep')
-requirejs.config({
-  baseUrl: __dirname,
-  map: {
-		'*': {
-			spv: path.join(process.cwd(), 'js/libs/spv.js'),
-		}
-	},
-})
+require('./require-config')
 
 var list = getList()
 
@@ -39,8 +30,6 @@ test('modern can be converted and used as legacy', function(t) {
     var legacyParsed = getParsedState(legacyAddr)
     var legacyParsedFromModern = modernAsLegacyParsed(toModernString(legacyAddr))
 
-
-    t.log(legacyAddr, toModernString(legacyAddr))
     t.deepEqual(
       Object.assign({}, clean(legacyParsed), {full_name: null, zip_name: null}),
       Object.assign({}, clean(legacyParsedFromModern), {full_name: null, zip_name: null})

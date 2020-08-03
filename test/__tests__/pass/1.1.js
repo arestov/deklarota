@@ -32,10 +32,10 @@ const requirejs = require('../../../requirejs-config')
 
 const spv = requirejs('spv')
 const Model = requirejs('pv/Model')
-const pvUpdate = requirejs('pv/update')
-const pvState = requirejs('pv/state')
+const pvUpdate = requirejs('pv/updateAttr')
+const pvState = requirejs('pv/getAttr')
 const pvPass = requirejs('pv/pass')
-const getNesting = requirejs('pv/getNesting')
+const getNesting = requirejs('pv/getRel')
 
 const init = require('../../init')
 const makeStepsRunner = require('../../steps')

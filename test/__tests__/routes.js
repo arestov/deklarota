@@ -2,11 +2,18 @@ const test = require('ava')
 
 const requirejs = require('../../requirejs-config')
 
-const pvState = requirejs('pv/state')
+const pvState = requirejs('pv/getAttr')
 const BrowseMap = requirejs('pv/Model')
 
 const init = require('../init')
 const waitFlow = require('../waitFlow')
+
+const input = (app, fn) => new Promise(resolve => {
+  app.input(() => {
+    fn(app)
+    resolve()
+  })
+})
 
 
 test('routes', async t => {
@@ -32,7 +39,7 @@ test('routes', async t => {
         ]),
       },
     },
-    'routes': {
+    routes: {
       'tracks/[:trackName]': 'tracklist',
     },
   })).app_model
@@ -56,33 +63,37 @@ test('routes', async t => {
     app.getNesting('tracklist')[1],
   )
 
-  // STEP 1. CHANGE STATE AND ROUTES
+  await input(app, () => {
+    // STEP 1. CHANGE STATE AND ROUTES
 
-  const track = app.getNesting('tracklist')[0]
-  track.updateState('trackName', 'cloud-remix')
+    const track = app.getNesting('tracklist')[0]
+    track.updateState('trackName', 'cloud-remix')
+  })
 
   await waitFlow(app)
 
-  t.is(
-    app.getSPI('tracks/super-hit-1', { autocreate: false }),
-    undefined,
-  )
+  await input(app, () => {
+    t.is(
+      app.getSPI('tracks/super-hit-1', { autocreate: false }),
+      undefined,
+    )
 
-  t.is(
-    app.getSPI('tracks/cloud-remix', { autocreate: false }),
-    app.getNesting('tracklist')[0],
-  )
+    t.is(
+      app.getSPI('tracks/cloud-remix', { autocreate: false }),
+      app.getNesting('tracklist')[0],
+    )
 
-  const created = app.getSPI('tracks/fresh-cover', { autocreate: true })
-  t.is(
-    created && pvState(created, 'trackName'),
-    'fresh-cover',
-  )
+    const created = app.getSPI('tracks/fresh-cover', { autocreate: true })
+    t.is(
+      created && pvState(created, 'trackName'),
+      'fresh-cover',
+    )
 
-  t.is(
-    created && pvState(created, 'url_part'),
-    '/tracks/fresh-cover',
-  )
+    t.is(
+      created && pvState(created, 'url_part'),
+      '/tracks/fresh-cover',
+    )
+  })
 
   // get proper routes
   // miss wrong routes

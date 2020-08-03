@@ -2,7 +2,7 @@ define(function(require) {
 'use strict'
 
 var spv = require('spv')
-var getParsedPath = require('__lib/routes/legacy/getParsedPath')
+var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
 
 var supportedZip = require('./supportedZip')
 
@@ -73,66 +73,105 @@ var parseFromEnd = spv.memorize(function(string) {
   return parseParts(state, nest, resource, base)
 })
 
-var canParseModern = spv.memorize(function(string) {
+function canParseModern(string) {
   var from_start = start.test(string)
   var from_end = end.test(string)
   return (from_start || from_end)
     ? {from_start: from_start, from_end: from_end}
     : null
-})
+}
 
-var parseModern = spv.memorize(function(string) {
-  var modern = canParseModern(string)
-  if (!modern) {return null}
+var parseModern = spv.memorize(function parseModern(string) {
+  var can_parse = canParseModern(string)
+  if (can_parse == null) {
+    return null
+  }
 
-  if (modern.from_start) {
+  if (can_parse.from_start) {
     return parseFromStart(string)
   }
   return parseFromEnd(string)
 })
 
 var matchNotStateSymbols = /(^\W)|\@|\:/
+
+
+var getStateInfo = spv.memorize(function getStateInfo(string) {
+  if (!string) {
+    return empty;
+  }
+
+  return {
+    base: splitByDot(string)[0],
+    path: string,
+  }
+})
+
+var SimpleStateAddr = function(string) {
+  this.state = getStateInfo(string);
+}
+
+SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
+  result_type: 'state',
+  zip_name: null,
+  state: null,
+  nesting: empty,
+  resource: empty,
+  from_base: empty,
+  as_string: null,
+})
+
+var simpleState = spv.memorize(function simpleState(string) {
+  return new SimpleStateAddr(string)
+})
+
 var attemptSimpleStateName = function(string) {
   if (!string || matchNotStateSymbols.test(string)) {
     return null
   }
 
-  return {
-    result_type: 'state',
-    zip_name: null,
-    state: getStateInfo(string),
-    nesting: {},
-    resource: {},
-    from_base: {},
-    as_string: null,
-  }
+  return simpleState(string)
+}
+
+var self = {
+  as_string: '<<<<',
+  base_itself: true,
 }
 
 var parseMultiPath = function(string, allow_legacy) {
   if (string == '<<<<') {
-    return {
-      as_string: string,
-      base_itself: true,
-    }
+    return self
   }
 
 
-  var modern = canParseModern(string)
-  if (!modern) {
-    return attemptSimpleStateName(string) || (
-      allow_legacy ? fromLegacy(string) : null
-    )
+  var modern = parseModern(string)
+  if (modern != null) {
+    return modern
   }
 
-  return parseModern(string)
+  return attemptSimpleStateName(string) || (
+    allow_legacy ? fromLegacy(string) : null
+  )
+
 }
 var matchZip = /(?:\@(.+?)\:)?(.+)?/
 
+var parseLegacyCached = spv.memorize(parseMultiPath)
+var parseModernCached = spv.memorize(parseMultiPath)
 
-return spv.memorize(parseMultiPath, function(a1, a2) {
-  var legacy_ok = Boolean(a2)
-  return legacy_ok + ' - ' + a1
-});
+
+var parseWithCache = function(addr_str, legacy_ok) {
+  if (legacy_ok != true) {
+    return parseModernCached(addr_str, false)
+  }
+
+  return parseLegacyCached(addr_str, true)
+}
+
+
+parseWithCache.simpleState = simpleState
+
+return parseWithCache
 
 function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   var state_part_splited = state_raw && state_raw.match(matchZip)
@@ -183,16 +222,6 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   }
 }
 
-function getStateInfo(string) {
-  if (!string) {
-    return empty;
-  }
-
-  return {
-    base: splitByDot(string)[0],
-    path: string,
-  }
-}
 
 function getNestInfo(string) {
   if (!string) {

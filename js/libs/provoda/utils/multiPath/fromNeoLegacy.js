@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict';
-var getParsedPath = require('__lib/routes/legacy/getParsedPath')
+var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
 
 // var NestingSourceDr = require('../../utils/NestingSourceDr');
 

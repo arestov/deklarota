@@ -199,9 +199,9 @@ var CallbacksFlow = function(options) {
   this.flow = [];
   this.flow_start = null;
   this.flow_end = null;
-  this.busy = null;
+  this.busy = false;
   this.iteration_time = iteration_time || 250;
-  this.iteration_delayed = null;
+  this.iteration_delayed = false;
   this.flow_steps_counter = 1;
   this.bad_stops_strike_counter = 0
 
@@ -321,11 +321,28 @@ CallbacksFlow.prototype = {
     }
   },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
-    var flow_step = new FlowStep(++this.flow_steps_counter, fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end);
-    order(this, flow_step, motivator);
+    var flow_step_num = ++this.flow_steps_counter
+
+    var complex_order = ( motivator && motivator.complex_order.slice() ) || [];
+    complex_order.push(flow_step_num);
+
+    var inited_order = initedOrder(initiator, motivator);
+    inited_order.push(flow_step_num);
+
+    var flow_step = new FlowStep(flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end);
+    order(this, flow_step);
     this.checkCallbacksFlow();
     return flow_step;
 
+  },
+  scheduleTransactionEnd: function functionName(starter_id, context, args, fn, cb_wrapper) {
+    var flow_step_num = ++this.flow_steps_counter
+    var complex_order = [starter_id, Infinity, flow_step_num]
+    var inited_order = complex_order
+
+    var flow_step = new FlowStep(flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper);
+    order(this, flow_step);
+    this.checkCallbacksFlow();
   },
   reportLongTaskRaw: function(taskTime, task) {
     if (taskTime < 500) {
@@ -389,5 +406,17 @@ function toEnd(self, flow_step) {
 
   return flow_step;
 }
+
+function initedOrder(initiator, parent_motivator) {
+  if (initiator) {
+    return initiator.inited_order.slice();
+  }
+  if (parent_motivator) {
+    return parent_motivator.inited_order.slice();
+  }
+
+  return [];
+}
+
 return CallbacksFlow;
 });

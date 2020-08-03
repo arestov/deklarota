@@ -46,8 +46,12 @@ var bind = {
   }
 }
 
-var copyStates = function(md, target, state_name, full_name) {
+var subscribe = function(md, target, state_name, full_name) {
   md.wlch(target, state_name, full_name);
+}
+
+var unsubscribe = function(md, target, state_name, full_name) {
+  md.unwlch(target, state_name, full_name);
 }
 
   return {
@@ -86,8 +90,13 @@ var copyStates = function(md, target, state_name, full_name) {
     },
     connect: {
       nesting: function() {},
-      parent: bind.parent(copyStates),
-      root: bind.root(copyStates),
+      parent: bind.parent(subscribe),
+      root: bind.root(subscribe),
+    },
+    disconnect: {
+      nesting: function() {},
+      parent: bind.parent(unsubscribe),
+      root: bind.root(unsubscribe),
     }
   };
 });

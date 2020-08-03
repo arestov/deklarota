@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
 var spv = require('spv')
-var parsePath = require('./parse')
+var parsePath = require('./parse.js')
 
 
 var isFromRoot = function(first_char, string_template) {

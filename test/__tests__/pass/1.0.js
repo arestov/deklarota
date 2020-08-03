@@ -57,7 +57,7 @@ const requirejs = require('../../../requirejs-config')
 
 const spv = requirejs('spv')
 const Model = requirejs('pv/Model')
-const pvState = requirejs('pv/state')
+const pvState = requirejs('pv/getAttr')
 const pvPass = requirejs('pv/pass')
 
 const init = require('../../init')

@@ -8,15 +8,18 @@ var updateProxy = require('./updateProxy');
 var Eventor = require('./Eventor');
 var useInterface = require('./StatesEmitter/useInterface');
 var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr')
+
+var deliverChainUpdates = require('./Model/mentions/deliverChainUpdates')
+
 var regfr_lightstev = require('./internal_events/light_attr_change/regfire');
 var getNameByAttr = require('./internal_events/light_attr_change/getNameByAttr')
-
 var subscribeToDie = require('./internal_events/die/subscribe')
 var _updateAttr = require('_updateAttr');
 
 var onPropsExtend = require('./onExtendSE');
 var act = require('./dcl/passes/act');
 var pvState = require('./utils/state')
+
 var initEffectsSubscribe = require('./dcl/effects/legacy/subscribe/init');
 
 var getLightConnector = spv.memorize(function(state_name) {
@@ -92,12 +95,15 @@ add({
     donor.evcompanion.off(utils_simple.getSTEVNameLight(donor_state), func, false, this);
   },
 
-  wlch: function(donor, donor_state, acceptor_state) {
-    var acceptor_state_name = acceptor_state || donor_state;
+  wlch: function(donor, donor_state, acceptor_state_name) {
     var cb = getLightConnector(acceptor_state_name);
-    this._bindLight(donor, donor_state, cb);
 
-
+    var event_name = utils_simple.getSTEVNameLight(donor_state)
+    donor.evcompanion._addEventHandler(event_name, cb, this);
+  },
+  unwlch: function(donor, donor_state, acceptor_state_name) {
+    var cb = getLightConnector(acceptor_state_name);
+    this.removeLwch(donor, donor_state, cb)
   },
   onExtend: function(props, original) {
     onPropsExtend(this, props, original);
@@ -192,6 +198,9 @@ add({
     var light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name);
 
     return light_cb_cs ? light_cb_cs.length : 0
+  },
+  __deliverChainUpdates: function(chain) {
+    deliverChainUpdates(this, chain)
   }
 });
 }

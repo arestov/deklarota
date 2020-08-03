@@ -2,6 +2,7 @@
 /dist
 nodejs/troxent2/
 node_modules
+node_modules/*
 dist-envs
 dist/loader.js
 tmp

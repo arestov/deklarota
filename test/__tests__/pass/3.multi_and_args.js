@@ -46,8 +46,8 @@ const requirejs = require('../../../requirejs-config')
 
 const spv = requirejs('spv')
 const Model = requirejs('pv/Model')
-const pvState = requirejs('pv/state')
-const getNesting = requirejs('pv/getNesting')
+const pvState = requirejs('pv/getAttr')
+const getNesting = requirejs('pv/getRel')
 const updateNesting = requirejs('pv/updateNesting')
 
 const init = require('../../init')

@@ -3,6 +3,7 @@ define(function(require) {
 var spv = {};
 
 var cloneObj = require('./spv/cloneObj.js')
+var memorize = require('./spv/memorize')
 
 var addEvent, removeEvent, getDefaultView, domReady,
   doesContain, shuffleArray, arrayExclude, getFields, matchWords, searchInArray, getStringPattern,
@@ -172,7 +173,7 @@ var arExclComplex = function(result, arr, obj) {
   return result;
 };
 
-arrayExclude = spv.arrayExclude = function(arr, obj){
+arrayExclude = spv.arrayExclude = function arrayExclude(arr, obj){
   var r = [];
   if (!arr){
     return r;
@@ -196,30 +197,14 @@ shuffleArray = spv.shuffleArray = function(obj) {
   return shuffled;
 };
 
-spv.memorize = function(func, getter) {
-  var cache = {};
-  return getter ? function(){
-    var arg = getter.apply(this, arguments);
-    if (!cache.hasOwnProperty(arg)) {
-      var result = cache[arg] = func.apply(this, arguments);
-      return result;
-    }
-    return cache[arg];
-  } : function(arg) {
-    if (!cache.hasOwnProperty(arg)) {
-      var result = cache[arg] = func.apply(this, arguments);
-      return result;
-    }
-    return cache[arg];
-  };
-};
+spv.memorize = memorize
 
-var splitByDot = spv.memorize(function(string) {
+var splitByDot = spv.memorize(function splitByDot(string) {
   return string.split('.');
 })
 spv.splitByDot = splitByDot;
 
-var getFieldsTree = function(string) {
+var getFieldsTree = function getFieldsTree(string) {
   if (Array.isArray(string)){
     return string;
   } else {
@@ -228,7 +213,7 @@ var getFieldsTree = function(string) {
 };
 spv.getFieldsTree = getFieldsTree;
 
-getTargetField = function(obj, path){
+getTargetField = function getTargetField(obj, path){
   if (!path) {return obj;}
 
   var tree = getFieldsTree(path);
@@ -394,7 +379,7 @@ spv.collapseAll = function(){
   return r;
 };
 
-toRealArray = spv.toRealArray = function(array, check_field){
+toRealArray = spv.toRealArray = function toRealArray(array, check_field){
   if (Array.isArray(array)){
     return array;
   } else if (array && (typeof array == 'object') && array.length){
@@ -524,7 +509,7 @@ spv.compareArray = function compareArray(one, two) {
   }
 };
 
-sortByRules = spv.sortByRules = function(a, b, rules){
+sortByRules = spv.sortByRules = function sortByRules(a, b, rules){
   if (a instanceof Object && b instanceof Object){
     var shift = 0;
 
@@ -1036,7 +1021,7 @@ spv.inh = extend;
  * http://www.gnu.org/licenses/gpl.html
  *
  */
-debounce = function(fn, timeout, invokeAsap, ctx) {
+debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
   if(arguments.length == 3 && typeof invokeAsap != 'boolean') {
     ctx = invokeAsap;
@@ -1063,7 +1048,7 @@ debounce = function(fn, timeout, invokeAsap, ctx) {
 
 };
 
-throttle = function(fn, timeout, ctx) {
+throttle = function throttle(fn, timeout, ctx) {
 
   var timer, args, needInvoke;
 
@@ -1234,7 +1219,7 @@ var getPropsListByTree = function(obj) {
 
 };
 
-spv.mapProps = function(props_map, donor, acceptor) {
+spv.mapProps = function mapProps(props_map, donor, acceptor) {
   for (var name in props_map){
     var value = getTargetField(donor, props_map[name]);
     if (typeof value != 'undefined'){

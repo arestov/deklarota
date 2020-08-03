@@ -1,6 +1,6 @@
 define(function() {
 'use strict'
-var simpleClone = function(_no, donor) {
+var simpleClone = function simpleClone(_no, donor) {
   for (var prop in donor) {
     if (!donor.hasOwnProperty(prop)){
       continue;
@@ -10,12 +10,12 @@ var simpleClone = function(_no, donor) {
   return _no;
 };
 
-var doClone = Object.assign ? function(_no, donor) {
+var doClone = Object.assign ? function cloneObj(_no, donor) {
   return Object.assign(_no, donor);
 } : simpleClone;
 
 
-return function(acceptor, donor, black_list, white_list){
+return function blockingCloneObj (acceptor, donor, black_list, white_list){
   //not deep!
   var _no = acceptor || {};
   var prop;

@@ -645,14 +645,21 @@ var View = spv.inh(StatesEmitter, {
 
   },
   die: function(opts){
-    if (!this._lbr.marked_as_dead){
-      this.domDie()
-      this.markAsDead(opts && opts.skip_md_call);
-      nestBorrowDestroy(this);
-      this._lbr.marked_as_dead = true;
-      // spyglassDestroy(this)
+    if (this._lbr.marked_as_dead){
+      return this
     }
-    return this;
+
+    prsStCon.disconnect.parent(this, this);
+    prsStCon.disconnect.root(this, this);
+
+
+    this.domDie()
+    this.markAsDead(opts && opts.skip_md_call);
+    nestBorrowDestroy(this);
+    this._lbr.marked_as_dead = true;
+    // spyglassDestroy(this)
+
+    return this
   },
   requestView: function() {
     this.requestAll();

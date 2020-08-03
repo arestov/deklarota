@@ -32,8 +32,8 @@ const requirejs = require('../../../requirejs-config')
 
 const spv = requirejs('spv')
 const Model = requirejs('pv/Model')
-const pvState = requirejs('pv/state')
-const pvUpdate = requirejs('pv/update')
+const pvState = requirejs('pv/getAttr')
+const pvUpdate = requirejs('pv/updateAttr')
 
 const init = require('../../init')
 const makeStepsRunner = require('../../steps')

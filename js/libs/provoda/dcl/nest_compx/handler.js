@@ -97,6 +97,7 @@ return {
     changeValue(current_motivator, runner, dep_full_name, value)
   },
   recalc: recalc,
+  changeValue: changeValue,
 }
 
 })

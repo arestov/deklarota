@@ -7,6 +7,34 @@ var groupDeps = require('../utils/groupDeps')
 var getEncodedState= require('../utils/getEncodedState');
 var getShortStateName= require('../utils/getShortStateName');
 
+var getParsedState = require('../utils/getParsedState')
+
+var asString = require('../utils/multiPath/asString')
+var fromLegacy = require('../utils/multiPath/fromLegacy')
+var parse = require('../utils/multiPath/parse')
+var mentionsSupportedAddr = require('../Model/mentions/supportedAttrTargetAddr')
+
+var isJustAttrAddr = function(addr) {
+  if (addr.result_type !== 'state') {
+    return false
+  }
+
+  if (addr.nesting.path || (addr.resource && addr.resource.path) || addr.from_base.type) {
+    return false
+  }
+
+  return true
+}
+
+var shortStringWhenPossible = function(addr) {
+
+  if (!isJustAttrAddr(addr)) {
+    return asString(addr)
+  }
+
+  return addr.state.path
+}
+
 var identical = function(state) {
   return state;
 };
@@ -24,6 +52,26 @@ var fromArray = function(state_name, cur) {
   };
 };
 
+var toAddr = function(state_name) {
+  var result1 = getParsedState(state_name)
+  if (result1) {
+    var nice = fromLegacy(state_name)
+    var best = asString(nice)
+    console.warn('replace ' + state_name + ' by ' + best)
+
+    return nice
+  }
+
+  var addr = parse(state_name)
+  if (addr) {
+    return addr
+  }
+
+  // it could be $meta or __, or anything else
+  var last_result = parse.simpleState(state_name)
+  return last_result
+}
+
 var toParsedDeps = function(array) {
   var result = new Array(array.length)
   var require_marks = []
@@ -31,54 +79,52 @@ var toParsedDeps = function(array) {
     var cur = array[i]
 
     if (cur.charAt(0) != '&') {
-      result[i] = cur
+      result[i] = toAddr(cur)
       continue
     }
 
-    result[i] = cur.slice(1)
+    result[i] = toAddr(cur.slice(1))
     require_marks.push(i)
   }
 
   return {fixed_deps: result, require_marks: require_marks}
 }
 
-var declr = function(comlx_name, cur) {
+var CompxAttrDecl = function(comlx_name, cur) {
   var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur;
-  item.raw_depends_on = item.depends_on
+  var raw_depends_on = item.depends_on
 
-  if (!Array.isArray(item.raw_depends_on)) {
+  if (!Array.isArray(raw_depends_on)) {
     throw new Error('should be list');
   }
 
-  var parsed = toParsedDeps(item.raw_depends_on)
-  item.depends_on = parsed.fixed_deps
-  item.require_marks = parsed.require_marks
+  var parsed = toParsedDeps(raw_depends_on)
 
-  item.name = comlx_name;
+  this.addrs = parsed.fixed_deps
+  this.depends_on = parsed.fixed_deps.map(shortStringWhenPossible)
+  this.require_marks = parsed.require_marks
 
-  if (!item.depends_on.length && typeof item.fn !== 'function') {
-    var value = item.fn;
-    item.fn = function() {
-      return value;
-    };
+  this.name = comlx_name;
+
+  if (!this.depends_on.length && typeof item.fn !== 'function') {
+    throw new Error('use attr "input" to define default values')
   }
 
-  if (!item.fn) {
-    item.fn = identical;
-  }
-  if (!Array.isArray(item.depends_on)) {
-    throw new Error('should be list');
+  this.fn = item.fn || identical
+
+  if (!Array.isArray(this.depends_on)) {
+    throw new Error('should be list: ' + this.depends_on);
   }
 
-  item.watch_list = new Array(item.depends_on.length || 0);
+  this.watch_list = new Array(this.depends_on.length || 0);
 
-  for (var i = 0; i < item.depends_on.length; i++) {
-    if (!item.depends_on[i]) {
+  for (var i = 0; i < this.depends_on.length; i++) {
+    if (!this.depends_on[i]) {
       throw new Error('state name should not be empty');
     }
-    item.watch_list[i] = getShortStateName(item.depends_on[i]);
+    this.watch_list[i] = getShortStateName(this.depends_on[i]);
   }
-  return item;
+  return this;
 };
 
 
@@ -121,7 +167,7 @@ var extendTyped = function(self, typed_state_dcls) {
     if (!typed_state_dcls.hasOwnProperty(name)) {
       continue;
     }
-    extending_part[name] = declr(name, typed_state_dcls[name]);
+    extending_part[name] = new CompxAttrDecl(name, typed_state_dcls[name]);
   }
 
   result = cloneObj(result, extending_part);
@@ -147,6 +193,24 @@ return function(self, props, typed_part) {
   return true;
 };
 
+function uniqExternalDeps(full_comlxs_list) {
+  var uniq = spv.set.create()
+
+  for (var i = 0; i < full_comlxs_list.length; i++) {
+    var cur = full_comlxs_list[i]
+    for (var jj = 0; jj < cur.addrs.length; jj++) {
+      var addr = cur.addrs[jj]
+      if (isJustAttrAddr(addr)) {
+        continue
+      }
+
+      spv.set.add(uniq, asString(addr), addr)
+    }
+  }
+
+  return uniq.list
+}
+
 function collectStatesConnectionsProps(self, full_comlxs_list) {
   /*
 
@@ -159,10 +223,18 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
     ['songs-list', 'mf_cor', 'sorted_completcs']
   ]
   */
+  self.__attrs_full_comlxs_list = full_comlxs_list
+  self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list)
+
   var result = makeGroups(full_comlxs_list);
-  var compx_nest_matches = new Array(result.conndst_nesting.length)
+  var compx_nest_matches = []
   for (var i = 0; i < result.conndst_nesting.length; i++) {
-    compx_nest_matches[i] = result.conndst_nesting[i].nwatch;
+    var nwatch = result.conndst_nesting[i].nwatch
+    var addr = nwatch.nmpath_source
+    if (mentionsSupportedAddr(addr)) {
+      continue
+    }
+    compx_nest_matches.push(nwatch)
   }
 
   self.compx_nest_matches = compx_nest_matches;
