@@ -237,7 +237,7 @@ function resetRequestedState(state_name) {
 
     makeLoadingMarks(types.loading, list, null, states)
     makeLoadingMarks(types.load_attempting, list, null, states)
-    makeLoadingMarks(types.load_attempting, list, null, states)
+    makeLoadingMarks(types.load_attempted, list, null, states)
     makeLoadingMarks(types.load_attempted_at, list, null, states)
     makeLoadingMarks(types.complete, list, null, states)
     states[state_name] = null
