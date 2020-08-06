@@ -231,7 +231,7 @@ var WebAppView = spv.inh(AppBaseView, {}, {
     this.root_view_uid = Date.now();
 
     var _this = this;
-    setTimeout(function() {
+    Promise.resolve().then(function() {
       spv.domReady(_this.d, _this.inputFn(function() {
         _this.buildAppDOM();
         _this.onDomBuild();
