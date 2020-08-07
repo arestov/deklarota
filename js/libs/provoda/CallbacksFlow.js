@@ -281,11 +281,12 @@ CallbacksFlow.prototype = {
 
   },
   checkCallbacksFlow: function() {
-    if (!this.iteration_delayed && !this.callbacks_busy){
-      this.pushIteration(this.hndIterateCallbacksFlow);
-
-      this.iteration_delayed = true;
+    if (this.iteration_delayed || this.callbacks_busy) {
+      return
     }
+
+    this.pushIteration(this.hndIterateCallbacksFlow);
+    this.iteration_delayed = true;
   },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
     var flow_step_num = ++this.flow_steps_counter
