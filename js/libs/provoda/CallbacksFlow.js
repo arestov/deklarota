@@ -157,6 +157,8 @@ var getBoxedRAFFunc = function(win) {
   };
 };
 
+var MIN = 60 * 1000
+
 var CallbacksFlow = function(options) {
   // glo is global/window
   var glo = options.glo
@@ -168,7 +170,7 @@ var CallbacksFlow = function(options) {
   this.flow_end = null;
   this.busy = false;
   this.iteration_time = iteration_time || 250;
-  this.iteration_delayed = false;
+  this.iteration_delayed_check_time = 0;
   this.flow_steps_counter = 1;
   this.bad_stops_strike_counter = 0
 
@@ -215,7 +217,7 @@ CallbacksFlow.prototype = {
     var started_at = Date.now()
     var start = started_at + this.iteration_time;
     var last_call_at = started_at
-    this.iteration_delayed = false;
+    this.iteration_delayed_check_time = 0;
     this.callbacks_busy = true;
 
     var stopped;
@@ -281,12 +283,12 @@ CallbacksFlow.prototype = {
 
   },
   checkCallbacksFlow: function() {
-    if (this.iteration_delayed || this.callbacks_busy) {
+    if (this.iteration_delayed_check_time || this.callbacks_busy) {
       return
     }
 
     this.pushIteration(this.hndIterateCallbacksFlow);
-    this.iteration_delayed = true;
+    this.iteration_delayed_check_time = Math.round(Date.now()) + MIN;
   },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
     var flow_step_num = ++this.flow_steps_counter
