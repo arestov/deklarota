@@ -283,12 +283,25 @@ CallbacksFlow.prototype = {
 
   },
   checkCallbacksFlow: function() {
-    if (this.iteration_delayed_check_time || this.callbacks_busy) {
+    if (this.callbacks_busy) {
+      return
+    }
+
+    var now = Math.round(Date.now())
+
+    if (this.iteration_delayed_check_time) {
+      if (this.iteration_delayed_check_time <= now) {
+
+        // HELP GC
+        this.flow_start = null
+        this.flow_end = null
+        throw new Error('browser did not executed queue callback fn')
+      }
       return
     }
 
     this.pushIteration(this.hndIterateCallbacksFlow);
-    this.iteration_delayed_check_time = Math.round(Date.now()) + MIN;
+    this.iteration_delayed_check_time = now + MIN;
   },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
     var flow_step_num = ++this.flow_steps_counter
