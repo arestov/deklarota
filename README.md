@@ -4,15 +4,15 @@
 
 (декларота́ - Russian made up word, means "quintessence of declarativeness")
 
-Deklaro-ta is JavaScript **Functional Relational Reactive Framework** to create apps with complex logic (offline fist, relations).
+Deklaro-ta is JavaScript **Functional Relational Reactive Framework** to create apps with complex logic (offline first, relations).
 
 
-Tool to **model and manage relations of state and side effects**. It provides **new uniq means of expression** to do that.
+Tool to **model and manage relations of state and side effects**. It provides **new unique means of expression** to do that.
 Means that unlock not just
 - reduced amount of code
 - correctness, consistency
 but also
-- performance now and more performance in future
+- performance now and more performance in the future
 - relations and data model inspector
 - auto-concurrenting of computations (and hints for complex cases)
 
@@ -23,7 +23,7 @@ How to combine Redux (Event Log + Reducer) and MVC?
 How to make FRP relational?
 
 Consistently, incrementally was being created during development of music app 🔉http://seesu.me/.
-Which took
+Which won
  - 🥇Opera Widgets Challenge (2010)
  - 🥇Chrome Apps contest of Google technology User Group
  - 🏅Tizen App Challenge (2014)
