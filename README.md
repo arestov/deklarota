@@ -16,11 +16,12 @@ but also
 - relations and data model inspector
 - auto-concurrenting of computations (and hints for complex cases)
 
-Inspired by Alan's Kay OOP, MVC, FP, FRP, Redux, Event Log, CQS, Out of the Tar Pit
+Inspired by Alan's Kay OOP, MVC, FP, FRP, Redux, Event Log, CQS, stuartsierra/component, Out of the Tar Pit
 
 How to combine OOP and FP?
 How to combine Redux (Event Log + Reducer) and MVC?
 How to make FRP relational?
+How to write pure functions without immutability?
 
 Consistently, incrementally was being created during development of music app 🔉http://seesu.me/.
 Which won
