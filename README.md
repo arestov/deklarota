@@ -34,4 +34,4 @@ and 🚀 inspired utorrent to borrow torrent streaming as paid feature (as appli
 Logo author: https://twitter.com/nikitonsky
 
 Copyright (c) 2009—2020 Gleb Arestov
-Licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php) license.
+Licensed under the Business Source License 1.1 (BSL).
