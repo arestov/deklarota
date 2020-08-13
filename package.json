@@ -1,22 +1,12 @@
 {
   "name": "dkt",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:arestov/deklarota.git"
   },
   "main": "dist/cjs/libs/provoda/provoda.js",
   "module": "dist/esm/libs/provoda/provoda.js",
-  "webkit": {
-    "plugin": true
-  },
-  "window": {
-    "icon": "icons/icon64.png",
-    "width": 1024,
-    "height": 768,
-    "min_width": 640,
-    "min_height": 480
-  },
-  "node-remote": "https://arestov.github.io",
   "scripts": {
     "gulp": "gulp",
     "test": "ava --verbose",
