@@ -5,10 +5,8 @@ var spv = {};
 var cloneObj = require('./spv/cloneObj.js')
 var memorize = require('./spv/memorize')
 
-var addEvent, removeEvent, getDefaultView, domReady,
-  doesContain, shuffleArray, arrayExclude, getFields, matchWords, searchInArray, getStringPattern,
-  ttime, toRealArray, getTargetField, sortByRules, makeIndexByField, $filter,
-  createObjClone, getDiffObj, getUnitBaseNum, stringifyParams, separateNum, Class,
+var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
+getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum, Class,
   debounce, throttle;
 if (!Array.prototype.indexOf) {
   Array.prototype.indexOf = function (obj, start) {
@@ -100,10 +98,11 @@ if (typeof window !== 'undefined') {
   };
 }
 
-getDefaultView = spv.getDefaultView = function(d) {
+spv.getDefaultView = function(d) {
   return d.defaultView || d.parentWindow;
 };
-domReady = spv.domReady = function(d, callback){
+
+spv.domReady = function(d, callback){
   var wndw = spv.getDefaultView(d);
   if (!wndw){
     return;
@@ -125,7 +124,7 @@ domReady = spv.domReady = function(d, callback){
   }
 };
 
-doesContain = spv.doesContain = function(target, valueOf){
+spv.doesContain = function(target, valueOf){
   var cached_t_value = valueOf ? valueOf.call(target) : (target.valueOf());
 
   for (var i=0; i < this.length; i++) {
@@ -173,7 +172,7 @@ var arExclComplex = function(result, arr, obj) {
   return result;
 };
 
-arrayExclude = spv.arrayExclude = function arrayExclude(arr, obj){
+spv.arrayExclude = function arrayExclude(arr, obj){
   var r = [];
   if (!arr){
     return r;
@@ -186,7 +185,7 @@ arrayExclude = spv.arrayExclude = function arrayExclude(arr, obj){
   }
 };
 
-shuffleArray = spv.shuffleArray = function(obj) {
+spv.shuffleArray = function(obj) {
   var shuffled = [], rand, value;
   for (var index = 0; index < obj.length; index++) {
     value = obj[index];
@@ -240,7 +239,7 @@ getFields = function(obj, fields){
   }
   return r;
 };
-getDiffObj = spv.getDiffObj = function(one, two) {
+spv.getDiffObj = function(one, two) {
   var
     i,
     diff = {},
@@ -261,14 +260,7 @@ getDiffObj = spv.getDiffObj = function(one, two) {
   return diff;
 };
 
-createObjClone = function(obj){
-  var Clonner = function(){};
-  Clonner.prototype = obj;
-  var nobj = new Clonner();
-  nobj.constructor = Clonner;
-  return nobj;
-};
-matchWords = spv.matchWords = function(source, query){
+spv.matchWords = function(source, query){
   var words = query.split(/[\s\.\—\-\—\–\_\|\+\(\)\*\&\!\?\@\,\\\/\❤\♡\'\"\[\]]+/gi);
   var r = {};
   if (words.length){
@@ -297,7 +289,7 @@ matchWords = spv.matchWords = function(source, query){
   return r;
 };
 
-searchInArray = spv.searchInArray = function (array, query, fields) {
+spv.searchInArray = function (array, query, fields) {
   query = getStringPattern(query);
   var r,i,cur;
 
@@ -347,17 +339,6 @@ getStringPattern = function (str) {
   }
 };
 spv.getStringPattern = getStringPattern;
-
-ttime = function(f){
-  var d = Date.now();
-
-  if (f){
-    f();
-    console.log(((new Date()) - d)/1000);
-  } else{
-    console.log(d/1000);
-  }
-};
 
 spv.collapseAll = function(){
   var r= [];
@@ -688,7 +669,7 @@ getUnitBaseNum = function(_c){
 };
 spv.getUnitBaseNum = getUnitBaseNum;
 
-stringifyParams = spv.stringifyParams = function(params, ignore_params, splitter, joiner, opts){
+spv.stringifyParams = function(params, ignore_params, splitter, joiner, opts){
   opts = opts || {};
   splitter = splitter || '';
   if (typeof params == 'string'){
@@ -705,19 +686,6 @@ stringifyParams = spv.stringifyParams = function(params, ignore_params, splitter
   }
 
   return pv_signature_list.join(joiner || '');
-};
-
-
-separateNum = function(num){
-  var str = "" + num;
-  var three_sep = '';
-  for (var i = str.length - 1; i >= 0; i--){
-    three_sep = str[i] + three_sep;
-    if ((str.length - (i)) % 3 === 0){
-      three_sep = ' ' + three_sep;
-    }
-  }
-  return  three_sep;
 };
 
 var copyProps = (function(){
