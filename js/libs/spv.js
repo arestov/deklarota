@@ -978,8 +978,6 @@ var parseMap = function(map) {
   //''
 };
 
-var parent_count_regexp = /^\^+/gi;
-
 var getPropValueByField = function(fpv, iter, scope, spec_data) {
   var source_data = scope;
   var state_name = fpv;
