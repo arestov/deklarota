@@ -53,3 +53,5 @@
 - views/lul (seesu module)
 
 - view_serv
+
+- loadImage

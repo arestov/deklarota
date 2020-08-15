@@ -46,7 +46,6 @@ const build = ({
       'js/views/map_slice/getMapSliceView',
 
       'js/views/AppBaseView.js',
-      'js/views/utils/loadImage.js',
     ].map(path => (__dirname + '/' + path)),
 
     plugins: [
