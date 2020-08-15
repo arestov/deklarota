@@ -4,6 +4,7 @@ var spv = {};
 
 var cloneObj = require('./spv/cloneObj.js')
 var memorize = require('./spv/memorize')
+var coe = require('./spv/coe')
 
 var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
 getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum, Class,
@@ -1432,14 +1433,7 @@ spv.mmap = function(config, converters) {
 
 
 
-spv.coe = function(cb) {
-  var result = {};
-  var add = function(obj) {
-    cloneObj(result, obj);
-  };
-  cb(add);
-  return result;
-};
+spv.coe = coe
 
 var letter_regexp = /[^\u00C0-\u1FFF\u2C00-\uD7FF\w]/gi;
 //http://stackoverflow.com/questions/150033/regular-expression-to-match-non-english-characters#comment22322603_150078
