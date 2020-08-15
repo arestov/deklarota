@@ -55,3 +55,5 @@
 - view_serv
 
 - loadImage
+
+- seesu, StartPage, FakeSpyglass, SongsListModernBase, SongNotify, SongBaseModern, NotifyCounter, RootBwlevSeesu, ListPlayRequest, LastFMArtistImagesSelector, subscribeLfmAuthAction, effects (seesu modules)
