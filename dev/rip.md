@@ -71,3 +71,5 @@
 - appendStyle, declr_parsers, comd, morph_helpers (seesu parts)
 
 - AppModel, LoadableList (seesu parts)
+
+- BrowseLevNavView, BrowseLevView, MapSliceSpyglass, nav (seesu map_slice views)
