@@ -49,7 +49,7 @@ define(function(require) {
       this.reverse_default_prio = true;
     }
 
-    var selectNext = function(prev, args) {
+    var selectNext = function(prev) {
       _this.goAhead(prev);
     };
     var initAtom = function(atom) {

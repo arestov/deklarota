@@ -36,8 +36,7 @@ var bindLocationChange = function(hashchangeHandler) {
   } else if ('onhashchange' in window){
     (function(){
       var hash = decodeURI(window.location.hash).replace(hash_start, '');
-      spv.addEvent(window, 'hashchange', function(e){
-        e = e || window.Event;
+      spv.addEvent(window, 'hashchange', function(){
         var newhash = decodeURI(window.location.hash).replace(hash_start, '');
         if (newhash != hash){
 
