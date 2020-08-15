@@ -57,3 +57,5 @@
 - loadImage
 
 - seesu, StartPage, FakeSpyglass, SongsListModernBase, SongNotify, SongBaseModern, NotifyCounter, RootBwlevSeesu, ListPlayRequest, LastFMArtistImagesSelector, subscribeLfmAuthAction, effects (seesu modules)
+
+- AppView (seesu "AppView", `wp_box = new WPBox`/ arrow keyboard navigation usage example, 'spyglass-navigation'/MapSliceSpyglass)
