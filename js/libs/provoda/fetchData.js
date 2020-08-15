@@ -1,16 +1,16 @@
-define(function (require) {
-'use strict';
-var pv = require('pv');
-var BrowseMap = require('./provoda/BrowseMap');
-var flatStruc = require('./structure/flatStruc');
+define(function(require) {
+'use strict'
+var pv = require('pv')
+var BrowseMap = require('./provoda/BrowseMap')
+var flatStruc = require('./structure/flatStruc')
 
 throw new Error('use runtime/app/start to init app')
 
 function fetchData(db, App, schema, url) {
-  var proxies = new pv.views_proxies.Proxies();
+  var proxies = new pv.views_proxies.Proxies()
   var globthis = typeof globalThis !== 'undefined' ? globalThis : window
 
-  var calls_flow = new pv.CallbacksFlow(globthis);
+  var calls_flow = new pv.CallbacksFlow(globthis)
 
   var highway = {
     models_counters: 1,
@@ -20,15 +20,15 @@ function fetchData(db, App, schema, url) {
     requests: [],
     calls_flow: calls_flow,
     proxies: proxies
-  };
+  }
 
-  var app  = new App({
+  var app = new App({
     _highway: highway
-  }, db);
+  }, db)
 
-  var md = BrowseMap.routePathByModels(app.start_page, url, false, true);
+  var md = BrowseMap.routePathByModels(app.start_page, url, false, true)
   if (!md) {
-    return Promise.reject([404]);
+    return Promise.reject([404])
   } else {
     if (schema) {
       var to_load = {
@@ -40,45 +40,45 @@ function fetchData(db, App, schema, url) {
           reqs: {},
           is_active: {}
         }
-      };
+      }
       for (var i = 0; i < to_load.list.length; i++) {
-        var cur = to_load.list[i];
-        if (!cur) {continue;}
-        md.addReqDependence(to_load.supervision, cur);
+        var cur = to_load.list[i]
+        if (!cur) {continue}
+        md.addReqDependence(to_load.supervision, cur)
       }
     }
 
     return calcsReady(highway).then(function() {
-      return md;
-    });
+      return md
+    })
   }
 }
 
 function calcsReady(highway) {
-  var calls_flow = highway.calls_flow;
-  var requests_promise = Promise.all(highway.requests);
+  var calls_flow = highway.calls_flow
+  var requests_promise = Promise.all(highway.requests)
 
   var flow_promise = calls_flow.flow_end ? new Promise(function(resolve) {
       calls_flow.pushToFlow(function() {
-        resolve();
-      }, false, false, false, false, false, { complex_order: [Infinity], inited_order: [Infinity] }, true);
-    }) : Promise.resolve();
+        resolve()
+      }, false, false, false, false, false, { complex_order: [Infinity], inited_order: [Infinity] }, true)
+    }) : Promise.resolve()
 
   return new Promise(function(resolve, reject) {
-    Promise.all([flow_promise, requests_promise]).then(check, reject);
+    Promise.all([flow_promise, requests_promise]).then(check, reject)
 
     function check() {
       if (!calls_flow.flow_end && !highway.requests.length) {
-        resolve();
+        resolve()
       } else {
-        calcsReady(highway).then(resolve);
+        calcsReady(highway).then(resolve)
       }
     }
 
-  });
+  })
 }
 
-fetchData.getWatchStruct = getWatchStruct;
+fetchData.getWatchStruct = getWatchStruct
 
 function getWatchStruct(schema) {
   // in:
@@ -96,9 +96,9 @@ function getWatchStruct(schema) {
   // struc.main.merged_states
   // struc.main.m_children.children
 
-  var nestings = {};
+  var nestings = {}
   for (var nesting_name in schema.nestings) {
-    nestings[nesting_name] = getWatchStruct(schema.nestings[nesting_name]);
+    nestings[nesting_name] = getWatchStruct(schema.nestings[nesting_name])
   }
 
   return {
@@ -109,8 +109,8 @@ function getWatchStruct(schema) {
         children: nestings
       }
     }
-  };
+  }
 }
 
-return fetchData;
-});
+return fetchData
+})

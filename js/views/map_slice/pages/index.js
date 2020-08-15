@@ -1,20 +1,20 @@
-define(function (require) {
-'use strict';
+define(function(require) {
+'use strict'
 
-var uacq = require('../../uacq');
-var StartPageView = require('../../StartPageView');
-var SearchPageView = require('../../SearchPageView');
-var ArtcardUI = require('../../ArtcardUI');
-var ArtistListView = require('../../ArtistListView');
-var SongsListView = require('../../SongsListView');
+var uacq = require('../../uacq')
+var StartPageView = require('../../StartPageView')
+var SearchPageView = require('../../SearchPageView')
+var ArtcardUI = require('../../ArtcardUI')
+var ArtistListView = require('../../ArtistListView')
+var SongsListView = require('../../SongsListView')
 var CurrentSongView = require('../../CurrentSongView')
-var UserCardPage = require('../../UserCardPage');
-var MusicConductorPage = require('../../MusicConductorPage');
-var TagPageView = require('../../TagPageView');
-var YoutubeVideoView = require('../../YoutubeVideoView');
-var lul = require('../../lul');
-var SongcardPage = require('../../SongcardPage');
-var coct = require('../../coct');
+var UserCardPage = require('../../UserCardPage')
+var MusicConductorPage = require('../../MusicConductorPage')
+var TagPageView = require('../../TagPageView')
+var YoutubeVideoView = require('../../YoutubeVideoView')
+var lul = require('../../lul')
+var SongcardPage = require('../../SongcardPage')
+var coct = require('../../coct')
 
 return {
   $default: coct.ListOfListsView,
@@ -63,5 +63,5 @@ return {
   blogs_list: coct.ListOfListsView,
   music_blog: coct.ListOfListsView,
   app_news: coct.AppNewsView
-};
-});
+}
+})

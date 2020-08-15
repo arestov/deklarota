@@ -1,12 +1,12 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var updateRootInterface = spv.memorize(function(name) {
   return function(val) {
     var interface_instance = val
       ? this.getStrucRoot()._interfaces_using.used[name]
       : null
-    this.useInterface('#' + name, interface_instance);
+    this.useInterface('#' + name, interface_instance)
   }
 })
 var connectRootApis = function(self, list) {
@@ -14,7 +14,7 @@ var connectRootApis = function(self, list) {
     return
   }
   for (var i = 0; i < list.length; i++) {
-    var cur = list[i];
+    var cur = list[i]
     var meta_state_name = '$meta$apis$' + cur + '$used'
     self.lwch(self.getStrucRoot(), meta_state_name, updateRootInterface(cur))
   }
@@ -32,14 +32,14 @@ return function(self, apis_as_arg) {
 
   if (apis_as_arg) {
     for (var name in apis_as_arg) {
-      self.useInterface(name, apis_as_arg[name]);
+      self.useInterface(name, apis_as_arg[name])
     }
   }
 
   if (self.__apis_$_usual && self.__apis_$_usual.length) {
     for (var i = 0; i < self.__apis_$_usual.length; i++) {
-      var cur = self.__apis_$_usual[i];
-      self.useInterface(cur.name, cur.fn());
+      var cur = self.__apis_$_usual[i]
+      self.useInterface(cur.name, cur.fn())
     }
   }
 
@@ -48,7 +48,7 @@ return function(self, apis_as_arg) {
   connectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
 
   if (needsSelf(self)) {
-    self.useInterface('self', self);
+    self.useInterface('self', self)
   }
 }
 })

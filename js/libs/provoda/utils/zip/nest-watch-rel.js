@@ -3,13 +3,13 @@ define(function() {
 
 var arrayClone = function(array) {
   if (Array.isArray(array)) {
-    return array.slice(0);
+    return array.slice(0)
   } else {
-    return array;
+    return array
   }
-};
+}
 
-var oneFromArray = function (array) {
+var oneFromArray = function(array) {
   if (Array.isArray(array)) {
     return array[0]
   }

@@ -1,10 +1,10 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var prepare = require('../structure/prepare')
 var AppModel = require('./AppModel')
 
-return function (props, init) {
+return function(props, init) {
   if (typeof props == 'function') {
     if (init) {
       throw new Error('you cant pass init with Constr')

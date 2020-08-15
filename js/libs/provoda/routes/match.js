@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 
 var looksLikeWrappedJSON = require('./utils/looksLikeWrappedJSON')
 
@@ -22,7 +22,7 @@ var match = function(parsed, some_url) {
 
   var matched = parsed.matcher.exec(some_url)
   if (!matched) {
-    return null;
+    return null
   }
 
   var result = {}
@@ -30,7 +30,7 @@ var match = function(parsed, some_url) {
   for (var i = 0; i < parsed.parts.length; i++) {
     var cur = parsed.parts[i]
     if (!cur.state) {
-      continue;
+      continue
     }
     var raw_value = matched[cur.matching_group]
     var decoded = decodeURIComponent(raw_value)

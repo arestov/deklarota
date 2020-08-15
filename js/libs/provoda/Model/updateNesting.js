@@ -1,17 +1,17 @@
-define(function (require) {
-'use strict';
-var spv = require('spv');
-var hp = require('../helpers');
-var nestWIndex = require('../nest-watch/index');
-var checkNesting = nestWIndex.checkNesting;
+define(function(require) {
+'use strict'
+var spv = require('spv')
+var hp = require('../helpers')
+var nestWIndex = require('../nest-watch/index')
+var checkNesting = nestWIndex.checkNesting
 var isNestingChanged = require('../utils/isNestingChanged')
-var _updateAttr = require('_updateAttr');
+var _updateAttr = require('_updateAttr')
 var _passHandleNesting = require('../dcl/passes/handleNesting/handle')
 var handleMentions = require('./mentions/handleRelChange')
 
 var hasDot = spv.memorize(function(nesting_name) {
-  return nesting_name.indexOf('.') != -1;
-});
+  return nesting_name.indexOf('.') != -1
+})
 
 function getUniqCopy(input) {
   return Array.from(new Set(input))
@@ -23,15 +23,15 @@ return function updateNesting(self, collection_name, input, opts) {
     throw new Error('wrap updateRel call in `.input()`')
   }
 
-  if (hasDot(collection_name)){
-    throw new Error('remove "." (dot) from name');
+  if (hasDot(collection_name)) {
+    throw new Error('remove "." (dot) from name')
   }
 
   if (!self.children_models) {
-    self.children_models = {};
+    self.children_models = {}
   }
 
-  var old_value = self.children_models[collection_name];
+  var old_value = self.children_models[collection_name]
 
   var array = Array.isArray(input) ? getUniqCopy(input) : input
 
@@ -39,19 +39,19 @@ return function updateNesting(self, collection_name, input, opts) {
     return self
   }
 
-  var zdsv = self.zdsv;
+  var zdsv = self.zdsv
   if (zdsv) {
-    zdsv.abortFlowSteps('collch', collection_name);
+    zdsv.abortFlowSteps('collch', collection_name)
   }
 
 
-  self.children_models[collection_name] = array;
+  self.children_models[collection_name] = array
 
   if (old_value && array) {
-    var arr1 = Array.isArray(old_value);
-    var arr2 = Array.isArray(array);
+    var arr1 = Array.isArray(old_value)
+    var arr2 = Array.isArray(array)
     if (arr1 != arr2) {
-      throw new Error('nest type must be stable');
+      throw new Error('nest type must be stable')
     }
   }
 
@@ -59,7 +59,7 @@ return function updateNesting(self, collection_name, input, opts) {
 
   var count = Array.isArray(array)
     ? array.length
-    : (array ? 1 : 0);
+    : (array ? 1 : 0)
 
   var name_for_length_legacy = collection_name + '$length'
   var name_for_length_modern = '$meta$nests$' + collection_name + '$length'
@@ -72,27 +72,27 @@ return function updateNesting(self, collection_name, input, opts) {
   self._attrs_collector.defineAttr(name_for_exists_legacy, 'bool')
   self._attrs_collector.defineAttr(name_for_exists_modern, 'bool')
 
-  _updateAttr(self, name_for_length_legacy, count);
-  _updateAttr(self, name_for_length_modern, count);
-  _updateAttr(self, name_for_exists_legacy, Boolean(count));
-  _updateAttr(self, name_for_exists_modern, Boolean(count));
+  _updateAttr(self, name_for_length_legacy, count)
+  _updateAttr(self, name_for_length_modern, count)
+  _updateAttr(self, name_for_exists_legacy, Boolean(count))
+  _updateAttr(self, name_for_exists_modern, Boolean(count))
 
 
-  var removed = hp.getRemovedNestingItems(array, old_value);
+  var removed = hp.getRemovedNestingItems(array, old_value)
 
   _passHandleNesting(self, collection_name, old_value, array)
 
   handleMentions(self, collection_name, old_value, array)
 
-  checkNesting(self, collection_name, array, removed);
+  checkNesting(self, collection_name, array, removed)
   // !?
 
-  if (opts == null || !opts.skip_report){
-    self.sendCollectionChange(collection_name, array, old_value, removed);
+  if (opts == null || !opts.skip_report) {
+    self.sendCollectionChange(collection_name, array, old_value, removed)
   }
 
 
-  return self;
+  return self
 }
 
-});
+})

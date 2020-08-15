@@ -1,44 +1,44 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 
-var NestSelector = require('../nest_sel/item');
+var NestSelector = require('../nest_sel/item')
 var NestCntDeclr = require('../nest_conj/item')
-var NestDcl = require('../nest/item');
+var NestDcl = require('../nest/item')
 var NestCompx = require('../nest_compx/item')
 var NestModel = require('../nest_model/item')
 
-var buildSel = require('../nest_sel/build');
-var buildNest = require('../nest/build');
-var buildConj = require('../nest_conj/build');
+var buildSel = require('../nest_sel/build')
+var buildNest = require('../nest/build')
+var buildConj = require('../nest_conj/build')
 var buildModel = require('../nest_model/build')
 
 var parse = function(name, data) {
-  var type = data[0];
+  var type = data[0]
   switch (type) {
     case 'nest': {
-      return new NestDcl(name, data[1]);
+      return new NestDcl(name, data[1])
     }
     case 'conj': {
-      return new NestCntDeclr(name, data[1]);
+      return new NestCntDeclr(name, data[1])
     }
     case 'sel': {
-      return new NestSelector(name, data[1]);
+      return new NestSelector(name, data[1])
     }
     case 'compx': {
-      return new NestCompx(name, data);
+      return new NestCompx(name, data)
     }
     case 'model': {
       return new NestModel(name, data[1])
     }
   }
 
-  throw new Error('unsupported type ' + type);
+  throw new Error('unsupported type ' + type)
 }
 
 var extend = function(index, more_nests) {
-  var cur = cloneObj({}, index) || {};
+  var cur = cloneObj({}, index) || {}
 
   for (var name in more_nests) {
     var data = more_nests[name]
@@ -47,18 +47,18 @@ var extend = function(index, more_nests) {
       continue
     }
 
-    var dcl = parse(name, data);
+    var dcl = parse(name, data)
     cur[name] = {
       dcl: dcl,
       type: data[0],
     }
   }
 
-  return cur;
+  return cur
 }
 
 var byType = function(index) {
-  var result = {};
+  var result = {}
   for (var name in index) {
     if (!index.hasOwnProperty(name)) {
       continue
@@ -67,35 +67,35 @@ var byType = function(index) {
     var cur = index[name]
     var type = cur.type
 
-    result[type] = result[type] || {};
-    result[type][name] = cur.dcl;
+    result[type] = result[type] || {}
+    result[type][name] = cur.dcl
   }
 
-  return result;
+  return result
 }
 
 
 var notEqual = function(one, two) {
   if (!one || !two) {
-    return one !== two;
+    return one !== two
   }
 
   for (var name in one) {
     if (!one.hasOwnProperty(name)) {
-      continue;
+      continue
     }
     if (one[name] !== two[name]) {
-      return true;
+      return true
     }
   }
 
   for (var name in two) {
     if (!two.hasOwnProperty(name)) {
-      continue;
+      continue
     }
 
     if (one[name] !== two[name]) {
-      return true;
+      return true
     }
   }
 }
@@ -103,20 +103,20 @@ var notEqual = function(one, two) {
 var rebuildType = function(self, type, result) {
   switch (type) {
     case 'nest': {
-      buildNest(self, result);
-      return;
+      buildNest(self, result)
+      return
     }
     case 'conj': {
-      buildConj(self, result);
-      return;
+      buildConj(self, result)
+      return
     }
     case 'sel': {
-      buildSel(self, result);
-      return;
+      buildSel(self, result)
+      return
     }
     case 'model': {
       buildModel(self, result)
-      return;
+      return
     }
   }
 }
@@ -124,11 +124,11 @@ var rebuildType = function(self, type, result) {
 var rebuild = function(self, newV, oldV) {
   for (var type in newV) {
     if (!newV.hasOwnProperty(type)) {
-      continue;
+      continue
     }
 
     if (!notEqual(newV[type], oldV[type])) {
-      continue;
+      continue
     }
 
     rebuildType(self, type, newV[type])
@@ -137,64 +137,64 @@ var rebuild = function(self, newV, oldV) {
 
 var checkModern = function(self, props) {
   if (!props['rels']) {
-    return;
+    return
   }
 
   self._extendable_nest_index = extend(
     self._extendable_nest_index,
     props['rels']
-  );
+  )
 }
 
 var handleLegacy = function(self, prop, type) {
   if (!self.hasOwnProperty(prop)) {
-    return;
+    return
   }
 
-  var result = cloneObj({}, self._extendable_nest_index) || {};
+  var result = cloneObj({}, self._extendable_nest_index) || {}
 
   for (var name in self[prop]) {
     if (!self[prop].hasOwnProperty(name)) {
-      continue;
+      continue
     }
-    var cur = self[prop][name];
+    var cur = self[prop][name]
     result[name] = {
       dcl: cur,
       type: type,
-    };
+    }
   }
 
-  self._extendable_nest_index = result;
+  self._extendable_nest_index = result
 }
 
 var checkLegacy = function(self) {
-  handleLegacy(self, '_legacy_nest_dcl', 'nest');
-  handleLegacy(self, '_chi_nest_conj', 'conj');
-  handleLegacy(self, '_chi_nest_sel', 'sel');
+  handleLegacy(self, '_legacy_nest_dcl', 'nest')
+  handleLegacy(self, '_chi_nest_conj', 'conj')
+  handleLegacy(self, '_chi_nest_sel', 'sel')
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
 return function checkPass(self, props) {
 
-  var currentIndex = self._extendable_nest_index;
+  var currentIndex = self._extendable_nest_index
 
-  checkLegacy(self, props);
-  checkModern(self, props);
+  checkLegacy(self, props)
+  checkModern(self, props)
 
   if (currentIndex === self._extendable_nest_index) {
-    return;
+    return
   }
 
 
-  var oldByType = self._nest_by_type || {};
-  self._nest_by_type = byType(self._extendable_nest_index);
+  var oldByType = self._nest_by_type || {}
+  self._nest_by_type = byType(self._extendable_nest_index)
 
   rebuild(self, self._nest_by_type, oldByType)
 
   self._nest_by_type_listed = {}
   for (var type_name in self._nest_by_type) {
     if (!self._nest_by_type.hasOwnProperty(type_name)) {
-      continue;
+      continue
     }
 
     var result = []
@@ -210,6 +210,6 @@ return function checkPass(self, props) {
     self._nest_by_type_listed[type_name] = result
 
   }
-  return true;
+  return true
 }
 })

@@ -1,11 +1,11 @@
-define(function (require) {
-'use strict';
-var spv = require('spv');
+define(function(require) {
+'use strict'
+var spv = require('spv')
 var structureChild = require('../../structure/child')
 
 var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
   if (!key) {
-    throw new Error('should be key');
+    throw new Error('should be key')
   }
 
   return {
@@ -18,11 +18,11 @@ var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
     getHead: head && spv.mmap({
       props_map: head
     })
-  };
-};
+  }
+}
 
 return function getSubpageItem(cur, key, byType, name, prefix) {
-  var item;
+  var item
   if (Array.isArray(cur)) {
     if (!cur[1] && !cur[2]) {
       /* EXAMPLE
@@ -30,7 +30,7 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
         SimilarTags
       ]
       */
-      throw new Error('keep code clean: use short `sub_page` declaration if you do not have special title');
+      throw new Error('keep code clean: use short `sub_page` declaration if you do not have special title')
       // instance = cur[0];
     } else {
       /* EXAMPLE
@@ -55,8 +55,8 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
             'compx'
           ].concat(cur[1])
         }
-      }) : cur[0];
-      item = subPageHeaded(instance, cur[2], key, null, name, prefix);
+      }) : cur[0]
+      item = subPageHeaded(instance, cur[2], key, null, name, prefix)
     }
   } else if (typeof cur == 'object') {
     // semi compatibility (migration) mode
@@ -70,34 +70,34 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
 
     if (!cur.constr.prototype.compx_check['nav_title'] && (!cur.title || typeof cur.title != 'object')) {
       // title should be. in array or object presentation
-      throw new Error('keep code clean: use short `sub_page` declaration if you do not have special title');
+      throw new Error('keep code clean: use short `sub_page` declaration if you do not have special title')
     }
 
-    var extend = {};
+    var extend = {}
     if (cur.title && cur.title[0].length) {
-      extend['nav_title'] = ['compx'].concat(cur.title);
+      extend['nav_title'] = ['compx'].concat(cur.title)
     }
     if (cur.reusable) {
-      extend['$$reusable_url'] = ['compx'].concat(cur.reusable);
+      extend['$$reusable_url'] = ['compx'].concat(cur.reusable)
     }
 
     item = subPageHeaded(spv.inh(cur.constr, {
       skip_code_path: true
     }, {
       attrs: extend
-    }), cur.head, key, cur.getKey, name, prefix);
+    }), cur.head, key, cur.getKey, name, prefix)
 
-    item.can_be_reusable = Boolean(cur.reusable);
+    item.can_be_reusable = Boolean(cur.reusable)
 
   } else {
     /* EXAMPLE
     'sub_page-similar': SimilarTags
     */
-    item = subPageHeaded(cur, null, key, null, name, prefix);
+    item = subPageHeaded(cur, null, key, null, name, prefix)
   }
 
-  item.byType = Boolean(byType);
+  item.byType = Boolean(byType)
 
-  return item;
-};
-});
+  return item
+}
+})

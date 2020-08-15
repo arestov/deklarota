@@ -1,57 +1,57 @@
-define(function (require) {
-'use strict';
-var _goDeeper = require('./_goDeeper');
-var getModelById = require('../utils/getModelById');
-var changeBridge = require('./changeBridge');
-var showMOnMap = require('./showMOnMap');
+define(function(require) {
+'use strict'
+var _goDeeper = require('./_goDeeper')
+var getModelById = require('../utils/getModelById')
+var changeBridge = require('./changeBridge')
+var showMOnMap = require('./showMOnMap')
 
 return function requestPage(BWL, self, id) {
-  var md = getModelById(self, id);
-  var pioneer = self.getNesting('pioneer');
+  var md = getModelById(self, id)
+  var pioneer = self.getNesting('pioneer')
 
-  var target_is_deep_child;
+  var target_is_deep_child
 
-  var cur = md;
-  var bwlev_children = [];
+  var cur = md
+  var bwlev_children = []
 
   while (cur.map_parent) {
-    bwlev_children.push(cur);
+    bwlev_children.push(cur)
 
     if (cur.map_parent == pioneer) {
-      target_is_deep_child = true;
-      break;
+      target_is_deep_child = true
+      break
     }
-    cur = cur.map_parent;
+    cur = cur.map_parent
   }
 
-  var map = self.map;
+  var map = self.map
 
   if (!target_is_deep_child) {
 
-    var bwlev = showMOnMap(BWL, map, md);
-    changeBridge(bwlev);
-    return;
+    var bwlev = showMOnMap(BWL, map, md)
+    changeBridge(bwlev)
+    return
   }
 
-  bwlev_children = bwlev_children.reverse();
+  bwlev_children = bwlev_children.reverse()
 
   // !!!!showMOnMap(BWL, map, pioneer, self);
 
-  var last_called = null;
-  var parent_bwlev = self;
+  var last_called = null
+  var parent_bwlev = self
   for (var i = 0; i < bwlev_children.length; i++) {
     if (!parent_bwlev) {
-      continue;
+      continue
     }
-    var cur_md = bwlev_children[i];
+    var cur_md = bwlev_children[i]
 
-    parent_bwlev = _goDeeper(BWL, map, cur_md, parent_bwlev);
-    last_called = parent_bwlev;
+    parent_bwlev = _goDeeper(BWL, map, cur_md, parent_bwlev)
+    last_called = parent_bwlev
   }
 
   if (last_called) {
-    changeBridge(last_called);
+    changeBridge(last_called)
   }
 
 }
-});
+})

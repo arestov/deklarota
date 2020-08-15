@@ -1,11 +1,11 @@
 define(function(require) {
-'use strict';
+'use strict'
 
-var spv = require('spv');
+var spv = require('spv')
 var cloneObj = spv.cloneObj
 var groupDeps = require('../utils/groupDeps')
-var getEncodedState= require('../utils/getEncodedState');
-var getShortStateName= require('../utils/getShortStateName');
+var getEncodedState = require('../utils/getEncodedState')
+var getShortStateName = require('../utils/getShortStateName')
 
 var getParsedState = require('../utils/getParsedState')
 
@@ -36,11 +36,11 @@ var shortStringWhenPossible = function(addr) {
 }
 
 var identical = function(state) {
-  return state;
-};
+  return state
+}
 
 var makeGroups = groupDeps(getEncodedState, function(cur) {
-  return cur.depends_on;
+  return cur.depends_on
 })
 
 var fromArray = function(state_name, cur) {
@@ -49,8 +49,8 @@ var fromArray = function(state_name, cur) {
     fn: cur[1],
     name: state_name,
     watch_list: null
-  };
-};
+  }
+}
 
 var toAddr = function(state_name) {
   var result1 = getParsedState(state_name)
@@ -91,11 +91,11 @@ var toParsedDeps = function(array) {
 }
 
 var CompxAttrDecl = function(comlx_name, cur) {
-  var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur;
+  var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur
   var raw_depends_on = item.depends_on
 
   if (!Array.isArray(raw_depends_on)) {
-    throw new Error('should be list');
+    throw new Error('should be list')
   }
 
   var parsed = toParsedDeps(raw_depends_on)
@@ -104,7 +104,7 @@ var CompxAttrDecl = function(comlx_name, cur) {
   this.depends_on = parsed.fixed_deps.map(shortStringWhenPossible)
   this.require_marks = parsed.require_marks
 
-  this.name = comlx_name;
+  this.name = comlx_name
 
   if (!this.depends_on.length && typeof item.fn !== 'function') {
     throw new Error('use attr "input" to define default values')
@@ -113,85 +113,85 @@ var CompxAttrDecl = function(comlx_name, cur) {
   this.fn = item.fn || identical
 
   if (!Array.isArray(this.depends_on)) {
-    throw new Error('should be list: ' + this.depends_on);
+    throw new Error('should be list: ' + this.depends_on)
   }
 
-  this.watch_list = new Array(this.depends_on.length || 0);
+  this.watch_list = new Array(this.depends_on.length || 0)
 
   for (var i = 0; i < this.depends_on.length; i++) {
     if (!this.depends_on[i]) {
-      throw new Error('state name should not be empty');
+      throw new Error('state name should not be empty')
     }
-    this.watch_list[i] = getShortStateName(this.depends_on[i]);
+    this.watch_list[i] = getShortStateName(this.depends_on[i])
   }
-  return this;
-};
+  return this
+}
 
 
 var collectBuildParts = function(self) {
-  var compx_check = {};
-  var full_comlxs_list = [];
+  var compx_check = {}
+  var full_comlxs_list = []
 
   for (var key_name_one in self._dcl_cache__compx) {
-    compx_check[key_name_one] = self._dcl_cache__compx[key_name_one];
-    full_comlxs_list.push(compx_check[key_name_one]);
+    compx_check[key_name_one] = self._dcl_cache__compx[key_name_one]
+    full_comlxs_list.push(compx_check[key_name_one])
   }
 
-  self.compx_check = compx_check;
-  self.full_comlxs_list = full_comlxs_list;
+  self.compx_check = compx_check
+  self.full_comlxs_list = full_comlxs_list
 }
 
 var makeWatchIndex = function(full_comlxs_list) {
-  var full_comlxs_index = {};
-  var i, jj, cur, state_name;
+  var full_comlxs_index = {}
+  var i, jj, cur, state_name
   for (i = 0; i < full_comlxs_list.length; i++) {
-    cur = full_comlxs_list[i];
+    cur = full_comlxs_list[i]
     for (jj = 0; jj < cur.watch_list.length; jj++) {
-      state_name = cur.watch_list[jj];
-      if (state_name === cur.name) {continue;}
+      state_name = cur.watch_list[jj]
+      if (state_name === cur.name) {continue}
       if (!full_comlxs_index[state_name]) {
-        full_comlxs_index[state_name] = [];
+        full_comlxs_index[state_name] = []
       }
-      full_comlxs_index[state_name].push(cur);
+      full_comlxs_index[state_name].push(cur)
     }
   }
-  return full_comlxs_index;
+  return full_comlxs_index
 }
 
 var extendTyped = function(self, typed_state_dcls) {
-  var result = cloneObj(null, self._dcl_cache__compx) || {};
+  var result = cloneObj(null, self._dcl_cache__compx) || {}
 
-  var extending_part = {};
+  var extending_part = {}
 
   for (var name in typed_state_dcls) {
     if (!typed_state_dcls.hasOwnProperty(name)) {
-      continue;
+      continue
     }
-    extending_part[name] = new CompxAttrDecl(name, typed_state_dcls[name]);
+    extending_part[name] = new CompxAttrDecl(name, typed_state_dcls[name])
   }
 
-  result = cloneObj(result, extending_part);
+  result = cloneObj(result, extending_part)
 
-  self._dcl_cache__compx = result;
-};
+  self._dcl_cache__compx = result
+}
 
 return function(self, props, typed_part) {
   if (typed_part) {
-    extendTyped(self, typed_part);
+    extendTyped(self, typed_part)
   }
 
-  var need_recalc = typed_part;
-  if (!need_recalc){
-    return;
+  var need_recalc = typed_part
+  if (!need_recalc) {
+    return
   }
 
-  collectBuildParts(self);
-  self.full_comlxs_index = makeWatchIndex(self.full_comlxs_list);
+  collectBuildParts(self)
+  self.full_comlxs_index = makeWatchIndex(self.full_comlxs_list)
 
-  collectStatesConnectionsProps(self, self.full_comlxs_list);
+  collectStatesConnectionsProps(self, self.full_comlxs_list)
 
-  return true;
-};
+  return true
+}
 
 function uniqExternalDeps(full_comlxs_list) {
   var uniq = spv.set.create()
@@ -226,7 +226,7 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   self.__attrs_full_comlxs_list = full_comlxs_list
   self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list)
 
-  var result = makeGroups(full_comlxs_list);
+  var result = makeGroups(full_comlxs_list)
   var compx_nest_matches = []
   for (var i = 0; i < result.conndst_nesting.length; i++) {
     var nwatch = result.conndst_nesting[i].nwatch
@@ -237,11 +237,11 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
     compx_nest_matches.push(nwatch)
   }
 
-  self.compx_nest_matches = compx_nest_matches;
+  self.compx_nest_matches = compx_nest_matches
   self.connect_self = result.connect_self
 
   self.conndst_parent = result.conndst_parent
   self.conndst_nesting = result.conndst_nesting
-  self.conndst_root = result.conndst_root;
+  self.conndst_root = result.conndst_root
 }
-});
+})

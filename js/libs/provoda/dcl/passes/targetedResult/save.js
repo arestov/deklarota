@@ -2,7 +2,7 @@ define(function(require) {
 'use strict'
 
 var _updateAttr = require('_updateAttr')
-var getModelById = require('../../../utils/getModelById');
+var getModelById = require('../../../utils/getModelById')
 
 var _updateRel = require('_updateRel')
 var prepareResults = require('../act/prepareResults')
@@ -47,7 +47,7 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
 
   for (var id in wrap) {
     if (!wrap.hasOwnProperty(id)) {
-      continue;
+      continue
     }
     var data = wrap[id]
     var model = getModelById(md, id)
@@ -56,14 +56,14 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
 
     for (var state in states) {
       if (!states.hasOwnProperty(state)) {
-        continue;
+        continue
       }
       _updateAttr(model, state, states[state])
     }
 
     for (var nesting in nestings) {
       if (!nestings.hasOwnProperty(nesting)) {
-        continue;
+        continue
       }
       _updateRel(model, nesting, nestings[nesting])
     }
@@ -83,7 +83,7 @@ var saveResultToTarget = function(current_motivator, exec_item) {
   saveToDestModel(current_motivator, exec_item)
 }
 
-var saveResult = function (md, dcl, value, data) {
+var saveResult = function(md, dcl, value, data) {
   var current_motivator = md._currentMotivator()
 
   var semi_result = prepareResults(md, dcl, value, data)

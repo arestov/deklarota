@@ -1,25 +1,25 @@
-define(function (require) {
-'use strict';
+define(function(require) {
+'use strict'
 
 var hndMotivationWrappper = require('../../helpers/hndMotivationWrappper')
-var StatesLabour = require('../../StatesLabour');
+var StatesLabour = require('../../StatesLabour')
 
 var getAttrByName = require('./getAttrByName')
 
 var stackStateFlowStep = function(flow_step, state_name) {
   if (!this.zdsv) {
-    this.zdsv = new StatesLabour(!!this.full_comlxs_index, this._has_stchs);
+    this.zdsv = new StatesLabour(!!this.full_comlxs_index, this._has_stchs)
     //debugger;
   }
-  flow_step.p_space = 'stev';
-  flow_step.p_index_key = state_name;
-  this.zdsv.createFlowStepsArray('stev', state_name).push(flow_step);
-};
+  flow_step.p_space = 'stev'
+  flow_step.p_index_key = state_name
+  this.zdsv.createFlowStepsArray('stev', state_name).push(flow_step)
+}
 
 var LightEvOpts = function(ev_name, cb, context) {
-  this.ev_name = ev_name;
-  this.cb = cb;
-  this.context = context;
+  this.ev_name = ev_name
+  this.cb = cb
+  this.context = context
   Object.seal(this)
 }
 
@@ -29,16 +29,16 @@ LightEvOpts.prototype = {
 
 return {
   test: function(namespace) {
-    return !!getAttrByName(namespace);
+    return !!getAttrByName(namespace)
   },
   fn: function(namespace) {
-    return this.state(getAttrByName(namespace));
+    return this.state(getAttrByName(namespace))
   },
   getWrapper: function() {
-    return hndMotivationWrappper;
+    return hndMotivationWrappper
   },
   getFSNamespace: function(namespace) {
-    return getAttrByName(namespace);
+    return getAttrByName(namespace)
   },
   handleFlowStep: stackStateFlowStep,
   createEventOpts: function(ev_name, cb, context) {

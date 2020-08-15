@@ -1,15 +1,15 @@
 define(function(require) {
-"use strict";
+"use strict"
 
-var spv = require('spv');
+var spv = require('spv')
 var toTransferableStatesList = require('./Model/toTransferableStatesList')
 var toSimpleStructure = require('./Model/toSimpleStructure')
 var parseNesting = toSimpleStructure.parseNesting
 
 var SyncSender = function() {
-  this.sockets = {};
-  this.streams_list = [];
-  this.sockets_m_index ={};
+  this.sockets = {}
+  this.streams_list = []
+  this.sockets_m_index = {}
   this.batched_by_id = {}
 
   this.st_counter = 0
@@ -26,7 +26,7 @@ var SyncSender = function() {
     self.has_nothing = true
 
     for (var i = 0; i < self.streams_list.length; i++) {
-      var cur = self.streams_list[i];
+      var cur = self.streams_list[i]
       var list = self.batched_by_id[cur.id]
       if (!list.length) {
         continue
@@ -48,7 +48,7 @@ var SyncSender = function() {
     }
   }
   Object.seal(this)
-};
+}
 
 var toTransferableNestings = function(value) {
     if (!value) {
@@ -62,23 +62,23 @@ var toTransferableNestings = function(value) {
       var copy = spv.cloneObj({
         $not_model: true,
       }, value)
-      delete copy.each_items;
+      delete copy.each_items
       return copy
     }
 
-    if (value._provoda_id){
-      parsed_value = value._provoda_id;
-    } else if (Array.isArray(value)){
+    if (value._provoda_id) {
+      parsed_value = value._provoda_id
+    } else if (Array.isArray(value)) {
 
-      parsed_value = new Array(value.length);
+      parsed_value = new Array(value.length)
       for (var jj = 0; jj < value.length; jj++) {
-        parsed_value[jj] = value[jj]._provoda_id;
+        parsed_value[jj] = value[jj]._provoda_id
       }
     } else {
-      console.warn('unparsed', value);
+      console.warn('unparsed', value)
     }
     if (typeof parsed_value == 'undefined') {
-      parsed_value = null;
+      parsed_value = null
     }
 
     return parsed_value
@@ -94,34 +94,34 @@ SyncSender.prototype = {
   },
   removeSyncStream: function(stream) {
     if (!this.sockets[stream.id]) {
-      return;
+      return
     }
-    this.sockets_m_index[stream.id] = null;
-    this.batched_by_id[stream.id] = null;
-    this.sockets[stream.id] = null;
-    this.streams_list = spv.findAndRemoveItem(this.streams_list, stream);
+    this.sockets_m_index[stream.id] = null
+    this.batched_by_id[stream.id] = null
+    this.sockets[stream.id] = null
+    this.streams_list = spv.findAndRemoveItem(this.streams_list, stream)
   },
   addSyncStream: function(start_md, stream) {
-    this.sockets_m_index[stream.id] = {};
-    this.batched_by_id[stream.id] = [];
+    this.sockets_m_index[stream.id] = {}
+    this.batched_by_id[stream.id] = []
 
-    this.sockets[stream.id] = stream;
-    this.streams_list.push(stream);
+    this.sockets[stream.id] = stream
+    this.streams_list.push(stream)
 
-    var struc = start_md.toSimpleStructure(this.sockets_m_index[stream.id]);
-    stream.buildTree(struc);
+    var struc = start_md.toSimpleStructure(this.sockets_m_index[stream.id])
+    stream.buildTree(struc)
 
   },
-  pushNesting: function(md, nesname, value){
+  pushNesting: function(md, nesname, value) {
     //var struc;
     var parsed_value = toTransferableNestings(value)
 
 
     for (var i = 0; i < this.streams_list.length; i++) {
-      var cur = this.streams_list[i];
-      var index = this.sockets_m_index[cur.id];
-      if (!index[md._provoda_id]){
-        continue;
+      var cur = this.streams_list[i]
+      var index = this.sockets_m_index[cur.id]
+      if (!index[md._provoda_id]) {
+        continue
       }
 
       var struc
@@ -144,10 +144,10 @@ SyncSender.prototype = {
     var states = toTransferableStatesList(states_raw)
 
     for (var i = 0; i < this.streams_list.length; i++) {
-      var cur = this.streams_list[i];
-      var index = this.sockets_m_index[cur.id];
-      if (!index[md._provoda_id]){
-        continue;
+      var cur = this.streams_list[i]
+      var index = this.sockets_m_index[cur.id]
+      if (!index[md._provoda_id]) {
+        continue
       }
 
       var list = this.batched_by_id[cur.id]
@@ -158,6 +158,6 @@ SyncSender.prototype = {
 
     this.schedule()
   }
-};
-return SyncSender;
-});
+}
+return SyncSender
+})

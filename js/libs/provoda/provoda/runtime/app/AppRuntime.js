@@ -53,7 +53,7 @@ AppRuntime.prototype.start = function(options) {
       })
     })
   })
-};
+}
 
 return AppRuntime
 })

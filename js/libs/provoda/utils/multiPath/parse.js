@@ -6,7 +6,7 @@ var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
 
 var supportedZip = require('./supportedZip')
 
-var splitByDot = spv.splitByDot;
+var splitByDot = spv.splitByDot
 var fromLegacy = require('./fromLegacy')
 var empty = {}
 var root = {
@@ -19,7 +19,7 @@ var parents = spv.memorize(function(num) {
     steps: num,
   }
 })
-var parent_count_regexp = /\^+/gi;
+var parent_count_regexp = /\^+/gi
 
 /*
 
@@ -50,7 +50,7 @@ var end = /(<$)|(\^$)|(#$)/
 var start = /^</
 
 var parseFromStart = spv.memorize(function(string) {
-  var parts = string.split(checkSplit);
+  var parts = string.split(checkSplit)
   // parts[0] should be empty
   var state = parts[1]
   var nest = parts[2]
@@ -62,7 +62,7 @@ var parseFromStart = spv.memorize(function(string) {
 })
 
 var parseFromEnd = spv.memorize(function(string) {
-  var parts = string.split(checkSplit);
+  var parts = string.split(checkSplit)
 
   var length = parts.length
   var base = parts[length - 1]
@@ -98,7 +98,7 @@ var matchNotStateSymbols = /(^\W)|\@|\:/
 
 var getStateInfo = spv.memorize(function getStateInfo(string) {
   if (!string) {
-    return empty;
+    return empty
   }
 
   return {
@@ -108,7 +108,7 @@ var getStateInfo = spv.memorize(function getStateInfo(string) {
 })
 
 var SimpleStateAddr = function(string) {
-  this.state = getStateInfo(string);
+  this.state = getStateInfo(string)
 }
 
 SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
@@ -204,12 +204,12 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 
 
   var zip_name = zip_state_string || zip_nest_string || null
-  var state_info = getStateInfo(state_string);
-  var nest_info = getNestInfo(nest_string);
-  var resource_info = getResourceInfo(resource_raw);
-  var base_info = getBaseInfo(base_raw);
+  var state_info = getStateInfo(state_string)
+  var nest_info = getNestInfo(nest_string)
+  var resource_info = getResourceInfo(resource_raw)
+  var base_info = getBaseInfo(base_raw)
 
-  var result_type = getResultType(state_info, nest_info, resource_info, base_info);
+  var result_type = getResultType(state_info, nest_info, resource_info, base_info)
 
   return {
     result_type: result_type,
@@ -225,7 +225,7 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 
 function getNestInfo(string) {
   if (!string) {
-    return empty;
+    return empty
   }
 
   var parts = string.split(':')
@@ -239,7 +239,7 @@ function getNestInfo(string) {
     throw new Error('dont use. use < @[zip_name] [statename] < [nestingname]')
   }
 
-  var target_nest_name = full_path[full_path.length-1] // last one
+  var target_nest_name = full_path[full_path.length - 1] // last one
 
   if (!target_nest_name) {
     throw new Error('wrong nest path: ' + string)
@@ -247,14 +247,14 @@ function getNestInfo(string) {
 
   return {
     path: full_path,
-    base: full_path.slice(0, full_path.length-1), // all, except last
+    base: full_path.slice(0, full_path.length - 1), // all, except last
     target_nest_name: target_nest_name,
   }
 }
 
 function getResourceInfo(string) {
   if (!string) {
-    return empty;
+    return empty
   }
 
   return {
@@ -265,7 +265,7 @@ function getResourceInfo(string) {
 
 function getBaseInfo(string) {
   if (!string) {
-    return empty;
+    return empty
   }
 
   if (string == '#') {

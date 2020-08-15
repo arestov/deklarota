@@ -1,5 +1,5 @@
 var test = require('ava')
-var requirejs = require('requirejs');
+var requirejs = require('requirejs')
 require('./require-config')
 
 var parse = requirejs('./parse')
@@ -16,32 +16,32 @@ test('check asString', function(t) {
   //
   // "< state_name < nesting < resource < #"
 
-  t.snapshot(pipe("< @one:state_name < nesting < resource < #"));
-  t.snapshot(pipe("<< @one:nesting"));
+  t.snapshot(pipe("< @one:state_name < nesting < resource < #"))
+  t.snapshot(pipe("<< @one:nesting"))
 
   // t.snapshot(parse("< state_name < @one:nesting < resource < #"));
 
-  t.snapshot(pipe("< state_name < nesting < resource < #"));
+  t.snapshot(pipe("< state_name < nesting < resource < #"))
 
-  t.snapshot(pipe("< state_name << /resource/[:ddaf]/sdf < #"));
+  t.snapshot(pipe("< state_name << /resource/[:ddaf]/sdf < #"))
 
-  t.snapshot(pipe("< state_name <<< #"));
+  t.snapshot(pipe("< state_name <<< #"))
 
-  t.snapshot(pipe("<< nesting_name << #"));
+  t.snapshot(pipe("<< nesting_name << #"))
 
-  t.snapshot(pipe("<< nesting_name << ^^"));
+  t.snapshot(pipe("<< nesting_name << ^^"))
 
-  t.snapshot(pipe("< state_name <<< ^^"));
+  t.snapshot(pipe("< state_name <<< ^^"))
 
-  t.snapshot(pipe("< state_name"));
+  t.snapshot(pipe("< state_name"))
 
-  t.snapshot(pipe("state_name"));
+  t.snapshot(pipe("state_name"))
 
-  t.snapshot(pipe("/resource/[:ddaf]/sdf < #"));
+  t.snapshot(pipe("/resource/[:ddaf]/sdf < #"))
 
-  t.snapshot(pipe("/resource/[:ddaf]/sdf <"));
+  t.snapshot(pipe("/resource/[:ddaf]/sdf <"))
 
-  t.snapshot(pipe("nesting_name < < ^^"));
+  t.snapshot(pipe("nesting_name < < ^^"))
 
 
-});
+})

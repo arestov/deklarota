@@ -1,18 +1,18 @@
-define(function (require) {
-'use strict';
+define(function(require) {
+'use strict'
 var showMOnMap = require('./showMOnMap')
-var _updateAttr = require('_updateAttr');
-var _updateRel = require('_updateRel');
+var _updateAttr = require('_updateAttr')
+var _updateRel = require('_updateRel')
 
 var redirected = function(map, pioneer) {
-  var BWL = map.app.CBWL;
+  var BWL = map.app.CBWL
 
   var redirectBWLev = pioneer.redirectBWLev
   if (!redirectBWLev) {
     return null
   }
 
-  return showMOnMap(BWL, map, redirectBWLev(pioneer));
+  return showMOnMap(BWL, map, redirectBWLev(pioneer))
 
 }
 
@@ -25,10 +25,10 @@ return function changeBridge(bwlev_raw, map_raw) {
   }
 
   if (map.bridge_bwlev === bwlev) {
-    return bwlev;
+    return bwlev
   }
 
-  map.bridge_bwlev = bwlev;
+  map.bridge_bwlev = bwlev
 
   if (map.is_simple_router) {
     _updateRel(map, 'current_bwlev', bwlev)
@@ -39,12 +39,12 @@ return function changeBridge(bwlev_raw, map_raw) {
     return
   }
 
-  var copy = bwlev.ptree.slice();
-  copy.reverse();
+  var copy = bwlev.ptree.slice()
+  copy.reverse()
 
-  _updateRel(map, 'wanted_bwlev_chain', copy);
+  _updateRel(map, 'wanted_bwlev_chain', copy)
   _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
   _updateAttr(bwlev, 'currentReq', null)
-  return bwlev;
+  return bwlev
 }
-});
+})

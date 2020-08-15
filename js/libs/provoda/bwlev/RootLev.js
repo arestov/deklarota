@@ -1,16 +1,16 @@
 define(function(require) {
-'use strict';
-var Model = require('../Model');
-var spv = require('spv');
+'use strict'
+var Model = require('../Model')
+var spv = require('spv')
 var handleSpyglassRequests = require('../dcl/spyglass/handleRequest')
-var updateSpyglass = require('../dcl/spyglass/update');
-var _updateAttr = require('_updateAttr');
-var showMOnMap = require('./showMOnMap');
-var getModelById = require('../utils/getModelById');
-var followFromTo = require('./followFromTo');
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
+var updateSpyglass = require('../dcl/spyglass/update')
+var _updateAttr = require('_updateAttr')
+var showMOnMap = require('./showMOnMap')
+var getModelById = require('../utils/getModelById')
+var followFromTo = require('./followFromTo')
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
 
-var cloneObj = require('spv/cloneObj');
+var cloneObj = require('spv/cloneObj')
 
 
 var RootLev = spv.inh(Model, {
@@ -22,39 +22,39 @@ var RootLev = spv.inh(Model, {
   rpc_legacy: {
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
-      var md = getModelById(this, id);
+      var md = getModelById(this, id)
       var bwlev = showMOnMap(this.app.CBWL, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), md)
-      bwlev.showOnMap();
+      bwlev.showOnMap()
     },
     followURL: function(from_id, url) {
-      var from_bwlev = getModelById(this, from_id);
-      var md = from_bwlev.getNesting('pioneer');
+      var from_bwlev = getModelById(this, from_id)
+      var md = from_bwlev.getNesting('pioneer')
 
-      var target_md = getSPByPathTemplate(this.app, md, url);
+      var target_md = getSPByPathTemplate(this.app, md, url)
 
-      var bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, target_md);
-      bwlev.showOnMap();
-      return bwlev;
+      var bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, target_md)
+      bwlev.showOnMap()
+      return bwlev
     },
     followTo: function(from_id, id) {
-      var md = getModelById(this, id);
+      var md = getModelById(this, id)
       if (md.getRelativeModel) {
-        md = md.getRelativeModel();
+        md = md.getRelativeModel()
       }
 
-      var from_bwlev = getModelById(this, from_id);
+      var from_bwlev = getModelById(this, from_id)
 
-      var bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, md);
-      bwlev.showOnMap();
-      return bwlev;
+      var bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, md)
+      bwlev.showOnMap()
+      return bwlev
     },
     knowViewingDataStructure: function(constr_id, used_data_structure) {
       if (this.used_data_structure) {
-        return;
+        return
       }
 
-      this.used_data_structure = used_data_structure;
-      _updateAttr(this, 'used_data_structure', used_data_structure);
+      this.used_data_structure = used_data_structure
+      _updateAttr(this, 'used_data_structure', used_data_structure)
     },
     navShowByReq: function(req, router_name_arg) {
       var router_name = router_name_arg
@@ -81,15 +81,15 @@ var RootLev = spv.inh(Model, {
     }
   },
   updateSpyglass: function(data) {
-    updateSpyglass(this.app.CBWL, this, data);
+    updateSpyglass(this.app.CBWL, this, data)
   },
   toggleSpyglass: function(data) {
-    updateSpyglass.toggle(this.app.CWBL, this, data);
+    updateSpyglass.toggle(this.app.CWBL, this, data)
   },
   spyglassURL: function(name, pattern, data) {
     // navigation, "/tags/[:tag]" {tag: "tgbbb"}
   },
 })
 
-return RootLev;
-});
+return RootLev
+})

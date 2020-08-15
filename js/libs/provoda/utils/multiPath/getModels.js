@@ -3,7 +3,7 @@
 // - написать функцию, котоая записывает state/nesting в модели multiPath
 
 define(function(require) {
-'use strict';
+'use strict'
 var getNesting = require('pv/getNesting')
 var getStart = require('./getStart')
 
@@ -79,7 +79,7 @@ function getDeepNesting(md, multi_path, all_nestings) {
   var just_base = !all_nestings && multi_path.result_type === 'nesting'
 
   if (!info || !info.path) {
-    return md;
+    return md
   }
 
   var exec_path = just_base ? info.base : info.path
@@ -92,8 +92,8 @@ function getDeepNesting(md, multi_path, all_nestings) {
     cur = nested
   }
 
-  return cur;
+  return cur
 }
 
-return getModels;
+return getModels
 })

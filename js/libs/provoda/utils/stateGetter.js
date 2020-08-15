@@ -1,8 +1,8 @@
-define(function (require) {
-'use strict';
-var spv = require('spv');
-var isSpecialState = require('./isSpecialState');
-var asNil = function (val) {
+define(function(require) {
+'use strict'
+var spv = require('spv')
+var isSpecialState = require('./isSpecialState')
+var asNil = function(val) {
   if (val == null) {
     return
   }
@@ -10,19 +10,19 @@ var asNil = function (val) {
   return val
 }
 
-var getTargetField = spv.getTargetField;
+var getTargetField = spv.getTargetField
 var getFieldsTree = spv.getFieldsTree
 var stateGetter = spv.memorize(function stateGetter(state_path) {
   if (isSpecialState(state_path)) {
     return function getSpecialState(states) {
-      return asNil(states[state_path]);
-    };
+      return asNil(states[state_path])
+    }
   }
   var path = getFieldsTree(state_path)
   if (path.length != 1) {
     return function getTreeState(states) {
       // has asNil internally
-      return getTargetField(states, path);
+      return getTargetField(states, path)
     }
   }
 
@@ -30,7 +30,7 @@ var stateGetter = spv.memorize(function stateGetter(state_path) {
   return function getSimpleState(states) {
     return asNil(states[attr_name])
   }
-});
+})
 
-return stateGetter;
-});
+return stateGetter
+})

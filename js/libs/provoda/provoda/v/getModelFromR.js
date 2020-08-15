@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var getModel = require('../../View/getModel')
 
 return function(view, mdr) {

@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
-var View = require('../CoreView');
-return View;
-});
+'use strict'
+var View = require('../CoreView')
+return View
+})

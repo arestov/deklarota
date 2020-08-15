@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var getParsedState = require('./getParsedState')
 var asString = require('./multiPath/asString')
 var parseMultiPath = require('./multiPath/parse')

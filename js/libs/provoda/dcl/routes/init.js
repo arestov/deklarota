@@ -1,6 +1,6 @@
 define(function(require) {
-'use strict';
-var addFrom = require('../../nest-watch/addFrom');
+'use strict'
+var addFrom = require('../../nest-watch/addFrom')
 var RouteRunner = require('./RouteRunner')
 
 
@@ -10,7 +10,7 @@ return function(self) {
   self.__routes_matchers_runs = null
 
   if (!self.__routes_matchers_defs) {
-    return;
+    return
   }
 
   var list = new Array(self.__routes_matchers_defs.length)
@@ -19,7 +19,7 @@ return function(self) {
     var cur = self.__routes_matchers_defs[i]
     var cur = new RouteRunner(self, cur)
     list[i] = cur
-    addFrom(self, cur.lnwatch);
+    addFrom(self, cur.lnwatch)
   }
 
   self.__routes_matchers_runs = list

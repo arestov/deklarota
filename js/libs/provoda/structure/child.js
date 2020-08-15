@@ -1,6 +1,6 @@
 define(function() {
-'use strict';
-var spv = require('spv');
+'use strict'
+var spv = require('spv')
 var prefixValue = function(source) {
   if (!source) {
     return 'unk--'

@@ -74,7 +74,7 @@ var logStates = function(owner, dubl) {
     return
   }
 
-  owner._highway.logger.pushStates(owner, changes);
+  owner._highway.logger.pushStates(owner, changes)
 }
 
 var logNesting = function(owner, collection_name, array, old_value, removed) {
@@ -86,7 +86,7 @@ var logNesting = function(owner, collection_name, array, old_value, removed) {
     return
   }
 
-  owner._highway.logger.pushNesting(owner, collection_name, array, old_value, removed);
+  owner._highway.logger.pushNesting(owner, collection_name, array, old_value, removed)
 
 }
 

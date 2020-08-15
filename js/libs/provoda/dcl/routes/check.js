@@ -1,9 +1,9 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 
-var RouteDcl = require('./dcl');
+var RouteDcl = require('./dcl')
 
 var buildRoutes = function(self, index) {
   // TODO: allow to control matching order
@@ -15,7 +15,7 @@ var buildRoutes = function(self, index) {
     )
   }
 
-  self.__routes_matchers_defs = result;
+  self.__routes_matchers_defs = result
 
   // 1. расставить приоритеты. распарсить?
   // 2. getSPI <- sub_pages <- nestings
@@ -31,7 +31,7 @@ var parse = function(name, data) {
 }
 
 var extend = function(index, more) {
-  var cur = cloneObj({}, index) || {};
+  var cur = cloneObj({}, index) || {}
 
   for (var name in more) {
     var data = more[name]
@@ -40,38 +40,38 @@ var extend = function(index, more) {
       continue
     }
 
-    var dcl = parse(name, data);
+    var dcl = parse(name, data)
     cur[name] = dcl
   }
 
-  return cur;
+  return cur
 }
 
 var checkModern = function(self, props) {
   if (!props['routes']) {
-    return;
+    return
   }
 
   self._extendable_routes_index = extend(
     self._extendable_routes_index,
     props['routes']
-  );
+  )
 }
 
 
 return function checkPass(self, props) {
 
-  var currentIndex = self._extendable_routes_index;
+  var currentIndex = self._extendable_routes_index
 
-  checkModern(self, props);
+  checkModern(self, props)
 
   if (currentIndex === self._extendable_routes_index) {
-    return;
+    return
   }
 
   buildRoutes(self, self._extendable_routes_index, currentIndex)
 
 
-  return true;
+  return true
 }
 })

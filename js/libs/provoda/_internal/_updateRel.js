@@ -1,5 +1,5 @@
 define(function(require) {
 'use strict'
-var updateRel = require('../Model/updateNesting');
-return updateRel;
+var updateRel = require('../Model/updateNesting')
+return updateRel
 })

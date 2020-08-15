@@ -1,7 +1,7 @@
 define(function(require) {
-'use strict';
-var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData');
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
+'use strict'
+var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData')
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
 
 var empty = {}
 
@@ -25,14 +25,14 @@ function getBase(md, multi_path) {
   var info = multi_path.from_base
 
   if (!info || !info.type) {
-    return md;
+    return md
   }
 
   if (info.type === 'root') {
     if (multi_path.resource && multi_path.resource.path) {
       return md.getStrucRoot().start_page
     }
-    return md.getStrucRoot();
+    return md.getStrucRoot()
   }
 
   return md.getStrucParent(info.steps)
@@ -48,7 +48,7 @@ function getResourse(md, multi_path, use_state_from_initial_model, data) {
   var info = multi_path.resource
 
   if (!info || !info.path) {
-    return md;
+    return md
   }
 
   if (use_state_from_initial_model) {

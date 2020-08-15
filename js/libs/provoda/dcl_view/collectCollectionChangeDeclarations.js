@@ -1,36 +1,36 @@
-define(function (require) {
-'use strict';
-var spv = require('spv');
-var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker');
-var getUnprefixed = spv.getDeprefixFunc(  'collch-' );
-var hasPrefixedProps = getPropsPrefixChecker( getUnprefixed );
+define(function(require) {
+'use strict'
+var spv = require('spv')
+var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
+var getUnprefixed = spv.getDeprefixFunc('collch-')
+var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
 var solvingOf = function(declr) {
-  var by_model_name = declr.by_model_name;
-  var space = declr.space != 'main' && declr.space;
-  var is_wrapper_parent = declr.is_wrapper_parent;
-  var needs_expand_state = declr.needs_expand_state;
+  var by_model_name = declr.by_model_name
+  var space = declr.space != 'main' && declr.space
+  var is_wrapper_parent = declr.is_wrapper_parent
+  var needs_expand_state = declr.needs_expand_state
   if (by_model_name || space || is_wrapper_parent || needs_expand_state) {
     return {
       by_model_name: by_model_name,
       space: space,
       is_wrapper_parent: is_wrapper_parent,
       needs_expand_state: needs_expand_state
-    };
+    }
   }
-};
+}
 var parseCollectionChangeDeclaration = function(collch) {
-  if (typeof collch == 'string'){
+  if (typeof collch == 'string') {
     collch = {
       place: collch
-    };
+    }
   }
-  var expand_state = collch.needs_expand_state;
+  var expand_state = collch.needs_expand_state
   if (expand_state && typeof expand_state != 'string') {
-    expand_state = 'can_expand';
+    expand_state = 'can_expand'
   }
 
-  var is_wrapper_parent = collch.is_wrapper_parent &&  collch.is_wrapper_parent.match(/^\^+/gi);
+  var is_wrapper_parent = collch.is_wrapper_parent && collch.is_wrapper_parent.match(/^\^+/gi)
 
   var declr = {
     place: collch.place,
@@ -43,44 +43,44 @@ var parseCollectionChangeDeclaration = function(collch) {
     not_request: collch.not_request,
     limit: collch.limit,
     solving: null
-  };
-  var solving = solvingOf(declr);
-  if (solving) {
-    declr.solving = solving;
   }
-  return declr;
-};
+  var solving = solvingOf(declr)
+  if (solving) {
+    declr.solving = solving
+  }
+  return declr
+}
 
 return function(self, props) {
-  var need_recalc = hasPrefixedProps( props );
+  var need_recalc = hasPrefixedProps(props)
 
 
-  if (!need_recalc){
-    return;
+  if (!need_recalc) {
+    return
   }
-  var prop;
+  var prop
 
-  self.dclrs_fpckgs = {};
+  self.dclrs_fpckgs = {}
 
-  for (prop in self){
-    if (getUnprefixed( prop )){
-      var collch = self[ prop ];
+  for (prop in self) {
+    if (getUnprefixed(prop)) {
+      var collch = self[ prop ]
       if (!collch) {
-        continue;
+        continue
       }
-      var nesting_name = getUnprefixed( prop );
-      if (typeof collch == 'function'){
-        self.dclrs_fpckgs[ nesting_name ] = collch;
+      var nesting_name = getUnprefixed(prop)
+      if (typeof collch == 'function') {
+        self.dclrs_fpckgs[ nesting_name ] = collch
       } else {
         if (Array.isArray(collch)) {
-          throw new Error('do not support arrays anymore');
+          throw new Error('do not support arrays anymore')
         }
-        self.dclrs_fpckgs[ nesting_name ] = parseCollectionChangeDeclaration(collch);
+        self.dclrs_fpckgs[ nesting_name ] = parseCollectionChangeDeclaration(collch)
       }
 
     }
   }
-  return true;
-};
+  return true
+}
 
-});
+})

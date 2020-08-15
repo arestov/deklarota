@@ -1,20 +1,20 @@
 define(function(require) {
-'use strict';
-var readDepValue = require('./utils/readDepValue');
-var read = readDepValue.read;
+'use strict'
+var readDepValue = require('./utils/readDepValue')
+var read = readDepValue.read
 
 var bind = {
   root: function(bind) {
     return function(md, instructions, context) {
-      var list = instructions.conndst_root;
-      if (!list){
-        return;
+      var list = instructions.conndst_root
+      if (!list) {
+        return
       }
       for (var i = 0; i < list.length; i++) {
-        var cur = list[i];
-        var target = md.getStrucRoot();
-        if (!target){
-          throw new Error();
+        var cur = list[i]
+        var target = md.getStrucRoot()
+        if (!target) {
+          throw new Error()
         }
 
         bind(md, target, cur.state_name, cur.full_name, context)
@@ -23,20 +23,20 @@ var bind = {
   },
   parent: function(bind) {
     return function(md, instructions, context) {
-      var list = instructions.conndst_parent;
-      if (!list){
-        return;
+      var list = instructions.conndst_parent
+      if (!list) {
+        return
       }
       for (var i = 0; i < list.length; i++) {
-        var cur = list[i];
-        var count = cur.ancestors;
-        var target = md;
-        while (count){
-          count--;
-          target = target.getStrucParent();
+        var cur = list[i]
+        var count = cur.ancestors
+        var target = md
+        while (count) {
+          count--
+          target = target.getStrucParent()
         }
-        if (!target){
-          throw new Error();
+        if (!target) {
+          throw new Error()
         }
 
         bind(md, target, cur.state_name, cur.full_name, context)
@@ -47,11 +47,11 @@ var bind = {
 }
 
 var subscribe = function(md, target, state_name, full_name) {
-  md.wlch(target, state_name, full_name);
+  md.wlch(target, state_name, full_name)
 }
 
 var unsubscribe = function(md, target, state_name, full_name) {
-  md.unwlch(target, state_name, full_name);
+  md.unwlch(target, state_name, full_name)
 }
 
   return {
@@ -63,28 +63,28 @@ var unsubscribe = function(md, target, state_name, full_name) {
         }
         states_list.push('<<<<', md)
       },
-      parent: function (md, states_list) {
-        var list = md.conndst_parent;
-        if (!list){
-          return;
+      parent: function(md, states_list) {
+        var list = md.conndst_parent
+        if (!list) {
+          return
         }
 
         for (var i = 0; i < list.length; i++) {
-          var cur = list[i];
-          var value = read.parent(md, cur);
+          var cur = list[i]
+          var value = read.parent(md, cur)
 
-          states_list.push(cur.full_name, value);
+          states_list.push(cur.full_name, value)
         }
       },
-      root: function (md, states_list) {
-        var list = md.conndst_root;
-        if (!list){
-          return;
+      root: function(md, states_list) {
+        var list = md.conndst_root
+        if (!list) {
+          return
         }
         for (var i = 0; i < list.length; i++) {
-          var cur = list[i];
-          var value = read.root(md, cur);
-          states_list.push(cur.full_name, value);
+          var cur = list[i]
+          var value = read.root(md, cur)
+          states_list.push(cur.full_name, value)
         }
       }
     },
@@ -98,5 +98,5 @@ var unsubscribe = function(md, target, state_name, full_name) {
       parent: bind.parent(unsubscribe),
       root: bind.root(unsubscribe),
     }
-  };
-});
+  }
+})

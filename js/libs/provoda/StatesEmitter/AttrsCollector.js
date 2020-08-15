@@ -10,7 +10,7 @@ var reserved = 2
 var ok = Object.freeze({
   enumerable: true,
   configurable: true
-});
+})
 
 var notOk = Object.freeze({
   value: null,
@@ -74,13 +74,13 @@ Wrap.prototype = {
 
     return true
   },
-  enumerate: function (target) {
-    return target[0].all;
+  enumerate: function(target) {
+    return target[0].all
   },
-  ownKeys: function (target) {
-    return target[0].all;
+  ownKeys: function(target) {
+    return target[0].all
   },
-  has: function (target, name) {
+  has: function(target, name) {
     return target[0].hasAttr(name)
   },
 
@@ -88,7 +88,7 @@ Wrap.prototype = {
     if (prop === 'length') {
       return notOk
     }
-    return ok;
+    return ok
   }
   // ownKeys
 }
@@ -103,13 +103,13 @@ if (wrap.__nothing) {
 
 function AttrsCollector(defined_attrs) {
   // Collect possible attrs
-  this.counter = reserved;
+  this.counter = reserved
   // 0 is reserved to ref to collector
   // 1 is reserved to bitfield
-  this.indexByName = Object.create( null )
+  this.indexByName = Object.create(null)
 
   this.bools = 0
-  this.boolByName = Object.create( null )
+  this.boolByName = Object.create(null)
 
   this.public_attrs = []
   this.all = []
@@ -135,7 +135,7 @@ AttrsCollector.prototype = {
       case "bool": {
         this.boolByName[name] = this.bools++
       }
-      break;
+      break
       default: {
         this.indexByName[name] = this.counter++
       }
@@ -151,7 +151,7 @@ AttrsCollector.prototype = {
   hasAttr: function(name) {
     return (name in this.indexByName) || (name in this.boolByName)
   },
-  ensureAttr: function (name) {
+  ensureAttr: function(name) {
     // ensure usual attr without type
     if (this.hasAttr(name)) {
       return

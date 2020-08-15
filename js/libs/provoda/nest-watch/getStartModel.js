@@ -1,6 +1,6 @@
 define(function(require) {
-'use strict';
-var getStart = require('../utils/multiPath/getStart');
+'use strict'
+var getStart = require('../utils/multiPath/getStart')
 
 return function getStartModel(target, nwatch) {
   if (!nwatch) {

@@ -1,84 +1,84 @@
 define(function(require) {
 'use strict'
-var Promise = require('Promise');
-var extendPromise = require('js/modules/extendPromise');
-var spv = require('spv');
+var Promise = require('Promise')
+var extendPromise = require('js/modules/extendPromise')
+var spv = require('spv')
 var getApiPart = require('./getApiPart')
-var getTargetField = spv.getTargetField;
-var toBigPromise = extendPromise.toBigPromise;
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
+var getTargetField = spv.getTargetField
+var toBigPromise = extendPromise.toBigPromise
+var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
 var batching = require('./batching')
 var doBatch = batching
 
 
-var usualRequest = function (send_declr, sputnik, opts, network_api_opts) {
-  var api_name = send_declr.api_name;
+var usualRequest = function(send_declr, sputnik, opts, network_api_opts) {
+  var api_name = send_declr.api_name
   var allow_cache = send_declr.allow_cache === true
-  var api_method = send_declr.api_method_name;
-  var api_args = send_declr.getArgs.call(sputnik, opts);
-  var manual_nocache = api_args[2] && api_args[2].nocache;
+  var api_method = send_declr.api_method_name
+  var api_args = send_declr.getArgs.call(sputnik, opts)
+  var manual_nocache = api_args[2] && api_args[2].nocache
 
-  var non_standart_api_opts = send_declr.non_standart_api_opts;
+  var non_standart_api_opts = send_declr.non_standart_api_opts
 
   if (!non_standart_api_opts) {
-    api_args[2] = api_args[2] || network_api_opts;
+    api_args[2] = api_args[2] || network_api_opts
   }
 
-  var cache_key;
+  var cache_key
   if (allow_cache && !non_standart_api_opts && !manual_nocache) {
     cache_key = [
       'usual', api_name, send_declr.api_resource_path, api_method, api_args
-    ];
+    ]
   }
 
 
   return {
     cache_key: cache_key,
     data: api_args
-  };
-};
+  }
+}
 
-var manualRequest = function (send_declr, sputnik, opts) {
-  var declr = send_declr.manual;
-  var api_name = send_declr.api_name;
+var manualRequest = function(send_declr, sputnik, opts) {
+  var declr = send_declr.manual
+  var api_name = send_declr.api_name
   var allow_cache = send_declr.allow_cache === true
 
-  var args = new Array(declr.dependencies + 2);
+  var args = new Array(declr.dependencies + 2)
 
-  args[0] = null;
-  args[1] = opts;
+  args[0] = null
+  args[1] = opts
 
   for (var i = 0; i < declr.dependencies.length; i++) {
-    args[i+2] = sputnik.state(declr.dependencies[i]);
+    args[i + 2] = sputnik.state(declr.dependencies[i])
   }
 
   var cache_key = allow_cache && [
     'manual', api_name, send_declr.api_resource_path, opts, declr.fn_body, args
-  ];
+  ]
 
   return {
     cache_key: cache_key,
     data: args
-  };
-};
+  }
+}
 
 
 
-var idsRequest = function (send_declr, sputnik) {
-  var declr = send_declr.ids_declr;
-  var api_name = send_declr.api_name;
+var idsRequest = function(send_declr, sputnik) {
+  var declr = send_declr.ids_declr
+  var api_name = send_declr.api_name
   var allow_cache = send_declr.allow_cache === true
 
-  var ids = sputnik.state(declr.arrayof);
+  var ids = sputnik.state(declr.arrayof)
 
   var cache_key = allow_cache && [
     'ids', api_name, send_declr.api_resource_path, declr.fn_body, ids
-  ];
+  ]
 
   return {
     cache_key: cache_key,
     data: ids
-  };
+  }
 
   // var states = new Array();
   // arrayof: 'user_id',
@@ -86,11 +86,11 @@ var idsRequest = function (send_declr, sputnik) {
   // req: function(api, ids) {
   // 	return api.find({_id: {'$in': ids}}).limit(ids.length);
   // }
-};
+}
 
 var oneFromList = function(array) {
-  return array && array[0];
-};
+  return array && array[0]
+}
 
 
 
@@ -99,83 +99,83 @@ var oneFromList = function(array) {
 
 var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
   if (!sputnik._highway.requests_by_declarations) {
-    sputnik._highway.requests_by_declarations = {};
+    sputnik._highway.requests_by_declarations = {}
   }
-  var requests_by_declarations = sputnik._highway.requests_by_declarations;
+  var requests_by_declarations = sputnik._highway.requests_by_declarations
 
 
-  var network_api = getNetApiByDeclr(send_declr, sputnik);
-  var api_part = getApiPart(send_declr, sputnik);
+  var network_api = getNetApiByDeclr(send_declr, sputnik)
+  var api_part = getApiPart(send_declr, sputnik)
 
   if (!network_api) {
-    throw new Error('network_api must present!');
+    throw new Error('network_api must present!')
   }
 
 
   if (!network_api.source_name) {
-    throw new Error('network_api must have source_name!');
+    throw new Error('network_api must have source_name!')
   }
 
   if (!network_api.errors_fields && !network_api.checkResponse) {
-    throw new Error('provide a way to detect errors!');
+    throw new Error('provide a way to detect errors!')
   }
 
-  var api_name = send_declr.api_name;
+  var api_name = send_declr.api_name
   if (typeof api_name != 'string') {
-    api_name = network_api.api_name;
+    api_name = network_api.api_name
   }
 
   if (typeof api_name != 'string') {
-    throw new Error('network_api must have api_name!');
+    throw new Error('network_api must have api_name!')
   }
 
-  var request_data;
+  var request_data
   if (send_declr.api_method_name) {
-    request_data = usualRequest(send_declr, sputnik, opts, network_api_opts);
+    request_data = usualRequest(send_declr, sputnik, opts, network_api_opts)
   } else if (send_declr.manual) {
-    request_data = manualRequest(send_declr, sputnik, opts);
+    request_data = manualRequest(send_declr, sputnik, opts)
   } else if (send_declr.ids_declr) {
-    request_data = idsRequest(send_declr, sputnik);
+    request_data = idsRequest(send_declr, sputnik)
   }
 
-  var cache_key = request_data.cache_key;
+  var cache_key = request_data.cache_key
   if (cache_key && !opts.has_error && requests_by_declarations[cache_key]) {
-    return requests_by_declarations[cache_key];
+    return requests_by_declarations[cache_key]
   }
 
 
-  var request;
+  var request
   if (send_declr.api_method_name) {
-    request = api_part[ send_declr.api_method_name ].apply(network_api, request_data.data);
+    request = api_part[ send_declr.api_method_name ].apply(network_api, request_data.data)
   } else if (send_declr.manual) {
-    request_data.data[0] = api_part;
-    request = send_declr.manual.fn.apply(null, request_data.data);
+    request_data.data[0] = api_part
+    request = send_declr.manual.fn.apply(null, request_data.data)
   } else if (send_declr.ids_declr) {
     if (sputnik._highway.reqs_batching.is_processing) {
-      request = doBatch(sputnik._highway.reqs_batching, send_declr, request_data.data);
+      request = doBatch(sputnik._highway.reqs_batching, send_declr, request_data.data)
     } else {
       request = send_declr.ids_declr.req.call(null, api_part, [request_data.data])
-        .then(oneFromList);
+        .then(oneFromList)
     }
 
     //  idsRequest(send_declr, sputnik, opts);
   }
 
-  var result_request = checkRequest(request);
-  result_request.network_api = network_api;
+  var result_request = checkRequest(request)
+  result_request.network_api = network_api
   if (cache_key) {
-    requests_by_declarations[cache_key] = result_request;
-    result_request.then(anyway, anyway);
+    requests_by_declarations[cache_key] = result_request
+    result_request.then(anyway, anyway)
   }
 
-  return result_request;
+  return result_request
 
   function anyway() {
     if (requests_by_declarations[cache_key] == request) {
-      delete requests_by_declarations[cache_key];
+      delete requests_by_declarations[cache_key]
     }
   }
-};
+}
 
 function checkRequest(request) {
   if (!request) {
@@ -183,31 +183,31 @@ function checkRequest(request) {
   }
   if (!request.catch) {
     if (!request.abort && !request.db) {
-      throw new Error('request must have `abort` method');
+      throw new Error('request must have `abort` method')
     }
-    return toBigPromise(request);
+    return toBigPromise(request)
   }
-  return request;
+  return request
 }
 
 
 function findErrorByList(data, errors_selectors) {
-  var i;
+  var i
   for (i = 0; i < errors_selectors.length; i++) {
-    var cur = errors_selectors[i];
-    var has_error = getTargetField(data, cur);
-    if (has_error){
-      return has_error;
+    var cur = errors_selectors[i]
+    var has_error = getTargetField(data, cur)
+    if (has_error) {
+      return has_error
     }
   }
 }
 
 function onPromiseFail(promise, cb) {
   if (promise.catch) {
-    return promise.catch(cb);
+    return promise.catch(cb)
   }
 
-  return promise.fail(cb);
+  return promise.fail(cb)
 }
 
 

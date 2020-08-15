@@ -1,12 +1,12 @@
 define(function(require) {
 'use strict'
-var _updateRel = require('_updateRel');
+var _updateRel = require('_updateRel')
 var matchRoute = require('../../routes/match')
-var get_constr = require('../../structure/get_constr');
+var get_constr = require('../../structure/get_constr')
 var getNestingConstr = get_constr.getNestingConstr
 var allStates = require('./allStates')
 
-var createStates = function (Constr, sp_name, extra_states) {
+var createStates = function(Constr, sp_name, extra_states) {
   var has_compx = Constr.prototype.hasComplexStateFn('url_part')
   if (has_compx) {
     return allStates(null, extra_states)
@@ -23,10 +23,10 @@ function selectModern(self, sp_name) {
   }
 
   for (var i = 0; i < self.__routes_matchers_defs.length; i++) {
-    var cur = self.__routes_matchers_defs[i];
+    var cur = self.__routes_matchers_defs[i]
     var matched = matchRoute(cur.route, sp_name)
     if (!matched) {
-      continue;
+      continue
     }
 
     var Constr = getNestingConstr(self.app, self, cur.dest)
@@ -48,7 +48,7 @@ function createModern(self, sp_name, extra_states) {
     init_version: 2,
     states: createStates(Constr, sp_name, extra_states),
     head: selected.matched,
-  });
+  })
 
   var nesting_name = selected.routedcl.dest
   var cur_list = self.getNesting(selected.routedcl.dest)

@@ -1,33 +1,33 @@
 define(function(require) {
-'use strict';
-var BrowseMap = require('./BrowseMap');
-var spv = require('spv');
-var _updateAttr = require('_updateAttr');
+'use strict'
+var BrowseMap = require('./BrowseMap')
+var spv = require('spv')
+var _updateAttr = require('_updateAttr')
 var _updateRel = require('_updateRel')
 
 var cloneObj = spv.cloneObj
 
 var pushToRoute = require('../structure/pushToRoute')
 
-var getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups;
+var getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 
 var LoadableListBase = spv.inh(BrowseMap.Model, {
   strict: true,
   naming: function(fn) {
     return function LoadableListBase(opts, data, params, more, states) {
-      fn(this, opts, data, params, more, states);
-    };
+      fn(this, opts, data, params, more, states)
+    }
   },
   init: function initLoadableListBase(self) {
-    self.excess_data_items = null;
-    self.loaded_nestings_items = null;
-    self.loadable_lists = null;
+    self.excess_data_items = null
+    self.loaded_nestings_items = null
+    self.loadable_lists = null
 
     //self.loadable_lists[ self.main_list_name ] = [];
 
-    var has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name]);
-    if (has_loader){
-      _updateAttr(self, "has_data_loader", true);
+    var has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name])
+    if (has_loader) {
+      _updateAttr(self, "has_data_loader", true)
     }
   }
 }, {
@@ -36,8 +36,8 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     "$needs_load": [
       "compx",
       ['more_load_available', 'mp_has_focus'],
-      function (can_more, focus) {
-        return Boolean(focus && can_more);
+      function(can_more, focus) {
+        return Boolean(focus && can_more)
       }
     ],
 
@@ -45,7 +45,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       "compx",
       ['main_list_loading', 'preview_loading', 'id_searching'],
       function(main_list_loading, prevw_loading, id_searching) {
-        return main_list_loading || prevw_loading || id_searching;
+        return main_list_loading || prevw_loading || id_searching
       }
     ],
 
@@ -53,7 +53,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       "compx",
       ['has_data_loader', 'loader_disallowed', 'has_no_access'],
       function(has_data_loader, loader_disallowed, has_no_access) {
-        return has_data_loader && !loader_disallowed  && !has_no_access;
+        return has_data_loader && !loader_disallowed && !has_no_access
       }
     ],
 
@@ -61,7 +61,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       "compx",
       ['can_load_data', 'all_data_loaded'],
       function(can_load_data, all_data_loaded) {
-        return can_load_data && !all_data_loaded;
+        return can_load_data && !all_data_loaded
       }
     ],
 
@@ -69,19 +69,19 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       "compx",
       ['can_load_more', "list_loading"],
       function(can_load_more, list_loading) {
-        return can_load_more && !list_loading;
+        return can_load_more && !list_loading
       }
     ]
   },
 
-  'stch-$needs_load': function (target, state) {
+  'stch-$needs_load': function(target, state) {
     if (state) {
-      target.preloadStart();
+      target.preloadStart()
     }
   },
 
   handleNetworkSideData: function(target, source_name, ns, data) {
-    target.app.handleNetworkSideData(source_name, ns, data, target);
+    target.app.handleNetworkSideData(source_name, ns, data, target)
   },
 
   main_list_name: 'lists_list',
@@ -89,11 +89,11 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   page_limit: 30,
 
   getPagingInfo: function(nesting_name, limit) {
-    var page_limit = limit || this.page_limit || this.map_parent.page_limit;
-    var length = this.getLength(nesting_name);
-    var has_pages = Math.floor(length/page_limit);
-    var remainder = length % page_limit;
-    var next_page = has_pages + 1;
+    var page_limit = limit || this.page_limit || this.map_parent.page_limit
+    var length = this.getLength(nesting_name)
+    var has_pages = Math.floor(length / page_limit)
+    var remainder = length % page_limit
+    var next_page = has_pages + 1
 
     return {
       current_length: length,
@@ -101,207 +101,207 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       page_limit: page_limit,
       remainder: remainder,
       next_page: next_page
-    };
+    }
   },
 
   preloadStart: function() {
-    this.loadStart();
+    this.loadStart()
   },
 
   getLength: function(nesting_name) {
     if (!nesting_name) {
-      throw new Error('provide nesting_name');
+      throw new Error('provide nesting_name')
     }
-    return (this.loaded_nestings_items && this.loaded_nestings_items[ nesting_name ]) || 0;
+    return (this.loaded_nestings_items && this.loaded_nestings_items[ nesting_name ]) || 0
   },
 
   loadStart: function() {
-    if (this.state('more_load_available') && !this.getLength(this.main_list_name)){
-      this.requestMoreData();
+    if (this.state('more_load_available') && !this.getLength(this.main_list_name)) {
+      this.requestMoreData()
     }
   },
 
   requestMoreData: function(nesting_name) {
-    nesting_name = nesting_name || this.main_list_name;
+    nesting_name = nesting_name || this.main_list_name
     if (this._nest_reqs && this._nest_reqs[nesting_name]) {
-      this.requestNesting( this._nest_reqs[nesting_name], nesting_name );
+      this.requestNesting(this._nest_reqs[nesting_name], nesting_name)
     }
   },
 
   insertDataAsSubitems: function(target, nesting_name, data_list, opts, source_name) {
-    var items_list = [];
+    var items_list = []
 
     if (!data_list || !data_list.length) {
       return items_list
     }
 
-    var mlc_opts = target.getMainListChangeOpts();
+    var mlc_opts = target.getMainListChangeOpts()
 
-    var splitItemData = target['nest_rq_split-' + nesting_name];
+    var splitItemData = target['nest_rq_split-' + nesting_name]
 
     for (var i = 0; i < data_list.length; i++) {
-      var splited_data = splitItemData && splitItemData(data_list[i], target.getNestingSource(nesting_name, target.app));
+      var splited_data = splitItemData && splitItemData(data_list[i], target.getNestingSource(nesting_name, target.app))
       var cur_data = splited_data ? splited_data[0] : data_list[i],
-        cur_params = splited_data && splited_data[1];
+        cur_params = splited_data && splited_data[1]
 
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
-        continue;
+        continue
       }
-      var item = target.addItemToDatalist(cur_data, true, cur_params, nesting_name);
+      var item = target.addItemToDatalist(cur_data, true, cur_params, nesting_name)
       if (source_name && item && item._network_source === null) {
-        item._network_source = source_name;
+        item._network_source = source_name
       }
-      items_list.push(item);
+      items_list.push(item)
     }
 
-    target.dataListChange(mlc_opts, items_list, nesting_name);
+    target.dataListChange(mlc_opts, items_list, nesting_name)
     return items_list
   },
 
   getRelativeRequestsGroups: function(space) {
-    var main_models = this.getNesting(this.main_list_name);
-    if (!main_models || !main_models.length){
-      return;
+    var main_models = this.getNesting(this.main_list_name)
+    if (!main_models || !main_models.length) {
+      return
     } else {
-      main_models = main_models.slice();
-      var more_models = getRelativeRequestsGroups.call(this, space, true);
-      if (more_models){
-        main_models = main_models.concat(more_models);
+      main_models = main_models.slice()
+      var more_models = getRelativeRequestsGroups.call(this, space, true)
+      if (more_models) {
+        main_models = main_models.concat(more_models)
       }
-      var clean_array = spv.getArrayNoDubs(main_models);
-      var groups = [];
+      var clean_array = spv.getArrayNoDubs(main_models)
+      var groups = []
       for (var i = 0; i < clean_array.length; i++) {
-        var reqs = clean_array[i].getModelImmediateRequests(space);
-        if (reqs && reqs.length){
-          groups.push(reqs);
+        var reqs = clean_array[i].getModelImmediateRequests(space)
+        if (reqs && reqs.length) {
+          groups.push(reqs)
         }
       }
-      return groups;
+      return groups
     }
   },
 
   dataListChange: function(mlc_opts, items, nesting_name) {
-    nesting_name = nesting_name || this.main_list_name;
-    var array = this.loadable_lists && this.loadable_lists[nesting_name];
-    if (this.beforeReportChange){
+    nesting_name = nesting_name || this.main_list_name
+    var array = this.loadable_lists && this.loadable_lists[nesting_name]
+    if (this.beforeReportChange) {
 
-      array = this.beforeReportChange(array, items);
+      array = this.beforeReportChange(array, items)
       if (!this.loadable_lists) {
-        this.loadable_lists = {};
+        this.loadable_lists = {}
       }
-      this.loadable_lists[nesting_name] = array;
+      this.loadable_lists[nesting_name] = array
     }
-    _updateRel(this, nesting_name, array, mlc_opts);
+    _updateRel(this, nesting_name, array, mlc_opts)
   },
 
   compareItemWithObj: function(item, data) {
     if (!this.items_comparing_props) {
-      return;
+      return
     }
     for (var i = 0; i < this.items_comparing_props.length; i++) {
-      var cur = this.items_comparing_props[i];
-      var item_value = spv.getTargetField(item, cur[0]);
-      var data_value = spv.getTargetField(data, cur[1]);
+      var cur = this.items_comparing_props[i]
+      var item_value = spv.getTargetField(item, cur[0])
+      var data_value = spv.getTargetField(data, cur[1])
       if (item_value !== data_value) {
-        return false;
+        return false
       }
     }
-    return true;
+    return true
   },
 
   compareItemsWithObj: function(array, omo, soft) {
     for (var i = 0; i < array.length; i++) {
-      if (this.compareItemWithObj(array[i], omo, soft)){
-        return array[i];
+      if (this.compareItemWithObj(array[i], omo, soft)) {
+        return array[i]
       }
     }
   },
 
   addItemToDatalist: function(obj, silent, item_params, nesting_name) {
-    return this.addDataItem(obj, silent, nesting_name, item_params);
+    return this.addDataItem(obj, silent, nesting_name, item_params)
   },
 
   addDataItem: function(obj, skip_changes, nesting_name, item_params) {
-    nesting_name = nesting_name || this.main_list_name;
+    nesting_name = nesting_name || this.main_list_name
     if (!this.loadable_lists) {
-      this.loadable_lists = {};
+      this.loadable_lists = {}
     }
     if (!this.loadable_lists[ nesting_name ]) {
-      this.loadable_lists[ nesting_name ] = [];
+      this.loadable_lists[ nesting_name ] = []
     }
     var
       item,
       work_array = this.loadable_lists[ nesting_name ],
-      ml_ch_opts = !skip_changes && this.getMainListChangeOpts();
+      ml_ch_opts = !skip_changes && this.getMainListChangeOpts()
 
-    var excess_items = this.excess_data_items && this.excess_data_items[ nesting_name ];
+    var excess_items = this.excess_data_items && this.excess_data_items[ nesting_name ]
 
-    if (excess_items && excess_items.length){
-      var matched = this.compareItemsWithObj(excess_items, obj);
+    if (excess_items && excess_items.length) {
+      var matched = this.compareItemsWithObj(excess_items, obj)
       /*
       задача этого кода - сделать так, что бы при вставке новых данных всё что лежит в массиве
       "излишек" должно оставаться в конце массива
       */
       //excess_items = this.excess_data_items[ nesting_name ];
-      if (matched){
-        item = matched;
+      if (matched) {
+        item = matched
         /*если совпадает с предполагаемыми объектом, то ставим наш элемент в конец рабочего массива
         и удаляем из массива "излишков", а сами излишки в самый конец */
-        work_array = spv.arrayExclude(work_array, excess_items);
-        excess_items = spv.arrayExclude(excess_items, matched);
-        work_array.push(matched);
-        work_array = work_array.concat(excess_items);
+        work_array = spv.arrayExclude(work_array, excess_items)
+        excess_items = spv.arrayExclude(excess_items, matched)
+        work_array.push(matched)
+        work_array = work_array.concat(excess_items)
 
       } else {
         /* если объект не совпадает ни с одним элементом, то извлекаем все излишки,
         вставляем объект, вставляем элементы обратно */
-        work_array = spv.arrayExclude(work_array, excess_items);
-        work_array.push(item = this.makeItemByData(obj, item_params, nesting_name));
-        work_array = work_array.concat(excess_items);
+        work_array = spv.arrayExclude(work_array, excess_items)
+        work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
+        work_array = work_array.concat(excess_items)
 
 
       }
-      this.excess_data_items[ nesting_name ] = excess_items;
+      this.excess_data_items[ nesting_name ] = excess_items
     } else {
-      work_array.push(item = this.makeItemByData(obj, item_params, nesting_name));
+      work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
     }
-    this.loadable_lists[ nesting_name ] = work_array;
-    if (!skip_changes){
-      if (this.beforeReportChange){
-        work_array = this.beforeReportChange( work_array, [item] );
-        this.loadable_lists[ nesting_name ] = work_array;
+    this.loadable_lists[ nesting_name ] = work_array
+    if (!skip_changes) {
+      if (this.beforeReportChange) {
+        work_array = this.beforeReportChange(work_array, [item])
+        this.loadable_lists[ nesting_name ] = work_array
       }
-      _updateRel(this, nesting_name, work_array, ml_ch_opts );
+      _updateRel(this, nesting_name, work_array, ml_ch_opts)
     }
-    return item;
+    return item
   },
 
   getMainlist: function() {
     if (!this.loadable_lists) {
-      this.loadable_lists = {};
+      this.loadable_lists = {}
     }
     if (!this.loadable_lists[ this.main_list_name ]) {
-      this.loadable_lists[ this.main_list_name ] = [];
+      this.loadable_lists[ this.main_list_name ] = []
     }
-    return this.loadable_lists[ this.main_list_name ];
+    return this.loadable_lists[ this.main_list_name ]
   },
 
   makeItemByData: function(data, item_params, nesting_name) {
-    var mentioned = this._nest_rqc[nesting_name];
-    var md = this;
+    var mentioned = this._nest_rqc[nesting_name]
+    var md = this
     if (!mentioned) {
-      throw new Error('cant make item');
+      throw new Error('cant make item')
     }
 
     var created = pushToRoute(md, nesting_name, data)
     if (created) {
-      return created;
+      return created
     }
 
-    var best_constr = this._all_chi[mentioned.key];
+    var best_constr = this._all_chi[mentioned.key]
 
 
-    var network_data_as_states = best_constr.prototype.network_data_as_states;
+    var network_data_as_states = best_constr.prototype.network_data_as_states
 
     if (best_constr.prototype.handling_v2_init) {
       var v2_data = cloneObj({
@@ -309,58 +309,58 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
         init_version: 2,
         states: data,
       }, convertToNestings(item_params))
-      return this.initSi(best_constr, v2_data);
+      return this.initSi(best_constr, v2_data)
     }
 
     if (network_data_as_states) {
-      return this.initSi(best_constr, {network_states: data}, item_params);
+      return this.initSi(best_constr, {network_states: data}, item_params)
     } else {
-      return this.initSi(best_constr, data, item_params);
+      return this.initSi(best_constr, data, item_params)
     }
   },
 
   findMustBePresentDataItem: function(obj, nesting_name) {
-    nesting_name = nesting_name || this.main_list_name;
-    var list = this.getNesting( nesting_name )
-    var matched = list && this.compareItemsWithObj(this.getNesting( nesting_name ), obj);
-    return matched || this.injectExcessDataItem(obj, nesting_name);
+    nesting_name = nesting_name || this.main_list_name
+    var list = this.getNesting(nesting_name)
+    var matched = list && this.compareItemsWithObj(this.getNesting(nesting_name), obj)
+    return matched || this.injectExcessDataItem(obj, nesting_name)
   },
 
   injectExcessDataItem: function(obj, nesting_name) {
-    nesting_name = nesting_name || this.main_list_name;
-    if (this.isDataInjValid && !this.isDataInjValid(obj)){
-      return;
+    nesting_name = nesting_name || this.main_list_name
+    if (this.isDataInjValid && !this.isDataInjValid(obj)) {
+      return
     }
     var
       work_array = (this.loadable_lists && this.loadable_lists[ nesting_name ]) || [],
       ml_ch_opts = this.getMainListChangeOpts(),
-      item = this.makeItemByData(obj, false, nesting_name);
+      item = this.makeItemByData(obj, false, nesting_name)
 
-    if (!this.cant_find_dli_pos){
-      if (!this.excess_data_items){
-        this.excess_data_items = {};
+    if (!this.cant_find_dli_pos) {
+      if (!this.excess_data_items) {
+        this.excess_data_items = {}
       }
       if (!this.excess_data_items[ nesting_name ]) {
-        this.excess_data_items[ nesting_name ] = [];
+        this.excess_data_items[ nesting_name ] = []
       }
-      this.excess_data_items[ nesting_name ].push(item);
-      work_array.push(item);
+      this.excess_data_items[ nesting_name ].push(item)
+      work_array.push(item)
     } else {
-      work_array.unshift(item);
+      work_array.unshift(item)
     }
-    if (this.beforeReportChange){
-      work_array = this.beforeReportChange(work_array, [item]);
+    if (this.beforeReportChange) {
+      work_array = this.beforeReportChange(work_array, [item])
 
     }
     if (!this.loadable_lists) {
-      this.loadable_lists = {};
+      this.loadable_lists = {}
     }
-    this.loadable_lists[ nesting_name ] = work_array;
+    this.loadable_lists[ nesting_name ] = work_array
 
-    _updateRel(this, nesting_name, work_array, ml_ch_opts);
-    return item;
+    _updateRel(this, nesting_name, work_array, ml_ch_opts)
+    return item
   },
-});
+})
 
 function convertNamed(list) {
   if (!Array.isArray(list)) {
@@ -420,7 +420,7 @@ var LoadableList = spv.inh(LoadableListBase, {
       params.subitems[self.main_list_name],
       null,
       params.subitems_source_name && params.subitems_source_name[self.main_list_name]], true
-    );
+    )
   }
 }, {
   handling_v2_init: true,
@@ -429,4 +429,4 @@ var LoadableList = spv.inh(LoadableListBase, {
 LoadableList.LoadableListBase = LoadableListBase
 
 return LoadableList
-});
+})

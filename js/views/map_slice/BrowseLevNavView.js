@@ -1,9 +1,9 @@
 define(function(require) {
 'use strict'
-var spv = require('spv');
-var View = require('View');
+var spv = require('spv')
+var View = require('View')
 
-var nav = require('./nav');
+var nav = require('./nav')
 
 var BrowseLevNavView = spv.inh(View, {}, {
   attrs: {
@@ -11,49 +11,49 @@ var BrowseLevNavView = spv.inh(View, {}, {
       "compx",
       ['mp_stack', 'mp_has_focus'],
       function(mp_stack, mp_has_focus) {
-        return !mp_has_focus && (mp_stack == 'root' || mp_stack == 'top');
+        return !mp_has_focus && (mp_stack == 'root' || mp_stack == 'top')
       }
     ],
 
     "mp_stack_root_follower": [
       "compx",
       ['$index', '$index_back', 'vmp_show'],
-      function (index, index_back) {
+      function(index, index_back) {
         if (index == 0) {
-          return;
+          return
         }
 
         if (index_back == 0) {
           // title
-          return;
+          return
         }
 
-        return index == 1;
+        return index == 1
       }
     ],
 
     "mp_stack": [
       "compx",
       ['$index', '$index_back', 'vmp_show'],
-      function (index, index_back, vmp_show) {
+      function(index, index_back, vmp_show) {
         if (index == 0) {
-          return vmp_show && 'root';
+          return vmp_show && 'root'
         }
 
         if (index_back == 0) {
           // title
-          return;
+          return
         }
 
         if (index_back == 1) {
-          return 'top';
+          return 'top'
         }
 
         if (index == 1) {
-          return 'bottom';
+          return 'bottom'
         }
 
-        return 'middle';
+        return 'middle'
       }
     ]
   },
@@ -74,7 +74,7 @@ var BrowseLevNavView = spv.inh(View, {}, {
     by_model_name: true,
     place: 'c'
   }
-});
+})
 
-return BrowseLevNavView;
+return BrowseLevNavView
 })

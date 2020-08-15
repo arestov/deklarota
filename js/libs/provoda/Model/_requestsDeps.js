@@ -1,37 +1,37 @@
-define(function(require){
-'use strict';
+define(function(require) {
+'use strict'
 
-var hp = require('../helpers');
-var LocalWatchRoot = require('../nest-watch/LocalWatchRoot');
-var addRemoveN = require('../nest-watch/add-remove');
-var addRootNestWatch = addRemoveN.addRootNestWatch;
-var removeRootNestWatch = addRemoveN.removeRootNestWatch;
-var NestWatch = require('../nest-watch/NestWatch');
+var hp = require('../helpers')
+var LocalWatchRoot = require('../nest-watch/LocalWatchRoot')
+var addRemoveN = require('../nest-watch/add-remove')
+var addRootNestWatch = addRemoveN.addRootNestWatch
+var removeRootNestWatch = addRemoveN.removeRootNestWatch
+var NestWatch = require('../nest-watch/NestWatch')
 var toMultiPath = require('../utils/NestingSourceDr/toMultiPath')
 var getModelById = require('../utils/getModelById')
-var spv = require('spv');
+var spv = require('spv')
 
-var watchDependence = changeDependence(true);
-var unwatchDependence = changeDependence(false);
+var watchDependence = changeDependence(true)
+var unwatchDependence = changeDependence(false)
 
-var count = 1;
+var count = 1
 var ReqDep = function(dep_key, dep, target, supervision, needy) {
-  this.id = count++;
-  this.supervision = supervision;
-  this.dep_key = dep_key;
-  this.dep = dep;
-  this.target = target;
-  this.needy = needy;
-  this.anchor = null;
-};
+  this.id = count++
+  this.supervision = supervision
+  this.dep_key = dep_key
+  this.dep = dep
+  this.target = target
+  this.needy = needy
+  this.anchor = null
+}
 
 var sourceKey = function(req_dep, suffix) {
-  return req_dep.target._provoda_id + '-' + suffix;
-};
+  return req_dep.target._provoda_id + '-' + suffix
+}
 
 
 
-var noop = function() {};
+var noop = function() {}
 
 /*
 loading random tracks based on artists list
@@ -41,346 +41,346 @@ loading of soundcloud art songslist
 
 var getLimit = function(dep, supervision) {
   if (supervision.greedy) {
-    return Infinity;
+    return Infinity
   }
 
   for (var i = 0; i < dep.nesting_path.length; i++) {
-    var cur = dep.nesting_path[i];
+    var cur = dep.nesting_path[i]
     if (cur.type == 'countless') {
-      break;
+      break
     }
-    cur = null;
+    cur = null
   }
   return i
 }
 
 var getNestWatch = spv.memorize(function(dep, supervision) {
-  var requesting_limit = getLimit(dep, supervision);
+  var requesting_limit = getLimit(dep, supervision)
 
   if (!requesting_limit) {
-    return;
+    return
   }
 
   var complete = dep.related ? function(target, req_dep) {
     for (var i = 0; i < dep.related.length; i++) {
-      watchDependence(req_dep.supervision, target, dep.related[i], sourceKey(req_dep, 'end'));
+      watchDependence(req_dep.supervision, target, dep.related[i], sourceKey(req_dep, 'end'))
     }
-  } : noop;
+  } : noop
 
   var addHandler = function addHandler(target, local_nest_watch, skip) {
-    var req_dep = local_nest_watch.data;
+    var req_dep = local_nest_watch.data
     if (local_nest_watch.nwatch.selector.length == skip) {
-      complete(target, req_dep);
+      complete(target, req_dep)
       return
     }
 
     if (skip > requesting_limit) {
-      return;
+      return
     }
 
-    var cur = dep.nesting_path[skip];
+    var cur = dep.nesting_path[skip]
 
     if (cur && cur.type == 'countless' && cur.related) {
-      watchDependence(req_dep.supervision, target, cur.related, sourceKey(req_dep, skip));
+      watchDependence(req_dep.supervision, target, cur.related, sourceKey(req_dep, skip))
     }
-  };
+  }
 
   var uncomplete = dep.related ? function(target, req_dep) {
     for (var i = 0; i < dep.related.length; i++) {
-      unwatchDependence(req_dep.supervision, target, dep.related[i], sourceKey(req_dep, 'end'));
+      unwatchDependence(req_dep.supervision, target, dep.related[i], sourceKey(req_dep, 'end'))
     }
-  } : noop;
+  } : noop
 
   var removeHandler = function removeHandler(target, local_nest_watch, skip) {
 
-    var req_dep = local_nest_watch.data;
+    var req_dep = local_nest_watch.data
     if (local_nest_watch.nwatch.selector.length == skip) {
-      uncomplete(target, req_dep);
+      uncomplete(target, req_dep)
     } else {
       if (skip > requesting_limit) {
-        return;
+        return
       }
-      var cur = dep.nesting_path[skip];
+      var cur = dep.nesting_path[skip]
 
       if (cur && cur.type == 'countless' && cur.related) {
-        unwatchDependence(req_dep.supervision, target, cur.related, sourceKey(req_dep, skip));
+        unwatchDependence(req_dep.supervision, target, cur.related, sourceKey(req_dep, skip))
       }
     }
-  };
+  }
 
-  return new NestWatch(toMultiPath({selector: dep.value}), null, null, addHandler, removeHandler);
+  return new NestWatch(toMultiPath({selector: dep.value}), null, null, addHandler, removeHandler)
 }, function(dep) {
-  return dep.dep_id;
-});
+  return dep.dep_id
+})
 
 var watchRelated = function(self, dep, req_dep) {
   for (var i = 0; i < dep.related.length; i++) {
-    watchDependence(req_dep.supervision, self, dep.related[i],  sourceKey(req_dep, 'related'));
+    watchDependence(req_dep.supervision, self, dep.related[i], sourceKey(req_dep, 'related'))
   }
-};
+}
 
 var unwatchRelated = function(self, dep, req_dep) {
   for (var i = 0; i < dep.related.length; i++) {
-    unwatchDependence(req_dep.supervision, self, dep.related[i],  sourceKey(req_dep, 'related'));
+    unwatchDependence(req_dep.supervision, self, dep.related[i], sourceKey(req_dep, 'related'))
   }
-};
+}
 
 var handleNesting = function(dep, req_dep, self) {
   if (!dep.value.length) {
-    watchRelated(self, dep, req_dep);
+    watchRelated(self, dep, req_dep)
     return
   }
 
   if (!dep.nesting_path || !dep.nesting_path.length) {
-    return;
+    return
   }
 
-  var ne_wa = getNestWatch(dep, req_dep.supervision);
+  var ne_wa = getNestWatch(dep, req_dep.supervision)
   if (!ne_wa) {
     // see:
     // !requesting_limit
-    return;
+    return
   }
 
-  var lo_ne_wa = new LocalWatchRoot(self, ne_wa, req_dep);
+  var lo_ne_wa = new LocalWatchRoot(self, ne_wa, req_dep)
 
-  addRootNestWatch(self, lo_ne_wa);
-  req_dep.anchor = lo_ne_wa;
-};
+  addRootNestWatch(self, lo_ne_wa)
+  req_dep.anchor = lo_ne_wa
+}
 
 var unhandleNesting = function(dep, req_dep, self) {
   if (!dep.value.length) {
-    unwatchRelated(self, dep, req_dep);
+    unwatchRelated(self, dep, req_dep)
     return
   }
 
   if (!dep.nesting_path || !dep.nesting_path.length) {
-    return;
+    return
   }
 
   if (!req_dep.anchor) {
     // see:
     // !ne_wa
     // !requesting_limit
-    return;
+    return
   }
 
-  removeRootNestWatch(self, req_dep.anchor);
-};
+  removeRootNestWatch(self, req_dep.anchor)
+}
 
 var handleState = function(dep, req_dep, self) {
   if (dep.can_request) {
-    var short_name = hp.getShortStateName(dep.value);
-    self.requestState(short_name);
+    var short_name = hp.getShortStateName(dep.value)
+    self.requestState(short_name)
   }
 
   if (dep.related) {
-    watchRelated(self, dep, req_dep);
+    watchRelated(self, dep, req_dep)
   }
-};
+}
 
 var unhandleState = function(dep, req_dep, self) {
   if (dep.related) {
-    unwatchRelated(self, dep, req_dep);
+    unwatchRelated(self, dep, req_dep)
   }
-};
+}
 
 function requestNesting(md, declr, dep) {
-  md.requestNesting(declr, dep.value, dep.limit);
+  md.requestNesting(declr, dep.value, dep.limit)
 }
 
 var handleCountlessNesting = function(dep, req_dep, self) {
-  var declr = self._nest_reqs && self._nest_reqs[dep.value];
+  var declr = self._nest_reqs && self._nest_reqs[dep.value]
   if (!dep.state) {
-    requestNesting(self, declr, dep);
+    requestNesting(self, declr, dep)
     return
   }
 
   req_dep.anchor = function(state) {
     if (state) {
-      requestNesting(self, declr, dep);
+      requestNesting(self, declr, dep)
     }
-  };
-  self.lwch(self, dep.state, req_dep.anchor);
-  watchDependence(req_dep.supervision, self, dep.related, req_dep.id + 'countless_nesting');
+  }
+  self.lwch(self, dep.state, req_dep.anchor)
+  watchDependence(req_dep.supervision, self, dep.related, req_dep.id + 'countless_nesting')
 
-};
+}
 
 var unhandleCountlessNesting = function(dep, req_dep, self) {
   if (!dep.state) {
     return
   }
   self.removeLwch(self, dep.state, req_dep.anchor)
-  unwatchDependence(req_dep.supervision, self, dep.related, req_dep.id + 'countless_nesting');
+  unwatchDependence(req_dep.supervision, self, dep.related, req_dep.id + 'countless_nesting')
 
 
-};
+}
 
 var handleRoot = function(dep, req_dep, self) {
-  watchRelated(self.getStrucRoot(), dep, req_dep);
-};
+  watchRelated(self.getStrucRoot(), dep, req_dep)
+}
 
 var unhandleRoot = function(dep, req_dep, self) {
-  unwatchRelated(self.getStrucRoot(), dep, req_dep);
-};
+  unwatchRelated(self.getStrucRoot(), dep, req_dep)
+}
 
 var getParent = function(self, dep) {
-  var cur = self;
+  var cur = self
   for (var i = 0; i < dep.value; i++) {
     // TODO do not require view-attached state from model (like vmp_show)
-    cur = cur.getStrucParent(1, true);
+    cur = cur.getStrucParent(1, true)
   }
-  return cur;
-};
+  return cur
+}
 
 var handleParent = function(dep, req_dep, self) {
-  var parent = getParent(self, dep);
+  var parent = getParent(self, dep)
   if (!parent) {
-    console.log('should be parent', dep);
-    return;
+    console.log('should be parent', dep)
+    return
   }
-  watchRelated(parent, dep, req_dep);
-};
+  watchRelated(parent, dep, req_dep)
+}
 
 var unhandleParent = function(dep, req_dep, self) {
-  var parent = getParent(self, dep);
+  var parent = getParent(self, dep)
   if (!parent) {
-    return;
+    return
   }
-  unwatchRelated(parent, dep, req_dep);
-};
+  unwatchRelated(parent, dep, req_dep)
+}
 
 var unhandleDep = function(dep, req_dep, self) {
   switch (dep.type) {
     case 'nesting': {
-      unhandleNesting(dep, req_dep, self);
-      break;
+      unhandleNesting(dep, req_dep, self)
+      break
     }
 
     case 'state': {
-      unhandleState(dep, req_dep, self);
-      break;
+      unhandleState(dep, req_dep, self)
+      break
     }
 
     case 'precise_nesting': {
-      break;
+      break
     }
 
     case 'countless_nesting': {
-      unhandleCountlessNesting(dep, req_dep, self);
-      break;
+      unhandleCountlessNesting(dep, req_dep, self)
+      break
     }
 
     case 'root': {
-      unhandleRoot(dep, req_dep, self);
-      break;
+      unhandleRoot(dep, req_dep, self)
+      break
     }
 
     case 'parent': {
-      unhandleParent(dep, req_dep, self);
-      break;
+      unhandleParent(dep, req_dep, self)
+      break
     }
   }
-};
+}
 
 var handleDep = function(dep, req_dep, self) {
   switch (dep.type) {
     case 'nesting': {
-      handleNesting(dep, req_dep, self);
-      break;
+      handleNesting(dep, req_dep, self)
+      break
     }
 
     case 'state': {
-      handleState(dep, req_dep, self);
-      break;
+      handleState(dep, req_dep, self)
+      break
     }
 
     case 'precise_nesting': {
-      break;
+      break
     }
 
     case 'countless_nesting': {
-      handleCountlessNesting(dep, req_dep, self);
-      break;
+      handleCountlessNesting(dep, req_dep, self)
+      break
     }
 
     case 'root': {
-      handleRoot(dep, req_dep, self);
-      break;
+      handleRoot(dep, req_dep, self)
+      break
     }
 
     case 'parent': {
-      handleParent(dep, req_dep, self);
-      break;
+      handleParent(dep, req_dep, self)
+      break
     }
   }
-};
+}
 
 var reqKey = function(self, dep) {
-  return self._provoda_id + '-' + dep.dep_id;
-};
+  return self._provoda_id + '-' + dep.dep_id
+}
 
 var checkWhy = function(supervision, self, dep) {
-  var sub_path = [self._provoda_id, dep.dep_id];
-  var tree = supervision.store;
-  var was_active = spv.getTargetField(supervision.is_active, sub_path);
+  var sub_path = [self._provoda_id, dep.dep_id]
+  var tree = supervision.store
+  var was_active = spv.getTargetField(supervision.is_active, sub_path)
 
 
-  var keys = spv.getTargetField(tree, sub_path);
-  var keys_count = spv.countKeys(keys, true);
+  var keys = spv.getTargetField(tree, sub_path)
+  var keys_count = spv.countKeys(keys, true)
 
-  var is_active = !!keys_count;
+  var is_active = !!keys_count
 
-  spv.setTargetField(supervision.is_active, sub_path, is_active);
+  spv.setTargetField(supervision.is_active, sub_path, is_active)
 
   if (is_active == was_active) {
-    return;
+    return
   }
 
-  var req_dep = supervision.reqs[reqKey(self, dep)];
+  var req_dep = supervision.reqs[reqKey(self, dep)]
   if (is_active) {
-    handleDep(dep, req_dep, self);
+    handleDep(dep, req_dep, self)
   } else {
-    unhandleDep(dep, req_dep, self);
+    unhandleDep(dep, req_dep, self)
   }
 
-};
+}
 
 function changeDependence(mark) {
   return function(supervision, self, dep, why) {
     if (dep.type == 'state' && !dep.can_request && !dep.related) {
-      return;
+      return
     }
 
     if (!why) {
-      throw new Error('should be');
+      throw new Error('should be')
     }
 
-    var dep_key = dep.dep_id;
+    var dep_key = dep.dep_id
 
-    var path = [self._provoda_id, dep.dep_id, why];
-    var tree = supervision.store;
+    var path = [self._provoda_id, dep.dep_id, why]
+    var tree = supervision.store
 
-    var reqs = supervision.reqs;
-    var kkkey = reqKey(self, dep);
+    var reqs = supervision.reqs
+    var kkkey = reqKey(self, dep)
     if (!reqs[ kkkey ]) {
-      reqs[ kkkey ] = new ReqDep(dep_key, dep, self, supervision, getModelById(self, supervision.needy_id));
+      reqs[ kkkey ] = new ReqDep(dep_key, dep, self, supervision, getModelById(self, supervision.needy_id))
     }
 
-    spv.setTargetField(tree, path, mark);
+    spv.setTargetField(tree, path, mark)
 
-    checkWhy(supervision, self, dep);
+    checkWhy(supervision, self, dep)
 
-    return;
-  };
+    return
+  }
 };
 
 return {
   addReqDependence: function(supervision, dep) {
-    watchDependence(supervision, this, dep, supervision.needy_id);
+    watchDependence(supervision, this, dep, supervision.needy_id)
   },
   removeReqDependence: function(supervision, dep) {
-    unwatchDependence(supervision, this, dep, supervision.needy_id);
+    unwatchDependence(supervision, this, dep, supervision.needy_id)
   }
-};
-});
+}
+})

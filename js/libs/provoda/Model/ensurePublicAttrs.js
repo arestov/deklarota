@@ -7,7 +7,7 @@ var assignPublicAttrs = function(cur_md, target) {
   var public_attrs = cur_md.__getPublicAttrs()
   for (var i = 0; i < public_attrs.length; i++) {
     var state_name = public_attrs[i]
-    var state = cur_md.states[state_name];
+    var state = cur_md.states[state_name]
     result[state_name] = replaceModelInState(state)
   }
 

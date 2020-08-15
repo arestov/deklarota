@@ -1,5 +1,5 @@
-define(function(){
-'use strict';
+define(function() {
+'use strict'
 
 
 return {
@@ -7,40 +7,40 @@ return {
   decodeURLPart: decodeURLPart,
   joinCommaParts: joinCommaParts,
   getCommaParts: getCommaParts
-};
+}
 
-function encodeURLPart(part){
+function encodeURLPart(part) {
   if (typeof part == 'number') {
-    return encodeURIComponent(part);
+    return encodeURIComponent(part)
   }
 
-  var spaced = part.split(" ");
+  var spaced = part.split(" ")
   for (var i = 0; i < spaced.length; i++) {
-    spaced[i] = encodeURIComponent(spaced[i]);
+    spaced[i] = encodeURIComponent(spaced[i])
   }
-  return spaced.join("+");
+  return spaced.join("+")
 }
 
 function decodeURLPart(part) {
-  var spaced = part.split("+");
+  var spaced = part.split("+")
   for (var i = 0; i < spaced.length; i++) {
-    spaced[i] = decodeURIComponent(spaced[i]);
+    spaced[i] = decodeURIComponent(spaced[i])
   }
-  return spaced.join(" ");
+  return spaced.join(" ")
 }
 
 function joinCommaParts(array) {
   return array.map(function(item) {
-    return encodeURLPart(item);
-  }).join(',');
+    return encodeURLPart(item)
+  }).join(',')
 }
 
 function getCommaParts(string) {
-  var parts = string.split(',');
+  var parts = string.split(',')
   for (var i = 0; i < parts.length; i++) {
-    parts[i] = decodeURLPart(parts[i]);
+    parts[i] = decodeURLPart(parts[i])
   }
-  return parts;
+  return parts
 }
 
-});
+})

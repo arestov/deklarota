@@ -1,5 +1,5 @@
-define(function(require){
-'use strict';
+define(function(require) {
+'use strict'
 var parseMultiPath = require('../../utils/multiPath/parse')
 var noop = require('./noop')
 var now = require('./deps/now')
@@ -57,7 +57,7 @@ var targetedResult = require('./targetedResult/dcl')
 // },
 
 
-var empty = [];
+var empty = []
 
 var getDeps = function(deps) {
   if (!deps || !deps.length) {
@@ -76,7 +76,7 @@ var getDeps = function(deps) {
       continue
     }
 
-    var cur = parseMultiPath(deps[i], true);
+    var cur = parseMultiPath(deps[i], true)
     result[i] = cur
 
     if (cur.nesting && cur.nesting.path && !cur.zip_name) {
@@ -84,7 +84,7 @@ var getDeps = function(deps) {
     }
 
   }
-  return result;
+  return result
 }
 
 function same(arg) {
@@ -92,7 +92,7 @@ function same(arg) {
 }
 
 var PassDcl = function(name, data) {
-  this.name = name;
+  this.name = name
 
   targetedResult(this, data.to)
 
@@ -106,13 +106,13 @@ var PassDcl = function(name, data) {
   if (typeof data.fn === 'function') {
     this.fn = data.fn
   } else if (Array.isArray(data.fn)) {
-    this.deps = getDeps(data.fn[0]);
-    this.fn = data.fn[1];
+    this.deps = getDeps(data.fn[0])
+    this.fn = data.fn[1]
   } else {
     throw new Error('unknow fn declaration')
   }
 
 }
 
-return PassDcl;
+return PassDcl
 })

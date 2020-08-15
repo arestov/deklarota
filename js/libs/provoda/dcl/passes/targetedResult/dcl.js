@@ -6,8 +6,8 @@ var targetData = function(to, result_name, dsl_options) {
   if (!Array.isArray(to)) {
     throw new Error('to: should be array ' + to)
   }
-  var target_path = to[0];
-  var options = to[1];
+  var target_path = to[0]
+  var options = to[1]
   var parsed_path = parseMultiPath(target_path, true)
   var isAction = Boolean(options && options.action)
 
@@ -46,21 +46,21 @@ var targetData = function(to, result_name, dsl_options) {
 }
 
 var targetsList = function(byName) {
-  var result = [];
+  var result = []
   for (var name in byName) {
     if (!byName.hasOwnProperty(name)) {
-      continue;
+      continue
     }
     result.push(targetData(byName[name], name))
   }
-  return result;
+  return result
 }
 
 function targetedResult(self, to) {
   self.by_named_result = !Array.isArray(to)
 
-  self.targeted_results_list = null;
-  self.targeted_single_result = null;
+  self.targeted_results_list = null
+  self.targeted_single_result = null
 
   if (self.by_named_result) {
     self.targeted_results_list = targetsList(to)

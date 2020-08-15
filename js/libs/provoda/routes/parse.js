@@ -2,9 +2,9 @@ define(function(require) {
 'use strict'
 // var spv = require('spv')
 
-var string_state_regexp = /((.*?)(\[\:(.+?)\]))|(.+)/g;
+var string_state_regexp = /((.*?)(\[\:(.+?)\]))|(.+)/g
 // 0:                     1:((2:)(3:(4:)))|(:5)
-var PREFIX = 2;
+var PREFIX = 2
 var STATE_SOURCE = 3
 var STATE = 4
 var ALTERNATIVE = 5
@@ -18,14 +18,14 @@ var stateItem = function(text) {
   return [dest, source]
 }
 
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-var reHasRegExpChar = RegExp(reRegExpChar.source);
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g
+var reHasRegExpChar = RegExp(reRegExpChar.source)
 
 
 var escapeRegExp = function(string) {
   return (string && reHasRegExpChar.test(string))
     ? string.replace(reRegExpChar, '\\$&')
-    : string;
+    : string
 }
 
 var createMatcher = function(prefix, rest) {
@@ -59,15 +59,15 @@ var createMatcher = function(prefix, rest) {
 var parse = function(full_usable_string) {
   // tracks/[:artist],[:track]
   var iterableCopy = new RegExp(string_state_regexp.source, string_state_regexp.flags)
-  var cur_matches;
-  var parts = [];
-  var cur_matching_group = 1; // 0 is whole match
-  var prev_have_state = false;
+  var cur_matches
+  var parts = []
+  var cur_matching_group = 1 // 0 is whole match
+  var prev_have_state = false
   do {
     cur_matches = iterableCopy.exec(full_usable_string)
 
     if (!cur_matches) {
-      break;
+      break
     }
 
     var prefix = cur_matches[PREFIX]
@@ -90,7 +90,7 @@ var parse = function(full_usable_string) {
     var matching_group = cur_matching_group
 
     if (!prefix && prev_have_state) {
-      var prev = parts[parts.length-1]
+      var prev = parts[parts.length - 1]
       throw new Error(
         'Should be any separator between ' +
         prev.state_source + ' and ' + state_source + '.' +
@@ -125,5 +125,5 @@ var parse = function(full_usable_string) {
   }
 }
 
-return parse;
+return parse
 })

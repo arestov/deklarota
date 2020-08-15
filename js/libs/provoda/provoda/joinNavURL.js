@@ -1,6 +1,6 @@
 define(function(require) {
-'use strict';
-var joinNavURL = require('../bwlev/joinNavURL');
+'use strict'
+var joinNavURL = require('../bwlev/joinNavURL')
 
-return joinNavURL;
+return joinNavURL
 })

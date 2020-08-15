@@ -1,33 +1,33 @@
 define(function() {
-'use strict';
+'use strict'
 return function getTypedDcls(props) {
   if (!props) {
-    return;
+    return
   }
 
-  var result = {};
+  var result = {}
 
   for (var prop in props) {
     if (!props.hasOwnProperty(prop)) {
-      continue;
+      continue
     }
-    var cur = props[prop];
+    var cur = props[prop]
 
     if (!cur) {
       console.warn('implement erasing')
       continue
     }
 
-    var dcl_type = cur[0];
-    var data = cur && cur.slice(1);
+    var dcl_type = cur[0]
+    var data = cur && cur.slice(1)
 
     if (!result[dcl_type]) {
-      result[dcl_type] = {};
+      result[dcl_type] = {}
     }
 
-    result[dcl_type][prop] = data;
+    result[dcl_type][prop] = data
   }
 
-  return result;
-};
-});
+  return result
+}
+})

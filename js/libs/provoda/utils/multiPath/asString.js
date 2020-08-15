@@ -1,16 +1,16 @@
 define(function() {
-'use strict';
+'use strict'
 
 return function multiPathAsString(multi_path) {
   if (multi_path.as_string) {
-    return multi_path.as_string;
+    return multi_path.as_string
   }
 
   multi_path.as_string = ''
     + firstPart(isStateOk(multi_path.state) && multi_path.zip_name, multi_path.state)
     + nestingString(!isStateOk(multi_path.state) && multi_path.zip_name, multi_path.nesting)
     + resourceString(multi_path.resource)
-    + baseString(multi_path.from_base);
+    + baseString(multi_path.from_base)
 
   return multi_path.as_string
 }
@@ -57,7 +57,7 @@ function nestingString(zip_name, nesting) {
     return '<'
   }
 
-  var path = nesting.path.join('.');
+  var path = nesting.path.join('.')
 
   return '<' + wrapBySpace(zipPart(zip_name) + path)
 }
@@ -80,8 +80,8 @@ function baseString(from_base) {
       return '< ' + '#'
     }
     case "parent": {
-      var repeated = '';
-      var counter = 1;
+      var repeated = ''
+      var counter = 1
       while (counter <= from_base.steps) {
         repeated += '^'
         counter++

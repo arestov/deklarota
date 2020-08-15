@@ -1,6 +1,6 @@
 //https://github.com/tmpvar/jsdom/raw/master/lib/jsdom/browser/htmlencoding.js
-define(function(){
-"use strict";
+define(function() {
+"use strict"
 var entityCharCodes = {
   'nbsp': '160',
   'iexcl': '161',
@@ -98,66 +98,66 @@ var entityCharCodes = {
   'yacute': '253',
   'thorn': '254',
   '255': 'yuml'
-};
+}
 
 var specialCharEntities = {
   '&': '&amp;',
   '"': '&quot;',
   '<': '&lt;',
   '>': '&gt'
-};
+}
 var specialChars = {
   'amp': '&',
   'quot': '"',
   'lt': '<',
   'gt': '>'
 }
-var entityRegExp = /&([#a-z0-9]+);/gi;
-var specialCharRegExp = /[&"<>]/g;
+var entityRegExp = /&([#a-z0-9]+);/gi
+var specialCharRegExp = /[&"<>]/g
 
 function entityToChar(s, name) {
-  var code = entityCharCodes[name];
+  var code = entityCharCodes[name]
   //if (!code && name === 'apos') char = 39;
   if (!code && name[0] === '#') {
     if (name[1] === 'x' || name[1] === 'X') {
-      code = parseInt(name.substring(2), 16);
+      code = parseInt(name.substring(2), 16)
     }
     else {
-      code = parseInt(name.substring(1), 10);
+      code = parseInt(name.substring(1), 10)
     }
     if (isNaN(code)) {
-      code = undefined;
+      code = undefined
     }
   }
-  var specialChar;
-  if (!code){
-  if (specialChars[name]){
-    specialChar = specialChars[name];
+  var specialChar
+  if (!code) {
+  if (specialChars[name]) {
+    specialChar = specialChars[name]
   }
   }
-  return code ? String.fromCharCode(code) : (specialChar || s);
+  return code ? String.fromCharCode(code) : (specialChar || s)
 }
 
 var HTMLDecode = function decode(s) {
     if (s) {
-      s = s.replace(entityRegExp, entityToChar);
+      s = s.replace(entityRegExp, entityToChar)
     }
-    return s || '';
-};
+    return s || ''
+}
 
 function specialCharToEntity(s) {
-  var entity = specialCharEntities[s];
-  return entity ? entity : s;
+  var entity = specialCharEntities[s]
+  return entity ? entity : s
 }
 
 var HTMLEncode = function encode(s) {
   if (s) {
-    s = s.replace(specialCharRegExp, specialCharToEntity);
+    s = s.replace(specialCharRegExp, specialCharToEntity)
   }
-  return s || '';
-};
+  return s || ''
+}
 return {
   encode: HTMLEncode,
   decode: HTMLDecode
-};
-});
+}
+})

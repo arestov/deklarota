@@ -1,44 +1,44 @@
 define(function(require) {
-"use strict";
+"use strict"
 
-var spv = require('spv');
+var spv = require('spv')
 
 var getLFMImageId = function(url) {
-  var url_parts = url.split(/\/+/);
-  if (url_parts[1] == 'userserve-ak.last.fm'){
-    return url_parts[4].replace(/png$/, 'jpg');
+  var url_parts = url.split(/\/+/)
+  if (url_parts[1] == 'userserve-ak.last.fm') {
+    return url_parts[4].replace(/png$/, 'jpg')
 
   }
 
-};
+}
 
 var getLFMImageWrap = function(array) {
-  if (!array){
-    return;
+  if (!array) {
+    return
   }
   var
     url,
-    lfm_id;
+    lfm_id
 
-  if (typeof array == 'string'){
-    url = array;
+  if (typeof array == 'string') {
+    url = array
   } else {
-    url = spv.getTargetField(array, '3.#text');
+    url = spv.getTargetField(array, '3.#text')
   }
-  if (url){
-    if (url.indexOf('http://cdn.last.fm/flatness/catalogue/noimage') === 0){
-      return;
+  if (url) {
+    if (url.indexOf('http://cdn.last.fm/flatness/catalogue/noimage') === 0) {
+      return
     } else {
-      lfm_id = getLFMImageId(url);
+      lfm_id = getLFMImageId(url)
 
-      if (lfm_id){
+      if (lfm_id) {
         return {
           lfm_id: lfm_id
-        };
+        }
       } else {
         return {
           url: url
-        };
+        }
       }
     }
 
@@ -46,6 +46,6 @@ var getLFMImageWrap = function(array) {
   }
 
 
-};
+}
 return getLFMImageWrap
 })

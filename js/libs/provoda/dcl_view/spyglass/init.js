@@ -1,21 +1,21 @@
-define(function (require) {
-'use strict';
-var spv = require('spv');
-var nil = spv.nil;
-var getModelById = require('../../utils/getModelById');
+define(function(require) {
+'use strict'
+var spv = require('spv')
+var nil = spv.nil
+var getModelById = require('../../utils/getModelById')
 
 
-var getRootBwlevView = require('./getRootBwlevView');
+var getRootBwlevView = require('./getRootBwlevView')
 var getBwlevView = require('../getBwlevView')
 var getModel = require('../../View/getModel')
 
 function watchAndRequest(root_bwlev_view, self, spyglass) {
-  var key = spyglass.nest_name + '---' + self.view_id;
+  var key = spyglass.nest_name + '---' + self.view_id
 
   self.lwch(root_bwlev_view, 'spyglasses_requests', function handleChange(index) {
-    var value = index[key] || null;
+    var value = index[key] || null
 
-    self.collectionChange(self, spyglass.nest_name, value && getModel(self, value));
+    self.collectionChange(self, spyglass.nest_name, value && getModel(self, value))
     // TODO if (value) {unsubscribe()}
   })
 
@@ -25,13 +25,13 @@ function watchAndRequest(root_bwlev_view, self, spyglass) {
     bwlev: spyglass.bwlev && parent_bwlev_view.mpx.md._provoda_id,
     context_md: spyglass.context_md && getContextId(self, parent_bwlev_view, spyglass.context_md),
     name: spyglass.name,
-  });
+  })
   // TODO remove key value from index on this view/self destroy
 }
 
 function getContextId(view, parent_bwlev_view, steps) {
   if (steps === true) {
-    return parent_bwlev_view.children_models.pioneer._provoda_id;
+    return parent_bwlev_view.children_models.pioneer._provoda_id
   }
 
   if (steps.startsWith('.')) {
@@ -42,19 +42,19 @@ function getContextId(view, parent_bwlev_view, steps) {
   throw new Error('implement steps (^^^^) context getting')
 }
 
-return function (self) {
+return function(self) {
   if (nil(self._spyglass)) {
-    return;
+    return
   }
   var root_view = self.root_view || (self.isRootView && self)
-  var root_bwlev_view = root_view.parent_view;
+  var root_bwlev_view = root_view.parent_view
   if (nil(root_bwlev_view)) {
-    throw new Error('cant find bwlev_view');
+    throw new Error('cant find bwlev_view')
   }
 
   for (var key in self._spyglass) {
-    var cur = self._spyglass[key];
+    var cur = self._spyglass[key]
     watchAndRequest(root_bwlev_view, self, cur)
   }
-};
-});
+}
+})

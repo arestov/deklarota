@@ -18,7 +18,7 @@ return function checkPasses(self, props) {
 
   for (var name in props['actions']) {
     if (!props['actions'].hasOwnProperty(name)) {
-      continue;
+      continue
     }
     result[name] = new Dcl(name, props['actions'][name])
   }

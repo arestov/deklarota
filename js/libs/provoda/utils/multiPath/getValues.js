@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var pvState = require('../../provoda/state')
 var getNesting = require('../../provoda/getNesting')
 var zip_fns = require('../zip/multipath-as-dep')
@@ -12,7 +12,7 @@ var readNesting = function(md, multi_path) {
   return getNesting(md, multi_path.nesting.target_nest_name)
 }
 
-var getOne = function (items) {
+var getOne = function(items) {
   if (!Array.isArray(items)) {
     return items
   }
@@ -83,5 +83,5 @@ return function(models, multi_path) {
 
   return models
 
-};
+}
 })

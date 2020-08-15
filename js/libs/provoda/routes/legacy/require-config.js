@@ -1,4 +1,4 @@
-var requirejs = require('requirejs');
+var requirejs = require('requirejs')
 var path = require('path')
 
 requirejs.config({

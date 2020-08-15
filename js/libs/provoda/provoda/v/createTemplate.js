@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var createTemplate = require('../../View/createTemplate')
 return createTemplate
 })

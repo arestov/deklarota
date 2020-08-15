@@ -1,7 +1,7 @@
-define(function (require) {
-'use strict';
-var getShortStateName = require('./getShortStateName');
-var getPropsPrefixChecker= require('./getPropsPrefixChecker');
+define(function(require) {
+'use strict'
+var getShortStateName = require('./getShortStateName')
+var getPropsPrefixChecker = require('./getPropsPrefixChecker')
 var getParsedState = require('./getParsedState')
 var groupDeps = require('./groupDeps')
 var getEncodedState = require('./getEncodedState')
@@ -12,5 +12,5 @@ return {
   getEncodedState: getEncodedState,
   getPropsPrefixChecker: getPropsPrefixChecker,
   groupDeps: groupDeps,
-};
-});
+}
+})

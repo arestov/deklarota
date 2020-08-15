@@ -1,6 +1,6 @@
 define(function(require) {
 'use strict'
-var cloneObj = require('spv/cloneObj');
+var cloneObj = require('spv/cloneObj')
 var CallbacksFlow = require('../../../CallbacksFlow')
 
 function ViewRuntime(optionsRaw) {
@@ -86,7 +86,7 @@ ViewRuntime.prototype.start = function(options) {
       resolve(view)
     })
   })
-};
+}
 
 return ViewRuntime
 })

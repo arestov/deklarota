@@ -13,6 +13,6 @@ return function(self, state_name, old_value, value) {
     prev_value: old_value,
   }
 
-  self.nextLocalTick(self.__act, [self, pass_name, arg], true);
+  self.nextLocalTick(self.__act, [self, pass_name, arg], true)
 }
 })

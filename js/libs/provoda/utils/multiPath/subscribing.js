@@ -1,10 +1,10 @@
 define(function(require) {
-'use strict';
+'use strict'
 var getStart = require('./getStart')
 var multiPathAsString = require('./asString')
 
 return function subscribing(fn) {
-  return function (md, multi_path, context) {
+  return function(md, multi_path, context) {
     if (multi_path.result_type != 'state') {
       throw new Error('think about way to implement this')
     }

@@ -5,7 +5,7 @@ var pvState = require('../state')
 
 var getOneValue = function(dep, item) {
   if (!item) {
-    return item;
+    return item
   }
 
   if (dep.result_type != 'state') {

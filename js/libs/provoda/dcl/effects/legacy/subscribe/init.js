@@ -1,7 +1,7 @@
 define(function() {
-'use strict';
+'use strict'
 function initEffectsSubscribe(self) {
-  self._interfaces_using = null;
+  self._interfaces_using = null
 }
 
 return initEffectsSubscribe

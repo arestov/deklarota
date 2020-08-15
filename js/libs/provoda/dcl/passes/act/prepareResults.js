@@ -1,10 +1,10 @@
 define(function(require) {
-'use strict';
+'use strict'
 var getTargetModels = require('./getTargetModels')
 var prepareNestingValue = require('./prepareNestingValue')
 var spv = require('spv')
 var countKeys = spv.countKeys
-var getModelById = require('../../../utils/getModelById');
+var getModelById = require('../../../utils/getModelById')
 var initPassedValue = prepareNestingValue.initPassedValue
 var noopForPass = require('../noop')
 
@@ -30,7 +30,7 @@ var prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref)
   }
 }
 
-var getProperDestValue = function (target, value, i) {
+var getProperDestValue = function(target, value, i) {
   // when `pass` option map_values_list_to_target === true
   // map value from values list to model from targets list
 
@@ -41,9 +41,9 @@ var getProperDestValue = function (target, value, i) {
   return value[i]
 }
 
-var unwrap = function (md, target, value, data, mut_refs_index, mut_wanted_ref, mut_result) {
+var unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref, mut_result) {
   if (isRedirectAction(target)) {
-    var models = getTargetModels(md, target, data);
+    var models = getTargetModels(md, target, data)
     if (!Array.isArray(models)) {
       mut_result.push({
         target: target,
@@ -78,7 +78,7 @@ var unwrap = function (md, target, value, data, mut_refs_index, mut_wanted_ref, 
 
   if (Array.isArray(models)) {
     for (var i = 0; i < models.length; i++) {
-      var cur = models[i];
+      var cur = models[i]
       mut_result.push(
         prepareAndHold(cur, target, getProperDestValue(target, value, i), mut_refs_index, mut_wanted_ref, mut_result)
       )
@@ -166,11 +166,11 @@ return function(md, dcl, value, data) {
   for (var i = 0; i < dcl.targeted_results_list.length; i++) {
     var cur = dcl.targeted_results_list[i]
     if (!value.hasOwnProperty(cur.result_name)) {
-      continue;
+      continue
     }
-    var cur_value =  value[cur.result_name]
+    var cur_value = value[cur.result_name]
     if (cur_value === noopForPass) {
-      continue;
+      continue
     }
     unwrap(md, cur, cur_value, data, mut_refs_index, mut_wanted_ref, mut_result)
   }

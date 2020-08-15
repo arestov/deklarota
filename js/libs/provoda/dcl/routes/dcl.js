@@ -1,9 +1,9 @@
 define(function(require) {
 'use strict'
-var NestWatch = require('../../nest-watch/NestWatch');
-var parseRoute = require('../../routes/parse');
-var stringifyRoute = require('../../routes/stringify');
-var asMultiPath = require('../../utils/NestingSourceDr/asMultiPath');
+var NestWatch = require('../../nest-watch/NestWatch')
+var parseRoute = require('../../routes/parse')
+var stringifyRoute = require('../../routes/stringify')
+var asMultiPath = require('../../utils/NestingSourceDr/asMultiPath')
 var pvState = require('../../utils/state')
 var run = require('./run')
 
@@ -77,20 +77,20 @@ var Route = function(name, data) {
   for (var i = 0; i < route.parts.length; i++) {
     var cur = route.parts[i]
     if (!cur.state) {
-      continue;
+      continue
     }
     states.push(cur.state[0])
   }
 
   this.route = route
 
-  var multi_path = asMultiPath(this.source);
+  var multi_path = asMultiPath(this.source)
   this.states = states
 
   this.nwbase = new NestWatch(multi_path, states, {
     onchd_count: handleChangedCount,
     onchd_state: handleChangedState
-  }/*, handleAdding, handleRemoving*/);
+  }/*, handleAdding, handleRemoving*/)
 }
 
 return Route

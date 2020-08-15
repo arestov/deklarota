@@ -1,11 +1,11 @@
 define(function(require) {
-'use strict';
+'use strict'
 
 var spv = require('spv')
-var View = require('View');
+var View = require('View')
 var Core = require('./MapSliceSpyglassCore')
-var BrowseLevNavView = require('./BrowseLevNavView');
-var BrowseLevView = require('./BrowseLevView');
+var BrowseLevNavView = require('./BrowseLevNavView')
+var BrowseLevView = require('./BrowseLevView')
 
 
 var SearchCriteriaView = spv.inh(View, {}, {
@@ -17,23 +17,23 @@ var SearchCriteriaView = spv.inh(View, {}, {
   },
 
   tpl_events: {
-    preventSubmit: function (e) {
-      e.preventDefault();
+    preventSubmit: function(e) {
+      e.preventDefault()
     }
   },
 
   'stch-startpage_autofocus': function(target, value) {
     if (!value) {
-      return;
+      return
     }
 
-    target.nextLocalTick(target.tickCheckFocus);
+    target.nextLocalTick(target.tickCheckFocus)
   },
 
   tickCheckFocus: function() {
-    this.tpl.ancs['search_face'][0].focus();
+    this.tpl.ancs['search_face'][0].focus()
   }
-});
+})
 
 
 return spv.inh(Core, {}, {
@@ -45,6 +45,6 @@ return spv.inh(Core, {}, {
     search_criteria: SearchCriteriaView,
   },
   'collch-search_criteria': true,
-});
+})
 // return MapSliceSpyglassCore
 })

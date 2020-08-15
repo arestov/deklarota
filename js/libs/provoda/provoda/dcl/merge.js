@@ -24,7 +24,7 @@ var softMerge = function(to, from, strict) {
   return to
 }
 
-function addNotEmptyProp (target, name, value) {
+function addNotEmptyProp(target, name, value) {
   if (!Object.keys(value).length) {
     return target
   }
@@ -36,7 +36,7 @@ function addNotEmptyProp (target, name, value) {
 }
 
 return function() {
-  var args = Array.prototype.slice.call(arguments);
+  var args = Array.prototype.slice.call(arguments)
   var result = {}
 
   var attrs = {}

@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var utils = require('../utils')
 var getAttrsOfRequestStates = require('./getAttrsOfRequestStates')
 
@@ -8,39 +8,39 @@ var toSchemaFn = utils.toSchemaFn
 
 
 return function StateReqMap(num, req_item) {
-  this.num = num;
-  this.dependencies = null;
-  this.send_declr = null;
-  this.states_list = null;
+  this.num = num
+  this.dependencies = null
+  this.send_declr = null
+  this.states_list = null
   this.boolean_attrs = Array.prototype
-  this.parse = null;
+  this.parse = null
 
   if (!Array.isArray(req_item)) {
-    this.parse = toSchemaFn(req_item.parse);
+    this.parse = toSchemaFn(req_item.parse)
     this.states_list = req_item.states
     getAttrsOfRequestStates(this)
     this.dependencies = req_item.fn[0]
-    this.send_declr = new SendDeclaration([req_item.api, req_item.fn]);
+    this.send_declr = new SendDeclaration([req_item.api, req_item.fn])
     return
   }
 
-  var relations = req_item[0];
+  var relations = req_item[0]
   if (Array.isArray(relations[0])) {
-    throw new Error('wrong');
+    throw new Error('wrong')
   } else {
   }
 
-  this.states_list = relations;
+  this.states_list = relations
   getAttrsOfRequestStates(this)
 
-  this.parse = toSchemaFn(req_item[1]);
-  var send_declr = req_item[2];
+  this.parse = toSchemaFn(req_item[1])
+  var send_declr = req_item[2]
 
   if (!Array.isArray(send_declr[0])) {
-    this.send_declr = new SendDeclaration(send_declr);
+    this.send_declr = new SendDeclaration(send_declr)
   } else {
-    this.dependencies = send_declr[0];
-    this.send_declr = new SendDeclaration(send_declr[1]);
+    this.dependencies = send_declr[0]
+    this.send_declr = new SendDeclaration(send_declr[1])
   }
 }
 })

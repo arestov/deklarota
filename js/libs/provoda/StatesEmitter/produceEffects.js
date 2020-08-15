@@ -1,23 +1,23 @@
-define(function (require) {
-'use strict';
-var pvState = require('../utils/state');
-var spv =  require('spv')
+define(function(require) {
+'use strict'
+var pvState = require('../utils/state')
+var spv = require('spv')
 var countKeys = spv.countKeys
 var CH_GR_LE = 2
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
-  var index = self.__api_effects_$_index;
+  var index = self.__api_effects_$_index
 
-  for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
-    var state_name = changes_list[i];
-    if (!index[state_name]) {continue;}
+  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    var state_name = changes_list[i]
+    if (!index[state_name]) {continue}
 
-    var value = changes_list[i+1];
+    var value = changes_list[i + 1]
 
-    var old_ready = self._effects_using.conditions_ready[index[state_name].name];
-    self._effects_using.conditions_ready[index[state_name].name] = Boolean(value);
+    var old_ready = self._effects_using.conditions_ready[index[state_name].name]
+    self._effects_using.conditions_ready[index[state_name].name] = Boolean(value)
     if (Boolean(old_ready) === Boolean(value)) {
-      continue;
+      continue
     }
   }
 }
@@ -74,24 +74,24 @@ function scheduleEffect(self, effect_name, state_name, new_value, skip_prev) {
 }
 
 function checkAndMutateInvalidatedEffects(changes_list, self) {
-  var index = self.__api_effects_$_index_by_triggering;
-  var using = self._effects_using;
+  var index = self.__api_effects_$_index_by_triggering
+  var using = self._effects_using
 
-  for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
-    var state_name = changes_list[i];
+  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    var state_name = changes_list[i]
     if (!index[state_name]) {
-      continue;
+      continue
     }
-    var list = index[state_name];
+    var list = index[state_name]
     for (var jj = 0; jj < list.length; jj++) {
       var effect_name = list[jj].name
       if (!using.conditions_ready[effect_name]) {
-        continue;
+        continue
       }
 
       // mark state
-      scheduleEffect(self, list[jj].name, state_name, changes_list[i+1], false)
-      self._effects_using.invalidated[list[jj].name] = true;
+      scheduleEffect(self, list[jj].name, state_name, changes_list[i + 1], false)
+      self._effects_using.invalidated[list[jj].name] = true
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
     // self._effects_using.invalidated[index[state_name].name] = true;
@@ -107,8 +107,8 @@ function prefillAgenda(self, effect_name, effect) {
 }
 
 function checkAndMutateDepReadyEffects(self) {
-  var using = self._effects_using;
-  var effects = self.__api_effects;
+  var using = self._effects_using
+  var effects = self.__api_effects
 
   // маркировать готовые
   /*
@@ -119,82 +119,82 @@ function checkAndMutateDepReadyEffects(self) {
     повторять до упора
 
   */
-  using.dep_effects_ready_is_empty = true;
+  using.dep_effects_ready_is_empty = true
 
-  var has_one = false;
+  var has_one = false
 
   for (var effect_name in using.invalidated) {
     if (!using.invalidated[effect_name]) {
-      continue;
+      continue
     }
 
-    var effect = effects[effect_name];
+    var effect = effects[effect_name]
 
-    var deps_ready = true;
+    var deps_ready = true
 
     if (effect.deps && !using.conditions_ready[effect_name]) {
-      deps_ready = false;
+      deps_ready = false
     }
 
     if (!deps_ready) {
-      using.dep_effects_ready[effect_name] = false;
-      continue;
+      using.dep_effects_ready[effect_name] = false
+      continue
     }
 
     for (var cc = 0; cc < effect.apis.length; cc++) {
-      var api = effect.apis[cc];
+      var api = effect.apis[cc]
 
       if (!self._interfaces_using || !self._interfaces_using.used[api]) {
-        deps_ready = false;
-        break;
+        deps_ready = false
+        break
       }
     }
 
     if (!deps_ready) {
-      using.dep_effects_ready[effect_name] = false;
-      continue;
+      using.dep_effects_ready[effect_name] = false
+      continue
     }
 
     if (!effect.effects_deps) {
-      using.dep_effects_ready[effect_name] = true;
+      using.dep_effects_ready[effect_name] = true
       prefillAgenda(self, effect_name, effect)
-      has_one = true;
-      continue;
+      has_one = true
+      continue
     }
 
-    has_one = true;
+    has_one = true
     for (var i = 0; i < effect.effects_deps.length; i++) {
-      var dep_effect_name = effect.effects_deps[i];
+      var dep_effect_name = effect.effects_deps[i]
       if (using.invalidated[dep_effect_name] || !using.once[dep_effect_name]) {
-          deps_ready = false;
-          has_one = false;
-          break;
+          deps_ready = false
+          has_one = false
+          break
       }
     }
 
 
-    using.dep_effects_ready[effect_name] = deps_ready;
+    using.dep_effects_ready[effect_name] = deps_ready
     if (using.dep_effects_ready[effect_name]) {
       prefillAgenda(self, effect_name, effect)
     }
   }
-  using.dep_effects_ready_is_empty = using.dep_effects_ready_is_empty && !has_one;
+  using.dep_effects_ready_is_empty = using.dep_effects_ready_is_empty && !has_one
 }
 
 function handleEffectResult(self, effect, result) {
-  var handle = effect.result_handler;
+  var handle = effect.result_handler
   if (!effect.is_async) {
-    if (!handle) {return;}
-    handle(self, result);
-    return;
+    if (!handle) {return}
+    handle(self, result)
+    return
   }
 
-  self.addRequest(result);
+  self.addRequest(result)
 
-  if (!handle) {return;}
-  result.then(function (result) {
-    handle(self, result);
-  });
+  if (!handle) {return}
+  result.then(function(result) {
+    handle(self, result)
+  })
 
 }
 
@@ -217,11 +217,11 @@ function executeEffect(self, effect_name, transaction_id) {
 
 
 
-  var effect = self.__api_effects[effect_name];
+  var effect = self.__api_effects[effect_name]
 
-  var args = new Array(effect.apis.length + effect.triggering_states.length);
+  var args = new Array(effect.apis.length + effect.triggering_states.length)
   for (var i = 0; i < effect.apis.length; i++) {
-    var api = self._interfaces_using.used[effect.apis[i]];
+    var api = self._interfaces_using.used[effect.apis[i]]
     if (!api) {
       // do not call effect fn
       delete trans_store[effect_name]
@@ -236,8 +236,8 @@ function executeEffect(self, effect_name, transaction_id) {
     args[effect.apis.length + jj] = getValue(self, agenda, effect.triggering_states[jj])
   }
 
-  var result = effect.fn.apply(null, args);
-  handleEffectResult(self, effect, result);
+  var result = effect.fn.apply(null, args)
+  handleEffectResult(self, effect, result)
 
   delete trans_store[effect_name]
   if (!countKeys(trans_store)) {
@@ -247,11 +247,11 @@ function executeEffect(self, effect_name, transaction_id) {
 }
 
 function checkExecuteMutateEffects(self) {
-  var using = self._effects_using;
+  var using = self._effects_using
 
   for (var effect_name in using.dep_effects_ready) {
     if (!using.dep_effects_ready[effect_name]) {
-      continue;
+      continue
     }
 
     // we can push anytimes we want
@@ -261,17 +261,17 @@ function checkExecuteMutateEffects(self) {
     var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
     effectAgenda.schedule_confirmed = true
 
-    using.invalidated[effect_name] = false;
-    using.dep_effects_ready[effect_name] = false;
-    using.once[effect_name] = true;
+    using.invalidated[effect_name] = false
+    using.dep_effects_ready[effect_name] = false
+    using.once[effect_name] = true
   }
 
-  using.dep_effects_ready_is_empty = true;
+  using.dep_effects_ready_is_empty = true
 }
 
 function iterateEffects(changes_list, self) {
   if (!self.__api_effects_$_index) {
-    return;
+    return
   }
 
   if (!self._effects_using) {
@@ -282,69 +282,69 @@ function iterateEffects(changes_list, self) {
       once: {},
       dep_effects_ready: {},
       dep_effects_ready_is_empty: true
-    };
+    }
   }
 
   if (self._effects_using.processing) {
-    return;
+    return
   }
-  self._effects_using.processing = true;
+  self._effects_using.processing = true
 
-  checkAndMutateCondReadyEffects(changes_list, self);
-  checkAndMutateInvalidatedEffects(changes_list, self);
+  checkAndMutateCondReadyEffects(changes_list, self)
+  checkAndMutateInvalidatedEffects(changes_list, self)
 
-  checkAndMutateDepReadyEffects(self);
+  checkAndMutateDepReadyEffects(self)
 
   while (!self._effects_using.dep_effects_ready_is_empty) {
-    checkExecuteMutateEffects(self);
-    checkAndMutateDepReadyEffects(self);
+    checkExecuteMutateEffects(self)
+    checkAndMutateDepReadyEffects(self)
   }
-  self._effects_using.processing = false;
+  self._effects_using.processing = false
 }
 
 function checkApi(declr, value, self) {
   if (!value) {
-    self.useInterface(declr.name, null, declr.destroy);
-    return;
-  }
-
-  if (!declr.needed_apis) {
-    self.useInterface(declr.name, declr.fn());
+    self.useInterface(declr.name, null, declr.destroy)
     return
   }
 
-  var args = new Array(declr.needed_apis.length);
-  for (var i = 0; i < declr.needed_apis.length; i++) {
-    args[i] = self._interfaces_using.used[declr.needed_apis[i]];
+  if (!declr.needed_apis) {
+    self.useInterface(declr.name, declr.fn())
+    return
   }
 
-  self.useInterface(declr.name, declr.fn.apply(null, args));
+  var args = new Array(declr.needed_apis.length)
+  for (var i = 0; i < declr.needed_apis.length; i++) {
+    args[i] = self._interfaces_using.used[declr.needed_apis[i]]
+  }
+
+  self.useInterface(declr.name, declr.fn.apply(null, args))
 
 }
 
 function iterateApis(changes_list, context) {
   //index by uniq
-  var index = context.__apis_$_index;
+  var index = context.__apis_$_index
   if (!index) {
-    return;
+    return
   }
 
-  for (var i = 0; i < changes_list.length; i+=CH_GR_LE) {
-    var state_name = changes_list[i];
+  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    var state_name = changes_list[i]
     if (!index[state_name]) {
-      continue;
+      continue
     }
 
-    checkApi(index[state_name], changes_list[i+1], context);
+    checkApi(index[state_name], changes_list[i + 1], context)
   }
 }
 
 
-return function (total_ch, self) {
-  iterateApis(total_ch, self);
-  iterateEffects(total_ch, self);
+return function(total_ch, self) {
+  iterateApis(total_ch, self)
+  iterateEffects(total_ch, self)
   scheduleTransactionEnd(self)
-};
+}
 
 function scheduleTransactionEnd(self) {
   if (self._highway.__produce_side_effects_schedule == null) {
@@ -394,7 +394,7 @@ function handleTransactionEnd(self, key) {
       null,
       null,
       self._currentMotivator()
-    );
+    )
 
   }
 
@@ -406,7 +406,7 @@ function handleTransactionEnd(self, key) {
     null,
     null,
     self._currentMotivator()
-  );
+  )
 
 
 }
@@ -415,4 +415,4 @@ function eraseTransactionEffectsData(self, key) {
   self._highway.__produce_side_effects_schedule.delete(key)
 }
 
-});
+})

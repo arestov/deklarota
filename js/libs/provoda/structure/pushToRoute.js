@@ -1,15 +1,15 @@
 define(function(require) {
-'use strict';
+'use strict'
 
-var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData');
+var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData')
 
 return function(md, nesting_name, data) {
-  var mentioned = md._nest_rqc[nesting_name];
+  var mentioned = md._nest_rqc[nesting_name]
 
   if (mentioned.type == 'route') {
-    var app = md.app;
+    var app = md.app
 
-    var result = getSPByPathTemplateAndData(app, md, mentioned.value, false, data, false, null, data);
+    var result = getSPByPathTemplateAndData(app, md, mentioned.value, false, data, false, null, data)
 
     var states = {}
 
@@ -23,11 +23,11 @@ return function(md, nesting_name, data) {
       states[attr_name] = true
     }
 
-    md.useMotivator(result, function () {
-      result.updateManyStates(states);
-    });
+    md.useMotivator(result, function() {
+      result.updateManyStates(states)
+    })
 
-    return result;
+    return result
   }
 }
 

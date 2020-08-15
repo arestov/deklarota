@@ -1,17 +1,17 @@
-define(function (require) {
-'use strict';
-var spv = require('spv');
-var nil = spv.nil;
+define(function(require) {
+'use strict'
+var spv = require('spv')
+var nil = spv.nil
 return function getBwlevView(target) {
-  var cur = target;
+  var cur = target
 
   while (!nil(cur)) {
     if (cur.mpx.md.model_name == 'bwlev') {
-      return cur;
+      return cur
     }
 
-    cur = cur.parent_view;
+    cur = cur.parent_view
   }
 
-};
-});
+}
+})

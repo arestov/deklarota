@@ -1,34 +1,34 @@
-define(function (require) {
-'use strict';
+define(function(require) {
+'use strict'
 var getSTEVNameLight = require('../internal_events/light_attr_change/getNameByAttr')
 
 return {
   getSTEVNameLight: getSTEVNameLight,
-  wipeObj: function (obj){
+  wipeObj: function(obj) {
     if (obj == null) {
       return obj
     }
 
-    for (var p in obj){
-      if (obj.hasOwnProperty(p)){
-        delete obj[p];
+    for (var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        delete obj[p]
       }
     }
 
     return obj
   },
   nullObjValues: function(obj) {
-    for (var p in obj){
-      if (obj.hasOwnProperty(p)){
-        obj[p] = null;
+    for (var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        obj[p] = null
       }
     }
   },
   markFlowSteps: function(flow_steps, p_space, p_index_key) {
     for (var i = 0; i < flow_steps.length; i++) {
-      flow_steps[i].p_space = p_space;
-      flow_steps[i].p_index_key = p_index_key;
+      flow_steps[i].p_space = p_space
+      flow_steps[i].p_index_key = p_index_key
     }
   }
-};
-});
+}
+})

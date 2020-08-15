@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var parse = require('./parse')
 var toMultiPath = require('./toMultiPath')
@@ -9,4 +9,4 @@ return spv.memorize(function(string) {
   return toMultiPath(nesting_source)
 })
 
-});
+})

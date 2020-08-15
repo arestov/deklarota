@@ -1,50 +1,50 @@
 define(function(require) {
-'use strict';
-var getNavGroups = require('./getNavGroups');
+'use strict'
+var getNavGroups = require('./getNavGroups')
 
-var joinSubtree = function(array){
-  var url = "";
+var joinSubtree = function(array) {
+  var url = ""
   for (var i = array.length - 1; i >= 0; i--) {
-    var md = 	array[i];
-    var url_part = md.state('url_part');
+    var md = 	array[i]
+    var url_part = md.state('url_part')
     // if (!url_part) {
     // 	throw new Error('must be url');
     // }
-    url += url_part || '';
+    url += url_part || ''
   }
-  return url;
-};
+  return url
+}
 
 return function(nav) {
   if (!nav || !nav.length) {
-    return null;
+    return null
   }
 
-  var url = '';
+  var url = ''
 
 
-  var groups = getNavGroups(nav[ nav.length - 1 ]);
+  var groups = getNavGroups(nav[ nav.length - 1 ])
 
   /*
     /users/me/lfm:neighbours#3:/users/lfm:kolczyk0
   */
 
-  var last = groups.pop();
+  var last = groups.pop()
 
-  url += joinSubtree(last);
+  url += joinSubtree(last)
 
 
   for (var i = groups.length - 1; i >= 0; i--) {
-    var distance = groups[i].length;
-    url += '#';
+    var distance = groups[i].length
+    url += '#'
 
     if (distance > 1) {
-      url += distance + ':';
+      url += distance + ':'
     }
 
-    url += joinSubtree(groups[i]);
+    url += joinSubtree(groups[i])
   }
 
-  return url;
-};
-});
+  return url
+}
+})

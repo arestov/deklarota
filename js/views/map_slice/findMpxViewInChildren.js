@@ -1,29 +1,29 @@
 define(function() {
-'use strict';
+'use strict'
 return function findMpxViewInChildren(self, mpx, nesting_space, nesting_name) {
-  nesting_space = nesting_space || 'main';
-  var i;
-  var views = mpx.getViews();
+  nesting_space = nesting_space || 'main'
+  var i
+  var views = mpx.getViews()
 
 
-  var children = [];
+  var children = []
 
   for (i = 0; i < self.children.length; i++) {
-    var cur = self.children[i];
+    var cur = self.children[i]
     if (cur.nesting_space != nesting_space) {
-      continue;
+      continue
     }
     if (nesting_name && cur.nesting_name != nesting_name) {
-      continue;
+      continue
     }
-    children.push(cur);
+    children.push(cur)
   }
 
 
   for (i = 0; i < views.length; i++) {
     if (children.indexOf(views[i]) != -1) {
-      return views[i];
+      return views[i]
     }
   }
-};
-});
+}
+})

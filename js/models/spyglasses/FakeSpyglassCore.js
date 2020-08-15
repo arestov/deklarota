@@ -1,26 +1,26 @@
 define(function(require) {
-'use strict';
-var Model = require('pv/Model');
-var spv = require('spv');
-var pvState = require('pv/state');
-var _updateRel = require('_updateRel');
-var joinNavURL = require('pv/joinNavURL');
-var navi = require('js/libs/navi');
-var changeBridge = require('js/libs/provoda/bwlev/changeBridge');
-var getNesting = require('pv/getNesting');
-var createLevel = require('js/libs/provoda/bwlev/createLevel');
-var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap');
-var getModelById = require('js/libs/provoda/utils/getModelById');
-var _updateAttr = require('_updateAttr');
+'use strict'
+var Model = require('pv/Model')
+var spv = require('spv')
+var pvState = require('pv/state')
+var _updateRel = require('_updateRel')
+var joinNavURL = require('pv/joinNavURL')
+var navi = require('js/libs/navi')
+var changeBridge = require('js/libs/provoda/bwlev/changeBridge')
+var getNesting = require('pv/getNesting')
+var createLevel = require('js/libs/provoda/bwlev/createLevel')
+var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap')
+var getModelById = require('js/libs/provoda/utils/getModelById')
+var _updateAttr = require('_updateAttr')
 
-var BrowseMap = require('js/libs/BrowseMap');
-var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges');
+var BrowseMap = require('js/libs/BrowseMap')
+var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges')
 
 return spv.inh(Model, {
   naming: function(fn) {
     return function FakeSpyglassCore(opts, data, params, more, states) {
-      fn(this, opts, data, params, more, states);
-    };
+      fn(this, opts, data, params, more, states)
+    }
   },
   init: function(self) {
     self.mainLevelResidents = null // BrowseLevel, showMOnMap
@@ -28,20 +28,20 @@ return spv.inh(Model, {
     self.mainLevelResidents = null
     self.current_mp_bwlev = null
 
-    self.binded_models = {};
+    self.binded_models = {}
     // target.navigation = [];
     // target.map = ;
-    self.current_mp_md = null;
+    self.current_mp_md = null
 
-    self.bwlevs = {};
+    self.bwlevs = {}
 
     if (self.is_simple_router) {
       return
     }
 
-    var spyglass_name = 'navigation';
+    var spyglass_name = 'navigation'
 
-    self.mainLevelResident = self.app.start_page;
+    self.mainLevelResident = self.app.start_page
     self.start_bwlev = createLevel(
       self.app.CBWL,
       spyglass_name,
@@ -49,9 +49,9 @@ return spv.inh(Model, {
       false,
       self.mainLevelResident,
       self
-    );
+    )
 
-    initMapTree(self, self.app.start_page, self.needs_url_history, navi);
+    initMapTree(self, self.app.start_page, self.needs_url_history, navi)
     self.nextTick(function() {
       initNav(self, navi, self.app)
     })
@@ -65,23 +65,23 @@ return spv.inh(Model, {
     "full_url": [
       "compx",
       ['< @all:url_part < navigation.pioneer <<', '<< @all:navigation <<'],
-      function (nil, list) {
-        return list && joinNavURL(list);
+      function(nil, list) {
+        return list && joinNavURL(list)
       }
     ],
     "doc_title": [
       "compx",
       ['< @all:nav_title < navigation.pioneer <<'],
-      function (list) {
+      function(list) {
         if (!list) {
-          return 'Seesu';
+          return 'Seesu'
         }
-        var as_first = list[list.length - 1];
-        var as_second = list[list.length - 2];
+        var as_first = list[list.length - 1]
+        var as_second = list[list.length - 2]
         if (!as_second) {
-          return as_first;
+          return as_first
         }
-        return as_first + ' ← ' + as_second;
+        return as_first + ' ← ' + as_second
       }
     ],
     'current_song': [
@@ -122,10 +122,10 @@ return spv.inh(Model, {
 
     var req = state.req
     var id = state.id
-    var md = getModelById(self, id);
+    var md = getModelById(self, id)
 
     var bwlev = showMOnMap(self.app.CBWL, self, md)
-    bwlev.showOnMap();
+    bwlev.showOnMap()
     _updateAttr(bwlev, 'currentReq', req)
   },
   effects: {
@@ -136,11 +136,11 @@ return spv.inh(Model, {
 
         fn: function(navi, self, url) {
           if (url == null) {
-            return;
+            return
           }
-          var bwlev = self.getNesting("current_mp_bwlev");
-          navi.update(url, bwlev);
-          self.app.trackPage(bwlev.getNesting("pioneer").model_name);
+          var bwlev = self.getNesting("current_mp_bwlev")
+          navi.update(url, bwlev)
+          self.app.trackPage(bwlev.getNesting("pioneer").model_name)
         },
 
         require: "doc_title"
@@ -148,103 +148,103 @@ return spv.inh(Model, {
     }
   },
   'stch-@current_mp_bwlev': function(self, _, __, c) {
-    var bwlev = c && c.items;
+    var bwlev = c && c.items
     if (!bwlev) {
-      return;
+      return
     }
 
     if (self.onCurrentChange) {
-      self.onCurrentChange(self, bwlev);
+      self.onCurrentChange(self, bwlev)
     }
 
-    self.app.important_model = getNesting(bwlev, 'pioneer');
-    self.app.resortQueue();
+    self.app.important_model = getNesting(bwlev, 'pioneer')
+    self.app.resortQueue()
   },
   'stch-has_no_access@wanted_bwlev_chain.pioneer': function(target, state, old_state, source) {
-    var map = target;
+    var map = target
 
-    var list = getNesting(map, 'wanted_bwlev_chain');
+    var list = getNesting(map, 'wanted_bwlev_chain')
     if (!list) {
-      return;
+      return
     }
 
     // start_page/level/i===0 can't have `Boolean(has_no_access) === true`. so ok_bwlev = 0
-    var ok_bwlev = 0;
+    var ok_bwlev = 0
 
     for (var i = 0; i < list.length; i++) {
-      var cur_bwlev = list[i];
-      var md = getNesting(cur_bwlev, 'pioneer');
-      var has_no_access = pvState(md, 'has_no_access');
+      var cur_bwlev = list[i]
+      var md = getNesting(cur_bwlev, 'pioneer')
+      var has_no_access = pvState(md, 'has_no_access')
       if (has_no_access) {
-        break;
+        break
       }
-      ok_bwlev = i;
+      ok_bwlev = i
     }
 
-    var bwlev = list[ok_bwlev];
+    var bwlev = list[ok_bwlev]
 
-    map.trigger('bridge-changed', bwlev);
-    _updateRel(map, 'selected__bwlev', bwlev);
-    _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'));
-    _updateAttr(map, 'selected__name', bwlev.model_name);
+    map.trigger('bridge-changed', bwlev)
+    _updateRel(map, 'selected__bwlev', bwlev)
+    _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'))
+    _updateAttr(map, 'selected__name', bwlev.model_name)
 
-    askAuth(list[ok_bwlev + 1]);
+    askAuth(list[ok_bwlev + 1])
   },
-});
+})
 
 
 function initMapTree(target, start_page, needs_url_history, navi) {
-  target.useInterface('navi', needs_url_history && navi);
-  _updateRel(target, 'navigation', []);
-  _updateRel(target, 'start_page', start_page);
+  target.useInterface('navi', needs_url_history && navi)
+  _updateRel(target, 'navigation', [])
+  _updateRel(target, 'start_page', start_page)
 
   target
     .on('bridge-changed', function(bwlev) {
-      animateMapChanges(target, bwlev);
-    }, target.app.getContextOptsI());
+      animateMapChanges(target, bwlev)
+    }, target.app.getContextOptsI())
 };
 
 function initNav(map, navi, app) {
-  if (map.needs_url_history){
-    navi.init(app.inputFn(function(e){
-      var url = e.newURL;
-      var state_from_history = navi.findHistory(e.newURL);
-      var handleQuery = map.handleQuery;
-      if (state_from_history){
-        changeBridge(state_from_history.data);
-        handleQuery(map, state_from_history.data.getNesting('pioneer'));
+  if (map.needs_url_history) {
+    navi.init(app.inputFn(function(e) {
+      var url = e.newURL
+      var state_from_history = navi.findHistory(e.newURL)
+      var handleQuery = map.handleQuery
+      if (state_from_history) {
+        changeBridge(state_from_history.data)
+        handleQuery(map, state_from_history.data.getNesting('pioneer'))
       } else{
-        var interest = BrowseMap.getUserInterest(url.replace(/\ ?\$...$/, ''), app.start_page);
-        var bwlev = BrowseMap.showInterest(map, interest);
-        BrowseMap.changeBridge(bwlev);
-        handleQuery(map, bwlev.getNesting('pioneer'));
+        var interest = BrowseMap.getUserInterest(url.replace(/\ ?\$...$/, ''), app.start_page)
+        var bwlev = BrowseMap.showInterest(map, interest)
+        BrowseMap.changeBridge(bwlev)
+        handleQuery(map, bwlev.getNesting('pioneer'))
       }
     }));
     (function() {
-      var url = window.location && window.location.hash.replace(/^\#/,'');
-      if (url){
+      var url = window.location && window.location.hash.replace(/^\#/,'')
+      if (url) {
         app.on('handle-location', function() {
           navi.hashchangeHandler({
             newURL: url
-          }, true);
+          }, true)
 
-        });
+        })
       } else {
-        var bwlev = BrowseMap.showInterest(map, []);
-        BrowseMap.changeBridge(bwlev);
+        var bwlev = BrowseMap.showInterest(map, [])
+        BrowseMap.changeBridge(bwlev)
       }
-    })();
+    })()
   } else {
-    var bwlev = BrowseMap.showInterest(map, []);
-    BrowseMap.changeBridge(bwlev);
+    var bwlev = BrowseMap.showInterest(map, [])
+    BrowseMap.changeBridge(bwlev)
   }
 }
 
 function askAuth(bwlev) {
-  if (!bwlev) {return;}
+  if (!bwlev) {return}
 
-  getNesting(bwlev, 'pioneer').switchPmd();
+  getNesting(bwlev, 'pioneer').switchPmd()
 }
 
 
-});
+})

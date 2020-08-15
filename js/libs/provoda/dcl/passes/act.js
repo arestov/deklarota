@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var getDepValue = require('../../utils/multiPath/getDepValue')
 var saveResult = require('./targetedResult/save')
 var noopForPass = require('./noop')
@@ -56,7 +56,7 @@ var getDep = function(md, dep, data) {
   return getDepValue(md, dep, data)
 }
 
-var getDepsValues = function (md, deps, data) {
+var getDepsValues = function(md, deps, data) {
   if (deps == null) {
     return null
   }
@@ -65,10 +65,10 @@ var getDepsValues = function (md, deps, data) {
   var args = new Array(deps.length)
   for (var i = 0; i < deps.length; i++) {
     var cur = deps[i]
-    args[i] = getDep(md, cur, data);
+    args[i] = getDep(md, cur, data)
   }
 
-  return args;
+  return args
 }
 
 return function pass(md, pass_name, data) {
@@ -80,8 +80,8 @@ return function pass(md, pass_name, data) {
 
   var dcl = pass_handlers[pass_name]
 
-  var fn = dcl.fn;
-  var deps = dcl.deps;
+  var fn = dcl.fn
+  var deps = dcl.deps
 
   var deps_values = getDepsValues(md, deps, data)
   var args = [data]

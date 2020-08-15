@@ -1,46 +1,46 @@
 define(function(require) {
-'use strict';
-var spv = require('spv');
+'use strict'
+var spv = require('spv')
 var CoreView = require('./CoreView')
-var _updateAttr = require('_updateAttr');
-var PvTemplate = require('./pvTemplate/PvTemplate');
+var _updateAttr = require('_updateAttr')
+var PvTemplate = require('./pvTemplate/PvTemplate')
 var appending = require('./View/appending')
 var getBwlevView = require('./View/getBwlevView')
 var createTemplate = require('./View/createTemplate')
 var dom_helpers = require('./utils/dom_helpers')
 
-var dFind = dom_helpers.find;
-var dAppend = dom_helpers.append;
-var dPrepend = dom_helpers.prepend;
-var dAfter = dom_helpers.after;
-var dDetach = dom_helpers.detach;
-var dWrap = dom_helpers.wrap;
-var dRemove = dom_helpers.remove;
-var dUnwrap = dom_helpers.unwrap;
-var dParent = dom_helpers.parent;
+var dFind = dom_helpers.find
+var dAppend = dom_helpers.append
+var dPrepend = dom_helpers.prepend
+var dAfter = dom_helpers.after
+var dDetach = dom_helpers.detach
+var dWrap = dom_helpers.wrap
+var dRemove = dom_helpers.remove
+var dUnwrap = dom_helpers.unwrap
+var dParent = dom_helpers.parent
 
 var CH_GR_LE = 2
 
-var way_points_counter = 0;
+var way_points_counter = 0
 
 var stackEmergency = function(fn, eventor, args) {
-  return eventor._calls_flow.pushToFlow(fn, eventor, args);
-};
+  return eventor._calls_flow.pushToFlow(fn, eventor, args)
+}
 
-var push = Array.prototype.push;
+var push = Array.prototype.push
 
 var getBaseTreeSkeleton = function(array) {
-  var result = new Array(array.length);
+  var result = new Array(array.length)
   for (var i = 0; i < array.length; i++) {
     result[i] = {
       handled: false,
       node: null,
       parent: array[i].parent && result[ array[i].parent.chunk_num ] || null,
       chunk_num: array[i].chunk_num
-    };
+    }
   }
-  return result;
-};
+  return result
+}
 
 
 var DomView
@@ -51,19 +51,19 @@ spv.cloneObj(props, {
     return DomView
   },
   createDetails: function() {
-    if (this.pv_view_node){
-      this.useBase(this.pv_view_node);
+    if (this.pv_view_node) {
+      this.useBase(this.pv_view_node)
     } else {
       if (this.base_skeleton) {
-        this.checkExpandableTree();
+        this.checkExpandableTree()
         if (this.c) {
-          this.useBase(this.c);
+          this.useBase(this.c)
         }
         if (this.expandBase) {
-          this.expandBase();
+          this.expandBase()
         }
-      } else if (this.createBase){
-        this.createBase();
+      } else if (this.createBase) {
+        this.createBase()
       }
     }
 
@@ -73,7 +73,7 @@ spv.cloneObj(props, {
 
     this.useInterface('con', this.getCNode())
 
-    this.c._provoda_view = this;
+    this.c._provoda_view = this
 
     if (!this.c.length || !this.c[0]) {
       return
@@ -81,15 +81,15 @@ spv.cloneObj(props, {
 
     // legacy. when this.c is jquery wrapper
     for (var i = 0; i < this.c.length; i++) {
-      this.c[i]._provoda_view = this;
+      this.c[i]._provoda_view = this
     }
   },
 
   useBase: function(node) {
-    this.c = node;
-    this.createTemplate();
-    if (this.bindBase){
-      this.bindBase();
+    this.c = node
+    this.createTemplate()
+    if (this.bindBase) {
+      this.bindBase()
     }
   },
   addWayPoint: function(point, opts) {
@@ -99,98 +99,98 @@ spv.cloneObj(props, {
       simple_check: opts && opts.simple_check,
       view: this,
       wpid: ++way_points_counter
-    };
-    if (!opts || (!opts.simple_check && !opts.canUse)){
+    }
+    if (!opts || (!opts.simple_check && !opts.canUse)) {
       //throw new Error('give me check tool!');
     }
     if (!this.way_points) {
-      this.way_points = [];
+      this.way_points = []
     }
-    this.way_points.push(obj);
-    return obj;
+    this.way_points.push(obj)
+    return obj
   },
   hasWaypoint: function(point) {
-    if (!this.way_points) {return;}
-    var arr = spv.filter(this.way_points, 'node');
-    return arr.indexOf(point) != -1;
+    if (!this.way_points) {return}
+    var arr = spv.filter(this.way_points, 'node')
+    return arr.indexOf(point) != -1
   },
   removeWaypoint: function(point) {
-    if (!this.way_points) {return;}
-    var stay = [];
+    if (!this.way_points) {return}
+    var stay = []
     for (var i = 0; i < this.way_points.length; i++) {
-      var cur = this.way_points[i];
-      if (cur.node != point){
-        stay.push(cur);
+      var cur = this.way_points[i]
+      if (cur.node != point) {
+        stay.push(cur)
       } else {
-        cur.removed = true;
+        cur.removed = true
       }
     }
-    this.way_points = stay;
+    this.way_points = stay
   },
   parseAppendedTPLPart: function(node) {
-    this.tpl.parseAppended(node);
-    this.tpl.setStates(this._lbr.undetailed_states || this.states);
+    this.tpl.parseAppended(node)
+    this.tpl.setStates(this._lbr.undetailed_states || this.states)
   },
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {
-      var bwlev_view = getBwlevView(this);
-      var bwlev_id = bwlev_view && bwlev_view.mpx._provoda_id;
-      this.RPCLegacy(method, bwlev_id);
+      var bwlev_view = getBwlevView(this)
+      var bwlev_id = bwlev_view && bwlev_view.mpx._provoda_id
+      this.RPCLegacy(method, bwlev_id)
     } else {
-      this.RPCLegacy.apply(this, arguments);
+      this.RPCLegacy.apply(this, arguments)
     }
   },
   getTemplate: function(node, callCallbacks, pvTypesChange, pvTreeChange, anchorStateChange) {
-    return this.root_view.pvtemplate(node, callCallbacks, pvTypesChange, false, pvTreeChange, anchorStateChange);
+    return this.root_view.pvtemplate(node, callCallbacks, pvTypesChange, false, pvTreeChange, anchorStateChange)
   },
   createTemplate: function(ext_node) {
-    var con = ext_node || this.c;
-    if (!con){
-      throw new Error('cant create template');
+    var con = ext_node || this.c
+    if (!con) {
+      throw new Error('cant create template')
     }
 
-    var tpl = createTemplate(this, con);
+    var tpl = createTemplate(this, con)
 
     if (!ext_node) {
-      this.tpl = tpl;
+      this.tpl = tpl
     }
 
-    tpl.root_node_raw._provoda_view = this;
+    tpl.root_node_raw._provoda_view = this
 
-    return tpl;
+    return tpl
   },
   addTemplatedWaypoint: function(wp_wrap) {
-    if (!this.hasWaypoint(wp_wrap.node)){
+    if (!this.hasWaypoint(wp_wrap.node)) {
       //может быть баг! fixme!?
       //не учитывается возможность при которой wp изменил свой mark
       //он должен быть удалён и добавлен заново с новыми параметрами
-      var type;
-      if (wp_wrap.marks['hard-way-point']){
-        type = 'hard-way-point';
-      } else if (wp_wrap.marks['way-point']){
-        type = 'way-point';
+      var type
+      if (wp_wrap.marks['hard-way-point']) {
+        type = 'hard-way-point'
+      } else if (wp_wrap.marks['way-point']) {
+        type = 'way-point'
       }
       this.addWayPoint(wp_wrap.node, {
         canUse: function() {
-          return !!(wp_wrap.marks && wp_wrap.marks[type]);
+          return !!(wp_wrap.marks && wp_wrap.marks[type])
         },
         simple_check: type == 'hard-way-point'
-      });
+      })
     }
   },
   canUseWaypoints: function() {
-    return true;
+    return true
   },
   canUseDeepWaypoints: function() {
-    return true;
+    return true
   },
   getWaypoints: function(result_array) {
     if (!result_array) {
-      throw new Error('you must apply result array');
+      throw new Error('you must apply result array')
     }
     if (this.canUseWaypoints()) {
       if (this.way_points) {
-        push.apply(result_array, this.way_points);
+        push.apply(result_array, this.way_points)
       }
 
     }
@@ -198,40 +198,40 @@ spv.cloneObj(props, {
   },
   getAllWaypoints: function(result_array) {
     if (!result_array) {
-      throw new Error('you must apply result array');
+      throw new Error('you must apply result array')
     }
-    this.getWaypoints(result_array);
-    this.getDeepWaypoints(result_array);
+    this.getWaypoints(result_array)
+    this.getDeepWaypoints(result_array)
 
   },
   getDeepWaypoints: function(result_array) {
     if (!result_array) {
-      throw new Error('you must apply result array');
+      throw new Error('you must apply result array')
     }
-    if (this.canUseWaypoints() && this.canUseDeepWaypoints()){
+    if (this.canUseWaypoints() && this.canUseDeepWaypoints()) {
       //var views = this.getDeepChildren(exept);
       for (var i = 0; i < this.children.length; i++) {
-        var cur = this.children[i];
-        cur.getAllWaypoints(result_array);
+        var cur = this.children[i]
+        cur.getAllWaypoints(result_array)
       }
     }
 
   },
   updateTemplatedWaypoints: function(add, remove) {
     if (!this.isAlive()) {
-      return;
+      return
     }
-    var i = 0;
-    if (remove){
-      var nodes_to_remove = spv.filter(remove, 'node');
+    var i = 0
+    if (remove) {
+      var nodes_to_remove = spv.filter(remove, 'node')
       for (i = 0; i < nodes_to_remove.length; i++) {
-        this.removeWaypoint(nodes_to_remove[i]);
+        this.removeWaypoint(nodes_to_remove[i])
       }
     }
     for (i = 0; i < add.length; i++) {
-      this.addTemplatedWaypoint(add[i]);
+      this.addTemplatedWaypoint(add[i])
     }
-    if (add.length){
+    if (add.length) {
       //console.log(add);
     }
   },
@@ -262,63 +262,63 @@ spv.cloneObj(props, {
 
   },
   updateTemplatesStates: function(total_ch, sync_tpl) {
-    var i = 0;
+    var i = 0
     //var states = this.states;
-    if (this.tpl){
-      this.tpl.checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this.current_motivator);
+    if (this.tpl) {
+      this.tpl.checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this.current_motivator)
     }
-    if (this.tpls){
+    if (this.tpls) {
       for (i = 0; i < this.tpls.length; i++) {
-        this.tpls[i].checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this.current_motivator);
+        this.tpls[i].checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this.current_motivator)
       }
     }
 
   },
-  getT: function(){
-    return this.c || this.pv_view_node || dWrap(this.getA());
+  getT: function() {
+    return this.c || this.pv_view_node || dWrap(this.getA())
   },
-  getC: function(){
-    return this.c;
+  getC: function() {
+    return this.c
   },
-  getA: function(){
-    return this._lbr._anchor || (this._lbr._anchor = window.document.createComment(''));
+  getA: function() {
+    return this._lbr._anchor || (this._lbr._anchor = window.document.createComment(''))
 
     //document.createTextNode('')
   },
   getWindow: function() {
-    return spv.getDefaultView(this.d || dUnwrap(this.getC()).ownerDocument);
+    return spv.getDefaultView(this.d || dUnwrap(this.getC()).ownerDocument)
   },
   getCNode: function() {
-    return dUnwrap(this.getC());
+    return dUnwrap(this.getC())
   },
   isAlive: function(dead_doc) {
-    if (this.dead){
-      return false;
+    if (this.dead) {
+      return false
     } else {
-      if (this.getC()){
-        var c = this.getCNode();
-        if (!c || (dead_doc && dead_doc === c.ownerDocument) || !spv.getDefaultView(c.ownerDocument)){
-          this.markAsDead();
-          return false;
+      if (this.getC()) {
+        var c = this.getCNode()
+        if (!c || (dead_doc && dead_doc === c.ownerDocument) || !spv.getDefaultView(c.ownerDocument)) {
+          this.markAsDead()
+          return false
         } else {
-          return true;
+          return true
         }
       } else {
-        return true;
+        return true
       }
     }
   },
   remove: function(con, anchor) {
-    if (!con){
-      con = this.getC();
+    if (!con) {
+      con = this.getC()
     }
-    if (con){
-      dRemove(con);
+    if (con) {
+      dRemove(con)
     }
-    if (!anchor){
-      anchor = this._lbr._anchor;
+    if (!anchor) {
+      anchor = this._lbr._anchor
     }
-    if (anchor){
+    if (anchor) {
       dRemove(anchor)
     }
 
@@ -327,105 +327,105 @@ spv.cloneObj(props, {
     dRemove(this.getC())
   },
   markDomDead: function() {
-    stackEmergency(this.remove, this, [this.getC(), this._lbr._anchor]);
+    stackEmergency(this.remove, this, [this.getC(), this._lbr._anchor])
 
 
     // TODO: check that nextTick will be executed when global window is dead
     // and setTimeout/requestAnimationFrame won't work
     this.useInterface('con', null)
     if (this.c) {
-      this.c._provoda_view = null;
+      this.c._provoda_view = null
 
       // legacy. when this.c is jquery wrapper
       for (var i = 0; i < this.c.length; i++) {
-        this.c[i]._provoda_view = null;
+        this.c[i]._provoda_view = null
       }
     }
 
 
-    this.c = null;
+    this.c = null
 
     if (this.base_skeleton) {
       for (var i = 0; i < this.base_skeleton.length; i++) {
         dWrap(this.base_skeleton[i].node) // remove?
       }
-      this.base_skeleton = null;
+      this.base_skeleton = null
     }
 
 
-    this._lbr._anchor = null;
+    this._lbr._anchor = null
     if (this.tpl) {
       this.tpl.root_node_raw._provoda_view = null
-      this.tpl.destroy();
-      this.tpl = null;
+      this.tpl.destroy()
+      this.tpl = null
     }
 
-    if (this.tpls){
+    if (this.tpls) {
       for (var i = 0; i < this.tpls.length; i++) {
         this.tpls[i].root_node_raw._provoda_view = null
-        this.tpls[i].destroy();
+        this.tpls[i].destroy()
       }
-      this.tpls = null;
+      this.tpls = null
     }
-    this.way_points = null;
+    this.way_points = null
 
-    if (this.wp_box){
-      this.wp_box = null;
+    if (this.wp_box) {
+      this.wp_box = null
     }
-    if (this.pv_view_node){
-      this.pv_view_node = null;
+    if (this.pv_view_node) {
+      this.pv_view_node = null
     }
 
 
 
-    if (this.dom_related_props){
+    if (this.dom_related_props) {
       for (i = 0; i < this.dom_related_props.length; i++) {
-        this[this.dom_related_props[i]] = null;
+        this[this.dom_related_props[i]] = null
       }
     }
   },
-  appendCon: function(){
-    if (this.skip_anchor_appending){
-      return;
+  appendCon: function() {
+    if (this.skip_anchor_appending) {
+      return
     }
-    var con = this.getC();
-    var anchor = this._lbr._anchor;
-    if (con && anchor && anchor.parentNode){
-      dAfter(anchor, con);
+    var con = this.getC()
+    var anchor = this._lbr._anchor
+    if (con && anchor && anchor.parentNode) {
+      dAfter(anchor, con)
       //anchor.parentNode.insertBefore(con[0], anchor.nextSibling);
-      this._lbr._anchor = null;
-      dDetach(anchor);
-      _updateAttr(this, 'vis_con_appended', true);
+      this._lbr._anchor = null
+      dDetach(anchor)
+      _updateAttr(this, 'vis_con_appended', true)
       _updateAttr(this, '$meta$apis$con$appended', true)
 
-    } else if (con && dUnwrap(dParent(con))){
-      _updateAttr(this, 'vis_con_appended', true);
+    } else if (con && dUnwrap(dParent(con))) {
+      _updateAttr(this, 'vis_con_appended', true)
       _updateAttr(this, '$meta$apis$con$appended', true)
 
     }
   },
   checkExpandableTree: function() {
-    var i, cur, cur_config, has_changes = true, append_list = [];
+    var i, cur, cur_config, has_changes = true, append_list = []
     while (this.base_skeleton && has_changes) {
-      has_changes = false;
+      has_changes = false
       for (i = 0; i < this.base_skeleton.length; i++) {
-        cur = this.base_skeleton[i];
-        cur_config = this.base_tree_list[ cur.chunk_num ];
+        cur = this.base_skeleton[i]
+        cur_config = this.base_tree_list[ cur.chunk_num ]
         if (cur.handled) {
-          continue;
+          continue
         }
         if (!cur.parent || cur.parent.handled) {
-          if (!cur_config.needs_expand_state){
-            cur.handled = true;
+          if (!cur_config.needs_expand_state) {
+            cur.handled = true
             if (cur_config.sample_name) {
-              cur.node = this.root_view.getSample( cur_config.sample_name );
+              cur.node = this.root_view.getSample(cur_config.sample_name)
             } else if (cur_config.part_name) {
-              cur.node = this.requirePart( cur_config.part_name );
+              cur.node = this.requirePart(cur_config.part_name)
             } else {
-              throw new Error('how to get node for this?!');
+              throw new Error('how to get node for this?!')
             }
-            has_changes = true;
-            append_list.push(cur);
+            has_changes = true
+            append_list.push(cur)
 
             //sample_name
             //part_name
@@ -435,12 +435,12 @@ spv.cloneObj(props, {
         //chunk_num
       }
       while (append_list.length) {
-        cur = append_list.pop();
+        cur = append_list.pop()
         if (cur.parent && cur.parent.node) {
-          cur_config = this.base_tree_list[ cur.chunk_num ];
+          cur_config = this.base_tree_list[ cur.chunk_num ]
           var target_node = cur_config.selector
             ? dFind(cur.parent.node, cur_config.selector)
-            : dWrap(cur.parent.node);
+            : dWrap(cur.parent.node)
 
           if (!cur_config.prepend) {
             dAppend(target_node, cur.node)
@@ -449,18 +449,18 @@ spv.cloneObj(props, {
           }
 
           if (cur_config.needs_expand_state && cur_config.parse_as_tplpart) {
-            this.parseAppendedTPLPart(cur.node);
+            this.parseAppendedTPLPart(cur.node)
           }
-        } else if (cur.parent){
-          console.log('cant append');
+        } else if (cur.parent) {
+          console.log('cant append')
         } else {
-          this.c = cur.node;
+          this.c = cur.node
         }
       }
 
     }
     if (!this.c && this.base_skeleton[0].node) {
-      this.c = this.base_skeleton[0].node;
+      this.c = this.base_skeleton[0].node
     }
 
     //если есть прикреплённый родитель и пришло время прикреплять (если оно должно было прийти)
@@ -480,29 +480,29 @@ spv.cloneObj(props, {
   },
 
   checkTplTreeChange: function(current_motivator) {
-    var old_mt = this.current_motivator;
-    this.current_motivator = current_motivator;
+    var old_mt = this.current_motivator
+    this.current_motivator = current_motivator
 
     this.ensureTotalChangesUpdates()
     var total_ch = this.__total_states_list
-    this.updateTemplatesStates(total_ch);
+    this.updateTemplatesStates(total_ch)
 
     for (var nesname in this.children_models) {
 
-      this.pvCollectionChange(nesname, this.children_models[nesname]);
+      this.pvCollectionChange(nesname, this.children_models[nesname])
     }
 
-    this.current_motivator = old_mt;
+    this.current_motivator = old_mt
   },
 })
 DomView = spv.inh(CoreView, {
   init: function initDomView(target) {
     if (target.base_tree_list) {
-      target.base_skeleton = getBaseTreeSkeleton(target.base_tree_list);
+      target.base_skeleton = getBaseTreeSkeleton(target.base_tree_list)
     }
   }
 }, props)
-DomView._PvTemplate = PvTemplate;
+DomView._PvTemplate = PvTemplate
 
 return DomView
 

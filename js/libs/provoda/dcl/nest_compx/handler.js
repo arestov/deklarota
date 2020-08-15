@@ -1,19 +1,19 @@
 define(function(require) {
 'use strict'
 
-var _updateRel = require('_updateRel');
+var _updateRel = require('_updateRel')
 var multiPathAsString = require('../../utils/multiPath/asString')
 var getDepValue = require('../../utils/multiPath/getDepValue')
 
 var prepareArgs = function(dcl, _runStates) {
-  var result = new Array(dcl.deps.length);
+  var result = new Array(dcl.deps.length)
 
   for (var i = 0; i < dcl.deps.length; i++) {
     result[i] = _runStates[dcl.deps[i]]
   }
 
-  return result;
-};
+  return result
+}
 
 var createInitialStates = function(dcl, runner) {
   var _runStates = {}
@@ -28,7 +28,7 @@ var createInitialStates = function(dcl, runner) {
     _runStates['<<<<'] = runner.md
   }
 
-  return _runStates;
+  return _runStates
 }
 
 var recalc = function(dcl, runner, current_motivator) {
@@ -40,7 +40,7 @@ var recalc = function(dcl, runner, current_motivator) {
   var calcFn = dcl.calcFn
   var result = calcFn.apply(null, args)
 
-  var dest_name = dcl.dest_name;
+  var dest_name = dcl.dest_name
   if (!current_motivator) {
     throw new Error('should be current_motivator')
   }
@@ -56,7 +56,7 @@ var changeValue = function(current_motivator, runner, dep_full_name, value) {
     runner._runStates = createInitialStates(dcl, runner)
   }
 
-  runner._runStates[dep_full_name] = value;
+  runner._runStates[dep_full_name] = value
 
   recalc(dcl, runner, current_motivator)
 }
@@ -72,7 +72,7 @@ var zipValue = function(runner, lwroot, list) {
 var getValue = function(runner, lwroot, list) {
   if (!lwroot.state_name && !lwroot.data.dep.zip_name) {
     // we can get same, but mutated `value`
-    var to_pass = Array.isArray(list) ? list.slice(0) : list;
+    var to_pass = Array.isArray(list) ? list.slice(0) : list
     return to_pass
   }
 

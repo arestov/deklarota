@@ -1,34 +1,34 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var indexByDepName = require('./utils/indexByDepName')
 var getDepsToInsert = require('./utils/getDepsToInsert')
 
-var usualApis = function (obj) {
+var usualApis = function(obj) {
   if (!obj) {
-    return;
+    return
   }
 
-  var result = [];
+  var result = []
 
   for (var name in obj) {
     if (!obj.hasOwnProperty(name)) {
-      continue;
+      continue
     }
-    var cur = obj[name];
+    var cur = obj[name]
     if (cur.deps_name) {
-      continue;
+      continue
     }
 
-    result.push(cur);
+    result.push(cur)
   }
 
-  return result;
-};
+  return result
+}
 
 function checkApi(fn) {
   return function(apis_index, input_acc) {
-    if (!apis_index) {return;}
+    if (!apis_index) {return}
 
     var acc = input_acc
     for (var api_name in apis_index) {
@@ -87,11 +87,11 @@ function wrapAttr(name) {
 
 
 return function rebuild(self, apis, typed_state_dcls) {
-  var inserted_names = getDepsToInsert(apis, self, typed_state_dcls);
+  var inserted_names = getDepsToInsert(apis, self, typed_state_dcls)
   self.__defined_api_attrs_bool = inserted_names.map(wrapAttr)
 
-  self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index;
-  self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual;
+  self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index
+  self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual
   self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null
   self.__apis_$__needs_self = needSelf(apis, false)
 }

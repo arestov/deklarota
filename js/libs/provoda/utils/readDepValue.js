@@ -1,26 +1,26 @@
 define(function(require) {
-'use strict';
+'use strict'
 
-var pvState = require('./state');
+var pvState = require('./state')
 
 var parent = function(md, dep) {
-  var count = dep.ancestors;
-  var target = md;
-  while (count){
-    count--;
-    target = target.getStrucParent();
+  var count = dep.ancestors
+  var target = md
+  while (count) {
+    count--
+    target = target.getStrucParent()
   }
-  if (!target){
-    throw new Error();
+  if (!target) {
+    throw new Error()
   }
 
   return pvState(target, dep.state_name)
-};
+}
 
 var root = function(md, dep) {
-  var target = md.getStrucRoot();
-  if (!target){
-    throw new Error();
+  var target = md.getStrucRoot()
+  if (!target) {
+    throw new Error()
   }
   return pvState(target, dep.state_name)
 }

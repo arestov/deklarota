@@ -1,12 +1,12 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
-var splitByDot = spv.splitByDot;
-var getParsedState = require('../../utils/getParsedState');
+var splitByDot = spv.splitByDot
+var getParsedState = require('../../utils/getParsedState')
 
 
 var getPath = spv.memorize(function(full_name) {
-  var result = getParsedState(full_name);
+  var result = getParsedState(full_name)
   if (result) {
     return result
   }
@@ -70,8 +70,8 @@ var getFullPathInfo = spv.memorize(function(full_path) {
         state: createStateInfo(info.state_name),
         nesting: {
           path: parts,
-          base: parts.slice(0, parts.length-1),
-          target_nest_name: parts[parts.length-1],
+          base: parts.slice(0, parts.length - 1),
+          target_nest_name: parts[parts.length - 1],
         },
         from_base: {
           type: null,

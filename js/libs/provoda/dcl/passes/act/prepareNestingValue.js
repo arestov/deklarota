@@ -1,14 +1,14 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var getNesting = require('pv/getNesting')
 
-var get_constr = require('../../../structure/get_constr');
-var getModelById = require('../../../utils/getModelById');
+var get_constr = require('../../../structure/get_constr')
+var getModelById = require('../../../utils/getModelById')
 var pushToRoute = require('../../../structure/pushToRoute')
 
 var cloneObj = spv.cloneObj
-var getNestingConstr = get_constr.getNestingConstr;
+var getNestingConstr = get_constr.getNestingConstr
 
 var push = Array.prototype.push
 var unshift = Array.prototype.unshift
@@ -170,7 +170,7 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
 var callInit = function(md, nesting_name, value) {
   var created = pushToRoute(md, nesting_name, value.states)
   if (created) {
-    return created;
+    return created
   }
 
   var Constr = getNestingConstr(md.app, md, nesting_name)
@@ -194,9 +194,9 @@ var callInit = function(md, nesting_name, value) {
 
 var useRefIfNeeded = function(md, raw_value, mut_refs_index, mut_wanted_ref) {
   if (isOk(raw_value)) {
-    return raw_value;
+    return raw_value
   }
-  
+
   if (!needsRefs(raw_value)) {
     return raw_value
   }
@@ -206,14 +206,14 @@ var useRefIfNeeded = function(md, raw_value, mut_refs_index, mut_wanted_ref) {
 
 var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
   if (isOk(raw_value)) {
-    return raw_value;
+    return raw_value
   }
 
   if (target.options.model) {
     throw new Error('implement me')
   }
 
-  var value;
+  var value
   if (!needsRefs(raw_value)) {
     value = raw_value
   } else {
@@ -221,7 +221,7 @@ var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
     value = replaceRefs(md, raw_value, local_wanted, mut_refs_index)
 
     if (isOk(value)) {
-      return value;
+      return value
     }
 
     if (spv.countKeys(local_wanted)) {
@@ -230,7 +230,7 @@ var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
     }
   }
 
-  var multi_path= target.target_path
+  var multi_path = target.target_path
   var nesting_name = multi_path.nesting.target_nest_name
 
   var created_model = callInit(md, nesting_name, value)
@@ -350,7 +350,7 @@ prepareNestingValue.initValue = initValue
 prepareNestingValue.initPassedValue = initPassedValue
 prepareNestingValue.useRefIfNeeded = useRefIfNeeded
 
-return prepareNestingValue;
+return prepareNestingValue
 
 function isProvodaBhv(md) {
   return md.hasOwnProperty('_provoda_id') || md.hasOwnProperty('view_id')
@@ -358,7 +358,7 @@ function isProvodaBhv(md) {
 
 function isOk(list) {
   if (!list) {
-    return true;
+    return true
   }
 
   if (!Array.isArray(list)) {

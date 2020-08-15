@@ -1,7 +1,7 @@
 define(function(require) {
 'use strict'
-var addFrom = require('../../nest-watch/addFrom');
-var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot');
+var addFrom = require('../../nest-watch/addFrom')
+var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
 var handler = require('./handler')
 var hstate = handler.hstate
 var recalc = handler.recalc
@@ -11,7 +11,7 @@ var supportedRelTargetAddr = require('../../Model/mentions/supportedRelTargetAdd
 var copyStates = function(md, target, state_name, full_name, runner) {
   md.lwch(target, state_name, function(value) {
     hstate(this.current_motivator, runner, full_name, value)
-  });
+  })
 }
 
 var subscribe = subscribing(copyStates)
@@ -21,7 +21,7 @@ var runNestWatches = function(self, md, list) {
     return
   }
 
-  var lnwatches = new Array(list.length);
+  var lnwatches = new Array(list.length)
 
   for (var i = 0; i < list.length; i++) {
 
@@ -35,9 +35,9 @@ var runNestWatches = function(self, md, list) {
       num: i,
       zipFn: list[i].zipFn,
       // index: i,
-    });
+    })
 
-    addFrom(md, lnwatch);
+    addFrom(md, lnwatch)
     lnwatches[i] = lnwatch
   }
 
@@ -55,9 +55,9 @@ var runUsual = function(self, md, list) {
 }
 
 var NestCompxRunner = function(md, dcl) {
-  this.dcl = dcl;
-  this.md = md;
-  this._runStates = null;
+  this.dcl = dcl
+  this.md = md
+  this._runStates = null
 
   var parsed_deps = this.dcl.parsed_deps
 
@@ -68,5 +68,5 @@ var NestCompxRunner = function(md, dcl) {
   Object.seal(this)
 }
 
-return NestCompxRunner;
+return NestCompxRunner
 })

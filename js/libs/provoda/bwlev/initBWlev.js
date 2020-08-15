@@ -1,6 +1,6 @@
 define(function(require) {
-'use strict';
-var create = require('../create');
+'use strict'
+var create = require('../create')
 
 return function initBWlev(BrowseLevel, md, probe_name, map_level_num, map, parent_bwlev) {
   var bwlev = create(BrowseLevel, {
@@ -14,7 +14,7 @@ return function initBWlev(BrowseLevel, md, probe_name, map_level_num, map, paren
       pioneer: md,
       map: map
     }
-  }, parent_bwlev, md.app);
+  }, parent_bwlev, md.app)
 
   return bwlev
 }

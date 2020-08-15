@@ -2,7 +2,7 @@ define(function() {
 'use strict'
 return function(parent_view, nesting_name, nesting_space) {
   if (!nesting_name) {
-    throw new Error('no nesting_name');
+    throw new Error('no nesting_name')
   }
   /*
     check perfomance:
@@ -13,6 +13,6 @@ return function(parent_view, nesting_name, nesting_space) {
   помогает определить есть ли у модели вьюха, ассоциированная с локацией - с родительской вьюхой (а также с гнездом внутри родительской вьюхи)
 
   */
-  return parent_view.view_id + ':' +  nesting_space + ':' + nesting_name;
+  return parent_view.view_id + ':' + nesting_space + ':' + nesting_name
 }
 })

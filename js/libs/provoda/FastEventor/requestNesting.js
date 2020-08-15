@@ -4,7 +4,7 @@ var batching = require('./batching')
 
 var req_utils = require('./req-utils')
 var types = require('./nestReqTypes')
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr');
+var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
 
 var getRequestByDeclr = req_utils.getRequestByDeclr
 var findErrorByList = req_utils.findErrorByList
@@ -12,16 +12,16 @@ var findErrorByList = req_utils.findErrorByList
 var releaseBatch = batching.releaseBatch
 var batch = batching.batch
 
-var clean_obj = {};
+var clean_obj = {}
 
 
 function nestingMark(nesting_name, name) {
-  return '$meta$nests$' + nesting_name + '$' + name;
+  return '$meta$nests$' + nesting_name + '$' + name
 }
 
 function statesAnyway(states, nesting_name, is_main_list) {
   states[types.loading_nesting + '_' + nesting_name] = false // old legacy
-  states[nesting_name + '$' + types.loading] = false; // legacy
+  states[nesting_name + '$' + types.loading] = false // legacy
   if (is_main_list) {
     states[types.main_list_loading] = false // old old legacy
   }
@@ -47,11 +47,11 @@ function statesComplete(states, nesting_name) {
 
 
 function statesData(states, nesting_name, can_load_more, is_main_list) {
-  states[nesting_name + "$" + types.error] = null;
-  states[nestingMark(nesting_name, types.error)] = null;
+  states[nesting_name + "$" + types.error] = null
+  states[nestingMark(nesting_name, types.error)] = null
 
-  states[nesting_name + "$" + types.has_any] = true;
-  states[nestingMark(nesting_name, types.has_any)] = true;
+  states[nesting_name + "$" + types.has_any] = true
+  states[nestingMark(nesting_name, types.has_any)] = true
 
   if (can_load_more) {
     return
@@ -61,17 +61,17 @@ function statesData(states, nesting_name, can_load_more, is_main_list) {
     states[types.all_data_loaded] = true // old old legacy
   }
 
-  states[nesting_name + "$" + types.all_loaded] = true;
-  states[nestingMark(nesting_name, types.all_loaded)] = true;
+  states[nesting_name + "$" + types.all_loaded] = true
+  states[nestingMark(nesting_name, types.all_loaded)] = true
 }
 
 
 function statesStart(states, nesting_name, is_main_list) {
   states[nesting_name + '$' + types.load_attempting] = true // legacy
-  states[nestingMark(nesting_name, types.load_attempting)] = true;
+  states[nestingMark(nesting_name, types.load_attempting)] = true
 
-  states[types.loading_nesting + '_' + nesting_name] = true; // old legacy
-  states[nesting_name + '$' + types.loading] = true; // legacy
+  states[types.loading_nesting + '_' + nesting_name] = true // old legacy
+  states[nesting_name + '$' + types.loading] = true // legacy
   states[nestingMark(nesting_name, types.loading)] = true
   if (is_main_list) {
     states[types.main_list_loading] = true // old old legacy
@@ -98,10 +98,10 @@ return function(dclt, nesting_name, limit) {
 
 
   if (!dclt) {
-    return;
+    return
   }
   if (!this.nesting_requests) {
-    this.nesting_requests = {};
+    this.nesting_requests = {}
   }
 
   if (!this.nesting_requests[ nesting_name ]) {
@@ -112,21 +112,21 @@ return function(dclt, nesting_name, limit) {
       error: false,
       process: false,
       req: null,
-    };
+    }
   }
 
-  var store = this.nesting_requests[ nesting_name ];
+  var store = this.nesting_requests[ nesting_name ]
   if (store.process || store.has_all_items) {
-    return;
+    return
   }
-  var _this = this;
+  var _this = this
 
   var isValidRequest = function(req) {
-    var store = _this.nesting_requests[nesting_name];
+    var store = _this.nesting_requests[nesting_name]
     return store && store.req == req
   }
 
-  var is_main_list = nesting_name == this.sputnik.main_list_name;
+  var is_main_list = nesting_name == this.sputnik.main_list_name
 
   this.sputnik.input(function() {
     var states = {}
@@ -134,26 +134,26 @@ return function(dclt, nesting_name, limit) {
     _this.sputnik.updateManyStates(states)
   })
 
-  var parse_items = dclt.parse_items;
-  var parse_serv = dclt.parse_serv;
-  var side_data_parsers = dclt.side_data_parsers;
-  var send_declr = dclt.send_declr;
+  var parse_items = dclt.parse_items
+  var parse_serv = dclt.parse_serv
+  var side_data_parsers = dclt.side_data_parsers
+  var send_declr = dclt.send_declr
 
   if (!getNetApiByDeclr(send_declr, this.sputnik)) {
     console.warn(new Error('api not ready yet'), send_declr)
     return
   }
 
-  var supports_paging = !!parse_serv;
-  var limit_value = limit && (limit[1] - limit[0]);
-  var paging_opts = this.sputnik.getPagingInfo(nesting_name, limit_value);
+  var supports_paging = !!parse_serv
+  var limit_value = limit && (limit[1] - limit[0])
+  var paging_opts = this.sputnik.getPagingInfo(nesting_name, limit_value)
 
   var network_api_opts = {
     nocache: store.error
-  };
+  }
 
   if (supports_paging) {
-    network_api_opts.paging = paging_opts;
+    network_api_opts.paging = paging_opts
   }
 
 
@@ -161,28 +161,28 @@ return function(dclt, nesting_name, limit) {
 
   var request = getRequestByDeclr(send_declr, this.sputnik,
     {has_error: store.error, paging: paging_opts},
-    network_api_opts);
-  var network_api = request.network_api;
-  var source_name = network_api.source_name;
+    network_api_opts)
+  var network_api = request.network_api
+  var source_name = network_api.source_name
 
-  store.process = true;
+  store.process = true
   store.req = request
 
   function markAttemptComplete() {
     var states = {}
     statesComplete(states, nesting_name)
-     _this.sputnik.updateManyStates(states);
+     _this.sputnik.updateManyStates(states)
   }
 
   function anyway() {
-    store.process = false;
+    store.process = false
     if (store.req == request) {
       store.req = null
     }
 
     var states = {}
     statesAnyway(states, nesting_name, is_main_list)
-    _this.sputnik.updateManyStates(states);
+    _this.sputnik.updateManyStates(states)
   }
 
   function handleError() {
@@ -191,21 +191,21 @@ return function(dclt, nesting_name, limit) {
     statesError(states, nesting_name)
     _this.sputnik.updateManyStates(states)
 
-    anyway();
+    anyway()
     markAttemptComplete()
 
   }
 
-  var initiator = _this.sputnik.current_motivator;
-  var release;
+  var initiator = _this.sputnik.current_motivator
+  var release
   if (initiator) {
-    var num = initiator.num;
-    batch(_this.sputnik, num);
+    var num = initiator.num
+    batch(_this.sputnik, num)
 
-    release = function () {
-      releaseBatch(this, num);
-    };
-    release.init_end = true;
+    release = function() {
+      releaseBatch(this, num)
+    }
+    release.init_end = true
   }
 
   /*
@@ -220,107 +220,107 @@ return function(dclt, nesting_name, limit) {
   */
 
   if (request.queued_promise) {
-    var startWaiting = function () {
+    var startWaiting = function() {
       if (!isValidRequest(request)) {
         return
       }
       _this.sputnik.updateManyStates(statesQueue({}, nesting_name, true))
-    };
+    }
     this.sputnik.input(startWaiting)
 
-    var stopWaiting = function () {
+    var stopWaiting = function() {
       if (!isValidRequest(request)) {
         return
       }
       _this.sputnik.updateManyStates(statesQueue({}, nesting_name, false))
-    };
+    }
 
-    request.queued_promise.then(stopWaiting, stopWaiting);
+    request.queued_promise.then(stopWaiting, stopWaiting)
   }
 
 
 
-  request.then(function (response) {
+  request.then(function(response) {
     if (release) {
-      _this.sputnik.nextTick(release, null, false, initiator);
+      _this.sputnik.nextTick(release, null, false, initiator)
     }
     if (!isValidRequest(request)) {
       return
     }
 
     var has_error = detectError(response)
-    if (has_error){
-      _this.sputnik.input(handleError);
+    if (has_error) {
+      _this.sputnik.input(handleError)
       return
     }
 
-    _this.sputnik.input(function () {
+    _this.sputnik.input(function() {
       store.error = false
       store.has_all_items = true
       handleNestResponse(response, function() {
         store.has_all_items = false
-      });
-      anyway();
+      })
+      anyway()
       markAttemptComplete()
-    });
+    })
 
-  }, function () {
+  }, function() {
     if (release) {
-      _this.sputnik.nextTick(release, null, false, initiator);
+      _this.sputnik.nextTick(release, null, false, initiator)
     }
     if (!isValidRequest(request)) {
       return
     }
 
-    _this.sputnik.input(handleError);
+    _this.sputnik.input(handleError)
 
 
-  });
+  })
 
   function detectError(resp) {
     var has_error = network_api.errors_fields
       ? findErrorByList(resp, network_api.errors_fields)
-      : network_api.checkResponse(resp);
+      : network_api.checkResponse(resp)
 
     return has_error
   }
 
-  function handleNestResponse(r, markListIncomplete){
+  function handleNestResponse(r, markListIncomplete) {
     // should be in data bus queue - use `.input` wrap
-    var sputnik = _this.sputnik;
+    var sputnik = _this.sputnik
 
-    var morph_helpers = sputnik.app.morph_helpers;
-    var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api);
-    var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers);
+    var morph_helpers = sputnik.app.morph_helpers
+    var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api)
+    var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers)
     var can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
 
     if (can_load_more) {
       markListIncomplete()
     }
 
-    var many_states = {};
+    var many_states = {}
     statesData(many_states, nesting_name, can_load_more, is_main_list)
-    sputnik.updateManyStates(many_states);
+    sputnik.updateManyStates(many_states)
 
-    items = paging_opts.remainder ? items.slice( paging_opts.remainder ) : items;
+    items = paging_opts.remainder ? items.slice(paging_opts.remainder) : items
 
-    sputnik.insertDataAsSubitems(sputnik, nesting_name, items, serv_data, source_name);
+    sputnik.insertDataAsSubitems(sputnik, nesting_name, items, serv_data, source_name)
 
     if (!sputnik.loaded_nestings_items) {
-      sputnik.loaded_nestings_items = {};
+      sputnik.loaded_nestings_items = {}
     }
 
     if (!sputnik.loaded_nestings_items[nesting_name]) {
-      sputnik.loaded_nestings_items[nesting_name] = 0;
+      sputnik.loaded_nestings_items[nesting_name] = 0
     }
-    var has_data_holes = serv_data === true || (serv_data && serv_data.has_data_holes === true);
+    var has_data_holes = serv_data === true || (serv_data && serv_data.has_data_holes === true)
 
     sputnik.loaded_nestings_items[nesting_name] +=
-      has_data_holes ? paging_opts.page_limit : (items ? items.length : 0);
+      has_data_holes ? paging_opts.page_limit : (items ? items.length : 0)
     //special logic where server send us page without few items. but it can be more pages available
     //so serv_data in this case is answer for question "Is more data available?"
 
-    if (!side_data_parsers) {return;}
+    if (!side_data_parsers) {return}
 
     for (var i = 0; i < side_data_parsers.length; i++) {
       sputnik.nextTick(
@@ -329,14 +329,14 @@ return function(dclt, nesting_name, limit) {
           source_name,
           side_data_parsers[i][0],
           side_data_parsers[i][1].call(sputnik, r, paging_opts, morph_helpers)
-        ], true);
+        ], true)
     }
 
     //сделать выводы о завершенности всех данных
   }
 
-  this.addRequest(request);
-  return request;
+  this.addRequest(request)
+  return request
 
   /*
   есть ли декларация
@@ -353,20 +353,20 @@ return function(dclt, nesting_name, limit) {
 
 function hasMoreData(serv_data, page_limit, paging_opts, items) {
   if (serv_data === true) {
-    return true;
+    return true
   } else if (serv_data && ((serv_data.hasOwnProperty('total_pages_num') && serv_data.hasOwnProperty('page_num')) || serv_data.hasOwnProperty('total'))) {
     if (!isNaN(serv_data.total)) {
-      if ( (paging_opts.current_length + items.length) < serv_data.total && serv_data.total > paging_opts.page_limit) {
-        return true;
+      if ((paging_opts.current_length + items.length) < serv_data.total && serv_data.total > paging_opts.page_limit) {
+        return true
       }
     } else {
       if (serv_data.page_num < serv_data.total_pages_num) {
-        return true;
+        return true
       }
     }
 
   } else {
-    return items.length == page_limit;
+    return items.length == page_limit
   }
 
 }

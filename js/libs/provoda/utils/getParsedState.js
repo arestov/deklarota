@@ -1,25 +1,25 @@
 define(function(require) {
-'use strict';
-var spv = require('spv');
+'use strict'
+var spv = require('spv')
 var splitByDot = spv.splitByDot
-var parse = require('./NestingSourceDr/parse');
+var parse = require('./NestingSourceDr/parse')
 var asString = require('./multiPath/asString')
 
-function itself(item) {return item;}
+function itself(item) {return item}
 
 var selfRef = {rel_type: 'self'}
 
 var enc_states = {
-  '^': (function(){
+  '^': (function() {
     // parent
 
-    var parent_count_regexp = /^\^+/gi;
+    var parent_count_regexp = /^\^+/gi
 
     return function parent(string) {
       //example: '^visible'
 
-      var state_name = string.replace(parent_count_regexp, '');
-      var count = string.length - state_name.length;
+      var state_name = string.replace(parent_count_regexp, '')
+      var count = string.length - state_name.length
       return {
         rel_type: 'parent',
         full_name: string,
@@ -27,21 +27,21 @@ var enc_states = {
         full_state_name: state_name,
         base_state_name: state_name && splitByDot(state_name)[0],
         ancestors: count,
-      };
-    };
+      }
+    }
   })(),
   '@': function nesting(string) {
     // nesting
 
     //example:  '@some:complete:list'
-    var nesting_and_state_name = string.slice(1);
-    var parts = nesting_and_state_name.split(':');
+    var nesting_and_state_name = string.slice(1)
+    var parts = nesting_and_state_name.split(':')
 
-    var nesting_name = parts.pop();
-    var state_name = parts.pop();
-    var zip_func = parts.pop();
+    var nesting_name = parts.pop()
+    var state_name = parts.pop()
+    var zip_func = parts.pop()
 
-    var nesting_source = parse(nesting_name);
+    var nesting_source = parse(nesting_name)
 
     return {
       rel_type: 'nesting',
@@ -55,15 +55,15 @@ var enc_states = {
       nesting_name: nesting_source.selector.join('.'),
       zip_name: zip_func,
       zip_func: zip_func || itself,
-    };
+    }
   },
   '#': function(string) {
     // root
 
     //example: '#vk_id'
-    var state_name = string.slice(1);
+    var state_name = string.slice(1)
     if (!state_name) {
-      throw new Error('should be state_name');
+      throw new Error('should be state_name')
     }
 
     return {
@@ -72,7 +72,7 @@ var enc_states = {
       state_name: state_name,
       full_state_name: state_name,
       base_state_name: state_name && splitByDot(state_name)[0],
-    };
+    }
   }
 }
 
@@ -86,7 +86,7 @@ var simulateLegacyPath = {
       base_state_name: multi_path.state.base,
 
       ancestors: multi_path.from_base.steps,
-    };
+    }
   },
   '@': function(multi_path) {
     return {
@@ -104,7 +104,7 @@ var simulateLegacyPath = {
       nesting_name: multi_path.nesting.path.join('.'),
       zip_name: multi_path.zip_name,
       zip_func: multi_path.zip_name || itself,
-    };
+    }
   },
   '#': function(multi_path) {
 
@@ -114,7 +114,7 @@ var simulateLegacyPath = {
       state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
-    };
+    }
   }
 }
 
@@ -153,13 +153,13 @@ var fromMultiPath = function(multi_path, as_string, original) {
 
 var getParsedState = spv.memorize(function getParsedState(state_name) {
   // isSpecialState
-  var start = state_name.charAt(0);
+  var start = state_name.charAt(0)
   if (enc_states[start]) {
-    return enc_states[start](state_name);
+    return enc_states[start](state_name)
   } else {
-    return null;
+    return null
   }
-});
+})
 
 getParsedState.fromMultiPath = fromMultiPath
 return getParsedState

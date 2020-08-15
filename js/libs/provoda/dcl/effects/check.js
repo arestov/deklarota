@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 
@@ -10,7 +10,7 @@ var cloneObj = spv.cloneObj
 // var NestDcl = require('../nest/item');
 // var NestCompx = require('../nest_compx/item')
 var NestReqMap = require('./legacy/nest_req/dcl')
-var buildNestReqs = require('./legacy/nest_req/rebuild');
+var buildNestReqs = require('./legacy/nest_req/rebuild')
 
 var StateReqMap = require('./legacy/state_req/dcl')
 var buildStateReqs = require('./legacy/state_req/rebuild')
@@ -31,13 +31,13 @@ var ApiDeclr = require('./legacy/api/dcl')
 var parse = function(type, name, data) {
   switch (type) {
     case 'consume-state_request': {
-      return new StateReqMap(name, data);
+      return new StateReqMap(name, data)
     }
     case 'consume-nest_request': {
-      return new NestReqMap(name, data);
+      return new NestReqMap(name, data)
     }
     case 'consume-subscribe': {
-      return new StateBindDeclr(name, data);
+      return new StateBindDeclr(name, data)
     }
     case 'produce-': {
       return new ProduceEffectDeclr(name, data)
@@ -47,28 +47,28 @@ var parse = function(type, name, data) {
     }
   }
 
-  throw new Error('unsupported type ' + type);
+  throw new Error('unsupported type ' + type)
 }
 
 var extend = function(prefix, index, more_effects) {
-  var cur = cloneObj({}, index) || {};
+  var cur = cloneObj({}, index) || {}
   var prefix_string = prefix ? (prefix + '-') : ''
 
   for (var name in more_effects) {
     var data = more_effects[name]
-    var type = prefix_string + (data.type || '');
-    var dcl = parse(type, name, data);
+    var type = prefix_string + (data.type || '')
+    var dcl = parse(type, name, data)
     cur[name] = {
       dcl: dcl,
       type: type,
     }
   }
 
-  return cur;
+  return cur
 }
 
 var byType = function(index) {
-  var result = {};
+  var result = {}
   for (var name in index) {
     if (!index.hasOwnProperty(name)) {
       continue
@@ -77,35 +77,35 @@ var byType = function(index) {
     var cur = index[name]
     var type = cur.type
 
-    result[type] = result[type] || {};
-    result[type][name] = cur.dcl;
+    result[type] = result[type] || {}
+    result[type][name] = cur.dcl
   }
 
-  return result;
+  return result
 }
 
 
 var notEqual = function(one, two) {
   if (!one || !two) {
-    return one !== two;
+    return one !== two
   }
 
   for (var name in one) {
     if (!one.hasOwnProperty(name)) {
-      continue;
+      continue
     }
     if (one[name] !== two[name]) {
-      return true;
+      return true
     }
   }
 
   for (var name in two) {
     if (!two.hasOwnProperty(name)) {
-      continue;
+      continue
     }
 
     if (one[name] !== two[name]) {
-      return true;
+      return true
     }
   }
 }
@@ -114,19 +114,19 @@ var rebuildType = function(self, type, result, list, typed_state_dcls) {
   switch (type) {
     case 'consume-state_request': {
       buildStateReqs(self, list)
-      return;
+      return
     }
     case 'consume-nest_request': {
-      buildNestReqs(self, result, typed_state_dcls);
-      return;
+      buildNestReqs(self, result, typed_state_dcls)
+      return
     }
     case 'consume-subscribe': {
       buildSubscribes(self, list)
-      return;
+      return
     }
     case 'produce-': {
       buildProduce(self, result, typed_state_dcls)
-      return;
+      return
     }
     case 'api-': {
       buildApi(self, result, typed_state_dcls)
@@ -137,11 +137,11 @@ var rebuildType = function(self, type, result, list, typed_state_dcls) {
 var rebuild = function(self, newV, oldV, listByType, typed_state_dcls) {
   for (var type in newV) {
     if (!newV.hasOwnProperty(type)) {
-      continue;
+      continue
     }
 
     if (!notEqual(newV[type], oldV[type])) {
-      continue;
+      continue
     }
 
     rebuildType(self, type, newV[type], listByType[type], typed_state_dcls)
@@ -150,45 +150,45 @@ var rebuild = function(self, newV, oldV, listByType, typed_state_dcls) {
 
 var checkModern = function(self, props) {
   if (!props['effects']) {
-    return;
+    return
   }
 
   self._extendable_effect_index = extend(
     'consume',
     self._extendable_effect_index,
     props['effects'].consume
-  );
+  )
 
   self._extendable_effect_index = extend(
     'produce',
     self._extendable_effect_index,
     props['effects'].produce
-  );
+  )
 
   self._extendable_effect_index = extend(
     'api',
     self._extendable_effect_index,
     props['effects'].api
-  );
+  )
 }
 
 return function checkEffects(self, props, typed_state_dcls) {
-  var currentIndex = self._extendable_effect_index;
+  var currentIndex = self._extendable_effect_index
 
-  checkModern(self, props);
+  checkModern(self, props)
 
   if (currentIndex === self._extendable_effect_index) {
-    return;
+    return
   }
 
 
-  var oldByType = self._effect_by_type || {};
-  self._effect_by_type = byType(self._extendable_effect_index);
+  var oldByType = self._effect_by_type || {}
+  self._effect_by_type = byType(self._extendable_effect_index)
 
   self._effect_by_type_listed = {}
   for (var type_name in self._effect_by_type) {
     if (!self._effect_by_type.hasOwnProperty(type_name)) {
-      continue;
+      continue
     }
 
     var result = []
@@ -211,8 +211,8 @@ return function checkEffects(self, props, typed_state_dcls) {
     self.netsources_of_all = {
       nestings: self.netsources_of_nestings,
       states: self.netsources_of_states
-    };
+    }
   }
-  return true;
+  return true
 }
 })

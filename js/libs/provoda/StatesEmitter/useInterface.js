@@ -1,12 +1,12 @@
-define(function (require) {
-'use strict';
+define(function(require) {
+'use strict'
 
-var spv = require('spv');
-var _updateAttr = require('_updateAttr');
-var runOnApiAdded = require('../dcl/effects/legacy/subscribe/runOnApiAdded');
-var runOnApiRemoved = require('../dcl/effects/legacy/subscribe/runOnApiRemoved');
+var spv = require('spv')
+var _updateAttr = require('_updateAttr')
+var runOnApiAdded = require('../dcl/effects/legacy/subscribe/runOnApiAdded')
+var runOnApiRemoved = require('../dcl/effects/legacy/subscribe/runOnApiRemoved')
 
-var template = function () {
+var template = function() {
   return {
     used: {},
     binders: {
@@ -20,8 +20,8 @@ var template = function () {
       values: {},
       removers: {}
     },
-  };
-};
+  }
+}
 
 var update = function(self, interface_name, value) {
   var name_for_used_legacy = '_api_used_' + interface_name
@@ -30,23 +30,23 @@ var update = function(self, interface_name, value) {
   self._attrs_collector.defineAttr(name_for_used_legacy, 'bool')
   self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
 
-  _updateAttr(self, name_for_used_legacy, value);
-  _updateAttr(self, name_for_used_modern, value);
+  _updateAttr(self, name_for_used_legacy, value)
+  _updateAttr(self, name_for_used_modern, value)
 }
 
-var useInterface = function (self, interface_name, obj, destroy) {
-  var using = self._interfaces_using;
-  var old_interface = using && using.used[interface_name];
+var useInterface = function(self, interface_name, obj, destroy) {
+  var using = self._interfaces_using
+  var old_interface = using && using.used[interface_name]
   if (obj === old_interface) {
-    return;
+    return
   }
 
   if (!using) {
-    using = self._interfaces_using = template();
+    using = self._interfaces_using = template()
   }
 
-  var values_original = spv.cloneObj({}, using.binders.values);
-  using.used[interface_name] = null;
+  var values_original = spv.cloneObj({}, using.binders.values)
+  using.used[interface_name] = null
 
 
   using = runOnApiRemoved(self, using, interface_name, values_original)
@@ -58,21 +58,21 @@ var useInterface = function (self, interface_name, obj, destroy) {
 
   if (!obj) {
     update(self, interface_name, false)
-    return;
+    return
   }
 
-  var values_original2 = spv.cloneObj({}, using.binders.values);
-  using.used[interface_name] = obj;
+  var values_original2 = spv.cloneObj({}, using.binders.values)
+  using.used[interface_name] = obj
   using = runOnApiAdded(self, using, interface_name, values_original2)
   self._interfaces_using = using
 
   update(self, interface_name, Date.now())
 
-};
+}
 
 useInterface.skipAliveCheck = true
 
 return function useInterfaceWrap(self, interface_name, obj, destroy) {
   self.nextTick(useInterface, [self, interface_name, obj, destroy], false, false)
 }
-});
+})

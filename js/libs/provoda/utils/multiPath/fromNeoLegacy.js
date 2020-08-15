@@ -1,5 +1,5 @@
 define(function(require) {
-'use strict';
+'use strict'
 var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
 
 // var NestingSourceDr = require('../../utils/NestingSourceDr');
@@ -68,8 +68,8 @@ return function fromNestingSourceDr(nesting_source) {
     state: {},
     nesting: {
       path: nesting_source.selector,
-      base: parts.slice(0, parts.length-1),
-      target_nest_name: parts[parts.length-1],
+      base: parts.slice(0, parts.length - 1),
+      target_nest_name: parts[parts.length - 1],
     },
     from_base: parsed_start_point.from_base,
     resource: parsed_start_point.resource,

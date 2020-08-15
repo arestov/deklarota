@@ -1,8 +1,8 @@
 define(function(require) {
-'use strict';
+'use strict'
 
-var d_parsers = require('./directives_parsers');
-var config = d_parsers.config;
+var d_parsers = require('./directives_parsers')
+var config = d_parsers.config
 
 var parser = {
   config: config,
@@ -11,7 +11,7 @@ var parser = {
   scope_generators_p: d_parsers.scope_generators_p,
   parse: null,
   parseEasy: null
-};
+}
 
-return parser;
-});
+return parser
+})

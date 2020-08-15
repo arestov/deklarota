@@ -1,22 +1,22 @@
 define(function() {
 'use strict'
-return function indexByDepName (obj) {
+return function indexByDepName(obj) {
   if (!obj) {
-    return;
+    return
   }
-  var result = {};
+  var result = {}
 
   for (var name in obj) {
     if (!obj.hasOwnProperty(name)) {
-      continue;
+      continue
     }
-    var cur = obj[name];
+    var cur = obj[name]
     if (!cur.deps_name) {
-      continue;
+      continue
     }
-    result[cur.deps_name] = cur;
+    result[cur.deps_name] = cur
   }
 
-  return result;
-};
+  return result
+}
 })

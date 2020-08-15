@@ -1,6 +1,6 @@
 
 var test = require('ava')
-var requirejs = require('requirejs');
+var requirejs = require('requirejs')
 require('./require-config')
 
 var list = getList()
@@ -41,7 +41,7 @@ test('modern can be converted and used as legacy', function(t) {
 
 function getList() {
   'use strict'
-  return  [].concat(
+  return [].concat(
     [
       "^auth_token"
     ],

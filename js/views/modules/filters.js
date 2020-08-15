@@ -1,27 +1,27 @@
 define(function() {
-"use strict";
+"use strict"
 var filters = {
   limitTo: function(input, limit) {
-    if (Array.isArray(input)){
-      return input.slice(0, limit);
-    } else if ( typeof input == 'string' ) {
+    if (Array.isArray(input)) {
+      return input.slice(0, limit)
+    } else if (typeof input == 'string') {
       if (limit) {
-        return limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length);
+        return limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length)
       } else {
-        return "";
+        return ""
       }
     } else {
-      return input;
+      return input
     }
   },
   notGIF: function(input) {
-    if (input.lastIndexOf('.gif') == input.length - 4){
-      return;
+    if (input.lastIndexOf('.gif') == input.length - 4) {
+      return
     } else {
-      return input;
+      return input
     }
   }
-};
+}
 
-return filters;
-});
+return filters
+})

@@ -1,59 +1,59 @@
 define(function(require) {
-'use strict';
+'use strict'
 
-var spv = require('spv');
-var angbo = require('angbo');
-var StandartChange = require('./StandartChange');
+var spv = require('spv')
+var angbo = require('angbo')
+var StandartChange = require('./StandartChange')
 var dom_helpers = require('../utils/dom_helpers')
 
-var capitalize = spv.capitalize;
-var startsWith = spv.startsWith;
-var getTargetField = spv.getTargetField;
-var setTargetField = spv.setTargetField;
+var capitalize = spv.capitalize
+var startsWith = spv.startsWith
+var getTargetField = spv.getTargetField
+var setTargetField = spv.setTargetField
 
-var getText = dom_helpers.getText;
-var setText = dom_helpers.setText;
+var getText = dom_helpers.getText
+var setText = dom_helpers.setText
 
 
-var DOT = '.';
-var regxp_complex_spaces = /(^\s+)|(\s+$)|(\s{2,})/gi;
-var regxp_spaces = /\s+/gi;
+var DOT = '.'
+var regxp_complex_spaces = /(^\s+)|(\s+$)|(\s{2,})/gi
+var regxp_spaces = /\s+/gi
 
 var convertFieldname = function(prop_name) {
-  var parts = prop_name.replace(/^-/, '').split('-');
-  if (parts.length > 1){
+  var parts = prop_name.replace(/^-/, '').split('-')
+  if (parts.length > 1) {
     for (var i = 1; i < parts.length; i++) {
-      parts[i] = capitalize(parts[i]);
+      parts[i] = capitalize(parts[i])
     }
   }
-  return parts.join('');
-};
+  return parts.join('')
+}
 var createPropChange = (function() {
   var getValue = function(node, prop) {
-    return getTargetField(node, prop);
-  };
+    return getTargetField(node, prop)
+  }
   var setValue = function(node, value, old_value, wwtch) {
-    var prop = wwtch.data;
-    var new_value = value || '';
+    var prop = wwtch.data
+    var new_value = value || ''
 
     if (!wwtch.standch.needs_recheck) {
-      return setTargetField(node, prop, new_value);
+      return setTargetField(node, prop, new_value)
     }
 
-    var current_value = getTargetField(node, prop);
+    var current_value = getTargetField(node, prop)
     if (current_value == new_value) {
-      return;
+      return
     }
 
-    return setTargetField(node, prop, value || '');
-  };
+    return setTargetField(node, prop, value || '')
+  }
 
   return function(node, prop, statement, directive_name) {
-    var parts = prop.split(DOT);
+    var parts = prop.split(DOT)
     for (var i = 0; i < parts.length; i++) {
-      parts[i] = convertFieldname(parts[i]);
+      parts[i] = convertFieldname(parts[i])
     }
-    prop = parts.join(DOT);
+    prop = parts.join(DOT)
 
     var needs_recheck = prop == 'value'
     // we should avoid reading dom. it could be perfomance problem, but
@@ -67,58 +67,58 @@ var createPropChange = (function() {
       statement: statement,
       getValue: getValue,
       setValue: setValue
-    }, directive_name);
-  };
-})();
+    }, directive_name)
+  }
+})()
 
 
 
 
 
-var regxp_props_com = /\S[\S\s]*?\:[\s]*?\{\{[\S\s]+?\}\}/gi;
-var regxp_props_com_soft = /\S[\S\s]*?\:[\s]*?(?:\{\{[\S\s]+?\}\})|(?:\S+?(\s|$))/gi;
-var regxp_props_spaces = /^\s*|s*?$/;
-var regxp_props_coms_part = /\s*\:\s*?(?=\{\{)/;
-var regxp_props_statement = /(^\{\{)|(\}\}$)/gi;
+var regxp_props_com = /\S[\S\s]*?\:[\s]*?\{\{[\S\s]+?\}\}/gi
+var regxp_props_com_soft = /\S[\S\s]*?\:[\s]*?(?:\{\{[\S\s]+?\}\})|(?:\S+?(\s|$))/gi
+var regxp_props_spaces = /^\s*|s*?$/
+var regxp_props_coms_part = /\s*\:\s*?(?=\{\{)/
+var regxp_props_statement = /(^\{\{)|(\}\}$)/gi
 
-var getFieldsTreesBases = StandartChange.getFieldsTreesBases;
+var getFieldsTreesBases = StandartChange.getFieldsTreesBases
 
 var getIndexList = function(obj, arr) {
-  var result = arr || [];
+  var result = arr || []
   for (var prop in obj) {
-    result.push( prop );
+    result.push(prop)
   }
-  return result;
-};
+  return result
+}
 
 function multipleParts(createChange) {
   return function(node, full_declaration, directive_name) {
     // example:
     //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
-    var result = [];
-    var complex_value = full_declaration;
-    var complects = complex_value.match(regxp_props_com);
+    var result = []
+    var complex_value = full_declaration
+    var complects = complex_value.match(regxp_props_com)
     for (var i = 0; i < complects.length; i++) {
-      complects[i] = complects[i].replace(regxp_props_spaces,'').split(regxp_props_coms_part);
-      var prop = complects[i][0];
-      var statement = complects[i][1] && complects[i][1].replace(regxp_props_statement,'');
+      complects[i] = complects[i].replace(regxp_props_spaces,'').split(regxp_props_coms_part)
+      var prop = complects[i][0]
+      var statement = complects[i][1] && complects[i][1].replace(regxp_props_statement,'')
 
-      if (!prop || !statement){
-        throw new Error('wrong declaration: ' + complex_value);
+      if (!prop || !statement) {
+        throw new Error('wrong declaration: ' + complex_value)
         //return;
       }
-      var item = createChange(node, prop, statement, prop + '$' + directive_name);
-      if (item){
-        result.push(item);
+      var item = createChange(node, prop, statement, prop + '$' + directive_name)
+      if (item) {
+        result.push(item)
       }
 
     }
-    return result;
+    return result
   }
 }
 
 return {
-  config: (function(){
+  config: (function() {
     var config = {
       one_parse: {
         'pv-import': true,
@@ -159,92 +159,92 @@ return {
         'pv-importable': true
       },
       comment_directives_names_list: [],
-    };
+    }
 
-    getIndexList(config.directives, config.directives_names_list);
+    getIndexList(config.directives, config.directives_names_list)
     //порядок директив важен, по идее
     //должен в результате быть таким каким он задекларирован
 
-    getIndexList(config.scope_generators, config.scope_g_list);
+    getIndexList(config.scope_generators, config.scope_g_list)
     //порядок директив важен, по идее
     //должен в результате быть таким каким он задекларирован
 
-    getIndexList(config.states_using_directives, config.sud_list);
+    getIndexList(config.states_using_directives, config.sud_list)
 
-    getIndexList(config.comment_directives, config.comment_directives_names_list);
+    getIndexList(config.comment_directives, config.comment_directives_names_list)
 
-    getIndexList(config.one_parse, config.one_parse_list);
-    getIndexList(config.pseudo, config.pseudo_list);
+    getIndexList(config.one_parse, config.one_parse_list)
+    getIndexList(config.pseudo, config.pseudo_list)
 
-    return config;
+    return config
   })(),
   getIndexList: getIndexList,
   getFieldsTreesBases: getFieldsTreesBases,
   comment_directives_p: {
     'pv-replace': function(node, full_declaration, directive_name, getSample) {
-      var index = {};
-      var complex_value = full_declaration;
-      var complects = complex_value.match( regxp_props_com_soft );
+      var index = {}
+      var complex_value = full_declaration
+      var complects = complex_value.match(regxp_props_com_soft)
 
       for (var i = 0; i < complects.length; i++) {
-        complects[i] = complects[i].replace( regxp_props_spaces, '' );
-        var splitter_index = complects[i].indexOf(':');
+        complects[i] = complects[i].replace(regxp_props_spaces, '')
+        var splitter_index = complects[i].indexOf(':')
 
-        var prop = complects[i].slice( 0, splitter_index );
-        var statement = complects[i].slice( splitter_index + 1 ).replace( regxp_props_statement, '' );
+        var prop = complects[i].slice(0, splitter_index)
+        var statement = complects[i].slice(splitter_index + 1).replace(regxp_props_statement, '')
 
-        if (!prop || !statement){
-          throw new Error('wrong declaration: ' + complex_value);
+        if (!prop || !statement) {
+          throw new Error('wrong declaration: ' + complex_value)
         }
-        index[prop] = statement;
+        index[prop] = statement
       }
 
-      return index;
+      return index
     }
   },
   directives_p: {
     'pv-text': (function() {
       var getTextValue = function(node) {
-        return getText(node);
-      };
+        return getText(node)
+      }
       var setTextValue = function(node, new_value) {
         return setText(node, new_value)
-      };
+      }
       return function(node, full_declaration, directive_name) {
         return new StandartChange(node, {
           complex_statement: full_declaration,
           getValue: getTextValue,
           setValue: setTextValue
-        }, directive_name);
-      };
+        }, directive_name)
+      }
     })(),
     'pv-class': (function() {
       var getClassName = function(node, class_name) {
-        return node.classList.contains(class_name);
-      };
+        return node.classList.contains(class_name)
+      }
       var setClassName = function(node, new_value, old, wwtch) {
-        var class_name = wwtch.data;
+        var class_name = wwtch.data
         if (new_value) {
-          node.classList.add(class_name);
+          node.classList.add(class_name)
         } else {
-          node.classList.remove(class_name);
+          node.classList.remove(class_name)
         }
 
-      };
+      }
 
-      var exp = /\S+\s*\:\s*(\{\{.+?\}\}|\S+)/gi;
-      var two_part = /(\S+)\s*\:\s*(?:\{\{(.+?)\}\}|(\S+))/;
+      var exp = /\S+\s*\:\s*(\{\{.+?\}\}|\S+)/gi
+      var two_part = /(\S+)\s*\:\s*(?:\{\{(.+?)\}\}|(\S+))/
       return function(node, full_declaration, directive_name) {
-        var statements = full_declaration.match(exp);
-        if (!statements.length) { return; }
+        var statements = full_declaration.match(exp)
+        if (!statements.length) { return }
 
-        var result = [];
+        var result = []
         for (var i = statements.length - 1; i >= 0; i--) {
-          var parts = statements[i].match(two_part);
-          var class_name = parts[1];
-          var condition = parts[2] || parts[3];
+          var parts = statements[i].match(two_part)
+          var class_name = parts[1]
+          var condition = parts[2] || parts[3]
           if (!class_name || !condition) {
-            throw new Error('wrong statement: ' + statements[i]);
+            throw new Error('wrong statement: ' + statements[i])
           }
 
           result.push(new StandartChange(node, {
@@ -253,42 +253,42 @@ return {
             getValue: getClassName,
             setValue: setClassName,
             simplifyValue: Boolean
-          }, class_name + '$' + directive_name));
+          }, class_name + '$' + directive_name))
 
         }
 
-        return result;
-      };
+        return result
+      }
     })(),
     'pv-props': multipleParts(createPropChange),
     'pv-when': function(node, full_declaration, directive_name) {
-      if (!full_declaration){
-        return;
+      if (!full_declaration) {
+        return
       }
-      return full_declaration;
+      return full_declaration
     },
     'pv-type': (function() {
       var getPVTypes = function() {
-        return '';
-      };
+        return ''
+      }
 
-      var setPVTypes = function(node, new_value, ov, wwtch){
-        var types = new_value.split(regxp_spaces);
-        wwtch.pv_type_data.marks = {};
+      var setPVTypes = function(node, new_value, ov, wwtch) {
+        var types = new_value.split(regxp_spaces)
+        wwtch.pv_type_data.marks = {}
         for (var i = 0; i < types.length; i++) {
-          if (types[i]){
-            wwtch.pv_type_data.marks[types[i]] = true;
+          if (types[i]) {
+            wwtch.pv_type_data.marks[types[i]] = true
           }
         }
 
-        wwtch.context._pvTypesChange();
-      };
+        wwtch.context._pvTypesChange()
+      }
 
       return function(node, full_declaration, directive_name) {
-        if (!full_declaration){
-          return;
+        if (!full_declaration) {
+          return
         }
-        full_declaration = hlpSimplifyValue(full_declaration);
+        full_declaration = hlpSimplifyValue(full_declaration)
 
         //если pv-types не требует постоянных вычислений (не зависит ни от одного из состояний)
         //то использующие шаблон ноды могут выдавать общий результирующий объект - это нужно реализовать fixme
@@ -298,17 +298,17 @@ return {
           getValue: getPVTypes,
           setValue: setPVTypes,
           simplifyValue: hlpSimplifyValue
-        }, directive_name);
-      };
+        }, directive_name)
+      }
     })(),
-    'pv-events': (function(){
+    'pv-events': (function() {
         var createPVEventData = function(event_name, data, event_opts) {
 
-        event_opts = event_opts && event_opts.split(',');
-        var event_handling = {};
-        if (event_opts){
+        event_opts = event_opts && event_opts.split(',')
+        var event_handling = {}
+        if (event_opts) {
           for (var i = 0; i < event_opts.length; i++) {
-            event_handling[event_opts[i]] = true;
+            event_handling[event_opts[i]] = true
           }
         }
 
@@ -316,86 +316,86 @@ return {
         return {
           event_name: event_name,
           fn: function(e, context) {
-            if (event_handling.sp){
-              e.stopPropagation();
+            if (event_handling.sp) {
+              e.stopPropagation()
             }
-            if (event_handling.pd){
-              e.preventDefault();
+            if (event_handling.pd) {
+              e.preventDefault()
             }
-            context.callEventCallback(this, e, data.slice());
+            context.callEventCallback(this, e, data.slice())
           }
-        };
-      };
+        }
+      }
 
 
       var createEventParams = function(array) {
         for (var i = 0; i < array.length; i++) {
-          var cur = array[i];
+          var cur = array[i]
           if (cur.indexOf('{{') != -1) {
-            array[i] = angbo.interpolateExpressions( cur );
+            array[i] = angbo.interpolateExpressions(cur)
           }
         }
-        return array;
-      };
+        return array
+      }
 
       return function(node, full_declaration) {
         /*
         click:Callback
         mousemove|sp,pd:MovePoints
         */
-        var result = [];
-        var declarations = full_declaration.split(regxp_spaces);
+        var result = []
+        var declarations = full_declaration.split(regxp_spaces)
         for (var i = 0; i < declarations.length; i++) {
-          var cur = declarations[i].split(':');
-          var dom_event = cur.shift();
-          var decr_parts =  dom_event.split('|');
+          var cur = declarations[i].split(':')
+          var dom_event = cur.shift()
+          var decr_parts = dom_event.split('|')
 
 
 
-          result.push(createPVEventData(decr_parts[0], createEventParams(cur), decr_parts[1]));
+          result.push(createPVEventData(decr_parts[0], createEventParams(cur), decr_parts[1]))
         }
-        return result;
-      };
+        return result
+      }
     })()
   },
   scope_generators_p: {
     'pv-nest': function(node, full_declaration) {
-      var attr_value = full_declaration;
+      var attr_value = full_declaration
 
-      var filter_parts = attr_value.split('|');
+      var filter_parts = attr_value.split('|')
 
-      var filterFn;
-      if (filter_parts[1]){
-        var calculator = angbo.parseExpression('obj |' + filter_parts[1]);
+      var filterFn
+      if (filter_parts[1]) {
+        var calculator = angbo.parseExpression('obj |' + filter_parts[1])
         filterFn = function(array) {
-          return calculator({obj: array});
-        };
+          return calculator({obj: array})
+        }
       }
 
-      var parts = filter_parts[0].split(/\s+/gi);
+      var parts = filter_parts[0].split(/\s+/gi)
       var for_model,
         coll_name,
         controller_name,
-        space;
+        space
 
       for (var i = 0; i < parts.length; i++) {
 
-        var cur_part = parts[i];
-        if (!cur_part){
-          continue;
+        var cur_part = parts[i]
+        if (!cur_part) {
+          continue
         }
 
-        if (startsWith(cur_part, 'for_model:')){
-          for_model = cur_part.slice('for_model:'.length);
+        if (startsWith(cur_part, 'for_model:')) {
+          for_model = cur_part.slice('for_model:'.length)
         } else if (startsWith(cur_part, 'controller:')) {
-          controller_name = cur_part.slice('controller:'.length);
+          controller_name = cur_part.slice('controller:'.length)
         } else {
-          var space_parts = cur_part.split(':');
-          if (!coll_name){
-            coll_name = space_parts[0];
+          var space_parts = cur_part.split(':')
+          if (!coll_name) {
+            coll_name = space_parts[0]
           }
-          if (!space){
-            space = space_parts[1] || '';
+          if (!space) {
+            space = space_parts[1] || ''
           }
         }
 
@@ -407,32 +407,32 @@ return {
         controller_name: controller_name,
         space: space,
         filterFn: filterFn
-      };
+      }
     },
     'pv-repeat': function(node, full_declaration) {
 
       //start of angular.js code
-      var expression = full_declaration;//attr.ngRepeat;
+      var expression = full_declaration//attr.ngRepeat;
       var match = expression.match(/^\s*(.+)\s+in\s+(.*)\s*$/),
-        lhs, rhs, valueIdent, keyIdent;
-      if (! match) {
+        lhs, rhs, valueIdent, keyIdent
+      if (!match) {
         throw new Error("Expected ngRepeat in form of '_item_ in _collection_' but got '" +
-        expression + "'.");
+        expression + "'.")
       }
-      lhs = match[1];
-      rhs = match[2];
-      match = lhs.match(/^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/);
+      lhs = match[1]
+      rhs = match[2]
+      match = lhs.match(/^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/)
       if (!match) {
         throw new Error("'item' in 'item in collection' should be identifier or (key, value) but got '" +
-        lhs + "'.");
+        lhs + "'.")
       }
-      valueIdent = match[3] || match[1];
-      keyIdent = match[2];
+      valueIdent = match[3] || match[1]
+      keyIdent = match[2]
       //end of angular.js code
 
-      var calculator = angbo.parseExpression(rhs);
-      var all_values = calculator.propsToWatch;
-      var sfy_values = getFieldsTreesBases(all_values);
+      var calculator = angbo.parseExpression(rhs)
+      var all_values = calculator.propsToWatch
+      var sfy_values = getFieldsTreesBases(all_values)
 
       return {
         expression: expression,
@@ -440,31 +440,31 @@ return {
         keyIdent: keyIdent,
         calculator: calculator,
         sfy_values: sfy_values
-      };
+      }
     }
   }
-};
+}
 
 
 function hlpFixStringSpaces(str, p1, p2, p3) {
-  if (p1 || p2){
-    return '';
+  if (p1 || p2) {
+    return ''
   }
-  if (p3){
-    return ' ';
+  if (p3) {
+    return ' '
   }
-  return '';
+  return ''
   //console.log(arguments);
 }
 
 function hlpSimplifyValue(value) {
   //this is optimization!
-  if (!value){
-    return value;
+  if (!value) {
+    return value
   }
-  return value.replace(regxp_complex_spaces, hlpFixStringSpaces);
+  return value.replace(regxp_complex_spaces, hlpFixStringSpaces)
   // regxp_edge_spaces: /^\s+|\s+$/gi,
   //return value.replace(regxp_spaces,' ').replace(regxp_edge_spaces,'');
 }
 
-});
+})

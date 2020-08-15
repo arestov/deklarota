@@ -1,6 +1,6 @@
-define(function (require) {
-'use strict';
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate');
+define(function(require) {
+'use strict'
+var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
 var initBWlev = require('./initBWlev')
 
 var getConstr = function(map, model_name) {
@@ -9,25 +9,25 @@ var getConstr = function(map, model_name) {
   } catch (e) {}
 }
 
-return function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_num, map){
-  var cache = parent_bwlev && parent_bwlev.children_bwlevs;
-  var key = md._provoda_id;
+return function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_num, map) {
+  var cache = parent_bwlev && parent_bwlev.children_bwlevs
+  var key = md._provoda_id
   if (cache && cache[key]) {
-    return cache[key];
+    return cache[key]
   }
 
   if (!BrowseLevel) {
-    throw new Error('provide BrowseLevel constructor');
+    throw new Error('provide BrowseLevel constructor')
   }
 
   var Constr = map && getConstr(map, md.model_name)
   var bwlev = initBWlev(Constr || map.app.CBWL, md, probe_name, map_level_num, map, parent_bwlev)
 
   if (cache) {
-    cache[key] = bwlev;
+    cache[key] = bwlev
   };
 
-  return bwlev;
-};
+  return bwlev
+}
 
-});
+})

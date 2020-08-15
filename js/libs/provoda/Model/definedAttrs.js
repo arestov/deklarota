@@ -1,6 +1,6 @@
 define(function() {
 'use strict'
-var push = Array.prototype.push;
+var push = Array.prototype.push
 
 return function(self) {
   if (self.__defined_attrs_bool) {

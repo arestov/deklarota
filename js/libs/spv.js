@@ -1,6 +1,6 @@
 define(function(require) {
-"use strict";
-var spv = {};
+"use strict"
+var spv = {}
 
 var cloneObj = require('./spv/cloneObj.js')
 var memorize = require('./spv/memorize')
@@ -10,711 +10,711 @@ var inh = require('./spv/inh')
 
 var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
 getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,
-  debounce, throttle;
+  debounce, throttle
 if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function (obj, start) {
+  Array.prototype.indexOf = function(obj, start) {
     for (var i = (start || 0); i < this.length; i++) {
       if (this[i] == obj) {
-        return i;
+        return i
       }
     }
-    return -1;
-  };
+    return -1
+  }
 }
 spv.getArrayNoDubs = function(array, clean_array) {
-  clean_array = clean_array || [];
+  clean_array = clean_array || []
   for (var i = 0; i < array.length; i++) {
-    if (clean_array.indexOf( array[i] ) == -1){
-      clean_array.push( array[i] );
+    if (clean_array.indexOf(array[i]) == -1) {
+      clean_array.push(array[i])
     }
   }
-  return clean_array;
-};
+  return clean_array
+}
 
 spv.once = function(fn) {
-  var result;
-  return function(){
-    if (fn){
-      var fnn = fn;
-      fn = null;
-      return (result = fnn.apply(this, arguments));
+  var result
+  return function() {
+    if (fn) {
+      var fnn = fn
+      fn = null
+      return (result = fnn.apply(this, arguments))
     } else {
-      return result;
+      return result
     }
-  };
-};
+  }
+}
 
 spv.mapfn = function(func) {
   return function(array) {
-    if (!array) {return array;}
-    var result = new Array(array.length);
+    if (!array) {return array}
+    var result = new Array(array.length)
     for (var i = 0; i < array.length; i++) {
-      result[i] = func(array[i], i);
+      result[i] = func(array[i], i)
     }
-    return result;
-  };
-};
+    return result
+  }
+}
 
-var hasArg = function(el) {return el;};
+var hasArg = function(el) {return el}
 spv.hasEveryArgs = function() {
-  return Array.prototype.every.call(arguments, hasArg);
-};
+  return Array.prototype.every.call(arguments, hasArg)
+}
 spv.getExistingItems = function(arr) {
-  var result = [];
+  var result = []
   for (var i = 0; i < arr.length; i++) {
-    if (arr[i]){
-      result.push(arr[i]);
+    if (arr[i]) {
+      result.push(arr[i])
     }
   }
-  return result;
-};
+  return result
+}
 
 if (typeof window !== 'undefined') {
   addEvent = spv.addEvent = window.addEventListener ?
-  function(elem, evType, fn){
-    elem.addEventListener(evType, fn, false);
-    return fn;
-  }:
-  function(elem, evType, fn){
-    elem.attachEvent('on' + evType, fn);
-    return fn;
-  };
+  function(elem, evType, fn) {
+    elem.addEventListener(evType, fn, false)
+    return fn
+  } :
+  function(elem, evType, fn) {
+    elem.attachEvent('on' + evType, fn)
+    return fn
+  }
   removeEvent = spv.removeEvent = window.addEventListener ?
-  function(elem, evType, fn){
-    if (!elem.removeEventListener){
-      return;
+  function(elem, evType, fn) {
+    if (!elem.removeEventListener) {
+      return
     }
-    elem.removeEventListener(evType, fn, false);
-  }:
-  function(elem, evType, fn){
-    if (!elem.detachEvent){
-      return;
+    elem.removeEventListener(evType, fn, false)
+  } :
+  function(elem, evType, fn) {
+    if (!elem.detachEvent) {
+      return
     }
-    elem.detachEvent('on' + evType, fn);
-  };
+    elem.detachEvent('on' + evType, fn)
+  }
 
-  spv.listenEvent = function (elem, evType, fn) {
-    addEvent(elem, evType, fn);
-    return function () {
-      removeEvent(elem, evType, fn);
-    };
-  };
+  spv.listenEvent = function(elem, evType, fn) {
+    addEvent(elem, evType, fn)
+    return function() {
+      removeEvent(elem, evType, fn)
+    }
+  }
 }
 
 spv.getDefaultView = function(d) {
-  return d.defaultView || d.parentWindow;
-};
+  return d.defaultView || d.parentWindow
+}
 
-spv.domReady = function(d, callback){
-  var wndw = spv.getDefaultView(d);
-  if (!wndw){
-    return;
+spv.domReady = function(d, callback) {
+  var wndw = spv.getDefaultView(d)
+  if (!wndw) {
+    return
   }
-  if (d.readyState == 'complete' || d.readyState == 'loaded' || d.readyState == "interactive"){
-    callback();
+  if (d.readyState == 'complete' || d.readyState == 'loaded' || d.readyState == "interactive") {
+    callback()
   } else{
-    var done;
-    var f = function(){
-      if (!done){
-        done = true;
-        spv.removeEvent(wndw, 'load', f);
-        spv.removeEvent(d, 'DOMContentLoaded', f);
-        callback();
+    var done
+    var f = function() {
+      if (!done) {
+        done = true
+        spv.removeEvent(wndw, 'load', f)
+        spv.removeEvent(d, 'DOMContentLoaded', f)
+        callback()
       }
-    };
-    spv.addEvent(wndw, 'load', f);
-    spv.addEvent(d, 'DOMContentLoaded', f);
+    }
+    spv.addEvent(wndw, 'load', f)
+    spv.addEvent(d, 'DOMContentLoaded', f)
   }
-};
+}
 
-spv.doesContain = function(target, valueOf){
-  var cached_t_value = valueOf ? valueOf.call(target) : (target.valueOf());
+spv.doesContain = function(target, valueOf) {
+  var cached_t_value = valueOf ? valueOf.call(target) : (target.valueOf())
 
-  for (var i=0; i < this.length; i++) {
-    if (valueOf){
-      if (valueOf.call(this[i]) == cached_t_value){
-        return i;
+  for (var i = 0; i < this.length; i++) {
+    if (valueOf) {
+      if (valueOf.call(this[i]) == cached_t_value) {
+        return i
       }
     } else{
-      if (this[i].valueOf() == cached_t_value){
-        return i;
+      if (this[i].valueOf() == cached_t_value) {
+        return i
       }
     }
 
 
   }
-  return -1;
-};
+  return -1
+}
 spv.hasCommonItems = function(arr1, arr2) {
-  if (!arr2){
-    return false;
+  if (!arr2) {
+    return false
   }
   for (var i = 0; i < arr1.length; i++) {
-    if (arr2.indexOf(arr1[i]) != -1){
-      return true;
+    if (arr2.indexOf(arr1[i]) != -1) {
+      return true
     }
   }
-  return false;
-};
+  return false
+}
 
 
 var arExclSimple = function(result, arr, obj) {
   for (var i = 0; i < arr.length; i++) {
     if (arr[i] !== obj) {
-      result.push(arr[i]);
+      result.push(arr[i])
     }
   }
-  return result;
-};
+  return result
+}
 var arExclComplex = function(result, arr, obj) {
   for (var i = 0; i < arr.length; i++) {
-    if (obj.indexOf(arr[i]) == -1){
-      result.push(arr[i]);
+    if (obj.indexOf(arr[i]) == -1) {
+      result.push(arr[i])
     }
   }
-  return result;
-};
+  return result
+}
 
-spv.arrayExclude = function arrayExclude(arr, obj){
-  var r = [];
-  if (!arr){
-    return r;
+spv.arrayExclude = function arrayExclude(arr, obj) {
+  var r = []
+  if (!arr) {
+    return r
   }
 
-  if (Array.isArray(obj)){
-    return arExclComplex(r, arr, obj);
+  if (Array.isArray(obj)) {
+    return arExclComplex(r, arr, obj)
   } else {
-    return arExclSimple(r, arr, obj);
+    return arExclSimple(r, arr, obj)
   }
-};
+}
 
 spv.shuffleArray = function(obj) {
-  var shuffled = [], rand, value;
+  var shuffled = [], rand, value
   for (var index = 0; index < obj.length; index++) {
-    value = obj[index];
-    rand = Math.floor(Math.random() * (index + 1));
-    shuffled[index] = shuffled[rand];
-    shuffled[rand] = value;
+    value = obj[index]
+    rand = Math.floor(Math.random() * (index + 1))
+    shuffled[index] = shuffled[rand]
+    shuffled[rand] = value
   }
-  return shuffled;
-};
+  return shuffled
+}
 
 spv.memorize = memorize
 
 var splitByDot = spv.memorize(function splitByDot(string) {
-  return string.split('.');
+  return string.split('.')
 })
-spv.splitByDot = splitByDot;
+spv.splitByDot = splitByDot
 
 var getFieldsTree = function getFieldsTree(string) {
-  if (Array.isArray(string)){
-    return string;
+  if (Array.isArray(string)) {
+    return string
   } else {
-    return splitByDot(string);
+    return splitByDot(string)
   }
-};
-spv.getFieldsTree = getFieldsTree;
+}
+spv.getFieldsTree = getFieldsTree
 
-getTargetField = function getTargetField(obj, path){
-  if (!path) {return obj;}
+getTargetField = function getTargetField(obj, path) {
+  if (!path) {return obj}
 
-  var tree = getFieldsTree(path);
-  var target = obj;
-  for (var i=0; i < tree.length; i++) {
-    if (target[tree[i]] != null){
-      target = target[tree[i]];
+  var tree = getFieldsTree(path)
+  var target = obj
+  for (var i = 0; i < tree.length; i++) {
+    if (target[tree[i]] != null) {
+      target = target[tree[i]]
     } else{
-      return;
+      return
     }
   }
-  return target;
-};
+  return target
+}
 
-getFields = function(obj, fields){
-  var r = [];
-  for (var i=0; i < fields.length; i++) {
-    var cur = fields[i];
+getFields = function(obj, fields) {
+  var r = []
+  for (var i = 0; i < fields.length; i++) {
+    var cur = fields[i]
 
-    var value = (typeof cur == 'function') ? cur(obj) : getTargetField(obj, cur);
-    if (value){
-      r.push(value);
+    var value = (typeof cur == 'function') ? cur(obj) : getTargetField(obj, cur)
+    if (value) {
+      r.push(value)
     }
   }
-  return r;
-};
+  return r
+}
 spv.getDiffObj = function(one, two) {
   var
     i,
     diff = {},
-    all_props = {};
+    all_props = {}
 
-  for (i in one){
-    all_props[i] = true;
+  for (i in one) {
+    all_props[i] = true
   }
-  for (i in two){
-    all_props[i] = true;
+  for (i in two) {
+    all_props[i] = true
   }
 
-  for (i in all_props){
-    if (one[i] !== two[i]){
-      diff[i] = two[i];
+  for (i in all_props) {
+    if (one[i] !== two[i]) {
+      diff[i] = two[i]
     }
   }
-  return diff;
-};
+  return diff
+}
 
-spv.matchWords = function(source, query){
-  var words = query.split(/[\s\.\—\-\—\–\_\|\+\(\)\*\&\!\?\@\,\\\/\❤\♡\'\"\[\]]+/gi);
-  var r = {};
-  if (words.length){
-    r.forward = true;
-    var any_order = true;
-    var source_sliced = source;
+spv.matchWords = function(source, query) {
+  var words = query.split(/[\s\.\—\-\—\–\_\|\+\(\)\*\&\!\?\@\,\\\/\❤\♡\'\"\[\]]+/gi)
+  var r = {}
+  if (words.length) {
+    r.forward = true
+    var any_order = true
+    var source_sliced = source
     for (var i = 0; i < words.length; i++) {
-      var index = source_sliced.indexOf(words[i]);
-      if (index != -1){
-        source_sliced.slice(index + words[i].length);
+      var index = source_sliced.indexOf(words[i])
+      if (index != -1) {
+        source_sliced.slice(index + words[i].length)
       } else {
-        r.forward = false;
-        break;
+        r.forward = false
+        break
       }
     }
-    if (!r.forward){
+    if (!r.forward) {
       for (var i = 0; i < words.length; i++) {
-        if (source.indexOf(words[i]) == -1){
-          any_order = false;
-          break;
+        if (source.indexOf(words[i]) == -1) {
+          any_order = false
+          break
         }
       }
     }
-    r.any = any_order;
+    r.any = any_order
   }
-  return r;
-};
+  return r
+}
 
-spv.searchInArray = function (array, query, fields) {
-  query = getStringPattern(query);
-  var r,i,cur;
+spv.searchInArray = function(array, query, fields) {
+  query = getStringPattern(query)
+  var r,i,cur
 
-  if (query){
-    r = [];
+  if (query) {
+    r = []
 
-    if (fields){
-      for (i=0; i < array.length; i++) {
-        cur = array[i];
-        var fields_values = getFields(cur, fields);
-        if (fields_values.join(' ').search(query) > -1){
-          r.push(cur);
+    if (fields) {
+      for (i = 0; i < array.length; i++) {
+        cur = array[i]
+        var fields_values = getFields(cur, fields)
+        if (fields_values.join(' ').search(query) > -1) {
+          r.push(cur)
         }
 
       }
     } else{
-      for (i=0; i < array.length; i++) {
-        cur = array[i];
-        if (typeof cur == 'string' && cur.search(query) > -1){
-          r.push(cur);
+      for (i = 0; i < array.length; i++) {
+        cur = array[i]
+        if (typeof cur == 'string' && cur.search(query) > -1) {
+          r.push(cur)
         }
       }
     }
   }
-  return r;
-};
-var regexp_escaper = /([$\^*()+\[\]{}|.\/?\\])/g;
+  return r
+}
+var regexp_escaper = /([$\^*()+\[\]{}|.\/?\\])/g
 var escapeRegExp = function(str, clean) {
-  if (clean){
-    str = str.replace(/\s+/g, ' ').replace(/(^\s)|(\s$)/g, ''); //removing spaces
+  if (clean) {
+    str = str.replace(/\s+/g, ' ').replace(/(^\s)|(\s$)/g, '') //removing spaces
   }
-  return str.replace(regexp_escaper, '\\$1'); //escaping regexp symbols
-};
+  return str.replace(regexp_escaper, '\\$1') //escaping regexp symbols
+}
 
-spv.escapeRegExp = escapeRegExp;
+spv.escapeRegExp = escapeRegExp
 
-getStringPattern = function (str) {
-  if (str.replace(/\s/g, '')){
+getStringPattern = function(str) {
+  if (str.replace(/\s/g, '')) {
 
-    str = escapeRegExp(str, true).split(/\s/g);
-    for (var i=0; i < str.length; i++) {
-      str[i] = '((^\|\\s)' + str[i] + ')';
+    str = escapeRegExp(str, true).split(/\s/g)
+    for (var i = 0; i < str.length; i++) {
+      str[i] = '((^\|\\s)' + str[i] + ')'
     }
-    str = str.join('|');
+    str = str.join('|')
 
-    return new RegExp(str, 'gi');
+    return new RegExp(str, 'gi')
   }
-};
-spv.getStringPattern = getStringPattern;
+}
+spv.getStringPattern = getStringPattern
 
-spv.collapseAll = function(){
-  var r= [];
-  for (var i=0; i < arguments.length; i++) {
-    var c = arguments[i];
-    if (Array.isArray(c)){
-      for (var ii=0; ii < c.length; ii++) {
-        if (r.indexOf(c[ii]) == -1){
-          r.push(c[ii]);
+spv.collapseAll = function() {
+  var r = []
+  for (var i = 0; i < arguments.length; i++) {
+    var c = arguments[i]
+    if (Array.isArray(c)) {
+      for (var ii = 0; ii < c.length; ii++) {
+        if (r.indexOf(c[ii]) == -1) {
+          r.push(c[ii])
         }
 
       }
     } else {
-      if (r.indexOf(c) == -1){
-        r.push(c);
+      if (r.indexOf(c) == -1) {
+        r.push(c)
       }
     }
   }
-  return r;
-};
+  return r
+}
 
-toRealArray = spv.toRealArray = function toRealArray(array, check_field){
-  if (Array.isArray(array)){
-    return array;
-  } else if (array && (typeof array == 'object') && array.length){
-    return Array.prototype.slice.call(array);
-  } else if (array && (!check_field || getTargetField(array, check_field))){
-    return [array];
+toRealArray = spv.toRealArray = function toRealArray(array, check_field) {
+  if (Array.isArray(array)) {
+    return array
+  } else if (array && (typeof array == 'object') && array.length) {
+    return Array.prototype.slice.call(array)
+  } else if (array && (!check_field || getTargetField(array, check_field))) {
+    return [array]
   } else{
-    return [];
+    return []
   }
-};
+}
 
 spv.f = {
-  allOf: function(){
+  allOf: function() {
     // logical `and`, return last result of stop
-    var i = 0;
-    var args = new Array(arguments.length - 1);
+    var i = 0
+    var args = new Array(arguments.length - 1)
     for (i = 1; i < arguments.length; i++) {
-      args[ i - 1 ]= arguments[i];
+      args[ i - 1 ] = arguments[i]
     }
 
-    return function (){
-      var result;
+    return function() {
+      var result
       for (var i = 0; i < args.length; i++) {
-        result = args[i].apply(this, arguments);
+        result = args[i].apply(this, arguments)
         if (!result) {
-          return result;
+          return result
         }
       }
-      return result;
-    };
+      return result
+    }
   },
-  firstOf: function(){
+  firstOf: function() {
     // logical `or`, return first result of stop
-    var i = 0;
-    var args = new Array(arguments.length - 1);
+    var i = 0
+    var args = new Array(arguments.length - 1)
     for (i = 1; i < arguments.length; i++) {
-      args[ i - 1 ]= arguments[i];
+      args[ i - 1 ] = arguments[i]
     }
 
-    return function (){
-      var result;
+    return function() {
+      var result
       for (var i = 0; i < args.length; i++) {
-        result = args[i].apply(this, arguments);
+        result = args[i].apply(this, arguments)
         if (result) {
-          return result;
+          return result
         }
       }
-      return result;
-    };
+      return result
+    }
   },
-};
+}
 var setTargetField = function(obj, tree, value) {
-  tree = getFieldsTree(tree);
-  var cur_obj = obj;
-  for (var i=0; i < tree.length; i++) {
-    var cur = tree[i];
-    if (i != tree.length -1){
-      var target = cur_obj[cur];
-      if (!target){
-        target = cur_obj[cur] = {};
+  tree = getFieldsTree(tree)
+  var cur_obj = obj
+  for (var i = 0; i < tree.length; i++) {
+    var cur = tree[i]
+    if (i != tree.length - 1) {
+      var target = cur_obj[cur]
+      if (!target) {
+        target = cur_obj[cur] = {}
       }
-      cur_obj = target;
+      cur_obj = target
     } else {
-      cur_obj[cur] = value;
+      cur_obj[cur] = value
     }
   }
-  return true;
-};
+  return true
+}
 
 
-spv.setTargetField = setTargetField;
+spv.setTargetField = setTargetField
 
-var getFieldValueByRule = function(obj, rule){
-  if (rule instanceof Function){
-    return rule(obj);
-  } else if (Array.isArray(rule)){
-    return getTargetField(obj, rule);
-  } else if (rule instanceof Object){
-    if (typeof rule.field =='function'){
-      return rule.field(obj);
+var getFieldValueByRule = function(obj, rule) {
+  if (rule instanceof Function) {
+    return rule(obj)
+  } else if (Array.isArray(rule)) {
+    return getTargetField(obj, rule)
+  } else if (rule instanceof Object) {
+    if (typeof rule.field == 'function') {
+      return rule.field(obj)
     } else {
-      return getTargetField(obj, rule.field);
+      return getTargetField(obj, rule.field)
     }
   } else{
-    return getTargetField(obj, rule);
+    return getTargetField(obj, rule)
   }
 
 
 
-};
+}
 
 
 spv.compareArray = function compareArray(one, two) {
   if (!one || !two) {
     if (!one && !two) {
-      return;
+      return
     }
     if (!one) {
-      return 1;
+      return 1
     }
     if (!two) {
-      return -1;
+      return -1
     }
   }
-  var max = Math.max(one.length, two.length);
+  var max = Math.max(one.length, two.length)
   for (var i = 0; i < max; i++) {
-    var value_one = one[i];
-    var value_two = two[i];
+    var value_one = one[i]
+    var value_two = two[i]
     if (value_one === value_two) {
-      continue;
+      continue
     }
 
     if (value_one == null && value_two == null) {
-      continue;
+      continue
     } else if (value_one == null) {
-      return 1;
+      return 1
     } else if (value_two == null) {
-      return -1;
+      return -1
     }
 
     if (value_one > value_two) {
-      return 1;
+      return 1
     }
     if (value_one < value_two) {
-      return -1;
+      return -1
     }
   }
-};
+}
 
-sortByRules = spv.sortByRules = function sortByRules(a, b, rules){
-  if (a instanceof Object && b instanceof Object){
-    var shift = 0;
+sortByRules = spv.sortByRules = function sortByRules(a, b, rules) {
+  if (a instanceof Object && b instanceof Object) {
+    var shift = 0
 
-    for (var i=0; i < rules.length; i++) {
-      if (!shift){
-        var cr = rules[i];
-        var field_value_a = getFieldValueByRule(a, cr);
-        var field_value_b = getFieldValueByRule(b, cr);
-        field_value_a = field_value_a || !!field_value_a; //true > undefined == false, but true > false == true
-        field_value_b = field_value_b || !!field_value_b; //so convert every "", null and undefined to false
+    for (var i = 0; i < rules.length; i++) {
+      if (!shift) {
+        var cr = rules[i]
+        var field_value_a = getFieldValueByRule(a, cr)
+        var field_value_b = getFieldValueByRule(b, cr)
+        field_value_a = field_value_a || !!field_value_a //true > undefined == false, but true > false == true
+        field_value_b = field_value_b || !!field_value_b //so convert every "", null and undefined to false
 
 
-        if (field_value_a > field_value_b){
-          shift = cr.reverse ? -1 : 1;
-        } else if (field_value_a < field_value_b){
-          shift = cr.reverse ? 1 : -1;
+        if (field_value_a > field_value_b) {
+          shift = cr.reverse ? -1 : 1
+        } else if (field_value_a < field_value_b) {
+          shift = cr.reverse ? 1 : -1
         }
       }
 
     }
 
-    return shift;
+    return shift
 
   }
-};
-
-spv.indexBy = function (array, field) {
-  var index = {};
-  if (!array || !array.length) {
-    return index;
-  }
-
-  for (var i = 0; i < array.length; i++) {
-    var value  = getTargetField(array[i], field);
-    index[value] = array[i];
-  }
-
-  return index;
 }
 
-spv.groupBy = function (array, field) {
-  var index = {};
+spv.indexBy = function(array, field) {
+  var index = {}
   if (!array || !array.length) {
-    return index;
+    return index
   }
 
   for (var i = 0; i < array.length; i++) {
-    var value  = getTargetField(array[i], field);
-    if (!index[value]) {
-      index[value] = [];
-    }
-    index[value].push(array[i]);
+    var value = getTargetField(array[i], field)
+    index[value] = array[i]
   }
 
-  return index;
+  return index
+}
+
+spv.groupBy = function(array, field) {
+  var index = {}
+  if (!array || !array.length) {
+    return index
+  }
+
+  for (var i = 0; i < array.length; i++) {
+    var value = getTargetField(array[i], field)
+    if (!index[value]) {
+      index[value] = []
+    }
+    index[value].push(array[i])
+  }
+
+  return index
 }
 
 spv.getSortFunc = function(rules) {
   return function(a, b) {
-    return sortByRules(a, b, rules);
-  };
-};
+    return sortByRules(a, b, rules)
+  }
+}
 
-makeIndexByField = spv.makeIndexByField = function(array, field, keep_case){
-  var r = {};
-  if (array && array.length){
-    for (var i=0; i < array.length; i++) {
+makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
+  var r = {}
+  if (array && array.length) {
+    for (var i = 0; i < array.length; i++) {
       var simple_name,
         cur = array[i],
-        fv = getTargetField(cur, field);
-      if (fv || typeof fv == 'number'){
-        if (fv instanceof Array){
-          for (var k=0; k < fv.length; k++) {
-            simple_name = (fv[k] + '');
-            if (!keep_case){
-              simple_name = simple_name.toLowerCase();
+        fv = getTargetField(cur, field)
+      if (fv || typeof fv == 'number') {
+        if (fv instanceof Array) {
+          for (var k = 0; k < fv.length; k++) {
+            simple_name = (fv[k] + '')
+            if (!keep_case) {
+              simple_name = simple_name.toLowerCase()
             }
-            if (!r[simple_name]){
-              r[simple_name] = [];
-              r[simple_name].real_name = fv[k];
+            if (!r[simple_name]) {
+              r[simple_name] = []
+              r[simple_name].real_name = fv[k]
             }
-            if (r[simple_name].indexOf(cur) == -1){
-              r[simple_name].push(cur);
+            if (r[simple_name].indexOf(cur) == -1) {
+              r[simple_name].push(cur)
             }
           }
         } else{
-          simple_name = (fv + '');
-          if (!keep_case){
-            simple_name = simple_name.toLowerCase();
+          simple_name = (fv + '')
+          if (!keep_case) {
+            simple_name = simple_name.toLowerCase()
           }
-          if (!r[simple_name]){
-            r[simple_name] = [];
-            r[simple_name].real_name = fv;
+          if (!r[simple_name]) {
+            r[simple_name] = []
+            r[simple_name].real_name = fv
           }
-          if (r[simple_name].indexOf(cur) == -1){
-            r[simple_name].push(cur);
+          if (r[simple_name].indexOf(cur) == -1) {
+            r[simple_name].push(cur)
           }
         }
       } else {
-        if (!r['#other']){
-          r['#other'] = [];
+        if (!r['#other']) {
+          r['#other'] = []
         }
-        if (r['#other'].indexOf(cur) == -1){
-          r['#other'].push(cur);
+        if (r['#other'].indexOf(cur) == -1) {
+          r['#other'].push(cur)
         }
       }
     }
   }
-  return r;
-};
+  return r
+}
 
 
-$filter = function(array, field, value_or_testfunc){
-  var i, r = [];
-  r.not = [];
-  if (!array){return r;}
+$filter = function(array, field, value_or_testfunc) {
+  var i, r = []
+  r.not = []
+  if (!array) {return r}
 
-  if (value_or_testfunc){
+  if (value_or_testfunc) {
     for (i = 0; i < array.length; i++) {
-      if (!array[i]){
-        continue;
+      if (!array[i]) {
+        continue
       }
-      if (typeof value_or_testfunc == 'function'){
-        if (value_or_testfunc(getTargetField(array[i], field))){
-          r.push(array[i]);
+      if (typeof value_or_testfunc == 'function') {
+        if (value_or_testfunc(getTargetField(array[i], field))) {
+          r.push(array[i])
         } else{
-          r.not.push(array[i]);
+          r.not.push(array[i])
         }
       } else{
-        if (getTargetField(array[i], field) === value_or_testfunc){
-          r.push(array[i]);
+        if (getTargetField(array[i], field) === value_or_testfunc) {
+          r.push(array[i])
         } else{
-          r.not.push(array[i]);
+          r.not.push(array[i])
         }
       }
     }
   } else {
     for (i = 0; i < array.length; i++) {
-      if (!array[i]){
-        continue;
+      if (!array[i]) {
+        continue
       }
-      var field_value = getTargetField(array[i], field);
-      if (field_value){
-        r.push(field_value);
+      var field_value = getTargetField(array[i], field)
+      if (field_value) {
+        r.push(field_value)
       } else{
-        r.not.push(array[i]);
+        r.not.push(array[i])
       }
     }
   }
-  return r;
-};
+  return r
+}
 
 spv.cloneObj = cloneObj
 
-getUnitBaseNum = function(_c){
-  if (_c > 0){
-    if (_c > 10 && _c < 20){
-      return 2;
+getUnitBaseNum = function(_c) {
+  if (_c > 0) {
+    if (_c > 10 && _c < 20) {
+      return 2
     } else {
-      var _cc = '0' + _c;
-      _cc = parseFloat(_cc.slice(_cc.length-1));
+      var _cc = '0' + _c
+      _cc = parseFloat(_cc.slice(_cc.length - 1))
 
-      if (_cc === 0){
-        return 2;
-      } else if (_cc == 1){
-        return 0;
-      }else if (_cc < 5){
-        return 1;
+      if (_cc === 0) {
+        return 2
+      } else if (_cc == 1) {
+        return 0
+      }else if (_cc < 5) {
+        return 1
       } else {
-        return 2;
+        return 2
       }
     }
-  } else if (_c === 0){
-    return 2;
+  } else if (_c === 0) {
+    return 2
   }
-};
-spv.getUnitBaseNum = getUnitBaseNum;
+}
+spv.getUnitBaseNum = getUnitBaseNum
 
-spv.stringifyParams = function(params, ignore_params, splitter, joiner, opts){
-  opts = opts || {};
-  splitter = splitter || '';
-  if (typeof params == 'string'){
-    return params;
+spv.stringifyParams = function(params, ignore_params, splitter, joiner, opts) {
+  opts = opts || {}
+  splitter = splitter || ''
+  if (typeof params == 'string') {
+    return params
   }
-  var pv_signature_list = [];
+  var pv_signature_list = []
   for (var p in params) {
-    if (!ignore_params || ignore_params.indexOf(p) == -1){
-      pv_signature_list.push(p + splitter + params[p]);
+    if (!ignore_params || ignore_params.indexOf(p) == -1) {
+      pv_signature_list.push(p + splitter + params[p])
     }
   }
-  if (!opts.not_sort){
-    pv_signature_list.sort();
+  if (!opts.not_sort) {
+    pv_signature_list.sort()
   }
 
-  return pv_signature_list.join(joiner || '');
-};
+  return pv_signature_list.join(joiner || '')
+}
 
 
-spv.Class = Class;
-spv.inh = inh;
+spv.Class = Class
+spv.inh = inh
 
-spv.passingContext = function passingContext (func) {
+spv.passingContext = function passingContext(func) {
   // for legacy
   return function(obj) {
-    var arr = new Array(arguments.length);
+    var arr = new Array(arguments.length)
     for (var i = 0; i < arguments.length; i++) {
-      arr[i] = arguments[i];
+      arr[i] = arguments[i]
     }
-    arr.shift();
+    arr.shift()
 
-    func.apply(obj, arr);
-  };
-};
+    func.apply(obj, arr)
+  }
+}
 
 spv.precall = function precall(func1, func2) {
   // for legacy
   return function() {
-    func1.apply(this, arguments);
-    return func2.apply(this, arguments);
-  };
-};
+    func1.apply(this, arguments)
+    return func2.apply(this, arguments)
+  }
+}
 
 
 /**
@@ -729,150 +729,150 @@ spv.precall = function precall(func1, func2) {
 debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
   if(arguments.length == 3 && typeof invokeAsap != 'boolean') {
-    ctx = invokeAsap;
-    invokeAsap = false;
+    ctx = invokeAsap
+    invokeAsap = false
   }
 
-  var timer;
+  var timer
 
   return function() {
 
     var args = arguments,
-      _this = this;
+      _this = this
 
-    invokeAsap && !timer && fn.apply(ctx || this, args);
+    invokeAsap && !timer && fn.apply(ctx || this, args)
 
-    clearTimeout(timer);
+    clearTimeout(timer)
 
     timer = setTimeout(function() {
-      !invokeAsap && fn.apply(ctx || _this, args);
-      timer = null;
-    }, timeout);
+      !invokeAsap && fn.apply(ctx || _this, args)
+      timer = null
+    }, timeout)
 
-  };
+  }
 
-};
+}
 
 throttle = function throttle(fn, timeout, ctx) {
 
-  var timer, args, needInvoke;
+  var timer, args, needInvoke
 
   return function() {
 
-    args = arguments;
-    needInvoke = true;
-    ctx = ctx || this;
+    args = arguments
+    needInvoke = true
+    ctx = ctx || this
 
     if(!timer) {
       var wrap_func = function() {
         if(needInvoke) {
-          fn.apply(ctx, args);
-          needInvoke = false;
-          timer = setTimeout(wrap_func, timeout);
+          fn.apply(ctx, args)
+          needInvoke = false
+          timer = setTimeout(wrap_func, timeout)
         }
         else {
-          timer = null;
+          timer = null
         }
-      };
-      wrap_func();
+      }
+      wrap_func()
     }
 
-  };
+  }
 
-};
-spv.capitalize = capitalize;
+}
+spv.capitalize = capitalize
 function capitalize(string, just_first) {
-  var test = just_first ? (/(^|\s)(.)/) : (/(^|\s)(.)/g);
-  return string.replace(test, function(m, p1, p2){
-    return p1+p2.toUpperCase();
-  });
+  var test = just_first ? (/(^|\s)(.)/) : (/(^|\s)(.)/g)
+  return string.replace(test, function(m, p1, p2) {
+    return p1 + p2.toUpperCase()
+  })
 }
 
 spv.capitalize.fn = function(string) {
-  return capitalize(string);
+  return capitalize(string)
 };
 
-(function(){
-  var splitter = new RegExp("\\%[^\\s\\%]+?\\%", 'gi');
-  var var_name = new RegExp("\\%([^\\s\\%]+?)\\%");
+(function() {
+  var splitter = new RegExp("\\%[^\\s\\%]+?\\%", 'gi')
+  var var_name = new RegExp("\\%([^\\s\\%]+?)\\%")
 
-  var pushName = function(obj, name, i){
-    if (!obj[name]){
-      obj[name] = [];
+  var pushName = function(obj, name, i) {
+    if (!obj[name]) {
+      obj[name] = []
     }
-    obj[name].push(i);
-  };
+    obj[name].push(i)
+  }
   var makeDom = function(d) {
-    d = d || window.document;
+    d = d || window.document
     for (var i = 0; i < this.length; i++) {
-      if (this[i] && typeof this[i] == 'string'){
-        this[i] = d.createTextNode(this[i]);
+      if (this[i] && typeof this[i] == 'string') {
+        this[i] = d.createTextNode(this[i])
       }
     }
-    return this;
-  };
+    return this
+  }
   var setVar = function(name, value) {
 
     for (var i = 0; i < this.vars[name].length; i++) {
-      this[this.vars[name][i]] = value;
+      this[this.vars[name][i]] = value
     }
 
-    return this;
-  };
-  spv.createComlexText = function(text, not_make_dom){
+    return this
+  }
+  spv.createComlexText = function(text, not_make_dom) {
     var
       vars = text.match(splitter),
       parts = text.split(splitter),
-      result = [];
+      result = []
 
-    result.vars = {};
-    result.setVar = setVar;
-    result.makeDom = makeDom;
+    result.vars = {}
+    result.setVar = setVar
+    result.makeDom = makeDom
     for (var i = 0; i < parts.length; i++) {
-      result.push(parts[i]);
+      result.push(parts[i])
 
-      if (vars[i]){
-        var name = vars[i].match(var_name)[1];
-        pushName(result.vars, name, result.length);
-        result.push(null);
+      if (vars[i]) {
+        var name = vars[i].match(var_name)[1]
+        pushName(result.vars, name, result.length)
+        result.push(null)
       }
     }
-    if (!not_make_dom){
-      result.makeDom();
+    if (!not_make_dom) {
+      result.makeDom()
     }
-    return result;
-  };
+    return result
+  }
 
-})();
+})()
 
-spv.makeIndexByField = makeIndexByField;
-spv.getTargetField = getTargetField;
-spv.throttle = throttle;
-spv.debounce = debounce;
-spv.filter = $filter;
+spv.makeIndexByField = makeIndexByField
+spv.getTargetField = getTargetField
+spv.throttle = throttle
+spv.debounce = debounce
+spv.filter = $filter
 
 
 
 spv.zerofyString = function(string, length) {
-  if (typeof string != 'string'){
-    string = '' + string;
+  if (typeof string != 'string') {
+    string = '' + string
   }
-  while (string.length < length){
-    string = '0' + string;
+  while (string.length < length) {
+    string = '0' + string
   }
-  return string;
-};
+  return string
+}
 
 
 var getFullFieldPath = function(last_part, data) {
-  var cur = data;
-  var result = [last_part];
+  var cur = data
+  var result = [last_part]
   while (cur && cur.prop_name) {
-    result.unshift(cur.prop_name);
-    cur = cur.parent;
+    result.unshift(cur.prop_name)
+    cur = cur.parent
   }
-  return result.join('.');
-};
+  return result.join('.')
+}
 
 
 var getPropsListByTree = function(obj) {
@@ -880,189 +880,189 @@ var getPropsListByTree = function(obj) {
     parent: null,
     prop_name: '',
     obj: obj
-  }];
-  var cur, i, prop_name;
-  var objects_list = [];
-  var result_list = [];
+  }]
+  var cur, i, prop_name
+  var objects_list = []
+  var result_list = []
 
   while (all_objects.length) {
-    cur = all_objects.shift();
-    for (prop_name in cur.obj){
-      if (!cur.obj.hasOwnProperty(prop_name) || !cur.obj[prop_name]){
-        continue;
+    cur = all_objects.shift()
+    for (prop_name in cur.obj) {
+      if (!cur.obj.hasOwnProperty(prop_name) || !cur.obj[prop_name]) {
+        continue
       }
       if (Array.isArray(cur.obj[prop_name])) {
-        continue;
+        continue
       }
-      if (typeof cur.obj[prop_name] == 'object'){
+      if (typeof cur.obj[prop_name] == 'object') {
         all_objects.push({
           parent: cur,
           prop_name: prop_name,
           obj: cur.obj[prop_name]
-        });
+        })
       }
     }
-    objects_list.push(cur);
+    objects_list.push(cur)
   }
 
   for (i = 0; i < objects_list.length; i++) {
-    cur = objects_list[i];
-    for (prop_name in cur.obj){
-      if (!cur.obj.hasOwnProperty(prop_name)){
-        continue;
+    cur = objects_list[i]
+    for (prop_name in cur.obj) {
+      if (!cur.obj.hasOwnProperty(prop_name)) {
+        continue
       }
-      if (typeof cur.obj[prop_name] == 'string' || !cur.obj[prop_name] || Array.isArray(cur.obj[prop_name])){
+      if (typeof cur.obj[prop_name] == 'string' || !cur.obj[prop_name] || Array.isArray(cur.obj[prop_name])) {
         result_list.push({
           field_path: getFullFieldPath(prop_name, cur),
           field_path_value: cur.obj[prop_name]
-        });
+        })
       }
     }
   }
-  return result_list;
+  return result_list
 
 
-};
+}
 
 spv.mapProps = function mapProps(props_map, donor, acceptor) {
-  for (var name in props_map){
-    var value = getTargetField(donor, props_map[name]);
-    if (typeof value != 'undefined'){
-      setTargetField(acceptor, name, value);
+  for (var name in props_map) {
+    var value = getTargetField(donor, props_map[name])
+    if (typeof value != 'undefined') {
+      setTargetField(acceptor, name, value)
     }
   }
-  return acceptor;
-};
+  return acceptor
+}
 var parseMap = function(map) {
 
   //var root = map;
 
-  var all_targets = [map];
-  var full_list = [];
-  var cur, i;
+  var all_targets = [map]
+  var full_list = []
+  var cur, i
 
-  while (all_targets.length){
-    cur = all_targets.shift();
+  while (all_targets.length) {
+    cur = all_targets.shift()
     if (cur.parts_map) {
-      for (var prop_name in cur.parts_map){
-        if (!cur.parts_map.hasOwnProperty(prop_name)){
-          continue;
+      for (var prop_name in cur.parts_map) {
+        if (!cur.parts_map.hasOwnProperty(prop_name)) {
+          continue
         }
-        var child_part = cur.parts_map[prop_name];
+        var child_part = cur.parts_map[prop_name]
         if (typeof child_part.props_map == 'string' && child_part.parts_map) {
-          console.log(['you can not have parts in', child_part, 'since it is simple string from field:' + child_part.props_map]);
-          throw new Error('you can not have parts in this place since it is simple string from field:' + child_part.props_map);
+          console.log(['you can not have parts in', child_part, 'since it is simple string from field:' + child_part.props_map])
+          throw new Error('you can not have parts in this place since it is simple string from field:' + child_part.props_map)
         }
-        all_targets.push(child_part);
+        all_targets.push(child_part)
       }
     }
-    full_list.push(cur);
+    full_list.push(cur)
   }
 
 
   for (i = 0; i < full_list.length; i++) {
-    cur = full_list[i];
+    cur = full_list[i]
     //cur.props_map
 
     if (typeof cur.props_map == 'object' && !Array.isArray(cur.props_map)) {
-      var full_propslist = getPropsListByTree(cur.props_map);
+      var full_propslist = getPropsListByTree(cur.props_map)
     //	console.log(full_propslist);
-      cur.props_map = full_propslist;
+      cur.props_map = full_propslist
     }
 
   }
 
 
-  return map;
+  return map
   //'весь список подчинённостей';
   //''
-};
+}
 
 var getPropValueByField = function(fpv, iter, scope, spec_data) {
-  var source_data = scope;
-  var state_name = fpv;
-  var start_char = fpv.charAt(0);
-  if (start_char == '^'){
-    state_name = fpv.slice(1);
-    var count = fpv.length - state_name.length;
+  var source_data = scope
+  var state_name = fpv
+  var start_char = fpv.charAt(0)
+  if (start_char == '^') {
+    state_name = fpv.slice(1)
+    var count = fpv.length - state_name.length
     while (count) {
-      --count;
-      source_data = iter.parent_data;
+      --count
+      source_data = iter.parent_data
       if (!source_data) {
-        break;
+        break
       }
     }
     //states_of_parent[fpv] = this.prsStCon.parent(fpv);
   } else if (start_char == '@') {
-    throw new Error('');
+    throw new Error('')
     //states_of_nesting[fpv] = this.prsStCon.nesting(fpv);
   } else if (start_char == '#') {
-    state_name = fpv.slice(1);
-    source_data = spec_data;
+    state_name = fpv.slice(1)
+    source_data = spec_data
     if (!spec_data) {
-      throw new Error();
+      throw new Error()
     }
     //states_of_root[fpv] = this.prsStCon.root(fpv);
   }
-  return getTargetField(source_data, state_name);
-};
+  return getTargetField(source_data, state_name)
+}
 
 var getComplexPropValueByField = function(fpv, scope, iter, spec_data, converters) {
 
 
 
-  var cur_value;
+  var cur_value
 
 
   if (typeof fpv == 'string') {
-    cur_value = getPropValueByField(fpv, iter, scope, spec_data);
+    cur_value = getPropValueByField(fpv, iter, scope, spec_data)
   } else if (Array.isArray(fpv)) {
     if (fpv.length > 1) {
-      var convert = fpv[0];
+      var convert = fpv[0]
 
-      if (typeof convert == 'string' ) {
-        convert = converters[convert];
+      if (typeof convert == 'string') {
+        convert = converters[convert]
       }
 
-      cur_value = convert(fpv[1] && getPropValueByField(fpv[1], iter, scope, spec_data));
+      cur_value = convert(fpv[1] && getPropValueByField(fpv[1], iter, scope, spec_data))
     } else {
-      cur_value = fpv[0];
+      cur_value = fpv[0]
     }
 
   }
-  return cur_value;
-};
+  return cur_value
+}
 
 var getTargetProps = function(obj, scope, iter, spec_data, converters) {
   for (var i = 0; i < iter.map_opts.props_map.length; i++) {
-    var cur = iter.map_opts.props_map[i];
+    var cur = iter.map_opts.props_map[i]
 
-    var fpv = cur.field_path_value;
+    var fpv = cur.field_path_value
     if (!fpv) {
-      fpv = cur.field_path;
+      fpv = cur.field_path
     }
 
-    var cur_value = getComplexPropValueByField(fpv, scope, iter, spec_data, converters);
+    var cur_value = getComplexPropValueByField(fpv, scope, iter, spec_data, converters)
 
-    setTargetField(obj, cur.field_path, cur_value);
+    setTargetField(obj, cur.field_path, cur_value)
   }
 
-};
+}
 
 var handlePropsMapScope = function(spec_data, cur, objects_list, scope, converters) {
   if (typeof cur.map_opts.props_map == 'string') {
-    return getComplexPropValueByField(cur.map_opts.props_map, scope, cur, spec_data, converters);
+    return getComplexPropValueByField(cur.map_opts.props_map, scope, cur, spec_data, converters)
   }
 
-  var result_value_item = {};
-  getTargetProps(result_value_item, scope, cur, spec_data, converters);
+  var result_value_item = {}
+  getTargetProps(result_value_item, scope, cur, spec_data, converters)
 
   for (var prop_name in cur.map_opts.parts_map) {
     //cur.map_opts.parts_map[prop_name];
-    var map_opts = cur.map_opts.parts_map[prop_name];
+    var map_opts = cur.map_opts.parts_map[prop_name]
 
-    var result_value = map_opts.is_array ? [] : {} ;//объект используемый потомками создаётся в контексте родителя, что бы родитель знал о потомках
-    setTargetField(result_value_item, prop_name, result_value);//здесь родитель записывает информацию о своих потомках
+    var result_value = map_opts.is_array ? [] : {} //объект используемый потомками создаётся в контексте родителя, что бы родитель знал о потомках
+    setTargetField(result_value_item, prop_name, result_value)//здесь родитель записывает информацию о своих потомках
 
     objects_list.push({
       map_opts: map_opts,
@@ -1071,10 +1071,10 @@ var handlePropsMapScope = function(spec_data, cur, objects_list, scope, converte
       writeable_array: result_value,
 
       data_scope: null
-    });
+    })
   }
-  return result_value_item;
-};
+  return result_value_item
+}
 
 var executeMap = function(map, data, spec_data, converters) {
 
@@ -1087,40 +1087,40 @@ var executeMap = function(map, data, spec_data, converters) {
     //должен быть предоставлен потомку родителем
 
     data_scope: null
-  };
+  }
 
 
-  var objects_list = [root_struc], result_item;
+  var objects_list = [root_struc], result_item
 
   while (objects_list.length) {
-    var cur = objects_list.shift();
+    var cur = objects_list.shift()
 
 
-    var cvalue;
+    var cvalue
     if (cur.map_opts.source) {
-      cvalue = getTargetField(cur.parent_data, cur.map_opts.source);
+      cvalue = getTargetField(cur.parent_data, cur.map_opts.source)
     } else {
-      cvalue = cur.parent_data;
+      cvalue = cur.parent_data
     }
 
     if (!cvalue) {
-      continue;
+      continue
     }
 
     if (!cur.map_opts.is_array) {
-      cur.data_scope = cvalue;
-      result_item = handlePropsMapScope(spec_data, cur, objects_list, cur.data_scope, converters);
+      cur.data_scope = cvalue
+      result_item = handlePropsMapScope(spec_data, cur, objects_list, cur.data_scope, converters)
       if (typeof result_item != 'object') {
-        throw new Error('use something more simple!');
+        throw new Error('use something more simple!')
       }
-      cloneObj(cur.writeable_array, result_item);
+      cloneObj(cur.writeable_array, result_item)
     } else {
-      cur.data_scope = toRealArray( cvalue );
-      cur.writeable_array.length = cur.data_scope.length;
+      cur.data_scope = toRealArray(cvalue)
+      cur.writeable_array.length = cur.data_scope.length
 
       for (var i = 0; i < cur.data_scope.length; i++) {
-        var scope = cur.data_scope[i];
-        cur.writeable_array[i] = handlePropsMapScope(spec_data, cur, objects_list, scope, converters);
+        var scope = cur.data_scope[i]
+        cur.writeable_array[i] = handlePropsMapScope(spec_data, cur, objects_list, scope, converters)
 
 
       }
@@ -1131,37 +1131,37 @@ var executeMap = function(map, data, spec_data, converters) {
 
   }
 
-  return root_struc.writeable_array;
-};
+  return root_struc.writeable_array
+}
 
 
 var MorphMap = function(config, converters) {
   if (config && typeof config != 'object') {
-    throw new Error('map should be `object`');
+    throw new Error('map should be `object`')
   }
-  this.config = config;
-  this.converters = converters;
-  this.pconfig = null;
+  this.config = config
+  this.converters = converters
+  this.pconfig = null
 
-  var _this = this;
+  var _this = this
   return function() {
-    return _this.execute.apply(_this, arguments);
-  };
-};
+    return _this.execute.apply(_this, arguments)
+  }
+}
 MorphMap.prototype.execute = function(data, spec_data, converters) {
   if (!this.pconfig) {
-    this.pconfig = parseMap(this.config);
+    this.pconfig = parseMap(this.config)
   }
-  return executeMap( this.pconfig, data, spec_data, converters || this.converters);
-};
+  return executeMap(this.pconfig, data, spec_data, converters || this.converters)
+}
 
 //var data_bymap = executeMap( parseMap(map), raw_testmap_data, {smile: '25567773'} );
 //console.log(data_bymap);
 
-spv.MorphMap = MorphMap;
+spv.MorphMap = MorphMap
 spv.mmap = function(config, converters) {
-  return new MorphMap(config, converters);
-};
+  return new MorphMap(config, converters)
+}
 //i should not rewrite fields
 
 
@@ -1169,156 +1169,156 @@ spv.mmap = function(config, converters) {
 
 spv.coe = coe
 
-var letter_regexp = /[^\u00C0-\u1FFF\u2C00-\uD7FF\w]/gi;
+var letter_regexp = /[^\u00C0-\u1FFF\u2C00-\uD7FF\w]/gi
 //http://stackoverflow.com/questions/150033/regular-expression-to-match-non-english-characters#comment22322603_150078
 
 
 var hardTrim = function(string) {
-  return string.replace(letter_regexp, '').toLowerCase();
-};
-spv.hardTrim = hardTrim;
+  return string.replace(letter_regexp, '').toLowerCase()
+}
+spv.hardTrim = hardTrim
 
 
 
 
 spv.insertItem = function(array, item, index) {
-  var array_length = array.length;
-  var next_value = item;
-  var value_to_recover;
+  var array_length = array.length
+  var next_value = item
+  var value_to_recover
 
   for (var jj = index; jj < array_length + 1; jj++) {
-    value_to_recover = array[jj];
-    array[jj] = next_value;
-    next_value = value_to_recover;
+    value_to_recover = array[jj]
+    array[jj] = next_value
+    next_value = value_to_recover
   }
-  return array;
-};
+  return array
+}
 
 var removeItem = function(array, index) {
   //var array_length = array.length;
   for (var i = index + 1; i < array.length; i++) {
-    array[ i - 1 ] = array[ i ];
+    array[ i - 1 ] = array[ i ]
   }
-  array.length = array.length - 1;
-  return array;
-};
+  array.length = array.length - 1
+  return array
+}
 
-spv.removeItem = removeItem;
+spv.removeItem = removeItem
 
 spv.findAndRemoveItem = function(array, item) {
-  var index = array.indexOf(item);
+  var index = array.indexOf(item)
   if (index === -1) {
-    return array;
+    return array
   } else {
-    return removeItem(array, index);
+    return removeItem(array, index)
   }
-};
+}
 
-var startsWith;
+var startsWith
 if (String.prototype.startsWith) {
   startsWith = function(str, substr, pos) {
-    return str.startsWith(substr, pos);
-  };
+    return str.startsWith(substr, pos)
+  }
 } else {
   //http://jsperf.com/starts-with/14, without problems for GC
   startsWith = function(str, substr, pos) {
-    var len = substr.length;
-    var shift = pos || 0;
+    var len = substr.length
+    var shift = pos || 0
 
-    for (var i = 0; i < len; i ++) {
+    for (var i = 0; i < len; i++) {
       if (str.charAt(i + shift) != substr.charAt(i)) {
-        return false;
+        return false
       }
     }
-    return true;
-  };
+    return true
+  }
 }
 
-spv.startsWith = startsWith;
+spv.startsWith = startsWith
 
-var endsWith;
+var endsWith
 if (String.prototype.endsWith) {
   endsWith = function(str, substr, pos) {
-    return str.endsWith(substr, pos);
+    return str.endsWith(substr, pos)
   }
 } else {
-  endsWith = function (str, substr, pos) {
-    var len = substr.length;
-    var big_length_diff = (pos || str.length) - len;
+  endsWith = function(str, substr, pos) {
+    var len = substr.length
+    var big_length_diff = (pos || str.length) - len
 
-    for (var i = len;i > 0; i --) {
+    for (var i = len; i > 0; i--) {
       if (str.charAt(big_length_diff + i - 1) !== substr.charAt(i - 1)) {
-        return false;
+        return false
       }
     }
-    return true;
+    return true
   }
 }
 
-spv.endsWith = endsWith;
+spv.endsWith = endsWith
 
 spv.getDeprefixFunc = function(prefix, simple) {
-  var cache = {};
-  return function (namespace) {
+  var cache = {}
+  return function(namespace) {
     if (!cache.hasOwnProperty(namespace)) {
       if (startsWith(namespace, prefix)) {
-        cache[namespace] = simple ? true : namespace.slice(prefix.length);
+        cache[namespace] = simple ? true : namespace.slice(prefix.length)
       } else {
-        cache[namespace] = false;
+        cache[namespace] = false
       }
     }
-    return cache[namespace];
-  };
+    return cache[namespace]
+  }
 
-};
+}
 
 spv.getPrefixingFunc = function(prefix) {
-  var cache = {};
-  return function (state_name) {
+  var cache = {}
+  return function(state_name) {
     if (!cache.hasOwnProperty(state_name)) {
-      cache[state_name] = prefix + state_name;
+      cache[state_name] = prefix + state_name
     }
-    return cache[state_name];
-  };
-};
+    return cache[state_name]
+  }
+}
 
 spv.forEachKey = function(obj, fn, arg1, arg2) {
   for (var key in obj) {
-    if (!obj.hasOwnProperty(key)) {continue;}
-    fn(obj[key], key, arg1, arg2);
+    if (!obj.hasOwnProperty(key)) {continue}
+    fn(obj[key], key, arg1, arg2)
   }
-};
+}
 
 spv.countKeys = function(obj, truthy) {
-  var count = 0;
+  var count = 0
   for (var prop in obj) {
     if (!obj.hasOwnProperty(prop)) {
       continue
     }
 
     if (!truthy) {
-      count++;
-    } else if (obj[prop]){
-      count++;
+      count++
+    } else if (obj[prop]) {
+      count++
     }
   }
-  return count;
-};
+  return count
+}
 
-spv.nil = function (arg) {
+spv.nil = function(arg) {
   if (arg !== undefined && arg !== null) {
-    return false;
+    return false
   }
 
-  return true;
+  return true
 }
 
 spv.set = (function() {
 
-  var Set = function () {
-    this.list = [];
-    this.index = {};
-  };
+  var Set = function() {
+    this.list = []
+    this.index = {}
+  }
 
 
   return {
@@ -1330,39 +1330,39 @@ spv.set = (function() {
   }
 
   function getFromSet(set, key) {
-    if (isInSet(set, key)) {return set.index[key];}
+    if (isInSet(set, key)) {return set.index[key]}
   }
 
   function isInSet(set, key) {
-    return set.index.hasOwnProperty(key);
+    return set.index.hasOwnProperty(key)
   }
 
   function AddToSet(set, key, item) {
     if (!item) {
-      throw new Error('cant\'t add nothing');
+      throw new Error('cant\'t add nothing')
     }
 
-    if (isInSet(set, key)) {return item;}
+    if (isInSet(set, key)) {return item}
 
-    set.index[key] = item;
-    set.list.push(item);
+    set.index[key] = item
+    set.list.push(item)
 
-    return item;
+    return item
   }
 
   function RemoveFromSet(set, key) {
-    var item = set.index[key];
-    if (!isInSet(set, key)) {return;}
+    var item = set.index[key]
+    if (!isInSet(set, key)) {return}
 
-    delete set.index[key];
-    set.list = spv.findAndRemoveItem(set.list, item);
-    return item;
+    delete set.index[key]
+    set.list = spv.findAndRemoveItem(set.list, item)
+    return item
   }
 
   function create() {
-    return new Set();
+    return new Set()
   }
-})();
+})()
 
 
 spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
@@ -1372,38 +1372,38 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
     var head = {
       func: null,
       next: null
-    }, tail = head; // очередь вызовов, 1-связный список
+    }, tail = head // очередь вызовов, 1-связный список
 
-    var ID = Math.random(); // уникальный идентификатор
+    var ID = Math.random() // уникальный идентификатор
 
     var onmessage = function(e) {
-      if ( e.data != ID ) {
-        return;
+      if (e.data != ID) {
+        return
       } // не наше сообщение
-      head = head.next;
-      var func = head.func;
-      head.func = null;
-      func();
-    };
+      head = head.next
+      var func = head.func
+      head.func = null
+      func()
+    }
 
-    if ( win.addEventListener ) { // IE9+, другие браузеры
-      win.addEventListener('message', onmessage, false);
+    if (win.addEventListener) { // IE9+, другие браузеры
+      win.addEventListener('message', onmessage, false)
     } else { // IE8
-      win.attachEvent( 'onmessage', onmessage );
+      win.attachEvent('onmessage', onmessage)
     }
 
     return win.postMessage ? function(func) {
       if (!win || win.closed) {
-        return;
+        return
       }
-      tail = tail.next = { func: func, next: null };
-      win.postMessage(ID, "*");
+      tail = tail.next = { func: func, next: null }
+      win.postMessage(ID, "*")
     } :
     function(func) { // IE<8
-      setTimeout(func, 0);
-    };
-  }());
-};
+      setTimeout(func, 0)
+    }
+  }())
+}
 
 return spv
-});
+})

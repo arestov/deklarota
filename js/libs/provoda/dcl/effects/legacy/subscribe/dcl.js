@@ -11,16 +11,16 @@ var warnStateUsing = function() {
   console.warn('please use pass_name, not state_name')
 }
 
-var count = 0;
+var count = 0
 
 return function StateBindDeclr(key, data) {
   this.id = ++count
   this.key = key
-  this.apis = null;
-  this.fn = null;
+  this.apis = null
+  this.fn = null
   this.remote = this.remote === true ? true : false
 
-  this.state_name = null;
+  this.state_name = null
   this.pass_name = null
   this.targeted_result = null
 
@@ -40,12 +40,12 @@ return function StateBindDeclr(key, data) {
 
   if (Array.isArray(data)) {
     // legacy ?
-    this.apis = spv.toRealArray(data[0]);
-    this.fn = data[1];
+    this.apis = spv.toRealArray(data[0])
+    this.fn = data[1]
     return
   }
 
-  this.apis = spv.toRealArray(data.api);
-  this.fn = data.fn;
-};
+  this.apis = spv.toRealArray(data.api)
+  this.fn = data.fn
+}
 })

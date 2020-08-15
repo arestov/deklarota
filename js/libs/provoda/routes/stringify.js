@@ -15,10 +15,10 @@ var statePartAsString = function(state_dcl, data) {
 
   if (typeof value == 'string') {
     if (looksLikeWrappedJSON(value)) {
-      return encodeURIComponent(JSON.stringify(data[source]));
+      return encodeURIComponent(JSON.stringify(data[source]))
     }
 
-    return encodeURIComponent(value);
+    return encodeURIComponent(value)
   }
 
   return encodeURIComponent('"' + JSON.stringify(data[source]) + '"')
@@ -39,6 +39,6 @@ var toString = function(parsed, data) {
   return toStrings.join('')
 }
 
-return toString;
+return toString
 
 })

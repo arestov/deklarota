@@ -20,8 +20,8 @@ return function(dcl) {
       var suffix = boolean_types[jj]
 
       dcl.boolean_attrs.push(
-        new BooleanAttr(states_name + '__' +  suffix),
-        new BooleanAttr('$meta$states$' + states_name + '$' +  suffix)
+        new BooleanAttr(states_name + '__' + suffix),
+        new BooleanAttr('$meta$states$' + states_name + '$' + suffix)
       )
     }
   }

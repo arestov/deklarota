@@ -1,11 +1,11 @@
 define(function(require) {
-'use strict';
+'use strict'
 var getModels = require('../../../utils/multiPath/getModels')
 
 
 var getModelsFromBase = function(base, target, passed_data) {
   var multi_path = target.target_path
-  return getModels(base, multi_path, passed_data, Boolean(target.options && target.options.action));
+  return getModels(base, multi_path, passed_data, Boolean(target.options && target.options.action))
 }
 
 var getModelsFromManyBases = function(bases, target, passed_data) {
@@ -17,7 +17,7 @@ var getModelsFromManyBases = function(bases, target, passed_data) {
   for (var i = 0; i < bases.length; i++) {
     var mds = getModelsFromBase(bases[i], target, passed_data)
     if (Array.isArray(mds)) {
-      Array.prototype.push.apply(result, mds);
+      Array.prototype.push.apply(result, mds)
     } else {
       result.push(mds)
     }
@@ -25,7 +25,7 @@ var getModelsFromManyBases = function(bases, target, passed_data) {
       throw new Error('not expected to null model')
     }
   }
-  return result;
+  return result
 }
 
 var getTargetModels = function(md, target, passed_data) {
@@ -38,7 +38,7 @@ var getTargetModels = function(md, target, passed_data) {
     }
   }
 
-  return getModelsFromBase(md, target, passed_data);
+  return getModelsFromBase(md, target, passed_data)
 }
 return getTargetModels
 

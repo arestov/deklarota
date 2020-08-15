@@ -4,22 +4,22 @@ define(function() {
 return function initSi(Constr, parent_md, data, params, more, states) {
   if (Constr.prototype.conndst_parent && Constr.prototype.conndst_parent.length) {
     if (Constr.prototype.pconstr_id !== true && parent_md.constr_id !== Constr.prototype.pconstr_id) {
-      console.log( (new Error('pconstr_id should match constr_id')).stack );
+      console.log((new Error('pconstr_id should match constr_id')).stack)
     }
   }
 
   if (Constr.prototype.init) {
-    var instance = new Constr();
-    var initsbi_opts = parent_md.getSiOpts();
+    var instance = new Constr()
+    var initsbi_opts = parent_md.getSiOpts()
 
     parent_md.useMotivator(instance, function(instance) {
-      instance.init(initsbi_opts, data, params, more, states);
-    });
+      instance.init(initsbi_opts, data, params, more, states)
+    })
 
-    return instance;
+    return instance
   }
 
-  var motivator = parent_md.current_motivator;
+  var motivator = parent_md.current_motivator
 
   var parent_is_usable = ((parent_md && parent_md.zero_map_level) || parent_md != parent_md.app)
 
@@ -27,12 +27,12 @@ return function initSi(Constr, parent_md, data, params, more, states) {
     _motivator: motivator,
     map_parent: parent_is_usable && parent_md,
     app: parent_md.app
-  };
+  }
 
-  var instancePure = new Constr(opts, data, params, more, states);
+  var instancePure = new Constr(opts, data, params, more, states)
 
-  instancePure.current_motivator = null;
+  instancePure.current_motivator = null
 
-  return instancePure;
+  return instancePure
 }
 })

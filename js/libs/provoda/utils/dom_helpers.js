@@ -1,17 +1,17 @@
 define(function(require) {
-'use strict';
-var $ = require('cash-dom');
+'use strict'
+var $ = require('cash-dom')
 
 var find = function(con, selector) {
   return $(con).find(selector)
 }
 
 var append = function(place, target) {
-  $(place).append(target);
+  $(place).append(target)
 }
 
 var prepend = function(place, target) {
-  return $(place).prepend(target);
+  return $(place).prepend(target)
 }
 
 var after = function(place, target) {
@@ -19,20 +19,20 @@ var after = function(place, target) {
 }
 
 var detach = function(target) {
-  $(target).detach();
+  $(target).detach()
 }
 
 var before = function(place, comment_anchor) {
-  $(place).before(comment_anchor);
+  $(place).before(comment_anchor)
 }
 
 var wrap = function(node) {
-  return $(node);
+  return $(node)
 }
 
 var unwrap = function(wrapped) {
   if (!wrapped) {
-    return null;
+    return null
   }
 
   if ("nodeType" in wrapped) {
@@ -43,7 +43,7 @@ var unwrap = function(wrapped) {
     return wrapped[0]
   }
 
-  return null;
+  return null
 }
 
 var parent = function(node) {
@@ -56,11 +56,11 @@ var getText = function(node) {
 }
 
 var setText = function(node, value) {
-  return $(node).text(value);
+  return $(node).text(value)
 }
 
 var remove = function(node) {
-  return $(node).remove();
+  return $(node).remove()
 }
 
 var prev = function(node) {
@@ -68,7 +68,7 @@ var prev = function(node) {
 }
 
 var is = function(one, two) {
-  return $(one).is(two);
+  return $(one).is(two)
 }
 
 return {

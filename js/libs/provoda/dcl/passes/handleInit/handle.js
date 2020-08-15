@@ -10,6 +10,6 @@ return function(self, data) {
 
   var arg = data
 
-  self.nextLocalTick(self.__act, [self, pass_name, arg], true);
+  self.nextLocalTick(self.__act, [self, pass_name, arg], true)
 }
 })

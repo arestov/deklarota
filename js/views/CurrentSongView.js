@@ -1,12 +1,12 @@
 define(function(require) {
-'use strict';
-var spv = require('spv');
+'use strict'
+var spv = require('spv')
 
-var SongUI = require('./SongUI');
-var SongActionsRowUI = require('./SongActionsRowUI');
-var MfCorUI = require('./MfCorUI');
-var ArtcardUI = require('./ArtcardUI');
-var SongcardPage = require('./SongcardPage');
+var SongUI = require('./SongUI')
+var SongActionsRowUI = require('./SongActionsRowUI')
+var MfCorUI = require('./MfCorUI')
+var ArtcardUI = require('./ArtcardUI')
+var SongcardPage = require('./SongcardPage')
 
 return spv.inh(SongUI, {}, {
   base_tree: {
@@ -33,9 +33,9 @@ return spv.inh(SongUI, {}, {
       "compx",
       ['^mp_show_end'],
       function(mp_show_end) {
-        return mp_show_end;
+        return mp_show_end
       }
     ]
   }
 })
-});
+})
