@@ -41,3 +41,5 @@
 - attrs{some: ['compx', 55]} (use attrs{some: ['input', 55]})
 
 - removed requirement to have nav_title for sub_pages
+
+- jquery-2.1.4

@@ -8,7 +8,7 @@ const build = ({
   path = 'dist/esm'
 }) => rollup({
     preserveModules: true,
-    external: ['jquery', 'cash-dom'],
+    external: ['cash-dom'],
     input: [
       'js/libs/provoda/provoda.js',
       'js/libs/provoda/provoda/getAttr.js',
