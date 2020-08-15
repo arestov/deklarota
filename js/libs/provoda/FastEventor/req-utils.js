@@ -1,6 +1,5 @@
 define(function(require) {
 'use strict'
-var hex_md5 = require('hex_md5');
 var Promise = require('Promise');
 var extendPromise = require('js/modules/extendPromise');
 var spv = require('spv');
@@ -27,10 +26,9 @@ var usualRequest = function (send_declr, sputnik, opts, network_api_opts) {
 
   var cache_key;
   if (allow_cache && !non_standart_api_opts && !manual_nocache) {
-    var big_string = JSON.stringify([
+    cache_key = [
       'usual', api_name, send_declr.api_resource_path, api_method, api_args
-    ]);
-    cache_key = hex_md5(big_string);
+    ];
   }
 
 
@@ -54,9 +52,9 @@ var manualRequest = function (send_declr, sputnik, opts) {
     args[i+2] = sputnik.state(declr.dependencies[i]);
   }
 
-  var cache_key = allow_cache && hex_md5(JSON.stringify([
+  var cache_key = allow_cache && [
     'manual', api_name, send_declr.api_resource_path, opts, declr.fn_body, args
-  ]));
+  ];
 
   return {
     cache_key: cache_key,
@@ -73,9 +71,9 @@ var idsRequest = function (send_declr, sputnik) {
 
   var ids = sputnik.state(declr.arrayof);
 
-  var cache_key = allow_cache && hex_md5(JSON.stringify([
+  var cache_key = allow_cache && [
     'ids', api_name, send_declr.api_resource_path, declr.fn_body, ids
-  ]));
+  ];
 
   return {
     cache_key: cache_key,

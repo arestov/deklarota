@@ -43,3 +43,5 @@
 - removed requirement to have nav_title for sub_pages
 
 - jquery-2.1.4
+
+- simplify cache_key
