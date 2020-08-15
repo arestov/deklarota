@@ -1,5 +1,5 @@
 define(function(require) {
-"use strict"
+'use strict'
 
 var spv = require('spv')
 var toTransferableStatesList = require('./Model/toTransferableStatesList')

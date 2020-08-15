@@ -1,6 +1,6 @@
 //https://github.com/tmpvar/jsdom/raw/master/lib/jsdom/browser/htmlencoding.js
 define(function() {
-"use strict"
+'use strict'
 var entityCharCodes = {
   'nbsp': '160',
   'iexcl': '161',

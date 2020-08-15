@@ -177,7 +177,7 @@ var PvSimpleSampler = (function() {
     }
 
     if (opts) {
-      console.log("IMPLEMENT OPTIONS SUPPORT")
+      console.log('IMPLEMENT OPTIONS SUPPORT')
     }
 
     if (!this.nodes) {

@@ -124,11 +124,11 @@ SyncReceiver.prototype = {
         var cur = list[i]
         var change_name = cur[0]
         switch (change_name) {
-          case "state-ch": {
+          case 'state-ch': {
             this.updateStates(cur[1], cur[2])
             continue
           }
-          case "nest-ch": {
+          case 'nest-ch': {
             this.updateNesting(cur[1], cur[2], cur[3], cur[4])
           }
         }

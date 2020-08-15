@@ -31,7 +31,7 @@ return function readMapSliceAnimationData(view, transaction_data) {
   var current_mp_bwlev = target_md
 
   var current_lev_num = getAttr(target_md, 'map_level_num')
-  var one_zoom_in = transaction_data.array.length == 1 && transaction_data.array[0].name == "zoom-in" && transaction_data.array[0].changes.length < 3
+  var one_zoom_in = transaction_data.array.length == 1 && transaction_data.array[0].name == 'zoom-in' && transaction_data.array[0].changes.length < 3
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return}
 

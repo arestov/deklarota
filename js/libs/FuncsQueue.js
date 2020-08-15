@@ -1,5 +1,5 @@
 define(function(require) {
-  "use strict"
+  'use strict'
   var FuncsStack = require('./FuncsStack')
   var FuncsQueue
   var QueueFunc = function(queue, atom) {

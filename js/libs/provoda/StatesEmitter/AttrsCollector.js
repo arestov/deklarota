@@ -132,7 +132,7 @@ AttrsCollector.prototype = {
     }
 
     switch (type) {
-      case "bool": {
+      case 'bool': {
         this.boolByName[name] = this.bools++
       }
       break

@@ -1,5 +1,5 @@
 define(function(require) {
-"use strict"
+'use strict'
 var AppModelBase = require('pv/AppModel')
 var spv = require('spv')
 var pvUpdate = require('pv/update')
@@ -26,8 +26,8 @@ var updatePlayedListsHistory = function(target, mo) {
 var AppModel = spv.inh(AppModelBase, {}, (function() {
 var props = {
   attrs: {
-    "now_playing_text": [
-      "compx",
+    'now_playing_text': [
+      'compx',
       ['locales.now_playing', 'now_playing'],
       function(lo_now_playing, now_playing) {
         if (!lo_now_playing || !now_playing) {return ''}

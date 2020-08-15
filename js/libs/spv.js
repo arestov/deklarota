@@ -1,5 +1,5 @@
 define(function(require) {
-"use strict"
+'use strict'
 var spv = {}
 
 var cloneObj = require('./spv/cloneObj.js')
@@ -110,7 +110,7 @@ spv.domReady = function(d, callback) {
   if (!wndw) {
     return
   }
-  if (d.readyState == 'complete' || d.readyState == 'loaded' || d.readyState == "interactive") {
+  if (d.readyState == 'complete' || d.readyState == 'loaded' || d.readyState == 'interactive') {
     callback()
   } else{
     var done
@@ -793,8 +793,8 @@ spv.capitalize.fn = function(string) {
 };
 
 (function() {
-  var splitter = new RegExp("\\%[^\\s\\%]+?\\%", 'gi')
-  var var_name = new RegExp("\\%([^\\s\\%]+?)\\%")
+  var splitter = new RegExp('\\%[^\\s\\%]+?\\%', 'gi')
+  var var_name = new RegExp('\\%([^\\s\\%]+?)\\%')
 
   var pushName = function(obj, name, i) {
     if (!obj[name]) {
@@ -1397,7 +1397,7 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
         return
       }
       tail = tail.next = { func: func, next: null }
-      win.postMessage(ID, "*")
+      win.postMessage(ID, '*')
     } :
     function(func) { // IE<8
       setTimeout(func, 0)

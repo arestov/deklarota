@@ -9,7 +9,7 @@ var supportedRelTargetAddr = function(addr) {
     return false
   }
 
-  return addr.result_type == "nesting" || addr.nesting.path
+  return addr.result_type == 'nesting' || addr.nesting.path
 }
 
 return supportedRelTargetAddr

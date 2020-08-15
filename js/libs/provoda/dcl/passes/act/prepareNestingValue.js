@@ -273,8 +273,8 @@ var initValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
 
 var initPassedValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
   switch (target.options.method) {
-    case "at_index":
-    case "replace": {
+    case 'at_index':
+    case 'replace': {
       return [
         value[0],
         initValue(md, target, value[1], mut_refs_index, mut_wanted_ref),
@@ -301,36 +301,36 @@ var prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted
 
 
   switch (target.options.method) {
-    case "without": {
+    case 'without': {
       return without(current_value, value)
     }
-    case "at_start": {
+    case 'at_start': {
       return toStart(current_value, initItemsList(md, target, value, mut_refs_index, mut_wanted_ref))
     }
-    case "at_end": {
+    case 'at_end': {
       return toEnd(current_value, initItemsList(md, target, value, mut_refs_index, mut_wanted_ref))
     }
-    case "at_index": {
+    case 'at_index': {
       return toIndex(
         current_value,
         initItemsList(md, target, value[1], mut_refs_index, mut_wanted_ref),
         value[0]
       )
     }
-    case "replace": {
+    case 'replace': {
       return replaceAt(
         current_value,
         initItemsList(md, target, value[1], mut_refs_index, mut_wanted_ref),
         value[0]
       )
     }
-    case "set_one": {
+    case 'set_one': {
       if (value && Array.isArray(value)) {
         throw new Error('value should not be list')
       }
       return initItem(md, target, value, mut_refs_index, mut_wanted_ref)
     }
-    case "set_many": {
+    case 'set_many': {
       if (value && !Array.isArray(value)) {
         throw new Error('value should be list')
       }

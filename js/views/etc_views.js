@@ -9,13 +9,13 @@ var VkLoginUI = spv.inh(View, {}, {
   state_change: {
     'data_wait': function(target, state) {
       if (state) {
-        target.c.addClass("waiting-auth")
+        target.c.addClass('waiting-auth')
       } else {
-        target.c.removeClass("waiting-auth")
+        target.c.removeClass('waiting-auth')
       }
     },
-    "request_description": function(target, state) {
-      target.login_desc.text(state || "")
+    'request_description': function(target, state) {
+      target.login_desc.text(state || '')
     },
     'deep_sandbox': function(target, state) {
       target.c.toggleClass('deep-sandbox', !!state)
@@ -30,9 +30,9 @@ var VkLoginUI = spv.inh(View, {}, {
   },
   'stch-has_session': function(target, state) {
     if (!state) {
-      target.c.removeClass("hidden")
+      target.c.removeClass('hidden')
     } else {
-      target.c.addClass("hidden")
+      target.c.addClass('hidden')
     }
   },
   createBase: function() {
@@ -81,9 +81,9 @@ var VkLoginUI = spv.inh(View, {}, {
 var LfmLoginView = spv.inh(View, {}, {
   'stch-has_session': function(target, state) {
     if (!state) {
-      target.c.removeClass("hidden")
+      target.c.removeClass('hidden')
     } else {
-      target.c.addClass("hidden")
+      target.c.addClass('hidden')
     }
   },
   'stch-deep_sandbox': function(target, state) {
@@ -91,20 +91,20 @@ var LfmLoginView = spv.inh(View, {}, {
   },
   'stch-data_wait': function(target, state) {
     if (state) {
-      target.c.addClass("waiting-auth")
+      target.c.addClass('waiting-auth')
     } else {
-      target.c.removeClass("waiting-auth")
+      target.c.removeClass('waiting-auth')
     }
   },
   'stch-request_description': function(target, state) {
-    target.c.find('.lfm-auth-request-desc').text(state || "")
+    target.c.find('.lfm-auth-request-desc').text(state || '')
   },
   createBase: function() {
     this.c = this.root_view.getSample('lfm-auth-module')
     this.bindBase()
   },
   bindBase: function() {
-    this.auth_block = this.c.find(".auth-block")
+    this.auth_block = this.c.find('.auth-block')
     var _this = this
     var auth_link = this.auth_block.find('.lastfm-auth-bp a').click(function(e) {
       _this.RPCLegacy('requestAuth')
@@ -125,8 +125,8 @@ var LfmLoginView = spv.inh(View, {}, {
 
 var LfmLoveItView = spv.inh(LfmLoginView, {}, {
   attrs: {
-    "lo_button_text": [
-      "compx",
+    'lo_button_text': [
+      'compx',
       ['#locales.addto-lfm-favs']
     ]
   },
@@ -154,14 +154,14 @@ var LfmLoveItView = spv.inh(LfmLoginView, {}, {
     target.nloveb.b.text(state)
   },
 
-  "stch-has_session": function(target, state) {
+  'stch-has_session': function(target, state) {
     state = !!state
     target.c.toggleClass('has_session', state)
     target.auth_block.toggleClass('hidden', state)
     target.nloveb.toggle(state)
   },
 
-  "stch-wait_love_done": function(target, state) {
+  'stch-wait_love_done': function(target, state) {
     target.c.toggleClass('wait_love_done', !!state)
   }
 })
@@ -189,13 +189,13 @@ var LfmScrobbleView = spv.inh(LfmLoginView, {}, {
 
     })
   },
-  "stch-has_session": function(target, state) {
+  'stch-has_session': function(target, state) {
     state = !!state
     target.c.toggleClass('has_session', state)
     target.auth_block.toggleClass('hidden', state)
     target.chbx_enabl.add(target.chbx_disabl).prop('disabled', !state)
   },
-  "stch-scrobbling": function(target, state) {
+  'stch-scrobbling': function(target, state) {
     target.chbx_enabl.prop('checked', !!state)
     target.chbx_disabl.prop('checked', !state)
   }

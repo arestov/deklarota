@@ -1,5 +1,5 @@
 define(function() {
-"use strict"
+'use strict'
 var cache_ajax = {
     storage: {},
     get: function(prefix, hash_key, callback) {

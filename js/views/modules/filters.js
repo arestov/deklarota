@@ -1,5 +1,5 @@
 define(function() {
-"use strict"
+'use strict'
 var filters = {
   limitTo: function(input, limit) {
     if (Array.isArray(input)) {
@@ -8,7 +8,7 @@ var filters = {
       if (limit) {
         return limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length)
       } else {
-        return ""
+        return ''
       }
     } else {
       return input

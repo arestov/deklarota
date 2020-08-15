@@ -76,10 +76,10 @@ function baseString(from_base) {
   }
 
   switch (from_base.type) {
-    case "root": {
+    case 'root': {
       return '< ' + '#'
     }
-    case "parent": {
+    case 'parent': {
       var repeated = ''
       var counter = 1
       while (counter <= from_base.steps) {

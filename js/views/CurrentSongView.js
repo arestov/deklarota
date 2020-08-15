@@ -21,16 +21,16 @@ return spv.inh(SongUI, {}, {
     songcard: SongcardPage.SongcardController,
   },
   attrs: {
-    "vmp_show": [
+    'vmp_show': [
       'compx',
       ['^vmp_show'],
     ],
-    "lvmp_show": [
-      "compx",
+    'lvmp_show': [
+      'compx',
       ['^vmp_show'],
     ],
-    "mp_show_end": [
-      "compx",
+    'mp_show_end': [
+      'compx',
       ['^mp_show_end'],
       function(mp_show_end) {
         return mp_show_end

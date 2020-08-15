@@ -27,47 +27,47 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
 
     var has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name])
     if (has_loader) {
-      _updateAttr(self, "has_data_loader", true)
+      _updateAttr(self, 'has_data_loader', true)
     }
   }
 }, {
   handling_v2_init: true,
   attrs: {
-    "$needs_load": [
-      "compx",
+    '$needs_load': [
+      'compx',
       ['more_load_available', 'mp_has_focus'],
       function(can_more, focus) {
         return Boolean(focus && can_more)
       }
     ],
 
-    "list_loading": [
-      "compx",
+    'list_loading': [
+      'compx',
       ['main_list_loading', 'preview_loading', 'id_searching'],
       function(main_list_loading, prevw_loading, id_searching) {
         return main_list_loading || prevw_loading || id_searching
       }
     ],
 
-    "can_load_data": [
-      "compx",
+    'can_load_data': [
+      'compx',
       ['has_data_loader', 'loader_disallowed', 'has_no_access'],
       function(has_data_loader, loader_disallowed, has_no_access) {
         return has_data_loader && !loader_disallowed && !has_no_access
       }
     ],
 
-    "can_load_more": [
-      "compx",
+    'can_load_more': [
+      'compx',
       ['can_load_data', 'all_data_loaded'],
       function(can_load_data, all_data_loaded) {
         return can_load_data && !all_data_loaded
       }
     ],
 
-    "more_load_available": [
-      "compx",
-      ['can_load_more', "list_loading"],
+    'more_load_available': [
+      'compx',
+      ['can_load_more', 'list_loading'],
       function(can_load_more, list_loading) {
         return can_load_more && !list_loading
       }

@@ -28,7 +28,7 @@ var getZipFunc = spv.memorize(function(state_name, zip_name_raw) {
 
   return createZipFn(state_name)
 }, function(state_name, zip_name) {
-  return (state_name || "") + '-' + (zip_name || "")
+  return (state_name || '') + '-' + (zip_name || '')
 })
 
 function hdkey(full_name, state_name, zip_func) {

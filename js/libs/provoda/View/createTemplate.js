@@ -52,15 +52,15 @@ return function(view, con) {
           var inverted = rest_part.charAt(0) === '!'
           var path = inverted ? rest_part.slice(1) : rest_part
           switch (stringed_variable[1]) {
-            case "node": {
+            case 'node': {
               argument = getTargetField(e.node, path)
               break
             }
-            case "event": {
+            case 'event': {
               argument = getTargetField(e.event, path)
               break
             }
-            case "attrs": {
+            case 'attrs': {
               argument = e.scope ? getTargetField(e.scope, path) : pvState(view, path)
               break
             }

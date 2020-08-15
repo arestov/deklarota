@@ -14,13 +14,13 @@ var create_jsonp_callback;
     return func_name
   }
 })()
-var async_script_support = "async" in window.document.createElement("script")
-var xhr2_support = window.XMLHttpRequest && "withCredentials" in (new XMLHttpRequest()) //https://gist.github.com/1431660
+var async_script_support = 'async' in window.document.createElement('script')
+var xhr2_support = window.XMLHttpRequest && 'withCredentials' in (new XMLHttpRequest()) //https://gist.github.com/1431660
 var aReq = function(options) {
-  if (options.dataType != "jsonp") {
+  if (options.dataType != 'jsonp') {
     return $.ajax(options)
   } else if (xhr2_support && options.thisOriginAllowed) {
-    options.dataType = "json"
+    options.dataType = 'json'
     options.crossDomain = true
     if (options.afterChange) {
       options.afterChange(options)
@@ -71,7 +71,7 @@ var aReq = function(options) {
     var params = {}
     $.extend(params, options.data || {})
 
-    var callback_param_name = options.callback || "callback"
+    var callback_param_name = options.callback || 'callback'
 
     if (!options.jsonpCallback && !params[callback_param_name]) {
       callback_func_name = create_jsonp_callback(function(r) {
@@ -87,14 +87,14 @@ var aReq = function(options) {
 
 
     var params_url = $.param(params)
-    var full_url = (options.url || "") + (params_url ? "?" + params_url : "")
+    var full_url = (options.url || '') + (params_url ? '?' + params_url : '')
 
 
 
 
     var done
     var loadScript = function() {
-      script = window.document.createElement("script")
+      script = window.document.createElement('script')
       script.async = true
       script.onload = function() {
         //window.document.documentElement.firstChild.removeChild(script);
@@ -112,7 +112,7 @@ var aReq = function(options) {
     if (async_script_support) {
       loadScript()
     } else if (options.resourceCachingAvailable) {
-      img = window.document.createElement("img")
+      img = window.document.createElement('img')
       var completeImage = function() {
         if (!done) {
           done = true

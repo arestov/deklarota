@@ -10,8 +10,8 @@ var used_struc_bhv = used_str.bhv
 
 var BrowseLevView = spv.inh(View, {}, mergeBhv({
   attrs: {
-    "mp_show_end": [
-      "compx",
+    'mp_show_end': [
+      'compx',
       ['animation_started', 'animation_completed', 'vmp_show'],
       function(animation_started, animation_completed, vmp_show) {
         if (!animation_started) {

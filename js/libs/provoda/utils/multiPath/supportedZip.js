@@ -19,10 +19,10 @@ var nestings = {
 
 return function(zip_name, type) {
   switch (type) {
-    case "state": {
+    case 'state': {
       return states[zip_name] === true
     }
-    case "nesting": {
+    case 'nesting': {
       return nestings[zip_name] === true
     }
   }

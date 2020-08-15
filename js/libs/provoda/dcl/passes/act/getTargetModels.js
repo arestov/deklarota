@@ -30,10 +30,10 @@ var getModelsFromManyBases = function(bases, target, passed_data) {
 
 var getTargetModels = function(md, target, passed_data) {
   switch (target.options && target.options.base) {
-    case "arg_nesting_next": {
+    case 'arg_nesting_next': {
       return getModelsFromManyBases(passed_data.next_value, target, passed_data)
     }
-    case "arg_nesting_prev": {
+    case 'arg_nesting_prev': {
       return getModelsFromManyBases(passed_data.prev_value, target, passed_data)
     }
   }

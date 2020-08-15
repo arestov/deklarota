@@ -43,7 +43,7 @@ define(function() {
       }
 
     }
-  } else if ((typeof System != "undefined") && System.Gadget && System.Gadget.Settings) {
+  } else if ((typeof System != 'undefined') && System.Gadget && System.Gadget.Settings) {
     store_get = function(key) {
       return System.Gadget.Settings.readString(key)
     }

@@ -35,7 +35,7 @@ var getFullPathInfo = spv.memorize(function(full_path) {
   var info = getPath(full_path)
 
   switch (info.rel_type) {
-    case "local_state": {
+    case 'local_state': {
       return {
         result_type: 'state',
         state: createStateInfo(info, info.base_state_name),
@@ -50,7 +50,7 @@ var getFullPathInfo = spv.memorize(function(full_path) {
         as_string: null,
       }
     }
-    case "nesting": {
+    case 'nesting': {
       //  {
       //   rel_type: 'nesting',
       //   full_name: string,
@@ -81,7 +81,7 @@ var getFullPathInfo = spv.memorize(function(full_path) {
         as_string: null,
       }
     }
-    case "parent": {
+    case 'parent': {
       //  {
       //   rel_type: 'parent',
       //   full_name: string,
@@ -103,7 +103,7 @@ var getFullPathInfo = spv.memorize(function(full_path) {
       }
     }
 
-    case "root": {
+    case 'root': {
       //
       //  {
       //   rel_type: 'root',

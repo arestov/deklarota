@@ -3,7 +3,7 @@ define(function(require) {
 var getNavGroups = require('./getNavGroups')
 
 var joinSubtree = function(array) {
-  var url = ""
+  var url = ''
   for (var i = array.length - 1; i >= 0; i--) {
     var md = 	array[i]
     var url_part = md.state('url_part')

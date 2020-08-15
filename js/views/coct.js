@@ -48,8 +48,8 @@ var ListPreview = spv.inh(View, {}, {
 
 var ListPreviewLine = spv.inh(View, {}, {
   attrs: {
-    "selected_title": [
-      "compx",
+    'selected_title': [
+      'compx',
       ['nav_title', 'nav_short_title'],
       function(title, short_title) {
         return short_title || title
@@ -81,16 +81,16 @@ var LiListsPreview = spv.inh(ListPreview, {}, {
 
 var SPView = spv.inh(View, {}, {
   attrs: {
-    "lvmp_show": [
-      "compx",
+    'lvmp_show': [
+      'compx',
       ['^vmp_show'],
       function(vmp_show) {
         return vmp_show
       }
     ],
 
-    "mp_show_end": [
-      "compx",
+    'mp_show_end': [
+      'compx',
       ['^mp_show_end'],
       function(mp_show_end) {
         return mp_show_end
@@ -313,7 +313,7 @@ var tagListChange = function(target, array) {
   var df = window.document.createDocumentFragment()
   for (var i = 0; i < array.length; i++) {
     $(df).append(target.createTagLink(array[i].name))
-    $(df).append(window.document.createTextNode(" "))
+    $(df).append(window.document.createTextNode(' '))
   }
   target.tpl.ancs.listc.append(df)
 }

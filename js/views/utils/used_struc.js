@@ -8,15 +8,15 @@ var bhv = {
     self.RPCLegacy('updateState', 'used_struc', value)
   },
   attrs: {
-    "view_path": [
-      "compx",
+    'view_path': [
+      'compx',
       ['_provoda_id'],
       function() {
         return getViewPath(this).join('.')
       }
     ],
-    "used_struc": [
-      "compx",
+    'used_struc': [
+      'compx',
       ['< view_structure <<< #', 'view_path'],
       function(view_structure, view_path) {
         if (!view_structure || !view_path) {

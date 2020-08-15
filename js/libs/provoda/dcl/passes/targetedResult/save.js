@@ -26,7 +26,7 @@ var saveToDestModel = function(current_motivator, exec_item) {
   }
 
   switch (multi_path.result_type) {
-    case "nesting": {
+    case 'nesting': {
       _updateRel(
         target_md,
         multi_path.nesting.target_nest_name,
@@ -34,7 +34,7 @@ var saveToDestModel = function(current_motivator, exec_item) {
       )
       return
     }
-    case "state": {
+    case 'state': {
       _updateAttr(target_md, multi_path.state.base, value)
     }
   }

@@ -207,7 +207,7 @@ add({
       throw new Error('states inited already, you can\'t init now')
     }
     if (this.hasComplexStateFn(state_name)) {
-      throw new Error("you can't change complex state " + state_name)
+      throw new Error('you can\'t change complex state ' + state_name)
     }
 
     if (!this.init_states) {
@@ -244,7 +244,7 @@ add({
         }
 
         if (this.hasComplexStateFn(state_name)) {
-          throw new Error("you can't change complex state " + state_name)
+          throw new Error('you can\'t change complex state ' + state_name)
         }
 
         changes_list.push(state_name, this.init_states[state_name])

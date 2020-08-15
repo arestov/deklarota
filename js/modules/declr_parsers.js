@@ -205,7 +205,7 @@ function parseScTrack(cursor, msq, sc_api_key) {
   var guess_info = guessArtist(search_string, msq && msq.artist)
 
   return {
-    artist		: htmlencoding.decode(guess_info.artist || cursor.user.permalink || ""),
+    artist		: htmlencoding.decode(guess_info.artist || cursor.user.permalink || ''),
     track		: htmlencoding.decode(guess_info.track || search_string),
     duration	: cursor.duration,
     link		: (cursor.download_url || cursor.stream_url) + '?consumer_key=' + sc_api_key,

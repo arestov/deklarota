@@ -1,5 +1,5 @@
 define(function(require) {
-"use strict"
+'use strict'
 
 var spv = require('spv')
 var angbo = require('angbo')
@@ -292,12 +292,12 @@ var indexPvView = function(item, index) {
       spv.setTargetField(index, field, storage)
     }
     if (storage.index[item.for_model]) {
-      throw new Error("you can't have multiple `by_model` views")
+      throw new Error('you can\'t have multiple `by_model` views')
       // not implemented yet. so don't use it;
     }
 
     item.comment_anchor = window.document.createComment(
-      'collch anchor for: ' + real_name + ", " + item.for_model + ' (by_model_name)'
+      'collch anchor for: ' + real_name + ', ' + item.for_model + ' (by_model_name)'
     )
     before(item.node, item.comment_anchor)
 

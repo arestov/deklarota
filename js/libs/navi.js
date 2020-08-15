@@ -89,7 +89,7 @@ var navi;
     return url_base
   }
   var zerofy = function(str, digits) {
-    str = "" + str
+    str = '' + str
     if (digits) {
       while (str.length < digits) {
         str = 0 + str

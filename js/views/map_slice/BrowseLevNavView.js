@@ -7,16 +7,16 @@ var nav = require('./nav')
 
 var BrowseLevNavView = spv.inh(View, {}, {
   attrs: {
-    "nav_clickable": [
-      "compx",
+    'nav_clickable': [
+      'compx',
       ['mp_stack', 'mp_has_focus'],
       function(mp_stack, mp_has_focus) {
         return !mp_has_focus && (mp_stack == 'root' || mp_stack == 'top')
       }
     ],
 
-    "mp_stack_root_follower": [
-      "compx",
+    'mp_stack_root_follower': [
+      'compx',
       ['$index', '$index_back', 'vmp_show'],
       function(index, index_back) {
         if (index == 0) {
@@ -32,8 +32,8 @@ var BrowseLevNavView = spv.inh(View, {}, {
       }
     ],
 
-    "mp_stack": [
-      "compx",
+    'mp_stack': [
+      'compx',
       ['$index', '$index_back', 'vmp_show'],
       function(index, index_back, vmp_show) {
         if (index == 0) {

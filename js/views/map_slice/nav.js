@@ -5,8 +5,8 @@ var View = require('View')
 
 var baseNavUI = spv.inh(View, {}, {
   attrs: {
-    "nav_clickable": [
-      "compx",
+    'nav_clickable': [
+      'compx',
       ['^nav_clickable']
     ]
   },

@@ -148,10 +148,10 @@ var BaseCRow = spv.inh(pv.Model, {
     this.actionsrow.hide(this.model_name)
   },
   deacivate: function() {
-    pvUpdate(this, "active_view", false)
+    pvUpdate(this, 'active_view', false)
   },
   acivate: function() {
-    pvUpdate(this, "active_view", true)
+    pvUpdate(this, 'active_view', true)
   }
 })
 
@@ -209,8 +209,8 @@ var VkLoginB = spv.inh(pv.Model, {
   }
 }, {
   attrs: {
-    "has_session": [
-      "compx",
+    'has_session': [
+      'compx',
       ['@one:has_token:auth', 'target_bits', '@one:settings_bits:auth'],
       function(has_token, target_bits, settings_bits) {
         if (has_token) {return true}
@@ -220,8 +220,8 @@ var VkLoginB = spv.inh(pv.Model, {
       }
     ],
 
-    "request_description": [
-      "compx",
+    'request_description': [
+      'compx',
       ['access_desc', '#locales.vk-auth-invitation'],
       function(desc, vk_inv) {
         return desc ? (desc + ' ' + vk_inv) : ''

@@ -456,7 +456,7 @@ return {
 
     //	}
       if (!pv_view.comment_anchor) {
-        pv_view.comment_anchor = window.document.createComment('collch anchor for: ' + nesname + ", " + space_name)
+        pv_view.comment_anchor = window.document.createComment('collch anchor for: ' + nesname + ', ' + space_name)
         before(pv_view.node, pv_view.comment_anchor)
       }
 

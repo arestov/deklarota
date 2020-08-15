@@ -1,5 +1,5 @@
 define(function() {
-"use strict"
+'use strict'
 var none = function() {}
 
 var FstackAtom = function(stack, func, done, data) {
@@ -61,7 +61,7 @@ var FuncsStack = function(selectNext, initAtom) {
             _this.waitNext(arguments)
           }
         } else {
-          throw new Error("wrong stack, func must be in [0]")
+          throw new Error('wrong stack, func must be in [0]')
         }
       } else {
         // was reseted - this.reset()

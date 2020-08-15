@@ -35,11 +35,11 @@ var unwrap = function(wrapped) {
     return null
   }
 
-  if ("nodeType" in wrapped) {
+  if ('nodeType' in wrapped) {
     return wrapped
   }
 
-  if ("length" in wrapped) {
+  if ('length' in wrapped) {
     return wrapped[0]
   }
 

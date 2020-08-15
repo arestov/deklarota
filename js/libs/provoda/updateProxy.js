@@ -479,7 +479,7 @@ updateProxy.update = function(md, state_name, state_value, opts) {
     console.warn('fix prop state_name: ' + state_name);
   }*/
   if (md.hasComplexStateFn(state_name)) {
-    throw new Error("you can't change complex state " + state_name)
+    throw new Error('you can\'t change complex state ' + state_name)
   }
   return updateProxy(md, [state_name, state_value], opts)
 

@@ -58,19 +58,19 @@ return spv.inh(Model, {
   }
 }, {
   attrs: {
-    "used_data_structure": [
+    'used_data_structure': [
       'compx',
       ['< used_data_structure <<< ^'],
     ],
-    "full_url": [
-      "compx",
+    'full_url': [
+      'compx',
       ['< @all:url_part < navigation.pioneer <<', '<< @all:navigation <<'],
       function(nil, list) {
         return list && joinNavURL(list)
       }
     ],
-    "doc_title": [
-      "compx",
+    'doc_title': [
+      'compx',
       ['< @all:nav_title < navigation.pioneer <<'],
       function(list) {
         if (!list) {
@@ -129,21 +129,21 @@ return spv.inh(Model, {
     _updateAttr(bwlev, 'currentReq', req)
   },
   effects: {
-    "produce": {
-      "browser-location": {
-        api: ["navi", "self"],
-        trigger: "full_url",
+    'produce': {
+      'browser-location': {
+        api: ['navi', 'self'],
+        trigger: 'full_url',
 
         fn: function(navi, self, url) {
           if (url == null) {
             return
           }
-          var bwlev = self.getNesting("current_mp_bwlev")
+          var bwlev = self.getNesting('current_mp_bwlev')
           navi.update(url, bwlev)
-          self.app.trackPage(bwlev.getNesting("pioneer").model_name)
+          self.app.trackPage(bwlev.getNesting('pioneer').model_name)
         },
 
-        require: "doc_title"
+        require: 'doc_title'
       }
     }
   },

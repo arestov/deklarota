@@ -10,8 +10,8 @@ var BrowseLevView = require('./BrowseLevView')
 
 var SearchCriteriaView = spv.inh(View, {}, {
   attrs: {
-    "startpage_autofocus": [
-      "compx",
+    'startpage_autofocus': [
+      'compx',
       ['^startpage_autofocus']
     ]
   },

@@ -24,7 +24,7 @@ return function(self, where) {
 }
 
 function isForDeep(name) {
-  return startsWith(name, ">") && name.slice(1)
+  return startsWith(name, '>') && name.slice(1)
 }
 
 function getArgsSchema(list) {
@@ -141,11 +141,11 @@ function bindCheck(dcl, args_to_states) {
   var getRight
 
   switch (dcl.criteria.type) {
-    case "state": {
+    case 'state': {
       getRight = bindArg(args_to_states[dcl.criteria.state])
     }
     break
-    case "static_value": {
+    case 'static_value': {
       var value = dcl.criteria.value
       getRight = function() {
         return value

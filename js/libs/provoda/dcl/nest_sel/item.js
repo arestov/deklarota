@@ -180,7 +180,7 @@ function getComplect(list, with_index) {
 }
 
 function isForDeep(name) {
-  return startsWith(name, ">") && name.slice(1)
+  return startsWith(name, '>') && name.slice(1)
 }
 
 return SelectNestingDeclaration

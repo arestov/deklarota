@@ -72,7 +72,7 @@ var groupBySubscribing = function(list) {
     } else if (cur.nwatch) {
       result.nest_watch.push(cur)
     } else {
-      if (cur.result_type != "state" && (!cur.resource || !cur.resource.path)) {
+      if (cur.result_type != 'state' && (!cur.resource || !cur.resource.path)) {
         // ascendors
         // parent/root
         result.static.push(cur)

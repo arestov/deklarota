@@ -14,19 +14,19 @@ function encodeURLPart(part) {
     return encodeURIComponent(part)
   }
 
-  var spaced = part.split(" ")
+  var spaced = part.split(' ')
   for (var i = 0; i < spaced.length; i++) {
     spaced[i] = encodeURIComponent(spaced[i])
   }
-  return spaced.join("+")
+  return spaced.join('+')
 }
 
 function decodeURLPart(part) {
-  var spaced = part.split("+")
+  var spaced = part.split('+')
   for (var i = 0; i < spaced.length; i++) {
     spaced[i] = decodeURIComponent(spaced[i])
   }
-  return spaced.join(" ")
+  return spaced.join(' ')
 }
 
 function joinCommaParts(array) {

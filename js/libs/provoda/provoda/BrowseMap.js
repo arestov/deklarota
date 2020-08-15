@@ -1,5 +1,5 @@
 define(function(require) {
-"use strict"
+'use strict'
 var spv = require('spv')
 var HModel = require('../Model/HModel')
 var changeBridge = require('../bwlev/changeBridge')

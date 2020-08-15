@@ -47,10 +47,10 @@ function statesComplete(states, nesting_name) {
 
 
 function statesData(states, nesting_name, can_load_more, is_main_list) {
-  states[nesting_name + "$" + types.error] = null
+  states[nesting_name + '$' + types.error] = null
   states[nestingMark(nesting_name, types.error)] = null
 
-  states[nesting_name + "$" + types.has_any] = true
+  states[nesting_name + '$' + types.has_any] = true
   states[nestingMark(nesting_name, types.has_any)] = true
 
   if (can_load_more) {
@@ -61,7 +61,7 @@ function statesData(states, nesting_name, can_load_more, is_main_list) {
     states[types.all_data_loaded] = true // old old legacy
   }
 
-  states[nesting_name + "$" + types.all_loaded] = true
+  states[nesting_name + '$' + types.all_loaded] = true
   states[nestingMark(nesting_name, types.all_loaded)] = true
 }
 
@@ -80,7 +80,7 @@ function statesStart(states, nesting_name, is_main_list) {
 }
 
 function statesError(states, nesting_name) {
-  states[nesting_name + "$" + types.error] = true // legacy
+  states[nesting_name + '$' + types.error] = true // legacy
   states[nestingMark(nesting_name, types.error)] = true
 }
 

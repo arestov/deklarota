@@ -22,7 +22,7 @@ var getOne = function(items) {
 
 return function(models, multi_path) {
   switch (multi_path.result_type) {
-    case "state": {
+    case 'state': {
       if (!Array.isArray(models)) {
         return readState(models, multi_path)
       }
@@ -41,7 +41,7 @@ return function(models, multi_path) {
       return zipFn(result)
     }
 
-    case "nesting": {
+    case 'nesting': {
       if (multi_path.zip_name == 'one') {
         if (!Array.isArray(models)) {
           return getOne(readNesting(models, multi_path))

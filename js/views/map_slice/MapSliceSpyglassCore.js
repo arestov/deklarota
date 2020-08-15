@@ -336,7 +336,7 @@ return spv.inh(View, {
     }
   },
   'stch-doc_title': function(target, title) {
-    target.parent_view.d.title = title || ""
+    target.parent_view.d.title = title || ''
   },
   'stch-current_mp_bwlev': function(target) {
 
@@ -463,8 +463,8 @@ return spv.inh(View, {
     }
   }),
   attrs: {
-    "map_animating": [
-      "compx",
+    'map_animating': [
+      'compx',
       ['map_animation_num_started', 'map_animation_num_completed'],
       function(started_num, completed_num) {
         return typeof started_num == 'number' && started_num != completed_num

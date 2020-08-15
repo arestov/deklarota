@@ -16,7 +16,7 @@ var prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref)
   var multi_path = target.target_path
 
   switch (multi_path.result_type) {
-    case "nesting": {
+    case 'nesting': {
       return {
         target: target,
         target_md: md,
@@ -24,7 +24,7 @@ var prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref)
       }
       return
     }
-    case "state": {
+    case 'state': {
       return {target: target, target_md: md, value: value}
     }
   }

@@ -34,19 +34,19 @@ return {
   read: read,
   depValue: function(md, dep) {
     switch (dep.rel_type) {
-      case "local_state": {
+      case 'local_state': {
         return pvState(md, dep.state_name)
       }
 
-      case "root": {
+      case 'root': {
         return root(md, dep)
       }
 
-      case "parent": {
+      case 'parent': {
         return parent(md, dep)
       }
 
-      case "nesting": {
+      case 'nesting': {
         throw new Error('implement')
       }
     }
