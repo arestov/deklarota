@@ -2,7 +2,7 @@ define(function(require) {
 'use strict';
 var View = require('View');
 var spv = require('spv');
-var css = require('view_serv/css');
+var css = require('./css');
 var pvState = require('pv/state');
 var updateAttr = require('pv/updateAttr');
 var _updateAttr = require('_updateAttr');

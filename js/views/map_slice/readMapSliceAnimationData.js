@@ -1,6 +1,6 @@
 define(function (require) {
 'use strict';
-var css = require('view_serv/css');
+var css = require('./css');
 var getAttr = require('pv/getAttr');
 var getModelFromR = require('pv/v/getModelFromR')
 var anyDeeplyIncludedViews = require('./anyDeeplyIncludedViews')

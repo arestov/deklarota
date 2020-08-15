@@ -1,7 +1,7 @@
 define(function (require) {
 'use strict';
 var spv = require('spv');
-var css = require('view_serv/css');
+var css = require('./css');
 var getModelFromR = require('pv/v/getModelFromR')
 var _updateAttr = require('_updateAttr');
 var getAttr = require('pv/getAttr');
