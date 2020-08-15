@@ -46,6 +46,9 @@ const build = ({
       'js/views/map_slice/getMapSliceView',
 
       'js/views/AppBaseView.js',
+
+      'js/views/modules/WPBox',
+      'js/views/utils/arrowsKeysNav',
     ].map(path => (__dirname + '/' + path)),
 
     plugins: [
