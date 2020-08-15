@@ -67,3 +67,5 @@
 - app_serv
 
 - Panoramator (like fotorama.io), htmlencoding, cache_ajax, w_storage, aReq, wrapRequest, preloadImage, verticalAlign
+
+- appendStyle, declr_parsers, comd, morph_helpers (seesu parts)
