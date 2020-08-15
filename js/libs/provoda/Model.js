@@ -32,16 +32,6 @@ var cloneObj = spv.cloneObj;
 
 var getComplexInitList = updateProxy.getComplexInitList;
 
-var stackNestingFlowStep = function(flow_step, nesting_name) {
-  if (!this.zdsv) {
-    this.zdsv = new StatesLabour(!!this.full_comlxs_index, this._has_stchs);
-    //debugger;
-  }
-  flow_step.p_space = 'collch';
-  flow_step.p_index_key = nesting_name;
-  this.zdsv.createFlowStepsArray('collch', nesting_name).push(flow_step);
-};
-
 var getMDOfReplace = function(){
   return this.md;
 };
