@@ -456,7 +456,7 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
   triggerLightAttrChange(etr, state_name, value, zdsv)
 }
 
-function reportBadChange(etr, state_name) {
+function reportBadChange() {
   // if (etr.__default_attrs && etr.__default_attrs.hasOwnProperty(state_name)) {
   //   return
   // }
