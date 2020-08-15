@@ -1,6 +1,5 @@
 define(function(require) {
 'use strict'
-var spv = require('spv')
 var deliverRelQueryUpdates = require('./deliverRelQueryUpdates')
 
 function handleMentions(self, collection_name, old_value, array) {

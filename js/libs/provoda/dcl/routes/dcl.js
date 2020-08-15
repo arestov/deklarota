@@ -4,9 +4,7 @@ var NestWatch = require('../../nest-watch/NestWatch');
 var parseRoute = require('../../routes/parse');
 var stringifyRoute = require('../../routes/stringify');
 var asMultiPath = require('../../utils/NestingSourceDr/asMultiPath');
-var utils_simple = require('../../utils/simple');
 var pvState = require('../../utils/state')
-var wipeObj = utils_simple.wipeObj
 var run = require('./run')
 
 var getMatched = function(runner) {

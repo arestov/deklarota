@@ -2,8 +2,6 @@ define(function(require) {
 'use strict';
 var spv = require('spv')
 
-var isPrivate = require('./isPrivateState')
-
 var checkModel = function(md, models_index, local_index, all_for_parse) {
   if (!md) {
     return;
