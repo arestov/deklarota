@@ -75,3 +75,5 @@
 - BrowseLevNavView, BrowseLevView, MapSliceSpyglass, nav (seesu map_slice views)
 
 - RootBwlevView
+
+- coct, etc_views, map_slice/pages, CurrentSongView, createNiceButton
