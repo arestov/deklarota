@@ -35,7 +35,7 @@
     "gulp-zip": "3.2.0",
     "module-lookup-amd": "^6.2.0",
     "postcss": "5.0.5",
-    "rollup": "^2.6.1",
+    "rollup": "^2.26.0",
     "rollup-plugin-amd": "github:arestov/rollup-plugin-amd#acd79e7",
     "xmldom": "0.1.19"
   },
