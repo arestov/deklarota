@@ -47,3 +47,5 @@
 - simplify cache_key
 
 - remove net_apis (seesu module)
+
+- remove md5
