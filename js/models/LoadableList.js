@@ -2,7 +2,6 @@ define(function(require) {
 'use strict';
 var LoadableListBase = require('pv/LoadableList');
 var spv = require('spv');
-var pv = require('pv');
 var pvUpdate = require('pv/update');
 
 var LoadableList = spv.inh(LoadableListBase, {
