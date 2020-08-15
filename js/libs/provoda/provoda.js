@@ -1,7 +1,6 @@
 define(function(require) {
 'use strict';
 
-var spv = require('spv');
 var sync_sender = require('./sync_sender');
 var MDProxy = require('./MDProxy');
 var hp = require('./helpers');
@@ -21,7 +20,6 @@ var behavior = require('./provoda/bhv')
 var mergeBhv = require('./provoda/_lmerge');
 var mpxUpdateAttr = require('./provoda/v/mpxUpdateAttr')
 
-var provoda, pv;
 var DeathMarker = function() {
   //helper to find memory leaks; if there is memory leaking DeathMarker will be available in memory heap snapshot;
 };
@@ -37,7 +35,7 @@ var hasPrefixedProps = function(props, prefix) {
 };
 */
 
-pv = provoda = {
+var provoda = {
   hp: hp,
   $v: hp.$v,
   getRDep: hp.getRDep,
@@ -104,10 +102,5 @@ pv = provoda = {
   mergeBhv: mergeBhv,
 };
 
-
-
-if ( typeof window === "object" && typeof window.document === "object" ) {
-  window.provoda = provoda;
-}
 return provoda;
 });
