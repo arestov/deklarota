@@ -65,3 +65,5 @@
 - env, localizer, localize (seesu parts/helpers)
 
 - app_serv
+
+- Panoramator (like fotorama.io), htmlencoding, cache_ajax, w_storage, aReq, wrapRequest, preloadImage, verticalAlign
