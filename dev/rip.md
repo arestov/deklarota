@@ -45,3 +45,5 @@
 - jquery-2.1.4
 
 - simplify cache_key
+
+- remove net_apis (seesu module)
