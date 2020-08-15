@@ -3,8 +3,6 @@ define(function(require) {
 var spv = require('spv');
 var $ = require('cash-dom');
 
-var getMapSliceView = require('../map_slice/getMapSliceView');
-
 var WPBox = function(root_view, getImportantView, select, press, getRelativeWP, removeWP) {
   this.root_view = root_view;
 
