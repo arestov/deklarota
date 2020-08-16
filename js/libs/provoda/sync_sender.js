@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var toTransferableStatesList = require('./Model/toTransferableStatesList')
-var toSimpleStructure = require('./Model/toSimpleStructure')
+
+import spv from '../spv'
+import toTransferableStatesList from './Model/toTransferableStatesList'
+import toSimpleStructure from './Model/toSimpleStructure'
 var parseNesting = toSimpleStructure.parseNesting
 
 var SyncSender = function() {
@@ -159,5 +158,4 @@ SyncSender.prototype = {
     this.schedule()
   }
 }
-return SyncSender
-})
+export default SyncSender

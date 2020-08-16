@@ -1,8 +1,8 @@
-define(function() {
-'use strict'
+
 
 var lw_count = 0
-return function LocalWatchRoot(md, nwatch, data) {
+
+export default function LocalWatchRoot(md, nwatch, data) {
     this.num = ++lw_count
     this.selector = nwatch.selector
     this.md = md
@@ -38,5 +38,4 @@ return function LocalWatchRoot(md, nwatch, data) {
     this.handled_subl_wtchs = null
     this.model_groups = null
     Object.seal(this)
-  }
-})
+  };

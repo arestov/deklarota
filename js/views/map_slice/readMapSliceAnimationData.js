@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var css = require('./css')
-var getAttr = require('pv/getAttr')
-var getModelFromR = require('pv/v/getModelFromR')
-var anyDeeplyIncludedViews = require('./anyDeeplyIncludedViews')
+
+import css from './css'
+import getAttr from '../../libs/provoda/provoda/getAttr'
+import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import anyDeeplyIncludedViews from './anyDeeplyIncludedViews'
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')
 
@@ -24,7 +23,7 @@ var getAMCOffset = function() {
   return this.root_view.els.app_map_con.offset()
 }
 
-return function readMapSliceAnimationData(view, transaction_data) {
+export default function readMapSliceAnimationData(view, transaction_data) {
   if (!transaction_data || !transaction_data.bwlev) {return}
 
   var target_md = getModelFromR(view, transaction_data.bwlev)
@@ -128,6 +127,3 @@ return function readMapSliceAnimationData(view, transaction_data) {
     transform_values: transform_values
   }
 }
-
-
-})

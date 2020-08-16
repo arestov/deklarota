@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var hp = require('../../helpers')
-var getSubpageItem = require('./getSubpageItem')
+
+import spv from '../../../spv'
+import hp from '../../helpers'
+import getSubpageItem from './getSubpageItem'
 
 var getUnprefixed = spv.getDeprefixFunc('sub_page-')
 var hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
@@ -39,7 +38,7 @@ var buildMany = function(self) {
   }
 }
 
-return function collectSubpages(self, props) {
+export default function collectSubpages(self, props) {
   var changed_singled = hasPrefixedProps(props)
   var changed_pack = !!props.sub_page
   if (!changed_singled && !changed_pack) {
@@ -94,4 +93,3 @@ return function collectSubpages(self, props) {
 
 
 }
-})

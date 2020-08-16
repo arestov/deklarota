@@ -1,7 +1,5 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var cloneObj = spv.cloneObj
+
+import spv from '../../../spv'
 
 // var NestReqMap = null
 
@@ -9,20 +7,18 @@ var cloneObj = spv.cloneObj
 // var NestCntDeclr = require('../nest_conj/item')
 // var NestDcl = require('../nest/item');
 // var NestCompx = require('../nest_compx/item')
-var NestReqMap = require('./legacy/nest_req/dcl')
-var buildNestReqs = require('./legacy/nest_req/rebuild')
+import NestReqMap from './legacy/nest_req/dcl'
 
-var StateReqMap = require('./legacy/state_req/dcl')
-var buildStateReqs = require('./legacy/state_req/rebuild')
-
-var StateBindDeclr = require('./legacy/subscribe/dcl')
-var buildSubscribes = require('./legacy/subscribe/rebuild')
-
-var ProduceEffectDeclr = require('./legacy/produce/dcl')
-var buildProduce = require('./legacy/produce/rebuild')
-
-var buildApi = require('./legacy/api/rebuild')
-var ApiDeclr = require('./legacy/api/dcl')
+import buildNestReqs from './legacy/nest_req/rebuild'
+import StateReqMap from './legacy/state_req/dcl'
+import buildStateReqs from './legacy/state_req/rebuild'
+import StateBindDeclr from './legacy/subscribe/dcl'
+import buildSubscribes from './legacy/subscribe/rebuild'
+import ProduceEffectDeclr from './legacy/produce/dcl'
+import buildProduce from './legacy/produce/rebuild'
+import buildApi from './legacy/api/rebuild'
+import ApiDeclr from './legacy/api/dcl'
+var cloneObj = spv.cloneObj
 
 
 // var buildSel = require('../nest_sel/build');
@@ -172,7 +168,7 @@ var checkModern = function(self, props) {
   )
 }
 
-return function checkEffects(self, props, typed_state_dcls) {
+export default function checkEffects(self, props, typed_state_dcls) {
   var currentIndex = self._extendable_effect_index
 
   checkModern(self, props)
@@ -215,4 +211,3 @@ return function checkEffects(self, props, typed_state_dcls) {
   }
   return true
 }
-})

@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var utils_simple = require('../utils/simple')
+
+import spv from '../../spv'
+import utils_simple from '../utils/simple'
+import requesting from './requesting'
+import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 var wipeObj = utils_simple.wipeObj
-var requesting = require('./requesting')
-var onInstanceInitDie = require('../internal_events/die/onInstanceInit')
 
 var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
   this.ev_name = ev_name
@@ -625,5 +624,4 @@ add(requesting)
 })
 
 
-return FastEventor
-})
+export default FastEventor

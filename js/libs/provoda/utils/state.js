@@ -1,8 +1,8 @@
-define(function(require) {
-'use strict'
-var stateGetter = require('./stateGetter')
+
+import stateGetter from './stateGetter'
 var getter = stateGetter
-return function(item, state_path) {
+
+export default function(item, state_path) {
   var getField = getter(state_path)
 
   if (item._lbr && item._lbr.undetailed_states) {
@@ -11,4 +11,3 @@ return function(item, state_path) {
 
   return getField(item.states)
 }
-})

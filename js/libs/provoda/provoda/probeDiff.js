@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var probeDiff = require('../probeDiff')
-return probeDiff
-})
+
+import probeDiff from '../probeDiff'
+export default probeDiff

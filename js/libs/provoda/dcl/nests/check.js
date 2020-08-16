@@ -1,18 +1,16 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
+
+import NestSelector from '../nest_sel/item'
+import NestCntDeclr from '../nest_conj/item'
+import NestDcl from '../nest/item'
+import NestCompx from '../nest_compx/item'
+import NestModel from '../nest_model/item'
+import buildSel from '../nest_sel/build'
+import buildNest from '../nest/build'
+import buildConj from '../nest_conj/build'
+import buildModel from '../nest_model/build'
 var cloneObj = spv.cloneObj
-
-var NestSelector = require('../nest_sel/item')
-var NestCntDeclr = require('../nest_conj/item')
-var NestDcl = require('../nest/item')
-var NestCompx = require('../nest_compx/item')
-var NestModel = require('../nest_model/item')
-
-var buildSel = require('../nest_sel/build')
-var buildNest = require('../nest/build')
-var buildConj = require('../nest_conj/build')
-var buildModel = require('../nest_model/build')
 
 var parse = function(name, data) {
   var type = data[0]
@@ -174,7 +172,7 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-return function checkPass(self, props) {
+export default function checkPass(self, props) {
 
   var currentIndex = self._extendable_nest_index
 
@@ -212,4 +210,3 @@ return function checkPass(self, props) {
   }
   return true
 }
-})

@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
+
+import spv from '../spv'
 
 var StatesLabour = function(has_complex_states, need_stch_storage) {
   this.flow_steps_stev = null
@@ -87,5 +86,4 @@ StatesLabour.prototype.removeFlowStep = function(space, index_key, item) {
 
 
 }
-return StatesLabour
-})
+export default StatesLabour

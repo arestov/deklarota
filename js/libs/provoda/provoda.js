@@ -1,24 +1,23 @@
-define(function(require) {
-'use strict'
 
-var sync_sender = require('./sync_sender')
-var MDProxy = require('./MDProxy')
-var hp = require('./helpers')
-var getModelById = require('./utils/getModelById')
-var views_proxies = require('./views_proxies')
-var SyncReceiver = require('./SyncReceiver')
-var Eventor = require('./Eventor')
-var StatesEmitter = require('./StatesEmitter')
-var Model = require('./Model')
-var HModel = require('./Model/HModel')
-var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr')
-var initDeclaredNestings = require('./initDeclaredNestings')
-var markStrucure = require('./structure/mark')
-var create = require('./create')
-var addSubpage = require('./dcl/sub_pager/addSubpage')
-var behavior = require('./provoda/bhv')
-var mergeBhv = require('./provoda/_lmerge')
-var mpxUpdateAttr = require('./provoda/v/mpxUpdateAttr')
+
+import sync_sender from './sync_sender'
+import MDProxy from './MDProxy'
+import hp from './helpers'
+import getModelById from './utils/getModelById'
+import views_proxies from './views_proxies'
+import SyncReceiver from './SyncReceiver'
+import Eventor from './Eventor'
+import StatesEmitter from './StatesEmitter'
+import Model from './Model'
+import HModel from './Model/HModel'
+import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
+import initDeclaredNestings from './initDeclaredNestings'
+import markStrucure from './structure/mark'
+import create from './create'
+import addSubpage from './dcl/sub_pager/addSubpage'
+import behavior from './provoda/bhv'
+import mergeBhv from './provoda/_lmerge'
+import mpxUpdateAttr from './provoda/v/mpxUpdateAttr'
 
 var DeathMarker = function() {
   //helper to find memory leaks; if there is memory leaking DeathMarker will be available in memory heap snapshot;
@@ -102,5 +101,4 @@ var provoda = {
   mergeBhv: mergeBhv,
 }
 
-return provoda
-})
+export default provoda

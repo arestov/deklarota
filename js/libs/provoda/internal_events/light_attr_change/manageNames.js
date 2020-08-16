@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-var makeKey = require('../makeKey')
+
+import makeKey from '../makeKey'
 
 var toName = {}
 var toAttr = {}
@@ -25,9 +24,7 @@ var getNameByAttr = function(attr) {
   return key
 }
 
-return {
+export default {
   getAttrByName: getAttrByName,
   getNameByAttr: getNameByAttr,
 }
-
-})

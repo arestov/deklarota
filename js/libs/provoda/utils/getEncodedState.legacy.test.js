@@ -1,7 +1,7 @@
 
-var test = require('ava')
-var requirejs = require('requirejs')
-require('./require-config')
+import test from 'ava'
+import requirejs from 'requirejs'
+import './require-config'
 
 var list = getList()
 
@@ -13,7 +13,7 @@ var modernAsLegacyParsed = requirejs('./modernAsLegacyParsed')
 
 
 test('modern can be converted and used as legacy', function(t) {
-  'use strict'
+
 
   var toModernString = function(legacyAddr) {
     var modernParsed = fromLegacy(legacyAddr)
@@ -40,7 +40,7 @@ test('modern can be converted and used as legacy', function(t) {
 
 
 function getList() {
-  'use strict'
+
   return [].concat(
     [
       '^auth_token'

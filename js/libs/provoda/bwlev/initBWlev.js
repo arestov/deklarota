@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var create = require('../create')
 
-return function initBWlev(BrowseLevel, md, probe_name, map_level_num, map, parent_bwlev) {
+import create from '../create'
+
+export default function initBWlev(BrowseLevel, md, probe_name, map_level_num, map, parent_bwlev) {
   var bwlev = create(BrowseLevel, {
     probe_name: probe_name,
     map_level_num: map_level_num,
@@ -18,4 +17,3 @@ return function initBWlev(BrowseLevel, md, probe_name, map_level_num, map, paren
 
   return bwlev
 }
-})

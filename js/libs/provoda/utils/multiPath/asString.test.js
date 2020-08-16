@@ -1,13 +1,13 @@
-var test = require('ava')
-var requirejs = require('requirejs')
-require('./require-config')
+import test from 'ava'
+import requirejs from 'requirejs'
+import './require-config'
 
 var parse = requirejs('./parse')
 var asString = requirejs('./asString')
 
 
 test('check asString', function(t) {
-  'use strict'
+
 
   var pipe = function(str) {
     return asString(parse(str))

@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function(parent_view, nesting_name, nesting_space) {
+
+
+export default function(parent_view, nesting_name, nesting_space) {
   if (!nesting_name) {
     throw new Error('no nesting_name')
   }
@@ -14,5 +14,4 @@ return function(parent_view, nesting_name, nesting_space) {
 
   */
   return parent_view.view_id + ':' + nesting_space + ':' + nesting_name
-}
-})
+};

@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var gentlyUpdateAttr = require('../StatesEmitter/gentlyUpdateAttr')
-return gentlyUpdateAttr
-})
+
+import gentlyUpdateAttr from '../StatesEmitter/gentlyUpdateAttr'
+export default gentlyUpdateAttr

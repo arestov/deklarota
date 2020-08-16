@@ -1,12 +1,11 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var angbo = require('angbo')
-var dom_helpers = require('../utils/dom_helpers')
-var parser = require('./parser')
-var PvSimpleSampler = require('./PvSimpleSampler')
-var parseEasy = require('./parseEasy')
+
+import spv from '../../spv'
+import angbo from '../StatementsAngularParser.min'
+import dom_helpers from '../utils/dom_helpers'
+import parser from './parser'
+import PvSimpleSampler from './PvSimpleSampler'
+import parseEasy from './parseEasy'
 var CH_GR_LE = 2
 
 var push = Array.prototype.push
@@ -944,5 +943,4 @@ PvTemplate.templator = function(calls_flow, getSample, struc_store) {
   }
 }
 
-return PvTemplate
-})
+export default PvTemplate

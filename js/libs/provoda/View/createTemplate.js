@@ -1,14 +1,13 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var pvState = require('../utils/state')
+
+import spv from '../../spv'
+import pvState from '../utils/state'
 var getTargetField = spv.getTargetField
 var arrayExclude = spv.arrayExclude
 
 var parent_count_regexp = /^\^+/gi
 
-return function(view, con) {
+export default function(view, con) {
   if (!view._lbr.hndTriggerTPLevents) {
     view._lbr.hndTriggerTPLevents = function(e) {
       var cb_data = e.callback_data
@@ -143,4 +142,3 @@ return function(view, con) {
     view._lbr.anchorStateChange
   )
 }
-})

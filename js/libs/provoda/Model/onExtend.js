@@ -1,23 +1,21 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var getTypedDcls = require('../dcl-h/getTypedDcls')
-var collectCompxs = require('../StatesEmitter/collectCompxs')
-var buildInputAttrs = require('../dcl/attrs/input/build')
-var checkChi = require('../StatesEmitter/checkChi')
-var checkNestRqC = require('../dcl/nest_model/check')
-var checkNestSel = require('../dcl/nest_sel/check')
-var checkNestCnt = require('../dcl/nest_conj/check')
-var checkModernNests = require('../dcl/nests/check')
-var checkPasses = require('../dcl/passes/check')
-var checkRoutes = require('../dcl/routes/check')
-var checkSubpager = require('../dcl/sub_pager/check')
-var collectSubpages = require('../dcl/sub_pager/collectSubpages')
 
-var checkEffects = require('../dcl/effects/check')
-var checkNest = require('../dcl/nest/check')
-var collectStateChangeHandlers = require('../dcl/m-collectStateChangeHandlers')
+import spv from '../../spv'
+import getTypedDcls from '../dcl-h/getTypedDcls'
+import collectCompxs from '../StatesEmitter/collectCompxs'
+import buildInputAttrs from '../dcl/attrs/input/build'
+import checkChi from '../StatesEmitter/checkChi'
+import checkNestRqC from '../dcl/nest_model/check'
+import checkNestSel from '../dcl/nest_sel/check'
+import checkNestCnt from '../dcl/nest_conj/check'
+import checkModernNests from '../dcl/nests/check'
+import checkPasses from '../dcl/passes/check'
+import checkRoutes from '../dcl/routes/check'
+import checkSubpager from '../dcl/sub_pager/check'
+import collectSubpages from '../dcl/sub_pager/collectSubpages'
+import checkEffects from '../dcl/effects/check'
+import checkNest from '../dcl/nest/check'
+import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 
 var updateStatesDcls = function(self, props, original) {
   if (!props['attrs']) {
@@ -84,7 +82,7 @@ var checkNests = function(self, props) {
   checkModernNests(self, props)
 }
 
-return function(self, props, original, params) {
+export default function(self, props, original, params) {
   updateStatesDcls(self, props, original)
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
@@ -115,5 +113,3 @@ return function(self, props, original, params) {
 
   self._attrs_collector = null
 }
-
-})

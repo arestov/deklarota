@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
+
+import spv from '../../spv'
+import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('stch-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
@@ -14,7 +13,7 @@ function checkStchType(fn) {
   throw new Error('stch should be fn. old object dcl depricated')
 }
 
-return function(self, props) {
+export default function(self, props) {
   if (!props.hasOwnProperty('state_change') && !hasPrefixedProps(props)) {
     return
   }
@@ -39,5 +38,3 @@ return function(self, props) {
   return result_index
 
 }
-
-})

@@ -1,14 +1,13 @@
-define(function(require) {
-'use strict'
 
-var StatesLabour = require('./StatesLabour')
-var utils_simple = require('./utils/simple')
-var triggerLightAttrChange = require('./internal_events/light_attr_change/trigger')
-var produceEffects = require('./StatesEmitter/produceEffects')
-var checkStates = require('./nest-watch/checkStates')
-var _passHandleState = require('./dcl/passes/handleState/handle')
-var deliverAttrQueryUpdates = require('./Model/mentions/deliverAttrQueryUpdates')
-var sameName = require('./sameName')
+
+import StatesLabour from './StatesLabour'
+import utils_simple from './utils/simple'
+import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
+import produceEffects from './StatesEmitter/produceEffects'
+import checkStates from './nest-watch/checkStates'
+import _passHandleState from './dcl/passes/handleState/handle'
+import deliverAttrQueryUpdates from './Model/mentions/deliverAttrQueryUpdates'
+import sameName from './sameName'
 
 var CH_GR_LE = 2
 
@@ -488,5 +487,4 @@ updateProxy.update = function(md, state_name, state_value, opts) {
 }
 updateProxy.getComplexInitList = getComplexInitList
 
-return updateProxy
-})
+export default updateProxy

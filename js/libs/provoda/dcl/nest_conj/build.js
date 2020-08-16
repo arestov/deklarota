@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var build = function(self, cnts) {
   self.nest_concat_nest_matches = []
 
@@ -8,5 +7,4 @@ var build = function(self, cnts) {
   }
 }
 
-return build
-})
+export default build

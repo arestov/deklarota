@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
+import parse from './NestingSourceDr/parse'
+import asString from './multiPath/asString'
 var splitByDot = spv.splitByDot
-var parse = require('./NestingSourceDr/parse')
-var asString = require('./multiPath/asString')
 
 function itself(item) {return item}
 
@@ -162,5 +161,4 @@ var getParsedState = spv.memorize(function getParsedState(state_name) {
 })
 
 getParsedState.fromMultiPath = fromMultiPath
-return getParsedState
-})
+export default getParsedState

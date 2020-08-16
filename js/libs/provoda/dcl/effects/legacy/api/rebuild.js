@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var indexByDepName = require('./utils/indexByDepName')
-var getDepsToInsert = require('./utils/getDepsToInsert')
+
+import spv from '../../../../../spv'
+import indexByDepName from './utils/indexByDepName'
+import getDepsToInsert from './utils/getDepsToInsert'
 
 var usualApis = function(obj) {
   if (!obj) {
@@ -86,7 +85,7 @@ function wrapAttr(name) {
 }
 
 
-return function rebuild(self, apis, typed_state_dcls) {
+export default function rebuild(self, apis, typed_state_dcls) {
   var inserted_names = getDepsToInsert(apis, self, typed_state_dcls)
   self.__defined_api_attrs_bool = inserted_names.map(wrapAttr)
 
@@ -95,5 +94,3 @@ return function rebuild(self, apis, typed_state_dcls) {
   self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null
   self.__apis_$__needs_self = needSelf(apis, false)
 }
-
-})

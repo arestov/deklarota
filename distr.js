@@ -1,6 +1,4 @@
 const { rollup } = require('rollup');
-const amd = require('rollup-plugin-amd');
-const lookup = require('module-lookup-amd');
 const replace = require('rollup-plugin-replace')
 
 const build = ({
@@ -52,45 +50,6 @@ const build = ({
     ].map(path => (__dirname + '/' + path)),
 
     plugins: [
-      amd({
-        rewire: function (moduleId, parentPath) { // Optional, Default: false
-          const result = lookup({
-            directory: __dirname,
-            partial: moduleId,
-            filename: parentPath,
-            config: {
-              paths: {
-                // jquery: 'js/common-libs/jquery-2.1.4',
-                angbo: 'js/libs/provoda/StatementsAngularParser.min',
-                _updateAttr: 'js/libs/provoda/_internal/_updateAttr',
-                _getAttr: 'js/libs/provoda/_internal/_getAttr',
-                _updateRel: 'js/libs/provoda/_internal/_updateRel',
-                _getRel: 'js/libs/provoda/_internal/_getRel',
-              },
-              map: {
-                '*': {
-                  su: 'js/seesu',
-
-                  pv: 'js/libs/provoda/provoda',
-                  __lib: 'js/libs/provoda',
-                  View: 'js/libs/provoda/View',
-                  js: 'js',
-                  spv: 'js/libs/spv',
-                  app_serv: "js/app_serv",
-                  localizer: 'js/libs/localizer',
-                  view_serv: "js/views/modules/view_serv",
-                  cache_ajax: 'js/libs/cache_ajax',
-                  env: "js/env",
-
-                  hex_md5: 'js/common-libs/md5',
-                  'Promise': 'js/common-libs/Promise-3.1.0.mod'
-                }
-              },
-            } // Or an object
-          })
-          return result;
-        }
-      }),
       replace({
         "process.versions": '({})',
         NODE_ENV: `'${process.env.NODE_ENV}'`,

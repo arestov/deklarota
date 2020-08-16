@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var parse = require('../utils/multiPath/parse')
+
+import spv from '../../spv'
+import parse from '../utils/multiPath/parse'
 var memorize = spv.memorize
 var isPrivate = memorize(function(str) {
   if (str.startsWith('__') || str.startsWith('@')) {
@@ -32,5 +31,4 @@ var isPrivate = memorize(function(str) {
 
   return false
 })
-return isPrivate
-})
+export default isPrivate

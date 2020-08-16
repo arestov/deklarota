@@ -1,10 +1,9 @@
-define(require => {
-const spv = require('spv')
-const AppModel = require('pv/AppModel')
-const prepare = require('js/libs/provoda/structure/prepare')
+import spv from '../libs/spv'
+import AppModel from '../libs/provoda/provoda/AppModel'
+import prepare from '../libs/provoda/structure/prepare'
 
 
-return function fakeApp(props, init) {
+export default function fakeApp(props, init) {
   const initSelf = init || function () {}
   const all = {
     init: initSelf,
@@ -12,4 +11,3 @@ return function fakeApp(props, init) {
   const App = spv.inh(AppModel, all, props)
   return prepare(App)
 }
-})

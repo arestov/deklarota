@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var allStates = require('./dcl/routes/allStates')
-var getModernPage = require('./dcl/routes/getByName')
-var createModern = require('./dcl/routes/createModern')
+
+import spv from '../spv'
+import allStates from './dcl/routes/allStates'
+import getModernPage from './dcl/routes/getByName'
+import createModern from './dcl/routes/createModern'
 var selectModern = createModern.selectModern
 
 var cloneObj = spv.cloneObj
@@ -146,7 +145,7 @@ function getSPOpts(md, sp_name, slashed, byType) {
       by_colon: by_colon,
       by_slash: by_slash,
     }]
-};
+}
 
 
 
@@ -309,5 +308,4 @@ function watchSubPageKey(self, instance, key) {
 
 routePathByModels.getSPI = getSPI
 routePathByModels.getSPIConstr = getSPIConstr
-return routePathByModels
-})
+export default routePathByModels

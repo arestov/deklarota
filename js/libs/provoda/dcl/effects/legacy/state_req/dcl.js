@@ -1,13 +1,12 @@
-define(function(require) {
-'use strict'
-var utils = require('../utils')
-var getAttrsOfRequestStates = require('./getAttrsOfRequestStates')
+
+import utils from '../utils'
+import getAttrsOfRequestStates from './getAttrsOfRequestStates'
 
 var SendDeclaration = utils.SendDeclaration
 var toSchemaFn = utils.toSchemaFn
 
 
-return function StateReqMap(num, req_item) {
+export default function StateReqMap(num, req_item) {
   this.num = num
   this.dependencies = null
   this.send_declr = null
@@ -43,4 +42,3 @@ return function StateReqMap(num, req_item) {
     this.send_declr = new SendDeclaration(send_declr[1])
   }
 }
-})

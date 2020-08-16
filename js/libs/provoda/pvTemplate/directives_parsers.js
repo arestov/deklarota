@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var angbo = require('angbo')
-var StandartChange = require('./StandartChange')
-var dom_helpers = require('../utils/dom_helpers')
+
+import spv from '../../spv'
+import angbo from '../StatementsAngularParser.min'
+import StandartChange from './StandartChange'
+import dom_helpers from '../utils/dom_helpers'
 
 var capitalize = spv.capitalize
 var startsWith = spv.startsWith
@@ -117,7 +116,7 @@ function multipleParts(createChange) {
   }
 }
 
-return {
+export default {
   config: (function() {
     var config = {
       one_parse: {
@@ -466,5 +465,3 @@ function hlpSimplifyValue(value) {
   // regxp_edge_spaces: /^\s+|\s+$/gi,
   //return value.replace(regxp_spaces,' ').replace(regxp_edge_spaces,'');
 }
-
-})

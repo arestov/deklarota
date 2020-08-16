@@ -1,10 +1,8 @@
-define(function(require) {
-'use strict'
-var batching = require('./batching')
 
-var req_utils = require('./req-utils')
-var types = require('./nestReqTypes')
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
+import batching from './batching'
+import req_utils from './req-utils'
+import types from './nestReqTypes'
+import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 
 var getRequestByDeclr = req_utils.getRequestByDeclr
 var findErrorByList = req_utils.findErrorByList
@@ -89,7 +87,7 @@ function statesQueue(states, nesting_name, mark) {
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 
-return function(dclt, nesting_name, limit) {
+export default function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
   // 'main_list_loading', true
@@ -370,5 +368,3 @@ function hasMoreData(serv_data, page_limit, paging_opts, items) {
   }
 
 }
-
-})

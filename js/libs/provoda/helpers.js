@@ -1,23 +1,22 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var utils_simple = require('./utils/simple')
-var pvState = require('./utils/state')
-var stateGetter = require('./utils/stateGetter')
-var probeDiff = require('./probeDiff')
-var selecPoineertDeclr = require('./structure/selecPoineertDeclr')
-var createTemplate = require('./View/createTemplate')
-var getBwlevView = require('./View/getBwlevView')
-var getViewLocationId = require('./View/getViewLocationId')
-var getPropsPrefixChecker = require('./utils/getPropsPrefixChecker')
-var getEncodedState = require('./utils/getEncodedState')
-var getShortStateName = require('./utils/getShortStateName')
-var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
-var groupMotive = require('./helpers/groupMotive')
-var triggerDestroy = require('./helpers/triggerDestroy')
-var getNetApiByDeclr = require('./helpers/getNetApiByDeclr')
-var hndMotivationWrappper = require('./helpers/hndMotivationWrappper')
+
+import spv from '../spv'
+import utils_simple from './utils/simple'
+import pvState from './utils/state'
+import stateGetter from './utils/stateGetter'
+import probeDiff from './probeDiff'
+import selecPoineertDeclr from './structure/selecPoineertDeclr'
+import createTemplate from './View/createTemplate'
+import getBwlevView from './View/getBwlevView'
+import getViewLocationId from './View/getViewLocationId'
+import getPropsPrefixChecker from './utils/getPropsPrefixChecker'
+import getEncodedState from './utils/getEncodedState'
+import getShortStateName from './utils/getShortStateName'
+import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
+import groupMotive from './helpers/groupMotive'
+import triggerDestroy from './helpers/triggerDestroy'
+import getNetApiByDeclr from './helpers/getNetApiByDeclr'
+import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 
 
 var memorize = spv.memorize
@@ -26,7 +25,7 @@ function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id
 }
 
-return {
+export default {
   probeDiff: probeDiff,
   getRDep: (function() {
     var getTargetName = memorize(function getTargetName(state_name) {
@@ -85,5 +84,3 @@ return {
   }
 
 }
-
-})

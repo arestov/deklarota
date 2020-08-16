@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
 var nil = spv.nil
 
 function checkChange(target, nesname, items) {
@@ -12,7 +11,7 @@ function checkChange(target, nesname, items) {
   for (var i = 0; i < target.nest_borrow_watchers.list.length; i++) {
     checkNestingWatch(target, target.nest_borrow_watchers.list[i], nesname, items)
   }
-};
+}
 
 function checkChildren(target, watch) {
   // создан один watch, надо проверить существующие nest
@@ -32,5 +31,4 @@ function checkNestingWatch(target, watch, nesname, items) {
 
 checkChange.checkChildren = checkChildren
 
-return checkChange
-})
+export default checkChange

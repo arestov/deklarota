@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var getModels = require('../../../utils/multiPath/getModels')
+
+import getModels from '../../../utils/multiPath/getModels'
 
 
 var getModelsFromBase = function(base, target, passed_data) {
@@ -40,6 +39,4 @@ var getTargetModels = function(md, target, passed_data) {
 
   return getModelsFromBase(md, target, passed_data)
 }
-return getTargetModels
-
-})
+export default getTargetModels

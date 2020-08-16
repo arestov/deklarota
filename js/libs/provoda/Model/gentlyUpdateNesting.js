@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
 
-var updateNesting = require('./updateNesting')
 
-return function gentlyUpdateNesting(self, collection_name, input, opts) {
+import updateNesting from './updateNesting'
+
+export default function gentlyUpdateNesting(self, collection_name, input, opts) {
   if (self._currentMotivator() != null) {
     updateNesting(self, collection_name, input, opts)
     return
@@ -13,4 +12,3 @@ return function gentlyUpdateNesting(self, collection_name, input, opts) {
     updateNesting(self, collection_name, input, opts)
   })
 }
-})

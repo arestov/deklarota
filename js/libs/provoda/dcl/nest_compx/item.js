@@ -1,12 +1,10 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var NestWatch = require('../../nest-watch/NestWatch')
-var parseMultiPath = require('../../utils/multiPath/parse')
-var asString = require('../../utils/multiPath/asString')
-var zip_fns = require('../../utils/zip/nest-compx')
 
-var handler = require('./handler')
+import spv from '../../../spv'
+import NestWatch from '../../nest-watch/NestWatch'
+import parseMultiPath from '../../utils/multiPath/parse'
+import asString from '../../utils/multiPath/asString'
+import zip_fns from '../../utils/zip/nest-compx'
+import handler from './handler'
 var hnest = handler.hnest
 var hnest_state = handler.hnest_state
 
@@ -108,5 +106,4 @@ var NestCompxDcl = function(name, data) {
 
 }
 
-return NestCompxDcl
-})
+export default NestCompxDcl

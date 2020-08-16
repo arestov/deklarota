@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
-var addRemove = require('./add-remove')
-var checkNestWatchs = addRemove.checkNestWatchs
-var orderItems = require('./orderItems')
 
-return function checkNesting(self, collection_name, array, removed) {
+import addRemove from './add-remove'
+import orderItems from './orderItems'
+var checkNestWatchs = addRemove.checkNestWatchs
+
+export default function checkNesting(self, collection_name, array, removed) {
   checkNestWatchs(self, collection_name, array, removed)
 
   var changed_nawchs = checkChangedNestWatchs(self, collection_name)
@@ -47,4 +46,3 @@ function checkChangedNestWatchs(md, collection_name) {
 
   return result.length && result
 }
-})

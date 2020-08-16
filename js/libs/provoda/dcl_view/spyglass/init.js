@@ -1,13 +1,10 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
+import getModelById from '../../utils/getModelById'
+import getRootBwlevView from './getRootBwlevView'
+import getBwlevView from '../getBwlevView'
+import getModel from '../../View/getModel'
 var nil = spv.nil
-var getModelById = require('../../utils/getModelById')
-
-
-var getRootBwlevView = require('./getRootBwlevView')
-var getBwlevView = require('../getBwlevView')
-var getModel = require('../../View/getModel')
 
 function watchAndRequest(root_bwlev_view, self, spyglass) {
   var key = spyglass.nest_name + '---' + self.view_id
@@ -42,7 +39,7 @@ function getContextId(view, parent_bwlev_view, steps) {
   throw new Error('implement steps (^^^^) context getting')
 }
 
-return function(self) {
+export default function(self) {
   if (nil(self._spyglass)) {
     return
   }
@@ -57,4 +54,3 @@ return function(self) {
     watchAndRequest(root_bwlev_view, self, cur)
   }
 }
-})

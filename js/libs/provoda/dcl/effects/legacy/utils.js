@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
+
+import spv from '../../../../spv'
 var splitByDot = spv.splitByDot
 
 var apiDeclr = spv.memorize(function(name) {
@@ -71,9 +70,8 @@ function toSchemaFn(mmap) {
 }
 
 
-return {
+export default {
   toSchemaFn: toSchemaFn,
   stateName: stateName,
   SendDeclaration: SendDeclaration,
 }
-})

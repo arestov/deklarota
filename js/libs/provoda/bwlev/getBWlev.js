@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
-var initBWlev = require('./initBWlev')
+
+import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
+import initBWlev from './initBWlev'
 
 var getConstr = function(map, model_name) {
   try {
@@ -9,7 +8,7 @@ var getConstr = function(map, model_name) {
   } catch (e) {}
 }
 
-return function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_num, map) {
+export default function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_num, map) {
   var cache = parent_bwlev && parent_bwlev.children_bwlevs
   var key = md._provoda_id
   if (cache && cache[key]) {
@@ -29,5 +28,3 @@ return function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_nu
 
   return bwlev
 }
-
-})

@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var supportedRelTargetAddr = function(addr) {
   if (addr.base_itself) {
     return false
@@ -12,5 +11,4 @@ var supportedRelTargetAddr = function(addr) {
   return addr.result_type == 'nesting' || addr.nesting.path
 }
 
-return supportedRelTargetAddr
-})
+export default supportedRelTargetAddr

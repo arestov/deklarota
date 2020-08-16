@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var FuncsStack = require('./FuncsStack')
+
+import FuncsStack from './FuncsStack'
 var FuncsQueue
 var QueueFunc = function(queue, atom) {
   this.q = queue
@@ -243,5 +242,4 @@ FuncsQueue.prototype = {
     return this
   }
 }
-return FuncsQueue
-})
+export default FuncsQueue

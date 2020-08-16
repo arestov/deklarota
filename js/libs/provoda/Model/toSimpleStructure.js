@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var ensurePublicAttrs = require('./ensurePublicAttrs')
+
+import spv from '../../spv'
+import ensurePublicAttrs from './ensurePublicAttrs'
 var cloneObj = spv.cloneObj
 
 var checkModel = function(md, models_index, local_index, all_for_parse) {
@@ -109,5 +108,4 @@ var parseNesting = function(models_index, cur, big_result) {
 
 toSimpleStructure.parseNesting = parseNesting
 
-return toSimpleStructure
-})
+export default toSimpleStructure

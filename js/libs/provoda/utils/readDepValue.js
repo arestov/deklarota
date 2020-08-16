@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-var pvState = require('./state')
+
+import pvState from './state'
 
 var parent = function(md, dep) {
   var count = dep.ancestors
@@ -30,7 +29,7 @@ var read = {
   root: root,
 }
 
-return {
+export default {
   read: read,
   depValue: function(md, dep) {
     switch (dep.rel_type) {
@@ -52,4 +51,3 @@ return {
     }
   }
 }
-})

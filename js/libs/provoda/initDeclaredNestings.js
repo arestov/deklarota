@@ -1,10 +1,8 @@
-define(function(require) {
-'use strict'
 
-var _updateRel = require('_updateRel')
 
-var pathExecutor = require('./routes/legacy/stringify')
-var getSPByPathTemplate = require('./routes/legacy/getSPByPathTemplate')
+import _updateRel from './_internal/_updateRel'
+import pathExecutor from './routes/legacy/stringify'
+import getSPByPathTemplate from './routes/legacy/getSPByPathTemplate'
 
 var preloadStart = function(md) {
   md.preloadStart()
@@ -123,5 +121,4 @@ initDeclaredNestings.getConstrByPath = function(app, md, string_template) {
   return getSPByPathTemplate(app, md, string_template, true)
 }
 
-return initDeclaredNestings
-})
+export default initDeclaredNestings

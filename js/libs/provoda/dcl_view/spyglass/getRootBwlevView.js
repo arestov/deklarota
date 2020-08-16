@@ -1,8 +1,8 @@
-define(function() {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
 var nil = spv.nil
-return function getRootBwlevView(target) {
+
+export default function getRootBwlevView(target) {
   var cur = target.parent_view
   var possible_root
 
@@ -16,4 +16,3 @@ return function getRootBwlevView(target) {
 
   return possible_root
 }
-})

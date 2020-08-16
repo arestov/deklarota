@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var SyncReceiver = require('../SyncReceiver')
-return SyncReceiver
-})
+
+import SyncReceiver from '../SyncReceiver'
+export default SyncReceiver

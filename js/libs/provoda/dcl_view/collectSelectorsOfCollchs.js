@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
+
+import spv from '../../spv'
+import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('sel-coll-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
@@ -35,7 +34,7 @@ var parseCollchSel = spv.memorize(function(str) {
 })
 
 
-return function(self, props) {
+export default function(self, props) {
   var need_recalc = hasPrefixedProps(props)
   if (!need_recalc) {
     return
@@ -66,4 +65,3 @@ return function(self, props) {
   }
   return true
 }
-})

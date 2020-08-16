@@ -1,21 +1,18 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
+
+import getTypedDcls from '../dcl-h/getTypedDcls'
+import collectCompxs from '../StatesEmitter/collectCompxs'
+import buildInputAttrs from '../dcl/attrs/input/build'
+import checkEffects from '../dcl/effects/check'
+import collectSelectorsOfCollchs from '../dcl_view/collectSelectorsOfCollchs'
+import collectCollectionChangeDeclarations from '../dcl_view/collectCollectionChangeDeclarations'
+import changeChildrenViewsDeclarations from '../dcl_view/changeChildrenViewsDeclarations'
+import collectStateChangeHandlers from '../dcl_view/v-collectStateChangeHandlers'
+import checkNestBorrow from '../dcl_view/nest_borrow/check-dcl'
+import checkNestBorrowWatch from '../dcl_view/nest_borrow/watch'
+import checkSpyglass from '../dcl_view/spyglass/check-dcl'
 var cloneObj = spv.cloneObj
-
-var getTypedDcls = require('../dcl-h/getTypedDcls')
-var collectCompxs = require('../StatesEmitter/collectCompxs')
-var buildInputAttrs = require('../dcl/attrs/input/build')
-var checkEffects = require('../dcl/effects/check')
-
-var collectSelectorsOfCollchs = require('../dcl_view/collectSelectorsOfCollchs')
-var collectCollectionChangeDeclarations = require('../dcl_view/collectCollectionChangeDeclarations')
-var changeChildrenViewsDeclarations = require('../dcl_view/changeChildrenViewsDeclarations')
-var collectStateChangeHandlers = require('../dcl_view/v-collectStateChangeHandlers')
-
-var checkNestBorrow = require('../dcl_view/nest_borrow/check-dcl')
-var checkNestBorrowWatch = require('../dcl_view/nest_borrow/watch')
-var checkSpyglass = require('../dcl_view/spyglass/check-dcl')
 
 var getBaseTreeCheckList = function(start) {
   var i, result = []
@@ -53,7 +50,7 @@ var getBaseTreeCheckList = function(start) {
 
 }
 
-return function(self, props, original) {
+export default function(self, props, original) {
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
   checkNestBorrow(self, props)
@@ -92,4 +89,3 @@ return function(self, props, original) {
 
   checkNestBorrowWatch(self, props)
 }
-})

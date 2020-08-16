@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
 
 var checkModel = function(md, models_index, local_index, all_for_parse) {
   if (!md) {
@@ -74,5 +73,4 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
 
 }
 
-return getLinedStructure
-})
+export default getLinedStructure

@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var $ = require('cash-dom')
+
+import $ from 'cash-dom'
 
 var find = function(con, selector) {
   return $(con).find(selector)
@@ -71,7 +70,7 @@ var is = function(one, two) {
   return $(one).is(two)
 }
 
-return {
+export default {
   find: find,
   append: append,
   prepend: prepend,
@@ -87,5 +86,3 @@ return {
   prev: prev,
   is: is,
 }
-
-})

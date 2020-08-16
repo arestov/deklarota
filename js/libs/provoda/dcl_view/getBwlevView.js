@@ -1,8 +1,8 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
 var nil = spv.nil
-return function getBwlevView(target) {
+
+export default function getBwlevView(target) {
   var cur = target
 
   while (!nil(cur)) {
@@ -14,4 +14,3 @@ return function getBwlevView(target) {
   }
 
 }
-})

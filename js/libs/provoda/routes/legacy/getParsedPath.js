@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var parsePath = require('./parse.js')
+
+import spv from '../../../spv'
+import parsePath from './parse.js'
 
 
 var isFromRoot = function(first_char, string_template) {
@@ -54,5 +53,4 @@ var getParsedPath = spv.memorize(function(string_template) {
   }
 })
 
-return getParsedPath
-})
+export default getParsedPath

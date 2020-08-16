@@ -1,16 +1,14 @@
-define(function(require) {
-'use strict'
-var Model = require('../Model')
-var spv = require('spv')
-var handleSpyglassRequests = require('../dcl/spyglass/handleRequest')
-var updateSpyglass = require('../dcl/spyglass/update')
-var _updateAttr = require('_updateAttr')
-var showMOnMap = require('./showMOnMap')
-var getModelById = require('../utils/getModelById')
-var followFromTo = require('./followFromTo')
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
 
-var cloneObj = require('spv/cloneObj')
+import Model from '../Model'
+import spv from '../../spv'
+import handleSpyglassRequests from '../dcl/spyglass/handleRequest'
+import updateSpyglass from '../dcl/spyglass/update'
+import _updateAttr from '../_internal/_updateAttr'
+import showMOnMap from './showMOnMap'
+import getModelById from '../utils/getModelById'
+import followFromTo from './followFromTo'
+import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
+import cloneObj from '../../spv/cloneObj'
 
 
 var RootLev = spv.inh(Model, {
@@ -91,5 +89,4 @@ var RootLev = spv.inh(Model, {
   },
 })
 
-return RootLev
-})
+export default RootLev

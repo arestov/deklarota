@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var Promise = require('Promise')
-var spv = require('spv')
-var getApiPart = require('./getApiPart')
+
+import Promise from '../../../common-libs/Promise-3.1.0.mod'
+import spv from '../../spv'
+import getApiPart from './getApiPart'
 var getTargetField = spv.getTargetField
 var countKeys = spv.countKeys
 
@@ -112,10 +111,8 @@ function finalizeBatch(reqs_batching, md) {
   }
 }
 
-return {
+export default {
   doBatch: doBatch,
   batch: batch,
   releaseBatch: releaseBatch,
 }
-
-})

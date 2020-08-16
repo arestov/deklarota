@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var pvState = require('../../utils/state')
-var executeStringTemplate = require('__lib/routes/legacy/executeStringTemplate')
-var _updateRel = require('_updateRel')
+
+import pvState from '../../utils/state'
+import executeStringTemplate from '../../routes/legacy/executeStringTemplate'
+import _updateRel from '../../_internal/_updateRel'
 
 function addHead(md, hands, head) {
   hands.heads.push(head)
@@ -345,5 +344,4 @@ function handleRemoving(md, lnwatch, skip) {
   resetCondCache(hands, _provoda_id)
 }
 
-return NestSelector
-})
+export default NestSelector

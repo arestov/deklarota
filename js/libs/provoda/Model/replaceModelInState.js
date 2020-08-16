@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var hasId = function(value) {
   return value && value._provoda_id
@@ -45,6 +44,4 @@ var replaceModelInState = function(value) {
   return value.map(replaceItem)
 }
 
-return replaceModelInState
-
-})
+export default replaceModelInState

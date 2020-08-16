@@ -1,9 +1,7 @@
-define(function(require) {
-'use strict'
 
-var utils_simple = require('../../utils/simple')
 
-var getNameByAttr = require('./getNameByAttr')
+import utils_simple from '../../utils/simple'
+import getNameByAttr from './getNameByAttr'
 //var st_event_name_default = ;
 //var st_event_name_light = 'lgh_sch-';
 
@@ -30,5 +28,4 @@ function triggerLightAttrChange(self, attr_name, value, zdsv) {
 }
 
 
-return triggerLightAttrChange
-})
+export default triggerLightAttrChange

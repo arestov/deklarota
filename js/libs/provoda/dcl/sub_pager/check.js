@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
 
-var getSubpageItem = require('./getSubpageItem')
 
-return function checkSubpager(self, props) {
+import getSubpageItem from './getSubpageItem'
+
+export default function checkSubpager(self, props) {
   var sub_pager = props.sub_pager
 
   if (!sub_pager) {
@@ -48,4 +47,3 @@ return function checkSubpager(self, props) {
 function canBeReusable(constr) {
   return Boolean(constr.prototype.hasComplexStateFn('$$reusable_url'))
 }
-})

@@ -1,17 +1,15 @@
-define(function(require) {
-'use strict'
-var _updateAttr = require('_updateAttr')
-var getDepValue = require('../../utils/multiPath/getDepValue')
-var multiPathAsString = require('../../utils/multiPath/asString')
 
-var nestCompxHandlers = require('../../dcl/nest_compx/handler')
+import _updateAttr from '../../_internal/_updateAttr'
+import getDepValue from '../../utils/multiPath/getDepValue'
+import multiPathAsString from '../../utils/multiPath/asString'
+import nestCompxHandlers from '../../dcl/nest_compx/handler'
+
+import target_types from './target_types'
 var changeValue = nestCompxHandlers.changeValue
-
-var target_types = require('./target_types')
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
 
-return function deliverChainUpdates(self, chain) {
+export default function deliverChainUpdates(self, chain) {
 
   switch (chain.target_type) {
     case TARGET_TYPE_ATTR: {
@@ -30,4 +28,3 @@ return function deliverChainUpdates(self, chain) {
 
   }
 }
-})

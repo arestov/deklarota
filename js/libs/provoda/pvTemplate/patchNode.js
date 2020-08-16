@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
-var d_parsers = require('./directives_parsers')
-var dom_helpers = require('../utils/dom_helpers')
-var getCachedPVData = require('./getCachedPVData')
-var StandartChange = require('./StandartChange')
-var getTemplateOptions = require('./pv-import/getTemplateOptions')
-var PvSimpleSampler = require('./PvSimpleSampler')
+
+import d_parsers from './directives_parsers'
+import dom_helpers from '../utils/dom_helpers'
+import getCachedPVData from './getCachedPVData'
+import StandartChange from './StandartChange'
+import getTemplateOptions from './pv-import/getTemplateOptions'
+import PvSimpleSampler from './PvSimpleSampler'
 // var patching_directives = d_parsers.patching_directives;
 var getIndexList = d_parsers.getIndexList
 var setStrucKey = getCachedPVData.setStrucKey
@@ -209,5 +208,4 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
     }
   }, 'pv-when')
 }
-return patchNode
-})
+export default patchNode

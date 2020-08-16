@@ -1,8 +1,6 @@
-define(function(require) {
-'use strict'
-var _updateAttr = require('_updateAttr')
 
-var saveResult = require('../../../../passes/targetedResult/save.js')
+import _updateAttr from '../../../../../_internal/_updateAttr'
+import saveResult from '../../../../passes/targetedResult/save.js'
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
@@ -105,5 +103,4 @@ var makeBindChanges = function(self, index, using, original_values) {
   return using
 }
 
-return makeBindChanges
-})
+export default makeBindChanges

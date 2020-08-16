@@ -1,15 +1,14 @@
-define(function(require) {
-'use strict'
- // var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
-var _updateRel = require('_updateRel')
-var animateMapChanges = require('../probe/animateMapChanges')
+
+import _updateRel from '../../_internal/_updateRel'
+
+import animateMapChanges from '../probe/animateMapChanges'
+import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
+import getModelById from '../../utils/getModelById'
+import createLevel from '../../bwlev/createLevel'
+import pvState from '../../provoda/state'
+import _updateAttr from '../../_internal/_updateAttr'
+import getKey from './getKey'
 var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
-var getModelById = require('../../utils/getModelById')
-var createLevel = require('../../bwlev/createLevel')
-var pvState = require('pv/state')
-var _updateAttr = require('_updateAttr')
-var getKey = require('./getKey')
 
 var getPioneer = function(lev) {
   return lev && lev.getNesting('pioneer')
@@ -90,5 +89,4 @@ var updateProbe = getProbeChange()
 var toggleProbe = getProbeChange(true)
 updateProbe.toggle = toggleProbe
 
-return updateProbe
-})
+export default updateProbe

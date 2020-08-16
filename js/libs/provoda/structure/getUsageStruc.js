@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var selecPoineertDeclr = require('./selecPoineertDeclr')
-var get_constr = require('./get_constr')
+
+import spv from '../../spv'
+import selecPoineertDeclr from './selecPoineertDeclr'
+import get_constr from './get_constr'
 
 var getNestingConstr = get_constr.getNestingConstr
 
@@ -16,7 +15,7 @@ var getPath = spv.memorize(function(switch_nesting_name) {
 
 var children_path = 'm_children.children_by_mn.pioneer'
 
-return function getUsageStruc(md, switch_nesting_name, used_data_structure, app) {
+export default function getUsageStruc(md, switch_nesting_name, used_data_structure, app) {
   var struc
 
   var model_name = md.model_name
@@ -69,4 +68,3 @@ return function getUsageStruc(md, switch_nesting_name, used_data_structure, app)
   }
   return struc
 }
-})

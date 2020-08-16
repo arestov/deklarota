@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var selecPoineertDeclr = require('../../structure/selecPoineertDeclr')
-return selecPoineertDeclr
-})
+
+import selecPoineertDeclr from '../../structure/selecPoineertDeclr'
+export default selecPoineertDeclr

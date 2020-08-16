@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var none = function() {}
 
 var FstackAtom = function(stack, func, done, data) {
@@ -130,5 +129,4 @@ FuncsStack.chain = function(arr) {
 
 
 
-return FuncsStack
-})
+export default FuncsStack

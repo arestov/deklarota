@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var orderItems = require('./orderItems')
+
+import spv from '../../spv'
+import orderItems from './orderItems'
 
 var SublWtch = function SublWtch(nwatch, skip, md, parent) {
   /*
@@ -306,10 +305,8 @@ function removeRootNestWatch(self, nwatch) {
   removeNestWatch(self, nwatch, 0)
 }
 
-return {
+export default {
   addRootNestWatch: addRootNestWatch,
   removeRootNestWatch: removeRootNestWatch,
   checkNestWatchs: checkNestWatchs,
 }
-
-})

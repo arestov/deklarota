@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var hp = require('../helpers')
-var get_constr = require('./get_constr')
+
+import spv from '../../spv'
+import hp from '../helpers'
+import get_constr from './get_constr'
 
 
 var getEncodedState = hp.getEncodedState
@@ -128,7 +127,7 @@ function checkNestingPath(app, md, dep, path, original_need) {
   dep.nesting_path = result
 
   return dep
-};
+}
 
 var relatedDeps = function(app, md, state_name) {
   var short_name = hp.getShortStateName(state_name)
@@ -262,7 +261,7 @@ function chechTreeStructure(app, md, dep) {
   }
 
   return dep
-};
+}
 
 function flatStruc(md, struc, appArg) {
   var result = []
@@ -289,7 +288,7 @@ var result = spv.memorize(flatStruc, function(md) {
 
 result.flatStruc = flatStruc
 
-return result
+export default result
 
 function flatSources(struc, parent_path) {
   if (!struc || !struc.main) {return}
@@ -324,5 +323,3 @@ function flatSources(struc, parent_path) {
 
   return result_list
 }
-
-})

@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-var looksLikeWrappedJSON = require('./utils/looksLikeWrappedJSON')
+
+import looksLikeWrappedJSON from './utils/looksLikeWrappedJSON'
 
 var tryParse = function(text) {
   try {
@@ -47,5 +46,4 @@ var match = function(parsed, some_url) {
   return result
 }
 
-return match
-})
+export default match

@@ -1,9 +1,8 @@
-define(function() {
-'use strict'
+
 
 // var order = ['zip', 'attr', 'rel', 'route', 'anc'];
 
-return function(params) {
+export default function(params) {
   // ({zip: 'all', attr: 'name', rel: '', route: '', anc: ''})
 
   var zip_part = params.zip ? ('@' + params.zip + ':') : ''
@@ -18,5 +17,4 @@ return function(params) {
 
   return '< ' + [attr, rel, params.route || '', params.anc || ''].join(' < ')
 
-}
-})
+};

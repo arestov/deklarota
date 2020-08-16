@@ -1,12 +1,10 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var splitByDot = spv.splitByDot
-var NestWatch = require('../nest-watch/NestWatch')
-var toMultiPath = require('../utils/NestingSourceDr/toMultiPath')
 
-var collectStateChangeHandlers = require('./collectStateChangeHandlers')
-var standart = require('../nest-watch/standartNWH')
+import spv from '../../spv'
+import NestWatch from '../nest-watch/NestWatch'
+import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
+import collectStateChangeHandlers from './collectStateChangeHandlers'
+import standart from '../nest-watch/standartNWH'
+var splitByDot = spv.splitByDot
 
 var wrapper = standart(function wrapper(md, items, lnwatch) {
   var callback = lnwatch.nwatch.handler.stch_fn
@@ -37,7 +35,7 @@ var getParsedStateChange = spv.memorize(function getParsedStateChange(string) {
   }
 })
 
-return function(self, props) {
+export default function(self, props) {
   var index = collectStateChangeHandlers(self, props)
   if (!index) {return}
 
@@ -62,4 +60,3 @@ return function(self, props) {
     )
   }
 }
-})

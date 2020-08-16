@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var states = {
   'one': true,
@@ -17,7 +16,7 @@ var nestings = {
   'length': true,
 }
 
-return function(zip_name, type) {
+export default function(zip_name, type) {
   switch (type) {
     case 'state': {
       return states[zip_name] === true
@@ -26,5 +25,4 @@ return function(zip_name, type) {
       return nestings[zip_name] === true
     }
   }
-}
-})
+};

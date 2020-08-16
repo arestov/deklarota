@@ -1,14 +1,13 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
+
+import spv from '../../../spv'
+import Dcl from './dcl'
+import rebuildHandleState from './handleState/rebuild'
+import rebuildHandleNesting from './handleNesting/rebuild'
+import rebuildHandleInit from './handleInit/rebuild'
 var cloneObj = spv.cloneObj
-var Dcl = require('./dcl')
-var rebuildHandleState = require('./handleState/rebuild')
-var rebuildHandleNesting = require('./handleNesting/rebuild')
-var rebuildHandleInit = require('./handleInit/rebuild')
 
-return function checkPasses(self, props) {
+export default function checkPasses(self, props) {
   if (!props.hasOwnProperty('actions')) {
     return
   }
@@ -29,5 +28,3 @@ return function checkPasses(self, props) {
 
   self._extendable_passes_index = result
 }
-
-})

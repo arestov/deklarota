@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var scheduleDelivering = require('./scheduleDelivering')
-var getAllOnwers = require('./getAllOnwers')
+
+import scheduleDelivering from './scheduleDelivering'
+import getAllOnwers from './getAllOnwers'
 
 
 var matchChainsByLink = function(mention_owner, links) {
@@ -18,5 +17,4 @@ var matchChainsByLink = function(mention_owner, links) {
 }
 
 
-return matchChainsByLink
-})
+export default matchChainsByLink

@@ -1,15 +1,14 @@
-define(function(require) {
-'use strict'
 
-var hp = require('../helpers')
-var LocalWatchRoot = require('../nest-watch/LocalWatchRoot')
-var addRemoveN = require('../nest-watch/add-remove')
+
+import hp from '../helpers'
+import LocalWatchRoot from '../nest-watch/LocalWatchRoot'
+import addRemoveN from '../nest-watch/add-remove'
+import NestWatch from '../nest-watch/NestWatch'
+import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
+import getModelById from '../utils/getModelById'
+import spv from '../../spv'
 var addRootNestWatch = addRemoveN.addRootNestWatch
 var removeRootNestWatch = addRemoveN.removeRootNestWatch
-var NestWatch = require('../nest-watch/NestWatch')
-var toMultiPath = require('../utils/NestingSourceDr/toMultiPath')
-var getModelById = require('../utils/getModelById')
-var spv = require('spv')
 
 var watchDependence = changeDependence(true)
 var unwatchDependence = changeDependence(false)
@@ -373,9 +372,9 @@ function changeDependence(mark) {
 
     return
   }
-};
+}
 
-return {
+export default {
   addReqDependence: function(supervision, dep) {
     watchDependence(supervision, this, dep, supervision.needy_id)
   },
@@ -383,4 +382,3 @@ return {
     unwatchDependence(supervision, this, dep, supervision.needy_id)
   }
 }
-})

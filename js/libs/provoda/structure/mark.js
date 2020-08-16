@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var definedAttrs = require('../Model/definedAttrs')
-var AttrsCollector = require('../StatesEmitter/AttrsCollector')
-var RootLev = require('../bwlev/RootLev')
-var BrowseLevel = require('../bwlev/BrowseLevel')
-var globalSkeleton = require('./globalSkeleton')
+
+import spv from '../../spv'
+import definedAttrs from '../Model/definedAttrs'
+import AttrsCollector from '../StatesEmitter/AttrsCollector'
+import RootLev from '../bwlev/RootLev'
+import BrowseLevel from '../bwlev/BrowseLevel'
+import globalSkeleton from './globalSkeleton'
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -88,5 +87,4 @@ function mark(Constr, RootConstr, parent_path) {
   return Constr
 }
 
-return mark
-})
+export default mark

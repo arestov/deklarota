@@ -1,13 +1,12 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
+import getCachedPVData from './getCachedPVData'
+import patchNode from './patchNode'
+import buildClone from './buildClone'
+import directives_parsers from './directives_parsers'
 var cloneObj = spv.cloneObj
-var getCachedPVData = require('./getCachedPVData')
-var patchNode = require('./patchNode')
-var buildClone = require('./buildClone')
 var unsetStrucKey = getCachedPVData.unsetStrucKey
 var setStrucKey = getCachedPVData.setStrucKey
-var directives_parsers = require('./directives_parsers')
 var scope_generators_p = directives_parsers.scope_generators_p
 
 
@@ -43,7 +42,7 @@ var getMarkedPvNest = function(node, pv_nest, struc_store, getSample) {
   return result
 }
 
-return function getPatchedTree(original_node, struc_store, getSample, opts, sample_id) {
+export default function getPatchedTree(original_node, struc_store, getSample, opts, sample_id) {
   var node = getMarkedPvNest(
     buildClone(original_node, struc_store, sample_id),
     opts && opts.pv_nest,
@@ -87,5 +86,3 @@ return function getPatchedTree(original_node, struc_store, getSample, opts, samp
   // return result;
   return node
 }
-
-})

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var getValue = function(app, value) {
   if (value) {
@@ -29,6 +28,4 @@ var pathExecutor = function(getChunk) {
   }
 }
 
-return pathExecutor
-
-})
+export default pathExecutor

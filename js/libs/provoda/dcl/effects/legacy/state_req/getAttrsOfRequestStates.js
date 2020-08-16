@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var types = require('../../../../FastEventor/stateReqTypes')
+
+import types from '../../../../FastEventor/stateReqTypes'
 var boolean_types = types.boolean_types
 
 function BooleanAttr(name) {
@@ -11,7 +10,7 @@ BooleanAttr.prototype = {
   type: 'bool',
 }
 
-return function(dcl) {
+export default function(dcl) {
   dcl.boolean_attrs = []
   for (var i = 0; i < dcl.states_list.length; i++) {
     var states_name = dcl.states_list[i]
@@ -26,4 +25,3 @@ return function(dcl) {
     }
   }
 }
-})

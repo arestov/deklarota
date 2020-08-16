@@ -1,20 +1,19 @@
-define(function(require) {
-'use strict'
-var ba_canReuse = require('./ba_canReuse')
-var showInterest = require('./showInterest')
-var _goDeeper = require('./_goDeeper')
-var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev')
-var showMOnMap = require('./showMOnMap')
-var isBigStep = require('./isBigStep')
-var getNavGroups = require('./getNavGroups')
-var toProperNavParent = require('./toProperNavParent')
+
+import ba_canReuse from './ba_canReuse'
+import showInterest from './showInterest'
+import _goDeeper from './_goDeeper'
+import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
+import showMOnMap from './showMOnMap'
+import isBigStep from './isBigStep'
+import getNavGroups from './getNavGroups'
+import toProperNavParent from './toProperNavParent'
 
 var limits = {
   same_model_matches: 1,
   big_steps: 4
 }
 
-return function followFromTo(BWL, map, parent_bwlev, end_md) {
+export default function followFromTo(BWL, map, parent_bwlev, end_md) {
   var cutted_parents = getLimitedParent(parent_bwlev, end_md)
 
   if (cutted_parents) {
@@ -71,7 +70,7 @@ function getLimitedParent(parent_bwlev, end_md) {
   }
 
   return false
-};
+}
 
 
 function getEdgeSimilarModelPos(bwlev, model_name, limit) {
@@ -99,7 +98,7 @@ function getEdgeSimilarModelPos(bwlev, model_name, limit) {
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups_of_similar == limit ? edge_group_num : -1
-};
+}
 
 function countGroups(bwlev) {
   var groups_count = 1
@@ -115,7 +114,7 @@ function countGroups(bwlev) {
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups_count
-};
+}
 
 
 function interestPart(group) {
@@ -124,4 +123,3 @@ function interestPart(group) {
     distance: group.length
   }
 }
-})

@@ -1,11 +1,9 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var View = require('View')
-var _updateAttr = require('_updateAttr')
-var mergeBhv = require('pv/_lmerge')
 
-var used_str = require('../utils/used_struc')
+import spv from '../../libs/spv'
+import View from '../../libs/provoda/View'
+import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
+import mergeBhv from '../../libs/provoda/provoda/_lmerge'
+import used_str from '../utils/used_struc'
 var used_struc_bhv = used_str.bhv
 
 var BrowseLevView = spv.inh(View, {}, mergeBhv({
@@ -114,5 +112,4 @@ var BrowseLevView = spv.inh(View, {}, mergeBhv({
   'sel-coll-pioneer': '$spec_common-pioneer',
 }, used_struc_bhv))
 
-return BrowseLevView
-})
+export default BrowseLevView

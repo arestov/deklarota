@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-var getCachedPVData = require('./getCachedPVData')
+
+import getCachedPVData from './getCachedPVData'
 var getNodeInstanceCount = getCachedPVData.getNodeInstanceCount
 
 var getAll = function(node) {
@@ -34,7 +33,7 @@ var getAllCached = function(node) {
   return result
 }
 
-return function buildClone(onode, struc_store, sample_id) {
+export default function buildClone(onode, struc_store, sample_id) {
   var cloned = onode.cloneNode(true)
 
   var all_onodes = getAllCached(onode)
@@ -52,4 +51,3 @@ return function buildClone(onode, struc_store, sample_id) {
 
   return cloned
 }
-})

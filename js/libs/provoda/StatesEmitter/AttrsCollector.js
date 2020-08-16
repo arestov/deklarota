@@ -1,9 +1,7 @@
-define(function(require) {
-'use strict'
 
-var BitField = require('./BitField')
 
-var isPrivate = require('../Model/isPrivateState')
+import BitField from './BitField'
+import isPrivate from '../Model/isPrivateState'
 
 var reserved = 2
 
@@ -193,5 +191,4 @@ AttrsCollector.prototype = {
   }
 }
 
-return AttrsCollector
-})
+export default AttrsCollector

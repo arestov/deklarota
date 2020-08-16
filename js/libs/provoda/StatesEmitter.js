@@ -1,26 +1,20 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var utils_simple = require('./utils/simple')
 
-var updateProxy = require('./updateProxy')
-var Eventor = require('./Eventor')
-var useInterface = require('./StatesEmitter/useInterface')
-var gentlyUpdateAttr = require('./StatesEmitter/gentlyUpdateAttr')
-
-var deliverChainUpdates = require('./Model/mentions/deliverChainUpdates')
-
-var regfr_lightstev = require('./internal_events/light_attr_change/regfire')
-var getNameByAttr = require('./internal_events/light_attr_change/getNameByAttr')
-var subscribeToDie = require('./internal_events/die/subscribe')
-var _updateAttr = require('_updateAttr')
-
-var onPropsExtend = require('./onExtendSE')
-var act = require('./dcl/passes/act')
-var pvState = require('./utils/state')
-
-var initEffectsSubscribe = require('./dcl/effects/legacy/subscribe/init')
+import spv from '../spv'
+import utils_simple from './utils/simple'
+import updateProxy from './updateProxy'
+import Eventor from './Eventor'
+import useInterface from './StatesEmitter/useInterface'
+import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
+import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
+import regfr_lightstev from './internal_events/light_attr_change/regfire'
+import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
+import subscribeToDie from './internal_events/die/subscribe'
+import _updateAttr from './_internal/_updateAttr'
+import onPropsExtend from './onExtendSE'
+import act from './dcl/passes/act'
+import pvState from './utils/state'
+import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
 
 var getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
@@ -224,5 +218,4 @@ var StatesEmitter = spv.inh(Eventor, {
   props: props,
 })
 
-return StatesEmitter
-})
+export default StatesEmitter

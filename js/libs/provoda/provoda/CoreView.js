@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var View = require('../CoreView')
-return View
-})
+
+import View from '../CoreView'
+export default View

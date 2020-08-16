@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
 var memorize = spv.memorize
 var splitByDot = spv.splitByDot
 
@@ -10,8 +9,6 @@ var NestingSourceDr = function(string) {
   this.selector = splitByDot(parts[parts.length - 1])
 }
 
-return memorize(function parseNSD(string) {
+export default memorize(function parseNSD(string) {
   return new NestingSourceDr(string)
-})
-
 })

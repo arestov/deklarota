@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var parseMultiPath = require('../../../utils/multiPath/parse')
+
+import parseMultiPath from '../../../utils/multiPath/parse'
 
 var targetData = function(to, result_name, dsl_options) {
   if (!Array.isArray(to)) {
@@ -69,6 +68,4 @@ function targetedResult(self, to) {
   }
 }
 
-return targetedResult
-
-})
+export default targetedResult

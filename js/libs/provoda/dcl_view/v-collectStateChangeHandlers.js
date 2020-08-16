@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var collectStateChangeHandlers = require('../dcl/collectStateChangeHandlers')
 
-return function(self, props) {
+import collectStateChangeHandlers from '../dcl/collectStateChangeHandlers'
+
+export default function(self, props) {
   var index = collectStateChangeHandlers(self, props)
   if (!index) {return}
 
@@ -22,6 +21,3 @@ return function(self, props) {
     self.stch_hs_list.push(stname)
   }
 }
-
-
-})

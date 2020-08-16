@@ -1,6 +1,4 @@
-define(function(require) {
-'use strict'
 
-var getModelById = require('../utils/getModelById')
-return getModelById
-})
+
+import getModelById from '../utils/getModelById'
+export default getModelById

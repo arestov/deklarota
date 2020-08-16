@@ -1,31 +1,28 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var StatesLabour = require('./StatesLabour')
-var hp = require('./helpers')
-var MDProxy = require('./MDProxy')
-var initDeclaredNestings = require('./initDeclaredNestings')
-var prsStCon = require('./prsStCon')
-var updateProxy = require('./updateProxy')
-var StatesEmitter = require('./StatesEmitter')
-var _requestsDeps = require('./Model/_requestsDeps')
-var onPropsExtend = require('./Model/onExtend')
-var initModel = require('./Model/init')
-var gentlyUpdateNesting = require('./Model/gentlyUpdateNesting')
-var postInitModel = require('./Model/postInit')
-var initSi = require('./Model/initConstr/subitem')
-var isPrivate = require('./Model/isPrivateState')
-var getLinedStructure = require('./Model/getLinedStructure')
-var toSimpleStructure = require('./Model/toSimpleStructure')
-var ensurePublicAttrs = require('./Model/ensurePublicAttrs')
-var addrFromObj = require('./provoda/dcl/addr.js')
-var getDepValue = require('./utils/multiPath/getDepValue')
-var parseAddr = require('./utils/multiPath/parse')
 
-var logger = require('./dx/logger')
-
-var wrapInputCall = require('pv/wrapInputCall')
+import spv from '../spv'
+import StatesLabour from './StatesLabour'
+import hp from './helpers'
+import MDProxy from './MDProxy'
+import initDeclaredNestings from './initDeclaredNestings'
+import prsStCon from './prsStCon'
+import updateProxy from './updateProxy'
+import StatesEmitter from './StatesEmitter'
+import _requestsDeps from './Model/_requestsDeps'
+import onPropsExtend from './Model/onExtend'
+import initModel from './Model/init'
+import gentlyUpdateNesting from './Model/gentlyUpdateNesting'
+import postInitModel from './Model/postInit'
+import initSi from './Model/initConstr/subitem'
+import isPrivate from './Model/isPrivateState'
+import getLinedStructure from './Model/getLinedStructure'
+import toSimpleStructure from './Model/toSimpleStructure'
+import ensurePublicAttrs from './Model/ensurePublicAttrs'
+import addrFromObj from './provoda/dcl/addr.js'
+import getDepValue from './utils/multiPath/getDepValue'
+import parseAddr from './utils/multiPath/parse'
+import logger from './dx/logger'
+import wrapInputCall from './provoda/wrapInputCall'
 
 var push = Array.prototype.push
 var cloneObj = spv.cloneObj
@@ -426,5 +423,4 @@ add({
 })
 }
 
-return Model
-})
+export default Model

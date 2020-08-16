@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../../../spv'
 var rootApis = function(list) {
 
   var index = {}
@@ -17,7 +16,7 @@ var rootApis = function(list) {
   return Object.keys(index)
 }
 
-return function(self, list) {
+export default function(self, list) {
   self._build_cache_interfaces = {}
 
   self._interfaces_to_states_index = {}
@@ -44,4 +43,3 @@ return function(self, list) {
   self.__api_root_dep_apis_subscribe_eff = rootApis(list)
   self._interfaces_to_states_index = index
 }
-})

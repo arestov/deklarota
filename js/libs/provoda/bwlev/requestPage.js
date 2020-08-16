@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
-var _goDeeper = require('./_goDeeper')
-var getModelById = require('../utils/getModelById')
-var changeBridge = require('./changeBridge')
-var showMOnMap = require('./showMOnMap')
 
-return function requestPage(BWL, self, id) {
+import _goDeeper from './_goDeeper'
+import getModelById from '../utils/getModelById'
+import changeBridge from './changeBridge'
+import showMOnMap from './showMOnMap'
+
+export default function requestPage(BWL, self, id) {
   var md = getModelById(self, id)
   var pioneer = self.getNesting('pioneer')
 
@@ -54,4 +53,3 @@ return function requestPage(BWL, self, id) {
   }
 
 }
-})

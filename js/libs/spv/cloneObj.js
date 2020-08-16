@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var simpleClone = function simpleClone(_no, donor) {
   for (var prop in donor) {
     if (!donor.hasOwnProperty(prop)) {
@@ -15,7 +14,7 @@ var doClone = Object.assign ? function cloneObj(_no, donor) {
 } : simpleClone
 
 
-return function blockingCloneObj(acceptor, donor, black_list, white_list) {
+export default function blockingCloneObj(acceptor, donor, black_list, white_list) {
   //not deep!
   var _no = acceptor || {}
   var prop
@@ -34,7 +33,4 @@ return function blockingCloneObj(acceptor, donor, black_list, white_list) {
   } else {
     return doClone(_no, donor)
   }
-}
-
-
-})
+};

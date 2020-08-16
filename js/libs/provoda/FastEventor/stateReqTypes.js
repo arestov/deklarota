@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return {
+
+export default {
   loading: 'loading',
   load_attempting: 'load_attempting',
   load_attempted: 'load_attempted',
@@ -9,4 +8,3 @@ return {
   complete: 'complete',
   boolean_types: ['loading', 'load_attempting', 'load_attempted', 'complete'],
 }
-})

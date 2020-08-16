@@ -1,7 +1,7 @@
-define(function() {
-'use strict'
+
 // etr, original_states, state_name, value
-return function(self, data) {
+
+export default function(self, data) {
   if (!self.__handleInit) {
     return
   }
@@ -11,5 +11,4 @@ return function(self, data) {
   var arg = data
 
   self.nextLocalTick(self.__act, [self, pass_name, arg], true)
-}
-})
+};

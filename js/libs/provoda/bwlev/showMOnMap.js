@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
 
-var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev')
-var ba_canReuse = require('./ba_canReuse')
-var _goDeeper = require('./_goDeeper')
-var createLevel = require('./createLevel')
-var toProperNavParent = require('./toProperNavParent')
+
+import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
+import ba_canReuse from './ba_canReuse'
+import _goDeeper from './_goDeeper'
+import createLevel from './createLevel'
+import toProperNavParent from './toProperNavParent'
 
 var ba_inUse = ba_canReuse.ba_inUse
 
@@ -50,7 +49,7 @@ function ensureStartBwlev(map, md) {
 
 }
 
-return function showMOnMap(BWL, map, model, bwlev) {
+export default function showMOnMap(BWL, map, model, bwlev) {
 
   var is_start = isStart(model)
 
@@ -99,4 +98,3 @@ return function showMOnMap(BWL, map, model, bwlev) {
   return result
   //
 }
-})

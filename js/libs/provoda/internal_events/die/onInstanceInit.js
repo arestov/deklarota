@@ -1,7 +1,5 @@
-define(function() {
-'use strict'
 
-return function(self) {
+
+export default function(self) {
   self._die_subscribers = null
-}
-})
+};

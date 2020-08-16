@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function isBwConnectedView(target, view_space) {
+
+
+export default function isBwConnectedView(target, view_space) {
   /*
   поменять на
 
@@ -25,6 +25,4 @@ return function isBwConnectedView(target, view_space) {
   }
 
   return
-}
-
-})
+};

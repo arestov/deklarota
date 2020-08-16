@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var updateRel = require('../Model/updateNesting')
-return updateRel
-})
+
+import updateRel from '../Model/updateNesting'
+export default updateRel

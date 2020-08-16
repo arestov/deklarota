@@ -1,6 +1,4 @@
-define(function(require) {
-'use strict'
-var joinNavURL = require('../bwlev/joinNavURL')
 
-return joinNavURL
-})
+import joinNavURL from '../bwlev/joinNavURL'
+
+export default joinNavURL

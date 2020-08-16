@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var Model = require('../Model')
-var _updateAttr = require('_updateAttr')
-var getModelById = require('../utils/getModelById')
+
+import spv from '../../spv'
+import Model from '../Model'
+import _updateAttr from '../_internal/_updateAttr'
+import getModelById from '../utils/getModelById'
 
 var HModel = spv.inh(Model, {
   strict: true,
@@ -86,6 +85,4 @@ var HModel = spv.inh(Model, {
   }
 })
 
-return HModel
-
-})
+export default HModel

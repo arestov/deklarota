@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var pv = require('pv')
-var BrowseMap = require('./provoda/BrowseMap')
-var flatStruc = require('./structure/flatStruc')
+
+import pv from './provoda'
+import BrowseMap from './provoda/BrowseMap'
+import flatStruc from './structure/flatStruc'
 
 throw new Error('use runtime/app/start to init app')
 
@@ -112,5 +111,4 @@ function getWatchStruct(schema) {
   }
 }
 
-return fetchData
-})
+export default fetchData

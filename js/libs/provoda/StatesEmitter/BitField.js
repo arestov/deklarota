@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 // https://github.com/fb55/bitfield
 
 function getByteSize(num) {
@@ -46,5 +45,4 @@ BitField.prototype = {
   }
 }
 
-return BitField
-})
+export default BitField

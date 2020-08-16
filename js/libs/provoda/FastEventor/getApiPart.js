@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
+import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 var getTargetField = spv.getTargetField
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
 
 var getApiPart = function(send_declr, sputnik, app) {
   var network_api = getNetApiByDeclr(send_declr, sputnik, app)
@@ -11,6 +10,4 @@ var getApiPart = function(send_declr, sputnik, app) {
     : getTargetField(network_api, send_declr.api_resource_path)
 }
 
-return getApiPart
-
-})
+export default getApiPart

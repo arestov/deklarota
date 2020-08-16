@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function getTypedDcls(props) {
+
+
+export default function getTypedDcls(props) {
   if (!props) {
     return
   }
@@ -29,5 +29,4 @@ return function getTypedDcls(props) {
   }
 
   return result
-}
-})
+};

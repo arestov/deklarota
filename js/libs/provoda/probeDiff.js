@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var getNesting = require('pv/getNesting')
+
+import getNesting from './provoda/getNesting'
 
 var getModelByIdUniversal = function(highway_holder, _provoda_id) {
   var _highway = highway_holder._highway
@@ -68,7 +67,7 @@ var asMDR = function(md) {
   return md && md.getMDReplacer()
 }
 
-return function probeDiff(highway_holder, value, oldvalue) {
+export default function probeDiff(highway_holder, value, oldvalue) {
   var bwlev = value
   var target = getNesting(getModelByR(highway_holder, bwlev), 'pioneer').getMDReplacer()
 
@@ -105,4 +104,3 @@ return function probeDiff(highway_holder, value, oldvalue) {
     array: changes_wrap,
   }
 }
-})

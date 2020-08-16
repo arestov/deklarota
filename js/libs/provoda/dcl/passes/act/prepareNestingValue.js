@@ -1,11 +1,9 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var getNesting = require('pv/getNesting')
 
-var get_constr = require('../../../structure/get_constr')
-var getModelById = require('../../../utils/getModelById')
-var pushToRoute = require('../../../structure/pushToRoute')
+import spv from '../../../../spv'
+import getNesting from '../../../provoda/getNesting'
+import get_constr from '../../../structure/get_constr'
+import getModelById from '../../../utils/getModelById'
+import pushToRoute from '../../../structure/pushToRoute'
 
 var cloneObj = spv.cloneObj
 var getNestingConstr = get_constr.getNestingConstr
@@ -350,7 +348,7 @@ prepareNestingValue.initValue = initValue
 prepareNestingValue.initPassedValue = initPassedValue
 prepareNestingValue.useRefIfNeeded = useRefIfNeeded
 
-return prepareNestingValue
+export default prepareNestingValue
 
 function isProvodaBhv(md) {
   return md.hasOwnProperty('_provoda_id') || md.hasOwnProperty('view_id')
@@ -373,4 +371,3 @@ function isOk(list) {
   return list.every(isProvodaBhv)
 
 }
-})

@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
-var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData')
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
+
+import getSPByPathTemplateAndData from '../../routes/legacy/getSPByPathTemplateAndData'
+import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 
 var empty = {}
 
-return function getStart(md, multi_path, use_state_from_initial_model, data) {
+export default function getStart(md, multi_path, use_state_from_initial_model, data) {
   return getResourse(
     getBase(md, multi_path),
     multi_path,
@@ -57,4 +56,3 @@ function getResourse(md, multi_path, use_state_from_initial_model, data) {
 
   return getSPByPathTemplateAndData(md.app, md, info.path, false, data || empty)
 }
-})

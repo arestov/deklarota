@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var _updateAttr = require('_updateAttr')
-var wrapDeps = require('../api/utils/wrapDeps')
+
+import spv from '../../../../../spv'
+import _updateAttr from '../../../../_internal/_updateAttr'
+import wrapDeps from '../api/utils/wrapDeps'
 var toRealArray = spv.toRealArray
 
 
@@ -20,7 +19,7 @@ var getHandler = function(schema) {
   }
 }
 
-return function ApiEffectDeclr(name, data) {
+export default function ApiEffectDeclr(name, data) {
 
   this.name = name
   this.apis = null
@@ -80,4 +79,3 @@ return function ApiEffectDeclr(name, data) {
   var effects_deps = condition && condition[1]
   this.effects_deps = (effects_deps && toRealArray(effects_deps)) || null
 }
-})

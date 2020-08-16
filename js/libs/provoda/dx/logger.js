@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var CH_GR_LE = 2
 
 var selectModel = function(owner) {
@@ -90,8 +89,7 @@ var logNesting = function(owner, collection_name, array, old_value, removed) {
 
 }
 
-return {
+export default {
   logStates: logStates,
   logNesting: logNesting,
 }
-})

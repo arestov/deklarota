@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var targetedResult = require('../../../passes/targetedResult/dcl.js')
+
+import spv from '../../../../../spv'
+import targetedResult from '../../../passes/targetedResult/dcl.js'
 
 var warnStateUsing = function() {
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
@@ -13,7 +12,7 @@ var warnStateUsing = function() {
 
 var count = 0
 
-return function StateBindDeclr(key, data) {
+export default function StateBindDeclr(key, data) {
   this.id = ++count
   this.key = key
   this.apis = null
@@ -48,4 +47,3 @@ return function StateBindDeclr(key, data) {
   this.apis = spv.toRealArray(data.api)
   this.fn = data.fn
 }
-})

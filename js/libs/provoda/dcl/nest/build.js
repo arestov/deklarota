@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var structureChild = require('../../structure/child')
+
+import structureChild from '../../structure/child'
 
 var build = function(self, result) {
   self.nestings_declarations = []
@@ -32,5 +31,4 @@ var build = function(self, result) {
   }
 }
 
-return build
-})
+export default build

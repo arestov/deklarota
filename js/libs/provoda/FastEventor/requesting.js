@@ -1,13 +1,10 @@
-define(function(require) {
-'use strict'
-var requestState = require('./requestState')
-var requestNesting = require('./requestNesting')
+
+import requestState from './requestState'
+import requestNesting from './requestNesting'
 
 
-return {
+export default {
   requestState: requestState,
   resetRequestedState: requestState.resetRequestedState,
   requestNesting: requestNesting,
 }
-
-})

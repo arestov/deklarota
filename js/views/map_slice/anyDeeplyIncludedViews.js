@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
-var getModelFromR = require('pv/v/getModelFromR')
-var getNesting = require('pv/getNesting')
+
+import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import getNesting from '../../libs/provoda/provoda/getNesting'
 
 var matchParent = function(possible_parent, child) {
   var cur = child
@@ -16,7 +15,7 @@ var matchParent = function(possible_parent, child) {
   return false
 }
 
-return function(spyglass_view, current_bwlev_mdr, target_bwlev_mdr) {
+export default function(spyglass_view, current_bwlev_mdr, target_bwlev_mdr) {
   // look if any views of md if deeply included in target_root
   // to do this we will check if one of parent_view.parent_view[...] of mpx views is target_root
   var current_bwlev = current_bwlev_mdr && getModelFromR(spyglass_view, current_bwlev_mdr)
@@ -42,4 +41,3 @@ return function(spyglass_view, current_bwlev_mdr, target_bwlev_mdr) {
 
   }
 }
-})

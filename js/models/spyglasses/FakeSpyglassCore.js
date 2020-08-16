@@ -1,22 +1,20 @@
-define(function(require) {
-'use strict'
-var Model = require('pv/Model')
-var spv = require('spv')
-var pvState = require('pv/state')
-var _updateRel = require('_updateRel')
-var joinNavURL = require('pv/joinNavURL')
-var navi = require('js/libs/navi')
-var changeBridge = require('js/libs/provoda/bwlev/changeBridge')
-var getNesting = require('pv/getNesting')
-var createLevel = require('js/libs/provoda/bwlev/createLevel')
-var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap')
-var getModelById = require('js/libs/provoda/utils/getModelById')
-var _updateAttr = require('_updateAttr')
 
-var BrowseMap = require('js/libs/BrowseMap')
-var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges')
+import Model from '../../libs/provoda/provoda/Model'
+import spv from '../../libs/spv'
+import pvState from '../../libs/provoda/provoda/state'
+import _updateRel from '../../libs/provoda/_internal/_updateRel'
+import joinNavURL from '../../libs/provoda/provoda/joinNavURL'
+import navi from '../../libs/navi'
+import changeBridge from '../../libs/provoda/bwlev/changeBridge'
+import getNesting from '../../libs/provoda/provoda/getNesting'
+import createLevel from '../../libs/provoda/bwlev/createLevel'
+import showMOnMap from '../../libs/provoda/bwlev/showMOnMap'
+import getModelById from '../../libs/provoda/utils/getModelById'
+import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
+import BrowseMap from '../../libs/BrowseMap'
+import animateMapChanges from '../../libs/provoda/dcl/probe/animateMapChanges'
 
-return spv.inh(Model, {
+export default spv.inh(Model, {
   naming: function(fn) {
     return function FakeSpyglassCore(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
@@ -202,7 +200,7 @@ function initMapTree(target, start_page, needs_url_history, navi) {
     .on('bridge-changed', function(bwlev) {
       animateMapChanges(target, bwlev)
     }, target.app.getContextOptsI())
-};
+}
 
 function initNav(map, navi, app) {
   if (map.needs_url_history) {
@@ -245,6 +243,3 @@ function askAuth(bwlev) {
 
   getNesting(bwlev, 'pioneer').switchPmd()
 }
-
-
-})

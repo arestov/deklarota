@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var FlowStep = function(num, complex_order, inited_order, fn, context, args, arg, cb_wrapper, real_context, finup, init_end) {
   this.aborted = false
@@ -85,5 +84,4 @@ FlowStep.prototype.call = function() {
   this.fn.apply(this.context, this.args)
   return
 }
-return FlowStep
-})
+export default FlowStep

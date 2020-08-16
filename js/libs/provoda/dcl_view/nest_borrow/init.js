@@ -1,16 +1,14 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
+
+import watcherKey from './watcherKey'
+import getParent from './getParent'
+import checkChange from './check-change'
 var nil = spv.nil
-
-var watcherKey = require('./watcherKey')
-
-var getParent = require('./getParent')
-var checkChange = require('./check-change')
 var checkChildren = checkChange.checkChildren
 
 
-return function(self) {
+export default function(self) {
   if (nil(self._nest_borrow)) {
     return
   }
@@ -36,4 +34,3 @@ return function(self) {
     checkChildren(upper_view, item)
   }
 }
-})

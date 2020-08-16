@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
-var checkPrefix = require('../../StatesEmitter/checkPrefix')
+
+import checkPrefix from '../../StatesEmitter/checkPrefix'
+import spv from '../../../spv'
 var transportName = function(spyglass_name) {
   return 'spyglass__' + spyglass_name.replace('/', '__')
 }
-var spv = require('spv')
 var nil = spv.nil
 
 var NestSpyglassDcl = function(name, data) {
@@ -25,7 +24,7 @@ var NestSpyglassDcl = function(name, data) {
 
 var checkNestSpyglasses = checkPrefix('spyglass-', NestSpyglassDcl, '_spyglass')
 
-return function check(self, props) {
+export default function check(self, props) {
   var spyglasses = checkNestSpyglasses(self, props)
 
   if (nil(spyglasses)) {return}
@@ -38,5 +37,3 @@ return function check(self, props) {
     props.children_views[cur.nest_name] = self.children_views[cur.nest_name] = cur.spyglass_view
   }
 }
-
-})

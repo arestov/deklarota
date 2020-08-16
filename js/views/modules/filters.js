@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var filters = {
   limitTo: function(input, limit) {
     if (Array.isArray(input)) {
@@ -23,5 +22,4 @@ var filters = {
   }
 }
 
-return filters
-})
+export default filters

@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var angbo = require('angbo')
+
+import spv from '../../spv'
+import angbo from '../StatementsAngularParser.min'
 var splitByDot = spv.splitByDot
 
 var abortFlowStep = function(tpl, w_cache_key) {
@@ -191,5 +190,4 @@ StandartChange.prototype = {
 
 StandartChange.getFieldsTreesBases = getFieldsTreesBases
 
-return StandartChange
-})
+export default StandartChange

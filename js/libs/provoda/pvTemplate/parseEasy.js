@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var getCachedPVData = require('./getCachedPVData')
-var patchNode = require('./patchNode')
+
+import getCachedPVData from './getCachedPVData'
+import patchNode from './patchNode'
 
 function getCommentPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, true, getSample)
@@ -12,7 +11,7 @@ function getPVData(cur_node, struc_store, getSample) {
 }
 
 
-return function parserEasy(start_node, vroot_node, struc_store, getSample) {
+export default function parserEasy(start_node, vroot_node, struc_store, getSample) {
   //полный парсинг, байндинг одного scope (раньше и парсинг был только в пределах одного scope)
   var list_for_binding = []
   var match_stack = [ start_node, true ]
@@ -58,4 +57,3 @@ return function parserEasy(start_node, vroot_node, struc_store, getSample) {
   }
   return list_for_binding
 }
-})

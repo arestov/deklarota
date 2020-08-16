@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var getSTEVNameLight = require('../internal_events/light_attr_change/getNameByAttr')
 
-return {
+import getSTEVNameLight from '../internal_events/light_attr_change/getNameByAttr'
+
+export default {
   getSTEVNameLight: getSTEVNameLight,
   wipeObj: function(obj) {
     if (obj == null) {
@@ -31,4 +30,3 @@ return {
     }
   }
 }
-})

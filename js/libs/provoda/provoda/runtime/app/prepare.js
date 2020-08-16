@@ -1,10 +1,8 @@
-define(function(require) {
-'use strict'
 
-var AppRuntime = require('./AppRuntime')
 
-return function(runOptions) {
+import AppRuntime from './AppRuntime'
+
+export default function(runOptions) {
   var _highway = new AppRuntime(runOptions)
   return _highway
 }
-})

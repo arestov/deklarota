@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-var wrapDeps = require('./utils/wrapDeps')
+
+import wrapDeps from './utils/wrapDeps'
 
 var prefixArray = function(arr, prefix) {
   var result = new Array(arr.length)
@@ -11,7 +10,7 @@ var prefixArray = function(arr, prefix) {
   return result
 }
 
-return function ApiDeclr(name, data) {
+export default function ApiDeclr(name, data) {
   this.name = name
 
   this.fn = null
@@ -70,4 +69,3 @@ return function ApiDeclr(name, data) {
 
   }
 }
-})

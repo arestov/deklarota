@@ -1,12 +1,10 @@
-define(function(require) {
-'use strict'
-var pvState = require('../utils/state')
 
-var createLevel = require('./createLevel')
-var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev')
-var toProperNavParent = require('./toProperNavParent')
+import pvState from '../utils/state'
+import createLevel from './createLevel'
+import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
+import toProperNavParent from './toProperNavParent'
 
-return function _goDeeper(BWL, map, md, parent_bwlev) {
+export default function _goDeeper(BWL, map, md, parent_bwlev) {
   // без parent_bwlev нет контекста
   if (!parent_bwlev) {
     // будем искать parent_bwlev на основе прямой потомственности от уровня -1
@@ -48,5 +46,4 @@ function getBwlevInParentBwlev(md, map) {
 
   var parent_bwlev = getBwlevInParentBwlev(toProperNavParent(md.map_parent), map)
   return getBwlevFromParentBwlev(parent_bwlev, md)
-};
-})
+}

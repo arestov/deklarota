@@ -1,13 +1,11 @@
-define(function(require) {
-'use strict'
-var addRemove = require('../../nest-watch/add-remove')
+
+import addRemove from '../../nest-watch/add-remove'
+
+import LocalWatchRoot from '../../nest-watch/LocalWatchRoot'
+import addFrom from '../../nest-watch/addFrom'
+import getStartModel from '../../nest-watch/getStartModel'
+import NestSelector from './NestSelector'
 var addRootNestWatch = addRemove.addRootNestWatch
-
-var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
-var addFrom = require('../../nest-watch/addFrom')
-var getStartModel = require('../../nest-watch/getStartModel')
-
-var NestSelector = require('./NestSelector')
 var Hands = NestSelector.Hands
 var addHead = NestSelector.addHead
 
@@ -34,7 +32,7 @@ function add(self, nwbase, dcl) {
   return start_md.shared_nest_sel_hands[key]
 }
 
-return function init(self) {
+export default function init(self) {
   self.states_links = self.states_links || null
   self.nes_match_index = self.nes_match_index || null
 
@@ -53,4 +51,3 @@ return function init(self) {
   }
 
 }
-})

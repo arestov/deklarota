@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var orderItems = require('./orderItems')
 
-return function(etr, zdsv, state_name, value, cur_value) {
+import orderItems from './orderItems'
+
+export default function(etr, zdsv, state_name, value, cur_value) {
   var links = etr.states_links && etr.states_links[state_name]
   if (!links) {return}
   for (var k = 0; k < links.length; k++) {
@@ -23,4 +22,3 @@ function handleStates(motivator, _, lnwatch, args) {
   orderItems(lnwatch)
   lnwatch.state_handler.call(null, motivator, _, lnwatch, args)
 }
-})

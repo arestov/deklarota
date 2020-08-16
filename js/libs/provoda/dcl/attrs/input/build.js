@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function(self, props, byName) {
+
+
+export default function(self, props, byName) {
   if (!byName) {
     return
   }
@@ -12,5 +12,4 @@ return function(self, props, byName) {
   }
 
   self.__default_attrs = result
-}
-})
+};

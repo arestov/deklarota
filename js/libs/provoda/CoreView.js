@@ -1,29 +1,24 @@
-define(function(require) {
-'use strict'
 
-// var $ = require('cash-dom');
-var spv = require('spv')
-var _updateAttr = require('_updateAttr')
-var groupMotive = require('./helpers/groupMotive')
-var triggerDestroy = require('./helpers/triggerDestroy')
-var updateProxy = require('./updateProxy')
-var prsStCon = require('./prsStCon')
-var StatesEmitter = require('./StatesEmitter')
-var onPropsExtend = require('./View/onExtend')
 
-var selectCollectionChange = require('./View/selectCollectionChange')
+import spv from '../spv'
 
-var initApis = require('./dcl/effects/legacy/api/init')
-var initInputAttrs = require('./dcl/attrs/input/init')
-var nestBorrowInit = require('./dcl_view/nest_borrow/init')
-var nestBorrowDestroy = require('./dcl_view/nest_borrow/destroy')
-var nestBorrowCheckChange = require('./dcl_view/nest_borrow/check-change')
-
-var initSpyglasses = require('./dcl_view/spyglass/init')
-var getBwlevView = require('./dcl_view/getBwlevView')
-var getViewLocationId = require('./View/getViewLocationId')
-
-var makeAttrsCollector = require('./View/makeAttrsCollector')
+import _updateAttr from './_internal/_updateAttr'
+import groupMotive from './helpers/groupMotive'
+import triggerDestroy from './helpers/triggerDestroy'
+import updateProxy from './updateProxy'
+import prsStCon from './prsStCon'
+import StatesEmitter from './StatesEmitter'
+import onPropsExtend from './View/onExtend'
+import selectCollectionChange from './View/selectCollectionChange'
+import initApis from './dcl/effects/legacy/api/init'
+import initInputAttrs from './dcl/attrs/input/init'
+import nestBorrowInit from './dcl_view/nest_borrow/init'
+import nestBorrowDestroy from './dcl_view/nest_borrow/destroy'
+import nestBorrowCheckChange from './dcl_view/nest_borrow/check-change'
+import initSpyglasses from './dcl_view/spyglass/init'
+import getBwlevView from './dcl_view/getBwlevView'
+import getViewLocationId from './View/getViewLocationId'
+import makeAttrsCollector from './View/makeAttrsCollector'
 var CH_GR_LE = 2
 
 
@@ -1044,5 +1039,4 @@ var View = spv.inh(StatesEmitter, {
   },
 })
 
-return View
-})
+export default View

@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var parseMultiPath = require('../../utils/multiPath/parse')
-var noop = require('./noop')
-var now = require('./deps/now')
-var targetedResult = require('./targetedResult/dcl')
+
+import parseMultiPath from '../../utils/multiPath/parse'
+import noop from './noop'
+import now from './deps/now'
+import targetedResult from './targetedResult/dcl'
 // var utils = require('../../utils/index.js');
 // var getParsedState = utils.getParsedState
 
@@ -114,5 +113,4 @@ var PassDcl = function(name, data) {
 
 }
 
-return PassDcl
-})
+export default PassDcl

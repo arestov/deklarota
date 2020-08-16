@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var $ = require('cash-dom')
+
+import spv from '../../libs/spv'
+import $ from 'cash-dom'
 
 var WPBox = function(root_view, getImportantView, select, press, getRelativeWP, removeWP) {
   this.root_view = root_view
@@ -600,5 +599,4 @@ spv.Class.extendTo(WPBox, {
     return corridor
   }
 })
-return WPBox
-})
+export default WPBox

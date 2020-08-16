@@ -1,13 +1,11 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
 
-var supportedZip = require('./supportedZip')
+import spv from '../../../spv'
+import getParsedPath from '../../routes/legacy/getParsedPath'
+import supportedZip from './supportedZip'
+import fromLegacy from './fromLegacy'
 
 var splitByDot = spv.splitByDot
-var fromLegacy = require('./fromLegacy')
 var empty = {}
 var root = {
   type: 'root',
@@ -171,7 +169,7 @@ var parseWithCache = function(addr_str, legacy_ok) {
 
 parseWithCache.simpleState = simpleState
 
-return parseWithCache
+export default parseWithCache
 
 function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   var state_part_splited = state_raw && state_raw.match(matchZip)
@@ -291,5 +289,3 @@ function getResultType(state, nest) {
 
   return null
 }
-
-})

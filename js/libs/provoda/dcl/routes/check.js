@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var cloneObj = spv.cloneObj
 
-var RouteDcl = require('./dcl')
+import spv from '../../../spv'
+
+import RouteDcl from './dcl'
+var cloneObj = spv.cloneObj
 
 var buildRoutes = function(self, index) {
   // TODO: allow to control matching order
@@ -59,7 +58,7 @@ var checkModern = function(self, props) {
 }
 
 
-return function checkPass(self, props) {
+export default function checkPass(self, props) {
 
   var currentIndex = self._extendable_routes_index
 
@@ -74,4 +73,3 @@ return function checkPass(self, props) {
 
   return true
 }
-})

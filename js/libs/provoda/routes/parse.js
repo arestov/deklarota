@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 // var spv = require('spv')
 
 var string_state_regexp = /((.*?)(\[\:(.+?)\]))|(.+)/g
@@ -125,5 +124,4 @@ var parse = function(full_usable_string) {
   }
 }
 
-return parse
-})
+export default parse

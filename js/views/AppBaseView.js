@@ -1,13 +1,11 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var $ = require('cash-dom')
-var filters = require('./modules/filters')
-var getUsageTree = require('js/libs/provoda/structure/getUsageTree')
-var mutateGlobalTplFilters = require('js/libs/provoda/mutateGlobalTplFilters')
-var _updateAttr = require('_updateAttr')
 
-var View = require('View')
+import spv from '../libs/spv'
+import $ from 'cash-dom'
+import filters from './modules/filters'
+import getUsageTree from '../libs/provoda/structure/getUsageTree'
+import mutateGlobalTplFilters from '../libs/provoda/mutateGlobalTplFilters'
+import _updateAttr from '../libs/provoda/_internal/_updateAttr'
+import View from '../libs/provoda/View'
 
 
 mutateGlobalTplFilters(function(filter_name) {
@@ -341,5 +339,4 @@ var WebComplexTreesView = spv.inh(WebAppView, {}, {
 
 AppBaseView.WebComplexTreesView = WebComplexTreesView
 
-return AppBaseView
-})
+export default AppBaseView

@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var pvState = require('../state')
+
+import pvState from '../state'
 
 
 var getOneValue = function(dep, item) {
@@ -51,6 +50,4 @@ var zip_fns = {
 
 }
 
-return zip_fns
-
-})
+export default zip_fns

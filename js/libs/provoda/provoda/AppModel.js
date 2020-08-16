@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var BrowseMap = require('./BrowseMap')
+
+import spv from '../../spv'
+import BrowseMap from './BrowseMap'
 
 var AppModelBase = spv.inh(BrowseMap.Model, {
   naming: function(fn) {
@@ -75,5 +74,4 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
 })
 
 
-return AppModelBase
-})
+export default AppModelBase

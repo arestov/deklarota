@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var updateProxy = require('../updateProxy')
+
+import updateProxy from '../updateProxy'
 var update = updateProxy.update
 
 function updateAttr(self, name, value) {
@@ -10,5 +9,4 @@ function updateAttr(self, name, value) {
 
   update(self, name, value)
 }
-return updateAttr
-})
+export default updateAttr

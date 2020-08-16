@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
 
 // from template to full string - implemented
 // from string to match - NOT IMPLEMENTED
@@ -49,6 +48,4 @@ var parse = function(full_usable_string) {
 
 var parsePath = spv.memorize(parse)
 
-return parsePath
-
-})
+export default parsePath

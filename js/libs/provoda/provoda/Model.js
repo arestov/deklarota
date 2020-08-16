@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var Model = require('../Model')
-return Model
-})
+
+import Model from '../Model'
+export default Model

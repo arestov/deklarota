@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var View = require('../View')
-return View
-})
+
+import View from '../View'
+export default View

@@ -1,14 +1,13 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var pvState = require('pv/state')
-var _updateAttr = require('_updateAttr')
-var _updateRel = require('_updateRel')
-var getModelById = require('../../utils/getModelById')
-var getKey = require('./getKey')
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
 
-return function(request) {
+import spv from '../../../spv'
+import pvState from '../../provoda/state'
+import _updateAttr from '../../_internal/_updateAttr'
+import _updateRel from '../../_internal/_updateRel'
+import getModelById from '../../utils/getModelById'
+import getKey from './getKey'
+import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
+
+export default function(request) {
   var self = this
   var requests_index = spv.cloneObj({}, pvState(self, 'spyglasses_requests'))
 
@@ -58,6 +57,3 @@ function ensureSpyglass(self, index, key, request) {
 
   return new_index
 }
-
-
-})

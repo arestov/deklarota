@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
 
-return function isNestingChanged(old_value, new_value) {
+
+export default function isNestingChanged(old_value, new_value) {
   if (!Array.isArray(old_value) || !Array.isArray(new_value)) {
     return old_value != new_value
   }
@@ -19,5 +18,4 @@ return function isNestingChanged(old_value, new_value) {
 
 
   return false
-}
-})
+};

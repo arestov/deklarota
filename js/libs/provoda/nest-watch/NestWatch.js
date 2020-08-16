@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var getShortStateName = require('../utils/getShortStateName')
+
+import getShortStateName from '../utils/getShortStateName'
 
 var counter = 1
 var NestWatch = function(multi_path, state_name, handler, addHandler, removeHandler) {
@@ -43,5 +42,4 @@ var NestWatch = function(multi_path, state_name, handler, addHandler, removeHand
   Object.seal(this)
 }
 
-return NestWatch
-})
+export default NestWatch

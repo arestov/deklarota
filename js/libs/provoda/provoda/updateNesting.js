@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
-var gentlyUpdateNesting = require('../Model/gentlyUpdateNesting')
-return gentlyUpdateNesting
-})
+
+import gentlyUpdateNesting from '../Model/gentlyUpdateNesting'
+export default gentlyUpdateNesting

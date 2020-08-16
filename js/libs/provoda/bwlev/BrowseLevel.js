@@ -1,23 +1,19 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
 
-var Model = require('../Model')
-var changeBridge = require('./changeBridge')
-var requestPage = require('./requestPage')
-var followFromTo = require('./followFromTo')
-
-var getModelById = require('../utils/getModelById')
-var _updateAttr = require('_updateAttr')
-var _updateRel = require('_updateRel')
-var pvState = require('../utils/state')
-
-var flatStruc = require('../structure/flatStruc')
-var getUsageStruc = require('../structure/getUsageStruc')
-var initNestingsByStruc = require('../structure/reactions/initNestingsByStruc')
-var loadNestingsByStruc = require('../structure/reactions/loadNestingsByStruc')
-var loadAllByStruc = require('../structure/reactions/loadAllByStruc')
-var getModelSources = require('../structure/getModelSources')
+import spv from '../../spv'
+import Model from '../Model'
+import changeBridge from './changeBridge'
+import requestPage from './requestPage'
+import followFromTo from './followFromTo'
+import getModelById from '../utils/getModelById'
+import _updateAttr from '../_internal/_updateAttr'
+import _updateRel from '../_internal/_updateRel'
+import pvState from '../utils/state'
+import flatStruc from '../structure/flatStruc'
+import getUsageStruc from '../structure/getUsageStruc'
+import initNestingsByStruc from '../structure/reactions/initNestingsByStruc'
+import loadNestingsByStruc from '../structure/reactions/loadNestingsByStruc'
+import loadAllByStruc from '../structure/reactions/loadAllByStruc'
+import getModelSources from '../structure/getModelSources'
 
 var countKeys = spv.countKeys
 var cloneObj = spv.cloneObj
@@ -319,9 +315,5 @@ function getStrucSources(md, struc) {
   }
   return result
   //console.log(md.model_name, md.constr_id, result);
-};
-
-
-
-return BrowseLevel
-})
+}
+export default BrowseLevel

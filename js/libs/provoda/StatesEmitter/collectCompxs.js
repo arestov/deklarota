@@ -1,18 +1,15 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
+
+import spv from '../../spv'
+import groupDeps from '../utils/groupDeps'
+import getEncodedState from '../utils/getEncodedState'
+import getShortStateName from '../utils/getShortStateName'
+import getParsedState from '../utils/getParsedState'
+import asString from '../utils/multiPath/asString'
+import fromLegacy from '../utils/multiPath/fromLegacy'
+import parse from '../utils/multiPath/parse'
+import mentionsSupportedAddr from '../Model/mentions/supportedAttrTargetAddr'
 var cloneObj = spv.cloneObj
-var groupDeps = require('../utils/groupDeps')
-var getEncodedState = require('../utils/getEncodedState')
-var getShortStateName = require('../utils/getShortStateName')
-
-var getParsedState = require('../utils/getParsedState')
-
-var asString = require('../utils/multiPath/asString')
-var fromLegacy = require('../utils/multiPath/fromLegacy')
-var parse = require('../utils/multiPath/parse')
-var mentionsSupportedAddr = require('../Model/mentions/supportedAttrTargetAddr')
 
 var isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
@@ -175,7 +172,7 @@ var extendTyped = function(self, typed_state_dcls) {
   self._dcl_cache__compx = result
 }
 
-return function(self, props, typed_part) {
+export default function(self, props, typed_part) {
   if (typed_part) {
     extendTyped(self, typed_part)
   }
@@ -244,4 +241,3 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   self.conndst_nesting = result.conndst_nesting
   self.conndst_root = result.conndst_root
 }
-})

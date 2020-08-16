@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var isBigStep = require('./isBigStep')
 
-return function getNavGroups(bwlev) {
+import isBigStep from './isBigStep'
+
+export default function getNavGroups(bwlev) {
   var cur_group = []
   var groups = [cur_group]
 
@@ -21,5 +20,3 @@ return function getNavGroups(bwlev) {
   }
   return groups
 }
-
-})

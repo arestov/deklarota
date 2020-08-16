@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var addFrom = require('../../nest-watch/addFrom')
-var NestConcat = require('./NestConcat')
 
-return function init(self) {
+import addFrom from '../../nest-watch/addFrom'
+import NestConcat from './NestConcat'
+
+export default function init(self) {
   self.states_links = self.states_links || null
   self.nes_match_index = self.nes_match_index || null
 
@@ -18,4 +17,3 @@ return function init(self) {
     }
   }
 }
-})

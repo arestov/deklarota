@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var inputs_names = {
   input: true,
@@ -15,7 +14,7 @@ var key_codes_map = {
   '63232': 'Up'
 }
 
-return function arrowsKeysNav(view, e) {
+export default function arrowsKeysNav(view, e) {
   var key_name = key_codes_map[e.keyCode]
   var allow_pd = !inputs_names.hasOwnProperty(e.target.nodeName.toLowerCase())
 
@@ -26,5 +25,4 @@ return function arrowsKeysNav(view, e) {
   if (key_name) {
     view.wp_box.wayPointsNav(key_name, e)
   }
-}
-})
+};

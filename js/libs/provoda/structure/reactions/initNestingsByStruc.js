@@ -1,13 +1,11 @@
-define(function(require) {
-'use strict'
 
-var hp = require('../../helpers')
-var _updateRel = require('_updateRel')
 
-var initDeclaredNestings = require('../../initDeclaredNestings')
+import hp from '../../helpers'
+import _updateRel from '../../_internal/_updateRel'
+import initDeclaredNestings from '../../initDeclaredNestings'
 var getSubpages = initDeclaredNestings.getSubpages
 
-return function initNestingsByStruc(md, struc) {
+export default function initNestingsByStruc(md, struc) {
   if (!struc) {return}
 
   var idx = md.idx_nestings_declarations
@@ -27,5 +25,3 @@ return function initNestingsByStruc(md, struc) {
     _updateRel(md, el.nesting_name, getSubpages(md, el))
   }
 }
-
-})

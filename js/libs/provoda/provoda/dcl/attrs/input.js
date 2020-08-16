@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 function arrayToDcls(list) {
   var result = {}
@@ -25,7 +24,7 @@ function objToDcls(obj) {
 }
 
 
-return function inputAttrs(params) {
+export default function inputAttrs(params) {
   if (!params) {
     throw new Error('params should not be empty')
   }
@@ -39,5 +38,4 @@ return function inputAttrs(params) {
   }
 
   return objToDcls(params)
-}
-})
+};

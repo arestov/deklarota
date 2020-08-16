@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var checkPrefix = require('../../StatesEmitter/checkPrefix')
-var spv = require('spv')
+
+import checkPrefix from '../../StatesEmitter/checkPrefix'
+import spv from '../../../spv'
 var nil = spv.nil
 
 var parent_count_regexp = /^\^+/gi
@@ -19,7 +18,7 @@ var NestBorrowDcl = function(name, data) {
 
 var checkDcl = checkPrefix('nest_borrow-', NestBorrowDcl, '_nest_borrow')
 
-return function check(self, props) {
+export default function check(self, props) {
   var entries = checkDcl(self, props)
 
   if (nil(entries)) {return}
@@ -32,5 +31,3 @@ return function check(self, props) {
     props.children_views[cur.name] = self.children_views[cur.name] = cur.view_constr
   }
 }
-
-})

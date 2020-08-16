@@ -1,11 +1,6 @@
-// - написать функцию которая получает модели из multiPath
-// - написать функцию которая аггрегирует значения из моделей multiPath
-// - написать функцию, котоая записывает state/nesting в модели multiPath
+import getNesting from '../../provoda/getNesting'
 
-define(function(require) {
-'use strict'
-var getNesting = require('pv/getNesting')
-var getStart = require('./getStart')
+import getStart from './getStart'
 
 // {
 //   result_type: result_type,
@@ -95,5 +90,4 @@ function getDeepNesting(md, multi_path, all_nestings) {
   return cur
 }
 
-return getModels
-})
+export default getModels

@@ -1,8 +1,8 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
 var cloneObj = spv.cloneObj
-return function mergeBhv(target, source) {
+
+export default function mergeBhv(target, source) {
   var originalExtStates = target['attrs']
   var copy = spv.cloneObj(target, source)
 
@@ -14,5 +14,3 @@ return function mergeBhv(target, source) {
 
   return copy
 }
-
-})

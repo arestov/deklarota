@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function indexByDepName(obj) {
+
+
+export default function indexByDepName(obj) {
   if (!obj) {
     return
   }
@@ -18,5 +18,4 @@ return function indexByDepName(obj) {
   }
 
   return result
-}
-})
+};

@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function(array, old_value) {
+
+
+export default function(array, old_value) {
   var removed
   if (Array.isArray(old_value)) {
     if (!array) {
@@ -19,5 +19,4 @@ return function(array, old_value) {
     removed = [old_value]
   }
   return removed
-}
-})
+};

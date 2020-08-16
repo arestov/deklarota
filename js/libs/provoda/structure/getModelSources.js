@@ -1,13 +1,12 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var get_constr = require('./get_constr')
+
+import spv from '../../spv'
+import get_constr from './get_constr'
 
 var collapseAll = spv.collapseAll
 var getNestingConstr = get_constr.getNestingConstr
 
 
-return function getModelSources(app, md, cur) {
+export default function getModelSources(app, md, cur) {
   var states_sources = []
   var i
   var states_list = cur.merged_states
@@ -101,4 +100,3 @@ return function getModelSources(app, md, cur) {
   }
   return collapseAll(full_sources_list)
 }
-})

@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../../spv'
 var startsWith = spv.startsWith
 
-return function(self, where) {
+export default function(self, where) {
   if (!where) {
     return
   }
@@ -269,4 +268,3 @@ function getComparing(comparing_part) {
     throw new Error('does not support this kind of comparing decraration')
   }
 }
-})

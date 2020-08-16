@@ -1,7 +1,7 @@
-define(function(require) {
-'use strict'
-var cloneObj = require('./cloneObj')
-return function(cb) {
+
+import cloneObj from './cloneObj'
+
+export default function(cb) {
   var result = {}
   var add = function(obj) {
     cloneObj(result, obj)
@@ -9,5 +9,3 @@ return function(cb) {
   cb(add)
   return result
 }
-
-})

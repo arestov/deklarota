@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var isSpecialState = require('./isSpecialState')
+
+import spv from '../../spv'
+import isSpecialState from './isSpecialState'
 var asNil = function(val) {
   if (val == null) {
     return
@@ -32,5 +31,4 @@ var stateGetter = spv.memorize(function stateGetter(state_path) {
   }
 })
 
-return stateGetter
-})
+export default stateGetter

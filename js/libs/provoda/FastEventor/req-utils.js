@@ -1,13 +1,12 @@
-define(function(require) {
-'use strict'
-var Promise = require('Promise')
-var extendPromise = require('js/modules/extendPromise')
-var spv = require('spv')
-var getApiPart = require('./getApiPart')
+
+import Promise from '../../../common-libs/Promise-3.1.0.mod'
+import extendPromise from '../../../modules/extendPromise'
+import spv from '../../spv'
+import getApiPart from './getApiPart'
+import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
+import batching from './batching'
 var getTargetField = spv.getTargetField
 var toBigPromise = extendPromise.toBigPromise
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
-var batching = require('./batching')
 var doBatch = batching
 
 
@@ -211,9 +210,8 @@ function onPromiseFail(promise, cb) {
 }
 
 
-return {
+export default {
   getRequestByDeclr: getRequestByDeclr,
   findErrorByList: findErrorByList,
   onPromiseFail: onPromiseFail,
 }
-})

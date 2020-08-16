@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
-var Promise = require('Promise')
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
-var spv = require('spv')
-var req_utils = require('./req-utils')
-var types = require('./stateReqTypes')
+
+import Promise from '../../../common-libs/Promise-3.1.0.mod'
+import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
+import spv from '../../spv'
+import req_utils from './req-utils'
+import types from './stateReqTypes'
 
 var arrayExclude = spv.arrayExclude
 
@@ -331,6 +330,4 @@ var requestState = function(state_name) {
 
 requestState.resetRequestedState = resetRequestedState
 
-return requestState
-
-})
+export default requestState

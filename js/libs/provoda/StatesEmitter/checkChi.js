@@ -1,16 +1,15 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
-var hp = require('../helpers')
-var structureChild = require('../structure/child')
+
+import spv from '../../spv'
+import hp from '../helpers'
+import structureChild from '../structure/child'
 
 var getUnprefixed = spv.getDeprefixFunc('chi-')
 var hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
 
 var cloneObj = spv.cloneObj
 
-return function checkChildrenConstuctors(self, props) {
+export default function checkChildrenConstuctors(self, props) {
   if (!hasPrefixedProps(props)) {
     return
   }
@@ -31,4 +30,3 @@ return function checkChildrenConstuctors(self, props) {
     self._chi['chi-' + chi_name] = self._build_cache_chi[chi_name]
   }
 }
-})

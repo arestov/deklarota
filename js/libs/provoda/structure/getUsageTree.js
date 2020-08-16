@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
+
+import spv from '../../spv'
 var push = Array.prototype.push
 
 var getTreeSample = function(full_key, key) {
@@ -344,5 +343,4 @@ function getBaseTree(cur_view, root_view) {
 
 }
 
-return getUsageTree
-})
+export default getUsageTree

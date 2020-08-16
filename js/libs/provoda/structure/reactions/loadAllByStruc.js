@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return function loadAllByStruc(md, obj, prev) {
+
+export default function loadAllByStruc(md, obj, prev) {
   // obj.list is `struc`
   if (!obj.inactive) {
     for (var i = 0; i < obj.list.length; i++) {
@@ -17,5 +16,4 @@ return function loadAllByStruc(md, obj, prev) {
       md.removeReqDependence(obj.supervision, cur)
     }
   }
-}
-})
+};

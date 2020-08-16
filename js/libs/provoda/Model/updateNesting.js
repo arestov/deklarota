@@ -1,13 +1,12 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var hp = require('../helpers')
-var nestWIndex = require('../nest-watch/index')
+
+import spv from '../../spv'
+import hp from '../helpers'
+import nestWIndex from '../nest-watch/index'
+import isNestingChanged from '../utils/isNestingChanged'
+import _updateAttr from '../_internal/_updateAttr'
+import _passHandleNesting from '../dcl/passes/handleNesting/handle'
+import handleMentions from './mentions/handleRelChange'
 var checkNesting = nestWIndex.checkNesting
-var isNestingChanged = require('../utils/isNestingChanged')
-var _updateAttr = require('_updateAttr')
-var _passHandleNesting = require('../dcl/passes/handleNesting/handle')
-var handleMentions = require('./mentions/handleRelChange')
 
 var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1
@@ -17,7 +16,7 @@ function getUniqCopy(input) {
   return Array.from(new Set(input))
 }
 
-return function updateNesting(self, collection_name, input, opts) {
+export default function updateNesting(self, collection_name, input, opts) {
 
   if (self._currentMotivator() == null) {
     throw new Error('wrap updateRel call in `.input()`')
@@ -94,5 +93,3 @@ return function updateNesting(self, collection_name, input, opts) {
 
   return self
 }
-
-})

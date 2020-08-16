@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
 
-var spv = require('spv')
+
+import spv from '../../spv'
+import initSubPager from '../dcl/sub_pager/init'
+import initInputAttrs from '../dcl/attrs/input/init'
+import makeAttrsCollector from './makeAttrsCollector'
 var cloneObj = spv.cloneObj
-var initSubPager = require('../dcl/sub_pager/init')
-var initInputAttrs = require('../dcl/attrs/input/init')
-var makeAttrsCollector = require('./makeAttrsCollector')
 
 function buildHead(self, data) {
   var init_v2 = data && data.init_version === 2
@@ -39,7 +38,7 @@ function buildHead(self, data) {
   return head
 }
 
-return function initModel(self, opts, data, params, more, states) {
+export default function initModel(self, opts, data, params, more, states) {
   self.current_motivator = self.current_motivator || (opts && opts._motivator)
 
   if (opts && opts.app) {
@@ -162,4 +161,3 @@ function prepareStates(self, data, states) {
   self.init_states = self.init_states || {}
   self.init_states = cloneObj(self.init_states, iss)
 }
-})

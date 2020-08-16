@@ -1,12 +1,11 @@
-define(function(require) {
-'use strict'
-var getTargetModels = require('./getTargetModels')
-var prepareNestingValue = require('./prepareNestingValue')
-var spv = require('spv')
+
+import getTargetModels from './getTargetModels'
+import prepareNestingValue from './prepareNestingValue'
+import spv from '../../../../spv'
+import getModelById from '../../../utils/getModelById'
+import noopForPass from '../noop'
 var countKeys = spv.countKeys
-var getModelById = require('../../../utils/getModelById')
 var initPassedValue = prepareNestingValue.initPassedValue
-var noopForPass = require('../noop')
 
 var isRedirectAction = function(target) {
   return Boolean(target.options && target.options.action)
@@ -147,7 +146,7 @@ var completeValues = function(list, mut_refs_index, mut_wanted_ref) {
 }
 
 
-return function(md, dcl, value, data) {
+export default function(md, dcl, value, data) {
 
   var mut_result = []
   var mut_refs_index = {}
@@ -180,4 +179,3 @@ return function(md, dcl, value, data) {
   return mut_result
 
 }
-})

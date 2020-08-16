@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
 
-return function wrapDeps(deps) {
+import spv from '../../../../../../spv'
+
+export default function wrapDeps(deps) {
   if (typeof deps == 'string') {
     return [[deps]]
   }
@@ -12,4 +11,3 @@ return function wrapDeps(deps) {
 
   return deps
 }
-})

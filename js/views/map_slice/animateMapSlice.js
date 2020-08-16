@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var css = require('./css')
-var getModelFromR = require('pv/v/getModelFromR')
-var _updateAttr = require('_updateAttr')
-var getAttr = require('pv/getAttr')
+
+import spv from '../../libs/spv'
+import css from './css'
+import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
+import getAttr from '../../libs/provoda/provoda/getAttr'
 
 /*
   ANIMATION IS BROKEN
@@ -59,7 +58,7 @@ var needsDestroing = function(view, all_changhes) {
 }
 
 
-return function(view, transaction_data, animation_data) {
+export default function(view, transaction_data, animation_data) {
   var all_changhes = spv.filter(transaction_data.array, 'changes')
     all_changhes = concatArray(all_changhes)
   var models = spv.filter(all_changhes, 'target')
@@ -125,5 +124,3 @@ return function(view, transaction_data, animation_data) {
     animation_data.lc.onTransitionEnd(completeAnimation)
   }
 }
-
-})

@@ -1,24 +1,21 @@
-define(function(require) {
-'use strict'
-var View = require('View')
-var spv = require('spv')
-var css = require('./css')
-var pvState = require('pv/state')
-var updateAttr = require('pv/updateAttr')
-var _updateAttr = require('_updateAttr')
-var mpxUpdateAttr = require('pv/v/mpxUpdateAttr')
-var selecPoineertDeclr = require('pv/v/selecPoineertDeclr')
-var createTemplate = require('pv/v/createTemplate')
-var probeDiff = require('pv/probeDiff')
 
-var getNesting = require('pv/getNesting')
-var $ = require('cash-dom')
-var wrapInputCall = require('pv/wrapInputCall')
-var getModelFromR = require('pv/v/getModelFromR')
-
-var readMapSliceAnimationData = require('./readMapSliceAnimationData')
-var animateMapSlice = require('./animateMapSlice')
-var findMpxViewInChildren = require('./findMpxViewInChildren')
+import View from '../../libs/provoda/View'
+import spv from '../../libs/spv'
+import css from './css'
+import pvState from '../../libs/provoda/provoda/state'
+import updateAttr from '../../libs/provoda/provoda/updateAttr'
+import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
+import mpxUpdateAttr from '../../libs/provoda/provoda/v/mpxUpdateAttr'
+import selecPoineertDeclr from '../../libs/provoda/provoda/v/selecPoineertDeclr'
+import createTemplate from '../../libs/provoda/provoda/v/createTemplate'
+import probeDiff from '../../libs/provoda/provoda/probeDiff'
+import getNesting from '../../libs/provoda/provoda/getNesting'
+import $ from 'cash-dom'
+import wrapInputCall from '../../libs/provoda/provoda/wrapInputCall'
+import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import readMapSliceAnimationData from './readMapSliceAnimationData'
+import animateMapSlice from './animateMapSlice'
+import findMpxViewInChildren from './findMpxViewInChildren'
 
 var can_animate = css.transform && css.transition
 
@@ -57,7 +54,7 @@ LevContainer.prototype = {
 }
 
 
-return spv.inh(View, {
+export default spv.inh(View, {
   init: function(self) {
     self.parent_view.general_navigation_view = self
   },
@@ -471,5 +468,4 @@ return spv.inh(View, {
       }
     ]
   },
-})
 })

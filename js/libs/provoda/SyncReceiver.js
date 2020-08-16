@@ -1,7 +1,6 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var MDProxy = require('./MDProxy')
+
+import spv from '../spv'
+import MDProxy from './MDProxy'
 var CH_GR_LE = 2
 
 var slice = Array.prototype.slice
@@ -170,5 +169,4 @@ SyncReceiver.prototype = {
     target_md_proxy.sendCollectionChange(name, fakes_models)
   },
 }
-return SyncReceiver
-})
+export default SyncReceiver

@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function parsePVImport(node, sample_name) {
+
+
+export default function parsePVImport(node, sample_name) {
 
   var possible = node.nodeName === 'SCRIPT'
     ? node
@@ -23,6 +23,4 @@ return function parsePVImport(node, sample_name) {
     map: map,
     pv_nest: script.getAttribute('pv-nest') || null
   }
-}
-
-})
+};

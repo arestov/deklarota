@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
-var spv = require('spv')
-var Model = require('./Model')
-var _updateRel = require('_updateRel')
 
-return function(Constr, states, params, map_parent, app) {
+import spv from '../spv'
+import Model from './Model'
+import _updateRel from './_internal/_updateRel'
+
+export default function(Constr, states, params, map_parent, app) {
   var BehaviorContr = Constr || Model
   var opts = (app || map_parent) && {
     app: app || map_parent.app,
@@ -34,5 +33,3 @@ return function(Constr, states, params, map_parent, app) {
 
   return model
 }
-
-})
