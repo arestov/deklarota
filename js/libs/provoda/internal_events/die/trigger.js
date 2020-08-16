@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return function(self) {
+
+export default function(self) {
   if (!self.evcompanion._die_subscribers) {
     return
   }
@@ -15,6 +14,4 @@ return function(self) {
 
   self.evcompanion._die_subscribers = null
 
-}
-
-})
+};

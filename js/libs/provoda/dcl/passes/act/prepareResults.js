@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var getTargetModels = require('./getTargetModels')
 var prepareNestingValue = require('./prepareNestingValue')
 var spv = require('spv')
@@ -147,7 +146,7 @@ var completeValues = function(list, mut_refs_index, mut_wanted_ref) {
 }
 
 
-return function(md, dcl, value, data) {
+export default function(md, dcl, value, data) {
 
   var mut_result = []
   var mut_refs_index = {}
@@ -179,5 +178,4 @@ return function(md, dcl, value, data) {
 
   return mut_result
 
-}
-})
+};

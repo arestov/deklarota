@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 // var $ = require('cash-dom');
 var spv = require('spv')
@@ -1044,5 +1043,4 @@ var View = spv.inh(StatesEmitter, {
   },
 })
 
-return View
-})
+export default View

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var deliverRelQueryUpdates = require('./deliverRelQueryUpdates')
 
 function handleMentions(self, collection_name, old_value, array) {
@@ -71,5 +70,4 @@ function handleAddMetionItem(mentioner, collection_name, item) {
   }
 }
 
-return handleMentions
-})
+export default handleMentions

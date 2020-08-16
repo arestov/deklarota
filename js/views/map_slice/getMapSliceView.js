@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
+
 
 var isBwConnectedView = require('./isBwConnectedView')
 
-return function(self) {
+export default function(self) {
   var views = self.getViews()
 
   for (var jj = 0; jj < views.length; jj++) {
@@ -12,5 +11,4 @@ return function(self) {
       return cur
     }
   }
-}
-})
+};

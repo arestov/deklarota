@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var angbo = require('angbo')
@@ -191,5 +190,4 @@ StandartChange.prototype = {
 
 StandartChange.getFieldsTreesBases = getFieldsTreesBases
 
-return StandartChange
-})
+export default StandartChange

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var definedAttrs = require('../Model/definedAttrs')
 var AttrsCollector = require('../StatesEmitter/AttrsCollector')
@@ -88,5 +87,4 @@ function mark(Constr, RootConstr, parent_path) {
   return Constr
 }
 
-return mark
-})
+export default mark

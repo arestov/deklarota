@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 /* Simple JavaScript Inheritance
   * By John Resig http://ejohn.org/
@@ -42,6 +41,4 @@ var copyProps = function(prototype, props, _super) {
   return prototype
 }
 
-return copyProps
-
-})
+export default copyProps

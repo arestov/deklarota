@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
+
 var isBwConnectedView = require('./isBwConnectedView')
 
-return function getAncestorByRooViCon(self, details, strict) {
+export default function getAncestorByRooViCon(self, details, strict) {
   //находит родительскую вьюху соеденённую с корневой вьюхой
   //by root view connection
 
@@ -23,6 +22,4 @@ return function getAncestorByRooViCon(self, details, strict) {
 
     cur_ancestor = cur_ancestor.parent_view
   }
-}
-
-})
+};

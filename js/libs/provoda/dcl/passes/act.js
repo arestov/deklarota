@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var getDepValue = require('../../utils/multiPath/getDepValue')
 var saveResult = require('./targetedResult/save')
 var noopForPass = require('./noop')
@@ -71,7 +70,7 @@ var getDepsValues = function(md, deps, data) {
   return args
 }
 
-return function pass(md, pass_name, data) {
+export default function pass(md, pass_name, data) {
   var pass_handlers = md._extendable_passes_index
   if (!pass_handlers.hasOwnProperty(pass_name)) {
     throw new Error('missing pass ' + pass_name)
@@ -95,6 +94,4 @@ return function pass(md, pass_name, data) {
   }
 
   saveResult(md, dcl, result, data)
-}
-
-})
+};

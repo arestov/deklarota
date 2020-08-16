@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function findMpxViewInChildren(self, mpx, nesting_space, nesting_name) {
+
+
+export default function findMpxViewInChildren(self, mpx, nesting_space, nesting_name) {
   nesting_space = nesting_space || 'main'
   var i
   var views = mpx.getViews()
@@ -25,5 +25,4 @@ return function findMpxViewInChildren(self, mpx, nesting_space, nesting_name) {
       return views[i]
     }
   }
-}
-})
+};

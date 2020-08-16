@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 
@@ -53,7 +52,7 @@ var getBaseTreeCheckList = function(start) {
 
 }
 
-return function(self, props, original) {
+export default function(self, props, original) {
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
   checkNestBorrow(self, props)
@@ -91,5 +90,4 @@ return function(self, props, original) {
   }
 
   checkNestBorrowWatch(self, props)
-}
-})
+};

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
 
 // var NestingSourceDr = require('../../utils/NestingSourceDr');
@@ -58,7 +57,7 @@ var parseStartPoint = function(start_point) {
 
 }
 
-return function fromNestingSourceDr(nesting_source) {
+export default function fromNestingSourceDr(nesting_source) {
   var parts = nesting_source.selector
   var parsed_start_point = parseStartPoint(nesting_source.start_point)
 
@@ -75,8 +74,4 @@ return function fromNestingSourceDr(nesting_source) {
     resource: parsed_start_point.resource,
     as_string: null,
   }
-}
-
-
-
-})
+};

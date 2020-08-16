@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var scheduleDelivering = require('./scheduleDelivering')
 var getAllOnwers = require('./getAllOnwers')
 
@@ -18,5 +17,4 @@ var matchChainsByLink = function(mention_owner, links) {
 }
 
 
-return matchChainsByLink
-})
+export default matchChainsByLink

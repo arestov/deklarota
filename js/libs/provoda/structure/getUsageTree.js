@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var push = Array.prototype.push
 
@@ -344,5 +343,4 @@ function getBaseTree(cur_view, root_view) {
 
 }
 
-return getUsageTree
-})
+export default getUsageTree

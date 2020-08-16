@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var looksLikeWrappedJSON = require('./utils/looksLikeWrappedJSON')
 
@@ -47,5 +46,4 @@ var match = function(parsed, some_url) {
   return result
 }
 
-return match
-})
+export default match

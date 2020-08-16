@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var getParsedState = require('./getParsedState')
 var asString = require('./multiPath/asString')
 var parseMultiPath = require('./multiPath/parse')
@@ -21,5 +20,4 @@ var ensureResult = function(full_name) {
   return fromMultiPath(multi_path, asString(multi_path), full_name)
 }
 
-return ensureResult
-})
+export default ensureResult

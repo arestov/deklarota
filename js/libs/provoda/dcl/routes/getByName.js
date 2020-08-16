@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return function getByName(self, sp_name) {
+
+export default function getByName(self, sp_name) {
   if (self.__routes_matchers_defs == null) {
     return null
   }
@@ -30,5 +29,4 @@ return function getByName(self, sp_name) {
   self.__modern_subpages = result
 
   return self.__modern_subpages[sp_name]
-}
-})
+};

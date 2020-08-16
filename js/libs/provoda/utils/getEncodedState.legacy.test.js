@@ -13,7 +13,7 @@ var modernAsLegacyParsed = requirejs('./modernAsLegacyParsed')
 
 
 test('modern can be converted and used as legacy', function(t) {
-  'use strict'
+
 
   var toModernString = function(legacyAddr) {
     var modernParsed = fromLegacy(legacyAddr)
@@ -40,7 +40,7 @@ test('modern can be converted and used as legacy', function(t) {
 
 
 function getList() {
-  'use strict'
+
   return [].concat(
     [
       '^auth_token'

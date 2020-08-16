@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var ba_canReuse = require('./ba_canReuse')
 var showInterest = require('./showInterest')
 var _goDeeper = require('./_goDeeper')
@@ -14,7 +13,7 @@ var limits = {
   big_steps: 4
 }
 
-return function followFromTo(BWL, map, parent_bwlev, end_md) {
+export default function followFromTo(BWL, map, parent_bwlev, end_md) {
   var cutted_parents = getLimitedParent(parent_bwlev, end_md)
 
   if (cutted_parents) {
@@ -30,7 +29,7 @@ return function followFromTo(BWL, map, parent_bwlev, end_md) {
   }
   // !!!!showMOnMap(BWL, map, parent_bwlev.getNesting('pioneer'), parent_bwlev);
   return _goDeeper(BWL, map, end_md, parent_bwlev)
-}
+};
 
 
 
@@ -71,7 +70,7 @@ function getLimitedParent(parent_bwlev, end_md) {
   }
 
   return false
-};
+}
 
 
 function getEdgeSimilarModelPos(bwlev, model_name, limit) {
@@ -99,7 +98,7 @@ function getEdgeSimilarModelPos(bwlev, model_name, limit) {
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups_of_similar == limit ? edge_group_num : -1
-};
+}
 
 function countGroups(bwlev) {
   var groups_count = 1
@@ -115,7 +114,7 @@ function countGroups(bwlev) {
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups_count
-};
+}
 
 
 function interestPart(group) {
@@ -124,4 +123,3 @@ function interestPart(group) {
     distance: group.length
   }
 }
-})

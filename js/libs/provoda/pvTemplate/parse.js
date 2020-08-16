@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var getCachedPVData = require('./getCachedPVData')
 
 function getCommentPVData(cur_node, struc_store, getSample) {
@@ -10,7 +9,7 @@ function getPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, false, getSample)
 }
 
-return function parse(start_node, struc_store, getSample, opts) {
+export default function parse(start_node, struc_store, getSample, opts) {
   //полный парсинг, без байндинга
 
   var result = []
@@ -40,6 +39,4 @@ return function parse(start_node, struc_store, getSample, opts) {
 
   }
   return result
-}
-
-})
+};

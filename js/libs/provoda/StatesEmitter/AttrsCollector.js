@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var BitField = require('./BitField')
 
@@ -193,5 +192,4 @@ AttrsCollector.prototype = {
   }
 }
 
-return AttrsCollector
-})
+export default AttrsCollector

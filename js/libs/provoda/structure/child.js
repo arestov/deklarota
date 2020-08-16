@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var spv = require('spv')
 var prefixValue = function(source) {
   if (!source) {
@@ -14,7 +13,7 @@ var prefixValue = function(source) {
   return main_part + '--'
 }
 
-return function(name, Constr, source) {
+export default function(name, Constr, source) {
   var Result = spv.inh(Constr, {
     skip_code_path: true
   }, {
@@ -22,5 +21,4 @@ return function(name, Constr, source) {
     hierarchy_name: prefixValue(source) + name
   })
   return Result
-}
-})
+};

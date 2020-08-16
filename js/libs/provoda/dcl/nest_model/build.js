@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var structureChild = require('../../structure/child')
 var nestModelKey = require('./nestModelKey')
 
@@ -31,5 +30,4 @@ var build = function(self, nest_rqc) {
   }
 }
 
-return build
-})
+export default build

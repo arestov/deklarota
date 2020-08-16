@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var changeSources = require('../utils/changeSources')
 
@@ -17,7 +16,7 @@ var doIndex = function(list, value) {
 }
 
 
-return function buildStateReqs(self, list) {
+export default function buildStateReqs(self, list) {
   self._states_reqs_index = {}
   self._states_reqs_list = list
   var states_index = {}
@@ -41,6 +40,4 @@ return function buildStateReqs(self, list) {
   for (var i = 0; i < list.length; i++) {
     changeSources(self.netsources_of_states, list[i].send_declr)
   }
-}
-
-})
+};

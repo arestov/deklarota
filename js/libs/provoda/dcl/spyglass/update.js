@@ -1,6 +1,5 @@
-define(function(require) {
-'use strict'
- // var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
+
+// var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
 var _updateRel = require('_updateRel')
 var animateMapChanges = require('../probe/animateMapChanges')
 var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
@@ -90,5 +89,4 @@ var updateProbe = getProbeChange()
 var toggleProbe = getProbeChange(true)
 updateProbe.toggle = toggleProbe
 
-return updateProbe
-})
+export default updateProbe

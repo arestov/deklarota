@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var angbo = require('angbo')
@@ -944,5 +943,4 @@ PvTemplate.templator = function(calls_flow, getSample, struc_store) {
   }
 }
 
-return PvTemplate
-})
+export default PvTemplate

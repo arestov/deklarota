@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var arrayClone = function(array) {
   if (Array.isArray(array)) {
@@ -28,11 +27,9 @@ var notEmpty = function(array) {
   return Boolean(getLength(array))
 }
 
-return {
+export default {
   'all': arrayClone,
   'one': oneFromArray,
   'length': getLength,
   'notEmpty': notEmpty,
 }
-
-})

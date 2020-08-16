@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var cloneObj = spv.cloneObj
@@ -8,7 +7,7 @@ var rebuildHandleState = require('./handleState/rebuild')
 var rebuildHandleNesting = require('./handleNesting/rebuild')
 var rebuildHandleInit = require('./handleInit/rebuild')
 
-return function checkPasses(self, props) {
+export default function checkPasses(self, props) {
   if (!props.hasOwnProperty('actions')) {
     return
   }
@@ -28,6 +27,4 @@ return function checkPasses(self, props) {
   rebuildHandleInit(self, result)
 
   self._extendable_passes_index = result
-}
-
-})
+};

@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
+
 var addFrom = require('../../nest-watch/addFrom')
 var RouteRunner = require('./RouteRunner')
 
 
-return function(self) {
+export default function(self) {
   self.__modern_subpages_valid = false
   self.__modern_subpages = null
   self.__routes_matchers_runs = null
@@ -24,5 +23,4 @@ return function(self) {
 
   self.__routes_matchers_runs = list
 
-}
-})
+};

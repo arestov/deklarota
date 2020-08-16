@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var Promise = require('Promise')
 var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
 var spv = require('spv')
@@ -331,6 +330,4 @@ var requestState = function(state_name) {
 
 requestState.resetRequestedState = resetRequestedState
 
-return requestState
-
-})
+export default requestState

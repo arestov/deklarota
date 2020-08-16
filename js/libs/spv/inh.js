@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var coe = require('./coe')
 var cloneObj = require('./cloneObj')
 var countConstr = require('./countConstr')
@@ -181,6 +180,4 @@ function makeInit(builder) {
   }
 }
 
-return extend
-
-})
+export default extend

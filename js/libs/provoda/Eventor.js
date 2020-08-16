@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var FastEventor = require('./FastEventor/index')
@@ -110,5 +109,4 @@ var PublicEventor = spv.inh(Eventor, {
 
 Eventor.PublicEventor = PublicEventor
 
-return Eventor
-})
+export default Eventor

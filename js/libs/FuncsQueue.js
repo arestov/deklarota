@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var FuncsStack = require('./FuncsStack')
 var FuncsQueue
 var QueueFunc = function(queue, atom) {
@@ -243,5 +242,4 @@ FuncsQueue.prototype = {
     return this
   }
 }
-return FuncsQueue
-})
+export default FuncsQueue

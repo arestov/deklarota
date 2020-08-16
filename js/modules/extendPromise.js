@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var Promise = require('Promise')
 
 function extendPromise(promise, deferred) {
@@ -45,5 +44,4 @@ function toBigPromise(deferred) {
 
 extendPromise.toBigPromise = toBigPromise
 
-return extendPromise
-})
+export default extendPromise

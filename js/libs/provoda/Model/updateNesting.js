@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var hp = require('../helpers')
 var nestWIndex = require('../nest-watch/index')
@@ -17,7 +16,7 @@ function getUniqCopy(input) {
   return Array.from(new Set(input))
 }
 
-return function updateNesting(self, collection_name, input, opts) {
+export default function updateNesting(self, collection_name, input, opts) {
 
   if (self._currentMotivator() == null) {
     throw new Error('wrap updateRel call in `.input()`')
@@ -93,6 +92,4 @@ return function updateNesting(self, collection_name, input, opts) {
 
 
   return self
-}
-
-})
+};

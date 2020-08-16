@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var _updateAttr = require('_updateAttr')
@@ -72,7 +71,6 @@ var useInterface = function(self, interface_name, obj, destroy) {
 
 useInterface.skipAliveCheck = true
 
-return function useInterfaceWrap(self, interface_name, obj, destroy) {
+export default function useInterfaceWrap(self, interface_name, obj, destroy) {
   self.nextTick(useInterface, [self, interface_name, obj, destroy], false, false)
-}
-})
+};

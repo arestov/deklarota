@@ -1,7 +1,5 @@
-define(function() {
-'use strict'
 
-return function() {
+
+export default function() {
   return Date.now()
-}
-})
+};

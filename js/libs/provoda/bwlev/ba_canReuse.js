@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 function ba_inUse(bwlev) {
   return bwlev.state('mp_show')
@@ -19,6 +18,4 @@ function ba_canReuse(bwlev) {
 ba_canReuse.ba_inUse = ba_inUse
 
 
-return ba_canReuse
-
-})
+export default ba_canReuse

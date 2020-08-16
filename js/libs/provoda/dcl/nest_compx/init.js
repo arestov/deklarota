@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
+
 
 var Runner = require('./runner')
 
 var empty = {}
 
-return function(self) {
+export default function(self) {
   self.__nest_calculations = empty // show js engine real type
   self.__nest_calculations = null
 
@@ -21,5 +20,4 @@ return function(self) {
     var cur = compx_list[i]
     self.__nest_calculations[cur.dest_name] = new Runner(self, cur)
   }
-}
-})
+};

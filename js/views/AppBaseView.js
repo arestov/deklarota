@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var $ = require('cash-dom')
 var filters = require('./modules/filters')
@@ -341,5 +340,4 @@ var WebComplexTreesView = spv.inh(WebAppView, {}, {
 
 AppBaseView.WebComplexTreesView = WebComplexTreesView
 
-return AppBaseView
-})
+export default AppBaseView

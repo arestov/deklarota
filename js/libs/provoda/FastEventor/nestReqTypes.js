@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return {
+
+export default {
   has_any: 'has_any',
   loading: 'loading',
   load_attempting: 'load_attempting',
@@ -14,5 +13,3 @@ return {
   main_list_loading: 'main_list_loading', // old old legacy
   all_data_loaded: 'all_data_loaded', // old old legacy
 }
-
-})

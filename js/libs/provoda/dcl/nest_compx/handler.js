@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var _updateRel = require('_updateRel')
 var multiPathAsString = require('../../utils/multiPath/asString')
@@ -80,7 +79,7 @@ var getValue = function(runner, lwroot, list) {
 }
 
 
-return {
+export default {
   hnest_state: function(motivator, __, lwroot) {
     var data = lwroot.data
     var runner = data.runner
@@ -99,5 +98,3 @@ return {
   recalc: recalc,
   changeValue: changeValue,
 }
-
-})

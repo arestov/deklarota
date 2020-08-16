@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var pvState = require('../../utils/state')
 var executeStringTemplate = require('__lib/routes/legacy/executeStringTemplate')
 var _updateRel = require('_updateRel')
@@ -345,5 +344,4 @@ function handleRemoving(md, lnwatch, skip) {
   resetCondCache(hands, _provoda_id)
 }
 
-return NestSelector
-})
+export default NestSelector

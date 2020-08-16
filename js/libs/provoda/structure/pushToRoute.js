@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
+
 
 var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData')
 
-return function(md, nesting_name, data) {
+export default function(md, nesting_name, data) {
   var mentioned = md._nest_rqc[nesting_name]
 
   if (mentioned.type == 'route') {
@@ -29,6 +28,4 @@ return function(md, nesting_name, data) {
 
     return result
   }
-}
-
-})
+};

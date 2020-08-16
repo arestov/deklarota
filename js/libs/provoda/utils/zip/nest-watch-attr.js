@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var pvState = require('../state')
 
@@ -58,7 +57,7 @@ var one = toZipFunc(function(state) {
   }
 })
 
-return {
+export default {
   'all': function(state_name) {
     return map(state_name)
   },
@@ -78,5 +77,3 @@ return {
     return filter(state_name)
   },
 }
-
-})

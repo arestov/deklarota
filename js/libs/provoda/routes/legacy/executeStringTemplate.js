@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var pathExecutor = require('./stringify')
 
 var followStringTemplate = require('./followStringTemplate')
@@ -12,6 +11,4 @@ var executeStringTemplate = function(app, md, obj, need_constr, md_for_urldata) 
   return followStringTemplate(app, md, obj, need_constr, full_path)
 }
 
-return executeStringTemplate
-
-})
+export default executeStringTemplate

@@ -1,5 +1,3 @@
-define(function(require) {
-'use strict'
+
 var manageNames = require('./manageNames')
-return manageNames.getAttrByName
-})
+export default manageNames.getAttrByName

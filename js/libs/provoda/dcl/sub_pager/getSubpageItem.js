@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var structureChild = require('../../structure/child')
 
@@ -21,7 +20,7 @@ var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
   }
 }
 
-return function getSubpageItem(cur, key, byType, name, prefix) {
+export default function getSubpageItem(cur, key, byType, name, prefix) {
   var item
   if (Array.isArray(cur)) {
     if (!cur[1] && !cur[2]) {
@@ -99,5 +98,4 @@ return function getSubpageItem(cur, key, byType, name, prefix) {
   item.byType = Boolean(byType)
 
   return item
-}
-})
+};

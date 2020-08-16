@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var hp = require('../helpers')
 var LocalWatchRoot = require('../nest-watch/LocalWatchRoot')
@@ -373,9 +372,9 @@ function changeDependence(mark) {
 
     return
   }
-};
+}
 
-return {
+export default {
   addReqDependence: function(supervision, dep) {
     watchDependence(supervision, this, dep, supervision.needy_id)
   },
@@ -383,4 +382,3 @@ return {
     unwatchDependence(supervision, this, dep, supervision.needy_id)
   }
 }
-})

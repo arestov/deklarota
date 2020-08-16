@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var makeKey = require('../makeKey')
 
@@ -25,9 +24,7 @@ var getNameByAttr = function(attr) {
   return key
 }
 
-return {
+export default {
   getAttrByName: getAttrByName,
   getNameByAttr: getNameByAttr,
 }
-
-})

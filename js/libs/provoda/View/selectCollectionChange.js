@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
+
 var selecPoineertDeclr = require('../structure/selecPoineertDeclr')
 
-return function(target, nesname, items, removed, old_value) {
+export default function(target, nesname, items, removed, old_value) {
   if (target.pvCollectionChange) {
     // DOM layer
     target.pvCollectionChange(nesname, items, removed)
@@ -47,5 +46,4 @@ return function(target, nesname, items, removed, old_value) {
     throw new Error('WHAT TO DO WITH old_value?')
     // target.callCollectionChangeDeclaration(dclr, nesname, cur, old_value, removed);
   }
-}
-})
+};

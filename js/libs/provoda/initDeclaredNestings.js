@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var _updateRel = require('_updateRel')
 
@@ -123,5 +122,4 @@ initDeclaredNestings.getConstrByPath = function(app, md, string_template) {
   return getSPByPathTemplate(app, md, string_template, true)
 }
 
-return initDeclaredNestings
-})
+export default initDeclaredNestings

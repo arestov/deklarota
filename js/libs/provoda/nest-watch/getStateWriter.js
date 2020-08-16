@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var attr_zip_fns = require('../utils/zip/nest-watch-attr')
@@ -48,5 +47,4 @@ var getStateWriter = createWriter(_updateAttr)
 
 getStateWriter.createWriter = createWriter
 
-return getStateWriter
-})
+export default getStateWriter

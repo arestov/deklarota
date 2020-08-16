@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var pvState = require('./state')
 
@@ -30,7 +29,7 @@ var read = {
   root: root,
 }
 
-return {
+export default {
   read: read,
   depValue: function(md, dep) {
     switch (dep.rel_type) {
@@ -52,4 +51,3 @@ return {
     }
   }
 }
-})

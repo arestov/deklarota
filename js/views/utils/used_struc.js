@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var selecPoineertDeclr = require('js/libs/provoda/structure/selecPoineertDeclr')
 
@@ -74,8 +73,6 @@ function getViewPath(view) {
   return path
 }
 
-return {
+export default {
   bhv: bhv,
 }
-
-})

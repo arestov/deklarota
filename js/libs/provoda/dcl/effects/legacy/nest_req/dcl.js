@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var utils = require('../utils')
@@ -8,7 +7,7 @@ var SendDeclaration = utils.SendDeclaration
 var toSchemaFn = utils.toSchemaFn
 var stateName = utils.stateName
 
-return function NestReqMap(name, dclt) {
+export default function NestReqMap(name, dclt) {
   this.original = this
   this.nest_name = name
   this.parse_items = null
@@ -86,5 +85,4 @@ return function NestReqMap(name, dclt) {
 
   this.state_dep = stateName(this.nest_name)
 
-}
-})
+};

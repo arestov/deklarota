@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var Model = require('../Model')
 var _updateAttr = require('_updateAttr')
@@ -86,6 +85,4 @@ var HModel = spv.inh(Model, {
   }
 })
 
-return HModel
-
-})
+export default HModel

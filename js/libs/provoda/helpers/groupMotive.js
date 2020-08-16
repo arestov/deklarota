@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function(fn) {
+
+
+export default function(fn) {
   return function() {
     var self = this
     var need = !this._currentMotivator()
@@ -17,5 +17,4 @@ return function(fn) {
     flow.checkCallbacksFlow()
     return result
   }
-}
-})
+};

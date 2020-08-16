@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var addFrom = require('../../nest-watch/addFrom')
 var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
 var handler = require('./handler')
@@ -68,5 +67,4 @@ var NestCompxRunner = function(md, dcl) {
   Object.seal(this)
 }
 
-return NestCompxRunner
-})
+export default NestCompxRunner

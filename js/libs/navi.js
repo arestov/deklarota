@@ -1,12 +1,11 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 
 var navi = typeof window == 'undefined'
   ? {}
   : getNavi()
 
-return navi
+export default navi
 
 function getNavi() {
 var history_api = !!(window.history && window.history.pushState)
@@ -235,4 +234,3 @@ var navi;
 
 return navi
 }
-})

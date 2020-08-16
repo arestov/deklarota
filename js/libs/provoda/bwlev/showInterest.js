@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
+
 var _goDeeper = require('./_goDeeper')
 var showMOnMap = require('./showMOnMap')
 
-return function showInterest(map, interest) {
+export default function showInterest(map, interest) {
   var BWL = map.app.CBWL
 
   if (!interest.length) {
@@ -30,7 +29,7 @@ return function showInterest(map, interest) {
   }
 
   return parent_bwlev
-}
+};
 
 function getDistantModel(md, distance) {
   var cur = md
@@ -38,5 +37,4 @@ function getDistantModel(md, distance) {
     cur = cur.map_parent
   }
   return cur
-};
-})
+}

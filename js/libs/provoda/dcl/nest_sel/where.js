@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var startsWith = spv.startsWith
 
-return function(self, where) {
+export default function(self, where) {
   if (!where) {
     return
   }
@@ -21,7 +20,7 @@ return function(self, where) {
   } else {
     throw new Error('unsupported type of where declaration')
   }
-}
+};
 
 function isForDeep(name) {
   return startsWith(name, '>') && name.slice(1)
@@ -269,4 +268,3 @@ function getComparing(comparing_part) {
     throw new Error('does not support this kind of comparing decraration')
   }
 }
-})

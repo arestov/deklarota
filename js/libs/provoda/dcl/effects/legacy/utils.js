@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var splitByDot = spv.splitByDot
@@ -71,9 +70,8 @@ function toSchemaFn(mmap) {
 }
 
 
-return {
+export default {
   toSchemaFn: toSchemaFn,
   stateName: stateName,
   SendDeclaration: SendDeclaration,
 }
-})

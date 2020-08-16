@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var cloneObj = require('spv/cloneObj')
 var CallbacksFlow = require('../../../CallbacksFlow')
 
@@ -67,5 +66,4 @@ ViewRuntime.prototype.start = function(options) {
   })
 }
 
-return ViewRuntime
-})
+export default ViewRuntime

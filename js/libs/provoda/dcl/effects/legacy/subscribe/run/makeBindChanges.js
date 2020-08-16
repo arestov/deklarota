@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var _updateAttr = require('_updateAttr')
 
 var saveResult = require('../../../../passes/targetedResult/save.js')
@@ -105,5 +104,4 @@ var makeBindChanges = function(self, index, using, original_values) {
   return using
 }
 
-return makeBindChanges
-})
+export default makeBindChanges

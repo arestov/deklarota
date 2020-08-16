@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var counter = 0
 
 var makeKey = typeof Symbol !== 'undefined'
@@ -9,6 +8,4 @@ var makeKey = typeof Symbol !== 'undefined'
   return ++counter
 }
 
-return makeKey
-
-})
+export default makeKey

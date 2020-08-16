@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var NestWatch = require('../../nest-watch/NestWatch')
 var parseMultiPath = require('../../utils/multiPath/parse')
@@ -108,5 +107,4 @@ var NestCompxDcl = function(name, data) {
 
 }
 
-return NestCompxDcl
-})
+export default NestCompxDcl

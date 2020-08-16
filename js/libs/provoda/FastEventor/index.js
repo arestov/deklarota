@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var utils_simple = require('../utils/simple')
@@ -625,5 +624,4 @@ add(requesting)
 })
 
 
-return FastEventor
-})
+export default FastEventor

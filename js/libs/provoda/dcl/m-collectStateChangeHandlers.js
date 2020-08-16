@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var splitByDot = spv.splitByDot
 var NestWatch = require('../nest-watch/NestWatch')
@@ -37,7 +36,7 @@ var getParsedStateChange = spv.memorize(function getParsedStateChange(string) {
   }
 })
 
-return function(self, props) {
+export default function(self, props) {
   var index = collectStateChangeHandlers(self, props)
   if (!index) {return}
 
@@ -61,5 +60,4 @@ return function(self, props) {
       })
     )
   }
-}
-})
+};

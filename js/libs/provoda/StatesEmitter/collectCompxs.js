@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var cloneObj = spv.cloneObj
@@ -175,7 +174,7 @@ var extendTyped = function(self, typed_state_dcls) {
   self._dcl_cache__compx = result
 }
 
-return function(self, props, typed_part) {
+export default function(self, props, typed_part) {
   if (typed_part) {
     extendTyped(self, typed_part)
   }
@@ -191,7 +190,7 @@ return function(self, props, typed_part) {
   collectStatesConnectionsProps(self, self.full_comlxs_list)
 
   return true
-}
+};
 
 function uniqExternalDeps(full_comlxs_list) {
   var uniq = spv.set.create()
@@ -244,4 +243,3 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   self.conndst_nesting = result.conndst_nesting
   self.conndst_root = result.conndst_root
 }
-})

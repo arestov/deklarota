@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var _updateRel = require('_updateRel')
 var _updateAttr = require('_updateAttr')
@@ -139,116 +138,116 @@ var asMDR = function(md) {
   return md && md.getMDReplacer()
 }
 
- function animateMapChanges(fake_spyglass, bwlev) {
- var diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
- if (!diff.array || !diff.array.length) {
-  return
+function animateMapChanges(fake_spyglass, bwlev) {
+var diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
+if (!diff.array || !diff.array.length) {
+ return
+}
+
+ var bwlevs = branch(bwlev)
+ var models = bwlevs.map(getPioneer)
+
+ _updateRel(fake_spyglass, 'navigation', bwlevs)
+
+ var app = fake_spyglass.app
+ if (app.legacy_app) {
+   var nav_tree = models
+   app.nav_tree = nav_tree
+   if (app.matchNav) {
+     app.matchNav()
+   }
  }
 
-  var bwlevs = branch(bwlev)
-  var models = bwlevs.map(getPioneer)
-
-  _updateRel(fake_spyglass, 'navigation', bwlevs)
-
-  var app = fake_spyglass.app
-  if (app.legacy_app) {
-    var nav_tree = models
-    app.nav_tree = nav_tree
-    if (app.matchNav) {
-      app.matchNav()
-    }
-  }
 
 
-
-  var changes = diff
-  var i
-  var all_changhes = spv.filter(changes.array, 'changes')
-
-
-  all_changhes = Array.prototype.concat.apply(Array.prototype, all_changhes)
-  //var models = spv.filter(all_changhes, 'target');
-
-  for (i = 0; i < all_changhes.length; i++) {
-    var change = all_changhes[i]
-    var handler = model_mapch[change.type]
-    if (handler) {
-      handler.call(null, change, fake_spyglass)
-    }
-  }
-
-  /*
-    подсветить/заменить текущий источник
-    проскроллить к источнику при отдалении
-    просроллить к источнику при приближении
-  */
-
-  // var bwlevs = residents && spv.filter(residents, 'lev.bwlev');
+ var changes = diff
+ var i
+ var all_changhes = spv.filter(changes.array, 'changes')
 
 
-  if (diff.target) {
-    if (fake_spyglass.current_mp_md) {
-      _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
-    }
-    var target_md = fake_spyglass.current_mp_md = diff.target.getMD()
+ all_changhes = Array.prototype.concat.apply(Array.prototype, all_changhes)
+ //var models = spv.filter(all_changhes, 'target');
 
-    fake_spyglass.current_mp_bwlev = depth(diff.bwlev.getMD(), fake_spyglass.current_mp_bwlev)
+ for (i = 0; i < all_changhes.length; i++) {
+   var change = all_changhes[i]
+   var handler = model_mapch[change.type]
+   if (handler) {
+     handler.call(null, change, fake_spyglass)
+   }
+ }
 
-    _updateAttr(target_md, 'mp_has_focus', true)
-    _updateAttr(diff.bwlev.getMD(), 'mp_has_focus', true)
+ /*
+   подсветить/заменить текущий источник
+   проскроллить к источнику при отдалении
+   просроллить к источнику при приближении
+ */
 
-    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
-    _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
-    _updateRel(fake_spyglass, 'current_mp_md', target_md)
-    _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD())
-    //_updateAttr(target_md, 'mp-highlight', false);
-
-
-    // // TODO: remove this legacy
-
-    if (app.legacy_app) {
-      _updateRel(app, 'current_mp_md', target_md)
-      // will be used for `imporant_models`
-      // will be using in views for size check?
-      _updateAttr(app, 'current_mp_bwlev', diff.bwlev.getMD())
-      // will be used for `imporant_models`
-
-    }
-  }
+ // var bwlevs = residents && spv.filter(residents, 'lev.bwlev');
 
 
-  var mp_show_wrap
-  if (models) {
+ if (diff.target) {
+   if (fake_spyglass.current_mp_md) {
+     _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
+   }
+   var target_md = fake_spyglass.current_mp_md = diff.target.getMD()
 
-    var all_items = models.concat(bwlevs)
+   fake_spyglass.current_mp_bwlev = depth(diff.bwlev.getMD(), fake_spyglass.current_mp_bwlev)
 
-    mp_show_wrap = {
-      items: models.map(asMDR),
-      bwlevs: bwlevs.map(asMDR),
-      all_items: all_items.map(asMDR),
-      mp_show_states: []
-    }
-    for (i = 0; i < models.length; i++) {
-      mp_show_wrap.mp_show_states.push(models[i].state('mp_show'))
-    }
-  }
+   _updateAttr(target_md, 'mp_has_focus', true)
+   _updateAttr(diff.bwlev.getMD(), 'mp_has_focus', true)
+
+   // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
+   _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
+   _updateRel(fake_spyglass, 'current_mp_md', target_md)
+   _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD())
+   //_updateAttr(target_md, 'mp-highlight', false);
 
 
-  _updateRel(fake_spyglass, 'map_slice', {
-    residents_struc: mp_show_wrap,
-    $not_model: true,
-    each_items: all_items,
-    transaction: changes
-  })
+   // // TODO: remove this legacy
 
-};
+   if (app.legacy_app) {
+     _updateRel(app, 'current_mp_md', target_md)
+     // will be used for `imporant_models`
+     // will be using in views for size check?
+     _updateAttr(app, 'current_mp_bwlev', diff.bwlev.getMD())
+     // will be used for `imporant_models`
+
+   }
+ }
+
+
+ var mp_show_wrap
+ if (models) {
+
+   var all_items = models.concat(bwlevs)
+
+   mp_show_wrap = {
+     items: models.map(asMDR),
+     bwlevs: bwlevs.map(asMDR),
+     all_items: all_items.map(asMDR),
+     mp_show_states: []
+   }
+   for (i = 0; i < models.length; i++) {
+     mp_show_wrap.mp_show_states.push(models[i].state('mp_show'))
+   }
+ }
+
+
+ _updateRel(fake_spyglass, 'map_slice', {
+   residents_struc: mp_show_wrap,
+   $not_model: true,
+   each_items: all_items,
+   transaction: changes
+ })
+
+}
 
 function changeZoomSimple(bwlev, value_raw) {
   var value = Boolean(value_raw)
   _updateAttr(bwlev, 'mp_show', value)
   var md = bwlev.getNesting('pioneer')
   complexBrowsing(bwlev, md, value)
-};
+}
 
 animateMapChanges.switchCurrentBwlev = switchCurrentBwlev
 
@@ -263,5 +262,4 @@ function switchCurrentBwlev(bwlev, prev) {
   depth(bwlev, prev)
 }
 
-return animateMapChanges
-})
+export default animateMapChanges

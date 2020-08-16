@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = {}
 
 var cloneObj = require('./spv/cloneObj.js')
@@ -1405,5 +1404,4 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
   }())
 }
 
-return spv
-})
+export default spv

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var parseMultiPath = require('../../../utils/multiPath/parse')
 
 var targetData = function(to, result_name, dsl_options) {
@@ -69,6 +68,4 @@ function targetedResult(self, to) {
   }
 }
 
-return targetedResult
-
-})
+export default targetedResult

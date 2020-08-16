@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var Promise = require('Promise')
 var extendPromise = require('js/modules/extendPromise')
 var spv = require('spv')
@@ -211,9 +210,8 @@ function onPromiseFail(promise, cb) {
 }
 
 
-return {
+export default {
   getRequestByDeclr: getRequestByDeclr,
   findErrorByList: findErrorByList,
   onPromiseFail: onPromiseFail,
 }
-})

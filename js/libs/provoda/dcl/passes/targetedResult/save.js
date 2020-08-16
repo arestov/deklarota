@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var _updateAttr = require('_updateAttr')
 var getModelById = require('../../../utils/getModelById')
@@ -93,5 +92,4 @@ var saveResult = function(md, dcl, value, data) {
   }
 }
 
-return saveResult
-})
+export default saveResult

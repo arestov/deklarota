@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var _updateRel = require('_updateRel')
 var matchRoute = require('../../routes/match')
 var get_constr = require('../../structure/get_constr')
@@ -61,5 +60,4 @@ function createModern(self, sp_name, extra_states) {
 
 createModern.selectModern = selectModern
 
-return createModern
-})
+export default createModern

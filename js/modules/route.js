@@ -1,8 +1,7 @@
-define(function() {
-'use strict'
 
 
-return {
+
+export default {
   encodeURLPart: encodeURLPart,
   decodeURLPart: decodeURLPart,
   joinCommaParts: joinCommaParts,
@@ -42,5 +41,3 @@ function getCommaParts(string) {
   }
   return parts
 }
-
-})

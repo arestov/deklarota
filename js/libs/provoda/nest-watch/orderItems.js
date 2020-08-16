@@ -1,9 +1,8 @@
-define(function() {
-'use strict'
+
 var push = Array.prototype.push
 var reusable_array = []
 
-return function orderItems(lnwatch) {
+export default function orderItems(lnwatch) {
   if (!lnwatch.ordered_items_changed) {return}
   lnwatch.ordered_items_changed = false
 
@@ -26,7 +25,7 @@ return function orderItems(lnwatch) {
 
   reusable_array.length = 0
   lnwatch.ordered_items = result
-}
+};
 
 function compareComplexOrder(item_one, item_two) {
   var cur_one = item_one
@@ -61,5 +60,3 @@ function compareComplexOrder(item_one, item_two) {
     cur_two = cur_two.parent
   }
 }
-
-})

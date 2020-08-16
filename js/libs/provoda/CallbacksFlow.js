@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var FlowStep = require('./FlowStep')
 
@@ -401,5 +400,4 @@ function initedOrder(initiator, parent_motivator) {
   return []
 }
 
-return CallbacksFlow
-})
+export default CallbacksFlow

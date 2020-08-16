@@ -2,8 +2,7 @@
 // - написать функцию которая аггрегирует значения из моделей multiPath
 // - написать функцию, котоая записывает state/nesting в модели multiPath
 
-define(function(require) {
-'use strict'
+
 var getNesting = require('pv/getNesting')
 var getStart = require('./getStart')
 
@@ -95,5 +94,4 @@ function getDeepNesting(md, multi_path, all_nestings) {
   return cur
 }
 
-return getModels
-})
+export default getModels

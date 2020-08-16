@@ -1,12 +1,11 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var getPropsPrefixChecker = require('../../utils/getPropsPrefixChecker')
 var getUnprefixed = spv.getDeprefixFunc('nest-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 var NestDcl = require('./item')
 
-return function(self, props) {
+export default function(self, props) {
   var
     has_props = hasPrefixedProps(props),
     has_pack = self.hasOwnProperty('nest'),
@@ -45,5 +44,4 @@ return function(self, props) {
     }
   }
   self._legacy_nest_dcl = result
-}
-})
+};

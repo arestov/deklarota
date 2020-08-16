@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var getNesting = require('pv/getNesting')
 
@@ -350,7 +349,7 @@ prepareNestingValue.initValue = initValue
 prepareNestingValue.initPassedValue = initPassedValue
 prepareNestingValue.useRefIfNeeded = useRefIfNeeded
 
-return prepareNestingValue
+export default prepareNestingValue
 
 function isProvodaBhv(md) {
   return md.hasOwnProperty('_provoda_id') || md.hasOwnProperty('view_id')
@@ -373,4 +372,3 @@ function isOk(list) {
   return list.every(isProvodaBhv)
 
 }
-})

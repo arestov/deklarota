@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var looksLikeWrappedJSON = require('./utils/looksLikeWrappedJSON')
 
 var statePartAsString = function(state_dcl, data) {
@@ -39,6 +38,4 @@ var toString = function(parsed, data) {
   return toStrings.join('')
 }
 
-return toString
-
-})
+export default toString

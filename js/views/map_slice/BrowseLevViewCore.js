@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var View = require('View')
 var _updateAttr = require('_updateAttr')
@@ -114,5 +113,4 @@ var BrowseLevView = spv.inh(View, {}, mergeBhv({
   'sel-coll-pioneer': '$spec_common-pioneer',
 }, used_struc_bhv))
 
-return BrowseLevView
-})
+export default BrowseLevView

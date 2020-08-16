@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
 
 var RouteRunner = function(md, dcl) {
@@ -15,5 +14,4 @@ var RouteRunner = function(md, dcl) {
   })
 }
 
-return RouteRunner
-})
+export default RouteRunner

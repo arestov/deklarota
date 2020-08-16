@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var MDProxy = require('./MDProxy')
@@ -176,5 +175,4 @@ Proxies.prototype = {
   }
 }
 
-return new Proxies()
-})
+export default new Proxies()

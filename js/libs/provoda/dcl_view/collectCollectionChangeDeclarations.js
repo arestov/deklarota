@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
 var getUnprefixed = spv.getDeprefixFunc('collch-')
@@ -51,7 +50,7 @@ var parseCollectionChangeDeclaration = function(collch) {
   return declr
 }
 
-return function(self, props) {
+export default function(self, props) {
   var need_recalc = hasPrefixedProps(props)
 
 
@@ -81,6 +80,4 @@ return function(self, props) {
     }
   }
   return true
-}
-
-})
+};

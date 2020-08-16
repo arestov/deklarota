@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 
@@ -59,7 +58,7 @@ var checkModern = function(self, props) {
 }
 
 
-return function checkPass(self, props) {
+export default function checkPass(self, props) {
 
   var currentIndex = self._extendable_routes_index
 
@@ -73,5 +72,4 @@ return function checkPass(self, props) {
 
 
   return true
-}
-})
+};

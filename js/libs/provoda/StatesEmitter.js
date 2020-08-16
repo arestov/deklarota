@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var utils_simple = require('./utils/simple')
@@ -224,5 +223,4 @@ var StatesEmitter = spv.inh(Eventor, {
   props: props,
 })
 
-return StatesEmitter
-})
+export default StatesEmitter

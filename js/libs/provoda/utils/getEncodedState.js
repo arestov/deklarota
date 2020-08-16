@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var NestWatch = require('../nest-watch/NestWatch')
 var getStateWriter = require('../nest-watch/getStateWriter')
@@ -41,5 +40,4 @@ var getEncodedState = spv.memorize(function getEncodedState(state_name) {
   return copy
 })
 
-return getEncodedState
-})
+export default getEncodedState

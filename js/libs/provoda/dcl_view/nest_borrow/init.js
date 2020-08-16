@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var nil = spv.nil
 
@@ -10,7 +9,7 @@ var checkChange = require('./check-change')
 var checkChildren = checkChange.checkChildren
 
 
-return function(self) {
+export default function(self) {
   if (nil(self._nest_borrow)) {
     return
   }
@@ -35,5 +34,4 @@ return function(self) {
     spv.set.add(upper_view.nest_borrow_watchers, watcherKey(cur.name, self), item)
     checkChildren(upper_view, item)
   }
-}
-})
+};

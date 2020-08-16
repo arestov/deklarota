@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var zip_fns = {
   'one': function(list) {
@@ -28,5 +27,4 @@ var zip_fns = {
   },
 }
 
-return zip_fns
-})
+export default zip_fns

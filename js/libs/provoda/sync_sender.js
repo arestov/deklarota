@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var toTransferableStatesList = require('./Model/toTransferableStatesList')
@@ -159,5 +158,4 @@ SyncSender.prototype = {
     this.schedule()
   }
 }
-return SyncSender
-})
+export default SyncSender

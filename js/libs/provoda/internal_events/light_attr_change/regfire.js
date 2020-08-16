@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var hndMotivationWrappper = require('../../helpers/hndMotivationWrappper')
 var StatesLabour = require('../../StatesLabour')
@@ -27,7 +26,7 @@ LightEvOpts.prototype = {
   wrapper: hndMotivationWrappper,
 }
 
-return {
+export default {
   test: function(namespace) {
     return !!getAttrByName(namespace)
   },
@@ -45,4 +44,3 @@ return {
     return new LightEvOpts(ev_name, cb, context)
   }
 }
-})

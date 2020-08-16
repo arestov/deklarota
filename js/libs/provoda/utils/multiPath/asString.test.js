@@ -7,7 +7,7 @@ var asString = requirejs('./asString')
 
 
 test('check asString', function(t) {
-  'use strict'
+
 
   var pipe = function(str) {
     return asString(parse(str))

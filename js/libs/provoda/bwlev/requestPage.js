@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
+
 var _goDeeper = require('./_goDeeper')
 var getModelById = require('../utils/getModelById')
 var changeBridge = require('./changeBridge')
 var showMOnMap = require('./showMOnMap')
 
-return function requestPage(BWL, self, id) {
+export default function requestPage(BWL, self, id) {
   var md = getModelById(self, id)
   var pioneer = self.getNesting('pioneer')
 
@@ -53,5 +52,4 @@ return function requestPage(BWL, self, id) {
     changeBridge(last_called)
   }
 
-}
-})
+};

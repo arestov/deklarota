@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var replaceModelInState = require('./replaceModelInState')
 
 var assignPublicAttrs = function(cur_md, target) {
@@ -21,5 +20,4 @@ var ensurePublicAttrs = function(cur_md) {
 
 ensurePublicAttrs.assignPublicAttrs = assignPublicAttrs
 
-return ensurePublicAttrs
-})
+export default ensurePublicAttrs

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var sync_sender = require('./sync_sender')
 var MDProxy = require('./MDProxy')
@@ -102,5 +101,4 @@ var provoda = {
   mergeBhv: mergeBhv,
 }
 
-return provoda
-})
+export default provoda

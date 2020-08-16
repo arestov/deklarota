@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 var css = {}
 
 var dom_style_obj = window.document.createElement('div').style
@@ -37,6 +36,4 @@ if (has_transform_prop) {
   css.transform = has_transform_prop
 }
 
-return css
-
-})
+export default css

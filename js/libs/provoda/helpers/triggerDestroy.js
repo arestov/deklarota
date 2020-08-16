@@ -1,9 +1,7 @@
-define(function(require) {
-'use strict'
+
 
 var triggerDie = require('../internal_events/die/trigger')
 
-return function(self) {
+export default function(self) {
   triggerDie(self)
-}
-})
+};

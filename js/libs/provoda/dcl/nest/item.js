@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var constr_mention = require('../../structure/constr_mention')
 var declarationConstructor = constr_mention.declarationConstructor
 
@@ -32,5 +31,4 @@ var NestDcl = function(name, data) {
   */
 }
 
-return NestDcl
-})
+export default NestDcl

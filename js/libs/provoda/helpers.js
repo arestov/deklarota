@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var utils_simple = require('./utils/simple')
@@ -26,7 +25,7 @@ function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id
 }
 
-return {
+export default {
   probeDiff: probeDiff,
   getRDep: (function() {
     var getTargetName = memorize(function getTargetName(state_name) {
@@ -85,5 +84,3 @@ return {
   }
 
 }
-
-})

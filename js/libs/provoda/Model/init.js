@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var cloneObj = spv.cloneObj
@@ -39,7 +38,7 @@ function buildHead(self, data) {
   return head
 }
 
-return function initModel(self, opts, data, params, more, states) {
+export default function initModel(self, opts, data, params, more, states) {
   self.current_motivator = self.current_motivator || (opts && opts._motivator)
 
   if (opts && opts.app) {
@@ -103,7 +102,7 @@ return function initModel(self, opts, data, params, more, states) {
   prepareStates(self, data, states)
 
   return self
-}
+};
 
 function toServStates(iss, states) {
   if (!states) {return iss}
@@ -162,4 +161,3 @@ function prepareStates(self, data, states) {
   self.init_states = self.init_states || {}
   self.init_states = cloneObj(self.init_states, iss)
 }
-})

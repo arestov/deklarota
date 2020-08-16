@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var View = require('View')
 var spv = require('spv')
 var css = require('./css')
@@ -57,7 +56,7 @@ LevContainer.prototype = {
 }
 
 
-return spv.inh(View, {
+export default spv.inh(View, {
   init: function(self) {
     self.parent_view.general_navigation_view = self
   },
@@ -471,5 +470,4 @@ return spv.inh(View, {
       }
     ]
   },
-})
 })

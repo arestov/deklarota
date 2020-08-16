@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var pvState = require('../../provoda/state')
 var getNesting = require('../../provoda/getNesting')
 var zip_fns = require('../zip/multipath-as-dep')
@@ -20,7 +19,7 @@ var getOne = function(items) {
   return items && items[0]
 }
 
-return function(models, multi_path) {
+export default function(models, multi_path) {
   switch (multi_path.result_type) {
     case 'state': {
       if (!Array.isArray(models)) {
@@ -83,5 +82,4 @@ return function(models, multi_path) {
 
   return models
 
-}
-})
+};

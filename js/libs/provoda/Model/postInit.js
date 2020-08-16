@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var initDeclaredNestings = require('../initDeclaredNestings')
 var prsStCon = require('../prsStCon')
 var nestWIndex = require('../nest-watch/index')
@@ -40,7 +39,7 @@ function markInitied(md) {
   _updateAttr(md, '$meta$inited', true)
 }
 
-return function postInitModel(self, opts) {
+export default function postInitModel(self, opts) {
   connectStates(self)
   connectNests(self)
 
@@ -59,5 +58,4 @@ return function postInitModel(self, opts) {
 
   self.nextTick(markInitied, null, false, self.current_motivator)
   Object.seal(self)
-}
-})
+};

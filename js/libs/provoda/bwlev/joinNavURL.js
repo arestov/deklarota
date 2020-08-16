@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var getNavGroups = require('./getNavGroups')
 
 var joinSubtree = function(array) {
@@ -15,7 +14,7 @@ var joinSubtree = function(array) {
   return url
 }
 
-return function(nav) {
+export default function(nav) {
   if (!nav || !nav.length) {
     return null
   }
@@ -46,5 +45,4 @@ return function(nav) {
   }
 
   return url
-}
-})
+};

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var directives_parsers = require('./directives_parsers')
@@ -225,6 +224,4 @@ var result = (function() {
 result.setStrucKey = setStrucKey
 result.unsetStrucKey = unsetStrucKey
 result.getNodeInstanceCount = getNodeInstanceCount
-return result
-
-})
+export default result

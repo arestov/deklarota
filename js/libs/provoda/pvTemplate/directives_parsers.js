@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var angbo = require('angbo')
@@ -117,7 +116,7 @@ function multipleParts(createChange) {
   }
 }
 
-return {
+export default {
   config: (function() {
     var config = {
       one_parse: {
@@ -466,5 +465,3 @@ function hlpSimplifyValue(value) {
   // regxp_edge_spaces: /^\s+|\s+$/gi,
   //return value.replace(regxp_spaces,' ').replace(regxp_edge_spaces,'');
 }
-
-})

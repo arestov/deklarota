@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var CoreView = require('./CoreView')
 var _updateAttr = require('_updateAttr')
@@ -504,6 +503,4 @@ DomView = spv.inh(CoreView, {
 }, props)
 DomView._PvTemplate = PvTemplate
 
-return DomView
-
-})
+export default DomView

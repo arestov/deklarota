@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var getDeprefixFunc = spv.getDeprefixFunc
 var check = getDeprefixFunc('handleAttr:')
 
-return function rebuild(self, index) {
+export default function rebuild(self, index) {
   var result = {}
 
   for (var name in index) {
@@ -23,6 +22,4 @@ return function rebuild(self, index) {
   }
 
   self.__handleState = result
-}
-
-})
+};

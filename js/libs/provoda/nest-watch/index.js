@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var LocalWatchRoot = require('./LocalWatchRoot')
 var addFrom = require('./addFrom')
 var checkNesting = require('./checkNesting')
@@ -18,10 +17,8 @@ function initList(self, list) {
   }
 }
 
-return {
+export default {
   initList: initList,
   checkNesting: checkNesting,
   checkStates: checkStates,
 }
-
-})

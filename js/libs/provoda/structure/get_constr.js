@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var hp = require('../helpers')
 var getRightNestingName = hp.getRightNestingName
@@ -68,9 +67,7 @@ function constrsList(app, md, items) {
   }
 }
 
-return {
+export default {
   getDeclrConstr: getDeclrConstr,
   getNestingConstr: getNestingConstr
 }
-
-})

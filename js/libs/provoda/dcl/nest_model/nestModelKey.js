@@ -1,6 +1,5 @@
-define(function() {
-'use strict'
-return function(name) {
+
+
+export default function(name) {
   return 'nest_rqc-' + name
-}
-})
+};

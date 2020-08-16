@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
+
 var getAllOnwers = require('./getAllOnwers')
 var scheduleDelivering = require('./scheduleDelivering')
 
-return function deliverAttrQueryUpdates(self, attr_name) {
+export default function deliverAttrQueryUpdates(self, attr_name) {
 
   var skeleton = self.__global_skeleton
   if (skeleton == null && self.view_id != null) {
@@ -35,5 +34,4 @@ return function deliverAttrQueryUpdates(self, attr_name) {
   }
 
   scheduleDelivering(self, result)
-}
-})
+};

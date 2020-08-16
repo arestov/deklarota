@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
 var cloneObj = require('spv/cloneObj')
@@ -213,5 +212,4 @@ MDProxy.prototype = {
     this.space = null
   }
 }
-return MDProxy
-})
+export default MDProxy

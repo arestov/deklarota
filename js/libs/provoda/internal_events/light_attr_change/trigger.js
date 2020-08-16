@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var utils_simple = require('../../utils/simple')
 
@@ -30,5 +29,4 @@ function triggerLightAttrChange(self, attr_name, value, zdsv) {
 }
 
 
-return triggerLightAttrChange
-})
+export default triggerLightAttrChange

@@ -1,4 +1,3 @@
-define(require => {
 const BrowseMap = require('js/libs/BrowseMap')
 const _updateRel = require('_updateRel')
 const animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges')
@@ -29,5 +28,4 @@ function initMapTree(app, start_page) {
   return app.map
 }
 
-return initBrowsing
-})
+export default initBrowsing

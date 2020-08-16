@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var Promise = require('Promise')
 var spv = require('spv')
 var getApiPart = require('./getApiPart')
@@ -112,10 +111,8 @@ function finalizeBatch(reqs_batching, md) {
   }
 }
 
-return {
+export default {
   doBatch: doBatch,
   batch: batch,
   releaseBatch: releaseBatch,
 }
-
-})

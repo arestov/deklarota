@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var CallbacksFlow = require('../../../CallbacksFlow')
 var SyncSender = require('../../../sync_sender')
 var views_proxies = require('../../../views_proxies')
@@ -55,5 +54,4 @@ AppRuntime.prototype.start = function(options) {
   })
 }
 
-return AppRuntime
-})
+export default AppRuntime

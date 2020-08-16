@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 
 // from template to full string - implemented
@@ -49,6 +48,4 @@ var parse = function(full_usable_string) {
 
 var parsePath = spv.memorize(parse)
 
-return parsePath
-
-})
+export default parsePath

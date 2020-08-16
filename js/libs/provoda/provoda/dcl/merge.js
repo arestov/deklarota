@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var softMerge = function(to, from, strict) {
   if (!from) {
@@ -35,7 +34,7 @@ function addNotEmptyProp(target, name, value) {
   return target
 }
 
-return function() {
+export default function() {
   var args = Array.prototype.slice.call(arguments)
   var result = {}
 
@@ -83,5 +82,4 @@ return function() {
   addNotEmptyProp(result, 'effects', effects)
 
   return result
-}
-})
+};

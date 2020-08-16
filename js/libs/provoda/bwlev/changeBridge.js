@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var showMOnMap = require('./showMOnMap')
 var _updateAttr = require('_updateAttr')
 var _updateRel = require('_updateRel')
@@ -16,7 +15,7 @@ var redirected = function(map, pioneer) {
 
 }
 
-return function changeBridge(bwlev_raw, map_raw) {
+export default function changeBridge(bwlev_raw, map_raw) {
   var bwlev = bwlev_raw && (redirected(bwlev_raw.map, bwlev_raw.getNesting('pioneer')) || bwlev_raw)
   var map = map_raw || (bwlev && bwlev.map)
 
@@ -46,5 +45,4 @@ return function changeBridge(bwlev_raw, map_raw) {
   _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
   _updateAttr(bwlev, 'currentReq', null)
   return bwlev
-}
-})
+};

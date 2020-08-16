@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var coe = require('./coe')
 var copyProps = require('./copyProps')
 var countConstr = require('./countConstr')
@@ -43,5 +42,4 @@ Class.extend = function(props) {
   return this.extendTo(function() {}, props)
 }
 
-return Class
-})
+export default Class

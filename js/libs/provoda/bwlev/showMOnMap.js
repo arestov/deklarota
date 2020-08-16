@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev')
 var ba_canReuse = require('./ba_canReuse')
@@ -50,7 +49,7 @@ function ensureStartBwlev(map, md) {
 
 }
 
-return function showMOnMap(BWL, map, model, bwlev) {
+export default function showMOnMap(BWL, map, model, bwlev) {
 
   var is_start = isStart(model)
 
@@ -98,5 +97,4 @@ return function showMOnMap(BWL, map, model, bwlev) {
 
   return result
   //
-}
-})
+};

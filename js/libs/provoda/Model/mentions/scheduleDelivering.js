@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function scheduleDelivering(motivation_model, list) {
+
+
+export default function scheduleDelivering(motivation_model, list) {
   var current_motivator = motivation_model._currentMotivator()
   var wrapper = motivation_model.evcompanion.hndUsualEvCallbacksWrapper
   var calls_flow = motivation_model._getCallsFlow()
@@ -12,6 +12,4 @@ return function scheduleDelivering(motivation_model, list) {
       cur.mention_owner.__deliverChainUpdates, cur.mention_owner, [cur.link.chain], null, wrapper, null, current_motivator
     )
   }
-}
-
-})
+};

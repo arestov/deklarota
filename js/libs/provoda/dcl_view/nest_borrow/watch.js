@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return function(self) {
+
+export default function(self) {
   if (self._nest_borrow) {
     if (!self.hasOwnProperty('_nest_borrow_watch')) {
       self._nest_borrow_watch = {}
@@ -47,5 +46,4 @@ return function(self) {
       }
     }
   }
-}
-})
+};

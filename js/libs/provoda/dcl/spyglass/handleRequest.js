@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var pvState = require('pv/state')
 var _updateAttr = require('_updateAttr')
@@ -8,7 +7,7 @@ var getModelById = require('../../utils/getModelById')
 var getKey = require('./getKey')
 var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
 
-return function(request) {
+export default function(request) {
   var self = this
   var requests_index = spv.cloneObj({}, pvState(self, 'spyglasses_requests'))
 
@@ -27,7 +26,7 @@ return function(request) {
 
   _updateAttr(self, 'spyglasses_index', index)
   _updateAttr(self, 'spyglasses_requests', requests_index)
-}
+};
 
 function getModel(bwlev, steps) {
   var self = bwlev.getNesting('pioneer')
@@ -58,6 +57,3 @@ function ensureSpyglass(self, index, key, request) {
 
   return new_index
 }
-
-
-})

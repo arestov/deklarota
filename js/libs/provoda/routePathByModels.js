@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var allStates = require('./dcl/routes/allStates')
 var getModernPage = require('./dcl/routes/getByName')
@@ -146,7 +145,7 @@ function getSPOpts(md, sp_name, slashed, byType) {
       by_colon: by_colon,
       by_slash: by_slash,
     }]
-};
+}
 
 
 
@@ -309,5 +308,4 @@ function watchSubPageKey(self, instance, key) {
 
 routePathByModels.getSPI = getSPI
 routePathByModels.getSPIConstr = getSPIConstr
-return routePathByModels
-})
+export default routePathByModels

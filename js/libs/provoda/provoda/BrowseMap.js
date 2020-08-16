@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var HModel = require('../Model/HModel')
 var changeBridge = require('../bwlev/changeBridge')
@@ -211,5 +210,4 @@ function hookRoot(rootmd, start_page, states) {
 
 BrowseMap.hookRoot = hookRoot
 BrowseMap.changeBridge = changeBridge
-return BrowseMap
-})
+export default BrowseMap

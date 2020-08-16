@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 
@@ -174,7 +173,7 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-return function checkPass(self, props) {
+export default function checkPass(self, props) {
 
   var currentIndex = self._extendable_nest_index
 
@@ -211,5 +210,4 @@ return function checkPass(self, props) {
 
   }
   return true
-}
-})
+};

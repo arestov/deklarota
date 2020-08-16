@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var structureChild = require('../../structure/child')
 
 var build = function(self, result) {
@@ -32,5 +31,4 @@ var build = function(self, result) {
   }
 }
 
-return build
-})
+export default build

@@ -1,12 +1,11 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var hp = require('../helpers')
 
 var empty = function() {}
 
-return function checkPrefix(prefix, Declr, result_prop, fn) {
+export default function checkPrefix(prefix, Declr, result_prop, fn) {
   var getUnprefixed = spv.getDeprefixFunc(prefix)
   var hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
   var merge = mergePrefixed(prefix)
@@ -33,7 +32,7 @@ return function checkPrefix(prefix, Declr, result_prop, fn) {
     callback(self, self[result_prop], props)
     return self[result_prop]
   }
-}
+};
 
 function mergePrefixed(prefix) {
   var getUnprefixed = spv.getDeprefixFunc(prefix)
@@ -52,4 +51,3 @@ function mergePrefixed(prefix) {
     return result
   }
 }
-})

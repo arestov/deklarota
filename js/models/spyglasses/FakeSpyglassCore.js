@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var Model = require('pv/Model')
 var spv = require('spv')
 var pvState = require('pv/state')
@@ -16,7 +15,7 @@ var _updateAttr = require('_updateAttr')
 var BrowseMap = require('js/libs/BrowseMap')
 var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges')
 
-return spv.inh(Model, {
+export default spv.inh(Model, {
   naming: function(fn) {
     return function FakeSpyglassCore(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
@@ -202,7 +201,7 @@ function initMapTree(target, start_page, needs_url_history, navi) {
     .on('bridge-changed', function(bwlev) {
       animateMapChanges(target, bwlev)
     }, target.app.getContextOptsI())
-};
+}
 
 function initNav(map, navi, app) {
   if (map.needs_url_history) {
@@ -245,6 +244,3 @@ function askAuth(bwlev) {
 
   getNesting(bwlev, 'pioneer').switchPmd()
 }
-
-
-})

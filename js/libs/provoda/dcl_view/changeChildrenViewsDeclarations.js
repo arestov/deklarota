@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function(self, props) {
+
+
+export default function(self, props) {
   var nesting_name, cur
   if (props.children_views) {
     for (nesting_name in self.children_views) {
@@ -24,5 +24,4 @@ return function(self, props) {
       }
     }
   }
-}
-})
+};

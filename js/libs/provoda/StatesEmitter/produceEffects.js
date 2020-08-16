@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var pvState = require('../utils/state')
 var spv = require('spv')
 var countKeys = spv.countKeys
@@ -340,11 +339,11 @@ function iterateApis(changes_list, context) {
 }
 
 
-return function(total_ch, self) {
+export default function(total_ch, self) {
   iterateApis(total_ch, self)
   iterateEffects(total_ch, self)
   scheduleTransactionEnd(self)
-}
+};
 
 function scheduleTransactionEnd(self) {
   if (self._highway.__produce_side_effects_schedule == null) {
@@ -414,5 +413,3 @@ function handleTransactionEnd(self, key) {
 function eraseTransactionEffectsData(self, key) {
   self._highway.__produce_side_effects_schedule.delete(key)
 }
-
-})

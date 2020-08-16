@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var supportedAttrTargetAddr = require('../Model/mentions/supportedAttrTargetAddr')
 var supportedRelTargetAddr = require('../Model/mentions/supportedRelTargetAddr')
@@ -150,9 +149,8 @@ function complete(global_skeleton) {
 }
 
 
-return {
+export default {
   GlobalSkeleton: GlobalSkeleton,
   addModel: addModel,
   complete: complete,
 }
-})

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var nil = spv.nil
 var getModelById = require('../../utils/getModelById')
@@ -42,7 +41,7 @@ function getContextId(view, parent_bwlev_view, steps) {
   throw new Error('implement steps (^^^^) context getting')
 }
 
-return function(self) {
+export default function(self) {
   if (nil(self._spyglass)) {
     return
   }
@@ -56,5 +55,4 @@ return function(self) {
     var cur = self._spyglass[key]
     watchAndRequest(root_bwlev_view, self, cur)
   }
-}
-})
+};

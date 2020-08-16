@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var pvState = require('../state')
 
 
@@ -51,6 +50,4 @@ var zip_fns = {
 
 }
 
-return zip_fns
-
-})
+export default zip_fns

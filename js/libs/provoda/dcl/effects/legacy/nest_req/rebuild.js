@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
+
 var changeSources = require('../utils/changeSources')
 var assign = require('../utils/assign')
 
-return function buildNestReqs(self, by_name, typed_state_dcls) {
+export default function buildNestReqs(self, by_name, typed_state_dcls) {
   self._nest_reqs = by_name
 
   self.netsources_of_nestings = {
@@ -22,6 +21,4 @@ return function buildNestReqs(self, by_name, typed_state_dcls) {
 
     assign(typed_state_dcls, cur_nest)
   }
-}
-
-})
+};

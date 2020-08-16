@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var StatesLabour = require('./StatesLabour')
 var utils_simple = require('./utils/simple')
@@ -488,5 +487,4 @@ updateProxy.update = function(md, state_name, state_value, opts) {
 }
 updateProxy.getComplexInitList = getComplexInitList
 
-return updateProxy
-})
+export default updateProxy

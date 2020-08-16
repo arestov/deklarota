@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var parsePath = require('./parse.js')
 
@@ -54,5 +53,4 @@ var getParsedPath = spv.memorize(function(string_template) {
   }
 })
 
-return getParsedPath
-})
+export default getParsedPath

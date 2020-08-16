@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var push = Array.prototype.push
 var spv = require('spv')
@@ -183,5 +182,4 @@ function isForDeep(name) {
   return startsWith(name, '>') && name.slice(1)
 }
 
-return SelectNestingDeclaration
-})
+export default SelectNestingDeclaration

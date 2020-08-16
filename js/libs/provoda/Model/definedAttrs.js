@@ -1,8 +1,7 @@
-define(function() {
-'use strict'
+
 var push = Array.prototype.push
 
-return function(self) {
+export default function(self) {
   if (self.__defined_attrs_bool) {
     return self.__defined_attrs_bool
   }
@@ -56,5 +55,4 @@ return function(self) {
   return result
 
 
-}
-})
+};

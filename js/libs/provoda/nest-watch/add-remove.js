@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var orderItems = require('./orderItems')
 
@@ -306,10 +305,8 @@ function removeRootNestWatch(self, nwatch) {
   removeNestWatch(self, nwatch, 0)
 }
 
-return {
+export default {
   addRootNestWatch: addRootNestWatch,
   removeRootNestWatch: removeRootNestWatch,
   checkNestWatchs: checkNestWatchs,
 }
-
-})

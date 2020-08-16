@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function changeSources(store, send_declr) {
+
+
+export default function changeSources(store, send_declr) {
   var api_name = send_declr.api_name
   if (typeof api_name == 'string') {
     store.api_names.push(api_name)
@@ -11,5 +11,4 @@ return function changeSources(store, send_declr) {
     }
     store.sources_names.push(network_api.source_name)
   }
-}
-})
+};

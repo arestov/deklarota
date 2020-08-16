@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var splitByDot = spv.splitByDot
 var getParsedState = require('../../utils/getParsedState')
@@ -127,5 +126,4 @@ var getFullPathInfo = spv.memorize(function(full_path) {
 
 })
 
-return getFullPathInfo
-})
+export default getFullPathInfo

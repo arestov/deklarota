@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var css = require('./css')
 var getAttr = require('pv/getAttr')
 var getModelFromR = require('pv/v/getModelFromR')
@@ -24,7 +23,7 @@ var getAMCOffset = function() {
   return this.root_view.els.app_map_con.offset()
 }
 
-return function readMapSliceAnimationData(view, transaction_data) {
+export default function readMapSliceAnimationData(view, transaction_data) {
   if (!transaction_data || !transaction_data.bwlev) {return}
 
   var target_md = getModelFromR(view, transaction_data.bwlev)
@@ -127,7 +126,4 @@ return function readMapSliceAnimationData(view, transaction_data) {
     lc: lc,
     transform_values: transform_values
   }
-}
-
-
-})
+};

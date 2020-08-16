@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 
 var Model = require('../Model')
@@ -319,9 +318,5 @@ function getStrucSources(md, struc) {
   }
   return result
   //console.log(md.model_name, md.constr_id, result);
-};
-
-
-
-return BrowseLevel
-})
+}
+export default BrowseLevel

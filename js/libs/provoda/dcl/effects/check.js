@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 
@@ -172,7 +171,7 @@ var checkModern = function(self, props) {
   )
 }
 
-return function checkEffects(self, props, typed_state_dcls) {
+export default function checkEffects(self, props, typed_state_dcls) {
   var currentIndex = self._extendable_effect_index
 
   checkModern(self, props)
@@ -214,5 +213,4 @@ return function checkEffects(self, props, typed_state_dcls) {
     }
   }
   return true
-}
-})
+};

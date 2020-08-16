@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
+
 var isBigStep = require('./isBigStep')
 
-return function getNavGroups(bwlev) {
+export default function getNavGroups(bwlev) {
   var cur_group = []
   var groups = [cur_group]
 
@@ -20,6 +19,4 @@ return function getNavGroups(bwlev) {
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups
-}
-
-})
+};

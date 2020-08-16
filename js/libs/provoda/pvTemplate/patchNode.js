@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var d_parsers = require('./directives_parsers')
 var dom_helpers = require('../utils/dom_helpers')
 var getCachedPVData = require('./getCachedPVData')
@@ -209,5 +208,4 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
     }
   }, 'pv-when')
 }
-return patchNode
-})
+export default patchNode

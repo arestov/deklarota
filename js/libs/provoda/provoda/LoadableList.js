@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var BrowseMap = require('./BrowseMap')
 var spv = require('spv')
 var _updateAttr = require('_updateAttr')
@@ -428,5 +427,4 @@ var LoadableList = spv.inh(LoadableListBase, {
 
 LoadableList.LoadableListBase = LoadableListBase
 
-return LoadableList
-})
+export default LoadableList

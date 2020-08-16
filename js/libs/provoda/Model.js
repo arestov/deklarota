@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var StatesLabour = require('./StatesLabour')
@@ -426,5 +425,4 @@ add({
 })
 }
 
-return Model
-})
+export default Model

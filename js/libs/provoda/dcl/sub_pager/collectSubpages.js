@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var hp = require('../../helpers')
@@ -39,7 +38,7 @@ var buildMany = function(self) {
   }
 }
 
-return function collectSubpages(self, props) {
+export default function collectSubpages(self, props) {
   var changed_singled = hasPrefixedProps(props)
   var changed_pack = !!props.sub_page
   if (!changed_singled && !changed_pack) {
@@ -93,5 +92,4 @@ return function collectSubpages(self, props) {
   self._sub_pages = check
 
 
-}
-})
+};

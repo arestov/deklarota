@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 
@@ -87,5 +86,4 @@ StatesLabour.prototype.removeFlowStep = function(space, index_key, item) {
 
 
 }
-return StatesLabour
-})
+export default StatesLabour

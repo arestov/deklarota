@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var d_parsers = require('./directives_parsers')
 var config = d_parsers.config
@@ -13,5 +12,4 @@ var parser = {
   parseEasy: null
 }
 
-return parser
-})
+export default parser

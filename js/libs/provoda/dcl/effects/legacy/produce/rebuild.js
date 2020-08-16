@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var indexByDepName = require('../api/utils/indexByDepName')
 var getDepsToInsert = require('../api/utils/getDepsToInsert')
@@ -52,7 +51,7 @@ function rootApis(obj) {
   return result.length ? result : null
 }
 
-return function rebuildEffects(self, effects, typed_state_dcls) {
+export default function rebuildEffects(self, effects, typed_state_dcls) {
   self.__api_effects = effects
 
   getDepsToInsert(effects, self, typed_state_dcls)
@@ -62,5 +61,4 @@ return function rebuildEffects(self, effects, typed_state_dcls) {
   self.__api_effects_$_index_by_apis = indexByList(effects, 'apis') || self.__api_effects_$_index_by_apis
 
   self.__api_root_dep_apis = rootApis(effects) || self.__api_root_dep_apis || null
-}
-})
+};

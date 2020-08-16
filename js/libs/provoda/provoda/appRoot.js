@@ -1,10 +1,9 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var prepare = require('../structure/prepare')
 var AppModel = require('./AppModel')
 
-return function(props, init) {
+export default function(props, init) {
   if (typeof props == 'function') {
     if (init) {
       throw new Error('you cant pass init with Constr')
@@ -21,5 +20,4 @@ return function(props, init) {
   var App = spv.inh(AppModel, all, props)
   return prepare(App)
 
-}
-})
+};

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var Model = require('../Model')
 var spv = require('spv')
 var handleSpyglassRequests = require('../dcl/spyglass/handleRequest')
@@ -91,5 +90,4 @@ var RootLev = spv.inh(Model, {
   },
 })
 
-return RootLev
-})
+export default RootLev

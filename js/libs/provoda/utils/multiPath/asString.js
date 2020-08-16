@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return function multiPathAsString(multi_path) {
+
+export default function multiPathAsString(multi_path) {
   if (multi_path.as_string) {
     return multi_path.as_string
   }
@@ -13,7 +12,7 @@ return function multiPathAsString(multi_path) {
     + baseString(multi_path.from_base)
 
   return multi_path.as_string
-}
+};
 
 function isStateOk(state) {
   return state && state.path
@@ -92,4 +91,3 @@ function baseString(from_base) {
   }
 
 }
-})

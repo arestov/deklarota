@@ -1,6 +1,5 @@
-define(function() {
-'use strict'
-return function(md, attrs) {
+
+
+export default function(md, attrs) {
   return md.updateManyStates(attrs)
-}
-})
+};

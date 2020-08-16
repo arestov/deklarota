@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
@@ -171,7 +170,7 @@ var parseWithCache = function(addr_str, legacy_ok) {
 
 parseWithCache.simpleState = simpleState
 
-return parseWithCache
+export default parseWithCache
 
 function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   var state_part_splited = state_raw && state_raw.match(matchZip)
@@ -291,5 +290,3 @@ function getResultType(state, nest) {
 
   return null
 }
-
-})

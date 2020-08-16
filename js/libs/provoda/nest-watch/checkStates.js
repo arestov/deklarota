@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
+
 var orderItems = require('./orderItems')
 
-return function(etr, zdsv, state_name, value, cur_value) {
+export default function(etr, zdsv, state_name, value, cur_value) {
   var links = etr.states_links && etr.states_links[state_name]
   if (!links) {return}
   for (var k = 0; k < links.length; k++) {
@@ -16,11 +15,10 @@ return function(etr, zdsv, state_name, value, cur_value) {
     calls_flow.pushToFlow(null, cur, [state_name, value, cur_value, etr], null, handleStates, null, etr.current_motivator)
 
   }
-}
+};
 
 function handleStates(motivator, _, lnwatch, args) {
   // TODO if we don't have state_handler that we don't need order and preparations to keep order
   orderItems(lnwatch)
   lnwatch.state_handler.call(null, motivator, _, lnwatch, args)
 }
-})

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 var spv = require('spv')
 var getTypedDcls = require('../dcl-h/getTypedDcls')
@@ -84,7 +83,7 @@ var checkNests = function(self, props) {
   checkModernNests(self, props)
 }
 
-return function(self, props, original, params) {
+export default function(self, props, original, params) {
   updateStatesDcls(self, props, original)
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
@@ -114,6 +113,4 @@ return function(self, props, original, params) {
   }
 
   self._attrs_collector = null
-}
-
-})
+};

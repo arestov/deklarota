@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var nil = spv.nil
 
@@ -14,7 +13,5 @@ function getBwlevView(target) {
     cur = cur.parent_view
   }
 
-};
-
-return getBwlevView
-})
+}
+export default getBwlevView

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var batching = require('./batching')
 
 var req_utils = require('./req-utils')
@@ -89,7 +88,7 @@ function statesQueue(states, nesting_name, mark) {
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 
-return function(dclt, nesting_name, limit) {
+export default function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
   // 'main_list_loading', true
@@ -348,7 +347,7 @@ return function(dclt, nesting_name, limit) {
 
 
   */
-}
+};
 
 
 function hasMoreData(serv_data, page_limit, paging_opts, items) {
@@ -370,5 +369,3 @@ function hasMoreData(serv_data, page_limit, paging_opts, items) {
   }
 
 }
-
-})

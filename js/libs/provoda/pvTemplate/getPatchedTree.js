@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var cloneObj = spv.cloneObj
 var getCachedPVData = require('./getCachedPVData')
@@ -43,7 +42,7 @@ var getMarkedPvNest = function(node, pv_nest, struc_store, getSample) {
   return result
 }
 
-return function getPatchedTree(original_node, struc_store, getSample, opts, sample_id) {
+export default function getPatchedTree(original_node, struc_store, getSample, opts, sample_id) {
   var node = getMarkedPvNest(
     buildClone(original_node, struc_store, sample_id),
     opts && opts.pv_nest,
@@ -86,6 +85,4 @@ return function getPatchedTree(original_node, struc_store, getSample, opts, samp
   }
   // return result;
   return node
-}
-
-})
+};

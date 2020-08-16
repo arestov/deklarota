@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var pv = require('pv')
 var BrowseMap = require('./provoda/BrowseMap')
 var flatStruc = require('./structure/flatStruc')
@@ -112,5 +111,4 @@ function getWatchStruct(schema) {
   }
 }
 
-return fetchData
-})
+export default fetchData

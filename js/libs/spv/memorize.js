@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function memorize(func, getter) {
+
+
+export default function memorize(func, getter) {
   var cache = new Map()
   return getter ? function chechCacheByGetter() {
     var key = getter.apply(this, arguments)
@@ -18,6 +18,4 @@ return function memorize(func, getter) {
     }
     return cache.get(key)
   }
-}
-
-})
+};

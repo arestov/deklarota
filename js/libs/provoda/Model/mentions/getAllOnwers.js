@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
 
-return function getAllOnwers(mut_result_list, mention_owner, link) {
+
+export default function getAllOnwers(mut_result_list, mention_owner, link) {
   var cur_link = link
 
   if (cur_link.num == 0) {
@@ -31,6 +30,4 @@ return function getAllOnwers(mut_result_list, mention_owner, link) {
   }
 
   return mut_result_list
-}
-
-})
+};

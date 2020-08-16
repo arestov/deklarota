@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
 
 var NestConcat = function(md, dcl) {
@@ -17,5 +16,4 @@ var NestConcat = function(md, dcl) {
   }
 }
 
-return NestConcat
-})
+export default NestConcat

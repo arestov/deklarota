@@ -1,8 +1,8 @@
-define(function(require) {
-'use strict'
+
 var updateProxy = require('../updateProxy')
 var updateAttr = updateProxy.update
-return function gentlyUpdateAttr(self, name, value, opts) {
+
+export default function gentlyUpdateAttr(self, name, value, opts) {
   if (self._currentMotivator() != null) {
      updateAttr(self, name, value, opts)
      return
@@ -11,5 +11,4 @@ return function gentlyUpdateAttr(self, name, value, opts) {
    self.input(function() {
      updateAttr(self, name, value, opts)
    })
-}
-})
+};

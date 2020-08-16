@@ -1,11 +1,10 @@
-define(function(require) {
-'use strict'
+
 
 var hp = require('../../helpers')
 var initDeclaredNestings = require('../../initDeclaredNestings')
 var getSubpages = initDeclaredNestings.getSubpages
 
-return function loadNestingsByStruc(md, struc) {
+export default function loadNestingsByStruc(md, struc) {
   if (!struc) {return}
 
   var idx = md.idx_nestings_declarations
@@ -26,6 +25,4 @@ return function loadNestingsByStruc(md, struc) {
     }
     item.preloadStart()
   }
-}
-
-})
+};

@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var parse = require('../utils/multiPath/parse')
 var memorize = spv.memorize
@@ -32,5 +31,4 @@ var isPrivate = memorize(function(str) {
 
   return false
 })
-return isPrivate
-})
+export default isPrivate

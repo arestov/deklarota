@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var doCopy = function(item, self, typed_state_dcls) {
   for (var i = 0; i < item.compxes.length; i += 2) {
@@ -12,7 +11,7 @@ var doCopy = function(item, self, typed_state_dcls) {
 
 var empty = []
 
-return function getDepsToInsert(source, self, typed_state_dcls) {
+export default function getDepsToInsert(source, self, typed_state_dcls) {
   if (!source) {return empty}
 
   var result = []
@@ -29,5 +28,4 @@ return function getDepsToInsert(source, self, typed_state_dcls) {
   }
 
   return result
-}
-})
+};

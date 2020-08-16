@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var readDepValue = require('./utils/readDepValue')
 var read = readDepValue.read
 
@@ -54,7 +53,7 @@ var unsubscribe = function(md, target, state_name, full_name) {
   md.unwlch(target, state_name, full_name)
 }
 
-return {
+export default {
   bind: bind,
   prefill: {
     self: function(md, states_list) {
@@ -99,4 +98,3 @@ return {
     root: bind.root(unsubscribe),
   }
 }
-})

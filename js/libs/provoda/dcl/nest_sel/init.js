@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var addRemove = require('../../nest-watch/add-remove')
 var addRootNestWatch = addRemove.addRootNestWatch
 
@@ -34,7 +33,7 @@ function add(self, nwbase, dcl) {
   return start_md.shared_nest_sel_hands[key]
 }
 
-return function init(self) {
+export default function init(self) {
   self.states_links = self.states_links || null
   self.nes_match_index = self.nes_match_index || null
 
@@ -52,5 +51,4 @@ return function init(self) {
     addHead(self, hands, dest_w)
   }
 
-}
-})
+};

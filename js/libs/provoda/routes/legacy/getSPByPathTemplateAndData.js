@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var getTargetField = spv.getTargetField
 
@@ -17,6 +16,4 @@ var getSPByPathTemplateAndData = function(app, start_md, string_template, need_c
   return followStringTemplate(app, start_md, parsed_template, need_constr, full_path, strict, options, extra_states)
 }
 
-return getSPByPathTemplateAndData
-
-})
+export default getSPByPathTemplateAndData

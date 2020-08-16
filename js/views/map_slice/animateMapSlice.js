@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var css = require('./css')
 var getModelFromR = require('pv/v/getModelFromR')
@@ -59,7 +58,7 @@ var needsDestroing = function(view, all_changhes) {
 }
 
 
-return function(view, transaction_data, animation_data) {
+export default function(view, transaction_data, animation_data) {
   var all_changhes = spv.filter(transaction_data.array, 'changes')
     all_changhes = concatArray(all_changhes)
   var models = spv.filter(all_changhes, 'target')
@@ -124,6 +123,4 @@ return function(view, transaction_data, animation_data) {
   } else {
     animation_data.lc.onTransitionEnd(completeAnimation)
   }
-}
-
-})
+};

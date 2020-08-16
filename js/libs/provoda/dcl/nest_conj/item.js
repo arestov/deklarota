@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var asMultiPath = require('../../utils/NestingSourceDr/asMultiPath')
 var NestWatch = require('../../nest-watch/NestWatch')
 var _updateRel = require('_updateRel')
@@ -56,5 +55,4 @@ function concatItems(cnt) {
   return items
 }
 
-return NestCntDeclr
-})
+export default NestCntDeclr

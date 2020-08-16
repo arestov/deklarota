@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 
 function groupDeps(parse, getDeps) {
   return function(list) {
@@ -65,6 +64,4 @@ function toList(obj) {
   return result
 }
 
-return groupDeps
-
-})
+export default groupDeps

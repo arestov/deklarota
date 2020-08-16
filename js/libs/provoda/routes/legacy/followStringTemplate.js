@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var followStringTemplate = function(app, md, obj, need_constr, full_path, strict, options, extra_states) {
   if (obj.from_root) {
@@ -27,5 +26,4 @@ var followStringTemplate = function(app, md, obj, need_constr, full_path, strict
   return app.routePathByModels(full_path, md, need_constr, strict, options, extra_states)
 }
 
-return followStringTemplate
-})
+export default followStringTemplate

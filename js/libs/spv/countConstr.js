@@ -1,7 +1,6 @@
-define(function() {
-'use strict'
+
 var constr_id = 0
-return function() {
+
+export default function() {
   return constr_id++
-}
-})
+};

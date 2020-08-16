@@ -1,12 +1,11 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
 var getUnprefixed = spv.getDeprefixFunc('regfr-', true)
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
 
-return function(self, props) {
+export default function(self, props) {
   if (!hasPrefixedProps(props)) {
     return
   }
@@ -36,5 +35,4 @@ return function(self, props) {
       self.reg_fires.by_test.push(cur)
     }
   }
-}
-})
+};

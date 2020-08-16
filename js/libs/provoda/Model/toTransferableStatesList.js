@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var isPrivate = require('./isPrivateState')
 var CH_GR_LE = 2
 
@@ -49,6 +48,4 @@ function toTransferableStatesList(states_raw) {
 
 }
 
-return toTransferableStatesList
-
-})
+export default toTransferableStatesList

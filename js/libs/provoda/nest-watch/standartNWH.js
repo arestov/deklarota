@@ -1,6 +1,6 @@
-define(function() {
-'use strict'
-return function standart(callback) {
+
+
+export default function standart(callback) {
   return function standart(motivator, fn, lnwatch, args) {
     var md = lnwatch.md
     var old_value = md.current_motivator
@@ -14,5 +14,4 @@ return function standart(callback) {
 
     md.current_motivator = old_value
   }
-}
-})
+};

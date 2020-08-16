@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var parseMultiPath = require('../../utils/multiPath/parse')
 var noop = require('./noop')
 var now = require('./deps/now')
@@ -114,5 +113,4 @@ var PassDcl = function(name, data) {
 
 }
 
-return PassDcl
-})
+export default PassDcl

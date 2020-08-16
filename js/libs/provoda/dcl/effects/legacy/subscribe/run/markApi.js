@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
 var checkState = function(using, binder) {
@@ -38,5 +37,4 @@ var markApi = function(index, using, interface_name, mark) {
   return result
 }
 
-return markApi
-})
+export default markApi

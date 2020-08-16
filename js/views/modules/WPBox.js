@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var $ = require('cash-dom')
 
@@ -600,5 +599,4 @@ spv.Class.extendTo(WPBox, {
     return corridor
   }
 })
-return WPBox
-})
+export default WPBox

@@ -1,9 +1,8 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var startsWith = spv.startsWith
 
-return function getNetApiByDeclr(send_declr, sputnik, app) {
+export default function getNetApiByDeclr(send_declr, sputnik, app) {
   var api_name = send_declr.api_name
   if (typeof api_name == 'function') {
     return api_name.call(sputnik)
@@ -18,5 +17,4 @@ return function getNetApiByDeclr(send_declr, sputnik, app) {
   }
 
   return sputnik._interfaces_using && sputnik._interfaces_using.used[api_name]
-}
-})
+};

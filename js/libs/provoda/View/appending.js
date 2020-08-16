@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var dom_helpers = require('../utils/dom_helpers')
 var getViewLocationId = require('./getViewLocationId')
@@ -21,7 +20,7 @@ var appendSpace = function() {
 }
 
 
-return {
+export default {
   appen_ne_vws: {
     appendDirectly: function(fragt) {
       append(this.place, fragt)
@@ -519,4 +518,3 @@ return {
   },
   tpl_children_prefix: 'tpl.children_templates.',
 }
-})

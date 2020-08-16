@@ -1,8 +1,7 @@
-define(function(require) {
-'use strict'
+
 var matchChainsByLink = require('./matchChainsByLink')
 
-return function deliverRelQueryUpdates(self, rel_name) {
+export default function deliverRelQueryUpdates(self, rel_name) {
   var skeleton = self.__global_skeleton
   if (skeleton == null && self.view_id != null) {
     return
@@ -15,5 +14,4 @@ return function deliverRelQueryUpdates(self, rel_name) {
   }
 
   matchChainsByLink(self, list)
-}
-})
+};

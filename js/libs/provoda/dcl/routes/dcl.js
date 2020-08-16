@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var NestWatch = require('../../nest-watch/NestWatch')
 var parseRoute = require('../../routes/parse')
 var stringifyRoute = require('../../routes/stringify')
@@ -93,5 +92,4 @@ var Route = function(name, data) {
   }/*, handleAdding, handleRemoving*/)
 }
 
-return Route
-})
+export default Route

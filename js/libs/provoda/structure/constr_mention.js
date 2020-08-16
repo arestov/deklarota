@@ -1,5 +1,4 @@
-define(function() {
-'use strict'
+
 
 var nestConstructor = function(name, item, raw_key) {
   if (typeof item == 'string') {
@@ -35,8 +34,7 @@ var declarationConstructor = function(name, cur, key_prefix) {
   }
 }
 
-return {
+export default {
   nestConstructor: nestConstructor,
   declarationConstructor: declarationConstructor
 }
-})

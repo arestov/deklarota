@@ -1,5 +1,4 @@
-define(function(require) {
-'use strict'
+
 var spv = require('spv')
 var updateRootInterface = spv.memorize(function(name) {
   return function(val) {
@@ -28,7 +27,7 @@ function needsSelf(self) {
   return self.__api_effects_$_index_by_apis && self.__api_effects_$_index_by_apis['self']
 }
 
-return function(self, apis_as_arg) {
+export default function(self, apis_as_arg) {
 
   if (apis_as_arg) {
     for (var name in apis_as_arg) {
@@ -50,5 +49,4 @@ return function(self, apis_as_arg) {
   if (needsSelf(self)) {
     self.useInterface('self', self)
   }
-}
-})
+};
