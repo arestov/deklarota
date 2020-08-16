@@ -11,6 +11,7 @@ Tool to **model and manage relations of state and side effects**. It provides **
 Means that unlock not just
 - reduced amount of code
 - correctness, consistency
+
 but also
 - performance now and more performance in the future
 - relations and data model inspector
