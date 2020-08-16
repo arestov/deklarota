@@ -27,27 +27,6 @@ function ViewRuntime(optionsRaw) {
   this.sync_r = options.sync_r || null
 }
 
-// const rootBwlev = mpx
-// const { win } = interfaces
-// const generalOpts = options(false, mpx, syncR, win, win.document)
-// const view = new RootView(generalOpts, {
-//   d: win.document,
-//   can_die: false,
-//   bwlev: rootBwlev,
-//   interfaces: {
-//     ...interfaces,
-//     whenAllReady: generalOpts.whenAllReady,
-//   },
-// })
-//
-// window.rootView = view
-//
-// mpx.addView(view, 'root')
-// view.onDie(() => {
-//   // view = null
-// })
-// view.requestAll()
-
 ViewRuntime.prototype.start = function(options) {
   var self = this
   var mpx = options.mpx
@@ -90,30 +69,3 @@ ViewRuntime.prototype.start = function(options) {
 
 return ViewRuntime
 })
-
-// const proxiesSpace = Date.now()
-// proxies.addSpaceById(proxiesSpace, rootBwlev)
-
-// _highway: {
-//   views_counter: 1,
-//   views_proxies: proxies,
-//   calls_flow: flow,
-//   local_calls_flow: flow,
-// },
-
-
-
-// _highway: {
-//   views_counter: 1,
-//   sync_r: syncR,
-//   calls_flow: flow,
-//   local_calls_flow: new CallbacksFlow(getDefaultView(doc), !usualFlow, 150),
-// },
-
-
-// _highway: {
-//   views_counter: 1,
-//   views_proxies: proxies,
-//   calls_flow: flow,
-//   local_calls_flow: flow,
-// },
