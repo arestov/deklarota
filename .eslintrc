@@ -13,6 +13,7 @@
     "window": false,
     "requirejs": false
   },
+  "plugins": ["eslint-plugin-import"],
   "rules": {
     "semi": [2, "never"],
     "semi-spacing": [2, { "before": false, "after": true }],
@@ -43,6 +44,7 @@
     "space-in-parens": [2, "never"],
     "space-infix-ops": [2, { "int32Hint": true }],
     "space-unary-ops": [2, { "words": true, "nonwords": false }],
-    "func-call-spacing": [2, "never"]
+    "func-call-spacing": [2, "never"],
+    "import/first": 2,
   }
 }
