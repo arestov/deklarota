@@ -105,25 +105,29 @@ return function readMapSliceAnimationData(view, transaction_data) {
 
   // from small size (size of button) to size of viewport
 
+  // --
+  // function getMapSliceChildInParenViewOLD(md) {
+  //   var parent_md = md.map_parent;
+  //
+  //
+  //   var parent_view = this.getMapSliceView(parent_md);
+  //   if (!parent_view){
+  //     return;
+  //   }
+  //   var target_in_parent = findMpxViewInChildren(parent_view, this.getStoredMpx(md));
+  //   if (!target_in_parent){
+  //     var view = parent_view.getChildViewsByMpx(this.getStoredMpx(md));
+  //     target_in_parent = view && view[0];
+  //   }
+  //   return target_in_parent;
+  // };
+
+
   return {
     lc: lc,
     transform_values: transform_values
   }
 }
 
-// function getMapSliceChildInParenViewOLD(md) {
-//   var parent_md = md.map_parent;
-//
-//
-//   var parent_view = this.getMapSliceView(parent_md);
-//   if (!parent_view){
-//     return;
-//   }
-//   var target_in_parent = findMpxViewInChildren(parent_view, this.getStoredMpx(md));
-//   if (!target_in_parent){
-//     var view = parent_view.getChildViewsByMpx(this.getStoredMpx(md));
-//     target_in_parent = view && view[0];
-//   }
-//   return target_in_parent;
-// };
+
 })
