@@ -1,10 +1,10 @@
 
 import spv from 'spv'
-var nil = spv.nil
 import getModelById from '../../utils/getModelById'
 import getRootBwlevView from './getRootBwlevView'
 import getBwlevView from '../getBwlevView'
 import getModel from '../../View/getModel'
+var nil = spv.nil
 
 function watchAndRequest(root_bwlev_view, self, spyglass) {
   var key = spyglass.nest_name + '---' + self.view_id

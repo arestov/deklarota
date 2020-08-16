@@ -2,10 +2,10 @@
 import getTargetModels from './getTargetModels'
 import prepareNestingValue from './prepareNestingValue'
 import spv from 'spv'
-var countKeys = spv.countKeys
 import getModelById from '../../../utils/getModelById'
-var initPassedValue = prepareNestingValue.initPassedValue
 import noopForPass from '../noop'
+var countKeys = spv.countKeys
+var initPassedValue = prepareNestingValue.initPassedValue
 
 var isRedirectAction = function(target) {
   return Boolean(target.options && target.options.action)

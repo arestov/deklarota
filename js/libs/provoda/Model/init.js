@@ -1,10 +1,10 @@
 
 
 import spv from 'spv'
-var cloneObj = spv.cloneObj
 import initSubPager from '../dcl/sub_pager/init'
 import initInputAttrs from '../dcl/attrs/input/init'
 import makeAttrsCollector from './makeAttrsCollector'
+var cloneObj = spv.cloneObj
 
 function buildHead(self, data) {
   var init_v2 = data && data.init_version === 2

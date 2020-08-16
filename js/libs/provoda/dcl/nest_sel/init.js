@@ -1,11 +1,11 @@
 
 import addRemove from '../../nest-watch/add-remove'
-var addRootNestWatch = addRemove.addRootNestWatch
 
 import LocalWatchRoot from '../../nest-watch/LocalWatchRoot'
 import addFrom from '../../nest-watch/addFrom'
 import getStartModel from '../../nest-watch/getStartModel'
 import NestSelector from './NestSelector'
+var addRootNestWatch = addRemove.addRootNestWatch
 var Hands = NestSelector.Hands
 var addHead = NestSelector.addHead
 

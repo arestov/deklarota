@@ -3,10 +3,10 @@ import Promise from 'Promise'
 import extendPromise from 'js/modules/extendPromise'
 import spv from 'spv'
 import getApiPart from './getApiPart'
-var getTargetField = spv.getTargetField
-var toBigPromise = extendPromise.toBigPromise
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 import batching from './batching'
+var getTargetField = spv.getTargetField
+var toBigPromise = extendPromise.toBigPromise
 var doBatch = batching
 
 

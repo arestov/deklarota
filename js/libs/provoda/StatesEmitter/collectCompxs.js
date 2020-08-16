@@ -1,7 +1,6 @@
 
 
 import spv from 'spv'
-var cloneObj = spv.cloneObj
 import groupDeps from '../utils/groupDeps'
 import getEncodedState from '../utils/getEncodedState'
 import getShortStateName from '../utils/getShortStateName'
@@ -10,6 +9,7 @@ import asString from '../utils/multiPath/asString'
 import fromLegacy from '../utils/multiPath/fromLegacy'
 import parse from '../utils/multiPath/parse'
 import mentionsSupportedAddr from '../Model/mentions/supportedAttrTargetAddr'
+var cloneObj = spv.cloneObj
 
 var isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {

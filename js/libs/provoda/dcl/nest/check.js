@@ -1,9 +1,9 @@
 
 import spv from 'spv'
 import getPropsPrefixChecker from '../../utils/getPropsPrefixChecker'
+import NestDcl from './item'
 var getUnprefixed = spv.getDeprefixFunc('nest-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
-import NestDcl from './item'
 
 export default function(self, props) {
   var

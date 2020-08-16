@@ -1,12 +1,13 @@
 
 
-var push = Array.prototype.push
 import spv from 'spv'
 import getShortStateName from '../../utils/getShortStateName'
 import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
 import NestWatch from '../../nest-watch/NestWatch'
 import NestSelector from './NestSelector'
 import getParsedPath from '__lib/routes/legacy/getParsedPath.js'
+import where from './where'
+var push = Array.prototype.push
 var handleChdDeepState = NestSelector.handleChdDeepState
 var handleChdCount = NestSelector.handleChdCount
 var handleAdding = NestSelector.handleAdding
@@ -14,7 +15,6 @@ var handleRemoving = NestSelector.handleRemoving
 var rerun = NestSelector.rerun
 
 var startsWith = spv.startsWith
-import where from './where'
 
 var types = ['sort', 'map', 'cond']
 

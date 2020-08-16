@@ -3,12 +3,12 @@
 import hp from '../helpers'
 import LocalWatchRoot from '../nest-watch/LocalWatchRoot'
 import addRemoveN from '../nest-watch/add-remove'
-var addRootNestWatch = addRemoveN.addRootNestWatch
-var removeRootNestWatch = addRemoveN.removeRootNestWatch
 import NestWatch from '../nest-watch/NestWatch'
 import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
 import getModelById from '../utils/getModelById'
 import spv from 'spv'
+var addRootNestWatch = addRemoveN.addRootNestWatch
+var removeRootNestWatch = addRemoveN.removeRootNestWatch
 
 var watchDependence = changeDependence(true)
 var unwatchDependence = changeDependence(false)

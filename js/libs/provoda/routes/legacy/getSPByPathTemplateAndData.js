@@ -1,10 +1,10 @@
 
 import spv from 'spv'
-var getTargetField = spv.getTargetField
 
 import getParsedPath from './getParsedPath'
 import pathExecutor from './stringify'
 import followStringTemplate from './followStringTemplate'
+var getTargetField = spv.getTargetField
 
 var getPathBySimpleData = pathExecutor(function(chunkName, app, data) {
   return data && getTargetField(data, chunkName)

@@ -3,9 +3,9 @@
 import spv from 'spv'
 import getParsedPath from '__lib/routes/legacy/getParsedPath.js'
 import supportedZip from './supportedZip'
+import fromLegacy from './fromLegacy'
 
 var splitByDot = spv.splitByDot
-import fromLegacy from './fromLegacy'
 var empty = {}
 var root = {
   type: 'root',

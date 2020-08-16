@@ -1,8 +1,8 @@
 
 import spv from 'spv'
-var cloneObj = spv.cloneObj
 
 import RouteDcl from './dcl'
+var cloneObj = spv.cloneObj
 
 var buildRoutes = function(self, index) {
   // TODO: allow to control matching order

@@ -3,9 +3,9 @@ import _updateAttr from '_updateAttr'
 import getDepValue from '../../utils/multiPath/getDepValue'
 import multiPathAsString from '../../utils/multiPath/asString'
 import nestCompxHandlers from '../../dcl/nest_compx/handler'
-var changeValue = nestCompxHandlers.changeValue
 
 import target_types from './target_types'
+var changeValue = nestCompxHandlers.changeValue
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
 

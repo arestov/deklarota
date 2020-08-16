@@ -1,11 +1,11 @@
 
 
 import spv from 'spv'
-var cloneObj = spv.cloneObj
 import Dcl from './dcl'
 import rebuildHandleState from './handleState/rebuild'
 import rebuildHandleNesting from './handleNesting/rebuild'
 import rebuildHandleInit from './handleInit/rebuild'
+var cloneObj = spv.cloneObj
 
 export default function checkPasses(self, props) {
   if (!props.hasOwnProperty('actions')) {

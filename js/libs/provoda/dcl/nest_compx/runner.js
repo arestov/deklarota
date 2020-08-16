@@ -2,10 +2,10 @@
 import addFrom from '../../nest-watch/addFrom'
 import LocalWatchRoot from '../../nest-watch/LocalWatchRoot'
 import handler from './handler'
-var hstate = handler.hstate
-var recalc = handler.recalc
 import subscribing from '../../utils/multiPath/subscribing'
 import supportedRelTargetAddr from '../../Model/mentions/supportedRelTargetAddr'
+var hstate = handler.hstate
+var recalc = handler.recalc
 
 var copyStates = function(md, target, state_name, full_name, runner) {
   md.lwch(target, state_name, function(value) {

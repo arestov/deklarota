@@ -1,14 +1,14 @@
 
 import d_parsers from './directives_parsers'
 
-var config = d_parsers.config
-
 import getPatchedTree from './getPatchedTree'
 import spv from 'spv'
 import parseEasy from './parseEasy'
 import parse from './parse'
 import buildClone from './buildClone'
 import dom_helpers from '../utils/dom_helpers'
+
+var config = d_parsers.config
 
 var dWrap = dom_helpers.wrap
 

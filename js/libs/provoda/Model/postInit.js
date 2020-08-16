@@ -2,7 +2,6 @@
 import initDeclaredNestings from '../initDeclaredNestings'
 import prsStCon from '../prsStCon'
 import nestWIndex from '../nest-watch/index'
-var initWatchList = nestWIndex.initList
 import initNestSel from '../dcl/nest_sel/init'
 import initNestConcat from '../dcl/nest_conj/init'
 import initNestCompx from '../dcl/nest_compx/init'
@@ -10,6 +9,7 @@ import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
 import __handleInit from '../dcl/passes/handleInit/handle'
 import _updateAttr from '_updateAttr'
+var initWatchList = nestWIndex.initList
 
 
 function connectStates(self) {

@@ -1,10 +1,10 @@
 
 import spv from 'spv'
-var nil = spv.nil
 
 import watcherKey from './watcherKey'
 import getParent from './getParent'
 import checkChange from './check-change'
+var nil = spv.nil
 var checkChildren = checkChange.checkChildren
 
 

@@ -1,7 +1,7 @@
 
 import addRemove from './add-remove'
-var checkNestWatchs = addRemove.checkNestWatchs
 import orderItems from './orderItems'
+var checkNestWatchs = addRemove.checkNestWatchs
 
 export default function checkNesting(self, collection_name, array, removed) {
   checkNestWatchs(self, collection_name, array, removed)

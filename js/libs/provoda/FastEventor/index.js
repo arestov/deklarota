@@ -2,9 +2,9 @@
 
 import spv from 'spv'
 import utils_simple from '../utils/simple'
-var wipeObj = utils_simple.wipeObj
 import requesting from './requesting'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
+var wipeObj = utils_simple.wipeObj
 
 var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
   this.ev_name = ev_name

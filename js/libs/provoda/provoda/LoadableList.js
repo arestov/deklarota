@@ -4,9 +4,9 @@ import spv from 'spv'
 import _updateAttr from '_updateAttr'
 import _updateRel from '_updateRel'
 
-var cloneObj = spv.cloneObj
-
 import pushToRoute from '../structure/pushToRoute'
+
+var cloneObj = spv.cloneObj
 
 var getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 

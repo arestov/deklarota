@@ -1,6 +1,5 @@
 
 import spv from 'spv'
-var cloneObj = spv.cloneObj
 
 import NestSelector from '../nest_sel/item'
 import NestCntDeclr from '../nest_conj/item'
@@ -11,6 +10,7 @@ import buildSel from '../nest_sel/build'
 import buildNest from '../nest/build'
 import buildConj from '../nest_conj/build'
 import buildModel from '../nest_model/build'
+var cloneObj = spv.cloneObj
 
 var parse = function(name, data) {
   var type = data[0]

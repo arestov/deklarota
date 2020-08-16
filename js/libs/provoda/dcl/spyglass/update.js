@@ -3,13 +3,13 @@
 import _updateRel from '_updateRel'
 
 import animateMapChanges from '../probe/animateMapChanges'
-var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
 import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
 import getModelById from '../../utils/getModelById'
 import createLevel from '../../bwlev/createLevel'
 import pvState from 'pv/state'
 import _updateAttr from '_updateAttr'
 import getKey from './getKey'
+var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
 
 var getPioneer = function(lev) {
   return lev && lev.getNesting('pioneer')

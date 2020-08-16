@@ -2,11 +2,11 @@
 import spv from 'spv'
 import hp from '../helpers'
 import nestWIndex from '../nest-watch/index'
-var checkNesting = nestWIndex.checkNesting
 import isNestingChanged from '../utils/isNestingChanged'
 import _updateAttr from '_updateAttr'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
+var checkNesting = nestWIndex.checkNesting
 
 var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1

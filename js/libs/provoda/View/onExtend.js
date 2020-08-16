@@ -1,6 +1,5 @@
 
 import spv from 'spv'
-var cloneObj = spv.cloneObj
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../StatesEmitter/collectCompxs'
@@ -13,6 +12,7 @@ import collectStateChangeHandlers from '../dcl_view/v-collectStateChangeHandlers
 import checkNestBorrow from '../dcl_view/nest_borrow/check-dcl'
 import checkNestBorrowWatch from '../dcl_view/nest_borrow/watch'
 import checkSpyglass from '../dcl_view/spyglass/check-dcl'
+var cloneObj = spv.cloneObj
 
 var getBaseTreeCheckList = function(start) {
   var i, result = []

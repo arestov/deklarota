@@ -1,10 +1,10 @@
 
 import spv from 'spv'
-var splitByDot = spv.splitByDot
 import NestWatch from '../nest-watch/NestWatch'
 import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
 import collectStateChangeHandlers from './collectStateChangeHandlers'
 import standart from '../nest-watch/standartNWH'
+var splitByDot = spv.splitByDot
 
 var wrapper = standart(function wrapper(md, items, lnwatch) {
   var callback = lnwatch.nwatch.handler.stch_fn

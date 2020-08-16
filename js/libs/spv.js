@@ -1,11 +1,11 @@
 
-var spv = {}
-
 import cloneObj from './spv/cloneObj.js'
 import memorize from './spv/memorize'
 import coe from './spv/coe'
 import Class from './spv/Class'
 import inh from './spv/inh'
+
+var spv = {}
 
 var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
 getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,

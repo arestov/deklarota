@@ -1,12 +1,12 @@
 
 import spv from 'spv'
-var cloneObj = spv.cloneObj
 import getCachedPVData from './getCachedPVData'
 import patchNode from './patchNode'
 import buildClone from './buildClone'
+import directives_parsers from './directives_parsers'
+var cloneObj = spv.cloneObj
 var unsetStrucKey = getCachedPVData.unsetStrucKey
 var setStrucKey = getCachedPVData.setStrucKey
-import directives_parsers from './directives_parsers'
 var scope_generators_p = directives_parsers.scope_generators_p
 
 

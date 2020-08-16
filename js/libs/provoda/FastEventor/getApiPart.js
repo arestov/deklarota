@@ -1,7 +1,7 @@
 
 import spv from 'spv'
-var getTargetField = spv.getTargetField
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
+var getTargetField = spv.getTargetField
 
 var getApiPart = function(send_declr, sputnik, app) {
   var network_api = getNetApiByDeclr(send_declr, sputnik, app)
