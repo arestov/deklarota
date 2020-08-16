@@ -1,7 +1,7 @@
 
-import spv from 'spv'
+import spv from '../spv'
 import CoreView from './CoreView'
-import _updateAttr from '_updateAttr'
+import _updateAttr from './_internal/_updateAttr'
 import PvTemplate from './pvTemplate/PvTemplate'
 import appending from './View/appending'
 import getBwlevView from './View/getBwlevView'

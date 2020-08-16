@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import get_constr from './get_constr'
 
 var collapseAll = spv.collapseAll

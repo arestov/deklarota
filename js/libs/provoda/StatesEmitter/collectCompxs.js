@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../spv'
 import groupDeps from '../utils/groupDeps'
 import getEncodedState from '../utils/getEncodedState'
 import getShortStateName from '../utils/getShortStateName'

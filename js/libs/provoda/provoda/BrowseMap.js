@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import HModel from '../Model/HModel'
 import changeBridge from '../bwlev/changeBridge'
 import initBWlev from '../bwlev/initBWlev'
@@ -7,7 +7,7 @@ import toProperNavParent from '../bwlev/toProperNavParent'
 import showInterest from '../bwlev/showInterest'
 import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
 import get_constr from '../structure/get_constr'
-import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
+import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import routePathByModels from '../routePathByModels'
 
 var getSPIConstr = routePathByModels.getSPIConstr

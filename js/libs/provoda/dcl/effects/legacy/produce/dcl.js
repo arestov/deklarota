@@ -1,6 +1,6 @@
 
-import spv from 'spv'
-import _updateAttr from '_updateAttr'
+import spv from '../../../../../spv'
+import _updateAttr from '../../../../_internal/_updateAttr'
 import wrapDeps from '../api/utils/wrapDeps'
 var toRealArray = spv.toRealArray
 

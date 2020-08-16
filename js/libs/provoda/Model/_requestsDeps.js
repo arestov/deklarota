@@ -6,7 +6,7 @@ import addRemoveN from '../nest-watch/add-remove'
 import NestWatch from '../nest-watch/NestWatch'
 import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
 import getModelById from '../utils/getModelById'
-import spv from 'spv'
+import spv from '../../spv'
 var addRootNestWatch = addRemoveN.addRootNestWatch
 var removeRootNestWatch = addRemoveN.removeRootNestWatch
 

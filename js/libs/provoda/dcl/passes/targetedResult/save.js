@@ -1,8 +1,8 @@
 
 
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../../../_internal/_updateAttr'
 import getModelById from '../../../utils/getModelById'
-import _updateRel from '_updateRel'
+import _updateRel from '../../../_internal/_updateRel'
 import prepareResults from '../act/prepareResults'
 import act from '../act'
 

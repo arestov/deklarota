@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 
 // from template to full string - implemented
 // from string to match - NOT IMPLEMENTED

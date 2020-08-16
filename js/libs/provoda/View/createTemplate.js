@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../spv'
 import pvState from '../utils/state'
 var getTargetField = spv.getTargetField
 var arrayExclude = spv.arrayExclude

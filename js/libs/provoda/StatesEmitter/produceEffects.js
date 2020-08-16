@@ -1,6 +1,6 @@
 
 import pvState from '../utils/state'
-import spv from 'spv'
+import spv from '../../spv'
 var countKeys = spv.countKeys
 var CH_GR_LE = 2
 

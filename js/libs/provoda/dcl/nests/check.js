@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 
 import NestSelector from '../nest_sel/item'
 import NestCntDeclr from '../nest_conj/item'

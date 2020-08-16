@@ -1,7 +1,7 @@
 
 import pvState from '../../utils/state'
-import executeStringTemplate from '__lib/routes/legacy/executeStringTemplate'
-import _updateRel from '_updateRel'
+import executeStringTemplate from '../../routes/legacy/executeStringTemplate'
+import _updateRel from '../../_internal/_updateRel'
 
 function addHead(md, hands, head) {
   hands.heads.push(head)

@@ -1,6 +1,6 @@
 
 
-import _updateRel from '_updateRel'
+import _updateRel from './_internal/_updateRel'
 import pathExecutor from './routes/legacy/stringify'
 import getSPByPathTemplate from './routes/legacy/getSPByPathTemplate'
 

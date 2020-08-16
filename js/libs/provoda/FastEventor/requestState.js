@@ -1,7 +1,7 @@
 
-import Promise from 'Promise'
+import Promise from '../../../common-libs/Promise-3.1.0.mod'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
-import spv from 'spv'
+import spv from '../../spv'
 import req_utils from './req-utils'
 import types from './stateReqTypes'
 

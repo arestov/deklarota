@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 var memorize = spv.memorize
 var splitByDot = spv.splitByDot
 

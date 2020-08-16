@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../spv'
 import allStates from './dcl/routes/allStates'
 import getModernPage from './dcl/routes/getByName'
 import createModern from './dcl/routes/createModern'

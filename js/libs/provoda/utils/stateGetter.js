@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import isSpecialState from './isSpecialState'
 var asNil = function(val) {
   if (val == null) {

@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../../../../spv'
 import utils from '../utils'
 
 var SendDeclaration = utils.SendDeclaration

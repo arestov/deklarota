@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 
 import RouteDcl from './dcl'
 var cloneObj = spv.cloneObj

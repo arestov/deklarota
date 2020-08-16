@@ -1,3 +1,3 @@
 
-import BrowseMap from 'pv/BrowseMap'
+import BrowseMap from './provoda/provoda/BrowseMap'
 export default BrowseMap

@@ -1,9 +1,4 @@
-// - написать функцию которая получает модели из multiPath
-// - написать функцию которая аггрегирует значения из моделей multiPath
-// - написать функцию, котоая записывает state/nesting в модели multiPath
-
-
-import getNesting from 'pv/getNesting'
+import getNesting from '../../provoda/getNesting'
 
 import getStart from './getStart'
 

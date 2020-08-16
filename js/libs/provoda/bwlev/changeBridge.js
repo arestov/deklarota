@@ -1,7 +1,7 @@
 
 import showMOnMap from './showMOnMap'
-import _updateAttr from '_updateAttr'
-import _updateRel from '_updateRel'
+import _updateAttr from '../_internal/_updateAttr'
+import _updateRel from '../_internal/_updateRel'
 
 var redirected = function(map, pioneer) {
   var BWL = map.app.CBWL

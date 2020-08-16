@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 
 var checkModel = function(md, models_index, local_index, all_for_parse) {
   if (!md) {

@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../spv'
 import utils_simple from './utils/simple'
 import updateProxy from './updateProxy'
 import Eventor from './Eventor'
@@ -10,7 +10,7 @@ import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
 import regfr_lightstev from './internal_events/light_attr_change/regfire'
 import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
 import subscribeToDie from './internal_events/die/subscribe'
-import _updateAttr from '_updateAttr'
+import _updateAttr from './_internal/_updateAttr'
 import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'

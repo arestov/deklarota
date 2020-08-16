@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import Model from '../Model'
 
 export default function behavior(declr, declr_extend_from, named) {

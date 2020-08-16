@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../../../spv'
 import indexByDepName from './utils/indexByDepName'
 import getDepsToInsert from './utils/getDepsToInsert'
 

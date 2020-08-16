@@ -1,9 +1,8 @@
 
 
-// var $ = require('cash-dom');
-import spv from 'spv'
+import spv from '../spv'
 
-import _updateAttr from '_updateAttr'
+import _updateAttr from './_internal/_updateAttr'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
 import updateProxy from './updateProxy'

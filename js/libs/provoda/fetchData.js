@@ -1,5 +1,5 @@
 
-import pv from 'pv'
+import pv from './provoda'
 import BrowseMap from './provoda/BrowseMap'
 import flatStruc from './structure/flatStruc'
 

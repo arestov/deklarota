@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 var startsWith = spv.startsWith
 
 export default function getNetApiByDeclr(send_declr, sputnik, app) {

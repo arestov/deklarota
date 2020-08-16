@@ -1,6 +1,6 @@
 
-import getModelFromR from 'pv/v/getModelFromR'
-import getNesting from 'pv/getNesting'
+import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import getNesting from '../../libs/provoda/provoda/getNesting'
 
 var matchParent = function(possible_parent, child) {
   var cur = child

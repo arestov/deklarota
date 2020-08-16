@@ -1,14 +1,14 @@
 
 import Model from '../Model'
-import spv from 'spv'
+import spv from '../../spv'
 import handleSpyglassRequests from '../dcl/spyglass/handleRequest'
 import updateSpyglass from '../dcl/spyglass/update'
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../_internal/_updateAttr'
 import showMOnMap from './showMOnMap'
 import getModelById from '../utils/getModelById'
 import followFromTo from './followFromTo'
-import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
-import cloneObj from 'spv/cloneObj'
+import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
+import cloneObj from '../../spv/cloneObj'
 
 
 var RootLev = spv.inh(Model, {

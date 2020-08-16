@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 
 import watcherKey from './watcherKey'
 import getParent from './getParent'

@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 import getPropsPrefixChecker from '../../utils/getPropsPrefixChecker'
 import NestDcl from './item'
 var getUnprefixed = spv.getDeprefixFunc('nest-')

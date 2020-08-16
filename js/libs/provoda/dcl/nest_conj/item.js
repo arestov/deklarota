@@ -1,7 +1,7 @@
 
 import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
 import NestWatch from '../../nest-watch/NestWatch'
-import _updateRel from '_updateRel'
+import _updateRel from '../../_internal/_updateRel'
 
 var NestCntDeclr = function(name, data) {
   this.dest_name = name

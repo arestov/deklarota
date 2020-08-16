@@ -1,6 +1,6 @@
 
-import Promise from 'Promise'
-import spv from 'spv'
+import Promise from '../../../common-libs/Promise-3.1.0.mod'
+import spv from '../../spv'
 import getApiPart from './getApiPart'
 var getTargetField = spv.getTargetField
 var countKeys = spv.countKeys

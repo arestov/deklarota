@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 var cloneObj = spv.cloneObj
 
 export default function mergeBhv(target, source) {

@@ -1,6 +1,6 @@
-import BrowseMap from 'js/libs/BrowseMap'
-import _updateRel from '_updateRel'
-import animateMapChanges from 'js/libs/provoda/dcl/probe/animateMapChanges'
+import BrowseMap from '../libs/BrowseMap'
+import _updateRel from '../libs/provoda/_internal/_updateRel'
+import animateMapChanges from '../libs/provoda/dcl/probe/animateMapChanges'
 
 function initBrowsing(app, states) {
   const map = BrowseMap.hookRoot(app, app.start_page, states)

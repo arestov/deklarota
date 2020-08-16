@@ -1,11 +1,11 @@
 
 
-import spv from 'spv'
+import spv from '../../../spv'
 import getShortStateName from '../../utils/getShortStateName'
 import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
 import NestWatch from '../../nest-watch/NestWatch'
 import NestSelector from './NestSelector'
-import getParsedPath from '__lib/routes/legacy/getParsedPath.js'
+import getParsedPath from '../../routes/legacy/getParsedPath'
 import where from './where'
 var push = Array.prototype.push
 var handleChdDeepState = NestSelector.handleChdDeepState

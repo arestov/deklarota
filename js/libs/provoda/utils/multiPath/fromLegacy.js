@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 import getParsedState from '../../utils/getParsedState'
 var splitByDot = spv.splitByDot
 

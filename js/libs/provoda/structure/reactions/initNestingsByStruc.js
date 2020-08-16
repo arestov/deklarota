@@ -1,7 +1,7 @@
 
 
 import hp from '../../helpers'
-import _updateRel from '_updateRel'
+import _updateRel from '../../_internal/_updateRel'
 import initDeclaredNestings from '../../initDeclaredNestings'
 var getSubpages = initDeclaredNestings.getSubpages
 

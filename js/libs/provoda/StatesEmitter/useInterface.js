@@ -1,7 +1,7 @@
 
 
-import spv from 'spv'
-import _updateAttr from '_updateAttr'
+import spv from '../../spv'
+import _updateAttr from '../_internal/_updateAttr'
 import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
 import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 

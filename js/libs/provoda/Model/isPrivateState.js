@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import parse from '../utils/multiPath/parse'
 var memorize = spv.memorize
 var isPrivate = memorize(function(str) {

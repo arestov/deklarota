@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../../../spv'
 var getDeprefixFunc = spv.getDeprefixFunc
 var check = getDeprefixFunc('handleAttr:')
 

@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 var getTargetField = spv.getTargetField
 

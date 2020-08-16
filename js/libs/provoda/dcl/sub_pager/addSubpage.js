@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../../spv'
 import getSubpageItem from './getSubpageItem'
 
 export default function addSubpage(self, name, cur) {

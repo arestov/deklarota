@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import getCachedPVData from './getCachedPVData'
 import patchNode from './patchNode'
 import buildClone from './buildClone'

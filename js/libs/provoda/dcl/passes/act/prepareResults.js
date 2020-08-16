@@ -1,7 +1,7 @@
 
 import getTargetModels from './getTargetModels'
 import prepareNestingValue from './prepareNestingValue'
-import spv from 'spv'
+import spv from '../../../../spv'
 import getModelById from '../../../utils/getModelById'
 import noopForPass from '../noop'
 var countKeys = spv.countKeys

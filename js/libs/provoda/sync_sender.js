@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../spv'
 import toTransferableStatesList from './Model/toTransferableStatesList'
 import toSimpleStructure from './Model/toSimpleStructure'
 var parseNesting = toSimpleStructure.parseNesting

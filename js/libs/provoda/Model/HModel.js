@@ -1,7 +1,7 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import Model from '../Model'
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../_internal/_updateAttr'
 import getModelById from '../utils/getModelById'
 
 var HModel = spv.inh(Model, {

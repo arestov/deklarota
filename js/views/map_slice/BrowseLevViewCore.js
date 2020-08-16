@@ -1,8 +1,8 @@
 
-import spv from 'spv'
-import View from 'View'
-import _updateAttr from '_updateAttr'
-import mergeBhv from 'pv/_lmerge'
+import spv from '../../libs/spv'
+import View from '../../libs/provoda/View'
+import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
+import mergeBhv from '../../libs/provoda/provoda/_lmerge'
 import used_str from '../utils/used_struc'
 var used_struc_bhv = used_str.bhv
 

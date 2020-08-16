@@ -1,8 +1,8 @@
 
 import BrowseMap from './BrowseMap'
-import spv from 'spv'
-import _updateAttr from '_updateAttr'
-import _updateRel from '_updateRel'
+import spv from '../../spv'
+import _updateAttr from '../_internal/_updateAttr'
+import _updateRel from '../_internal/_updateRel'
 
 import pushToRoute from '../structure/pushToRoute'
 

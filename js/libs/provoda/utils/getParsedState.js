@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import parse from './NestingSourceDr/parse'
 import asString from './multiPath/asString'
 var splitByDot = spv.splitByDot

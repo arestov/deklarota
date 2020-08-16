@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('stch-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)

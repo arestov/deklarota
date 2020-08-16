@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../spv'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../StatesEmitter/collectCompxs'
 import buildInputAttrs from '../dcl/attrs/input/build'

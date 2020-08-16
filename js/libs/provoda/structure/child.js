@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 var prefixValue = function(source) {
   if (!source) {
     return 'unk--'

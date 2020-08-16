@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 import getModelById from '../../utils/getModelById'
 import getRootBwlevView from './getRootBwlevView'
 import getBwlevView from '../getBwlevView'

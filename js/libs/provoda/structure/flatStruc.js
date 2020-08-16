@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import hp from '../helpers'
 import get_constr from './get_constr'
 

@@ -1,5 +1,5 @@
 
-import getParsedPath from '__lib/routes/legacy/getParsedPath.js'
+import getParsedPath from '../../routes/legacy/getParsedPath'
 
 // var NestingSourceDr = require('../../utils/NestingSourceDr');
 

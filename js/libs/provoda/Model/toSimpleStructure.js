@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import ensurePublicAttrs from './ensurePublicAttrs'
 var cloneObj = spv.cloneObj
 

@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../spv'
 import FastEventor from './FastEventor/index'
 import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 

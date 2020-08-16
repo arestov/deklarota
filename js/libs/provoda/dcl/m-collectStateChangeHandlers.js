@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import NestWatch from '../nest-watch/NestWatch'
 import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
 import collectStateChangeHandlers from './collectStateChangeHandlers'

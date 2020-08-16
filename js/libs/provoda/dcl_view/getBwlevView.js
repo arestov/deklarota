@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 var nil = spv.nil
 
 export default function getBwlevView(target) {

@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 import parse from './parse'
 import toMultiPath from './toMultiPath'
 

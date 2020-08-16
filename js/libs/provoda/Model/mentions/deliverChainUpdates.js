@@ -1,5 +1,5 @@
 
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../../_internal/_updateAttr'
 import getDepValue from '../../utils/multiPath/getDepValue'
 import multiPathAsString from '../../utils/multiPath/asString'
 import nestCompxHandlers from '../../dcl/nest_compx/handler'

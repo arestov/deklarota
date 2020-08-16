@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../spv'
 import MDProxy from './MDProxy'
 
 var push = Array.prototype.push

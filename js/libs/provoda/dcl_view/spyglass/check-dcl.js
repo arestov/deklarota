@@ -1,6 +1,6 @@
 
 import checkPrefix from '../../StatesEmitter/checkPrefix'
-import spv from 'spv'
+import spv from '../../../spv'
 var transportName = function(spyglass_name) {
   return 'spyglass__' + spyglass_name.replace('/', '__')
 }

@@ -1,5 +1,5 @@
 
-import Promise from 'Promise'
+import Promise from '../common-libs/Promise-3.1.0.mod'
 
 function extendPromise(promise, deferred) {
   promise.queued_promise = deferred.queued_promise

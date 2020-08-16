@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 import structureChild from '../../structure/child'
 
 var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {

@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../../spv'
 import hp from '../../helpers'
 import getSubpageItem from './getSubpageItem'
 

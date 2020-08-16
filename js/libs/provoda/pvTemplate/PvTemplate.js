@@ -1,7 +1,7 @@
 
 
-import spv from 'spv'
-import angbo from 'angbo'
+import spv from '../../spv'
+import angbo from '../StatementsAngularParser.min'
 import dom_helpers from '../utils/dom_helpers'
 import parser from './parser'
 import PvSimpleSampler from './PvSimpleSampler'

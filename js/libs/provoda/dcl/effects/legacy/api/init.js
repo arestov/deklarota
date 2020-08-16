@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../../../spv'
 var updateRootInterface = spv.memorize(function(name) {
   return function(val) {
     var interface_instance = val

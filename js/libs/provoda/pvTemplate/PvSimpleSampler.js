@@ -2,7 +2,7 @@
 import d_parsers from './directives_parsers'
 
 import getPatchedTree from './getPatchedTree'
-import spv from 'spv'
+import spv from '../../spv'
 import parseEasy from './parseEasy'
 import parse from './parse'
 import buildClone from './buildClone'

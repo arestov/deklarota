@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import BrowseMap from './BrowseMap'
 
 var AppModelBase = spv.inh(BrowseMap.Model, {

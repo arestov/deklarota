@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 
 var spec_chars = { '^': true, '@': true, '#': true, '<': true }
 var isSpecialState = spv.memorize(function(state_name) {

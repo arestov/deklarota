@@ -1,7 +1,7 @@
 
 
 import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
-import cloneObj from 'spv/cloneObj'
+import cloneObj from '../spv/cloneObj'
 import sameName from './sameName'
 
 var MDProxy = function(_provoda_id, children_models, md, space) {

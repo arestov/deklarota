@@ -1,9 +1,9 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import hp from '../helpers'
 import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../_internal/_updateAttr'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
 var checkNesting = nestWIndex.checkNesting

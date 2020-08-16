@@ -1,6 +1,6 @@
 
 
-import getSPByPathTemplateAndData from '__lib/routes/legacy/getSPByPathTemplateAndData'
+import getSPByPathTemplateAndData from '../routes/legacy/getSPByPathTemplateAndData'
 
 export default function(md, nesting_name, data) {
   var mentioned = md._nest_rqc[nesting_name]

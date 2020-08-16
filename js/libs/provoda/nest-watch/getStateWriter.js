@@ -1,9 +1,9 @@
 
 
-import spv from 'spv'
+import spv from '../../spv'
 import attr_zip_fns from '../utils/zip/nest-watch-attr'
 import rel_zip_fns from '../utils/zip/nest-watch-rel'
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../_internal/_updateAttr'
 import standart from './standartNWH'
 
 

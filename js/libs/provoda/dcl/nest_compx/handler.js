@@ -1,6 +1,6 @@
 
 
-import _updateRel from '_updateRel'
+import _updateRel from '../../_internal/_updateRel'
 import multiPathAsString from '../../utils/multiPath/asString'
 import getDepValue from '../../utils/multiPath/getDepValue'
 

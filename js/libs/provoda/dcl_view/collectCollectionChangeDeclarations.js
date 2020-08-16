@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('collch-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)

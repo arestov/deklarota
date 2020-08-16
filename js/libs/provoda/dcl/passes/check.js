@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../../spv'
 import Dcl from './dcl'
 import rebuildHandleState from './handleState/rebuild'
 import rebuildHandleNesting from './handleNesting/rebuild'

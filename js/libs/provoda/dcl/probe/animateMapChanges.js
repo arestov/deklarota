@@ -1,7 +1,7 @@
 
-import spv from 'spv'
-import _updateRel from '_updateRel'
-import _updateAttr from '_updateAttr'
+import spv from '../../../spv'
+import _updateRel from '../../_internal/_updateRel'
+import _updateAttr from '../../_internal/_updateAttr'
 import probeDiff from '../../probeDiff'
 
 

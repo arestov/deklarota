@@ -1,7 +1,7 @@
 
 import css from './css'
-import getAttr from 'pv/getAttr'
-import getModelFromR from 'pv/v/getModelFromR'
+import getAttr from '../../libs/provoda/provoda/getAttr'
+import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 import anyDeeplyIncludedViews from './anyDeeplyIncludedViews'
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')

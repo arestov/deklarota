@@ -1,8 +1,8 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import dom_helpers from '../utils/dom_helpers'
 import getViewLocationId from './getViewLocationId'
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../_internal/_updateAttr'
 
 var append = dom_helpers.append
 var after = dom_helpers.after

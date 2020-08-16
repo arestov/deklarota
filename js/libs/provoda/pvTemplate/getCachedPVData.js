@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../spv'
 import directives_parsers from './directives_parsers'
 import parsePVImport from './pv-import/parse'
 

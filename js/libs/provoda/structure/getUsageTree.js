@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 var push = Array.prototype.push
 
 var getTreeSample = function(full_key, key) {

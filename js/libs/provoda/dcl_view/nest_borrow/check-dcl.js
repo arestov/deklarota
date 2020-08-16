@@ -1,6 +1,6 @@
 
 import checkPrefix from '../../StatesEmitter/checkPrefix'
-import spv from 'spv'
+import spv from '../../../spv'
 var nil = spv.nil
 
 var parent_count_regexp = /^\^+/gi

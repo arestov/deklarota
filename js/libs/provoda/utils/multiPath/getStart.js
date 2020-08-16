@@ -1,6 +1,6 @@
 
-import getSPByPathTemplateAndData from '__lib/routes/legacy/getSPByPathTemplateAndData'
-import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
+import getSPByPathTemplateAndData from '../../routes/legacy/getSPByPathTemplateAndData'
+import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 
 var empty = {}
 

@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 
 import getParsedPath from './getParsedPath'
 import pathExecutor from './stringify'

@@ -1,5 +1,5 @@
 
-import _updateRel from '_updateRel'
+import _updateRel from '../../_internal/_updateRel'
 import matchRoute from '../../routes/match'
 import get_constr from '../../structure/get_constr'
 import allStates from './allStates'

@@ -1,13 +1,12 @@
 
-// var getSPByPathTemplate = function(app, start_md, string_template, need_constr, md_for_urldata) {
-import _updateRel from '_updateRel'
+import _updateRel from '../../_internal/_updateRel'
 
 import animateMapChanges from '../probe/animateMapChanges'
-import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
+import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 import getModelById from '../../utils/getModelById'
 import createLevel from '../../bwlev/createLevel'
-import pvState from 'pv/state'
-import _updateAttr from '_updateAttr'
+import pvState from '../../provoda/state'
+import _updateAttr from '../../_internal/_updateAttr'
 import getKey from './getKey'
 var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
 

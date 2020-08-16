@@ -1,7 +1,7 @@
 
-import Promise from 'Promise'
-import extendPromise from 'js/modules/extendPromise'
-import spv from 'spv'
+import Promise from '../../../common-libs/Promise-3.1.0.mod'
+import extendPromise from '../../../modules/extendPromise'
+import spv from '../../spv'
 import getApiPart from './getApiPart'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 import batching from './batching'

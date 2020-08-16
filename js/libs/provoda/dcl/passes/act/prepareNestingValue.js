@@ -1,6 +1,6 @@
 
-import spv from 'spv'
-import getNesting from 'pv/getNesting'
+import spv from '../../../../spv'
+import getNesting from '../../../provoda/getNesting'
 import get_constr from '../../../structure/get_constr'
 import getModelById from '../../../utils/getModelById'
 import pushToRoute from '../../../structure/pushToRoute'

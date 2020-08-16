@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../libs/spv'
 import $ from 'cash-dom'
 
 var WPBox = function(root_view, getImportantView, select, press, getRelativeWP, removeWP) {

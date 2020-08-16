@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import NestWatch from '../nest-watch/NestWatch'
 import getStateWriter from '../nest-watch/getStateWriter'
 import getParsedState from './getParsedState'

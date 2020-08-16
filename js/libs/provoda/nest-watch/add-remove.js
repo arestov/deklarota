@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import orderItems from './orderItems'
 
 var SublWtch = function SublWtch(nwatch, skip, md, parent) {

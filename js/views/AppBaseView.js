@@ -1,11 +1,11 @@
 
-import spv from 'spv'
+import spv from '../libs/spv'
 import $ from 'cash-dom'
 import filters from './modules/filters'
-import getUsageTree from 'js/libs/provoda/structure/getUsageTree'
-import mutateGlobalTplFilters from 'js/libs/provoda/mutateGlobalTplFilters'
-import _updateAttr from '_updateAttr'
-import View from 'View'
+import getUsageTree from '../libs/provoda/structure/getUsageTree'
+import mutateGlobalTplFilters from '../libs/provoda/mutateGlobalTplFilters'
+import _updateAttr from '../libs/provoda/_internal/_updateAttr'
+import View from '../libs/provoda/View'
 
 
 mutateGlobalTplFilters(function(filter_name) {

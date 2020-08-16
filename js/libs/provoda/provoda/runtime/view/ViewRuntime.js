@@ -1,5 +1,5 @@
 
-import cloneObj from 'spv/cloneObj'
+import cloneObj from '../../../../spv/cloneObj'
 import CallbacksFlow from '../../../CallbacksFlow'
 
 function ViewRuntime(optionsRaw) {

@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../spv'
 import StatesLabour from './StatesLabour'
 import hp from './helpers'
 import MDProxy from './MDProxy'
@@ -22,7 +22,7 @@ import addrFromObj from './provoda/dcl/addr.js'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
-import wrapInputCall from 'pv/wrapInputCall'
+import wrapInputCall from './provoda/wrapInputCall'
 
 var push = Array.prototype.push
 var cloneObj = spv.cloneObj

@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../spv'
 import utils_simple from './utils/simple'
 import pvState from './utils/state'
 import stateGetter from './utils/stateGetter'

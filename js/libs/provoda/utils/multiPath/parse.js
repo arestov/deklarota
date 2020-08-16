@@ -1,7 +1,7 @@
 
 
-import spv from 'spv'
-import getParsedPath from '__lib/routes/legacy/getParsedPath.js'
+import spv from '../../../spv'
+import getParsedPath from '../../routes/legacy/getParsedPath'
 import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 

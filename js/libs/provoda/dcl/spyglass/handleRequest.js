@@ -1,11 +1,11 @@
 
-import spv from 'spv'
-import pvState from 'pv/state'
-import _updateAttr from '_updateAttr'
-import _updateRel from '_updateRel'
+import spv from '../../../spv'
+import pvState from '../../provoda/state'
+import _updateAttr from '../../_internal/_updateAttr'
+import _updateRel from '../../_internal/_updateRel'
 import getModelById from '../../utils/getModelById'
 import getKey from './getKey'
-import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
+import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 
 export default function(request) {
   var self = this

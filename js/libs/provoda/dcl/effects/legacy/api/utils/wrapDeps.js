@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../../../../spv'
 
 export default function wrapDeps(deps) {
   if (typeof deps == 'string') {

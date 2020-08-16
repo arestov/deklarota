@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../spv'
 import MDProxy from './MDProxy'
 var CH_GR_LE = 2
 

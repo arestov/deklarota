@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 import NestWatch from '../../nest-watch/NestWatch'
 import parseMultiPath from '../../utils/multiPath/parse'
 import asString from '../../utils/multiPath/asString'

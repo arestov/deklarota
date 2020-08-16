@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import selecPoineertDeclr from './selecPoineertDeclr'
 import get_constr from './get_constr'
 

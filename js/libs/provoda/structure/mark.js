@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import definedAttrs from '../Model/definedAttrs'
 import AttrsCollector from '../StatesEmitter/AttrsCollector'
 import RootLev from '../bwlev/RootLev'

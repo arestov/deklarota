@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../spv'
 import prepare from '../structure/prepare'
 import AppModel from './AppModel'
 

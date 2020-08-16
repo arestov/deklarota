@@ -1,5 +1,5 @@
 
-import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
+import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import initBWlev from './initBWlev'
 
 var getConstr = function(map, model_name) {

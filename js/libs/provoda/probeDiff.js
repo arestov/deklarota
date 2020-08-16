@@ -1,5 +1,5 @@
 
-import getNesting from 'pv/getNesting'
+import getNesting from './provoda/getNesting'
 
 var getModelByIdUniversal = function(highway_holder, _provoda_id) {
   var _highway = highway_holder._highway

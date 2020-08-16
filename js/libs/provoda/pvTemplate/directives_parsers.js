@@ -1,7 +1,7 @@
 
 
-import spv from 'spv'
-import angbo from 'angbo'
+import spv from '../../spv'
+import angbo from '../StatementsAngularParser.min'
 import StandartChange from './StandartChange'
 import dom_helpers from '../utils/dom_helpers'
 

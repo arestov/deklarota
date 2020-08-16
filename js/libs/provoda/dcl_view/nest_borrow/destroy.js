@@ -1,7 +1,7 @@
 
 import watcherKey from './watcherKey'
 import getParent from './getParent'
-import spv from 'spv'
+import spv from '../../../spv'
 var nil = spv.nil
 
 export default function(self) {

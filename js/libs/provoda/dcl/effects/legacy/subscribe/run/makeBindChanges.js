@@ -1,5 +1,5 @@
 
-import _updateAttr from '_updateAttr'
+import _updateAttr from '../../../../../_internal/_updateAttr'
 import saveResult from '../../../../passes/targetedResult/save.js'
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)

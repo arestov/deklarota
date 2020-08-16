@@ -1,9 +1,9 @@
 
-import spv from 'spv'
+import spv from '../../libs/spv'
 import css from './css'
-import getModelFromR from 'pv/v/getModelFromR'
-import _updateAttr from '_updateAttr'
-import getAttr from 'pv/getAttr'
+import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
+import getAttr from '../../libs/provoda/provoda/getAttr'
 
 /*
   ANIMATION IS BROKEN

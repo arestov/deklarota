@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../../../spv'
 import targetedResult from '../../../passes/targetedResult/dcl.js'
 
 var warnStateUsing = function() {

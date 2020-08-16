@@ -1,5 +1,5 @@
 
-import spv from 'spv'
+import spv from '../../../spv'
 import pvState from '../state'
 
 var stateOf = spv.memorize(function(state_name) {

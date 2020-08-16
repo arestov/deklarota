@@ -1,6 +1,6 @@
 
 
-import spv from 'spv'
+import spv from '../../spv'
 import utils_simple from '../utils/simple'
 import requesting from './requesting'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'

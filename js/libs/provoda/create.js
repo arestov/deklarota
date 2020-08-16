@@ -1,7 +1,7 @@
 
-import spv from 'spv'
+import spv from '../spv'
 import Model from './Model'
-import _updateRel from '_updateRel'
+import _updateRel from './_internal/_updateRel'
 
 export default function(Constr, states, params, map_parent, app) {
   var BehaviorContr = Constr || Model
