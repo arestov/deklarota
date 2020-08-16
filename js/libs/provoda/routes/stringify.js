@@ -1,5 +1,5 @@
 
-var looksLikeWrappedJSON = require('./utils/looksLikeWrappedJSON')
+import looksLikeWrappedJSON from './utils/looksLikeWrappedJSON'
 
 var statePartAsString = function(state_dcl, data) {
   if (!state_dcl) {

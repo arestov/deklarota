@@ -1,5 +1,5 @@
 
-var isPrivate = require('./isPrivateState')
+import isPrivate from './isPrivateState'
 var CH_GR_LE = 2
 
 var hasId = function(value) {

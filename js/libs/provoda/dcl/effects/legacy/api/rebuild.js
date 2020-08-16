@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var indexByDepName = require('./utils/indexByDepName')
-var getDepsToInsert = require('./utils/getDepsToInsert')
+import spv from 'spv'
+import indexByDepName from './utils/indexByDepName'
+import getDepsToInsert from './utils/getDepsToInsert'
 
 var usualApis = function(obj) {
   if (!obj) {
@@ -93,4 +93,4 @@ export default function rebuild(self, apis, typed_state_dcls) {
   self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual
   self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null
   self.__apis_$__needs_self = needSelf(apis, false)
-};
+}

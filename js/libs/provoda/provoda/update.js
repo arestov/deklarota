@@ -1,3 +1,3 @@
 
-var gentlyUpdateAttr = require('../StatesEmitter/gentlyUpdateAttr')
+import gentlyUpdateAttr from '../StatesEmitter/gentlyUpdateAttr'
 export default gentlyUpdateAttr

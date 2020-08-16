@@ -1,6 +1,6 @@
 
 
-var pvState = require('./state')
+import pvState from './state'
 
 var parent = function(md, dep) {
   var count = dep.ancestors

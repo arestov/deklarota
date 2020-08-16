@@ -1,6 +1,6 @@
 
-var checkPrefix = require('../../StatesEmitter/checkPrefix')
-var spv = require('spv')
+import checkPrefix from '../../StatesEmitter/checkPrefix'
+import spv from 'spv'
 var nil = spv.nil
 
 var parent_count_regexp = /^\^+/gi
@@ -30,4 +30,4 @@ export default function check(self, props) {
     var cur = entries[name]
     props.children_views[cur.name] = self.children_views[cur.name] = cur.view_constr
   }
-};
+}

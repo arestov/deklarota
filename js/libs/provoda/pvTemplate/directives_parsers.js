@@ -1,9 +1,9 @@
 
 
-var spv = require('spv')
-var angbo = require('angbo')
-var StandartChange = require('./StandartChange')
-var dom_helpers = require('../utils/dom_helpers')
+import spv from 'spv'
+import angbo from 'angbo'
+import StandartChange from './StandartChange'
+import dom_helpers from '../utils/dom_helpers'
 
 var capitalize = spv.capitalize
 var startsWith = spv.startsWith

@@ -1,9 +1,8 @@
 
-var spv = require('spv')
-var dom_helpers = require('../utils/dom_helpers')
-var getViewLocationId = require('./getViewLocationId')
-
-var _updateAttr = require('_updateAttr')
+import spv from 'spv'
+import dom_helpers from '../utils/dom_helpers'
+import getViewLocationId from './getViewLocationId'
+import _updateAttr from '_updateAttr'
 
 var append = dom_helpers.append
 var after = dom_helpers.after

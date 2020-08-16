@@ -1,3 +1,3 @@
 
-var View = require('../CoreView')
+import View from '../CoreView'
 export default View

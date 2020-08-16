@@ -1,5 +1,5 @@
 
-var isBigStep = require('./isBigStep')
+import isBigStep from './isBigStep'
 
 export default function getNavGroups(bwlev) {
   var cur_group = []
@@ -19,4 +19,4 @@ export default function getNavGroups(bwlev) {
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups
-};
+}

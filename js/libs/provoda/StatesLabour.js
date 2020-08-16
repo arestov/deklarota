@@ -1,6 +1,6 @@
 
 
-var spv = require('spv')
+import spv from 'spv'
 
 var StatesLabour = function(has_complex_states, need_stch_storage) {
   this.flow_steps_stev = null

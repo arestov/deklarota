@@ -1,7 +1,7 @@
 
-var coe = require('./coe')
-var copyProps = require('./copyProps')
-var countConstr = require('./countConstr')
+import coe from './coe'
+import copyProps from './copyProps'
+import countConstr from './countConstr'
 
 // The base Class implementation (does nothing)
 var Class = function() {}

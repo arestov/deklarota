@@ -1,3 +1,3 @@
 
-var BrowseMap = require('pv/BrowseMap')
+import BrowseMap from 'pv/BrowseMap'
 export default BrowseMap

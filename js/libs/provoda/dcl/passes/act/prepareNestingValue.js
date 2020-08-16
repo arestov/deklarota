@@ -1,10 +1,9 @@
 
-var spv = require('spv')
-var getNesting = require('pv/getNesting')
-
-var get_constr = require('../../../structure/get_constr')
-var getModelById = require('../../../utils/getModelById')
-var pushToRoute = require('../../../structure/pushToRoute')
+import spv from 'spv'
+import getNesting from 'pv/getNesting'
+import get_constr from '../../../structure/get_constr'
+import getModelById from '../../../utils/getModelById'
+import pushToRoute from '../../../structure/pushToRoute'
 
 var cloneObj = spv.cloneObj
 var getNestingConstr = get_constr.getNestingConstr

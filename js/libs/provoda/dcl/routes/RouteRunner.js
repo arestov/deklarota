@@ -1,5 +1,5 @@
 
-var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
+import LocalWatchRoot from '../../nest-watch/LocalWatchRoot'
 
 var RouteRunner = function(md, dcl) {
   this.dcl = dcl

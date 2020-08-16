@@ -1,10 +1,10 @@
 
 
-var spv = require('spv')
+import spv from 'spv'
 var cloneObj = spv.cloneObj
-var initSubPager = require('../dcl/sub_pager/init')
-var initInputAttrs = require('../dcl/attrs/input/init')
-var makeAttrsCollector = require('./makeAttrsCollector')
+import initSubPager from '../dcl/sub_pager/init'
+import initInputAttrs from '../dcl/attrs/input/init'
+import makeAttrsCollector from './makeAttrsCollector'
 
 function buildHead(self, data) {
   var init_v2 = data && data.init_version === 2
@@ -102,7 +102,7 @@ export default function initModel(self, opts, data, params, more, states) {
   prepareStates(self, data, states)
 
   return self
-};
+}
 
 function toServStates(iss, states) {
   if (!states) {return iss}

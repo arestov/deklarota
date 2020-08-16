@@ -1,5 +1,5 @@
 
-var matchChainsByLink = require('./matchChainsByLink')
+import matchChainsByLink from './matchChainsByLink'
 
 export default function deliverRelQueryUpdates(self, rel_name) {
   var skeleton = self.__global_skeleton
@@ -14,4 +14,4 @@ export default function deliverRelQueryUpdates(self, rel_name) {
   }
 
   matchChainsByLink(self, list)
-};
+}

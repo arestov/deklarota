@@ -1,9 +1,9 @@
 
-var Promise = require('Promise')
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
-var spv = require('spv')
-var req_utils = require('./req-utils')
-var types = require('./stateReqTypes')
+import Promise from 'Promise'
+import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
+import spv from 'spv'
+import req_utils from './req-utils'
+import types from './stateReqTypes'
 
 var arrayExclude = spv.arrayExclude
 

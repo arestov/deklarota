@@ -1,9 +1,9 @@
 
-var coe = require('./coe')
-var cloneObj = require('./cloneObj')
-var countConstr = require('./countConstr')
-var copyProps = require('./copyProps')
-var Class = require('./Class')
+import coe from './coe'
+import cloneObj from './cloneObj'
+import countConstr from './countConstr'
+import copyProps from './copyProps'
+import Class from './Class'
 
 var stPartWrapping = function(original, part) {
   return function builderWrap(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {

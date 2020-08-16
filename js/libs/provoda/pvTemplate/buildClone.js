@@ -1,6 +1,6 @@
 
 
-var getCachedPVData = require('./getCachedPVData')
+import getCachedPVData from './getCachedPVData'
 var getNodeInstanceCount = getCachedPVData.getNodeInstanceCount
 
 var getAll = function(node) {
@@ -50,4 +50,4 @@ export default function buildClone(onode, struc_store, sample_id) {
   }
 
   return cloned
-};
+}

@@ -1,9 +1,8 @@
 
-var batching = require('./batching')
-
-var req_utils = require('./req-utils')
-var types = require('./nestReqTypes')
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
+import batching from './batching'
+import req_utils from './req-utils'
+import types from './nestReqTypes'
+import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 
 var getRequestByDeclr = req_utils.getRequestByDeclr
 var findErrorByList = req_utils.findErrorByList
@@ -347,7 +346,7 @@ export default function(dclt, nesting_name, limit) {
 
 
   */
-};
+}
 
 
 function hasMoreData(serv_data, page_limit, paging_opts, items) {

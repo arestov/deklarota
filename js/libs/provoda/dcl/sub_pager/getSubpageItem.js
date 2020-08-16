@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var structureChild = require('../../structure/child')
+import spv from 'spv'
+import structureChild from '../../structure/child'
 
 var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
   if (!key) {
@@ -98,4 +98,4 @@ export default function getSubpageItem(cur, key, byType, name, prefix) {
   item.byType = Boolean(byType)
 
   return item
-};
+}

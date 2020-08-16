@@ -1,6 +1,6 @@
 
 
-var d_parsers = require('./directives_parsers')
+import d_parsers from './directives_parsers'
 var config = d_parsers.config
 
 var parser = {

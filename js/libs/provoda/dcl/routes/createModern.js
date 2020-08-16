@@ -1,9 +1,9 @@
 
-var _updateRel = require('_updateRel')
-var matchRoute = require('../../routes/match')
-var get_constr = require('../../structure/get_constr')
+import _updateRel from '_updateRel'
+import matchRoute from '../../routes/match'
+import get_constr from '../../structure/get_constr'
 var getNestingConstr = get_constr.getNestingConstr
-var allStates = require('./allStates')
+import allStates from './allStates'
 
 var createStates = function(Constr, sp_name, extra_states) {
   var has_compx = Constr.prototype.hasComplexStateFn('url_part')

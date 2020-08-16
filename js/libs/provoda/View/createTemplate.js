@@ -1,7 +1,7 @@
 
 
-var spv = require('spv')
-var pvState = require('../utils/state')
+import spv from 'spv'
+import pvState from '../utils/state'
 var getTargetField = spv.getTargetField
 var arrayExclude = spv.arrayExclude
 
@@ -141,4 +141,4 @@ export default function(view, con) {
     view._lbr.hndPvTreeChange,
     view._lbr.anchorStateChange
   )
-};
+}

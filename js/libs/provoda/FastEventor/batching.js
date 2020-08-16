@@ -1,7 +1,7 @@
 
-var Promise = require('Promise')
-var spv = require('spv')
-var getApiPart = require('./getApiPart')
+import Promise from 'Promise'
+import spv from 'spv'
+import getApiPart from './getApiPart'
 var getTargetField = spv.getTargetField
 var countKeys = spv.countKeys
 

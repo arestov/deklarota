@@ -1,5 +1,5 @@
 
-var getModels = require('../../../utils/multiPath/getModels')
+import getModels from '../../../utils/multiPath/getModels'
 
 
 var getModelsFromBase = function(base, target, passed_data) {

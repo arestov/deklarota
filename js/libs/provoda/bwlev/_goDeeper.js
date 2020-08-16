@@ -1,9 +1,8 @@
 
-var pvState = require('../utils/state')
-
-var createLevel = require('./createLevel')
-var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev')
-var toProperNavParent = require('./toProperNavParent')
+import pvState from '../utils/state'
+import createLevel from './createLevel'
+import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
+import toProperNavParent from './toProperNavParent'
 
 export default function _goDeeper(BWL, map, md, parent_bwlev) {
   // без parent_bwlev нет контекста
@@ -30,7 +29,7 @@ export default function _goDeeper(BWL, map, md, parent_bwlev) {
   }
 
   return createLevel(BWL, pvState(parent_lev, 'probe_name'), map_level_num, parent_lev, md, map)
-};
+}
 
 function getBwlevInParentBwlev(md, map) {
   if (!toProperNavParent(md.map_parent)) {

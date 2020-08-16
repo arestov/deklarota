@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var BrowseMap = require('./BrowseMap')
+import spv from 'spv'
+import BrowseMap from './BrowseMap'
 
 var AppModelBase = spv.inh(BrowseMap.Model, {
   naming: function(fn) {

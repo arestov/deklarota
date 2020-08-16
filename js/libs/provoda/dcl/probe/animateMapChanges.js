@@ -1,8 +1,8 @@
 
-var spv = require('spv')
-var _updateRel = require('_updateRel')
-var _updateAttr = require('_updateAttr')
-var probeDiff = require('../../probeDiff')
+import spv from 'spv'
+import _updateRel from '_updateRel'
+import _updateAttr from '_updateAttr'
+import probeDiff from '../../probeDiff'
 
 
 var bindMMapStateChanges = function(store_md, md) {

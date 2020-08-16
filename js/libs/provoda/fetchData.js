@@ -1,7 +1,7 @@
 
-var pv = require('pv')
-var BrowseMap = require('./provoda/BrowseMap')
-var flatStruc = require('./structure/flatStruc')
+import pv from 'pv'
+import BrowseMap from './provoda/BrowseMap'
+import flatStruc from './structure/flatStruc'
 
 throw new Error('use runtime/app/start to init app')
 

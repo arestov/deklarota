@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 
 var navi = typeof window == 'undefined'
   ? {}

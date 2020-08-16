@@ -1,11 +1,10 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var splitByDot = spv.splitByDot
-var NestWatch = require('../nest-watch/NestWatch')
-var toMultiPath = require('../utils/NestingSourceDr/toMultiPath')
-
-var collectStateChangeHandlers = require('./collectStateChangeHandlers')
-var standart = require('../nest-watch/standartNWH')
+import NestWatch from '../nest-watch/NestWatch'
+import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
+import collectStateChangeHandlers from './collectStateChangeHandlers'
+import standart from '../nest-watch/standartNWH'
 
 var wrapper = standart(function wrapper(md, items, lnwatch) {
   var callback = lnwatch.nwatch.handler.stch_fn
@@ -60,4 +59,4 @@ export default function(self, props) {
       })
     )
   }
-};
+}

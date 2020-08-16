@@ -1,7 +1,7 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var splitByDot = spv.splitByDot
-var getParsedState = require('../../utils/getParsedState')
+import getParsedState from '../../utils/getParsedState'
 
 
 var getPath = spv.memorize(function(full_name) {

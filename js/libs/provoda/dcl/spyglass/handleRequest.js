@@ -1,11 +1,11 @@
 
-var spv = require('spv')
-var pvState = require('pv/state')
-var _updateAttr = require('_updateAttr')
-var _updateRel = require('_updateRel')
-var getModelById = require('../../utils/getModelById')
-var getKey = require('./getKey')
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
+import spv from 'spv'
+import pvState from 'pv/state'
+import _updateAttr from '_updateAttr'
+import _updateRel from '_updateRel'
+import getModelById from '../../utils/getModelById'
+import getKey from './getKey'
+import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
 
 export default function(request) {
   var self = this
@@ -26,7 +26,7 @@ export default function(request) {
 
   _updateAttr(self, 'spyglasses_index', index)
   _updateAttr(self, 'spyglasses_requests', requests_index)
-};
+}
 
 function getModel(bwlev, steps) {
   var self = bwlev.getNesting('pioneer')

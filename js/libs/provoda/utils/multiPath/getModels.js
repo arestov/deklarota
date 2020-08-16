@@ -3,8 +3,9 @@
 // - написать функцию, котоая записывает state/nesting в модели multiPath
 
 
-var getNesting = require('pv/getNesting')
-var getStart = require('./getStart')
+import getNesting from 'pv/getNesting'
+
+import getStart from './getStart'
 
 // {
 //   result_type: result_type,

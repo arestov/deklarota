@@ -1,3 +1,3 @@
 
-var state = require('../utils/state')
+import state from '../utils/state'
 export default state

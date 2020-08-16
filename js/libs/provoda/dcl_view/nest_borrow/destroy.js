@@ -1,8 +1,7 @@
 
-var watcherKey = require('./watcherKey')
-var getParent = require('./getParent')
-
-var spv = require('spv')
+import watcherKey from './watcherKey'
+import getParent from './getParent'
+import spv from 'spv'
 var nil = spv.nil
 
 export default function(self) {
@@ -20,4 +19,4 @@ export default function(self) {
 
     spv.set.remove(upper_view.nest_borrow_watchers, watcherKey(cur, self))
   }
-};
+}

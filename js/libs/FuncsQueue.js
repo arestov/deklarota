@@ -1,5 +1,5 @@
 
-var FuncsStack = require('./FuncsStack')
+import FuncsStack from './FuncsStack'
 var FuncsQueue
 var QueueFunc = function(queue, atom) {
   this.q = queue

@@ -1,3 +1,3 @@
 
-var probeDiff = require('../probeDiff')
+import probeDiff from '../probeDiff'
 export default probeDiff

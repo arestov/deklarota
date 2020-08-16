@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var startsWith = spv.startsWith
 
 export default function(self, where) {
@@ -20,7 +20,7 @@ export default function(self, where) {
   } else {
     throw new Error('unsupported type of where declaration')
   }
-};
+}
 
 function isForDeep(name) {
   return startsWith(name, '>') && name.slice(1)

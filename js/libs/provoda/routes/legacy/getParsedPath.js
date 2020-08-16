@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var parsePath = require('./parse.js')
+import spv from 'spv'
+import parsePath from './parse.js'
 
 
 var isFromRoot = function(first_char, string_template) {

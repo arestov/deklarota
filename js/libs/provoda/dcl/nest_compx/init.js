@@ -1,6 +1,6 @@
 
 
-var Runner = require('./runner')
+import Runner from './runner'
 
 var empty = {}
 
@@ -20,4 +20,4 @@ export default function(self) {
     var cur = compx_list[i]
     self.__nest_calculations[cur.dest_name] = new Runner(self, cur)
   }
-};
+}

@@ -1,12 +1,12 @@
 
-var spv = require('spv')
-var hp = require('../helpers')
-var nestWIndex = require('../nest-watch/index')
+import spv from 'spv'
+import hp from '../helpers'
+import nestWIndex from '../nest-watch/index'
 var checkNesting = nestWIndex.checkNesting
-var isNestingChanged = require('../utils/isNestingChanged')
-var _updateAttr = require('_updateAttr')
-var _passHandleNesting = require('../dcl/passes/handleNesting/handle')
-var handleMentions = require('./mentions/handleRelChange')
+import isNestingChanged from '../utils/isNestingChanged'
+import _updateAttr from '_updateAttr'
+import _passHandleNesting from '../dcl/passes/handleNesting/handle'
+import handleMentions from './mentions/handleRelChange'
 
 var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1
@@ -92,4 +92,4 @@ export default function updateNesting(self, collection_name, input, opts) {
 
 
   return self
-};
+}

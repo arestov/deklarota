@@ -1,12 +1,12 @@
 
-var spv = require('spv')
-var CoreView = require('./CoreView')
-var _updateAttr = require('_updateAttr')
-var PvTemplate = require('./pvTemplate/PvTemplate')
-var appending = require('./View/appending')
-var getBwlevView = require('./View/getBwlevView')
-var createTemplate = require('./View/createTemplate')
-var dom_helpers = require('./utils/dom_helpers')
+import spv from 'spv'
+import CoreView from './CoreView'
+import _updateAttr from '_updateAttr'
+import PvTemplate from './pvTemplate/PvTemplate'
+import appending from './View/appending'
+import getBwlevView from './View/getBwlevView'
+import createTemplate from './View/createTemplate'
+import dom_helpers from './utils/dom_helpers'
 
 var dFind = dom_helpers.find
 var dAppend = dom_helpers.append

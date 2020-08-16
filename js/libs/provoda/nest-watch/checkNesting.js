@@ -1,7 +1,7 @@
 
-var addRemove = require('./add-remove')
+import addRemove from './add-remove'
 var checkNestWatchs = addRemove.checkNestWatchs
-var orderItems = require('./orderItems')
+import orderItems from './orderItems'
 
 export default function checkNesting(self, collection_name, array, removed) {
   checkNestWatchs(self, collection_name, array, removed)
@@ -18,7 +18,7 @@ export default function checkNesting(self, collection_name, array, removed) {
     }
     calls_flow.pushToFlow(null, cur.nwatch, null, array, handleEndItems, null, self.current_motivator)
   }
-};
+}
 
 
 

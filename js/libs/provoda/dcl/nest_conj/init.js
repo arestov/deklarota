@@ -1,6 +1,6 @@
 
-var addFrom = require('../../nest-watch/addFrom')
-var NestConcat = require('./NestConcat')
+import addFrom from '../../nest-watch/addFrom'
+import NestConcat from './NestConcat'
 
 export default function init(self) {
   self.states_links = self.states_links || null
@@ -16,4 +16,4 @@ export default function init(self) {
       addFrom(self, cur.lnwatches[jj])
     }
   }
-};
+}

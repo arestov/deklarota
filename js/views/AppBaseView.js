@@ -1,12 +1,11 @@
 
-var spv = require('spv')
-var $ = require('cash-dom')
-var filters = require('./modules/filters')
-var getUsageTree = require('js/libs/provoda/structure/getUsageTree')
-var mutateGlobalTplFilters = require('js/libs/provoda/mutateGlobalTplFilters')
-var _updateAttr = require('_updateAttr')
-
-var View = require('View')
+import spv from 'spv'
+import $ from 'cash-dom'
+import filters from './modules/filters'
+import getUsageTree from 'js/libs/provoda/structure/getUsageTree'
+import mutateGlobalTplFilters from 'js/libs/provoda/mutateGlobalTplFilters'
+import _updateAttr from '_updateAttr'
+import View from 'View'
 
 
 mutateGlobalTplFilters(function(filter_name) {

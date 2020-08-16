@@ -1,5 +1,5 @@
 
-var deliverRelQueryUpdates = require('./deliverRelQueryUpdates')
+import deliverRelQueryUpdates from './deliverRelQueryUpdates'
 
 function handleMentions(self, collection_name, old_value, array) {
   if (old_value != null) {

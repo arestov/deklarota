@@ -1,9 +1,8 @@
 
 
-var _updateRel = require('_updateRel')
-
-var pathExecutor = require('./routes/legacy/stringify')
-var getSPByPathTemplate = require('./routes/legacy/getSPByPathTemplate')
+import _updateRel from '_updateRel'
+import pathExecutor from './routes/legacy/stringify'
+import getSPByPathTemplate from './routes/legacy/getSPByPathTemplate'
 
 var preloadStart = function(md) {
   md.preloadStart()

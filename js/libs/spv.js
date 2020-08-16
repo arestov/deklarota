@@ -1,11 +1,11 @@
 
 var spv = {}
 
-var cloneObj = require('./spv/cloneObj.js')
-var memorize = require('./spv/memorize')
-var coe = require('./spv/coe')
-var Class = require('./spv/Class')
-var inh = require('./spv/inh')
+import cloneObj from './spv/cloneObj.js'
+import memorize from './spv/memorize'
+import coe from './spv/coe'
+import Class from './spv/Class'
+import inh from './spv/inh'
 
 var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
 getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,

@@ -1,12 +1,12 @@
 
-var ba_canReuse = require('./ba_canReuse')
-var showInterest = require('./showInterest')
-var _goDeeper = require('./_goDeeper')
-var getBwlevFromParentBwlev = require('./getBwlevFromParentBwlev')
-var showMOnMap = require('./showMOnMap')
-var isBigStep = require('./isBigStep')
-var getNavGroups = require('./getNavGroups')
-var toProperNavParent = require('./toProperNavParent')
+import ba_canReuse from './ba_canReuse'
+import showInterest from './showInterest'
+import _goDeeper from './_goDeeper'
+import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
+import showMOnMap from './showMOnMap'
+import isBigStep from './isBigStep'
+import getNavGroups from './getNavGroups'
+import toProperNavParent from './toProperNavParent'
 
 var limits = {
   same_model_matches: 1,
@@ -29,7 +29,7 @@ export default function followFromTo(BWL, map, parent_bwlev, end_md) {
   }
   // !!!!showMOnMap(BWL, map, parent_bwlev.getNesting('pioneer'), parent_bwlev);
   return _goDeeper(BWL, map, end_md, parent_bwlev)
-};
+}
 
 
 

@@ -1,6 +1,6 @@
 
 
-var getSubpageItem = require('./getSubpageItem')
+import getSubpageItem from './getSubpageItem'
 
 export default function checkSubpager(self, props) {
   var sub_pager = props.sub_pager
@@ -42,7 +42,7 @@ export default function checkSubpager(self, props) {
     self._sub_pager.can_be_reusable = can_be_reusable
   }
 
-};
+}
 
 function canBeReusable(constr) {
   return Boolean(constr.prototype.hasComplexStateFn('$$reusable_url'))

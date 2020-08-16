@@ -1,6 +1,6 @@
 
 
-var isBwConnectedView = require('./isBwConnectedView')
+import isBwConnectedView from './isBwConnectedView'
 
 export default function(self) {
   var views = self.getViews()
@@ -11,4 +11,4 @@ export default function(self) {
       return cur
     }
   }
-};
+}

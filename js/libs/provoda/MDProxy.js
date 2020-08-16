@@ -1,8 +1,8 @@
 
 
-var getRemovedNestingItems = require('./utils/h/getRemovedNestingItems')
-var cloneObj = require('spv/cloneObj')
-var sameName = require('./sameName')
+import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
+import cloneObj from 'spv/cloneObj'
+import sameName from './sameName'
 
 var MDProxy = function(_provoda_id, children_models, md, space) {
   this._provoda_id = _provoda_id

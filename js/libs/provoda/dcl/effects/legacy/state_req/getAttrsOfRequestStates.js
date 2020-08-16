@@ -1,5 +1,5 @@
 
-var types = require('../../../../FastEventor/stateReqTypes')
+import types from '../../../../FastEventor/stateReqTypes'
 var boolean_types = types.boolean_types
 
 function BooleanAttr(name) {
@@ -24,4 +24,4 @@ export default function(dcl) {
       )
     }
   }
-};
+}

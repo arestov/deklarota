@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var isSpecialState = require('./isSpecialState')
+import spv from 'spv'
+import isSpecialState from './isSpecialState'
 var asNil = function(val) {
   if (val == null) {
     return

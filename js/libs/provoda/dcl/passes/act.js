@@ -1,8 +1,8 @@
 
-var getDepValue = require('../../utils/multiPath/getDepValue')
-var saveResult = require('./targetedResult/save')
-var noopForPass = require('./noop')
-var now = require('./deps/now')
+import getDepValue from '../../utils/multiPath/getDepValue'
+import saveResult from './targetedResult/save'
+import noopForPass from './noop'
+import now from './deps/now'
 
 /* EXEC
 
@@ -94,4 +94,4 @@ export default function pass(md, pass_name, data) {
   }
 
   saveResult(md, dcl, result, data)
-};
+}

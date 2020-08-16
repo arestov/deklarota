@@ -1,7 +1,7 @@
 
-var showMOnMap = require('./showMOnMap')
-var _updateAttr = require('_updateAttr')
-var _updateRel = require('_updateRel')
+import showMOnMap from './showMOnMap'
+import _updateAttr from '_updateAttr'
+import _updateRel from '_updateRel'
 
 var redirected = function(map, pioneer) {
   var BWL = map.app.CBWL
@@ -45,4 +45,4 @@ export default function changeBridge(bwlev_raw, map_raw) {
   _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
   _updateAttr(bwlev, 'currentReq', null)
   return bwlev
-};
+}

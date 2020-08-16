@@ -1,17 +1,15 @@
 
 
-var spv = require('spv')
+import spv from 'spv'
 var cloneObj = spv.cloneObj
-var groupDeps = require('../utils/groupDeps')
-var getEncodedState = require('../utils/getEncodedState')
-var getShortStateName = require('../utils/getShortStateName')
-
-var getParsedState = require('../utils/getParsedState')
-
-var asString = require('../utils/multiPath/asString')
-var fromLegacy = require('../utils/multiPath/fromLegacy')
-var parse = require('../utils/multiPath/parse')
-var mentionsSupportedAddr = require('../Model/mentions/supportedAttrTargetAddr')
+import groupDeps from '../utils/groupDeps'
+import getEncodedState from '../utils/getEncodedState'
+import getShortStateName from '../utils/getShortStateName'
+import getParsedState from '../utils/getParsedState'
+import asString from '../utils/multiPath/asString'
+import fromLegacy from '../utils/multiPath/fromLegacy'
+import parse from '../utils/multiPath/parse'
+import mentionsSupportedAddr from '../Model/mentions/supportedAttrTargetAddr'
 
 var isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
@@ -190,7 +188,7 @@ export default function(self, props, typed_part) {
   collectStatesConnectionsProps(self, self.full_comlxs_list)
 
   return true
-};
+}
 
 function uniqExternalDeps(full_comlxs_list) {
   var uniq = spv.set.create()

@@ -1,6 +1,6 @@
 
 
-var selecPoineertDeclr = require('js/libs/provoda/structure/selecPoineertDeclr')
+import selecPoineertDeclr from 'js/libs/provoda/structure/selecPoineertDeclr'
 
 var bhv = {
   'stch-used_struc': function(self, value) {

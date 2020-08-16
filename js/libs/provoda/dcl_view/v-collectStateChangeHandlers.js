@@ -1,5 +1,5 @@
 
-var collectStateChangeHandlers = require('../dcl/collectStateChangeHandlers')
+import collectStateChangeHandlers from '../dcl/collectStateChangeHandlers'
 
 export default function(self, props) {
   var index = collectStateChangeHandlers(self, props)
@@ -20,4 +20,4 @@ export default function(self, props) {
 
     self.stch_hs_list.push(stname)
   }
-};
+}

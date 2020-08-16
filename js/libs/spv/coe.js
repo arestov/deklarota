@@ -1,5 +1,5 @@
 
-var cloneObj = require('./cloneObj')
+import cloneObj from './cloneObj'
 
 export default function(cb) {
   var result = {}
@@ -8,4 +8,4 @@ export default function(cb) {
   }
   cb(add)
   return result
-};
+}

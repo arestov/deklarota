@@ -1,6 +1,6 @@
 
 
-var changeSources = require('../utils/changeSources')
+import changeSources from '../utils/changeSources'
 
 var doIndex = function(list, value) {
   var result = []
@@ -40,4 +40,4 @@ export default function buildStateReqs(self, list) {
   for (var i = 0; i < list.length; i++) {
     changeSources(self.netsources_of_states, list[i].send_declr)
   }
-};
+}

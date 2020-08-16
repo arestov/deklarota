@@ -1,6 +1,6 @@
 
-var requestState = require('./requestState')
-var requestNesting = require('./requestNesting')
+import requestState from './requestState'
+import requestNesting from './requestNesting'
 
 
 export default {

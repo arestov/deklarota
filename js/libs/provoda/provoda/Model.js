@@ -1,3 +1,3 @@
 
-var Model = require('../Model')
+import Model from '../Model'
 export default Model

@@ -1,7 +1,7 @@
 
 
-var spv = require('spv')
-var utils = require('../utils')
+import spv from 'spv'
+import utils from '../utils'
 
 var SendDeclaration = utils.SendDeclaration
 var toSchemaFn = utils.toSchemaFn
@@ -85,4 +85,4 @@ export default function NestReqMap(name, dclt) {
 
   this.state_dep = stateName(this.nest_name)
 
-};
+}

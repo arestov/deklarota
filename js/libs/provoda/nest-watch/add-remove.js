@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var orderItems = require('./orderItems')
+import spv from 'spv'
+import orderItems from './orderItems'
 
 var SublWtch = function SublWtch(nwatch, skip, md, parent) {
   /*

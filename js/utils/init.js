@@ -1,6 +1,7 @@
 // app thread;
-const fakeApp = require('./fakeApp')
-const initApp = require('./initApp')
+import fakeApp from './fakeApp'
+
+import initApp from './initApp'
 
 const env = {}
 

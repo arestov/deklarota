@@ -1,6 +1,6 @@
 
 
-var looksLikeWrappedJSON = require('./utils/looksLikeWrappedJSON')
+import looksLikeWrappedJSON from './utils/looksLikeWrappedJSON'
 
 var tryParse = function(text) {
   try {

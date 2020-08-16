@@ -1,15 +1,14 @@
 
-var spv = require('spv')
-var HModel = require('../Model/HModel')
-var changeBridge = require('../bwlev/changeBridge')
-var initBWlev = require('../bwlev/initBWlev')
-var toProperNavParent = require('../bwlev/toProperNavParent')
-var showInterest = require('../bwlev/showInterest')
-var getBwlevFromParentBwlev = require('../bwlev/getBwlevFromParentBwlev')
-var get_constr = require('../structure/get_constr')
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
-
-var routePathByModels = require('../routePathByModels')
+import spv from 'spv'
+import HModel from '../Model/HModel'
+import changeBridge from '../bwlev/changeBridge'
+import initBWlev from '../bwlev/initBWlev'
+import toProperNavParent from '../bwlev/toProperNavParent'
+import showInterest from '../bwlev/showInterest'
+import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
+import get_constr from '../structure/get_constr'
+import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
+import routePathByModels from '../routePathByModels'
 
 var getSPIConstr = routePathByModels.getSPIConstr
 var getSPI = routePathByModels.getSPI

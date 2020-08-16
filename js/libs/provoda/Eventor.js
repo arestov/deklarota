@@ -1,8 +1,8 @@
 
 
-var spv = require('spv')
-var FastEventor = require('./FastEventor/index')
-var hndMotivationWrappper = require('./helpers/hndMotivationWrappper')
+import spv from 'spv'
+import FastEventor from './FastEventor/index'
+import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 
 
 var Eventor = spv.inh(function() {}, {

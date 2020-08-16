@@ -1,6 +1,6 @@
 
-var getStart = require('./getStart')
-var multiPathAsString = require('./asString')
+import getStart from './getStart'
+import multiPathAsString from './asString'
 
 export default function subscribing(fn) {
   return function(md, multi_path, context) {
@@ -12,4 +12,4 @@ export default function subscribing(fn) {
 
     fn(md, start_md, multi_path.state.path, multiPathAsString(multi_path), context)
   }
-};
+}

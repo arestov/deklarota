@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var MDProxy = require('./MDProxy')
+import spv from 'spv'
+import MDProxy from './MDProxy'
 var CH_GR_LE = 2
 
 var slice = Array.prototype.slice

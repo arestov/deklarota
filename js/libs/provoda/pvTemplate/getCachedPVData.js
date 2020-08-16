@@ -1,8 +1,8 @@
 
 
-var spv = require('spv')
-var directives_parsers = require('./directives_parsers')
-var parsePVImport = require('./pv-import/parse')
+import spv from 'spv'
+import directives_parsers from './directives_parsers'
+import parsePVImport from './pv-import/parse'
 
 var comment_directives_p = directives_parsers.comment_directives_p
 var directives_p = directives_parsers.directives_p

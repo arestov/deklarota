@@ -1,6 +1,6 @@
 
 
-var FlowStep = require('./FlowStep')
+import FlowStep from './FlowStep'
 
 var Group = function(num) {
   this.num = 1 // just hint type for js engine

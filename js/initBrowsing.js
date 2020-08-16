@@ -1,5 +1,5 @@
 
-var BrowseMap = require('./libs/BrowseMap')
+import BrowseMap from './libs/BrowseMap'
 
 export default function initBrowsing(app, states) {
   var bwroot = BrowseMap.hookRoot(app, app.start_page, states)
@@ -7,4 +7,4 @@ export default function initBrowsing(app, states) {
     app.bwroot = bwroot
   }
   return bwroot
-};
+}

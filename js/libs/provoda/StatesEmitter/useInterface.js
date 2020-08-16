@@ -1,9 +1,9 @@
 
 
-var spv = require('spv')
-var _updateAttr = require('_updateAttr')
-var runOnApiAdded = require('../dcl/effects/legacy/subscribe/runOnApiAdded')
-var runOnApiRemoved = require('../dcl/effects/legacy/subscribe/runOnApiRemoved')
+import spv from 'spv'
+import _updateAttr from '_updateAttr'
+import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
+import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 
 var template = function() {
   return {
@@ -73,4 +73,4 @@ useInterface.skipAliveCheck = true
 
 export default function useInterfaceWrap(self, interface_name, obj, destroy) {
   self.nextTick(useInterface, [self, interface_name, obj, destroy], false, false)
-};
+}

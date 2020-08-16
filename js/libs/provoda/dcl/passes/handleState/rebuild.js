@@ -1,6 +1,6 @@
 
 
-var spv = require('spv')
+import spv from 'spv'
 var getDeprefixFunc = spv.getDeprefixFunc
 var check = getDeprefixFunc('handleAttr:')
 
@@ -22,4 +22,4 @@ export default function rebuild(self, index) {
   }
 
   self.__handleState = result
-};
+}

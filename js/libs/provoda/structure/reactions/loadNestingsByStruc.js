@@ -1,7 +1,7 @@
 
 
-var hp = require('../../helpers')
-var initDeclaredNestings = require('../../initDeclaredNestings')
+import hp from '../../helpers'
+import initDeclaredNestings from '../../initDeclaredNestings'
 var getSubpages = initDeclaredNestings.getSubpages
 
 export default function loadNestingsByStruc(md, struc) {
@@ -25,4 +25,4 @@ export default function loadNestingsByStruc(md, struc) {
     }
     item.preloadStart()
   }
-};
+}

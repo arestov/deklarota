@@ -1,8 +1,8 @@
 
 
-var spv = require('spv')
-var hp = require('../../helpers')
-var getSubpageItem = require('./getSubpageItem')
+import spv from 'spv'
+import hp from '../../helpers'
+import getSubpageItem from './getSubpageItem'
 
 var getUnprefixed = spv.getDeprefixFunc('sub_page-')
 var hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
@@ -92,4 +92,4 @@ export default function collectSubpages(self, props) {
   self._sub_pages = check
 
 
-};
+}

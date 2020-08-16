@@ -1,3 +1,3 @@
 
-var View = require('../View')
+import View from '../View'
 export default View

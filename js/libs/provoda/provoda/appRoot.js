@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var prepare = require('../structure/prepare')
-var AppModel = require('./AppModel')
+import spv from 'spv'
+import prepare from '../structure/prepare'
+import AppModel from './AppModel'
 
 export default function(props, init) {
   if (typeof props == 'function') {
@@ -20,4 +20,4 @@ export default function(props, init) {
   var App = spv.inh(AppModel, all, props)
   return prepare(App)
 
-};
+}

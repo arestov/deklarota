@@ -1,6 +1,6 @@
 
 
-var makeKey = require('../makeKey')
+import makeKey from '../makeKey'
 
 var toName = {}
 var toAttr = {}

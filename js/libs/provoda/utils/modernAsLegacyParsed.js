@@ -1,7 +1,7 @@
 
-var getParsedState = require('./getParsedState')
-var asString = require('./multiPath/asString')
-var parseMultiPath = require('./multiPath/parse')
+import getParsedState from './getParsedState'
+import asString from './multiPath/asString'
+import parseMultiPath from './multiPath/parse'
 
 var fromMultiPath = getParsedState.fromMultiPath
 

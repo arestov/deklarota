@@ -1,9 +1,9 @@
 
-var spv = require('spv')
-var css = require('./css')
-var getModelFromR = require('pv/v/getModelFromR')
-var _updateAttr = require('_updateAttr')
-var getAttr = require('pv/getAttr')
+import spv from 'spv'
+import css from './css'
+import getModelFromR from 'pv/v/getModelFromR'
+import _updateAttr from '_updateAttr'
+import getAttr from 'pv/getAttr'
 
 /*
   ANIMATION IS BROKEN
@@ -123,4 +123,4 @@ export default function(view, transaction_data, animation_data) {
   } else {
     animation_data.lc.onTransitionEnd(completeAnimation)
   }
-};
+}

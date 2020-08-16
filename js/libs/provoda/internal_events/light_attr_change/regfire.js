@@ -1,9 +1,8 @@
 
 
-var hndMotivationWrappper = require('../../helpers/hndMotivationWrappper')
-var StatesLabour = require('../../StatesLabour')
-
-var getAttrByName = require('./getAttrByName')
+import hndMotivationWrappper from '../../helpers/hndMotivationWrappper'
+import StatesLabour from '../../StatesLabour'
+import getAttrByName from './getAttrByName'
 
 var stackStateFlowStep = function(flow_step, state_name) {
   if (!this.zdsv) {

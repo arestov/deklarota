@@ -1,6 +1,6 @@
 
-var getModelFromR = require('pv/v/getModelFromR')
-var getNesting = require('pv/getNesting')
+import getModelFromR from 'pv/v/getModelFromR'
+import getNesting from 'pv/getNesting'
 
 var matchParent = function(possible_parent, child) {
   var cur = child
@@ -40,4 +40,4 @@ export default function(spyglass_view, current_bwlev_mdr, target_bwlev_mdr) {
     }
 
   }
-};
+}

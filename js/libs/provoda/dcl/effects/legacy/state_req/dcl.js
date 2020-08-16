@@ -1,6 +1,6 @@
 
-var utils = require('../utils')
-var getAttrsOfRequestStates = require('./getAttrsOfRequestStates')
+import utils from '../utils'
+import getAttrsOfRequestStates from './getAttrsOfRequestStates'
 
 var SendDeclaration = utils.SendDeclaration
 var toSchemaFn = utils.toSchemaFn
@@ -41,4 +41,4 @@ export default function StateReqMap(num, req_item) {
     this.dependencies = send_declr[0]
     this.send_declr = new SendDeclaration(send_declr[1])
   }
-};
+}

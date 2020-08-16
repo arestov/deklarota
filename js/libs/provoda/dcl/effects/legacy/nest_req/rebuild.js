@@ -1,6 +1,6 @@
 
-var changeSources = require('../utils/changeSources')
-var assign = require('../utils/assign')
+import changeSources from '../utils/changeSources'
+import assign from '../utils/assign'
 
 export default function buildNestReqs(self, by_name, typed_state_dcls) {
   self._nest_reqs = by_name
@@ -21,4 +21,4 @@ export default function buildNestReqs(self, by_name, typed_state_dcls) {
 
     assign(typed_state_dcls, cur_nest)
   }
-};
+}

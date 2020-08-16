@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
+import spv from 'spv'
+import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('regfr-', true)
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
@@ -35,4 +35,4 @@ export default function(self, props) {
       self.reg_fires.by_test.push(cur)
     }
   }
-};
+}

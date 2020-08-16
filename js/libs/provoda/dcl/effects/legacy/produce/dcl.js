@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var _updateAttr = require('_updateAttr')
-var wrapDeps = require('../api/utils/wrapDeps')
+import spv from 'spv'
+import _updateAttr from '_updateAttr'
+import wrapDeps from '../api/utils/wrapDeps'
 var toRealArray = spv.toRealArray
 
 
@@ -78,4 +78,4 @@ export default function ApiEffectDeclr(name, data) {
   }
   var effects_deps = condition && condition[1]
   this.effects_deps = (effects_deps && toRealArray(effects_deps)) || null
-};
+}

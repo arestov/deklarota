@@ -1,9 +1,9 @@
 
-var spv = require('spv')
-var getPropsPrefixChecker = require('../../utils/getPropsPrefixChecker')
+import spv from 'spv'
+import getPropsPrefixChecker from '../../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('nest-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
-var NestDcl = require('./item')
+import NestDcl from './item'
 
 export default function(self, props) {
   var
@@ -44,4 +44,4 @@ export default function(self, props) {
     }
   }
   self._legacy_nest_dcl = result
-};
+}

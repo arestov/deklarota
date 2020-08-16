@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var prefixValue = function(source) {
   if (!source) {
     return 'unk--'
@@ -21,4 +21,4 @@ export default function(name, Constr, source) {
     hierarchy_name: prefixValue(source) + name
   })
   return Result
-};
+}

@@ -1,6 +1,6 @@
 
 
-var wrapDeps = require('./utils/wrapDeps')
+import wrapDeps from './utils/wrapDeps'
 
 var prefixArray = function(arr, prefix) {
   var result = new Array(arr.length)
@@ -68,4 +68,4 @@ export default function ApiDeclr(name, data) {
     }
 
   }
-};
+}

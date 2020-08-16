@@ -1,3 +1,3 @@
 
-var SyncReceiver = require('../SyncReceiver')
+import SyncReceiver from '../SyncReceiver'
 export default SyncReceiver

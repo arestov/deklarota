@@ -1,12 +1,12 @@
 
-var spv = require('spv')
-var NestWatch = require('../nest-watch/NestWatch')
-var getStateWriter = require('../nest-watch/getStateWriter')
-var getParsedState = require('./getParsedState')
-var toMultiPath = require('./NestingSourceDr/toMultiPath')
-var asString = require('./multiPath/asString')
-var fromLegacy = require('./multiPath/fromLegacy')
-var modernAsLegacyParsed = require('./modernAsLegacyParsed')
+import spv from 'spv'
+import NestWatch from '../nest-watch/NestWatch'
+import getStateWriter from '../nest-watch/getStateWriter'
+import getParsedState from './getParsedState'
+import toMultiPath from './NestingSourceDr/toMultiPath'
+import asString from './multiPath/asString'
+import fromLegacy from './multiPath/fromLegacy'
+import modernAsLegacyParsed from './modernAsLegacyParsed'
 
 var getEncodedState = spv.memorize(function getEncodedState(state_name) {
 

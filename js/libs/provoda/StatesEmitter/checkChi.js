@@ -1,8 +1,8 @@
 
 
-var spv = require('spv')
-var hp = require('../helpers')
-var structureChild = require('../structure/child')
+import spv from 'spv'
+import hp from '../helpers'
+import structureChild from '../structure/child'
 
 var getUnprefixed = spv.getDeprefixFunc('chi-')
 var hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
@@ -29,4 +29,4 @@ export default function checkChildrenConstuctors(self, props) {
   for (var chi_name in self._build_cache_chi) {
     self._chi['chi-' + chi_name] = self._build_cache_chi[chi_name]
   }
-};
+}

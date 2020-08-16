@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var hp = require('../helpers')
-var get_constr = require('./get_constr')
+import spv from 'spv'
+import hp from '../helpers'
+import get_constr from './get_constr'
 
 
 var getEncodedState = hp.getEncodedState

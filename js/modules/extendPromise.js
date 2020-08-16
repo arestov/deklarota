@@ -1,5 +1,5 @@
 
-var Promise = require('Promise')
+import Promise from 'Promise'
 
 function extendPromise(promise, deferred) {
   promise.queued_promise = deferred.queued_promise

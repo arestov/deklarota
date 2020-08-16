@@ -1,6 +1,6 @@
 
-var addFrom = require('../../nest-watch/addFrom')
-var RouteRunner = require('./RouteRunner')
+import addFrom from '../../nest-watch/addFrom'
+import RouteRunner from './RouteRunner'
 
 
 export default function(self) {
@@ -23,4 +23,4 @@ export default function(self) {
 
   self.__routes_matchers_runs = list
 
-};
+}

@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var Model = require('./Model')
-var _updateRel = require('_updateRel')
+import spv from 'spv'
+import Model from './Model'
+import _updateRel from '_updateRel'
 
 export default function(Constr, states, params, map_parent, app) {
   var BehaviorContr = Constr || Model
@@ -32,4 +32,4 @@ export default function(Constr, states, params, map_parent, app) {
   }
 
   return model
-};
+}

@@ -1,12 +1,12 @@
 
-var Promise = require('Promise')
-var extendPromise = require('js/modules/extendPromise')
-var spv = require('spv')
-var getApiPart = require('./getApiPart')
+import Promise from 'Promise'
+import extendPromise from 'js/modules/extendPromise'
+import spv from 'spv'
+import getApiPart from './getApiPart'
 var getTargetField = spv.getTargetField
 var toBigPromise = extendPromise.toBigPromise
-var getNetApiByDeclr = require('../helpers/getNetApiByDeclr')
-var batching = require('./batching')
+import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
+import batching from './batching'
 var doBatch = batching
 
 

@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var nil = spv.nil
 
 function checkChange(target, nesname, items) {

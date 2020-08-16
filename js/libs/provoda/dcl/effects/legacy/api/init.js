@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var updateRootInterface = spv.memorize(function(name) {
   return function(val) {
     var interface_instance = val
@@ -49,4 +49,4 @@ export default function(self, apis_as_arg) {
   if (needsSelf(self)) {
     self.useInterface('self', self)
   }
-};
+}

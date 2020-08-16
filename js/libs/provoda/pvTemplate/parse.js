@@ -1,5 +1,5 @@
 
-var getCachedPVData = require('./getCachedPVData')
+import getCachedPVData from './getCachedPVData'
 
 function getCommentPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, true, getSample)
@@ -39,4 +39,4 @@ export default function parse(start_node, struc_store, getSample, opts) {
 
   }
   return result
-};
+}

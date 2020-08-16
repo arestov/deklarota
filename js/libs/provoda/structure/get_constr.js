@@ -1,6 +1,6 @@
 
 
-var hp = require('../helpers')
+import hp from '../helpers'
 var getRightNestingName = hp.getRightNestingName
 
 var getDeclrConstr = function(app, md, item) {

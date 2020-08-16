@@ -1,8 +1,8 @@
 
 
-var _updateRel = require('_updateRel')
-var multiPathAsString = require('../../utils/multiPath/asString')
-var getDepValue = require('../../utils/multiPath/getDepValue')
+import _updateRel from '_updateRel'
+import multiPathAsString from '../../utils/multiPath/asString'
+import getDepValue from '../../utils/multiPath/getDepValue'
 
 var prepareArgs = function(dcl, _runStates) {
   var result = new Array(dcl.deps.length)

@@ -1,5 +1,5 @@
 
-var pvState = require('../state')
+import pvState from '../state'
 
 
 var getOneValue = function(dep, item) {

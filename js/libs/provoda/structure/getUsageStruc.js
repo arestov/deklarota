@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var selecPoineertDeclr = require('./selecPoineertDeclr')
-var get_constr = require('./get_constr')
+import spv from 'spv'
+import selecPoineertDeclr from './selecPoineertDeclr'
+import get_constr from './get_constr'
 
 var getNestingConstr = get_constr.getNestingConstr
 
@@ -67,4 +67,4 @@ export default function getUsageStruc(md, switch_nesting_name, used_data_structu
     }
   }
   return struc
-};
+}

@@ -1,5 +1,5 @@
 
-var $ = require('cash-dom')
+import $ from 'cash-dom'
 
 var find = function(con, selector) {
   return $(con).find(selector)

@@ -1,8 +1,8 @@
 
-var css = require('./css')
-var getAttr = require('pv/getAttr')
-var getModelFromR = require('pv/v/getModelFromR')
-var anyDeeplyIncludedViews = require('./anyDeeplyIncludedViews')
+import css from './css'
+import getAttr from 'pv/getAttr'
+import getModelFromR from 'pv/v/getModelFromR'
+import anyDeeplyIncludedViews from './anyDeeplyIncludedViews'
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')
 
@@ -126,4 +126,4 @@ export default function readMapSliceAnimationData(view, transaction_data) {
     lc: lc,
     transform_values: transform_values
   }
-};
+}

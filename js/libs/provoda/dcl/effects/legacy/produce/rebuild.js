@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var indexByDepName = require('../api/utils/indexByDepName')
-var getDepsToInsert = require('../api/utils/getDepsToInsert')
+import spv from 'spv'
+import indexByDepName from '../api/utils/indexByDepName'
+import getDepsToInsert from '../api/utils/getDepsToInsert'
 
 var indexByList = function(obj, list_name) {
   if (!obj) {
@@ -61,4 +61,4 @@ export default function rebuildEffects(self, effects, typed_state_dcls) {
   self.__api_effects_$_index_by_apis = indexByList(effects, 'apis') || self.__api_effects_$_index_by_apis
 
   self.__api_root_dep_apis = rootApis(effects) || self.__api_root_dep_apis || null
-};
+}

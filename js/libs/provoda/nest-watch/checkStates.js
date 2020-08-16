@@ -1,5 +1,5 @@
 
-var orderItems = require('./orderItems')
+import orderItems from './orderItems'
 
 export default function(etr, zdsv, state_name, value, cur_value) {
   var links = etr.states_links && etr.states_links[state_name]
@@ -15,7 +15,7 @@ export default function(etr, zdsv, state_name, value, cur_value) {
     calls_flow.pushToFlow(null, cur, [state_name, value, cur_value, etr], null, handleStates, null, etr.current_motivator)
 
   }
-};
+}
 
 function handleStates(motivator, _, lnwatch, args) {
   // TODO if we don't have state_handler that we don't need order and preparations to keep order

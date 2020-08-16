@@ -1,3 +1,3 @@
 
-var routePathByModels = require('../routePathByModels')
+import routePathByModels from '../routePathByModels'
 export default routePathByModels

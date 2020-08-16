@@ -1,6 +1,6 @@
 
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
-var initBWlev = require('./initBWlev')
+import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
+import initBWlev from './initBWlev'
 
 var getConstr = function(map, model_name) {
   try {
@@ -27,4 +27,4 @@ export default function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_
   };
 
   return bwlev
-};
+}

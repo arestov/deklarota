@@ -1,12 +1,11 @@
 
 
-var spv = require('spv')
-var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
-
-var supportedZip = require('./supportedZip')
+import spv from 'spv'
+import getParsedPath from '__lib/routes/legacy/getParsedPath.js'
+import supportedZip from './supportedZip'
 
 var splitByDot = spv.splitByDot
-var fromLegacy = require('./fromLegacy')
+import fromLegacy from './fromLegacy'
 var empty = {}
 var root = {
   type: 'root',

@@ -1,6 +1,6 @@
 
-var pvState = require('../utils/state')
-var spv = require('spv')
+import pvState from '../utils/state'
+import spv from 'spv'
 var countKeys = spv.countKeys
 var CH_GR_LE = 2
 
@@ -343,7 +343,7 @@ export default function(total_ch, self) {
   iterateApis(total_ch, self)
   iterateEffects(total_ch, self)
   scheduleTransactionEnd(self)
-};
+}
 
 function scheduleTransactionEnd(self) {
   if (self._highway.__produce_side_effects_schedule == null) {

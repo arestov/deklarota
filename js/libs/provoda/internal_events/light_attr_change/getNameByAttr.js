@@ -1,3 +1,3 @@
 
-var manageNames = require('./manageNames')
+import manageNames from './manageNames'
 export default manageNames.getNameByAttr

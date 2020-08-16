@@ -1,5 +1,5 @@
 
-var getNesting = require('pv/getNesting')
+import getNesting from 'pv/getNesting'
 
 var getModelByIdUniversal = function(highway_holder, _provoda_id) {
   var _highway = highway_holder._highway
@@ -103,4 +103,4 @@ export default function probeDiff(highway_holder, value, oldvalue) {
     common_step: asMDR(common_step),
     array: changes_wrap,
   }
-};
+}

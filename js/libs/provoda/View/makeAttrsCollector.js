@@ -1,6 +1,6 @@
 
-var AttrsCollector = require('../StatesEmitter/AttrsCollector')
-var definedAttrs = require('./definedAttrs')
+import AttrsCollector from '../StatesEmitter/AttrsCollector'
+import definedAttrs from './definedAttrs'
 
 export default function(self) {
   var atrrs_collector_key = self.mpx.__getBhvId() + '_' + self.constr_id
@@ -8,4 +8,4 @@ export default function(self) {
   self._highway._view_attr_collectors[atrrs_collector_key] = self._highway._view_attr_collectors[atrrs_collector_key] || new AttrsCollector(definedAttrs(self))
 
   self._attrs_collector = self._highway._view_attr_collectors[atrrs_collector_key]
-};
+}

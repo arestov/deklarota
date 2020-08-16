@@ -1,5 +1,5 @@
 
-var selecPoineertDeclr = require('../structure/selecPoineertDeclr')
+import selecPoineertDeclr from '../structure/selecPoineertDeclr'
 
 export default function(target, nesname, items, removed, old_value) {
   if (target.pvCollectionChange) {
@@ -46,4 +46,4 @@ export default function(target, nesname, items, removed, old_value) {
     throw new Error('WHAT TO DO WITH old_value?')
     // target.callCollectionChangeDeclaration(dclr, nesname, cur, old_value, removed);
   }
-};
+}

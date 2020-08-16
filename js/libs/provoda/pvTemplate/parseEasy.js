@@ -1,6 +1,6 @@
 
-var getCachedPVData = require('./getCachedPVData')
-var patchNode = require('./patchNode')
+import getCachedPVData from './getCachedPVData'
+import patchNode from './patchNode'
 
 function getCommentPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, true, getSample)
@@ -56,4 +56,4 @@ export default function parserEasy(start_node, vroot_node, struc_store, getSampl
     }
   }
   return list_for_binding
-};
+}

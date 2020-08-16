@@ -1,7 +1,7 @@
 
-var pvState = require('../../utils/state')
-var executeStringTemplate = require('__lib/routes/legacy/executeStringTemplate')
-var _updateRel = require('_updateRel')
+import pvState from '../../utils/state'
+import executeStringTemplate from '__lib/routes/legacy/executeStringTemplate'
+import _updateRel from '_updateRel'
 
 function addHead(md, hands, head) {
   hands.heads.push(head)

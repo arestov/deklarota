@@ -1,11 +1,10 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var nil = spv.nil
 
-var watcherKey = require('./watcherKey')
-
-var getParent = require('./getParent')
-var checkChange = require('./check-change')
+import watcherKey from './watcherKey'
+import getParent from './getParent'
+import checkChange from './check-change'
 var checkChildren = checkChange.checkChildren
 
 
@@ -34,4 +33,4 @@ export default function(self) {
     spv.set.add(upper_view.nest_borrow_watchers, watcherKey(cur.name, self), item)
     checkChildren(upper_view, item)
   }
-};
+}

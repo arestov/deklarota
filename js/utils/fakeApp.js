@@ -1,6 +1,6 @@
-const spv = require('spv')
-const AppModel = require('pv/AppModel')
-const prepare = require('js/libs/provoda/structure/prepare')
+import spv from 'spv'
+import AppModel from 'pv/AppModel'
+import prepare from 'js/libs/provoda/structure/prepare'
 
 
 export default function fakeApp(props, init) {

@@ -1,8 +1,8 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var cloneObj = spv.cloneObj
 
-var RouteDcl = require('./dcl')
+import RouteDcl from './dcl'
 
 var buildRoutes = function(self, index) {
   // TODO: allow to control matching order
@@ -72,4 +72,4 @@ export default function checkPass(self, props) {
 
 
   return true
-};
+}

@@ -1,23 +1,21 @@
 
-var View = require('View')
-var spv = require('spv')
-var css = require('./css')
-var pvState = require('pv/state')
-var updateAttr = require('pv/updateAttr')
-var _updateAttr = require('_updateAttr')
-var mpxUpdateAttr = require('pv/v/mpxUpdateAttr')
-var selecPoineertDeclr = require('pv/v/selecPoineertDeclr')
-var createTemplate = require('pv/v/createTemplate')
-var probeDiff = require('pv/probeDiff')
-
-var getNesting = require('pv/getNesting')
-var $ = require('cash-dom')
-var wrapInputCall = require('pv/wrapInputCall')
-var getModelFromR = require('pv/v/getModelFromR')
-
-var readMapSliceAnimationData = require('./readMapSliceAnimationData')
-var animateMapSlice = require('./animateMapSlice')
-var findMpxViewInChildren = require('./findMpxViewInChildren')
+import View from 'View'
+import spv from 'spv'
+import css from './css'
+import pvState from 'pv/state'
+import updateAttr from 'pv/updateAttr'
+import _updateAttr from '_updateAttr'
+import mpxUpdateAttr from 'pv/v/mpxUpdateAttr'
+import selecPoineertDeclr from 'pv/v/selecPoineertDeclr'
+import createTemplate from 'pv/v/createTemplate'
+import probeDiff from 'pv/probeDiff'
+import getNesting from 'pv/getNesting'
+import $ from 'cash-dom'
+import wrapInputCall from 'pv/wrapInputCall'
+import getModelFromR from 'pv/v/getModelFromR'
+import readMapSliceAnimationData from './readMapSliceAnimationData'
+import animateMapSlice from './animateMapSlice'
+import findMpxViewInChildren from './findMpxViewInChildren'
 
 var can_animate = css.transform && css.transition
 

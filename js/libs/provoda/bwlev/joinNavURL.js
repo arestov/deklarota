@@ -1,5 +1,5 @@
 
-var getNavGroups = require('./getNavGroups')
+import getNavGroups from './getNavGroups'
 
 var joinSubtree = function(array) {
   var url = ''
@@ -45,4 +45,4 @@ export default function(nav) {
   }
 
   return url
-};
+}

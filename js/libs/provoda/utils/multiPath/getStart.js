@@ -1,6 +1,6 @@
 
-var getSPByPathTemplateAndData = require('__lib/routes/legacy/getSPByPathTemplateAndData')
-var getSPByPathTemplate = require('__lib/routes/legacy/getSPByPathTemplate')
+import getSPByPathTemplateAndData from '__lib/routes/legacy/getSPByPathTemplateAndData'
+import getSPByPathTemplate from '__lib/routes/legacy/getSPByPathTemplate'
 
 var empty = {}
 
@@ -11,7 +11,7 @@ export default function getStart(md, multi_path, use_state_from_initial_model, d
     use_state_from_initial_model,
     data
   )
-};
+}
 
 
 function getBase(md, multi_path) {

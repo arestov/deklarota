@@ -1,5 +1,5 @@
 
-var getSTEVNameLight = require('../internal_events/light_attr_change/getNameByAttr')
+import getSTEVNameLight from '../internal_events/light_attr_change/getNameByAttr'
 
 export default {
   getSTEVNameLight: getSTEVNameLight,

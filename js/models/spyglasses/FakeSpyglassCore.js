@@ -1,19 +1,18 @@
 
-var Model = require('pv/Model')
-var spv = require('spv')
-var pvState = require('pv/state')
-var _updateRel = require('_updateRel')
-var joinNavURL = require('pv/joinNavURL')
-var navi = require('js/libs/navi')
-var changeBridge = require('js/libs/provoda/bwlev/changeBridge')
-var getNesting = require('pv/getNesting')
-var createLevel = require('js/libs/provoda/bwlev/createLevel')
-var showMOnMap = require('js/libs/provoda/bwlev/showMOnMap')
-var getModelById = require('js/libs/provoda/utils/getModelById')
-var _updateAttr = require('_updateAttr')
-
-var BrowseMap = require('js/libs/BrowseMap')
-var animateMapChanges = require('js/libs/provoda/dcl/probe/animateMapChanges')
+import Model from 'pv/Model'
+import spv from 'spv'
+import pvState from 'pv/state'
+import _updateRel from '_updateRel'
+import joinNavURL from 'pv/joinNavURL'
+import navi from 'js/libs/navi'
+import changeBridge from 'js/libs/provoda/bwlev/changeBridge'
+import getNesting from 'pv/getNesting'
+import createLevel from 'js/libs/provoda/bwlev/createLevel'
+import showMOnMap from 'js/libs/provoda/bwlev/showMOnMap'
+import getModelById from 'js/libs/provoda/utils/getModelById'
+import _updateAttr from '_updateAttr'
+import BrowseMap from 'js/libs/BrowseMap'
+import animateMapChanges from 'js/libs/provoda/dcl/probe/animateMapChanges'
 
 export default spv.inh(Model, {
   naming: function(fn) {

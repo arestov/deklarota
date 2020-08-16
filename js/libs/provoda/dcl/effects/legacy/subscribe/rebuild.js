@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var rootApis = function(list) {
 
   var index = {}
@@ -42,4 +42,4 @@ export default function(self, list) {
 
   self.__api_root_dep_apis_subscribe_eff = rootApis(list)
   self._interfaces_to_states_index = index
-};
+}

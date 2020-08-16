@@ -1,6 +1,6 @@
 
-var AttrsCollector = require('../StatesEmitter/AttrsCollector')
-var definedAttrs = require('./definedAttrs')
+import AttrsCollector from '../StatesEmitter/AttrsCollector'
+import definedAttrs from './definedAttrs'
 
 export default function(self) {
   if (!self._attrs_collector) {
@@ -11,4 +11,4 @@ export default function(self) {
 
   // from prototype to instance
   self._attrs_collector = self._attrs_collector
-};
+}

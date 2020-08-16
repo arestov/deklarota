@@ -1,6 +1,6 @@
 
-var getAllOnwers = require('./getAllOnwers')
-var scheduleDelivering = require('./scheduleDelivering')
+import getAllOnwers from './getAllOnwers'
+import scheduleDelivering from './scheduleDelivering'
 
 export default function deliverAttrQueryUpdates(self, attr_name) {
 
@@ -34,4 +34,4 @@ export default function deliverAttrQueryUpdates(self, attr_name) {
   }
 
   scheduleDelivering(self, result)
-};
+}

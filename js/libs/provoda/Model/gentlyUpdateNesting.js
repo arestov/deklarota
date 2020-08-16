@@ -1,6 +1,6 @@
 
 
-var updateNesting = require('./updateNesting')
+import updateNesting from './updateNesting'
 
 export default function gentlyUpdateNesting(self, collection_name, input, opts) {
   if (self._currentMotivator() != null) {
@@ -11,4 +11,4 @@ export default function gentlyUpdateNesting(self, collection_name, input, opts) 
   self.input(function() {
     updateNesting(self, collection_name, input, opts)
   })
-};
+}

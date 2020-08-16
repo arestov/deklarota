@@ -1,8 +1,8 @@
 
-var _goDeeper = require('./_goDeeper')
-var getModelById = require('../utils/getModelById')
-var changeBridge = require('./changeBridge')
-var showMOnMap = require('./showMOnMap')
+import _goDeeper from './_goDeeper'
+import getModelById from '../utils/getModelById'
+import changeBridge from './changeBridge'
+import showMOnMap from './showMOnMap'
 
 export default function requestPage(BWL, self, id) {
   var md = getModelById(self, id)
@@ -52,4 +52,4 @@ export default function requestPage(BWL, self, id) {
     changeBridge(last_called)
   }
 
-};
+}

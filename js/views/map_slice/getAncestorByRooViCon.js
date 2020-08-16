@@ -1,5 +1,5 @@
 
-var isBwConnectedView = require('./isBwConnectedView')
+import isBwConnectedView from './isBwConnectedView'
 
 export default function getAncestorByRooViCon(self, details, strict) {
   //находит родительскую вьюху соеденённую с корневой вьюхой
@@ -22,4 +22,4 @@ export default function getAncestorByRooViCon(self, details, strict) {
 
     cur_ancestor = cur_ancestor.parent_view
   }
-};
+}

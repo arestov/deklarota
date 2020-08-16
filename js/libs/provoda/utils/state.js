@@ -1,5 +1,5 @@
 
-var stateGetter = require('./stateGetter')
+import stateGetter from './stateGetter'
 var getter = stateGetter
 
 export default function(item, state_path) {
@@ -10,4 +10,4 @@ export default function(item, state_path) {
   }
 
   return getField(item.states)
-};
+}

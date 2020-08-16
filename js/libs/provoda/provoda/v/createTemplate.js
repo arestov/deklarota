@@ -1,3 +1,3 @@
 
-var createTemplate = require('../../View/createTemplate')
+import createTemplate from '../../View/createTemplate'
 export default createTemplate

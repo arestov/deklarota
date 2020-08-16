@@ -1,4 +1,4 @@
 
-var joinNavURL = require('../bwlev/joinNavURL')
+import joinNavURL from '../bwlev/joinNavURL'
 
 export default joinNavURL

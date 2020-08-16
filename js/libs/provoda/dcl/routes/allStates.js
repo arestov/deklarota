@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var cloneObj = spv.cloneObj
 
 function allStates(main_states, extra_states) {

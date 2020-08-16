@@ -1,11 +1,10 @@
 
 
-var _updateAttr = require('_updateAttr')
-var getModelById = require('../../../utils/getModelById')
-
-var _updateRel = require('_updateRel')
-var prepareResults = require('../act/prepareResults')
-var act = require('../act')
+import _updateAttr from '_updateAttr'
+import getModelById from '../../../utils/getModelById'
+import _updateRel from '_updateRel'
+import prepareResults from '../act/prepareResults'
+import act from '../act'
 
 
 var saveToDestModel = function(current_motivator, exec_item) {

@@ -1,5 +1,5 @@
 
-var updateProxy = require('../updateProxy')
+import updateProxy from '../updateProxy'
 var update = updateProxy.update
 
 function updateAttr(self, name, value) {

@@ -1,11 +1,11 @@
 
-var addFrom = require('../../nest-watch/addFrom')
-var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
-var handler = require('./handler')
+import addFrom from '../../nest-watch/addFrom'
+import LocalWatchRoot from '../../nest-watch/LocalWatchRoot'
+import handler from './handler'
 var hstate = handler.hstate
 var recalc = handler.recalc
-var subscribing = require('../../utils/multiPath/subscribing')
-var supportedRelTargetAddr = require('../../Model/mentions/supportedRelTargetAddr')
+import subscribing from '../../utils/multiPath/subscribing'
+import supportedRelTargetAddr from '../../Model/mentions/supportedRelTargetAddr'
 
 var copyStates = function(md, target, state_name, full_name, runner) {
   md.lwch(target, state_name, function(value) {

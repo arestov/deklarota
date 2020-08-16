@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var Model = require('../Model')
+import spv from 'spv'
+import Model from '../Model'
 
 export default function behavior(declr, declr_extend_from, named) {
   var behaviorFrom = declr.extends || declr_extend_from || Model
@@ -23,4 +23,4 @@ export default function behavior(declr, declr_extend_from, named) {
   var func = named || function() {}
   behaviorFrom.extendTo(func, declr)
   return func
-};
+}

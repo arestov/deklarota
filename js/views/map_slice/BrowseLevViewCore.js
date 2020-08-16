@@ -1,10 +1,9 @@
 
-var spv = require('spv')
-var View = require('View')
-var _updateAttr = require('_updateAttr')
-var mergeBhv = require('pv/_lmerge')
-
-var used_str = require('../utils/used_struc')
+import spv from 'spv'
+import View from 'View'
+import _updateAttr from '_updateAttr'
+import mergeBhv from 'pv/_lmerge'
+import used_str from '../utils/used_struc'
 var used_struc_bhv = used_str.bhv
 
 var BrowseLevView = spv.inh(View, {}, mergeBhv({

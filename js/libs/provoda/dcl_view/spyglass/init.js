@@ -1,12 +1,10 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var nil = spv.nil
-var getModelById = require('../../utils/getModelById')
-
-
-var getRootBwlevView = require('./getRootBwlevView')
-var getBwlevView = require('../getBwlevView')
-var getModel = require('../../View/getModel')
+import getModelById from '../../utils/getModelById'
+import getRootBwlevView from './getRootBwlevView'
+import getBwlevView from '../getBwlevView'
+import getModel from '../../View/getModel'
 
 function watchAndRequest(root_bwlev_view, self, spyglass) {
   var key = spyglass.nest_name + '---' + self.view_id
@@ -55,4 +53,4 @@ export default function(self) {
     var cur = self._spyglass[key]
     watchAndRequest(root_bwlev_view, self, cur)
   }
-};
+}

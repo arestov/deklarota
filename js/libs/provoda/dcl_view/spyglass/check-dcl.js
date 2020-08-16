@@ -1,9 +1,9 @@
 
-var checkPrefix = require('../../StatesEmitter/checkPrefix')
+import checkPrefix from '../../StatesEmitter/checkPrefix'
 var transportName = function(spyglass_name) {
   return 'spyglass__' + spyglass_name.replace('/', '__')
 }
-var spv = require('spv')
+import spv from 'spv'
 var nil = spv.nil
 
 var NestSpyglassDcl = function(name, data) {
@@ -36,4 +36,4 @@ export default function check(self, props) {
     var cur = spyglasses[name]
     props.children_views[cur.nest_name] = self.children_views[cur.nest_name] = cur.spyglass_view
   }
-};
+}

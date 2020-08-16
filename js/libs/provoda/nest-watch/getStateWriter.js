@@ -1,10 +1,10 @@
 
 
-var spv = require('spv')
-var attr_zip_fns = require('../utils/zip/nest-watch-attr')
-var rel_zip_fns = require('../utils/zip/nest-watch-rel')
-var _updateAttr = require('_updateAttr')
-var standart = require('./standartNWH')
+import spv from 'spv'
+import attr_zip_fns from '../utils/zip/nest-watch-attr'
+import rel_zip_fns from '../utils/zip/nest-watch-rel'
+import _updateAttr from '_updateAttr'
+import standart from './standartNWH'
 
 
 

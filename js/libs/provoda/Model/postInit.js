@@ -1,15 +1,15 @@
 
-var initDeclaredNestings = require('../initDeclaredNestings')
-var prsStCon = require('../prsStCon')
-var nestWIndex = require('../nest-watch/index')
+import initDeclaredNestings from '../initDeclaredNestings'
+import prsStCon from '../prsStCon'
+import nestWIndex from '../nest-watch/index'
 var initWatchList = nestWIndex.initList
-var initNestSel = require('../dcl/nest_sel/init')
-var initNestConcat = require('../dcl/nest_conj/init')
-var initNestCompx = require('../dcl/nest_compx/init')
-var initApis = require('../dcl/effects/legacy/api/init')
-var initRoutes = require('../dcl/routes/init')
-var __handleInit = require('../dcl/passes/handleInit/handle')
-var _updateAttr = require('_updateAttr')
+import initNestSel from '../dcl/nest_sel/init'
+import initNestConcat from '../dcl/nest_conj/init'
+import initNestCompx from '../dcl/nest_compx/init'
+import initApis from '../dcl/effects/legacy/api/init'
+import initRoutes from '../dcl/routes/init'
+import __handleInit from '../dcl/passes/handleInit/handle'
+import _updateAttr from '_updateAttr'
 
 
 function connectStates(self) {
@@ -58,4 +58,4 @@ export default function postInitModel(self, opts) {
 
   self.nextTick(markInitied, null, false, self.current_motivator)
   Object.seal(self)
-};
+}

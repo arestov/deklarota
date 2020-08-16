@@ -1,8 +1,7 @@
 
-var structureChild = require('../../structure/child')
-var nestModelKey = require('./nestModelKey')
-
-var spv = require('spv')
+import structureChild from '../../structure/child'
+import nestModelKey from './nestModelKey'
+import spv from 'spv'
 var build = function(self, nest_rqc) {
   self._chi_nest_rqc = {}
   self._nest_rqc = spv.cloneObj({}, nest_rqc)

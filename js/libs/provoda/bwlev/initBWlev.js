@@ -1,5 +1,5 @@
 
-var create = require('../create')
+import create from '../create'
 
 export default function initBWlev(BrowseLevel, md, probe_name, map_level_num, map, parent_bwlev) {
   var bwlev = create(BrowseLevel, {
@@ -16,4 +16,4 @@ export default function initBWlev(BrowseLevel, md, probe_name, map_level_num, ma
   }, parent_bwlev, md.app)
 
   return bwlev
-};
+}

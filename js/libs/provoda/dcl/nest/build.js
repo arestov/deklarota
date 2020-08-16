@@ -1,5 +1,5 @@
 
-var structureChild = require('../../structure/child')
+import structureChild from '../../structure/child'
 
 var build = function(self, result) {
   self.nestings_declarations = []

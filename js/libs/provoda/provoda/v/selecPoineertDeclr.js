@@ -1,3 +1,3 @@
 
-var selecPoineertDeclr = require('../../structure/selecPoineertDeclr')
+import selecPoineertDeclr from '../../structure/selecPoineertDeclr'
 export default selecPoineertDeclr

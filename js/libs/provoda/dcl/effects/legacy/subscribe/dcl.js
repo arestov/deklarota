@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var targetedResult = require('../../../passes/targetedResult/dcl.js')
+import spv from 'spv'
+import targetedResult from '../../../passes/targetedResult/dcl.js'
 
 var warnStateUsing = function() {
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
@@ -46,4 +46,4 @@ export default function StateBindDeclr(key, data) {
 
   this.apis = spv.toRealArray(data.api)
   this.fn = data.fn
-};
+}

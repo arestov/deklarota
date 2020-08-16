@@ -1,5 +1,5 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var nil = spv.nil
 
 export default function getRootBwlevView(target) {
@@ -15,4 +15,4 @@ export default function getRootBwlevView(target) {
   }
 
   return possible_root
-};
+}

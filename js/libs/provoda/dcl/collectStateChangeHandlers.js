@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
+import spv from 'spv'
+import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('stch-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
@@ -37,4 +37,4 @@ export default function(self, props) {
   self.__state_change_index = result_index
   return result_index
 
-};
+}

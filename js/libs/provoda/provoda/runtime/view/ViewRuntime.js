@@ -1,6 +1,6 @@
 
-var cloneObj = require('spv/cloneObj')
-var CallbacksFlow = require('../../../CallbacksFlow')
+import cloneObj from 'spv/cloneObj'
+import CallbacksFlow from '../../../CallbacksFlow'
 
 function ViewRuntime(optionsRaw) {
   var options = optionsRaw || {}

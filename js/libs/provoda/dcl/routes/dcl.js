@@ -1,10 +1,10 @@
 
-var NestWatch = require('../../nest-watch/NestWatch')
-var parseRoute = require('../../routes/parse')
-var stringifyRoute = require('../../routes/stringify')
-var asMultiPath = require('../../utils/NestingSourceDr/asMultiPath')
-var pvState = require('../../utils/state')
-var run = require('./run')
+import NestWatch from '../../nest-watch/NestWatch'
+import parseRoute from '../../routes/parse'
+import stringifyRoute from '../../routes/stringify'
+import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
+import pvState from '../../utils/state'
+import run from './run'
 
 var getMatched = function(runner) {
   if (!runner.matched) {

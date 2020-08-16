@@ -1,8 +1,8 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var splitByDot = spv.splitByDot
-var parse = require('./NestingSourceDr/parse')
-var asString = require('./multiPath/asString')
+import parse from './NestingSourceDr/parse'
+import asString from './multiPath/asString'
 
 function itself(item) {return item}
 

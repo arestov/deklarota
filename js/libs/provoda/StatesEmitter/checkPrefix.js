@@ -1,7 +1,7 @@
 
 
-var spv = require('spv')
-var hp = require('../helpers')
+import spv from 'spv'
+import hp from '../helpers'
 
 var empty = function() {}
 
@@ -32,7 +32,7 @@ export default function checkPrefix(prefix, Declr, result_prop, fn) {
     callback(self, self[result_prop], props)
     return self[result_prop]
   }
-};
+}
 
 function mergePrefixed(prefix) {
   var getUnprefixed = spv.getDeprefixFunc(prefix)

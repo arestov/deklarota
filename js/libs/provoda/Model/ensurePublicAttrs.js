@@ -1,5 +1,5 @@
 
-var replaceModelInState = require('./replaceModelInState')
+import replaceModelInState from './replaceModelInState'
 
 var assignPublicAttrs = function(cur_md, target) {
   var result = target

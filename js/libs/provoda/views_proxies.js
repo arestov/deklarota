@@ -1,7 +1,7 @@
 
 
-var spv = require('spv')
-var MDProxy = require('./MDProxy')
+import spv from 'spv'
+import MDProxy from './MDProxy'
 
 var push = Array.prototype.push
 

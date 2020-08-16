@@ -1,14 +1,14 @@
 
-var d_parsers = require('./directives_parsers')
+import d_parsers from './directives_parsers'
 
 var config = d_parsers.config
 
-var getPatchedTree = require('./getPatchedTree')
-var spv = require('spv')
-var parseEasy = require('./parseEasy')
-var parse = require('./parse')
-var buildClone = require('./buildClone')
-var dom_helpers = require('../utils/dom_helpers')
+import getPatchedTree from './getPatchedTree'
+import spv from 'spv'
+import parseEasy from './parseEasy'
+import parse from './parse'
+import buildClone from './buildClone'
+import dom_helpers from '../utils/dom_helpers'
 
 var dWrap = dom_helpers.wrap
 

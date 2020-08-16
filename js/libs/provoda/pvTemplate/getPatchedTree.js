@@ -1,12 +1,12 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var cloneObj = spv.cloneObj
-var getCachedPVData = require('./getCachedPVData')
-var patchNode = require('./patchNode')
-var buildClone = require('./buildClone')
+import getCachedPVData from './getCachedPVData'
+import patchNode from './patchNode'
+import buildClone from './buildClone'
 var unsetStrucKey = getCachedPVData.unsetStrucKey
 var setStrucKey = getCachedPVData.setStrucKey
-var directives_parsers = require('./directives_parsers')
+import directives_parsers from './directives_parsers'
 var scope_generators_p = directives_parsers.scope_generators_p
 
 
@@ -85,4 +85,4 @@ export default function getPatchedTree(original_node, struc_store, getSample, op
   }
   // return result;
   return node
-};
+}

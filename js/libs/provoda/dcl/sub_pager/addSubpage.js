@@ -1,7 +1,7 @@
 
 
-var spv = require('spv')
-var getSubpageItem = require('./getSubpageItem')
+import spv from 'spv'
+import getSubpageItem from './getSubpageItem'
 
 export default function addSubpage(self, name, cur) {
   if (self._sub_pages[name]) {
@@ -20,4 +20,4 @@ export default function addSubpage(self, name, cur) {
   }
   self._build_cache_sub_pages_side[name] = item
 
-};
+}

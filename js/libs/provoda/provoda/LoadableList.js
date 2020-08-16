@@ -1,12 +1,12 @@
 
-var BrowseMap = require('./BrowseMap')
-var spv = require('spv')
-var _updateAttr = require('_updateAttr')
-var _updateRel = require('_updateRel')
+import BrowseMap from './BrowseMap'
+import spv from 'spv'
+import _updateAttr from '_updateAttr'
+import _updateRel from '_updateRel'
 
 var cloneObj = spv.cloneObj
 
-var pushToRoute = require('../structure/pushToRoute')
+import pushToRoute from '../structure/pushToRoute'
 
 var getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 

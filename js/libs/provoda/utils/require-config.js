@@ -1,5 +1,5 @@
-var requirejs = require('requirejs')
-var path = require('path')
+import requirejs from 'requirejs'
+import path from 'path'
 
 requirejs.config({
   baseUrl: __dirname,

@@ -1,6 +1,6 @@
 
 
-var spv = require('spv')
+import spv from 'spv'
 var splitByDot = spv.splitByDot
 
 var apiDeclr = spv.memorize(function(name) {

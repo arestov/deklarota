@@ -1,7 +1,6 @@
 
-var pathExecutor = require('./stringify')
-
-var followStringTemplate = require('./followStringTemplate')
+import pathExecutor from './stringify'
+import followStringTemplate from './followStringTemplate'
 var getPath = pathExecutor(function(chunkName, app, md) {
   return md._provoda_id && md.state(chunkName)
 })

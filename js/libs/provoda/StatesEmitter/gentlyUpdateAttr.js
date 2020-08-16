@@ -1,5 +1,5 @@
 
-var updateProxy = require('../updateProxy')
+import updateProxy from '../updateProxy'
 var updateAttr = updateProxy.update
 
 export default function gentlyUpdateAttr(self, name, value, opts) {
@@ -11,4 +11,4 @@ export default function gentlyUpdateAttr(self, name, value, opts) {
    self.input(function() {
      updateAttr(self, name, value, opts)
    })
-};
+}

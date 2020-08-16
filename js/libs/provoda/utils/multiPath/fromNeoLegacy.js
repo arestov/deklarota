@@ -1,5 +1,5 @@
 
-var getParsedPath = require('__lib/routes/legacy/getParsedPath.js')
+import getParsedPath from '__lib/routes/legacy/getParsedPath.js'
 
 // var NestingSourceDr = require('../../utils/NestingSourceDr');
 
@@ -74,4 +74,4 @@ export default function fromNestingSourceDr(nesting_source) {
     resource: parsed_start_point.resource,
     as_string: null,
   }
-};
+}

@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var getPropsPrefixChecker = require('../utils/getPropsPrefixChecker')
+import spv from 'spv'
+import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
 var getUnprefixed = spv.getDeprefixFunc('sel-coll-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
@@ -64,4 +64,4 @@ export default function(self, props) {
     }
   }
   return true
-};
+}

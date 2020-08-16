@@ -1,10 +1,10 @@
 
-var spv = require('spv')
+import spv from 'spv'
 var getTargetField = spv.getTargetField
 
-var getParsedPath = require('./getParsedPath')
-var pathExecutor = require('./stringify')
-var followStringTemplate = require('./followStringTemplate')
+import getParsedPath from './getParsedPath'
+import pathExecutor from './stringify'
+import followStringTemplate from './followStringTemplate'
 
 var getPathBySimpleData = pathExecutor(function(chunkName, app, data) {
   return data && getTargetField(data, chunkName)

@@ -1,5 +1,5 @@
 
-var readDepValue = require('./utils/readDepValue')
+import readDepValue from './utils/readDepValue'
 var read = readDepValue.read
 
 var bind = {

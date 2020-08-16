@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var get_constr = require('./get_constr')
+import spv from 'spv'
+import get_constr from './get_constr'
 
 var collapseAll = spv.collapseAll
 var getNestingConstr = get_constr.getNestingConstr
@@ -99,4 +99,4 @@ export default function getModelSources(app, md, cur) {
     full_sources_list = full_sources_list.concat(all_nest_sources)
   }
   return collapseAll(full_sources_list)
-};
+}

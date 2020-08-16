@@ -1,7 +1,7 @@
 
-var spv = require('spv')
-var parse = require('./parse')
-var toMultiPath = require('./toMultiPath')
+import spv from 'spv'
+import parse from './parse'
+import toMultiPath from './toMultiPath'
 
 export default spv.memorize(function(string) {
   var nesting_source = parse(string)

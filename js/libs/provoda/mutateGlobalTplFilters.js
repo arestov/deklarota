@@ -1,5 +1,5 @@
 
-var angbo = require('angbo')
+import angbo from 'angbo'
 
 // angbo should be passed to App View Root as interface.
 // but we using singleton instance and mutating it
@@ -7,4 +7,4 @@ var angbo = require('angbo')
 
 export default function(fn) {
   angbo.getFilterFn = fn
-};
+}

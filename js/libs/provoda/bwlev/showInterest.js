@@ -1,6 +1,6 @@
 
-var _goDeeper = require('./_goDeeper')
-var showMOnMap = require('./showMOnMap')
+import _goDeeper from './_goDeeper'
+import showMOnMap from './showMOnMap'
 
 export default function showInterest(map, interest) {
   var BWL = map.app.CBWL
@@ -29,7 +29,7 @@ export default function showInterest(map, interest) {
   }
 
   return parent_bwlev
-};
+}
 
 function getDistantModel(md, distance) {
   var cur = md

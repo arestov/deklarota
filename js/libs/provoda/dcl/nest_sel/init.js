@@ -1,12 +1,11 @@
 
-var addRemove = require('../../nest-watch/add-remove')
+import addRemove from '../../nest-watch/add-remove'
 var addRootNestWatch = addRemove.addRootNestWatch
 
-var LocalWatchRoot = require('../../nest-watch/LocalWatchRoot')
-var addFrom = require('../../nest-watch/addFrom')
-var getStartModel = require('../../nest-watch/getStartModel')
-
-var NestSelector = require('./NestSelector')
+import LocalWatchRoot from '../../nest-watch/LocalWatchRoot'
+import addFrom from '../../nest-watch/addFrom'
+import getStartModel from '../../nest-watch/getStartModel'
+import NestSelector from './NestSelector'
 var Hands = NestSelector.Hands
 var addHead = NestSelector.addHead
 
@@ -51,4 +50,4 @@ export default function init(self) {
     addHead(self, hands, dest_w)
   }
 
-};
+}

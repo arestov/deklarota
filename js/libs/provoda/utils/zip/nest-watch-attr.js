@@ -1,6 +1,6 @@
 
-var spv = require('spv')
-var pvState = require('../state')
+import spv from 'spv'
+import pvState from '../state'
 
 var stateOf = spv.memorize(function(state_name) {
   return function(md) {

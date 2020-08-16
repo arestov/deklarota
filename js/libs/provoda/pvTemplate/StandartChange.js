@@ -1,7 +1,7 @@
 
 
-var spv = require('spv')
-var angbo = require('angbo')
+import spv from 'spv'
+import angbo from 'angbo'
 var splitByDot = spv.splitByDot
 
 var abortFlowStep = function(tpl, w_cache_key) {
