@@ -48,7 +48,7 @@ const doTest = async t => {
     {
       attrs: {
         level3ArrayNotEmpty: [
-          'compx',
+          'comp',
           ['<< @all:level1.level2.level3 <<'], list => list ? Boolean(list.length) : null,
         ],
       },

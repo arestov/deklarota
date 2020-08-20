@@ -57,18 +57,18 @@ export default spv.inh(Model, {
 }, {
   attrs: {
     'used_data_structure': [
-      'compx',
+      'comp',
       ['< used_data_structure <<< ^'],
     ],
     'full_url': [
-      'compx',
+      'comp',
       ['< @all:url_part < navigation.pioneer <<', '<< @all:navigation <<'],
       function(nil, list) {
         return list && joinNavURL(list)
       }
     ],
     'doc_title': [
-      'compx',
+      'comp',
       ['< @all:nav_title < navigation.pioneer <<'],
       function(list) {
         if (!list) {
@@ -83,11 +83,11 @@ export default spv.inh(Model, {
       }
     ],
     'current_song': [
-      'compx',
+      'comp',
       ['< @one:current_song < player <<'],
     ],
     resolved_navigation_desire: [
-      'compx',
+      'comp',
       ['resolved_navigation_desire', 'wantedReq', '< createdByReqIdResources <<< #'],
       function(currentValue, req, index) {
         if (!req) {

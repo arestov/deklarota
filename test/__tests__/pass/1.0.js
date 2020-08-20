@@ -67,7 +67,7 @@ const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({
   attrs: {
     desc: [
-      'compx',
+      'comp',
       [],
       () => `DeepChild${num}`,
     ],
@@ -110,7 +110,7 @@ test('simple state by pass1 && pass2 calculated', async t => {
           'nest', [[createDeepChild(1), createDeepChild(2)]],
         ],
         calculated_child: [
-          'compx',
+          'comp',
           ['number <<< #', 'nickname <<< ^', '<< @all:indie', '<< @all:list'],
           (num, nickname, indie_value, list) => {
             if (num === 100) {

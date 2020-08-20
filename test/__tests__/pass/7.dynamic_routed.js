@@ -43,7 +43,7 @@ test('change for dynamic routed resource calculated', async t => {
     const SubResource = mdl({
       attrs: {
         default_title: [
-          'compx',
+          'comp',
           [], () => 'some Data',
         ],
       },

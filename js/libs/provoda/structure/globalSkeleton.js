@@ -51,7 +51,7 @@ function addCompxNestForModel(global_skeleton, model) {
     return
   }
 
-  var compx_list = model._nest_by_type_listed.compx
+  var compx_list = model._nest_by_type_listed.comp
   if (compx_list == null) {
     return
   }

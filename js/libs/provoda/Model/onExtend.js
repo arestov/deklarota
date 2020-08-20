@@ -88,7 +88,7 @@ export default function(self, props, original, params) {
 
   checkSideeffects(self, props, typed_state_dcls, params)
 
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx'])
+  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
 

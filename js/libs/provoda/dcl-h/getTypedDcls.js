@@ -1,4 +1,11 @@
+const toType = (type, data) => {
+  if (type === 'compx') {
+    console.error(new Error('use "comp"'), data)
+    return 'comp'
+  }
 
+  return type
+}
 
 export default function getTypedDcls(props) {
   if (!props) {
@@ -18,8 +25,8 @@ export default function getTypedDcls(props) {
       continue
     }
 
-    var dcl_type = cur[0]
     var data = cur && cur.slice(1)
+    var dcl_type = toType(cur[0])
 
     if (!result[dcl_type]) {
       result[dcl_type] = {}

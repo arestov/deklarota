@@ -23,7 +23,7 @@ test('nestings updated', async t => {
   const Appartment = spv.inh(Model, {}, {
     attrs: {
       number: [
-        'compx',
+        'comp',
         [],
         () => 49588,
       ],
@@ -51,7 +51,7 @@ test('compx with nestings calculated', async t => {
     'nest-brother': [Brother],
     attrs: {
       richest: [
-        'compx',
+        'comp',
         ['@one:money:brother', 'money'],
         (broher_money, my_money) => broher_money < my_money,
       ],
@@ -79,7 +79,7 @@ test('state compx calculated from parent and root states', async t => {
   const DeepestChild = spv.inh(Model, {}, {
     attrs: {
       description_name: [
-        'compx',
+        'comp',
         ['#family_name', '^name', 'name'],
         (family_name, parent_name, name) => `${name} ${family_name}, son of ${parent_name}`,
       ],
@@ -132,7 +132,7 @@ test('nest compx calculated', async t => {
     const DeepChild = spv.inh(Model, {}, {
       attrs: {
         desc: [
-          'compx',
+          'comp',
           [],
           () => `DeepChild${num}`,
         ],
@@ -151,7 +151,7 @@ test('nest compx calculated', async t => {
         'nest', [[createDeepChild(1), createDeepChild(2)]],
       ],
       calculated_child: [
-        'compx',
+        'comp',
         ['number <<< #', 'nickname <<< ^', '<< @all:indie', '<< @all:list'],
         (num, nickname, indie_value, list) => {
           if (num === 100) {

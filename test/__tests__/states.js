@@ -23,7 +23,7 @@ test('simple compx calculated', async t => {
   const { app_model, steps } = await init({
     attrs: {
       full_name: [
-        'compx',
+        'comp',
         ['first_name', 'last_name'],
         (first_name, last_name) => {
           if (!first_name || !last_name) {
@@ -52,7 +52,7 @@ test('prechecked compx calculated', async t => {
   const { app_model, steps } = await init({
     attrs: {
       full_name: [
-        'compx',
+        'comp',
         ['&first_name', 'last_name'],
         (first_name, last_name) => {
           if (!first_name) { // function should never be runned with first_name == null

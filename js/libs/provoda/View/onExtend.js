@@ -65,7 +65,7 @@ export default function(self, props, original) {
 
   checkEffects(self, props, typed_state_dcls)
 
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx'])
+  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
   var base_tree_mofified = props.hasOwnProperty('base_tree')
