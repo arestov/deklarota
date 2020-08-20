@@ -41,7 +41,7 @@ test('state loaded', async t => {
 
     attrs: {
       someid: [
-        'compx',
+        'comp',
         [],
         function () {
           return 49588

@@ -45,7 +45,7 @@ test('simple pass by * calculated', async t => {
     const DeepChild = spv.inh(Model, {}, {
       attrs: {
         desc: [
-          'compx',
+          'comp',
           [],
           () => `DeepChild${num}`,
         ],

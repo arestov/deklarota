@@ -26,7 +26,7 @@
 'compx-'
 attrs: {
   'daa': [
-    'compx',
+    'comp',
     ['asd', 'asdf'],
     function (asd, asdf) {
 

@@ -129,11 +129,11 @@ var fromMultiPath = function(multi_path, as_string, original) {
   }
 
   if (multi_path.resource.path) {
-    throw new Error('dont use route: for attr.compx (runtime not implemented)')
+    throw new Error('dont use route: for attr.comp (runtime not implemented)')
   }
 
   if (multi_path.from_base.type && multi_path.nesting.path) {
-    throw new Error('dont use asc: and rel: for attr.compx (runtime not implemented)')
+    throw new Error('dont use asc: and rel: for attr.comp (runtime not implemented)')
   }
 
   if (multi_path.nesting.path && !multi_path.zip_name) {

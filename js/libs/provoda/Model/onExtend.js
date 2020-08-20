@@ -102,9 +102,9 @@ export default function(self, props, original, params) {
   checkEffects(self, props, typed_state_dcls)
   collectStateChangeHandlers(self, props)
 
-  parseCompItems(self, typed_state_dcls && typed_state_dcls['compx'])
+  parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
 
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx'])
+  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
 

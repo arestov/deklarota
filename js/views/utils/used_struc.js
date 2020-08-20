@@ -8,14 +8,14 @@ var bhv = {
   },
   attrs: {
     'view_path': [
-      'compx',
+      'comp',
       ['_provoda_id'],
       function() {
         return getViewPath(this).join('.')
       }
     ],
     'used_struc': [
-      'compx',
+      'comp',
       ['< view_structure <<< #', 'view_path'],
       function(view_structure, view_path) {
         if (!view_structure || !view_path) {

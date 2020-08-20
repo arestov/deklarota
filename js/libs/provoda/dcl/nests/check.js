@@ -33,6 +33,10 @@ var parse = function(name, data) {
       return new NestSelector(name, data[1])
     }
     case 'compx': {
+      console.error(new Error('use "comp"'), data)
+      return new NestCompx(name, data)
+    }
+    case 'comp': {
       return new NestCompx(name, data)
     }
     case 'model': {

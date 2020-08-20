@@ -87,3 +87,5 @@
 - removed legacy `nest-*`
 
 - deprecated object structure for attr.comp ({depends_on: ...})
+
+- 'compx' -> 'comp'

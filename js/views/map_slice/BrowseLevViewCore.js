@@ -9,7 +9,7 @@ var used_struc_bhv = used_str.bhv
 var BrowseLevView = spv.inh(View, {}, mergeBhv({
   attrs: {
     'mp_show_end': [
-      'compx',
+      'comp',
       ['animation_started', 'animation_completed', 'vmp_show'],
       function(animation_started, animation_completed, vmp_show) {
         if (!animation_started) {
@@ -24,14 +24,14 @@ var BrowseLevView = spv.inh(View, {}, mergeBhv({
       }
     ],
     'full_focus': [
-      'compx',
+      'comp',
       ['mp_show', 'mp_has_focus'],
       function(a, b) {
         return a && b
       }
     ],
     'sources_of_item_details': [
-      'compx',
+      'comp',
       ['sources_of_item_details_by_space'],
       function(obj) {
         var nesting_space = this.nesting_space
@@ -39,7 +39,7 @@ var BrowseLevView = spv.inh(View, {}, mergeBhv({
       }
     ],
     'map_slice_view_sources':[
-      'compx',
+      'comp',
       ['source_of_item', 'sources_of_item_details'],
       function(one, all) {
         if (!all) {

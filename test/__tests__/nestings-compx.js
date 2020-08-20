@@ -22,7 +22,7 @@ const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({
   attrs: {
     desc: [
-      'compx',
+      'comp',
       [],
       () => `DeepChild${num}`,
     ],
@@ -53,7 +53,7 @@ test('compx-nests', async t => {
     const target_child = mdl({
       rels: {
         calculated_child: [
-          'compx',
+          'comp',
           [
             'number <<< #', 'nickname <<< ^',
             '<< @one:indie', '<< @all:indie', '< @all:desc < indie',
