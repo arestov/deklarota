@@ -8,6 +8,7 @@ var toSchemaFn = utils.toSchemaFn
 
 export default function StateReqMap(num, req_item) {
   this.num = num
+  this.state_dep = '__$can_load_req_map_' + num
   this.dependencies = null
   this.send_declr = null
   this.states_list = null
