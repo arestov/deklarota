@@ -73,6 +73,15 @@ var checkNests = function(self, props) {
 
 export default function(self, props, original, params) {
   self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
+  self.__dcls_rels = copyProps(original.__dcls_rels, props['rels'])
+  self.__dcls_routes = copyProps(original.__dcls_routes, props['routes'])
+  self.__dcls_actions = copyProps(original.__dcls_actions, props['actions'])
+
+  var effects = props['effects']
+  self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
+  self.__dcls_effects_consume = copyProps(original.__dcls_effects_consume, effects && effects['consume'])
+  self.__dcls_effects_produce = copyProps(original.__dcls_effects_produce, effects && effects['produce'])
+
 
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 

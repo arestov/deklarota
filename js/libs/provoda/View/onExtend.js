@@ -50,7 +50,25 @@ var getBaseTreeCheckList = function(start) {
 
 }
 
+var copyProps = function(original_props_raw, extending_values) {
+  if (!extending_values) {
+    return original_props_raw
+  }
+
+  var original_props = original_props_raw || {}
+  var result = spv.cloneObj({}, original_props)
+  return spv.cloneObj(result, extending_values)
+}
+
 export default function(self, props, original) {
+  self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
+
+  var effects = props['effects']
+  self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
+  self.__dcls_effects_consume = copyProps(original.__dcls_effects_consume, effects && effects['consume'])
+  self.__dcls_effects_produce = copyProps(original.__dcls_effects_produce, effects && effects['produce'])
+
+
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
   checkNestBorrow(self, props)
