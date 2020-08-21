@@ -76,7 +76,7 @@ export default function(self, props, original) {
   checkSpyglass(self, props)
 
 
-  collectStateChangeHandlers(self, props, typed_state_dcls)
+  collectStateChangeHandlers(self, props)
   collectCollectionChangeDeclarations(self, props)
 
   collectSelectorsOfCollchs(self, props)

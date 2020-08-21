@@ -39,8 +39,8 @@ var warnV2Bad = function() {
 
 var checkSideeffects = function(self, props, typed_state_dcls, params) {
 
-  collectStateChangeHandlers(self, props, typed_state_dcls)
   checkEffects(self, props, typed_state_dcls)
+  collectStateChangeHandlers(self, props)
 
   var init = params && params.init || props.init
   if (init) {
