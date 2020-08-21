@@ -27,25 +27,6 @@ var copyProps = function(original_props_raw, extending_values) {
   return spv.cloneObj(result, extending_values)
 }
 
-var updateStatesDcls = function(self, props, original) {
-  if (!props['attrs']) {
-    return
-  }
-
-  self.__states_dcls = copyProps(original.__states_dcls, props['attrs'])
-
-  /*
-  {
-    attrs: {
-      full_name: null
-    }
-  }
-
-  should remove cache for `full_name` (compx, effect, ect)
-
-  */
-}
-
 var check = /initStates/gi
 
 var warnV2Bad = function() {
@@ -91,7 +72,8 @@ var checkNests = function(self, props) {
 }
 
 export default function(self, props, original, params) {
-  updateStatesDcls(self, props, original)
+  self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
+
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
   checkSideeffects(self, props, typed_state_dcls, params)
