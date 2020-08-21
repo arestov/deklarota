@@ -37,9 +37,8 @@ var warnV2Bad = function() {
   console.warn('handling_v2_init = false')
 }
 
-var checkSideeffects = function(self, props, typed_state_dcls, params) {
+var checkSideeffects = function(self, props, params) {
 
-  checkEffects(self, props, typed_state_dcls)
   collectStateChangeHandlers(self, props)
 
   var init = params && params.init || props.init
@@ -85,7 +84,9 @@ export default function(self, props, original, params) {
 
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
-  checkSideeffects(self, props, typed_state_dcls, params)
+  checkSideeffects(self, props, params)
+  checkEffects(self, props, typed_state_dcls)
+
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
