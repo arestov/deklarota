@@ -17,14 +17,22 @@ import checkEffects from '../dcl/effects/check'
 import checkNest from '../dcl/nest/check'
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 
+var copyProps = function(original_props_raw, extending_values) {
+  if (!extending_values) {
+    return original_props_raw
+  }
+
+  var original_props = original_props_raw || {}
+  var result = spv.cloneObj({}, original_props)
+  return spv.cloneObj(result, extending_values)
+}
+
 var updateStatesDcls = function(self, props, original) {
   if (!props['attrs']) {
     return
   }
-  var original_ext = original.__states_dcls || {}
-  var __states_dcls = spv.cloneObj({}, original_ext)
-  __states_dcls = spv.cloneObj(__states_dcls, props['attrs'])
-  self.__states_dcls = __states_dcls
+
+  self.__states_dcls = copyProps(original.__states_dcls, props['attrs'])
 
   /*
   {
