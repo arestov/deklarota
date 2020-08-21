@@ -39,8 +39,6 @@ var warnV2Bad = function() {
 
 var checkSideeffects = function(self, props, params) {
 
-  collectStateChangeHandlers(self, props)
-
   var init = params && params.init || props.init
   if (init) {
     // 1 == self, 2 == opts, 3 == data, 4 == params, 5 == more, 6 == states
@@ -84,8 +82,8 @@ export default function(self, props, original, params) {
 
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
-  checkSideeffects(self, props, params)
   checkEffects(self, props, typed_state_dcls)
+  collectStateChangeHandlers(self, props)
 
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx'])
@@ -102,6 +100,10 @@ export default function(self, props, original, params) {
 
 
   checkChi(self, props)
+
+
+
+  checkSideeffects(self, props, params)
 
   if (props.default_states) {
     console.warn(
