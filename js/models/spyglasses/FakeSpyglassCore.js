@@ -16,7 +16,7 @@ import animateMapChanges from '../../libs/provoda/dcl/probe/animateMapChanges'
 
 export default spv.inh(Model, {
   naming: function(fn) {
-    return function FakeSpyglassCore(opts, data, params, more, states) {
+    return function Router(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
     }
   },
