@@ -64,12 +64,6 @@ var checkSideeffects = function(self, props, params) {
   }
 }
 
-var checkNests = function(self, props) {
-
-  checkNest(self, props)
-  checkModernNests(self, props)
-}
-
 export default function(self, props, original, params) {
   self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
   self.__dcls_rels = copyProps(original.__dcls_rels, props['rels'])
@@ -96,7 +90,7 @@ export default function(self, props, original, params) {
   checkSubpager(self, props)
   checkRoutes(self, props)
 
-  checkNests(self, props)
+  checkModernNests(self, props)
 
   checkPasses(self, props)
 
@@ -109,6 +103,7 @@ export default function(self, props, original, params) {
   checkNestRqC(self, props)
   checkNestSel(self, props)
   checkNestCnt(self, props)
+  checkNest(self, props)
 
   checkSideeffects(self, props, params)
 
