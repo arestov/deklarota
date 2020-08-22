@@ -5,16 +5,20 @@ import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../StatesEmitter/collectCompxs'
 import buildInputAttrs from '../dcl/attrs/input/build'
 import checkChi from '../StatesEmitter/checkChi'
+
 import checkNestRqC from '../dcl/nest_model/check'
 import checkNestSel from '../dcl/nest_sel/check'
 import checkNestCnt from '../dcl/nest_conj/check'
+
 import checkModernNests from '../dcl/nests/check'
 import checkPasses from '../dcl/passes/check'
 import checkRoutes from '../dcl/routes/check'
 import checkSubpager from '../dcl/sub_pager/check'
 import collectSubpages from '../dcl/sub_pager/collectSubpages'
 import checkEffects from '../dcl/effects/check'
+
 import checkNest from '../dcl/nest/check'
+
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 
 var copyProps = function(original_props_raw, extending_values) {
@@ -61,9 +65,7 @@ var checkSideeffects = function(self, props, params) {
 }
 
 var checkNests = function(self, props) {
-  checkNestRqC(self, props)
-  checkNestSel(self, props)
-  checkNestCnt(self, props)
+
   checkNest(self, props)
   checkModernNests(self, props)
 }
@@ -102,6 +104,11 @@ export default function(self, props, original, params) {
   checkChi(self, props)
 
 
+  /** LEGACY CHEKS **/
+
+  checkNestRqC(self, props)
+  checkNestSel(self, props)
+  checkNestCnt(self, props)
 
   checkSideeffects(self, props, params)
 
