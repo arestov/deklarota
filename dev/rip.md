@@ -79,3 +79,5 @@
 - coct, etc_views, map_slice/pages, CurrentSongView, createNiceButton
 
 - getLFMImageWrap
+
+- removed sub_page-* (use sub_page: {})
