@@ -19,7 +19,7 @@ var countKeys = spv.countKeys
 var cloneObj = spv.cloneObj
 
 var transportName = function(spyglass_name) {
-  return 'spyglass__' + spyglass_name.replace('/', '__')
+  return 'router__' + spyglass_name.replace('/', '__')
 }
 
 var warnStruct = function() {

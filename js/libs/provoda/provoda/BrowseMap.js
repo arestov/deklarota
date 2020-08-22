@@ -201,7 +201,7 @@ function hookRoot(rootmd, start_page, states) {
     if (states) {
       bwlev_root.updateManyStates(states)
     }
-    getSPByPathTemplate(bwlev_root.app, bwlev_root, 'spyglass-navigation')
+    getSPByPathTemplate(bwlev_root.app, bwlev_root, 'router-navigation')
   })
 
   return bwlev_root
