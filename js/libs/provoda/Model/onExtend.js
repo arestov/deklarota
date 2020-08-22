@@ -44,23 +44,25 @@ var warnV2Bad = function() {
 var checkSideeffects = function(self, props, params) {
 
   var init = params && params.init || props.init
-  if (init) {
-    // 1 == self, 2 == opts, 3 == data, 4 == params, 5 == more, 6 == states
+  if (!init) {
+    return
+  }
 
-    if (self.net_head || (init.length > 2 && !self.hasOwnProperty('handling_v2_init'))) {
-      // `handling_v2_init` is mark for invoker that it can pass new structure to Constr
-      // means that init fn can handle both legacy and v2 structure
-      self.handling_v2_init = false
+  // 1 == self, 2 == opts, 3 == data, 4 == params, 5 == more, 6 == states
 
-      warnV2Bad()
-    }
+  if (self.net_head || (init.length > 2 && !self.hasOwnProperty('handling_v2_init'))) {
+    // `handling_v2_init` is mark for invoker that it can pass new structure to Constr
+    // means that init fn can handle both legacy and v2 structure
+    self.handling_v2_init = false
 
-    if (init.length > 2 && !self.hasOwnProperty('network_data_as_states')) {
-      self.network_data_as_states = false
-    }
-    if (self.toString().search(check) != -1) {
-      self.manual_states_init = true
-    }
+    warnV2Bad()
+  }
+
+  if (init.length > 2 && !self.hasOwnProperty('network_data_as_states')) {
+    self.network_data_as_states = false
+  }
+  if (self.toString().search(check) != -1) {
+    self.manual_states_init = true
   }
 }
 
