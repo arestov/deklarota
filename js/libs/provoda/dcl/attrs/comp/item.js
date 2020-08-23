@@ -19,14 +19,6 @@ var identical = function(state) {
 }
 
 
-var fromArray = function(state_name, cur) {
-  return {
-    depends_on: cur[0] || [],
-    fn: cur[1],
-    name: state_name,
-    watch_list: null
-  }
-}
 
 var toAddr = function(state_name) {
   var result1 = getParsedState(state_name)
@@ -66,12 +58,23 @@ var toParsedDeps = function(array) {
   return {fixed_deps: result, require_marks: require_marks}
 }
 
+var emptyList = []
+
 var CompxAttrDecl = function(comlx_name, cur) {
   if (!Array.isArray(cur)) {
     throw new Error('don\'t use object structure of dep')
   }
-  var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur
-  var raw_depends_on = item.depends_on
+
+  var depends_on = cur[0] || emptyList
+  var fn = cur[1]
+
+  if (!depends_on.length && typeof fn !== 'function') {
+    throw new Error('use attr "input" to define default values')
+  }
+
+  this.fn = fn || identical
+
+  var raw_depends_on = depends_on
 
   if (!Array.isArray(raw_depends_on)) {
     throw new Error('should be list')
@@ -84,12 +87,6 @@ var CompxAttrDecl = function(comlx_name, cur) {
   this.require_marks = parsed.require_marks
 
   this.name = comlx_name
-
-  if (!this.depends_on.length && typeof item.fn !== 'function') {
-    throw new Error('use attr "input" to define default values')
-  }
-
-  this.fn = item.fn || identical
 
   if (!Array.isArray(this.depends_on)) {
     throw new Error('should be list: ' + this.depends_on)
