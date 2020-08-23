@@ -9,10 +9,9 @@ var simpleClone = function simpleClone(_no, donor) {
   return _no
 }
 
-var doClone = Object.assign ? function cloneObj(_no, donor) {
-  return Object.assign(_no, donor)
+export const doCopy = Object.assign ? function cloneObj(_no, donor) {
+  return Object.assign(_no == null ? {} : _no, donor)
 } : simpleClone
-
 
 export default function blockingCloneObj(acceptor, donor, black_list, white_list) {
   //not deep!
