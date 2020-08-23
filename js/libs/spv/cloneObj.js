@@ -17,20 +17,20 @@ var doClone = Object.assign ? function cloneObj(_no, donor) {
 export default function blockingCloneObj(acceptor, donor, black_list, white_list) {
   //not deep!
   var _no = acceptor || {}
+  if (black_list == null && white_list == null) {
+    return doCopy(_no, donor)
+  }
   var prop
-  if (black_list || white_list) {
-    for(prop in donor) {
-      if (!donor.hasOwnProperty(prop)) {
-        continue
-      }
-      if (!white_list || !!~white_list.indexOf(prop)) {
-        if (!black_list || !~black_list.indexOf(prop)) {
-          _no[prop] = donor[prop]
-        }
+
+  for (prop in donor) {
+    if (!donor.hasOwnProperty(prop)) {
+      continue
+    }
+    if (!white_list || !!~white_list.indexOf(prop)) {
+      if (!black_list || !~black_list.indexOf(prop)) {
+        _no[prop] = donor[prop]
       }
     }
-    return _no
-  } else {
-    return doClone(_no, donor)
   }
+  return _no
 };
