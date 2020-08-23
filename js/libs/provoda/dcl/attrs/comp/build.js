@@ -1,4 +1,4 @@
-import spv from '../../../../spv'
+import { doCopy } from '../../../../spv/cloneObj'
 import groupDeps from '../../../utils/groupDeps'
 import getEncodedState from '../../../utils/getEncodedState'
 import getShortStateName from '../../../utils/getShortStateName'
@@ -8,7 +8,6 @@ import fromLegacy from '../../../utils/multiPath/fromLegacy'
 import parse from '../../../utils/multiPath/parse'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
 
-var cloneObj = spv.cloneObj
 
 var isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
@@ -155,7 +154,7 @@ var makeWatchIndex = function(full_comlxs_list) {
 }
 
 var extendTyped = function(self, typed_state_dcls) {
-  var result = cloneObj(null, self._dcl_cache__compx) || {}
+  var result = doCopy(null, self._dcl_cache__compx) || {}
 
   var extending_part = {}
 
@@ -166,7 +165,7 @@ var extendTyped = function(self, typed_state_dcls) {
     extending_part[name] = new CompxAttrDecl(name, typed_state_dcls[name])
   }
 
-  result = cloneObj(result, extending_part)
+  result = doCopy(result, extending_part)
 
   self._dcl_cache__compx = result
 }
