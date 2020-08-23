@@ -4,7 +4,6 @@ import getEncodedState from '../../../utils/getEncodedState'
 import asString from '../../../utils/multiPath/asString'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
 import isJustAttrAddr from './isJustAttrAddr'
-import CompxAttrDecl from './item'
 
 
 
@@ -45,16 +44,7 @@ var makeWatchIndex = function(full_comlxs_list) {
 var extendTyped = function(self, typed_state_dcls) {
   var result = doCopy(null, self._dcl_cache__compx) || {}
 
-  var extending_part = {}
-
-  for (var name in typed_state_dcls) {
-    if (!typed_state_dcls.hasOwnProperty(name)) {
-      continue
-    }
-    extending_part[name] = new CompxAttrDecl(name, typed_state_dcls[name])
-  }
-
-  result = doCopy(result, extending_part)
+  result = doCopy(result, typed_state_dcls)
 
   self._dcl_cache__compx = result
 }

@@ -3,6 +3,7 @@
 import spv from '../../spv'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
+import parseCompItems from '../dcl/attrs/comp/parseItems'
 import buildInputAttrs from '../dcl/attrs/input/build'
 import checkChi from '../StatesEmitter/checkChi'
 
@@ -101,6 +102,7 @@ export default function(self, props, original, params) {
   checkEffects(self, props, typed_state_dcls)
   collectStateChangeHandlers(self, props)
 
+  parseCompItems(self, typed_state_dcls && typed_state_dcls['compx'])
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
