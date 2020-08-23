@@ -190,7 +190,7 @@ export default function(self, props, typed_part) {
 }
 
 function uniqExternalDeps(full_comlxs_list) {
-  var uniq = spv.set.create()
+  var uniq = new Map()
 
   for (var i = 0; i < full_comlxs_list.length; i++) {
     var cur = full_comlxs_list[i]
@@ -200,11 +200,17 @@ function uniqExternalDeps(full_comlxs_list) {
         continue
       }
 
-      spv.set.add(uniq, asString(addr), addr)
+      const key = asString(addr)
+
+      if (uniq.has(key)) {
+        continue
+      }
+
+      uniq.set(key, addr)
     }
   }
 
-  return uniq.list
+  return [...uniq.values()]
 }
 
 function collectStatesConnectionsProps(self, full_comlxs_list) {
