@@ -65,22 +65,21 @@ var CompxAttrDecl = function(comlx_name, cur) {
     throw new Error('don\'t use object structure of dep')
   }
 
-  var depends_on = cur[0] || emptyList
+  var deps_list = cur[0] || emptyList
   var fn = cur[1]
 
-  if (!depends_on.length && typeof fn !== 'function') {
+  if (!deps_list.length && typeof fn !== 'function') {
     throw new Error('use attr "input" to define default values')
   }
 
   this.fn = fn || identical
 
-  var raw_depends_on = depends_on
 
-  if (!Array.isArray(raw_depends_on)) {
+  if (!Array.isArray(deps_list)) {
     throw new Error('should be list')
   }
 
-  var parsed = toParsedDeps(raw_depends_on)
+  var parsed = toParsedDeps(deps_list)
 
   this.addrs = parsed.fixed_deps
   this.depends_on = parsed.fixed_deps.map(shortStringWhenPossible)
