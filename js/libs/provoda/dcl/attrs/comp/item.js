@@ -88,10 +88,6 @@ var CompxAttrDecl = function(comlx_name, cur) {
 
   this.name = comlx_name
 
-  if (!Array.isArray(this.depends_on)) {
-    throw new Error('should be list: ' + this.depends_on)
-  }
-
   this.watch_list = new Array(this.depends_on.length || 0)
 
   for (var i = 0; i < this.depends_on.length; i++) {
