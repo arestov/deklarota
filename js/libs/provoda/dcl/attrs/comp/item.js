@@ -67,6 +67,9 @@ var toParsedDeps = function(array) {
 }
 
 var CompxAttrDecl = function(comlx_name, cur) {
+  if (!Array.isArray(cur)) {
+    throw new Error('don\'t use object structure of dep')
+  }
   var item = cur instanceof Array ? fromArray(comlx_name, cur) : cur
   var raw_depends_on = item.depends_on
 
