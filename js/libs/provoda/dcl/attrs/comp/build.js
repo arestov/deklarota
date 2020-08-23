@@ -1,14 +1,13 @@
+import spv from '../../../../spv'
+import groupDeps from '../../../utils/groupDeps'
+import getEncodedState from '../../../utils/getEncodedState'
+import getShortStateName from '../../../utils/getShortStateName'
+import getParsedState from '../../../utils/getParsedState'
+import asString from '../../../utils/multiPath/asString'
+import fromLegacy from '../../../utils/multiPath/fromLegacy'
+import parse from '../../../utils/multiPath/parse'
+import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
 
-
-import spv from '../../spv'
-import groupDeps from '../utils/groupDeps'
-import getEncodedState from '../utils/getEncodedState'
-import getShortStateName from '../utils/getShortStateName'
-import getParsedState from '../utils/getParsedState'
-import asString from '../utils/multiPath/asString'
-import fromLegacy from '../utils/multiPath/fromLegacy'
-import parse from '../utils/multiPath/parse'
-import mentionsSupportedAddr from '../Model/mentions/supportedAttrTargetAddr'
 var cloneObj = spv.cloneObj
 
 var isJustAttrAddr = function(addr) {

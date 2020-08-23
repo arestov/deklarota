@@ -2,7 +2,7 @@
 import spv from '../../spv'
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
-import collectCompxs from '../StatesEmitter/collectCompxs'
+import collectCompxs from '../dcl/attrs/comp/build'
 import buildInputAttrs from '../dcl/attrs/input/build'
 import checkEffects from '../dcl/effects/check'
 import collectSelectorsOfCollchs from '../dcl_view/collectSelectorsOfCollchs'
