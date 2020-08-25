@@ -49,7 +49,7 @@ function ensureSpyglass(self, index, key, request) {
 
   var path = request.name + ((key && key !== request.name) ? ('/' + key) : '')
 
-  var spyglass = getSPByPathTemplate(self.app, self, 'spyglass-' + path)
+  var spyglass = getSPByPathTemplate(self.app, self, 'router-' + path)
 
   var new_index = spv.cloneObj({}, index)
 

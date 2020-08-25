@@ -1,5 +1,6 @@
 
 
+import assign from '../utils/assign'
 import changeSources from '../utils/changeSources'
 
 var doIndex = function(list, value) {
@@ -16,7 +17,7 @@ var doIndex = function(list, value) {
 }
 
 
-export default function buildStateReqs(self, list) {
+export default function buildStateReqs(self, list, typed_state_dcls) {
   self._states_reqs_index = {}
   self._states_reqs_list = list
   var states_index = {}
@@ -39,5 +40,9 @@ export default function buildStateReqs(self, list) {
 
   for (var i = 0; i < list.length; i++) {
     changeSources(self.netsources_of_states, list[i].send_declr)
+
+    // copy dependencies to comp, so runtime will subscribe to nonlocal changes
+    // (todo: subscribe to nonlocal deps without mutating comp)
+    assign(typed_state_dcls, list[i])
   }
 }

@@ -13,10 +13,18 @@ import buildModel from '../nest_model/build'
 var cloneObj = spv.cloneObj
 
 var parse = function(name, data) {
+  if (!data) {
+    // allow to erase item
+    return null
+  }
   var type = data[0]
   switch (type) {
     case 'nest': {
-      return new NestDcl(name, data[1])
+      if (!data[1]) {
+        // allow to erase legacy internal cache
+        return null
+      }
+      return data[1] && new NestDcl(name, data[1])
     }
     case 'conj': {
       return new NestCntDeclr(name, data[1])
@@ -25,6 +33,10 @@ var parse = function(name, data) {
       return new NestSelector(name, data[1])
     }
     case 'compx': {
+      console.error(new Error('use "comp"'), data)
+      return new NestCompx(name, data)
+    }
+    case 'comp': {
       return new NestCompx(name, data)
     }
     case 'model': {

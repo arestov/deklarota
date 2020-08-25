@@ -2,7 +2,9 @@
 import spv from '../../spv'
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
-import collectCompxs from '../StatesEmitter/collectCompxs'
+import collectCompxs from '../dcl/attrs/comp/build'
+import parseCompItems from '../dcl/attrs/comp/parseItems'
+
 import buildInputAttrs from '../dcl/attrs/input/build'
 import checkEffects from '../dcl/effects/check'
 import collectSelectorsOfCollchs from '../dcl_view/collectSelectorsOfCollchs'
@@ -50,7 +52,25 @@ var getBaseTreeCheckList = function(start) {
 
 }
 
+var copyProps = function(original_props_raw, extending_values) {
+  if (!extending_values) {
+    return original_props_raw
+  }
+
+  var original_props = original_props_raw || {}
+  var result = spv.cloneObj({}, original_props)
+  return spv.cloneObj(result, extending_values)
+}
+
 export default function(self, props, original) {
+  self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
+
+  var effects = props['effects']
+  self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
+  self.__dcls_effects_consume = copyProps(original.__dcls_effects_consume, effects && effects['consume'])
+  self.__dcls_effects_produce = copyProps(original.__dcls_effects_produce, effects && effects['produce'])
+
+
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
   checkNestBorrow(self, props)
@@ -58,14 +78,15 @@ export default function(self, props, original) {
   checkSpyglass(self, props)
 
 
-  collectStateChangeHandlers(self, props, typed_state_dcls)
+  collectStateChangeHandlers(self, props)
   collectCollectionChangeDeclarations(self, props)
 
   collectSelectorsOfCollchs(self, props)
 
   checkEffects(self, props, typed_state_dcls)
 
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['compx'])
+  parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
+  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
   var base_tree_mofified = props.hasOwnProperty('base_tree')

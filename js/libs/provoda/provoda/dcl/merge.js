@@ -34,6 +34,16 @@ function addNotEmptyProp(target, name, value) {
   return target
 }
 
+function copyEffects(target_api, target_consume, target_produce, source) {
+  if (!source) {
+    return
+  }
+
+  softMerge(target_api, source.api)
+  softMerge(target_consume, source.consume)
+  softMerge(target_produce, source.produce)
+}
+
 export default function() {
   var args = Array.prototype.slice.call(arguments)
   var result = {}
@@ -62,11 +72,7 @@ export default function() {
     softMerge(actions, cur.actions)
     softMerge(routes, cur.routes)
 
-    var cur_effects = cur.effects || {}
-    softMerge(effects_api, cur_effects.api)
-    softMerge(effects_consume, cur_effects.consume)
-    softMerge(effects_produce, cur_effects.produce)
-
+    copyEffects(effects_api, effects_consume, effects_produce, cur.effects)
   }
 
 

@@ -43,7 +43,7 @@ const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({
   attrs: {
     desc: [
-      'compx',
+      'comp',
       [],
       () => `DeepChild${num}`,
     ],

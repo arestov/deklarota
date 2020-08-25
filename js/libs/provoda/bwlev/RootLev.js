@@ -21,7 +21,7 @@ var RootLev = spv.inh(Model, {
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
       var md = getModelById(this, id)
-      var bwlev = showMOnMap(this.app.CBWL, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), md)
+      var bwlev = showMOnMap(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), md)
       bwlev.showOnMap()
     },
     followURL: function(from_id, url) {
@@ -30,7 +30,7 @@ var RootLev = spv.inh(Model, {
 
       var target_md = getSPByPathTemplate(this.app, md, url)
 
-      var bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, target_md)
+      var bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, target_md)
       bwlev.showOnMap()
       return bwlev
     },
@@ -42,7 +42,7 @@ var RootLev = spv.inh(Model, {
 
       var from_bwlev = getModelById(this, from_id)
 
-      var bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'spyglass-navigation'), from_bwlev, md)
+      var bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, md)
       bwlev.showOnMap()
       return bwlev
     },
@@ -56,8 +56,8 @@ var RootLev = spv.inh(Model, {
     },
     navShowByReq: function(req, router_name_arg) {
       var router_name = router_name_arg
-        ? ('spyglass-' + router_name_arg)
-        : 'spyglass-navigation'
+        ? ('router-' + router_name_arg)
+        : 'router-navigation'
 
       var remember_context = !req || req.remember_context !== false
 

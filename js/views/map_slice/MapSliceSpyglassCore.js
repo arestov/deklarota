@@ -461,7 +461,7 @@ export default spv.inh(View, {
   }),
   attrs: {
     'map_animating': [
-      'compx',
+      'comp',
       ['map_animation_num_started', 'map_animation_num_completed'],
       function(started_num, completed_num) {
         return typeof started_num == 'number' && started_num != completed_num

@@ -79,3 +79,13 @@
 - coct, etc_views, map_slice/pages, CurrentSongView, createNiceButton
 
 - getLFMImageWrap
+
+- removed sub_page-* (use sub_page: {})
+
+- removed legacy `nest_compx-*`, `nest_conj-*`, `nest_rqc-*`, `nest_sel-*`
+
+- removed legacy `nest-*`
+
+- deprecated object structure for attr.comp ({depends_on: ...})
+
+- 'compx' -> 'comp'

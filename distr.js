@@ -32,6 +32,7 @@ const build = ({
       'js/libs/provoda/provoda/dcl/attrs/input.js',
       'js/libs/FuncsQueue',
       'js/models/spyglasses/FakeSpyglassCore',
+      'js/models/Router',
 
       'js/utils/init.js',
       'js/utils/initApp.js',

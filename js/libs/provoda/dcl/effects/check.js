@@ -109,7 +109,7 @@ var notEqual = function(one, two) {
 var rebuildType = function(self, type, result, list, typed_state_dcls) {
   switch (type) {
     case 'consume-state_request': {
-      buildStateReqs(self, list)
+      buildStateReqs(self, list, typed_state_dcls)
       return
     }
     case 'consume-nest_request': {

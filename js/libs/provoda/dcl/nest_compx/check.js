@@ -1,6 +1,6 @@
 
 import checkPrefix from '../../StatesEmitter/checkPrefix'
-import Item from './item'
+import depricateItem from '../depricateItem'
 
-var check = checkPrefix('nest_compx-', Item, '_chi_nest_compx')
+var check = checkPrefix('nest_compx-', depricateItem('use rels.comp'), '_chi_nest_compx')
 export default check

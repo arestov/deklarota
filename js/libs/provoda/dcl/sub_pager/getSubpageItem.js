@@ -51,7 +51,7 @@ export default function getSubpageItem(cur, key, byType, name, prefix) {
       }, {
         attrs: {
           nav_title: [
-            'compx'
+            'comp'
           ].concat(cur[1])
         }
       }) : cur[0]
@@ -74,10 +74,10 @@ export default function getSubpageItem(cur, key, byType, name, prefix) {
 
     var extend = {}
     if (cur.title && cur.title[0].length) {
-      extend['nav_title'] = ['compx'].concat(cur.title)
+      extend['nav_title'] = ['comp'].concat(cur.title)
     }
     if (cur.reusable) {
-      extend['$$reusable_url'] = ['compx'].concat(cur.reusable)
+      extend['$$reusable_url'] = ['comp'].concat(cur.reusable)
     }
 
     item = subPageHeaded(spv.inh(cur.constr, {

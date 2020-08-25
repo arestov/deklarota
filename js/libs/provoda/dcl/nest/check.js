@@ -1,7 +1,10 @@
 
 import spv from '../../../spv'
 import getPropsPrefixChecker from '../../utils/getPropsPrefixChecker'
-import NestDcl from './item'
+import depricateItem from '../depricateItem'
+
+const Item = depricateItem('use rels.nest')
+
 var getUnprefixed = spv.getDeprefixFunc('nest-')
 var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
@@ -28,7 +31,7 @@ export default function(self, props) {
         var cur = self[prop]
 
         used_props[real_name] = true
-        result[real_name] = cur ? new NestDcl(real_name, cur) : null
+        result[real_name] = cur ? new Item(real_name, cur) : null
       }
     }
   }
@@ -40,7 +43,7 @@ export default function(self, props) {
       }
       var cur = self.nest[real_name]
       used_props[real_name] = true
-      result[real_name] = new NestDcl(real_name, cur)
+      result[real_name] = new Item(real_name, cur)
     }
   }
   self._legacy_nest_dcl = result

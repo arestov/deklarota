@@ -8,13 +8,13 @@ export default function(self) {
   self.__nest_calculations = empty // show js engine real type
   self.__nest_calculations = null
 
-  if (!self._nest_by_type_listed || !self._nest_by_type_listed.compx) {
+  if (!self._nest_by_type_listed || !self._nest_by_type_listed.comp) {
     return
   }
 
   self.__nest_calculations = {}
 
-  var compx_list = self._nest_by_type_listed.compx
+  var compx_list = self._nest_by_type_listed.comp
 
   for (var i = 0; i < compx_list.length; i++) {
     var cur = compx_list[i]

@@ -33,7 +33,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   handling_v2_init: true,
   attrs: {
     '$needs_load': [
-      'compx',
+      'comp',
       ['more_load_available', 'mp_has_focus'],
       function(can_more, focus) {
         return Boolean(focus && can_more)
@@ -41,7 +41,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     ],
 
     'list_loading': [
-      'compx',
+      'comp',
       ['main_list_loading', 'preview_loading', 'id_searching'],
       function(main_list_loading, prevw_loading, id_searching) {
         return main_list_loading || prevw_loading || id_searching
@@ -49,7 +49,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     ],
 
     'can_load_data': [
-      'compx',
+      'comp',
       ['has_data_loader', 'loader_disallowed', 'has_no_access'],
       function(has_data_loader, loader_disallowed, has_no_access) {
         return has_data_loader && !loader_disallowed && !has_no_access
@@ -57,7 +57,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     ],
 
     'can_load_more': [
-      'compx',
+      'comp',
       ['can_load_data', 'all_data_loaded'],
       function(can_load_data, all_data_loaded) {
         return can_load_data && !all_data_loaded
@@ -65,7 +65,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     ],
 
     'more_load_available': [
-      'compx',
+      'comp',
       ['can_load_more', 'list_loading'],
       function(can_load_more, list_loading) {
         return can_load_more && !list_loading

@@ -14,7 +14,7 @@ var enc_states = {
 
     var parent_count_regexp = /^\^+/gi
 
-    return function parent(string) {
+    return function parent(string, nil_allowed) {
       //example: '^visible'
 
       var state_name = string.replace(parent_count_regexp, '')
@@ -26,10 +26,11 @@ var enc_states = {
         full_state_name: state_name,
         base_state_name: state_name && splitByDot(state_name)[0],
         ancestors: count,
+        nil_allowed: nil_allowed !== false
       }
     }
   })(),
-  '@': function nesting(string) {
+  '@': function nesting(string, nil_allowed) {
     // nesting
 
     //example:  '@some:complete:list'
@@ -54,9 +55,11 @@ var enc_states = {
       nesting_name: nesting_source.selector.join('.'),
       zip_name: zip_func,
       zip_func: zip_func || itself,
+      nil_allowed: nil_allowed !== false
+
     }
   },
-  '#': function(string) {
+  '#': function(string, nil_allowed) {
     // root
 
     //example: '#vk_id'
@@ -71,6 +74,8 @@ var enc_states = {
       state_name: state_name,
       full_state_name: state_name,
       base_state_name: state_name && splitByDot(state_name)[0],
+      nil_allowed: nil_allowed !== false
+
     }
   }
 }
@@ -124,11 +129,11 @@ var fromMultiPath = function(multi_path, as_string, original) {
   }
 
   if (multi_path.resource.path) {
-    throw new Error('dont use route: for attr.compx (runtime not implemented)')
+    throw new Error('dont use route: for attr.comp (runtime not implemented)')
   }
 
   if (multi_path.from_base.type && multi_path.nesting.path) {
-    throw new Error('dont use asc: and rel: for attr.compx (runtime not implemented)')
+    throw new Error('dont use asc: and rel: for attr.comp (runtime not implemented)')
   }
 
   if (multi_path.nesting.path && !multi_path.zip_name) {
@@ -152,9 +157,11 @@ var fromMultiPath = function(multi_path, as_string, original) {
 
 var getParsedState = spv.memorize(function getParsedState(state_name) {
   // isSpecialState
-  var start = state_name.charAt(0)
+  var required = state_name.charAt(0) === '&'
+  var rest = required ? state_name.slice(1) : state_name
+  var start = rest.charAt(0)
   if (enc_states[start]) {
-    return enc_states[start](state_name)
+    return enc_states[start](rest, required)
   } else {
     return null
   }
