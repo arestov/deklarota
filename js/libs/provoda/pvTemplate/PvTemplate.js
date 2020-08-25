@@ -778,6 +778,9 @@ spv.Class.extendTo(PvTemplate, {
           result.push(new BnddChunk('pv_event', {node: node, evdata: evdata}))
         }
         return result
+      },
+      'pv-log'(node, full_declaration) {
+        this.callEventCallback(node, null, ['_log', full_declaration])
       }
     }
 

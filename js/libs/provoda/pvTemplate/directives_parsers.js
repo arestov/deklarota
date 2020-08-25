@@ -148,7 +148,8 @@ export default {
         'pv-props': true,
         'pv-anchor': true,
         'pv-type': true,
-        'pv-events': true
+        'pv-events': true,
+        'pv-log': true
       },
       directives_names_list: [],
 
@@ -355,7 +356,10 @@ export default {
         }
         return result
       }
-    })()
+    })(),
+    'pv-log'(node, full_declaration) {
+      return full_declaration
+    }
   },
   scope_generators_p: {
     'pv-nest': function(node, full_declaration) {
