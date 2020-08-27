@@ -15,11 +15,26 @@ import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
+import getShortStateName from './utils/getShortStateName'
+var splitByDot = spv.splitByDot
+var getTargetField = spv.getTargetField
 
-var getLightConnector = spv.memorize(function(state_name) {
-  return function updateStateBindedLightly(value) {
-    _updateAttr(this, state_name, value)
+
+var getLightConnector = spv.memorize(function(state_name, donor_state) {
+  if (donor_state == getShortStateName(donor_state)) {
+    return function updateStateBindedLightly(value) {
+      _updateAttr(this, state_name, value)
+    }
   }
+  var path = splitByDot(donor_state)
+  var rest = path.slice(1)
+
+  return function updateStateBindedLightly(value) {
+    _updateAttr(this, state_name, getTargetField(value, rest))
+  }
+
+}, function(arg1, arg2) {
+  return arg1 + ' ' + arg2
 })
 
 
@@ -90,14 +105,14 @@ add({
   },
 
   wlch: function(donor, donor_state, acceptor_state_name) {
-    var cb = getLightConnector(acceptor_state_name)
+    var cb = getLightConnector(acceptor_state_name, donor_state)
 
-    var event_name = utils_simple.getSTEVNameLight(donor_state)
+    var event_name = utils_simple.getSTEVNameLight(getShortStateName(donor_state))
     donor.evcompanion._addEventHandler(event_name, cb, this)
   },
   unwlch: function(donor, donor_state, acceptor_state_name) {
-    var cb = getLightConnector(acceptor_state_name)
-    this.removeLwch(donor, donor_state, cb)
+    var cb = getLightConnector(acceptor_state_name, donor_state)
+    this.removeLwch(donor, getShortStateName(donor_state), cb)
   },
   onExtend: function(props, original) {
     onPropsExtend(this, props, original)
