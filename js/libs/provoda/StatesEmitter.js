@@ -98,6 +98,9 @@ add({
     })
   },
   lwch: function(donor, donor_state, func) {
+    if (donor_state != getShortStateName(donor_state)) {
+      throw new Error('"." cant be used in attr path, here for ' + donor_state + '. not implemented')
+    }
     this._bindLight(donor, donor_state, func)
   },
   removeLwch: function(donor, donor_state, func) {
