@@ -39,16 +39,21 @@ function buildHead(self, data) {
 }
 
 export default function initModel(self, opts, data, params, more, states) {
-  self.current_motivator = self.current_motivator || (opts._motivator)
+  var current_motivator = opts._motivator
+  var app = opts.app
+  var map_parent = opts.map_parent
+  var _highway = opts._highway
 
-  if (opts.app != null) {
-    self.app = opts.app
+  self.current_motivator = self.current_motivator || (current_motivator)
+
+  if (app != null) {
+    self.app = app
   }
 
   self.app = self.app || null
 
-  if (opts._highway != null) {
-    self._highway = opts._highway
+  if (_highway != null) {
+    self._highway = _highway
   }
 
   if (self._highway == null) {
@@ -68,8 +73,8 @@ export default function initModel(self, opts, data, params, more, states) {
 
   initSubPager(self)
 
-  if (opts.map_parent != null) {
-    self.map_parent = opts.map_parent
+  if (map_parent != null) {
+    self.map_parent = map_parent
   }
 
   self.map_parent = self.map_parent || null
