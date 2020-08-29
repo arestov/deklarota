@@ -142,7 +142,7 @@ function updateProxy(etr, changes_list, opts) {
     etr.updateTemplatesStates(total_ch)
   }
 
-  iterateStChanges(total_ch, etr, zdsv)
+  iterateStChanges(total_ch, etr, total_original_states)
   produceEffects(total_ch, zdsv.total_original_states, etr)
 
   //utils_simple.wipeObj(original_states);
@@ -422,11 +422,11 @@ function legacySideEffects(etr, total_original_states, changes_list, start_from,
 }
 
 
-function _triggerStChanges(etr, i, state_name, value, zdsv) {
+function _triggerStChanges(etr, i, state_name, value, total_original_states) {
 
-  _passHandleState(etr, zdsv.total_original_states, state_name, value)
+  _passHandleState(etr, total_original_states, state_name, value)
 
-  checkStates(etr, state_name, value, zdsv.total_original_states.get(state_name))
+  checkStates(etr, state_name, value, total_original_states.get(state_name))
   deliverAttrQueryUpdates(etr, state_name)
   // states_links
 
