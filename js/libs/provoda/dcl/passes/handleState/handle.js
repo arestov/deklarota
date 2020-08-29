@@ -2,7 +2,7 @@
 // etr, original_states, state_name, value
 
 export default function(self, original_states, state_name, value) {
-  if (!self.__handleState || !self.__handleState[state_name]) {
+  if (self.__handleState == null || self.__handleState[state_name] == null) {
     return
   }
 
