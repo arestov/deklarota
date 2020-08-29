@@ -39,6 +39,12 @@ function SendDeclaration(declr) {
       fn: manual[1],
       fn_body: manual[1].toString()
     }
+  } else if (typeof declr[1] == 'function') {
+    this.manual = {
+      dependencies: [],
+      fn: declr[1],
+      fn_body: declr[1].toString()
+    }
   } else if (declr[1].arrayof) {
     this.ids_declr = declr[1]
     this.ids_declr.fn_body = this.ids_declr.req.toString()
