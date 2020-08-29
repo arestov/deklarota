@@ -136,12 +136,12 @@ StandartChange.prototype = {
 
   },
   checkFunc: function(states, wwtch, async_changes, current_motivator) {
-    abortFlowStep(wwtch.context, wwtch.w_cache_key)
     var new_value = calc(this.calculator, states)
     if (this.simplifyValue) {
       new_value = this.simplifyValue(new_value)
     }
     if (wwtch.current_value != new_value) {
+      abortFlowStep(wwtch.context, wwtch.w_cache_key)
       if (async_changes) {
         // fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup
         var flow_step = wwtch.context.calls_flow.pushToFlow(this.changeValue, this, [new_value, wwtch], false, wrapChange, false, current_motivator)
