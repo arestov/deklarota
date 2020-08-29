@@ -1,6 +1,5 @@
 
 
-import StatesLabour from './StatesLabour'
 import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
 import produceEffects from './StatesEmitter/produceEffects'
 import checkStates from './nest-watch/checkStates'
@@ -73,9 +72,6 @@ function updateProxy(etr, changes_list, opts) {
 
   //порождать события изменившихся состояний (в передлах одного стэка/вызова)
   //для пользователя пока пользователь не перестанет изменять новые состояния
-  if (etr.zdsv == null) {
-    etr.zdsv = new StatesLabour(etr.full_comlxs_index != null, etr._has_stchs)
-  }
 
   var serv_st = etr.serv_st || getFree(pool)
   etr.serv_st = serv_st
@@ -87,7 +83,6 @@ function updateProxy(etr, changes_list, opts) {
   }
 
   serv_st.collecting_states_changing = true
-  //etr.zdsv is important for etr!!!
   //etr.serv_st.collecting_states_changing - must be semi public;
 
 
@@ -160,7 +155,7 @@ function updateProxy(etr, changes_list, opts) {
   etr.serv_st = null
 
   release(pool, serv_st)
-  //zdsv = null;
+
   return etr
 }
 

@@ -1,7 +1,6 @@
 
 
 import spv from '../spv'
-import StatesLabour from './StatesLabour'
 import hp from './helpers'
 import MDProxy from './MDProxy'
 import initDeclaredNestings from './initDeclaredNestings'
