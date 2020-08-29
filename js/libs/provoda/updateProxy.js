@@ -426,7 +426,7 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
 
   _passHandleState(etr, zdsv.total_original_states, state_name, value)
 
-  checkStates(etr, zdsv, state_name, value, zdsv.total_original_states.get(state_name))
+  checkStates(etr, state_name, value, zdsv.total_original_states.get(state_name))
   deliverAttrQueryUpdates(etr, state_name)
   // states_links
 
