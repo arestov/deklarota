@@ -62,17 +62,17 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
   return self._highway.__produce_side_effects_schedule.get(key)[effect_name]
 }
 
-function scheduleEffect(self, effect_name, state_name, new_value, skip_prev) {
+function scheduleEffect(self, total_original_states, effect_name, state_name, new_value, skip_prev) {
   var initial_transaction_id = getCurrentTransactionKey(self)
   var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
   if (!skip_prev && !effectAgenda.prev_values.hasOwnProperty(state_name)) {
-    effectAgenda.prev_values[state_name] = self.zdsv.total_original_states.get(state_name)
+    effectAgenda.prev_values[state_name] = total_original_states.get(state_name)
   }
 
   effectAgenda.next_values[state_name] = new_value
 }
 
-function checkAndMutateInvalidatedEffects(changes_list, self) {
+function checkAndMutateInvalidatedEffects(changes_list, total_original_states, self) {
   var index = self.__api_effects_$_index_by_triggering
   var using = self._effects_using
 
@@ -89,7 +89,7 @@ function checkAndMutateInvalidatedEffects(changes_list, self) {
       }
 
       // mark state
-      scheduleEffect(self, list[jj].name, state_name, changes_list[i + 1], false)
+      scheduleEffect(self, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
       self._effects_using.invalidated[list[jj].name] = true
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
@@ -97,15 +97,15 @@ function checkAndMutateInvalidatedEffects(changes_list, self) {
   }
 }
 
-function prefillAgenda(self, effect_name, effect) {
+function prefillAgenda(self, total_original_states, effect_name, effect) {
   for (var i = 0; i < effect.triggering_states.length; i++) {
     var state_name = effect.triggering_states[i]
-    scheduleEffect(self, effect_name, state_name, pvState(self, state_name), true)
+    scheduleEffect(self, total_original_states, effect_name, state_name, pvState(self, state_name), true)
 
   }
 }
 
-function checkAndMutateDepReadyEffects(self) {
+function checkAndMutateDepReadyEffects(self, total_original_states) {
   var using = self._effects_using
   var effects = self.__api_effects
 
@@ -156,7 +156,7 @@ function checkAndMutateDepReadyEffects(self) {
 
     if (!effect.effects_deps) {
       using.dep_effects_ready[effect_name] = true
-      prefillAgenda(self, effect_name, effect)
+      prefillAgenda(self, total_original_states, effect_name, effect)
       has_one = true
       continue
     }
@@ -174,7 +174,7 @@ function checkAndMutateDepReadyEffects(self) {
 
     using.dep_effects_ready[effect_name] = deps_ready
     if (using.dep_effects_ready[effect_name]) {
-      prefillAgenda(self, effect_name, effect)
+      prefillAgenda(self, total_original_states, effect_name, effect)
     }
   }
   using.dep_effects_ready_is_empty = using.dep_effects_ready_is_empty && !has_one
@@ -268,7 +268,7 @@ function checkExecuteMutateEffects(self) {
   using.dep_effects_ready_is_empty = true
 }
 
-function iterateEffects(changes_list, self) {
+function iterateEffects(changes_list, total_original_states, self) {
   if (!self.__api_effects_$_index) {
     return
   }
@@ -290,13 +290,13 @@ function iterateEffects(changes_list, self) {
   self._effects_using.processing = true
 
   checkAndMutateCondReadyEffects(changes_list, self)
-  checkAndMutateInvalidatedEffects(changes_list, self)
+  checkAndMutateInvalidatedEffects(changes_list, total_original_states, self)
 
-  checkAndMutateDepReadyEffects(self)
+  checkAndMutateDepReadyEffects(self, total_original_states)
 
   while (!self._effects_using.dep_effects_ready_is_empty) {
     checkExecuteMutateEffects(self)
-    checkAndMutateDepReadyEffects(self)
+    checkAndMutateDepReadyEffects(self, total_original_states)
   }
   self._effects_using.processing = false
 }
@@ -339,9 +339,9 @@ function iterateApis(changes_list, context) {
 }
 
 
-export default function(total_ch, self) {
+export default function(total_ch, total_original_states, self) {
   iterateApis(total_ch, self)
-  iterateEffects(total_ch, self)
+  iterateEffects(total_ch, total_original_states, self)
   scheduleTransactionEnd(self)
 }
 

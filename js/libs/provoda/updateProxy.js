@@ -143,7 +143,7 @@ function updateProxy(etr, changes_list, opts) {
   }
 
   iterateStChanges(total_ch, etr, zdsv)
-  produceEffects(total_ch, etr)
+  produceEffects(total_ch, zdsv.total_original_states, etr)
 
   //utils_simple.wipeObj(original_states);
   //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
