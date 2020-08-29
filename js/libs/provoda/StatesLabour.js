@@ -36,19 +36,6 @@ StatesLabour.prototype.abortFlowSteps = function(space, index_key, is_one_item) 
 
   return
 }
-StatesLabour.prototype.createFlowStepsArray = function(space, index_key, one_item) {
-  var full_space = 'flow_steps_' + space
-  if (!this[full_space]) {
-    this[full_space] = {}
-  }
-  if (one_item) {
-    this[full_space][index_key] = one_item
-  } else if (!this[full_space][index_key]) {
-    this[full_space][index_key] = []
-  }
-
-  return this[full_space][index_key]
-}
 
 StatesLabour.prototype.removeFlowStep = function(space, index_key, item) {
   var full_space = 'flow_steps_' + space
