@@ -1,7 +1,6 @@
 
 
 import StatesLabour from './StatesLabour'
-import utils_simple from './utils/simple'
 import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
 import produceEffects from './StatesEmitter/produceEffects'
 import checkStates from './nest-watch/checkStates'
