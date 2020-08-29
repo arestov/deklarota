@@ -1,18 +1,7 @@
 
 
 import hndMotivationWrappper from '../../helpers/hndMotivationWrappper'
-import StatesLabour from '../../StatesLabour'
 import getAttrByName from './getAttrByName'
-
-var stackStateFlowStep = function(flow_step, state_name) {
-  if (!this.zdsv) {
-    this.zdsv = new StatesLabour(!!this.full_comlxs_index, this._has_stchs)
-    //debugger;
-  }
-  flow_step.p_space = 'stev'
-  flow_step.p_index_key = state_name
-  this.zdsv.createFlowStepsArray('stev', state_name).push(flow_step)
-}
 
 var LightEvOpts = function(ev_name, cb, context) {
   this.ev_name = ev_name
@@ -38,7 +27,6 @@ export default {
   getFSNamespace: function(namespace) {
     return getAttrByName(namespace)
   },
-  handleFlowStep: stackStateFlowStep,
   createEventOpts: function(ev_name, cb, context) {
     return new LightEvOpts(ev_name, cb, context)
   }

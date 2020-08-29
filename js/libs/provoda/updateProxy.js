@@ -430,7 +430,7 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
   deliverAttrQueryUpdates(etr, state_name)
   // states_links
 
-  triggerLightAttrChange(etr, state_name, value, zdsv)
+  triggerLightAttrChange(etr, state_name, value)
 }
 
 function reportBadChange() {

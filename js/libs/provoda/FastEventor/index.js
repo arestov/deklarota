@@ -58,15 +58,9 @@ var fireFire = function(context, sputnik, matched_reg_fire, soft_reg, callbacks_
     return
   }
 
-  var flow_step = sputnik._getCallsFlow().pushToFlow(
+  sputnik._getCallsFlow().pushToFlow(
     cb, mo_context, null, one_reg_arg, callbacks_wrapper, sputnik, sputnik.current_motivator
   )
-
-  if (!matched_reg_fire.handleFlowStep) {
-    return
-  }
-  matched_reg_fire.handleFlowStep.call(sputnik, flow_step, matched_reg_fire.getFSNamespace(ev_name))
-
 }
 
 var FastEventor = function(context) {
@@ -350,17 +344,15 @@ add({
     }
 
   },
-  triggerCallbacks: function(cb_cs, args, opts, ev_name, arg, flow_steps_array) {
+  triggerCallbacks: function(cb_cs, args, opts, ev_name, arg) {
     var need_cleanup = false
     for (var i = 0; i < cb_cs.length; i++) {
       var cur = cb_cs[i]
       if (!cur.cb) {
         continue
       }
-      var flow_step = this.callEventCallback(cur, args, opts, arg)
-      if (flow_step && flow_steps_array) {
-        flow_steps_array.push(flow_step)
-      }
+      this.callEventCallback(cur, args, opts, arg)
+
       if (cur.once) {
         need_cleanup = true
         cur.cb = null
