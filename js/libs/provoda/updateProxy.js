@@ -134,23 +134,23 @@ function updateProxy(etr, changes_list, opts) {
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch)
 
-  legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
 
+  iterateStChanges(total_ch, etr, total_original_states)
 
   if (etr.updateTemplatesStates != null) {
     etr.keepTotalChangesUpdates(etr.states)
     etr.updateTemplatesStates(total_ch)
   }
-
-  iterateStChanges(total_ch, etr, total_original_states)
-  produceEffects(total_ch, total_original_states, etr)
-
   //utils_simple.wipeObj(original_states);
   //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
 
   if (etr.sendStatesToMPX != null && total_ch.length) {
     etr.sendStatesToMPX(total_ch)
   }
+  legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
+
+
+  produceEffects(total_ch, total_original_states, etr)
 
   total_ch.length = 0
 
