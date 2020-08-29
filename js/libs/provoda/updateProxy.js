@@ -51,6 +51,45 @@ var release = function(pool, item) {
   pool.free.push(item)
 }
 
+
+function applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack) {
+  var currentChangesLength
+
+
+  while (states_changing_stack.length) {
+
+    //spv.cloneObj(original_states, etr.states);
+
+    var cur_changes_list = states_changing_stack.shift()
+
+    var lengthBeforeAnyChanges = total_ch.length
+
+    currentChangesLength = lengthBeforeAnyChanges
+    // remember current length before any changes in this iteration
+
+
+    //получить изменения для состояний, которые изменил пользователь через публичный метод
+    getChanges(etr, total_original_states, 0, cur_changes_list, total_ch)
+    //var total_ch = ... ↑
+
+
+    if (etr.full_comlxs_index != null) {
+      //проверить комплексные состояния
+      while (currentChangesLength != total_ch.length) {
+        var lengthToHandle = total_ch.length
+        applyComplexStates(etr, total_original_states, currentChangesLength, total_ch)
+        currentChangesLength = lengthToHandle
+      }
+    }
+
+    cur_changes_list = null
+
+
+    //объекты используются повторно, ради выиграша в производительности
+    //которые заключается в исчезновении пауз на сборку мусора
+  }
+}
+
 var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
 var iterateStChanges = createIterate1arg(_triggerStChanges)
 var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
@@ -89,41 +128,8 @@ function updateProxy(etr, changes_list, opts) {
   var states_changing_stack = serv_st.states_changing_stack
   var total_original_states = serv_st.total_original_states
   var total_ch = serv_st.total_ch
-  var currentChangesLength
 
-
-  while (states_changing_stack.length) {
-
-    //spv.cloneObj(original_states, etr.states);
-
-    var cur_changes_list = states_changing_stack.shift()
-
-    var lengthBeforeAnyChanges = total_ch.length
-
-    currentChangesLength = lengthBeforeAnyChanges
-    // remember current length before any changes in this iteration
-
-
-    //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, total_original_states, 0, cur_changes_list, total_ch)
-    //var total_ch = ... ↑
-
-
-    if (etr.full_comlxs_index != null) {
-      //проверить комплексные состояния
-      while (currentChangesLength != total_ch.length) {
-        var lengthToHandle = total_ch.length
-        applyComplexStates(etr, total_original_states, currentChangesLength, total_ch)
-        currentChangesLength = lengthToHandle
-      }
-    }
-
-    cur_changes_list = null
-
-
-    //объекты используются повторно, ради выиграша в производительности
-    //которые заключается в исчезновении пауз на сборку мусора
-  }
+  applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
 
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch)
