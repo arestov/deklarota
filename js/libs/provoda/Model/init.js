@@ -161,8 +161,6 @@ function prepareStates(self, data, states) {
     return
   }
 
-  self.init_states = cloneObj(self.init_states, iss)
-
   self.init_states = self.init_states || {}
   self.init_states = cloneObj(self.init_states, iss)
 }
