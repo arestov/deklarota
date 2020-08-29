@@ -114,6 +114,35 @@ function propagateAttrChanges(etr, total_original_states, total_ch) {
   produceEffects(total_ch, total_original_states, etr)
 }
 
+
+function processStackedAttrChanges(etr, serv_st) {
+  serv_st.collecting_states_changing = true
+  //etr.serv_st.collecting_states_changing - must be semi public;
+
+
+  var states_changing_stack = serv_st.states_changing_stack
+  var total_original_states = serv_st.total_original_states
+  var total_ch = serv_st.total_ch
+
+  applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
+
+  //устраняем измененное дважды и более
+  compressStatesChanges(total_ch)
+
+  propagateAttrChanges(etr, total_original_states, total_ch)
+
+
+  total_ch.length = 0
+
+  total_original_states.clear()
+
+
+  serv_st.collecting_states_changing = false
+  etr.serv_st = null
+
+  release(pool, serv_st)
+}
+
 function updateProxy(etr, changes_list, opts) {
 
   if (etr._currentMotivator() == null) {
@@ -141,31 +170,7 @@ function updateProxy(etr, changes_list, opts) {
     return etr
   }
 
-  serv_st.collecting_states_changing = true
-  //etr.serv_st.collecting_states_changing - must be semi public;
-
-
-  var states_changing_stack = serv_st.states_changing_stack
-  var total_original_states = serv_st.total_original_states
-  var total_ch = serv_st.total_ch
-
-  applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
-
-  //устраняем измененное дважды и более
-  compressStatesChanges(total_ch)
-
-  propagateAttrChanges(etr, total_original_states, total_ch)
-
-
-  total_ch.length = 0
-
-  total_original_states.clear()
-
-
-  serv_st.collecting_states_changing = false
-  etr.serv_st = null
-
-  release(pool, serv_st)
+  processStackedAttrChanges(etr, serv_st)
 
   return etr
 }
