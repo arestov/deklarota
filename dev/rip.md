@@ -89,3 +89,5 @@
 - deprecated object structure for attr.comp ({depends_on: ...})
 
 - 'compx' -> 'comp'
+
+- 'stch-' called after calculations, not in calculations progress

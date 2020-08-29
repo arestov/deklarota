@@ -127,8 +127,6 @@ function updateProxy(etr, changes_list, opts) {
       }
     }
 
-    legacySideEffects(etr, total_ch, lengthBeforeAnyChanges, total_ch.length)
-
     cur_changes_list = null
 
 
@@ -139,6 +137,9 @@ function updateProxy(etr, changes_list, opts) {
 
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch)
+
+  legacySideEffects(etr, total_ch, 0, total_ch.length)
+
 
   if (etr.updateTemplatesStates != null) {
     etr.keepTotalChangesUpdates(etr.states)
