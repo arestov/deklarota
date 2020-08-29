@@ -8,17 +8,6 @@ var StatesLabour = function() {
   this.flow_steps_collch = null
   this.flow_steps_stch = null
 
-
-  // this.collecting_states_changing = false;
-
-  // this.states_changing_stack = [];
-  // this.all_i_cg = [];
-
-  // this.changed_states = [];
-  // this.total_ch = [];
-
-  // this.all_ch_compxs = has_complex_states ? [] : null;
-
   this.total_original_states = new Map()
   Object.seal(this)
 
