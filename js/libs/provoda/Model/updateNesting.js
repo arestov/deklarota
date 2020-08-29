@@ -38,12 +38,6 @@ export default function updateNesting(self, collection_name, input, opts) {
     return self
   }
 
-  var zdsv = self.zdsv
-  if (zdsv) {
-    zdsv.abortFlowSteps('collch', collection_name)
-  }
-
-
   self.children_models[collection_name] = array
 
   if (old_value && array) {

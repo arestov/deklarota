@@ -95,3 +95,5 @@
 - don't use abortFlowSteps for 'stch'
 
 - don't use abortFlowSteps for 'stev'
+
+- don't use abortFlowSteps for 'collch'

@@ -3,8 +3,6 @@
 import spv from '../spv'
 
 var StatesLabour = function() {
-  this.flow_steps_collch = null
-
   this.total_original_states = new Map()
   Object.seal(this)
 
