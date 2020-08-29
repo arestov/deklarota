@@ -10,7 +10,7 @@ var StatesLabour = function() {
 
 
   // this.collecting_states_changing = false;
-  this.original_states = {}
+  this.original_states = new Map()
 
   // this.states_changing_stack = [];
   // this.all_i_cg = [];
@@ -20,7 +20,7 @@ var StatesLabour = function() {
 
   // this.all_ch_compxs = has_complex_states ? [] : null;
 
-  this.total_original_states = {}
+  this.total_original_states = new Map()
   Object.seal(this)
 
 }

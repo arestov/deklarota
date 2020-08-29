@@ -8,7 +8,7 @@ export default function(self, original_states, state_name, value) {
 
   var pass_name = self.__handleState[state_name].name
 
-  var old_value = original_states[state_name]
+  var old_value = original_states.get(state_name)
   var arg = {
     next_value: value,
     prev_value: old_value,

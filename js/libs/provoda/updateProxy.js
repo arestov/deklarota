@@ -128,7 +128,7 @@ function updateProxy(etr, changes_list, opts) {
     cur_changes_list = null
 
 
-    utils_simple.wipeObj(original_states)
+    original_states.clear()
     //объекты используются повторно, ради выиграша в производительности
     //которые заключается в исчезновении пауз на сборку мусора
   }
@@ -156,7 +156,7 @@ function updateProxy(etr, changes_list, opts) {
 
   total_ch.length = 0
 
-  utils_simple.wipeObj(zdsv.total_original_states)
+  zdsv.total_original_states.clear()
 
 
   serv_st.collecting_states_changing = false
@@ -297,12 +297,12 @@ function _replaceState(etr, total_original_states, original_states, state_name, 
 
   //value = value || false;
   //less calculations? (since false and "" and null and undefined now os equeal and do not triggering changes)
-  if (!total_original_states.hasOwnProperty(state_name)) {
-    total_original_states[state_name] = old_value
+  if (!total_original_states.has(state_name)) {
+    total_original_states.set(state_name, old_value)
   }
 
-  if (!original_states.hasOwnProperty(state_name)) {
-    original_states[state_name] = old_value
+  if (!original_states.has(state_name)) {
+    original_states.set(state_name, old_value)
   }
   etr._attrs_collector.ensureAttr(state_name)
   etr.states[state_name] = value
@@ -423,7 +423,7 @@ function legacySideEffects(etr, total_original_states, changes_list, start_from,
   }
 
   for (var i = start_from; i < inputLength; i += CH_GR_LE) {
-    _handleStch(etr, changes_list[i], changes_list[i + 1], total_original_states[changes_list[i]])
+    _handleStch(etr, changes_list[i], changes_list[i + 1], total_original_states.get(changes_list[i]))
   }
 }
 
@@ -432,7 +432,7 @@ function _triggerStChanges(etr, i, state_name, value, zdsv) {
 
   _passHandleState(etr, zdsv.total_original_states, state_name, value)
 
-  checkStates(etr, zdsv, state_name, value, zdsv.total_original_states[state_name])
+  checkStates(etr, zdsv, state_name, value, zdsv.total_original_states.get(state_name))
   deliverAttrQueryUpdates(etr, state_name)
   // states_links
 

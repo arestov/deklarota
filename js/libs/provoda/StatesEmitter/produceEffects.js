@@ -66,7 +66,7 @@ function scheduleEffect(self, effect_name, state_name, new_value, skip_prev) {
   var initial_transaction_id = getCurrentTransactionKey(self)
   var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
   if (!skip_prev && !effectAgenda.prev_values.hasOwnProperty(state_name)) {
-    effectAgenda.prev_values[state_name] = self.zdsv.total_original_states[state_name]
+    effectAgenda.prev_values[state_name] = self.zdsv.total_original_states.get(state_name)
   }
 
   effectAgenda.next_values[state_name] = new_value
