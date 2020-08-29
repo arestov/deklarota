@@ -94,6 +94,26 @@ var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
 var iterateStChanges = createIterate1arg(_triggerStChanges)
 var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
 
+
+function propagateAttrChanges(etr, total_original_states, total_ch) {
+  iterateStChanges(total_ch, etr, total_original_states)
+
+  if (etr.updateTemplatesStates != null) {
+    etr.keepTotalChangesUpdates(etr.states)
+    etr.updateTemplatesStates(total_ch)
+  }
+  //utils_simple.wipeObj(original_states);
+  //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
+
+  if (etr.sendStatesToMPX != null && total_ch.length) {
+    etr.sendStatesToMPX(total_ch)
+  }
+  legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
+
+
+  produceEffects(total_ch, total_original_states, etr)
+}
+
 function updateProxy(etr, changes_list, opts) {
 
   if (etr._currentMotivator() == null) {
@@ -134,23 +154,8 @@ function updateProxy(etr, changes_list, opts) {
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch)
 
+  propagateAttrChanges(etr, total_original_states, total_ch)
 
-  iterateStChanges(total_ch, etr, total_original_states)
-
-  if (etr.updateTemplatesStates != null) {
-    etr.keepTotalChangesUpdates(etr.states)
-    etr.updateTemplatesStates(total_ch)
-  }
-  //utils_simple.wipeObj(original_states);
-  //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
-
-  if (etr.sendStatesToMPX != null && total_ch.length) {
-    etr.sendStatesToMPX(total_ch)
-  }
-  legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
-
-
-  produceEffects(total_ch, total_original_states, etr)
 
   total_ch.length = 0
 
@@ -164,6 +169,7 @@ function updateProxy(etr, changes_list, opts) {
 
   return etr
 }
+
 
 // mirco optimisations for monomorphism of args
 function createIterate0arg(cb) {
