@@ -18,6 +18,7 @@ var ServStates = function() {
   this.states_changing_stack = []
 
   this.total_ch = []
+  this.total_original_states = new Map()
   Object.seal(this)
 }
 
@@ -76,8 +77,6 @@ function updateProxy(etr, changes_list, opts) {
     etr.zdsv = new StatesLabour(etr.full_comlxs_index != null, etr._has_stchs)
   }
 
-
-  var zdsv = etr.zdsv
   var serv_st = etr.serv_st || getFree(pool)
   etr.serv_st = serv_st
 
@@ -93,7 +92,7 @@ function updateProxy(etr, changes_list, opts) {
 
 
   var states_changing_stack = serv_st.states_changing_stack
-  var total_original_states = zdsv.total_original_states
+  var total_original_states = serv_st.total_original_states
   var total_ch = serv_st.total_ch
   var currentChangesLength
 
@@ -134,7 +133,7 @@ function updateProxy(etr, changes_list, opts) {
   //устраняем измененное дважды и более
   compressStatesChanges(total_ch)
 
-  legacySideEffects(etr, zdsv.total_original_states, total_ch, 0, total_ch.length)
+  legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
 
 
   if (etr.updateTemplatesStates != null) {
@@ -143,7 +142,7 @@ function updateProxy(etr, changes_list, opts) {
   }
 
   iterateStChanges(total_ch, etr, total_original_states)
-  produceEffects(total_ch, zdsv.total_original_states, etr)
+  produceEffects(total_ch, total_original_states, etr)
 
   //utils_simple.wipeObj(original_states);
   //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
@@ -154,7 +153,7 @@ function updateProxy(etr, changes_list, opts) {
 
   total_ch.length = 0
 
-  zdsv.total_original_states.clear()
+  total_original_states.clear()
 
 
   serv_st.collecting_states_changing = false
