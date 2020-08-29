@@ -48,7 +48,6 @@ export default {
   state: pvState,
   triggerDestroy: triggerDestroy,
   wipeObj: utils_simple.wipeObj,
-  markFlowSteps: utils_simple.markFlowSteps,
   getRightNestingName: function(md, nesting_name) {
     return nesting_name
   },
