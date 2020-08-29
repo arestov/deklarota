@@ -175,6 +175,64 @@ function updateProxy(etr, changes_list, opts) {
   return etr
 }
 
+function createFakeEtr(etr, first_changes_list) {
+  var state = {}
+
+  // TODO: handle __defined_attrs_bool
+
+  return {
+    etr: {
+      states: state,
+      _attrs_collector: etr._attrs_collector,
+      full_comlxs_list: etr.full_comlxs_list,
+      full_comlxs_index: etr.full_comlxs_index,
+      state: function(name) {
+        if (!state.hasOwnProperty(name)) {
+          return
+        }
+        return state[name]
+      }
+    },
+    total_original_states: new Map(),
+    total_ch: [],
+    states_changing_stack: [first_changes_list],
+  }
+}
+
+function toKey(entry) {
+  return entry[0]
+}
+
+function computeInitialAttrs(etr, total_original_states, total_ch, states_changing_stack) {
+  applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
+  compressStatesChanges(total_ch)
+
+  etr.original_values = [...total_original_states.entries()].map(toKey)
+}
+
+function initAttrs(etr, fake, input_initial_changes) {
+  var serv_st = etr.serv_st || getFree(pool)
+  etr.serv_st = serv_st
+
+  var total_original_states = serv_st.total_original_states
+
+  var original_values = fake.etr.original_values
+
+  for (var i = 0; i < original_values.length; i++) {
+    var name = original_values[i]
+    total_original_states.set(name, undefined)
+  }
+
+  Array.prototype.push.apply(etr.serv_st.total_ch, fake.total_ch)
+
+  // write precomputed changes
+  getChanges(etr, total_original_states, 0, etr.serv_st.total_ch, null)
+
+  // compute new changes
+  serv_st.states_changing_stack.push(input_initial_changes)
+  processStackedAttrChanges(etr, serv_st)
+}
+
 
 // mirco optimisations for monomorphism of args
 function createIterate0arg(cb) {
@@ -316,6 +374,10 @@ function _replaceState(etr, total_original_states, state_name, value, stack) {
 
   etr._attrs_collector.ensureAttr(state_name)
   etr.states[state_name] = value
+
+  if (stack == null) {
+    return
+  }
   stack.push(state_name, value)
 }
 
@@ -479,5 +541,7 @@ updateProxy.update = function(md, state_name, state_value, opts) {
   // md.updateState(state_name, state_value, opts);
 }
 updateProxy.getComplexInitList = getComplexInitList
+
+export { createFakeEtr, computeInitialAttrs, getComplexInitList, initAttrs }
 
 export default updateProxy

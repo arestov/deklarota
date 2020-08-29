@@ -8,12 +8,35 @@ import initNestCompx from '../dcl/nest_compx/init'
 import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
 import __handleInit from '../dcl/passes/handleInit/handle'
+import initInputAttrs from '../dcl/attrs/input/init'
+
+import { createFakeEtr, computeInitialAttrs, getComplexInitList } from '../updateProxy'
+
 import _updateAttr from '../_internal/_updateAttr'
 var initWatchList = nestWIndex.initList
 
+function ensureInitialAttrs(self) {
+  if (self._fake_etr != null) {
+    return
+  }
+
+  var first_changes_list = getComplexInitList(self) || []
+
+  var default_attrs = initInputAttrs(self)
+  for (var attr_name in default_attrs) {
+    first_changes_list.push(attr_name, default_attrs[attr_name])
+  }
+
+  var fake = createFakeEtr(self, first_changes_list)
+
+  computeInitialAttrs(fake.etr, fake.total_original_states, fake.total_ch, fake.states_changing_stack)
+  self.constructor.prototype._fake_etr = fake
+}
 
 function connectStates(self) {
   // prefill own states before connecting relations
+  ensureInitialAttrs(self)
+
   self.__initStates()
 
   prsStCon.connect.parent(self, self)

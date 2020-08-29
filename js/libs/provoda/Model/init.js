@@ -149,13 +149,6 @@ function prepareStates(self, data, states) {
   self.init_states = self.init_states || null
 
   var iss = createISS(self, data, states)
-  var default_attrs = initInputAttrs(self)
-  if (default_attrs) {
-    var cur = self.init_states
-    self.init_states = {}
-    cloneObj(self.init_states, default_attrs)
-    cloneObj(self.init_states, cur)
-  }
 
   if (!iss) {
     return

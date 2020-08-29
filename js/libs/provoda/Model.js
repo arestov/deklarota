@@ -5,7 +5,7 @@ import hp from './helpers'
 import MDProxy from './MDProxy'
 import initDeclaredNestings from './initDeclaredNestings'
 import prsStCon from './prsStCon'
-import updateProxy from './updateProxy'
+import { initAttrs } from './updateProxy'
 import StatesEmitter from './StatesEmitter'
 import _requestsDeps from './Model/_requestsDeps'
 import onPropsExtend from './Model/onExtend'
@@ -25,8 +25,6 @@ import wrapInputCall from './provoda/wrapInputCall'
 
 var push = Array.prototype.push
 var cloneObj = spv.cloneObj
-
-var getComplexInitList = updateProxy.getComplexInitList
 
 var getMDOfReplace = function() {
   return this.md
@@ -230,7 +228,8 @@ add({
       throw new Error('states inited already, you can\'t init now')
     }
 
-    var changes_list = getComplexInitList(this) || []
+    var changes_list = []
+
     changes_list.push('_provoda_id', this._provoda_id)
 
     if (this.init_states) {
@@ -252,7 +251,7 @@ add({
     prsStCon.prefill.root(this, changes_list)
 
     if (changes_list && changes_list.length) {
-      updateProxy(this, changes_list)
+      initAttrs(this, this._fake_etr, changes_list)
     }
 
     // this.updateManyStates(this.init_states);
