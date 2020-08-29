@@ -23,8 +23,8 @@ export default function initSi(Constr, parent_md, data, params, more, states) {
   var parent_is_usable = ((parent_md && parent_md.zero_map_level) || parent_md != parent_md.app)
 
   var opts = {
-    _motivator: motivator,
-    map_parent: parent_is_usable && parent_md,
+    _motivator: motivator || null,
+    map_parent: parent_is_usable ? parent_md : null,
     app: parent_md.app
   }
 
