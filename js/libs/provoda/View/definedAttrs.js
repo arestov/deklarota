@@ -1,5 +1,5 @@
-
+const empty = []
 
 export default function() {
-  return []
+  return empty
 };
