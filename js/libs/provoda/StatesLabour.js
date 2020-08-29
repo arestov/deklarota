@@ -2,7 +2,7 @@
 
 import spv from '../spv'
 
-var StatesLabour = function(has_complex_states, need_stch_storage) {
+var StatesLabour = function() {
   this.flow_steps_stev = null
   this.flow_steps_vip_stdch_ev = null
   this.flow_steps_collch = null
@@ -18,7 +18,6 @@ var StatesLabour = function(has_complex_states, need_stch_storage) {
   // this.changed_states = [];
   // this.total_ch = [];
 
-  this.stch_states = need_stch_storage ? {} : null
   // this.all_ch_compxs = has_complex_states ? [] : null;
 
   this.total_original_states = {}

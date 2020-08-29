@@ -91,3 +91,5 @@
 - 'compx' -> 'comp'
 
 - 'stch-' called after calculations, not in calculations progress
+
+- don't use abortFlowSteps for 'stch'
