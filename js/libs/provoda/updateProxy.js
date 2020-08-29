@@ -15,7 +15,6 @@ var serv_counter = 1
 var ServStates = function() {
   this.num = ++serv_counter
   this.collecting_states_changing = false
-  // this.original_states = {};
 
   this.states_changing_stack = []
 
@@ -94,8 +93,6 @@ function updateProxy(etr, changes_list, opts) {
   //etr.serv_st.collecting_states_changing - must be semi public;
 
 
-  var original_states = zdsv.original_states
-
   var total_ch = serv_st.total_ch
   var currentChangesLength
 
@@ -112,7 +109,7 @@ function updateProxy(etr, changes_list, opts) {
 
 
     //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, total_ch)
+    getChanges(etr, zdsv.total_original_states, 0, cur_changes_list, total_ch)
     //var total_ch = ... ↑
 
 
@@ -120,7 +117,7 @@ function updateProxy(etr, changes_list, opts) {
       //проверить комплексные состояния
       while (currentChangesLength != total_ch.length) {
         var lengthToHandle = total_ch.length
-        applyComplexStates(etr, zdsv.total_original_states, original_states, currentChangesLength, total_ch)
+        applyComplexStates(etr, zdsv.total_original_states, currentChangesLength, total_ch)
         currentChangesLength = lengthToHandle
       }
     }
@@ -128,7 +125,6 @@ function updateProxy(etr, changes_list, opts) {
     cur_changes_list = null
 
 
-    original_states.clear()
     //объекты используются повторно, ради выиграша в производительности
     //которые заключается в исчезновении пауз на сборку мусора
   }
@@ -215,7 +211,7 @@ function _handleStch(etr, state_name, value, old_value) {
   etr.nextLocalTick(proxyStch, [etr, state_name, value, old_value], true, method.finup)
 }
 
-function getChanges(etr, total_original_states, original_states, start_from, changes_list, result_arr) {
+function getChanges(etr, total_original_states, start_from, changes_list, result_arr) {
   var changed_states = result_arr
   var i
 
@@ -227,7 +223,7 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   for (i = start_from; i < inputLength; i += CH_GR_LE) {
     var state_name = changes_list[i]
     reportBadChange(etr, state_name)
-    _replaceState(etr, total_original_states, original_states, sameName(state_name), changes_list[i + 1], changed_states)
+    _replaceState(etr, total_original_states, sameName(state_name), changes_list[i + 1], changed_states)
   }
 
 
@@ -285,7 +281,7 @@ function shallowEqual(objA, objB) {
   return true
 }
 
-function _replaceState(etr, total_original_states, original_states, state_name, value, stack) {
+function _replaceState(etr, total_original_states, state_name, value, stack) {
   var old_value = etr.states[state_name]
   if (old_value === value) {
     return
@@ -301,9 +297,6 @@ function _replaceState(etr, total_original_states, original_states, state_name, 
     total_original_states.set(state_name, old_value)
   }
 
-  if (!original_states.has(state_name)) {
-    original_states.set(state_name, old_value)
-  }
   etr._attrs_collector.ensureAttr(state_name)
   etr.states[state_name] = value
   stack.push(state_name, value)
@@ -321,7 +314,7 @@ function getComplexInitList(etr) {
   return result_array
 }
 
-function applyComplexStates(etr, total_original_states, original_states, start_from, input_and_output) {
+function applyComplexStates(etr, total_original_states, start_from, input_and_output) {
   // reuse set
   var uniq = getFreeSet()
 
@@ -345,8 +338,7 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
 
       var value = compoundComplexState(etr, subj)
       _replaceState(
-        etr, total_original_states, original_states,
-
+        etr, total_original_states,
         sameName(subj.name), value, input_and_output
       )
     }

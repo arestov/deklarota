@@ -10,7 +10,6 @@ var StatesLabour = function() {
 
 
   // this.collecting_states_changing = false;
-  this.original_states = new Map()
 
   // this.states_changing_stack = [];
   // this.all_i_cg = [];
