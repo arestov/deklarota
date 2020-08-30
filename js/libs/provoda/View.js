@@ -1,7 +1,7 @@
 
 import spv from '../spv'
 import CoreView from './CoreView'
-import _updateAttr from './_internal/_updateAttr'
+import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import PvTemplate from './pvTemplate/PvTemplate'
 import appending from './View/appending'
 import getBwlevView from './View/getBwlevView'
@@ -394,12 +394,15 @@ spv.cloneObj(props, {
       //anchor.parentNode.insertBefore(con[0], anchor.nextSibling);
       this._lbr._anchor = null
       dDetach(anchor)
-      _updateAttr(this, 'vis_con_appended', true)
-      _updateAttr(this, '$meta$apis$con$appended', true)
-
+      _updateAttrsByChanges(this, [
+        'vis_con_appended', true,
+        '$meta$apis$con$appended', true
+      ])
     } else if (con && dUnwrap(dParent(con))) {
-      _updateAttr(this, 'vis_con_appended', true)
-      _updateAttr(this, '$meta$apis$con$appended', true)
+      _updateAttrsByChanges(this, [
+        'vis_con_appended', true,
+        '$meta$apis$con$appended', true
+      ])
 
     }
   },

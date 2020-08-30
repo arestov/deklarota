@@ -1,7 +1,7 @@
 
 
 import spv from '../../spv'
-import _updateAttr from '../_internal/_updateAttr'
+import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
 import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 
@@ -29,8 +29,10 @@ var update = function(self, interface_name, value) {
   self._attrs_collector.defineAttr(name_for_used_legacy, 'bool')
   self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
 
-  _updateAttr(self, name_for_used_legacy, value)
-  _updateAttr(self, name_for_used_modern, value)
+  _updateAttrsByChanges(self, [
+    name_for_used_legacy, value,
+    name_for_used_modern, value,
+  ])
 }
 
 var useInterface = function(self, interface_name, obj, destroy) {

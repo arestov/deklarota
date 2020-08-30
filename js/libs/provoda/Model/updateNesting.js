@@ -3,7 +3,7 @@ import spv from '../../spv'
 import hp from '../helpers'
 import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
-import _updateAttr from '../_internal/_updateAttr'
+import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
 var checkNesting = nestWIndex.checkNesting
@@ -65,11 +65,12 @@ export default function updateNesting(self, collection_name, input, opts) {
   self._attrs_collector.defineAttr(name_for_exists_legacy, 'bool')
   self._attrs_collector.defineAttr(name_for_exists_modern, 'bool')
 
-  _updateAttr(self, name_for_length_legacy, count)
-  _updateAttr(self, name_for_length_modern, count)
-  _updateAttr(self, name_for_exists_legacy, Boolean(count))
-  _updateAttr(self, name_for_exists_modern, Boolean(count))
-
+  _updateAttrsByChanges(self, [
+    name_for_length_legacy, count,
+    name_for_length_modern, count,
+    name_for_exists_legacy, Boolean(count),
+    name_for_exists_modern, Boolean(count),
+  ])
 
   var removed = hp.getRemovedNestingItems(array, old_value)
 

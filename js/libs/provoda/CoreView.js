@@ -2,7 +2,7 @@
 
 import spv from '../spv'
 
-import _updateAttr from './_internal/_updateAttr'
+import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
 import updateProxy from './updateProxy'
@@ -985,11 +985,13 @@ var View = spv.inh(StatesEmitter, {
       var $last = $back == 0
 
       // Should it be with as input, not internal state change?
-      _updateAttr(view, '$index', counter)
-      _updateAttr(view, '$index_back', $back)
-      _updateAttr(view, '$first', $first)
-      _updateAttr(view, '$last', $last)
-      _updateAttr(view, '$middle', !($first || $last))
+      _updateAttrsByChanges(view, [
+        '$index', counter,
+        '$index_back', $back,
+        '$first', $first,
+        '$last', $last,
+        '$middle', !($first || $last),
+      ])
 
       counter++
     }
