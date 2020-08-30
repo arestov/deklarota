@@ -23,10 +23,4 @@ export default {
       }
     }
   },
-  markFlowSteps: function(flow_steps, p_space, p_index_key) {
-    for (var i = 0; i < flow_steps.length; i++) {
-      flow_steps[i].p_space = p_space
-      flow_steps[i].p_index_key = p_index_key
-    }
-  }
 }

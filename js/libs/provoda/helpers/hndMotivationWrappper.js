@@ -1,10 +1,6 @@
 
 
 export default function hndMotivationWrappper(motivator, fn, context, args, arg) {
-  if (motivator.p_space) {
-    this.zdsv.removeFlowStep(motivator.p_space, motivator.p_index_key, motivator)
-  }
-
   if (this.isAliveFast && !this.isAliveFast() && !fn.skipAliveCheck) {
     return
   }

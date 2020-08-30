@@ -39,19 +39,24 @@ function buildHead(self, data) {
 }
 
 export default function initModel(self, opts, data, params, more, states) {
-  self.current_motivator = self.current_motivator || (opts && opts._motivator)
+  var current_motivator = opts._motivator
+  var app = opts.app
+  var map_parent = opts.map_parent
+  var _highway = opts._highway
 
-  if (opts && opts.app) {
-    self.app = opts.app
+  self.current_motivator = self.current_motivator || (current_motivator)
+
+  if (app != null) {
+    self.app = app
   }
 
   self.app = self.app || null
 
-  if (opts._highway) {
-    self._highway = opts._highway
+  if (_highway != null) {
+    self._highway = _highway
   }
 
-  if (!self._highway) {
+  if (self._highway == null) {
     self._highway = self.app._highway
   }
 
@@ -68,8 +73,8 @@ export default function initModel(self, opts, data, params, more, states) {
 
   initSubPager(self)
 
-  if (opts && opts.map_parent) {
-    self.map_parent = opts.map_parent
+  if (map_parent != null) {
+    self.map_parent = map_parent
   }
 
   self.map_parent = self.map_parent || null
@@ -144,19 +149,10 @@ function prepareStates(self, data, states) {
   self.init_states = self.init_states || null
 
   var iss = createISS(self, data, states)
-  var default_attrs = initInputAttrs(self)
-  if (default_attrs) {
-    var cur = self.init_states
-    self.init_states = {}
-    cloneObj(self.init_states, default_attrs)
-    cloneObj(self.init_states, cur)
-  }
 
   if (!iss) {
     return
   }
-
-  self.init_states = cloneObj(self.init_states, iss)
 
   self.init_states = self.init_states || {}
   self.init_states = cloneObj(self.init_states, iss)

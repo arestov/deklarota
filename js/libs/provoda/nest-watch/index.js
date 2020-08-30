@@ -20,5 +20,4 @@ function initList(self, list) {
 export default {
   initList: initList,
   checkNesting: checkNesting,
-  checkStates: checkStates,
 }

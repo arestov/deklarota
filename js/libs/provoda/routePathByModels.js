@@ -127,28 +127,6 @@ function selectRouteItem(self, sp_name) {
   }
 }
 
-
-function getSPOpts(md, sp_name, slashed, byType) {
-  var normal_part = byType ? slashed.slice(1) : slashed
-  var by_colon = normal_part[0].split(':').map(decodeURIComponent)
-  var by_comma = normal_part[0].split(',').map(decodeURIComponent)
-  var by_slash = normal_part.map(decodeURIComponent)
-  return [
-    {
-      url_part: '/' + sp_name
-    },
-    {
-      simple_name: sp_name,
-      decoded_name: decodeURIComponent(sp_name),
-      name_spaced: by_colon[1],
-      by_comma: by_comma,
-      by_colon: by_colon,
-      by_slash: by_slash,
-    }]
-}
-
-
-
 function getterSPI() {
   var init = function(parent, target, data) {
     if (target.hasOwnProperty('_provoda_id')) {
@@ -169,13 +147,30 @@ function getterSPI() {
     накладываем данные из урла
     */
 
-    var common_opts = getSPOpts(self, sp_name, slashed, item.byType)
+    var byType = item.byType
 
-    var states = common_opts[0] || {}
+    var normal_part = byType ? slashed.slice(1) : slashed
+    var by_colon = normal_part[0].split(':').map(decodeURIComponent)
+    var by_comma = normal_part[0].split(',').map(decodeURIComponent)
+    var by_slash = normal_part.map(decodeURIComponent)
+
+    var states = {
+      url_part: '/' + sp_name
+    }
+
+    var hbu_data = {
+      simple_name: sp_name,
+      decoded_name: decodeURIComponent(sp_name),
+      name_spaced: by_colon[1],
+      by_comma: by_comma,
+      by_colon: by_colon,
+      by_slash: by_slash,
+    }
+
     var hbu_declr = item.getHead
     var morph_helpers = self.app.morph_helpers
 
-    var head_by_urlname = hbu_declr && hbu_declr(common_opts[1], null, morph_helpers)
+    var head_by_urlname = hbu_declr && hbu_declr(hbu_data, null, morph_helpers)
 
     if (Constr.prototype.handling_v2_init) {
       return self.initSi(Constr, {
@@ -183,7 +178,7 @@ function getterSPI() {
         init_version: 2,
         states: allStates(states, extra_states),
         head: head_by_urlname,
-        url_params: common_opts[1],
+        url_params: hbu_data,
       })
     }
 
@@ -191,7 +186,7 @@ function getterSPI() {
     cloneObj(instance_data, states)
     instance_data.head = head_by_urlname
 
-    return self.initSi(Constr, allStates(instance_data, extra_states), null, null, common_opts[0])
+    return self.initSi(Constr, allStates(instance_data, extra_states), null, null, states)
   }
 
 

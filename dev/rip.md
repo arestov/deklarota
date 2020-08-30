@@ -89,3 +89,11 @@
 - deprecated object structure for attr.comp ({depends_on: ...})
 
 - 'compx' -> 'comp'
+
+- 'stch-' called after calculations, not in calculations progress
+
+- don't use abortFlowSteps for 'stch'
+
+- don't use abortFlowSteps for 'stev'
+
+- don't use abortFlowSteps for 'collch'

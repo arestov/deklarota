@@ -1,7 +1,7 @@
 
 import orderItems from './orderItems'
 
-export default function(etr, zdsv, state_name, value, cur_value) {
+export default function(etr, state_name, value, cur_value) {
   var links = etr.states_links && etr.states_links[state_name]
   if (!links) {return}
   for (var k = 0; k < links.length; k++) {

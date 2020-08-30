@@ -1,7 +1,5 @@
 
 
-import StatesLabour from './StatesLabour'
-import utils_simple from './utils/simple'
 import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
 import produceEffects from './StatesEmitter/produceEffects'
 import checkStates from './nest-watch/checkStates'
@@ -15,14 +13,12 @@ var serv_counter = 1
 var ServStates = function() {
   this.num = ++serv_counter
   this.collecting_states_changing = false
-  // this.original_states = {};
 
   this.states_changing_stack = []
 
   this.total_ch = []
+  this.total_original_states = new Map()
   Object.seal(this)
-
-  // this.stch_states = {};
 }
 
 var free_sets = [new Set()]
@@ -55,9 +51,97 @@ var release = function(pool, item) {
   pool.free.push(item)
 }
 
+
+function applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack) {
+  var currentChangesLength
+
+
+  while (states_changing_stack.length) {
+
+    //spv.cloneObj(original_states, etr.states);
+
+    var cur_changes_list = states_changing_stack.shift()
+
+    var lengthBeforeAnyChanges = total_ch.length
+
+    currentChangesLength = lengthBeforeAnyChanges
+    // remember current length before any changes in this iteration
+
+
+    //получить изменения для состояний, которые изменил пользователь через публичный метод
+    getChanges(etr, total_original_states, 0, cur_changes_list, total_ch)
+    //var total_ch = ... ↑
+
+
+    if (etr.full_comlxs_index != null) {
+      //проверить комплексные состояния
+      while (currentChangesLength != total_ch.length) {
+        var lengthToHandle = total_ch.length
+        applyComplexStates(etr, total_original_states, currentChangesLength, total_ch)
+        currentChangesLength = lengthToHandle
+      }
+    }
+
+    cur_changes_list = null
+
+
+    //объекты используются повторно, ради выиграша в производительности
+    //которые заключается в исчезновении пауз на сборку мусора
+  }
+}
+
 var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
 var iterateStChanges = createIterate1arg(_triggerStChanges)
 var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
+
+
+function propagateAttrChanges(etr, total_original_states, total_ch) {
+  iterateStChanges(total_ch, etr, total_original_states)
+
+  if (etr.updateTemplatesStates != null) {
+    etr.keepTotalChangesUpdates(etr.states)
+    etr.updateTemplatesStates(total_ch)
+  }
+  //utils_simple.wipeObj(original_states);
+  //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
+
+  if (etr.sendStatesToMPX != null && total_ch.length) {
+    etr.sendStatesToMPX(total_ch)
+  }
+  legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
+
+
+  produceEffects(total_ch, total_original_states, etr)
+}
+
+
+function processStackedAttrChanges(etr, serv_st) {
+  serv_st.collecting_states_changing = true
+  //etr.serv_st.collecting_states_changing - must be semi public;
+
+
+  var states_changing_stack = serv_st.states_changing_stack
+  var total_original_states = serv_st.total_original_states
+  var total_ch = serv_st.total_ch
+
+  applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
+
+  //устраняем измененное дважды и более
+  compressStatesChanges(total_ch)
+
+  propagateAttrChanges(etr, total_original_states, total_ch)
+
+
+  total_ch.length = 0
+
+  total_original_states.clear()
+
+
+  serv_st.collecting_states_changing = false
+  etr.serv_st = null
+
+  release(pool, serv_st)
+}
 
 function updateProxy(etr, changes_list, opts) {
 
@@ -76,12 +160,7 @@ function updateProxy(etr, changes_list, opts) {
 
   //порождать события изменившихся состояний (в передлах одного стэка/вызова)
   //для пользователя пока пользователь не перестанет изменять новые состояния
-  if (etr.zdsv == null) {
-    etr.zdsv = new StatesLabour(etr.full_comlxs_index != null, etr._has_stchs)
-  }
 
-
-  var zdsv = etr.zdsv
   var serv_st = etr.serv_st || getFree(pool)
   etr.serv_st = serv_st
 
@@ -91,82 +170,67 @@ function updateProxy(etr, changes_list, opts) {
     return etr
   }
 
-  serv_st.collecting_states_changing = true
-  //etr.zdsv is important for etr!!!
-  //etr.serv_st.collecting_states_changing - must be semi public;
+  processStackedAttrChanges(etr, serv_st)
 
-
-  var original_states = zdsv.original_states
-
-  var total_ch = serv_st.total_ch
-  var currentChangesLength
-
-  while (serv_st.states_changing_stack.length) {
-
-    //spv.cloneObj(original_states, etr.states);
-
-    var cur_changes_list = serv_st.states_changing_stack.shift()
-
-    var lengthBeforeAnyChanges = total_ch.length
-
-    currentChangesLength = lengthBeforeAnyChanges
-    // remember current length before any changes in this iteration
-
-
-    //получить изменения для состояний, которые изменил пользователь через публичный метод
-    getChanges(etr, zdsv.total_original_states, original_states, 0, cur_changes_list, total_ch)
-    //var total_ch = ... ↑
-
-
-    if (etr.full_comlxs_index != null) {
-      //проверить комплексные состояния
-      while (currentChangesLength != total_ch.length) {
-        var lengthToHandle = total_ch.length
-        applyComplexStates(etr, zdsv.total_original_states, original_states, currentChangesLength, total_ch)
-        currentChangesLength = lengthToHandle
-      }
-    }
-
-    legacySideEffects(etr, total_ch, lengthBeforeAnyChanges, total_ch.length)
-
-    cur_changes_list = null
-
-
-    utils_simple.wipeObj(original_states)
-    //объекты используются повторно, ради выиграша в производительности
-    //которые заключается в исчезновении пауз на сборку мусора
-  }
-
-  //устраняем измененное дважды и более
-  compressStatesChanges(total_ch)
-
-  if (etr.updateTemplatesStates != null) {
-    etr.keepTotalChangesUpdates(etr.states)
-    etr.updateTemplatesStates(total_ch)
-  }
-
-  iterateStChanges(total_ch, etr, zdsv)
-  produceEffects(total_ch, etr)
-
-  //utils_simple.wipeObj(original_states);
-  //all_i_cg.length = all_ch_compxs.length = changed_states.length = 0;
-
-  if (etr.sendStatesToMPX != null && total_ch.length) {
-    etr.sendStatesToMPX(total_ch)
-  }
-
-  total_ch.length = 0
-
-  utils_simple.wipeObj(zdsv.total_original_states)
-
-
-  serv_st.collecting_states_changing = false
-  etr.serv_st = null
-
-  release(pool, serv_st)
-  //zdsv = null;
   return etr
 }
+
+function createFakeEtr(etr, first_changes_list) {
+  var state = {}
+
+  return {
+    etr: {
+      states: state,
+      _attrs_collector: etr._attrs_collector,
+      full_comlxs_list: etr.full_comlxs_list,
+      full_comlxs_index: etr.full_comlxs_index,
+      state: function(name) {
+        if (!state.hasOwnProperty(name)) {
+          return
+        }
+        return state[name]
+      }
+    },
+    total_original_states: new Map(),
+    total_ch: [],
+    states_changing_stack: [first_changes_list],
+  }
+}
+
+function toKey(entry) {
+  return entry[0]
+}
+
+function computeInitialAttrs(etr, total_original_states, total_ch, states_changing_stack) {
+  applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
+  compressStatesChanges(total_ch)
+
+  etr.original_values = [...total_original_states.entries()].map(toKey)
+}
+
+function initAttrs(etr, fake, input_initial_changes) {
+  var serv_st = etr.serv_st || getFree(pool)
+  etr.serv_st = serv_st
+
+  var total_original_states = serv_st.total_original_states
+
+  var original_values = fake.etr.original_values
+
+  for (var i = 0; i < original_values.length; i++) {
+    var name = original_values[i]
+    total_original_states.set(name, undefined)
+  }
+
+  Array.prototype.push.apply(etr.serv_st.total_ch, fake.total_ch)
+
+  // write precomputed changes
+  getChanges(etr, total_original_states, 0, etr.serv_st.total_ch, null)
+
+  // compute new changes
+  serv_st.states_changing_stack.push(input_initial_changes)
+  processStackedAttrChanges(etr, serv_st)
+}
+
 
 // mirco optimisations for monomorphism of args
 function createIterate0arg(cb) {
@@ -200,38 +264,23 @@ function getStateChangeEffect(target, state_name) {
   return target.__state_change_index[state_name]
 }
 
-function proxyStch(target, value, state_name) {
-  var old_value = target.zdsv.stch_states[state_name]
-  if (old_value === value) {
-    return
-  }
+function proxyStch(target, state_name, value, old_value) {
 
-  target.zdsv.stch_states[state_name] = value
   var method = getStateChangeEffect(target, state_name)
 
   method(target, value, old_value)
 }
 
-function _handleStch(etr, state_name, value) {
+function _handleStch(etr, state_name, value, old_value) {
   var method = getStateChangeEffect(etr, state_name)
   if (method == null) {
     return
   }
 
-  etr.zdsv.abortFlowSteps('stch', state_name, true)
-
-  var old_value = etr.zdsv.stch_states[state_name]
-  if (old_value === value) {
-    return
-  }
-
-  var flow_step = etr.nextLocalTick(proxyStch, [etr, value, state_name], true, method.finup)
-  flow_step.p_space = 'stch'
-  flow_step.p_index_key = state_name
-  etr.zdsv.createFlowStepsArray('stch', state_name, flow_step)
+  etr.nextLocalTick(proxyStch, [etr, state_name, value, old_value], true, method.finup)
 }
 
-function getChanges(etr, total_original_states, original_states, start_from, changes_list, result_arr) {
+function getChanges(etr, total_original_states, start_from, changes_list, result_arr) {
   var changed_states = result_arr
   var i
 
@@ -243,7 +292,7 @@ function getChanges(etr, total_original_states, original_states, start_from, cha
   for (i = start_from; i < inputLength; i += CH_GR_LE) {
     var state_name = changes_list[i]
     reportBadChange(etr, state_name)
-    _replaceState(etr, total_original_states, original_states, sameName(state_name), changes_list[i + 1], changed_states)
+    _replaceState(etr, total_original_states, sameName(state_name), changes_list[i + 1], changed_states)
   }
 
 
@@ -301,8 +350,12 @@ function shallowEqual(objA, objB) {
   return true
 }
 
-function _replaceState(etr, total_original_states, original_states, state_name, value, stack) {
+function _replaceState(etr, total_original_states, state_name, value, stack) {
   var old_value = etr.states[state_name]
+  if (old_value == null && value == null) {
+    return
+  }
+
   if (old_value === value) {
     return
   }
@@ -313,15 +366,16 @@ function _replaceState(etr, total_original_states, original_states, state_name, 
 
   //value = value || false;
   //less calculations? (since false and "" and null and undefined now os equeal and do not triggering changes)
-  if (!total_original_states.hasOwnProperty(state_name)) {
-    total_original_states[state_name] = old_value
+  if (!total_original_states.has(state_name)) {
+    total_original_states.set(state_name, old_value)
   }
 
-  if (!original_states.hasOwnProperty(state_name)) {
-    original_states[state_name] = old_value
-  }
   etr._attrs_collector.ensureAttr(state_name)
   etr.states[state_name] = value
+
+  if (stack == null) {
+    return
+  }
   stack.push(state_name, value)
 }
 
@@ -337,7 +391,7 @@ function getComplexInitList(etr) {
   return result_array
 }
 
-function applyComplexStates(etr, total_original_states, original_states, start_from, input_and_output) {
+function applyComplexStates(etr, total_original_states, start_from, input_and_output) {
   // reuse set
   var uniq = getFreeSet()
 
@@ -361,8 +415,7 @@ function applyComplexStates(etr, total_original_states, original_states, start_f
 
       var value = compoundComplexState(etr, subj)
       _replaceState(
-        etr, total_original_states, original_states,
-
+        etr, total_original_states,
         sameName(subj.name), value, input_and_output
       )
     }
@@ -426,7 +479,7 @@ function compressStatesChanges(changes_list) {
   return changes_list
 }
 
-function legacySideEffects(etr, changes_list, start_from, inputLength) {
+function legacySideEffects(etr, total_original_states, changes_list, start_from, inputLength) {
   if (etr.__syncStatesChanges != null || etr.__handleHookedSync != null) {
     var to_send = changes_list.slice(start_from, inputLength)
     if (etr.__syncStatesChanges != null) {
@@ -439,20 +492,20 @@ function legacySideEffects(etr, changes_list, start_from, inputLength) {
   }
 
   for (var i = start_from; i < inputLength; i += CH_GR_LE) {
-    _handleStch(etr, changes_list[i], changes_list[i + 1])
+    _handleStch(etr, changes_list[i], changes_list[i + 1], total_original_states.get(changes_list[i]))
   }
 }
 
 
-function _triggerStChanges(etr, i, state_name, value, zdsv) {
+function _triggerStChanges(etr, i, state_name, value, total_original_states) {
 
-  _passHandleState(etr, zdsv.total_original_states, state_name, value)
+  _passHandleState(etr, total_original_states, state_name, value)
 
-  checkStates(etr, zdsv, state_name, value, zdsv.total_original_states[state_name])
+  checkStates(etr, state_name, value, total_original_states.get(state_name))
   deliverAttrQueryUpdates(etr, state_name)
   // states_links
 
-  triggerLightAttrChange(etr, state_name, value, zdsv)
+  triggerLightAttrChange(etr, state_name, value)
 }
 
 function reportBadChange() {
@@ -486,5 +539,7 @@ updateProxy.update = function(md, state_name, state_value, opts) {
   // md.updateState(state_name, state_value, opts);
 }
 updateProxy.getComplexInitList = getComplexInitList
+
+export { createFakeEtr, computeInitialAttrs, getComplexInitList, initAttrs }
 
 export default updateProxy

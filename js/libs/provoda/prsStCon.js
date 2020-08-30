@@ -71,6 +71,9 @@ export default {
       for (var i = 0; i < list.length; i++) {
         var cur = list[i]
         var value = read.parent(md, cur)
+        if (value == null) {
+          continue
+        }
 
         states_list.push(cur.full_name, value)
       }
@@ -83,6 +86,10 @@ export default {
       for (var i = 0; i < list.length; i++) {
         var cur = list[i]
         var value = read.root(md, cur)
+        if (value == null) {
+          continue
+        }
+
         states_list.push(cur.full_name, value)
       }
     }

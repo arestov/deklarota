@@ -464,6 +464,8 @@ spv.Class.extendTo(PvTemplate, {
         }
       }
     }
+
+    this.calls_flow_index = null
   },
   getTypedNodes: function() {
     var result = []

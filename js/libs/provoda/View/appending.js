@@ -2,7 +2,7 @@
 import spv from '../../spv'
 import dom_helpers from '../utils/dom_helpers'
 import getViewLocationId from './getViewLocationId'
-import _updateAttr from '../_internal/_updateAttr'
+import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 
 var append = dom_helpers.append
 var after = dom_helpers.after
@@ -128,12 +128,13 @@ export default {
         var $last = counter === (array.length - 1)
 
         view.current_motivator = this.current_motivator
-
-        _updateAttr(view, '$index', counter)
-        _updateAttr(view, '$index_back', (array.length - 1) - counter)
-        _updateAttr(view, '$first', $first)
-        _updateAttr(view, '$last', $last)
-        _updateAttr(view, '$middle', !($first || $last))
+        _updateAttrsByChanges(view, [
+          '$index', counter,
+          '$index_back', (array.length - 1) - counter,
+          '$first', $first,
+          '$last', $last,
+          '$middle', !($first || $last),
+        ])
 
         view.current_motivator = null
 
@@ -200,8 +201,11 @@ export default {
             if (parent_node) {
               parent_node.removeChild(current_node)
             }
-            _updateAttr(view, 'vis_con_appended', false)
-            _updateAttr(view, '$meta$apis$con$appended', false)
+
+            _updateAttrsByChanges(view, [
+              'vis_con_appended', false,
+              '$meta$apis$con$appended', false,
+            ])
 
             view._lbr.detached = true
             detached.push(view)
