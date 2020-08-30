@@ -178,8 +178,6 @@ function updateProxy(etr, changes_list, opts) {
 function createFakeEtr(etr, first_changes_list) {
   var state = {}
 
-  // TODO: handle __defined_attrs_bool
-
   return {
     etr: {
       states: state,

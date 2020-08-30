@@ -22,6 +22,15 @@ function ensureInitialAttrs(self) {
 
   var first_changes_list = getComplexInitList(self) || []
 
+  for (var i = 0; i < self.__defined_attrs_bool.length; i++) {
+    var cur = self.__defined_attrs_bool[i]
+    if (cur.type != 'bool') {
+      continue
+    }
+    first_changes_list.push(cur.name, false)
+  }
+
+
   var default_attrs = initInputAttrs(self)
   for (var attr_name in default_attrs) {
     first_changes_list.push(attr_name, default_attrs[attr_name])
