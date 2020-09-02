@@ -216,6 +216,7 @@ spv.getFieldsTree = getFieldsTree
 
 getTargetField = function getTargetField(obj, path) {
   if (path == null) {return obj}
+  if (obj == null) {return obj}
 
   var tree = getFieldsTree(path)
   var target = obj
