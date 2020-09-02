@@ -93,7 +93,13 @@ var makeBindChanges = function(self, index, using, original_values) {
       for (var i = 0; i < apis.length; i++) {
         bind_args[i + 1] = using.used[apis[i]]
       }
-      using.binders.removers[key] = cur.fn.apply(null, bind_args)
+      var cancel = cur.fn.apply(null, bind_args)
+      if (cancel == null) {
+        console.error(self.__code_path)
+        throw new Error('effect should provide fn to cancel subscription ' + key)
+      }
+      using.binders.removers[key] = cancel
+
     } else {
       using.binders.removers[key].call()
       using.binders.removers[key] = null
