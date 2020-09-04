@@ -94,7 +94,7 @@ var parseModern = spv.memorize(function parseModern(string) {
 var matchNotStateSymbols = /(^\W)|\@|\:/
 
 
-var getStateInfo = spv.memorize(function getStateInfo(string) {
+export var getStateInfo = spv.memorize(function getStateInfo(string) {
   if (!string) {
     return empty
   }

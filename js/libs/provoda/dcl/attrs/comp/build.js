@@ -4,8 +4,7 @@ import getEncodedState from '../../../utils/getEncodedState'
 import asString from '../../../utils/multiPath/asString'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
 import isJustAttrAddr from './isJustAttrAddr'
-
-
+import isGlueTargetAttr from './isGlueTargetAttr'
 
 var makeGroups = groupDeps(getEncodedState)
 
@@ -73,6 +72,10 @@ function uniqExternalDeps(full_comlxs_list) {
     for (var jj = 0; jj < cur.addrs.length; jj++) {
       var addr = cur.addrs[jj]
       if (isJustAttrAddr(addr)) {
+        continue
+      }
+
+      if (isGlueTargetAttr(addr)) {
         continue
       }
 

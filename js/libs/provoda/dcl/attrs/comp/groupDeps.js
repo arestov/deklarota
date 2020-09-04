@@ -1,3 +1,5 @@
+import isGlueTargetAttr from './isGlueTargetAttr'
+
 function groupDeps(parse) {
   return function(list) {
     var states_of_parent = {}
@@ -8,8 +10,14 @@ function groupDeps(parse) {
     for (var i = 0; i < list.length; i++) {
       var cur = list[i]
       var deps_list = cur.depends_on
+      var addrs = cur.addrs
 
       for (var jj = 0; jj < deps_list.length; jj++) {
+        var addr = addrs[jj]
+        if (isGlueTargetAttr(addr) != null) {
+          continue
+        }
+
         var state_name = deps_list[jj]
         var parsing_result = parse(state_name)
         if (!parsing_result) {

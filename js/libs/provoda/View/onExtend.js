@@ -4,7 +4,7 @@ import spv from '../../spv'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
-
+import extendByServiceAttrs from '../dcl/attrs/comp/extendByServiceAttrs'
 import buildInputAttrs from '../dcl/attrs/input/build'
 import checkEffects from '../dcl/effects/check'
 import collectSelectorsOfCollchs from '../dcl_view/collectSelectorsOfCollchs'
@@ -86,6 +86,8 @@ export default function(self, props, original) {
   checkEffects(self, props, typed_state_dcls)
 
   parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
+  extendByServiceAttrs(self, props, typed_state_dcls)
+
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
