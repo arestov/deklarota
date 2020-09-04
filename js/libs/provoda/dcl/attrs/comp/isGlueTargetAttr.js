@@ -6,6 +6,10 @@ var hasGlueSourceAttr = function(addr) {
     if (addr.result_type === 'nesting') {
       return glueTargets.zip_of_rel
     }
+
+    if (addr.result_type === 'state') {
+      return glueTargets.zip_of_attr
+    }
   }
 
 }
