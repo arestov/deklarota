@@ -10,6 +10,9 @@ var sources = {
   // {zip:'all', attr: 'path.sub.sub', rel: 'rel.rel.rel', route: '', asc: ''}
   long_attr_of_rel: count++,
 
+  // {           attr: 'path.sub.sub',                   , route: '', asc: ''}
+  long_attr_of_attr: count++,
+
   // {zip:'all', attr: 'path',         rel: 'rel.rel.rel', route: '', asc: ''}
   attr: count++,
 

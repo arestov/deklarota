@@ -16,6 +16,8 @@ var hasGlueSourceAttr = function(addr) {
     if (isNestingAddr(addr)) {
       return glueTargets.long_attr_of_rel
     }
+
+    return glueTargets.long_attr_of_attr
   }
 
 

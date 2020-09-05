@@ -51,6 +51,15 @@ function makeGlueSource(addr) {
       }
       return new CompxAttrDecl(asString(addr), [[asString(source_addr)], fn])
     }
+    case long_attr_of_attr: {
+      var getValue = getTreeGetter(addr.state.path)
+      if (isJustAttrAddr(addr)) {
+        return new CompxAttrDecl(addr.state.path, [[addr.state.base], getValue])
+      }
+
+      var source_addr = createUpdatedAddr(addr, 'state', addr.state.base)
+      return new CompxAttrDecl(asString(addr), [[asString(source_addr)], getValue])
+    }
 
     default: {
       throw new Error('unknown type')
