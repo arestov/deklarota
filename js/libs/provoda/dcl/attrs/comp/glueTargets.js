@@ -8,7 +8,7 @@ var sources = {
   zip_of_attr: count++,
 
   // {zip:'all', attr: 'path.sub.sub', rel: 'rel.rel.rel', route: '', asc: ''}
-  long_attr: count++,
+  long_attr_of_rel: count++,
 
   // {zip:'all', attr: 'path',         rel: 'rel.rel.rel', route: '', asc: ''}
   attr: count++,

@@ -12,6 +12,13 @@ var hasGlueSourceAttr = function(addr) {
     }
   }
 
+  if (addr.result_type == 'state' && addr.state.base != addr.state.path) {
+    if (isNestingAddr(addr)) {
+      return glueTargets.long_attr_of_rel
+    }
+  }
+
+
 }
 
 export default hasGlueSourceAttr
