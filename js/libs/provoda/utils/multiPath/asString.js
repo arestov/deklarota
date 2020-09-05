@@ -69,14 +69,14 @@ function resourceString(resource) {
   return '< ' + resource.path + ' '
 }
 
-function baseString(from_base) {
+function baseStringMin(from_base) {
   if (!from_base || !from_base.type) {
-    return '<'
+    return ''
   }
 
   switch (from_base.type) {
     case 'root': {
-      return '< ' + '#'
+      return '#'
     }
     case 'parent': {
       var repeated = ''
@@ -85,9 +85,15 @@ function baseString(from_base) {
         repeated += '^'
         counter++
       }
-      return '< ' + repeated
+      return repeated
     }
 
   }
-
 }
+
+function baseString(from_base) {
+  var result = baseStringMin(from_base)
+  return result ? '< ' + result : result
+}
+
+export { baseStringMin }
