@@ -1,5 +1,5 @@
 import { doCopy } from '../../../../spv/cloneObj'
-import groupDeps from '../../../utils/groupDeps'
+import groupDeps from './groupDeps'
 import getEncodedState from '../../../utils/getEncodedState'
 import asString from '../../../utils/multiPath/asString'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
