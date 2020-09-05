@@ -221,7 +221,7 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 }
 
 
-function getNestInfo(string) {
+export function getNestInfo(string) {
   if (!string) {
     return empty
   }
@@ -261,7 +261,7 @@ function getResourceInfo(string) {
   }
 }
 
-function getBaseInfo(string) {
+export function getBaseInfo(string) {
   if (!string) {
     return empty
   }
