@@ -1,6 +1,4 @@
-
-
-function groupDeps(parse, getDeps) {
+function groupDeps(parse) {
   return function(list) {
     var states_of_parent = {}
     var states_of_nesting = {}
@@ -9,7 +7,7 @@ function groupDeps(parse, getDeps) {
 
     for (var i = 0; i < list.length; i++) {
       var cur = list[i]
-      var deps_list = getDeps(cur)
+      var deps_list = cur.depends_on
 
       for (var jj = 0; jj < deps_list.length; jj++) {
         var state_name = deps_list[jj]

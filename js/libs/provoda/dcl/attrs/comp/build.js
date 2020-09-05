@@ -7,9 +7,7 @@ import isJustAttrAddr from './isJustAttrAddr'
 
 
 
-var makeGroups = groupDeps(getEncodedState, function(cur) {
-  return cur.depends_on
-})
+var makeGroups = groupDeps(getEncodedState)
 
 var collectBuildParts = function(self) {
   var compx_check = {}
