@@ -101,13 +101,15 @@ var NestCompxDcl = function(name, data) {
 
   var list = deps.map(getDeps)
 
+  // for prefill
   this.raw_deps = list
 
+  // for cache keys
   this.deps = list.map(asString)
 
   this.calcFn = fn || same
 
-  // will be used by runner
+  // will be used by runner (to init watchers)
   this.parsed_deps = groupBySubscribing(list)
 
 }
