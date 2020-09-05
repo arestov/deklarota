@@ -1,4 +1,12 @@
+var emptyArray = Object.seal([])
 
+var useSharedEmpty = function(list) {
+  if (list != null && !list.length) {
+    return emptyArray
+  }
+
+  return list
+}
 
 var zip_fns = {
   'one': function(list) {
@@ -14,10 +22,10 @@ var zip_fns = {
     return list && list.find(Boolean)
   },
   'filter': function(list) {
-    return list && list.filter(Boolean)
+    return list && useSharedEmpty(list.filter(Boolean))
   },
   'all': function(list) {
-    return list
+    return useSharedEmpty(list)
   },
   'length': function(list) {
     return list && list.length
