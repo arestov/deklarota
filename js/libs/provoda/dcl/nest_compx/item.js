@@ -44,6 +44,8 @@ var getDeps = spv.memorize(function getEncodedState(string) {
     return simple_addr
   }
 
+  var copy = spv.cloneObj({}, result)
+
   var state_name = result.state && result.state.path
 
   var nwatch = new NestWatch(result, state_name, {
@@ -51,7 +53,6 @@ var getDeps = spv.memorize(function getEncodedState(string) {
     onchd_count: hnest,
   })
 
-  var copy = spv.cloneObj({}, result)
   copy.nwatch = nwatch
 
   var zip_name = result.zip_name || 'all'
