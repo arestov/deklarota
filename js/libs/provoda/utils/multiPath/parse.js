@@ -255,6 +255,10 @@ function getResourceInfo(string) {
     return empty
   }
 
+  if (string.startsWith('#')) {
+    throw new Error('use "ascending part" for root/parent traversing')
+  }
+
   return {
     path: string,
     template: getParsedPath(string),
