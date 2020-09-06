@@ -16,6 +16,10 @@ const splitComplexRel = function(addr) {
     return null
   }
 
+  if (addr.resource.path) {
+    throw new Error('implement glue source runtime for "route"')
+  }
+
   var meta_relation = createName(addr)
 
   var result = cloneObj({}, addr)
