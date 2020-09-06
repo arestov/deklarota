@@ -18,6 +18,7 @@ import checkRoutes from '../dcl/routes/check'
 import checkSubpager from '../dcl/sub_pager/check'
 import collectSubpages from '../dcl/sub_pager/collectSubpages'
 import checkEffects from '../dcl/effects/check'
+import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 
 import checkNest from '../dcl/nest/check'
 
@@ -115,6 +116,7 @@ export default function(self, props, original, params) {
   checkRoutes(self, props)
 
   checkModernNests(self, props)
+  provideGlueRels(self, props)
 
   checkPasses(self, props)
 

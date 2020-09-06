@@ -1,9 +1,5 @@
-
-import addFrom from '../../nest-watch/addFrom'
-import LocalWatchRoot from '../../nest-watch/LocalWatchRoot'
 import handler from './handler'
 import subscribing from '../../utils/multiPath/subscribing'
-import supportedRelTargetAddr from '../../Model/mentions/supportedRelTargetAddr'
 var hstate = handler.hstate
 var recalc = handler.recalc
 
@@ -14,34 +10,6 @@ var copyStates = function(md, target, state_name, full_name, runner) {
 }
 
 var subscribe = subscribing(copyStates)
-
-var runNestWatches = function(self, md, list) {
-  if (!list || !list.length) {
-    return
-  }
-
-  var lnwatches = new Array(list.length)
-
-  for (var i = 0; i < list.length; i++) {
-
-    if (supportedRelTargetAddr(list[i])) {
-      continue
-    }
-
-    var lnwatch = new LocalWatchRoot(md, list[i].nwatch, {
-      runner: self,
-      dep: list[i],
-      num: i,
-      zipFn: list[i].zipFn,
-      // index: i,
-    })
-
-    addFrom(md, lnwatch)
-    lnwatches[i] = lnwatch
-  }
-
-  self.lnwatches = lnwatches
-}
 
 var runUsual = function(self, md, list) {
   if (!list || !list.length) {
@@ -60,7 +28,6 @@ var NestCompxRunner = function(md, dcl) {
 
   var parsed_deps = this.dcl.parsed_deps
 
-  runNestWatches(this, md, parsed_deps.nest_watch)
   runUsual(this, md, parsed_deps.usual)
   this.needs_self = parsed_deps.self
   recalc(dcl, this, md.current_motivator || md._currentMotivator())
