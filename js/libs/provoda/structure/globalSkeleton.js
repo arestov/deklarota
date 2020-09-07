@@ -49,8 +49,7 @@ function GlobalSkeleton() {
   Object.seal(this)
 }
 
-function addCompxNestForModel(global_skeleton, model) {
-
+function handleCompRels(global_skeleton, model) {
   var all_deps = getAllPossibleRelMentionsCandidates(model)
   if (all_deps == null) {
     return
@@ -64,6 +63,10 @@ function addCompxNestForModel(global_skeleton, model) {
 
     global_skeleton.chains.push(new Chain(model, TARGET_TYPE_REL, candidate.addr, candidate.dest_name))
   }
+}
+
+function addCompxNestForModel(global_skeleton, model) {
+  handleCompRels(global_skeleton, model)
 }
 
 function addModel(global_skeleton, model) {
