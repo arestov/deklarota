@@ -7,7 +7,7 @@ var Group = function(num) {
   this.num = num
   this.complex_order = [num]
   this.inited_order = this.complex_order
-  Object.seal(this)
+  Object.freeze(this)
 }
 
 var compareComplexOrder = function(array_one, array_two) {

@@ -1,6 +1,6 @@
 import _updateRel from '../../../_internal/_updateRel'
 
-var emptyArray = Object.seal([])
+var emptyArray = Object.freeze([])
 
 var changeValue = function(current_motivator, data, value) {
   if (!current_motivator) {

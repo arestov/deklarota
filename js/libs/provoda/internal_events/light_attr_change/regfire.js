@@ -7,7 +7,7 @@ var LightEvOpts = function(ev_name, cb, context) {
   this.ev_name = ev_name
   this.cb = cb
   this.context = context
-  Object.seal(this)
+  Object.freeze(this)
 }
 
 LightEvOpts.prototype = {

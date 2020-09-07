@@ -31,7 +31,7 @@ var NestCompxRunner = function(md, dcl) {
   runUsual(this, md, parsed_deps.usual)
   this.needs_self = parsed_deps.self
   recalc(dcl, this, md.current_motivator || md._currentMotivator())
-  Object.seal(this)
+  Object.freeze(this)
 }
 
 export default NestCompxRunner

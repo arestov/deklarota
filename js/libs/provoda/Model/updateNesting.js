@@ -12,7 +12,7 @@ var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1
 })
 
-var emptyArray = Object.seal([])
+var emptyArray = Object.freeze([])
 
 function getUniqCopy(input) {
   if (!input.length) {

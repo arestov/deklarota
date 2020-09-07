@@ -1,6 +1,6 @@
 import prepareGlueSourceRuntime from './runtime/prepare'
 
-const emptyArray = Object.seal([])
+const emptyArray = Object.freeze([])
 
 const provideGlueRels = function(self) {
   if (!self.hasOwnProperty('_nest_by_type_listed')) {
