@@ -12,8 +12,14 @@ var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1
 })
 
+var emptyArray = Object.seal([])
+
 function getUniqCopy(input) {
-  return Array.from(new Set(input))
+  if (!input.length) {
+    return emptyArray
+  }
+  var result = Array.from(new Set(input))
+  return result.length ? result : emptyArray
 }
 
 export default function updateNesting(self, collection_name, input, opts) {

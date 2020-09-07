@@ -221,7 +221,7 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 }
 
 
-function getNestInfo(string) {
+export function getNestInfo(string) {
   if (!string) {
     return empty
   }
@@ -255,13 +255,17 @@ function getResourceInfo(string) {
     return empty
   }
 
+  if (string.startsWith('#')) {
+    throw new Error('use "ascending part" for root/parent traversing')
+  }
+
   return {
     path: string,
     template: getParsedPath(string),
   }
 }
 
-function getBaseInfo(string) {
+export function getBaseInfo(string) {
   if (!string) {
     return empty
   }

@@ -26,10 +26,6 @@ export default function LocalWatchRoot(md, nwatch, data) {
     this.addHandler = nwatch.addHandler
     this.removeHandler = nwatch.removeHandler
 
-    if (!this.handler) {
-      // debugger;
-    }
-
     this.data = data
     // если есть state_name значит массив будет состоять не из моделей
     // а из состояния этих моделей с соостветствующим названим

@@ -8,35 +8,43 @@ import handler from './handler'
 var hnest = handler.hnest
 var hnest_state = handler.hnest_state
 
-var getDeps = spv.memorize(function getEncodedState(string) {
-
-  var result = parseMultiPath(string)
-
-  if (!result) {
+var simpleAddrToUse = function(addr, string) {
+  if (!addr) {
     throw new Error('cant parse: ' + string)
     return null
   }
 
-  if (result.base_itself) {
-    return result
+  if (addr.base_itself) {
+    return addr
   }
 
-  if (result.result_type !== 'nesting' && result.result_type !== 'state') {
-    if (!result.resource || !result.resource.path) {
-      return result
+  if (addr.result_type !== 'nesting' && addr.result_type !== 'state') {
+    if (!addr.resource || !addr.resource.path) {
+      return addr
     }
     throw new Error('implement runner part')
   }
 
-  if (!result.nesting || !result.nesting.path) {
-    return result
+  if (!addr.nesting || !addr.nesting.path) {
+    return addr
   }
 
 
-  if (!result.zip_name) {
+  if (!addr.zip_name) {
     throw new Error('zip name `@one:` or `@all:` should be provided for: ' + string)
   }
 
+}
+
+var getDeps = spv.memorize(function getEncodedState(string) {
+
+  var result = parseMultiPath(string)
+  var simple_addr = simpleAddrToUse(result, string)
+  if (simple_addr != null) {
+    return simple_addr
+  }
+
+  var copy = spv.cloneObj({}, result)
 
   var state_name = result.state && result.state.path
 
@@ -45,7 +53,6 @@ var getDeps = spv.memorize(function getEncodedState(string) {
     onchd_count: hnest,
   })
 
-  var copy = spv.cloneObj({}, result)
   copy.nwatch = nwatch
 
   var zip_name = result.zip_name || 'all'
@@ -95,13 +102,15 @@ var NestCompxDcl = function(name, data) {
 
   var list = deps.map(getDeps)
 
+  // for prefill
   this.raw_deps = list
 
+  // for cache keys
   this.deps = list.map(asString)
 
   this.calcFn = fn || same
 
-  // will be used by runner
+  // will be used by runner (to init watchers)
   this.parsed_deps = groupBySubscribing(list)
 
 }

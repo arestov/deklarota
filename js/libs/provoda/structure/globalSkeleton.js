@@ -2,8 +2,11 @@
 
 import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
+import getAllPossibleRelMentionsCandidates from '../dcl/nest_compx/mentionsCandidates'
+
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
+
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
 
@@ -47,27 +50,20 @@ function GlobalSkeleton() {
 }
 
 function addCompxNestForModel(global_skeleton, model) {
-  if (model._nest_by_type_listed == null) {
+
+  var all_deps = getAllPossibleRelMentionsCandidates(model)
+  if (all_deps == null) {
     return
   }
 
-  var compx_list = model._nest_by_type_listed.comp
-  if (compx_list == null) {
-    return
-  }
-
-  for (var i = 0; i < compx_list.length; i++) {
-    var cur = compx_list[i]
-    for (var jj = 0; jj < cur.parsed_deps.nest_watch.length; jj++) {
-      var addr = cur.parsed_deps.nest_watch[jj]
-      if (!supportedRelTargetAddr(addr)) {
-        continue
-      }
-
-      global_skeleton.chains.push(new Chain(model, TARGET_TYPE_REL, addr, cur.dest_name))
+  for (var i = 0; i < all_deps.length; i++) {
+    var candidate = all_deps[i]
+    if (!supportedRelTargetAddr(candidate.addr)) {
+      continue
     }
-  }
 
+    global_skeleton.chains.push(new Chain(model, TARGET_TYPE_REL, candidate.addr, candidate.dest_name))
+  }
 }
 
 function addModel(global_skeleton, model) {
