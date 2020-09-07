@@ -2,6 +2,7 @@
 import spv from '../../spv'
 import definedAttrs from '../Model/definedAttrs'
 import AttrsCollector from '../StatesEmitter/AttrsCollector'
+import { getRootRelMentions } from '../dcl/nest_compx/mentionsCandidates'
 import RootLev from '../bwlev/RootLev'
 import BrowseLevel from '../bwlev/BrowseLevel'
 import globalSkeleton from './globalSkeleton'
@@ -82,9 +83,23 @@ function mark(Constr, RootConstr, parent_path) {
 
 
   if (Constr == RootConstr) {
+    console.log(getAllRootMentions(self))
     globalSkeleton.complete(self.__global_skeleton)
   }
   return Constr
+}
+
+function getAllRootMentions(model) {
+  var result = []
+  result.push(...getRootRelMentions(model))
+  for (var chi in model._all_chi) {
+    if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
+      continue
+    }
+    result.push(...getAllRootMentions(model._all_chi[chi].prototype))
+  }
+
+  return result
 }
 
 export default mark
