@@ -3,8 +3,6 @@ import getStart from '../../../utils/multiPath/getStart'
 import _updateRel from '../../../_internal/_updateRel'
 import memorize from '../../../../spv/memorize'
 
-import addFrom from '../../../nest-watch/addFrom'
-import LocalWatchRoot from '../../../nest-watch/LocalWatchRoot'
 import isGlueRoot from './isGlueRoot'
 import isGlueParent from './isGlueParent'
 
@@ -45,7 +43,6 @@ const runGlueSources = function(self) {
   }
 
   for (var i = 0; i < self.__rel_all_glue_sources.length; i++) {
-    var md = self
     var cur = self.__rel_all_glue_sources[i]
 
     // prefill
@@ -62,14 +59,6 @@ const runGlueSources = function(self) {
     }
 
     throw new Error('get rid of LocalWatchRoot using rel-glue')
-
-    var lnwatch = new LocalWatchRoot(md, cur.nwatch, {
-      md: self,
-      meta_relation: cur.meta_relation,
-      addr: cur.addr,
-    })
-
-    addFrom(md, lnwatch)
   }
 
 

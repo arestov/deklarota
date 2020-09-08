@@ -1,14 +1,10 @@
 import memorize from '../../../../spv/memorize'
-import cloneObj from '../../../../spv/cloneObj'
-import NestWatch from '../../../nest-watch/NestWatch'
-import watch_handlers from './watch_handlers'
 import isGlueRoot from './isGlueRoot'
 import isGlueParent from './isGlueParent'
 
 
 const prepareGlueSourceRuntime = memorize(function prepareGlueSourceRuntime(data) {
   var addr = data.source
-  var copy = cloneObj({}, addr)
 
   var state_name = addr.state && addr.state.path
 
@@ -22,16 +18,11 @@ const prepareGlueSourceRuntime = memorize(function prepareGlueSourceRuntime(data
     throw new Error('zip_name should be "all"')
   }
 
-  var nwatch = (!isGlueRoot(addr) && !isGlueParent(addr)) && new NestWatch(copy, null, {
-    onchd_state: watch_handlers.hnest_state,
-    onchd_count: watch_handlers.hnest,
-  })
+  var nwatch = (!isGlueRoot(addr) && !isGlueParent(addr))
 
   if (nwatch) {
     throw new Error('get rid of nwatch using rel-glue')
   }
-
-  copy.nwatch = nwatch
 
   return {
     addr: addr,
