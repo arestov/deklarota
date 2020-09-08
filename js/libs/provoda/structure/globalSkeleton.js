@@ -2,7 +2,9 @@
 
 import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
-import getAllPossibleRelMentionsCandidates, { getRootRelMentions } from '../dcl/nest_compx/mentionsCandidates'
+import getAllPossibleRelMentionsCandidates, {
+  getRootRelMentions, getParentRelMentions,
+} from '../dcl/nest_compx/mentionsCandidates'
 
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
@@ -100,7 +102,32 @@ const getAllRootMentions = iterateMentions(function(model) {
   return getRootRelMentions(model)
 })
 
+const getAllParentMentions = iterateMentions(function(model, level) {
+  var list = level ? getParentRelMentions(model) : []
+  if (!list.length) {
+    return list
+  }
+
+  return list.filter(function(item) {
+    return (level - item.source.from_base.steps) == 0
+  })
+})
+
+
+function handleGlueParentAscent(global_skeleton, model) {
+  var list = getAllParentMentions(model, 0)
+
+  for (var i = 0; i < list.length; i++) {
+    var candidate = list[i]
+    global_skeleton.chains.push(new Chain(
+      model, TARGET_TYPE_GLUE_REL, candidate.final_rel_addr, candidate.final_rel_key
+    ))
+  }
+}
+
 function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
+  handleGlueParentAscent(global_skeleton, model, ascent_level)
+
   if (!is_root) {
     return
   }

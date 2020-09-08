@@ -1,10 +1,13 @@
 import getDepValue from '../../../utils/multiPath/getDepValue'
+import getStart from '../../../utils/multiPath/getStart'
 import _updateRel from '../../../_internal/_updateRel'
 import memorize from '../../../../spv/memorize'
 
 import addFrom from '../../../nest-watch/addFrom'
 import LocalWatchRoot from '../../../nest-watch/LocalWatchRoot'
 import isGlueRoot from './isGlueRoot'
+import isGlueParent from './isGlueParent'
+
 import getNameByValue from '../light_rel_change/getNameByValue'
 
 const gotRelGlue = memorize(function(rel_key) {
@@ -52,6 +55,13 @@ const runGlueSources = function(self) {
       subscribe(self.app, self, getNameByValue(cur.final_rel_key), gotRelGlue(cur.meta_relation))
       continue
     }
+
+    if (isGlueParent(cur.addr)) {
+      subscribe(getStart(self, cur.addr), self, getNameByValue(cur.final_rel_key), gotRelGlue(cur.meta_relation))
+      continue
+    }
+
+    throw new Error('get rid of LocalWatchRoot using rel-glue')
 
     var lnwatch = new LocalWatchRoot(md, cur.nwatch, {
       md: self,
