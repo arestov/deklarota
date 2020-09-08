@@ -9,6 +9,7 @@ import target_types from '../Model/mentions/target_types'
 
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
+var TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
 function addrToLinks(addr, chain) {
   var list = []
@@ -99,7 +100,11 @@ function handleGlueRels(global_skeleton, model, is_root) {
     return
   }
   var root_mentions = getAllRootMentions(model)
-  console.log('root_mentions', root_mentions)
+
+  for (var i = 0; i < root_mentions.length; i++) {
+    var candidate = root_mentions[i]
+    global_skeleton.chains.push(new Chain(model, TARGET_TYPE_GLUE_REL, candidate.addr, candidate.meta_relation))
+  }
 }
 
 function addCompxNestForModel(global_skeleton, model, is_root) {
