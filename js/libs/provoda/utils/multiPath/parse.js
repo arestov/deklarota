@@ -6,16 +6,16 @@ import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 
 var splitByDot = spv.splitByDot
-var empty = {}
-var root = {
+var empty = Object.freeze({})
+var root = Object.freeze({
   type: 'root',
   steps: null,
-}
+})
 var parents = spv.memorize(function(num) {
-  return {
+  return Object.freeze({
     type: 'parent',
     steps: num,
-  }
+  })
 })
 var parent_count_regexp = /\^+/gi
 
