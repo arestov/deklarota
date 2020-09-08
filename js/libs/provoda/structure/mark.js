@@ -79,7 +79,7 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
   self._attrs_collector = new AttrsCollector(definedAttrs(self))
 
   self.__global_skeleton = RootConstr.prototype.__global_skeleton
-  globalSkeleton.addModel(self.__global_skeleton, self, Constr == RootConstr)
+  globalSkeleton.addModel(self.__global_skeleton, self, ascent_level, Constr == RootConstr)
 
 
   if (Constr == RootConstr) {

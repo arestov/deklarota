@@ -95,7 +95,7 @@ function getAllRootMentions(model) {
   return [...result.values()]
 }
 
-function handleGlueRels(global_skeleton, model, is_root) {
+function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
   if (!is_root) {
     return
   }
@@ -109,13 +109,13 @@ function handleGlueRels(global_skeleton, model, is_root) {
   }
 }
 
-function addCompxNestForModel(global_skeleton, model, is_root) {
+function addCompxNestForModel(global_skeleton, model, ascent_level, is_root) {
   handleCompRels(global_skeleton, model)
-  handleGlueRels(global_skeleton, model, is_root)
+  handleGlueRels(global_skeleton, model, ascent_level, is_root)
 }
 
-function addModel(global_skeleton, model, is_root) {
-  addCompxNestForModel(global_skeleton, model, is_root)
+function addModel(global_skeleton, model, ascent_level, is_root) {
+  addCompxNestForModel(global_skeleton, model, ascent_level, is_root)
 
   if (model.__attrs_uniq_external_deps == null || !model.__attrs_uniq_external_deps.length) {
     return
