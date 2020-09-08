@@ -37,7 +37,9 @@ const splitComplexRel = function(addr) {
     resource: addr.resource,
   }
 
-  var final_rel_addr = createAddrByPart('nesting', source.nesting)
+  var final_rel_addr = createAddrByPart({
+    nesting: addr.nesting
+  })
 
   result.splited = {
     destination: destination,
