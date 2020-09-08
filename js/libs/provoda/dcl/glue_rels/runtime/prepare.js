@@ -31,6 +31,8 @@ const prepareGlueSourceRuntime = memorize(function prepareGlueSourceRuntime(data
     addr: addr,
     meta_relation: data.meta_relation,
     nwatch: nwatch,
+    final_rel_addr: data.final_rel_addr,
+    final_rel_key: data.final_rel_key,
   }
 
 }, function(data) {
