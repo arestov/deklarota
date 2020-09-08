@@ -1,3 +1,5 @@
+import isGlueRoot from '../glue_rels/runtime/isGlueRoot'
+
 const collect = function(model) {
   if (model._nest_by_type_listed == null) {
     return null
@@ -70,7 +72,7 @@ export function getRootRelMentions(model) {
 
   for (var i = 0; i < list.length; i++) {
     var cur = list[i]
-    if (cur.source.from_base.type != 'root') {
+    if (!isGlueRoot(cur.source)) {
       continue
     }
 
