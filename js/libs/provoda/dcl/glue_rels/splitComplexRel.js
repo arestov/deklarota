@@ -2,6 +2,8 @@ import isRelAddr from '../../utils/multiPath/isRelAddr'
 import { baseStringMin } from '../../utils/multiPath/asString'
 import cloneObj from '../../../spv/cloneObj'
 import createUpdatedAddr from '../../utils/multiPath/createUpdatedAddr'
+import { createAddrByPart } from '../../utils/multiPath/parse'
+
 
 const resourceStr = function(resource) {
   return resource.path || ''
@@ -35,10 +37,14 @@ const splitComplexRel = function(addr) {
     resource: addr.resource,
   }
 
+  var final_rel_addr = createAddrByPart('nesting', source.nesting)
+
   result.splited = {
     destination: destination,
     meta_relation: meta_relation,
     source: source,
+    final_rel_addr: final_rel_addr,
+    final_rel_key: createName(final_rel_addr),
   }
 
   return result

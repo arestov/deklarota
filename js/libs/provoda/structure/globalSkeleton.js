@@ -103,7 +103,9 @@ function handleGlueRels(global_skeleton, model, is_root) {
 
   for (var i = 0; i < root_mentions.length; i++) {
     var candidate = root_mentions[i]
-    global_skeleton.chains.push(new Chain(model, TARGET_TYPE_GLUE_REL, candidate.addr, candidate.meta_relation))
+    global_skeleton.chains.push(new Chain(
+      model, TARGET_TYPE_GLUE_REL, candidate.final_rel_addr, candidate.final_rel_key
+    ))
   }
 }
 

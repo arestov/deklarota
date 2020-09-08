@@ -89,6 +89,8 @@ var getGlueSources = function(list) {
     result.push({
       meta_relation: addr.splited.meta_relation,
       source: addr.splited.source,
+      final_rel_addr: addr.splited.final_rel_addr,
+      final_rel_key: addr.splited.final_rel_key,
     })
   }
 

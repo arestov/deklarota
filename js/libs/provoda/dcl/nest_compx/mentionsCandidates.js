@@ -1,6 +1,3 @@
-import { createName } from '../glue_rels/splitComplexRel'
-import { createAddrByPart } from '../../utils/multiPath/parse'
-
 const collect = function(model) {
   if (model._nest_by_type_listed == null) {
     return null
@@ -18,7 +15,13 @@ const collect = function(model) {
 
     for (var jj = 0; jj < cur.parsed_deps.nest_watch.length; jj++) {
       var addr = cur.parsed_deps.nest_watch[jj]
-      result.push({addr: addr, dest_name: cur.dest_name})
+
+      result.push({
+        addr: addr,
+        dest_name: cur.dest_name,
+        final_rel_addr: cur.final_rel_addr,
+        final_rel_key: cur.final_rel_key,
+      })
     }
   }
 
@@ -71,12 +74,7 @@ export function getRootRelMentions(model) {
       continue
     }
 
-    var addr = createAddrByPart('nesting', cur.source.nesting)
-
-    result.push({
-      addr: addr,
-      meta_relation: createName(addr),
-    })
+    result.push(cur)
   }
 
   model.__rel_mentions_root = result
