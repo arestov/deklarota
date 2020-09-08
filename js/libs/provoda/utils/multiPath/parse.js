@@ -226,6 +226,27 @@ export function updateResultType(draft) {
 
 }
 
+export function createAddrByPart(part_name, value) {
+  var draft = {
+    result_type: null,
+    zip_name: null,
+    state: empty,
+    nesting: empty,
+    resource: empty,
+    from_base: empty,
+    as_string: null,
+  }
+
+  if (!draft.hasOwnProperty(part_name)) {
+    throw new Error('unknown part')
+  }
+
+  draft[part_name] = value
+  updateResultType(draft)
+  return draft
+}
+
+
 export function getNestInfo(string) {
   if (!string) {
     return empty
