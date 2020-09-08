@@ -41,7 +41,7 @@ function getAllPossibleRelMentionsCandidates(model) {
   return result
 }
 
-const collectRoot = function(model) {
+const collectGlue = function(model) {
   if (model._nest_by_type_listed == null) {
     return null
   }
@@ -66,7 +66,7 @@ export function getRootRelMentions(model) {
     return model.__rel_mentions_root
   }
 
-  var list = collectRoot(model) || []
+  var list = collectGlue(model) || []
 
   var result = []
 
