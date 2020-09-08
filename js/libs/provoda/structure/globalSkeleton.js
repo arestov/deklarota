@@ -2,7 +2,7 @@
 
 import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
-import getAllPossibleRelMentionsCandidates from '../dcl/nest_compx/mentionsCandidates'
+import getAllPossibleRelMentionsCandidates, { getRootRelMentions } from '../dcl/nest_compx/mentionsCandidates'
 
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
@@ -65,12 +65,50 @@ function handleCompRels(global_skeleton, model) {
   }
 }
 
-function addCompxNestForModel(global_skeleton, model) {
-  handleCompRels(global_skeleton, model)
+
+function getAllRootMentions(model) {
+  var full_list = []
+  full_list.push(...getRootRelMentions(model))
+  for (var chi in model._all_chi) {
+    if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
+      continue
+    }
+    full_list.push(...getAllRootMentions(model._all_chi[chi].prototype))
+  }
+
+  if (!full_list.length) {
+    return full_list
+  }
+
+  var result = new Map()
+  for (var i = 0; i < full_list.length; i++) {
+    var cur = full_list[i]
+    var key = cur.meta_relation
+    if (result.has(key)) {
+      continue
+    }
+
+    result.set(key, cur)
+  }
+
+  return [...result.values()]
 }
 
-function addModel(global_skeleton, model) {
-  addCompxNestForModel(global_skeleton, model)
+function handleGlueRels(global_skeleton, model, is_root) {
+  if (!is_root) {
+    return
+  }
+  var root_mentions = getAllRootMentions(model)
+  console.log('root_mentions', root_mentions)
+}
+
+function addCompxNestForModel(global_skeleton, model, is_root) {
+  handleCompRels(global_skeleton, model)
+  handleGlueRels(global_skeleton, model, is_root)
+}
+
+function addModel(global_skeleton, model, is_root) {
+  addCompxNestForModel(global_skeleton, model, is_root)
 
   if (model.__attrs_uniq_external_deps == null || !model.__attrs_uniq_external_deps.length) {
     return

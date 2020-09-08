@@ -2,7 +2,6 @@
 import spv from '../../spv'
 import definedAttrs from '../Model/definedAttrs'
 import AttrsCollector from '../StatesEmitter/AttrsCollector'
-import { getRootRelMentions } from '../dcl/nest_compx/mentionsCandidates'
 import RootLev from '../bwlev/RootLev'
 import BrowseLevel from '../bwlev/BrowseLevel'
 import globalSkeleton from './globalSkeleton'
@@ -79,42 +78,13 @@ function mark(Constr, RootConstr, parent_path) {
   self._attrs_collector = new AttrsCollector(definedAttrs(self))
 
   self.__global_skeleton = RootConstr.prototype.__global_skeleton
-  globalSkeleton.addModel(self.__global_skeleton, self)
+  globalSkeleton.addModel(self.__global_skeleton, self, Constr == RootConstr)
 
 
   if (Constr == RootConstr) {
-    console.log(getAllRootMentions(self))
     globalSkeleton.complete(self.__global_skeleton)
   }
   return Constr
-}
-
-function getAllRootMentions(model) {
-  var full_list = []
-  full_list.push(...getRootRelMentions(model))
-  for (var chi in model._all_chi) {
-    if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
-      continue
-    }
-    full_list.push(...getAllRootMentions(model._all_chi[chi].prototype))
-  }
-
-  if (!full_list.length) {
-    return full_list
-  }
-
-  var result = new Map()
-  for (var i = 0; i < full_list.length; i++) {
-    var cur = full_list[i]
-    var key = cur.meta_relation
-    if (result.has(key)) {
-      continue
-    }
-
-    result.set(key, cur)
-  }
-
-  return [...result.values()]
 }
 
 export default mark
