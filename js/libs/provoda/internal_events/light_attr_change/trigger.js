@@ -9,7 +9,7 @@ function triggerLightAttrChange(self, attr_name, value) {
 
   var light_cb_cs = self.evcompanion.getMatchedCallbacks(light_name)
 
-  if (!light_cb_cs.length) {
+  if (light_cb_cs == null || !light_cb_cs.length) {
     return
   }
 
