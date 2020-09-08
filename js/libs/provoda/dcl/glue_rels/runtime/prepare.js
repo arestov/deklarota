@@ -2,6 +2,7 @@ import memorize from '../../../../spv/memorize'
 import cloneObj from '../../../../spv/cloneObj'
 import NestWatch from '../../../nest-watch/NestWatch'
 import watch_handlers from './watch_handlers'
+import isGlueRoot from './isGlueRoot'
 
 
 const prepareGlueSourceRuntime = memorize(function prepareGlueSourceRuntime(data) {
@@ -20,7 +21,7 @@ const prepareGlueSourceRuntime = memorize(function prepareGlueSourceRuntime(data
     throw new Error('zip_name should be "all"')
   }
 
-  var nwatch = new NestWatch(copy, null, {
+  var nwatch = !isGlueRoot(addr) && new NestWatch(copy, null, {
     onchd_state: watch_handlers.hnest_state,
     onchd_count: watch_handlers.hnest,
   })
