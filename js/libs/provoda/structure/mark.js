@@ -90,16 +90,31 @@ function mark(Constr, RootConstr, parent_path) {
 }
 
 function getAllRootMentions(model) {
-  var result = []
-  result.push(...getRootRelMentions(model))
+  var full_list = []
+  full_list.push(...getRootRelMentions(model))
   for (var chi in model._all_chi) {
     if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
       continue
     }
-    result.push(...getAllRootMentions(model._all_chi[chi].prototype))
+    full_list.push(...getAllRootMentions(model._all_chi[chi].prototype))
   }
 
-  return result
+  if (!full_list.length) {
+    return full_list
+  }
+
+  var result = new Map()
+  for (var i = 0; i < full_list.length; i++) {
+    var cur = full_list[i]
+    var key = cur.meta_relation
+    if (result.has(key)) {
+      continue
+    }
+
+    result.set(key, cur)
+  }
+
+  return [...result.values()]
 }
 
 export default mark
