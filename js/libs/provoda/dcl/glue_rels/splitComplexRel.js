@@ -31,11 +31,11 @@ const splitComplexRel = function(addr) {
     null
   )
 
-  var source = {
+  var source = createAddrByPart({
     from_base: addr.from_base,
     nesting: addr.nesting,
     resource: addr.resource,
-  }
+  })
 
   var final_rel_addr = createAddrByPart({
     nesting: addr.nesting
