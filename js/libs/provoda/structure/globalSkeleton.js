@@ -66,34 +66,37 @@ function handleCompRels(global_skeleton, model) {
   }
 }
 
-
-function getAllRootMentions(model) {
-  var full_list = []
-  full_list.push(...getRootRelMentions(model))
-  for (var chi in model._all_chi) {
-    if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
-      continue
-    }
-    full_list.push(...getAllRootMentions(model._all_chi[chi].prototype))
-  }
-
-  if (!full_list.length) {
-    return full_list
-  }
-
-  var result = new Map()
-  for (var i = 0; i < full_list.length; i++) {
-    var cur = full_list[i]
-    var key = cur.meta_relation
-    if (result.has(key)) {
-      continue
+const iterateMentions = function iterateMentions(iterateFn) {
+  return function iterate(model) {
+    var full_list = []
+    full_list.push(...iterateFn(model))
+    for (var chi in model._all_chi) {
+      if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
+        continue
+      }
+      full_list.push(...iterate(model._all_chi[chi].prototype))
     }
 
-    result.set(key, cur)
-  }
+    if (!full_list.length) {
+      return full_list
+    }
 
-  return [...result.values()]
+    var result = new Map()
+    for (var i = 0; i < full_list.length; i++) {
+      var cur = full_list[i]
+      var key = cur.meta_relation
+      if (result.has(key)) {
+        continue
+      }
+
+      result.set(key, cur)
+    }
+
+    return [...result.values()]
+  }
 }
+
+const getAllRootMentions = iterateMentions(getRootRelMentions)
 
 function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
   if (!is_root) {
