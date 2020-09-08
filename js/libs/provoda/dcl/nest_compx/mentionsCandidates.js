@@ -1,4 +1,5 @@
 import isGlueRoot from '../glue_rels/runtime/isGlueRoot'
+import isGlueParent from '../glue_rels/runtime/isGlueParent'
 
 const collect = function(model) {
   if (model._nest_by_type_listed == null) {
@@ -58,6 +59,29 @@ const collectGlue = function(model) {
     result.push(...cur.glue_sources)
   }
 
+  return result
+}
+
+
+export function getParentRelMentions(model) {
+  if (model.hasOwnProperty('__rel_mentions_parent')) {
+    return model.__rel_mentions_parent
+  }
+
+  var list = collectGlue(model) || []
+
+  var result = []
+
+  for (var i = 0; i < list.length; i++) {
+    var cur = list[i]
+    if (!isGlueParent(cur.source)) {
+      continue
+    }
+
+    result.push(cur)
+  }
+
+  model.__rel_mentions_parent = result
   return result
 }
 
