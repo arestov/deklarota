@@ -66,15 +66,15 @@ function handleCompRels(global_skeleton, model) {
   }
 }
 
-const iterateMentions = function iterateMentions(iterateFn) {
+const iterateMentions = function iterateMentions(iterateFn, level) {
   return function iterate(model) {
     var full_list = []
-    full_list.push(...iterateFn(model))
+    full_list.push(...iterateFn(model, level))
     for (var chi in model._all_chi) {
       if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
         continue
       }
-      full_list.push(...iterate(model._all_chi[chi].prototype))
+      full_list.push(...iterate(model._all_chi[chi].prototype, level + 1))
     }
 
     if (!full_list.length) {
@@ -96,13 +96,15 @@ const iterateMentions = function iterateMentions(iterateFn) {
   }
 }
 
-const getAllRootMentions = iterateMentions(getRootRelMentions)
+const getAllRootMentions = iterateMentions(function(model) {
+  return getRootRelMentions(model)
+})
 
 function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
   if (!is_root) {
     return
   }
-  var root_mentions = getAllRootMentions(model)
+  var root_mentions = getAllRootMentions(model, 0)
 
   for (var i = 0; i < root_mentions.length; i++) {
     var candidate = root_mentions[i]
