@@ -66,8 +66,8 @@ function handleCompRels(global_skeleton, model) {
   }
 }
 
-const iterateMentions = function iterateMentions(iterateFn, level) {
-  return function iterate(model) {
+const iterateMentions = function iterateMentions(iterateFn) {
+  return function iterate(model, level) {
     var full_list = []
     full_list.push(...iterateFn(model, level))
     for (var chi in model._all_chi) {
