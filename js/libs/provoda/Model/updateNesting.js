@@ -6,6 +6,8 @@ import isNestingChanged from '../utils/isNestingChanged'
 import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
+import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
+
 var checkNesting = nestWIndex.checkNesting
 
 var hasDot = spv.memorize(function(nesting_name) {
@@ -83,6 +85,8 @@ export default function updateNesting(self, collection_name, input, opts) {
   _passHandleNesting(self, collection_name, old_value, array)
 
   handleMentions(self, collection_name, old_value, array)
+
+  triggerLightRelChange(self, collection_name, array)
 
   checkNesting(self, collection_name, array, removed)
   // !?

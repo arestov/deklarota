@@ -18,6 +18,7 @@ import getLinedStructure from './Model/getLinedStructure'
 import toSimpleStructure from './Model/toSimpleStructure'
 import ensurePublicAttrs from './Model/ensurePublicAttrs'
 import addrFromObj from './provoda/dcl/addr.js'
+import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
@@ -99,6 +100,8 @@ var getStrucParent = function(item, _count, soft) {
 function modelProps(add) {
 add(_requestsDeps)
 add({
+  'regfr-light_rel_ev': regfr_light_rel_ev,
+
   getNonComplexStatesList: function(state_name) {
     // get source states
     var short_name = state_name
