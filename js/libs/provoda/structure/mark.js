@@ -15,7 +15,8 @@ function makePath(parent_path, current_name) {
   return parent_path.concat(used_name)
 }
 
-function mark(Constr, RootConstr, parent_path) {
+function mark(Constr, RootConstr, ascent_level, parent_path) {
+  var next_ascent_level = ascent_level + 1
   RootConstr.hierarchy_counter = RootConstr.hierarchy_counter || 0
 
   var self = Constr.prototype
@@ -56,7 +57,7 @@ function mark(Constr, RootConstr, parent_path) {
       hierarchy_path_string: hierarchy_path.join('  ')
     })
 
-    self._all_chi[prop] = mark(item, RootConstr, hierarchy_path)
+    self._all_chi[prop] = mark(item, RootConstr, next_ascent_level, hierarchy_path)
   }
 
   if (Constr == RootConstr) {
@@ -70,9 +71,9 @@ function mark(Constr, RootConstr, parent_path) {
     var __BWLev = spv.inh(RootLev, {}, self.BWLev || {})
     __BWLev.hierarchy_counter = RootConstr.hierarchy_counter++
 
-    self.__BWLev = mark(__BWLev, RootConstr)
+    self.__BWLev = mark(__BWLev, RootConstr, next_ascent_level)
 
-    self.CBWL = mark(BrowseLevel, RootConstr)
+    self.CBWL = mark(BrowseLevel, RootConstr, next_ascent_level)
   }
 
   self._attrs_collector = new AttrsCollector(definedAttrs(self))
