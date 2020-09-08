@@ -221,6 +221,11 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 }
 
 
+export function updateResultType(draft) {
+  draft.result_type = getResultType(draft.state, draft.nesting, draft.resource, draft.from_base)
+
+}
+
 export function getNestInfo(string) {
   if (!string) {
     return empty
