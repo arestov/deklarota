@@ -91,7 +91,7 @@ add({
     var cb = getLightConnector(acceptor_state_name, donor_state)
 
     var event_name = utils_simple.getSTEVNameLight(donor_state)
-    donor.evcompanion._addEventHandler(event_name, cb, this)
+    donor.evcompanion._addEventHandler(event_name, cb, this, null, null, true)
   },
   unwlch: function(donor, donor_state, acceptor_state_name) {
     var cb = getLightConnector(acceptor_state_name, donor_state)
