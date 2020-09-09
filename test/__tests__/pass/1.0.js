@@ -19,9 +19,20 @@
 2. множественный результат, адресат результатов определен, обычное указание адресата
 3. множественный результат - ответ пропускается
 4. множественный результат, указание адресата через аргумент
-5. один результат, адресат результата nesting определен любым способом типа записи nesting, обычное указание адресата
+5. один результат, адресат результата nesting определен любым способом типа записи nesting, обычное
+  указание адресата
 
 */
+
+import test from 'ava'
+
+import spv from 'spv'
+import Model from 'pv/Model'
+import pvState from 'pv/getAttr'
+import pvPass from 'pv/pass'
+
+import init from '../../init'
+import makeStepsRunner from '../../steps'
 
 const action1 = {
   to: ['age_state'],
@@ -50,18 +61,6 @@ const action2 = {
     },
   ],
 }
-
-const test = require('ava')
-
-const requirejs = require('../../../requirejs-config')
-
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const pvState = requirejs('pv/getAttr')
-const pvPass = requirejs('pv/pass')
-
-const init = require('../../init')
-const makeStepsRunner = require('../../steps')
 
 const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({

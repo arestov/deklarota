@@ -1,6 +1,8 @@
 import requirejs from 'requirejs'
 import path from 'path'
 
+console.log('REQUIREJS CONfIG')
+
 requirejs.config({
   baseUrl: __dirname,
   map: {

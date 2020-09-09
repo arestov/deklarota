@@ -1,11 +1,11 @@
-const test = require('ava')
+import test from 'ava'
 
-const requirejs = require('../../requirejs-config')
 
-const pvState = requirejs('pv/getAttr')
-const BrowseMap = requirejs('pv/Model')
+import pvState from 'pv/getAttr'
+import BrowseMap from 'pv/Model'
 
-const init = require('../init')
+import init from 'test/init'
+
 const waitFlow = require('../waitFlow')
 
 const input = (app, fn) => new Promise(resolve => {

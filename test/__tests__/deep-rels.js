@@ -1,17 +1,9 @@
-// const test = require('ava')
+import test from 'ava'
 
-const requirejs = require('../../requirejs-config')
-
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const bhv = requirejs('pv/bhv')
-const mergeBhv = requirejs('pv/dcl/merge')
-const pvUpdate = requirejs('pv/updateAttr')
-const pvState = requirejs('pv/getAttr')
-const getNesting = requirejs('pv/getRel')
-const updateNesting = requirejs('pv/updateNesting')
-
-const init = require('../init')
+import bhv from 'pv/bhv'
+import mergeBhv from 'pv/dcl/merge'
+import pvState from 'pv/getAttr'
+import init from 'test/init'
 
 const toIds = md_list => {
   if (!Array.isArray(md_list)) {
@@ -21,8 +13,7 @@ const toIds = md_list => {
   return md_list.map(item => item._provoda_id)
 }
 
-
-const doTest = async t => {
+test('attr based on deep list', async t => {
   const modelForLevel = (levelName, model) => ({
     rels: {
       [levelName]: ['model', model],
@@ -129,28 +120,17 @@ const doTest = async t => {
       app.dispatch('stage1CreateLevel3v1')
     },
     () => {
-      console.log("pvState(app, 'level3ArrayNotEmpty')", pvState(app, 'level3ArrayNotEmpty'))
-      // t.is(true, pvState(app, 'level3ArrayNotEmpty'))
+      t.is(true, pvState(app, 'level3ArrayNotEmpty'))
     },
     () => {
       app.dispatch('stage2MoveLevel2')
     },
     () => {
-      console.log("pvState(app, 'level3ArrayNotEmpty')", pvState(app, 'level3ArrayNotEmpty'))
-      // t.is(false, pvState(app, 'level3ArrayNotEmpty'))
-    },
-
-    () => {
-      process.exit()
+      t.is(false, pvState(app, 'level3ArrayNotEmpty'))
     },
   ])
-
 
   // создаем одноименную структуру - 2
   // меняем структуру 2
   // зависимости от 1 не должны измиться
-}
-
-doTest().catch(console.error)
-
-// test('attr based on deep list', doTest)
+})

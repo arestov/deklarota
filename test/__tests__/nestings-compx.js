@@ -1,14 +1,13 @@
-const test = require('ava')
-const requirejs = require('../../requirejs-config')
+import test from 'ava'
 
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const pvUpdate = requirejs('pv/updateAttr')
-const updateNesting = requirejs('pv/updateNesting')
-const getNesting = requirejs('pv/getRel')
+import spv from 'spv'
+import Model from 'pv/Model'
+import pvUpdate from 'pv/updateAttr'
+import updateNesting from 'pv/updateNesting'
+import getNesting from 'pv/getRel'
 
-const init = require('../init')
-const makeStepsRunner = require('../steps')
+import init from 'test/init'
+import makeStepsRunner from 'test/steps'
 
 const toIds = md_list => {
   if (!Array.isArray(md_list)) {

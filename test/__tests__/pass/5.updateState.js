@@ -1,3 +1,13 @@
+import test from 'ava'
+
+import spv from 'spv'
+import Model from 'pv/Model'
+import pvState from 'pv/getAttr'
+import pvUpdate from 'pv/updateAttr'
+
+import init from '../../init'
+import makeStepsRunner from '../../steps'
+
 const action1 = {
   to: ['age_state'],
   fn: [
@@ -25,18 +35,6 @@ const action2 = {
     },
   ],
 }
-
-const test = require('ava')
-
-const requirejs = require('../../../requirejs-config')
-
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const pvState = requirejs('pv/getAttr')
-const pvUpdate = requirejs('pv/updateAttr')
-
-const init = require('../../init')
-const makeStepsRunner = require('../../steps')
 
 const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({

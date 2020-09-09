@@ -1,5 +1,3 @@
-
-
 /*
   1.1 один результат, адресат результата определен "*" способом указания, обычное указание адресата
   to: '*'
@@ -15,6 +13,18 @@
     update nested_model state by _provoda_id
 */
 
+import test from 'ava'
+
+import spv from 'spv'
+import Model from 'pv/Model'
+import pvUpdate from 'pv/updateAttr'
+import pvState from 'pv/getAttr'
+import pvPass from 'pv/pass'
+import getNesting from 'pv/getRel'
+
+import init from '../../init'
+import makeStepsRunner from '../../steps'
+
 const action = {
   to: ['*'],
   fn: [
@@ -24,21 +34,6 @@ const action = {
     }),
   ],
 }
-
-
-const test = require('ava')
-
-const requirejs = require('../../../requirejs-config')
-
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const pvUpdate = requirejs('pv/updateAttr')
-const pvState = requirejs('pv/getAttr')
-const pvPass = requirejs('pv/pass')
-const getNesting = requirejs('pv/getRel')
-
-const init = require('../../init')
-const makeStepsRunner = require('../../steps')
 
 test('simple pass by * calculated', async t => {
   const createDeepChild = (num, props) => {

@@ -1,14 +1,12 @@
+import test from 'ava'
 
-const test = require('ava')
 
-const requirejs = require('../../../requirejs-config')
+import spv from 'spv'
+import pvPass from 'pv/pass'
+import LoadableList from 'pv/LoadableList'
 
-const spv = requirejs('spv')
-const pvPass = requirejs('pv/pass')
-const LoadableList = requirejs('pv/LoadableList')
-
-const init = require('../../init')
-const makeStepsRunner = require('../../steps')
+import init from '../../init'
+import makeStepsRunner from '../../steps'
 
 const mdl = props => spv.inh(LoadableList, {}, props)
 
@@ -79,8 +77,6 @@ test('change for dynamic routed resource calculated', async t => {
         },
       },
     }
-
-    console.log(1)
 
     const app = (await init({
       ...StartPage,

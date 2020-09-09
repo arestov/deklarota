@@ -1,16 +1,13 @@
-const test = require('ava')
+import test from 'ava'
 
-const requirejs = require('../../../requirejs-config')
+import spv from 'spv'
+import Model from 'pv/Model'
+import pvState from 'pv/getAttr'
+import pvPass from 'pv/pass'
+import getNesting from 'pv/getRel'
 
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const pvState = requirejs('pv/getAttr')
-const pvPass = requirejs('pv/pass')
-const pvUpdate = requirejs('pv/updateAttr')
-const getNesting = requirejs('pv/getRel')
-
-const init = require('../../init')
-const makeStepsRunner = require('../../steps')
+import init from '../../init'
+import makeStepsRunner from '../../steps'
 
 const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({

@@ -1,16 +1,12 @@
-const test = require('ava')
+import test from 'ava'
 
-const requirejs = require('../../../requirejs-config')
+import spv from 'spv'
+import pvState from 'pv/getAttr'
+import BrowseMap from 'js/libs/BrowseMap'
 
-const spv = requirejs('spv')
-const pvState = requirejs('pv/getAttr')
-const BrowseMap = requirejs('js/libs/BrowseMap')
-
-const init = require('../../init')
-
-const waitFlow = require('../../waitFlow')
-
-const fakeInterface = require('../../fakeInterface')
+import init from '../../init'
+import waitFlow from '../../waitFlow'
+import fakeInterface from '../../fakeInterface'
 
 test('state loaded', async t => {
   const StartPage = spv.inh(BrowseMap.Model, {}, {
