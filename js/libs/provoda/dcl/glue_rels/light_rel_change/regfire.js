@@ -16,8 +16,8 @@ export default {
   test: function(namespace) {
     return !!getValueByName(namespace)
   },
-  fn: function(namespace) {
-    return this.getNesting(getValueByName(namespace))
+  fn: function() {
+    return null
   },
   getWrapper: function() {
     return hndMotivationWrappper
