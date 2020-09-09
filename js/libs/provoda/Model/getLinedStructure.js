@@ -47,24 +47,29 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
         continue
       }
       var cur = cur_md.children_models[nesting_name]
-      if (cur) {
-        if (cur._provoda_id) {
-          checkModel(cur, models_index, local_index, all_for_parse)
-        } else {
-          var array
-          if (Array.isArray(cur)) {
-            array = cur
-          } else {
-            array = spv.getTargetField(cur, 'residents_struc.all_items')
-            if (!array) {
-              throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
-            }
-          }
-          for (var i = 0; i < array.length; i++) {
-            checkModel(array[i], models_index, local_index, all_for_parse)
-          }
+      if (cur == null) {
+        continue
+      }
+
+      if (cur._provoda_id) {
+        checkModel(cur, models_index, local_index, all_for_parse)
+        continue
+      }
+
+      var array
+      if (Array.isArray(cur)) {
+        array = cur
+      } else {
+        array = spv.getTargetField(cur, 'residents_struc.all_items')
+        if (!array) {
+          throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
         }
       }
+
+      for (var i = 0; i < array.length; i++) {
+        checkModel(array[i], models_index, local_index, all_for_parse)
+      }
+
     }
 
 
