@@ -1,15 +1,14 @@
-const test = require('ava')
+import test from 'ava'
 
-const requirejs = require('../../requirejs-config')
 
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const pvUpdate = requirejs('pv/updateAttr')
-const pvState = requirejs('pv/getAttr')
-const getNesting = requirejs('pv/getRel')
-const updateNesting = requirejs('pv/updateNesting')
+import spv from 'spv'
+import Model from 'pv/Model'
+import pvUpdate from 'pv/updateAttr'
+import pvState from 'pv/getAttr'
+import getNesting from 'pv/getRel'
+import updateNesting from 'pv/updateNesting'
 
-const init = require('../init')
+import init from 'test/init'
 
 const toIds = md_list => {
   if (!Array.isArray(md_list)) {

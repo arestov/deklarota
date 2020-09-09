@@ -1,20 +1,13 @@
-
 import test from 'ava'
-import requirejs from 'requirejs'
-import './require-config'
+
+import getParsedState from './getParsedState'
+import asString from './multiPath/asString'
+import fromLegacy from './multiPath/fromLegacy'
+import modernAsLegacyParsed from './modernAsLegacyParsed'
 
 var list = getList()
 
-var getParsedState = requirejs('./getParsedState')
-var asString = requirejs('./multiPath/asString')
-var fromLegacy = requirejs('./multiPath/fromLegacy')
-var modernAsLegacyParsed = requirejs('./modernAsLegacyParsed')
-
-
-
 test('modern can be converted and used as legacy', function(t) {
-
-
   var toModernString = function(legacyAddr) {
     var modernParsed = fromLegacy(legacyAddr)
     var modernAddr = asString(modernParsed)
@@ -35,7 +28,6 @@ test('modern can be converted and used as legacy', function(t) {
       Object.assign({}, clean(legacyParsedFromModern), {full_name: null, zip_name: null})
     )
   })
-
 })
 
 

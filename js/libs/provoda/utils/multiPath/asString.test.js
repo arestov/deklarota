@@ -1,19 +1,14 @@
 import test from 'ava'
-import requirejs from 'requirejs'
-import './require-config'
 
-var parse = requirejs('./parse')
-var asString = requirejs('./asString')
+import parse from './parse'
+import asString from './asString'
 
+function pipe(str) {
+  return asString(parse(str))
+}
 
 test('check asString', function(t) {
 
-
-  var pipe = function(str) {
-    return asString(parse(str))
-  }
-
-  //
   // "< state_name < nesting < resource < #"
 
   t.snapshot(pipe('< @one:state_name < nesting < resource < #'))
@@ -42,6 +37,4 @@ test('check asString', function(t) {
   t.snapshot(pipe('/resource/[:ddaf]/sdf <'))
 
   t.snapshot(pipe('nesting_name < < ^^'))
-
-
 })

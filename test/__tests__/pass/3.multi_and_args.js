@@ -2,6 +2,17 @@
 
 // a - передача state
 
+import test from 'ava'
+
+import spv from 'spv'
+import Model from 'pv/Model'
+import pvState from 'pv/getAttr'
+import getNesting from 'pv/getRel'
+import updateNesting from 'pv/updateNesting'
+
+import init from 'test/init'
+import makeStepsRunner from 'test/steps'
+
 const action = {
   to: {
     prev: [
@@ -38,20 +49,6 @@ const action = {
     }
   },
 }
-
-
-const test = require('ava')
-
-const requirejs = require('../../../requirejs-config')
-
-const spv = requirejs('spv')
-const Model = requirejs('pv/Model')
-const pvState = requirejs('pv/getAttr')
-const getNesting = requirejs('pv/getRel')
-const updateNesting = requirejs('pv/updateNesting')
-
-const init = require('../../init')
-const makeStepsRunner = require('../../steps')
 
 const mdl = props => spv.inh(Model, {}, props)
 const createDeepChild = (num, props) => mdl({

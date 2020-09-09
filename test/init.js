@@ -1,13 +1,11 @@
-const makeSteps = require('./steps')
-const requirejs = require('../requirejs-config')
+import initApp from 'js/utils/initApp'
+import fakeApp from 'test/fakeApp'
 
-const initApp = requirejs('js/utils/initApp')
-const fakeApp = requirejs('test/fakeApp')
+import makeSteps from './steps'
 
 const env = {}
 
-// var root_bwlev = initBrowsing(app_model);
-module.exports = async function init(app_props, init) {
+export default async function init(app_props, init) {
   const App = fakeApp({ zero_map_level: true, ...app_props }, init)
   const inited = await initApp(App, env)
   return {

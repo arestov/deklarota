@@ -1,19 +1,16 @@
-define(require => {
-  const spv = require('spv')
-  const AppModel = require('pv/AppModel')
-  const prepare = require('js/libs/provoda/structure/prepare')
+import spv from 'spv'
+import AppModel from 'pv/AppModel'
+import prepare from 'js/libs/provoda/structure/prepare'
 
-
-  return function fakeApp(props, init) {
-    const initSelf = init || function () {}
-    const all = {
-      init: initSelf,
-    }
-    const App = spv.inh(AppModel, all, {
-      encodeURLPart: encodeURIComponent,
-      decodeURLPart: decodeURIComponent,
-      ...props,
-    })
-    return prepare(App)
+export default function fakeApp(props, init) {
+  const initSelf = init || function () {}
+  const all = {
+    init: initSelf,
   }
-})
+  const App = spv.inh(AppModel, all, {
+    encodeURLPart: encodeURIComponent,
+    decodeURLPart: decodeURIComponent,
+    ...props,
+  })
+  return prepare(App)
+}

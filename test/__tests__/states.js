@@ -1,11 +1,10 @@
-const test = require('ava')
+import test from 'ava'
 
-const requirejs = require('../../requirejs-config')
 
-const pvUpdate = requirejs('pv/updateAttr')
-const pvState = requirejs('pv/getAttr')
+import pvUpdate from 'pv/updateAttr'
+import pvState from 'pv/getAttr'
 
-const init = require('../init')
+import init from 'test/init'
 
 test('state updated', async t => {
   const { app_model, steps } = await init({})
