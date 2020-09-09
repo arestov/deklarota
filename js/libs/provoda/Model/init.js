@@ -1,8 +1,5 @@
-
-
 import spv from '../../spv'
 import initSubPager from '../dcl/sub_pager/init'
-import initInputAttrs from '../dcl/attrs/input/init'
 import makeAttrsCollector from './makeAttrsCollector'
 var cloneObj = spv.cloneObj
 
