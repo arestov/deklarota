@@ -24,6 +24,12 @@ function getUniqCopy(input) {
   return result.length ? result : emptyArray
 }
 
+const isGlueRel = function(self, rel_key) {
+  var skeleton = self.__global_skeleton
+
+  return skeleton.glue_rels.has(rel_key)
+}
+
 export default function updateNesting(self, collection_name, input, opts) {
 
   if (self._currentMotivator() == null) {
@@ -47,6 +53,14 @@ export default function updateNesting(self, collection_name, input, opts) {
   }
 
   self.children_models[collection_name] = array
+
+
+
+  if (isGlueRel(self, collection_name)) {
+    handleMentions(self, collection_name, old_value, array)
+    triggerLightRelChange(self, collection_name, array)
+    return
+  }
 
   if (old_value && array) {
     var arr1 = Array.isArray(old_value)

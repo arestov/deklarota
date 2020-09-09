@@ -1,5 +1,6 @@
 
 import spv from '../../spv'
+import isGlueRel from '../dcl/glue_rels/isGlueRel'
 
 var checkModel = function(md, models_index, local_index, all_for_parse) {
   if (!md) {
@@ -42,6 +43,9 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
     }
 
     for (var nesting_name in cur_md.children_models) {
+      if (isGlueRel(cur_md, nesting_name)) {
+        continue
+      }
       var cur = cur_md.children_models[nesting_name]
       if (cur) {
         if (cur._provoda_id) {

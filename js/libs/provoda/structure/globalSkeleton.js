@@ -4,6 +4,7 @@ import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
 import getAllPossibleRelMentionsCandidates, {
   getRootRelMentions, getParentRelMentions,
+  getAllGlueSources,
 } from '../dcl/nest_compx/mentionsCandidates'
 
 import numDiff from '../Model/mentions/numDiff'
@@ -48,6 +49,7 @@ function GlobalSkeleton() {
   this.chains = []
   this.chains_by_rel = null
   this.chains_by_attr = null
+  this.glue_rels = new Set()
 
   Object.seal(this)
 }
@@ -65,6 +67,16 @@ function handleCompRels(global_skeleton, model) {
     }
 
     global_skeleton.chains.push(new Chain(model, TARGET_TYPE_REL, candidate.addr, candidate.dest_name))
+  }
+}
+
+function markGlueRels(global_skeleton, model) {
+  const list = getAllGlueSources(model)
+  if (list == null) {return}
+  for (var i = 0; i < list.length; i++) {
+    const cur = list[i]
+    global_skeleton.glue_rels.add(cur.meta_relation)
+    global_skeleton.glue_rels.add(cur.final_rel_key)
   }
 }
 
@@ -126,6 +138,7 @@ function handleGlueParentAscent(global_skeleton, model) {
 }
 
 function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
+  markGlueRels(global_skeleton, model)
   handleGlueParentAscent(global_skeleton, model, ascent_level)
 
   if (!is_root) {
