@@ -63,12 +63,22 @@ const collectGlue = function(model) {
 }
 
 
+export function getAllGlueSources(model) {
+  if (model.hasOwnProperty('__rel_glue_sources_all')) {
+    return model.__rel_glue_sources_all
+  }
+  const result = collectGlue(model)
+  model.__rel_glue_sources_all = result
+  return result
+}
+
+
 export function getParentRelMentions(model) {
   if (model.hasOwnProperty('__rel_mentions_parent')) {
     return model.__rel_mentions_parent
   }
 
-  var list = collectGlue(model) || []
+  var list = getAllGlueSources(model) || []
 
   var result = []
 
@@ -90,7 +100,7 @@ export function getRootRelMentions(model) {
     return model.__rel_mentions_root
   }
 
-  var list = collectGlue(model) || []
+  var list = getAllGlueSources(model) || []
 
   var result = []
 
