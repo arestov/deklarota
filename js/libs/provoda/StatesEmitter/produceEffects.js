@@ -43,10 +43,6 @@ function agendaKey(self, initial_transaction_id) {
 }
 
 function ensureEffectStore(self, effect_name, initial_transaction_id) {
-  if (!self._highway.__produce_side_effects_schedule) {
-    self._highway.__produce_side_effects_schedule = new Map()
-  }
-
   var key = agendaKey(self, initial_transaction_id)
   if (!self._highway.__produce_side_effects_schedule.get(key)) {
     self._highway.__produce_side_effects_schedule.set(key, {})
