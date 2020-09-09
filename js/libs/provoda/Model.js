@@ -25,7 +25,6 @@ import logger from './dx/logger'
 import wrapInputCall from './provoda/wrapInputCall'
 
 var push = Array.prototype.push
-var cloneObj = spv.cloneObj
 
 var getMDOfReplace = function() {
   return this.md
@@ -224,7 +223,7 @@ add({
     if (!this.init_states) {
       this.init_states = {}
     }
-    cloneObj(this.init_states, more_states)
+    Object.assign(this.init_states, more_states)
   },
   __initStates: function() {
     if (this.init_states === false) {

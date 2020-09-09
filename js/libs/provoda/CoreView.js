@@ -24,8 +24,6 @@ var CH_GR_LE = 2
 
 // var spyglassDestroy = require('./dcl_view/spyglass/destroy');
 
-var cloneObj = spv.cloneObj
-
 var ViewLabour = function() {
   this.has_details = null
   this._detailed = null
@@ -120,13 +118,13 @@ var initView = function(target, view_otps, opts) {
   target._lbr = new ViewLabour()
 
   target.mpx._assignPublicAttrs(target._lbr.undetailed_states)
-  cloneObj(target._lbr.undetailed_states, target.mpx.vstates)
+  Object.assign(target._lbr.undetailed_states, target.mpx.vstates)
   var default_attrs = initInputAttrs(target)
   if (default_attrs) {
-    cloneObj(target._lbr.undetailed_states, default_attrs)
+    Object.assign(target._lbr.undetailed_states, default_attrs)
   }
 
-  cloneObj(target._lbr.undetailed_children_models, target.mpx.nestings)
+  Object.assign(target._lbr.undetailed_children_models, target.mpx.nestings)
 
   prsStCon.connect.parent(target, target)
   prsStCon.connect.root(target, target)
@@ -838,7 +836,7 @@ var View = spv.inh(StatesEmitter, {
     updateProxy(this, [name, value])
   },
   checkChildrenModelsRendering: function() {
-    var obj = cloneObj(false, this.children_models)
+    var obj = Object.assign({}, this.children_models)
     this.setMdChildren(obj)
   },
   setMdChildren: function(collections) {

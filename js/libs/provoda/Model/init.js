@@ -1,7 +1,5 @@
-import spv from '../../spv'
 import initSubPager from '../dcl/sub_pager/init'
 import makeAttrsCollector from './makeAttrsCollector'
-var cloneObj = spv.cloneObj
 
 function buildHead(self, data) {
   var init_v2 = data && data.init_version === 2
@@ -10,12 +8,12 @@ function buildHead(self, data) {
 
   if (self.map_parent && self.map_parent.head) {
     if (!head) {head = {}}
-    cloneObj(head, self.map_parent.head)
+    Object.assign(head, self.map_parent.head)
   }
 
   if (data && data.head) {
     if (!head) {head = {}}
-    cloneObj(head, data.head)
+    Object.assign(head, data.head)
   }
 
   if (init_v2) {
@@ -109,7 +107,7 @@ export default function initModel(self, opts, data, params, more, states) {
 function toServStates(iss, states) {
   if (!states) {return iss}
 
-  return cloneObj(iss || {}, states)
+  return Object.assign(iss || {}, states)
 }
 
 function createISS(self, data, states) {
@@ -152,5 +150,5 @@ function prepareStates(self, data, states) {
   }
 
   self.init_states = self.init_states || {}
-  self.init_states = cloneObj(self.init_states, iss)
+  self.init_states = Object.assign(self.init_states, iss)
 }
