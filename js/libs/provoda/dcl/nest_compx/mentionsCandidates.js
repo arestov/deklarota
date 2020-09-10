@@ -33,36 +33,26 @@ const getAllPossibleRelMentionsCandidates = cachedField(
   }
 )
 
+export const getAllGlueSources = cachedField(
+  '__rel_glue_sources_all',
+  ['_nest_by_type_listed'],
+  true,
+  function getAllGlueSources(_nest_by_type_listed) {
+    var compx_list = _nest_by_type_listed.comp
+    if (compx_list == null) {
+      return null
+    }
 
-const collectGlue = function(model) {
-  if (model._nest_by_type_listed == null) {
-    return null
+    var result = []
+
+    for (var i = 0; i < compx_list.length; i++) {
+      var cur = compx_list[i]
+      result.push(...cur.glue_sources)
+    }
+
+    return result
   }
-
-  var compx_list = model._nest_by_type_listed.comp
-  if (compx_list == null) {
-    return null
-  }
-
-  var result = []
-
-  for (var i = 0; i < compx_list.length; i++) {
-    var cur = compx_list[i]
-    result.push(...cur.glue_sources)
-  }
-
-  return result
-}
-
-
-export function getAllGlueSources(model) {
-  if (model.hasOwnProperty('__rel_glue_sources_all')) {
-    return model.__rel_glue_sources_all
-  }
-  const result = collectGlue(model)
-  model.__rel_glue_sources_all = result
-  return result
-}
+)
 
 
 export function getParentRelMentions(model) {
