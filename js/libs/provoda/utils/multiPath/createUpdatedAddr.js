@@ -1,39 +1,39 @@
 import { getStateInfo, getNestInfo, getBaseInfo, updateResultType } from './parse'
 import { doCopy } from '../../../spv/cloneObj'
 
-var createUpdatedAddr = function createUpdatedAddr(addr, part, string) {
-  const result = doCopy({}, addr)
-
+var updatePart = function(addr, part, string) {
   switch (part) {
     case 'state': {
-      result.as_string = null
-      result.state = getStateInfo(string)
-      updateResultType(result)
-      return result
+      addr.as_string = null
+      addr.state = getStateInfo(string)
+      return
     }
     case 'zip_name': {
-      result.as_string = null
-      result.zip_name = string
-      updateResultType(result)
-      return result
+      addr.as_string = null
+      addr.zip_name = string
+      return
     }
     case 'nesting': {
-      result.as_string = null
-      result.nesting = getNestInfo(string)
-      updateResultType(result)
-      return result
+      addr.as_string = null
+      addr.nesting = getNestInfo(string)
+      return
     }
     case 'from_base': {
-      result.as_string = null
-      result.from_base = getBaseInfo(string)
-      updateResultType(result)
-      return result
+      addr.as_string = null
+      addr.from_base = getBaseInfo(string)
+      return
     }
     default: {
       throw new Error('not implemented')
     }
   }
+}
 
+var createUpdatedAddr = function createUpdatedAddr(addr, part, string) {
+  const result = doCopy({}, addr)
+  updatePart(result, part, string)
+  updateResultType(result)
+  return result
 
 }
 
