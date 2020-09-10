@@ -5,6 +5,7 @@ import { createAddrByPart } from '../../utils/multiPath/parse'
 import createName from './createName'
 
 export const doRelSplit = function(addr) {
+  // ONLY nesting + from_base + resource
   var source = createAddrByPart({
     from_base: addr.from_base,
     nesting: addr.nesting,
@@ -13,6 +14,7 @@ export const doRelSplit = function(addr) {
 
   var meta_relation = createName(source)
 
+  // COPY original addr, but replace nesting + from_base + resource
   var destination = createUpdatedAddr(addr, {
     nesting: meta_relation,
     from_base: null,
@@ -20,16 +22,17 @@ export const doRelSplit = function(addr) {
   })
 
 
+  // ONLY nesting
   var final_rel_addr = createAddrByPart({
     nesting: addr.nesting
   })
 
   return {
-    destination: destination,
-    meta_relation: meta_relation,
-    source: source,
-    final_rel_addr: final_rel_addr,
-    final_rel_key: createName(final_rel_addr),
+    destination: destination, // simplified original
+    meta_relation: meta_relation, // key for original
+    source: source, // complex part (for original)
+    final_rel_addr: final_rel_addr, // most simple part. for ascendor
+    final_rel_key: createName(final_rel_addr), // key of ascendor (subscribe to it)
   }
 }
 
