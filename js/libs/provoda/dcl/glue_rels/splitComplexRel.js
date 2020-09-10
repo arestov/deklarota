@@ -8,7 +8,11 @@ export const doRelSplit = function(addr) {
 
   var meta_relation = createName(addr)
 
-  var destination = createUpdatedAddr(addr, {nesting: meta_relation, from_base: null})
+  var destination = createUpdatedAddr(addr, {
+    nesting: meta_relation,
+    from_base: null,
+    resource: null,
+  })
 
   var source = createAddrByPart({
     from_base: addr.from_base,
