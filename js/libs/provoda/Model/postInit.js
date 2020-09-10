@@ -52,8 +52,6 @@ function connectStates(self) {
   prsStCon.connect.parent(self, self)
   prsStCon.connect.root(self, self)
   prsStCon.connect.nesting(self, self)
-
-  initWatchList(self, self.compx_nest_matches)
 }
 
 function connectNests(self) {
