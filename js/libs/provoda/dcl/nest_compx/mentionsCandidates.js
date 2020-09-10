@@ -55,27 +55,29 @@ export const getAllGlueSources = cachedField(
 )
 
 
-export function getParentRelMentions(model) {
-  if (model.hasOwnProperty('__rel_mentions_parent')) {
-    return model.__rel_mentions_parent
-  }
+export const getParentRelMentions = cachedField(
+  '__rel_mentions_parent',
+  [],
+  true,
+  function getParentRelMentions(model) {
+    var list = getAllGlueSources(model) || []
 
-  var list = getAllGlueSources(model) || []
+    var result = []
 
-  var result = []
+    for (var i = 0; i < list.length; i++) {
+      var cur = list[i]
+      if (!isGlueParent(cur.source)) {
+        continue
+      }
 
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
-    if (!isGlueParent(cur.source)) {
-      continue
+      result.push(cur)
     }
 
-    result.push(cur)
+    return result
   }
+)
 
-  model.__rel_mentions_parent = result
-  return result
-}
+
 
 export function getRootRelMentions(model) {
   if (model.hasOwnProperty('__rel_mentions_root')) {
