@@ -37,16 +37,16 @@ function makeGlueSource(addr) {
 
   switch (glue_target_type) {
     case zip_of_rel: {
-      var source_addr = createUpdatedAddr(addr, 'zip_name', 'all')
+      var source_addr = createUpdatedAddr(addr, {zip_name: 'all'})
       return new CompxAttrDecl(target_key, [[asString(source_addr)], zip_fns[addr.zip_name]])
     }
     case zip_of_attr: {
-      var source_addr = createUpdatedAddr(addr, 'zip_name', 'all')
+      var source_addr = createUpdatedAddr(addr, {zip_name: 'all'})
       return new CompxAttrDecl(target_key, [[asString(source_addr)], zip_fns[addr.zip_name]])
     }
 
     case long_attr_of_rel: {
-      var source_addr = createUpdatedAddr(addr, 'state', addr.state.base)
+      var source_addr = createUpdatedAddr(addr, {state: addr.state.base})
       var getValue = getTreeGetter(addr.state.path)
       var fn = function(list) {
         return list && list.map(getValue)
@@ -59,7 +59,7 @@ function makeGlueSource(addr) {
         return new CompxAttrDecl(addr.state.path, [[addr.state.base], getValue])
       }
 
-      var source_addr = createUpdatedAddr(addr, 'state', addr.state.base)
+      var source_addr = createUpdatedAddr(addr, {state: addr.state.base})
       return new CompxAttrDecl(target_key, [[asString(source_addr)], getValue])
     }
 

@@ -29,9 +29,14 @@ var updatePart = function(addr, part, string) {
   }
 }
 
-var createUpdatedAddr = function createUpdatedAddr(addr, part, string) {
+var createUpdatedAddr = function createUpdatedAddr(addr, updates) {
   const result = doCopy({}, addr)
-  updatePart(result, part, string)
+  for (var prop in updates) {
+    if (!updates.hasOwnProperty(prop)) {
+      continue
+    }
+    updatePart(result, prop, updates[prop])
+  }
   updateResultType(result)
   return result
 
