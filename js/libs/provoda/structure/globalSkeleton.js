@@ -98,7 +98,7 @@ const iterateMentions = function iterateMentions(iterateFn) {
     var result = new Map()
     for (var i = 0; i < full_list.length; i++) {
       var cur = full_list[i]
-      var key = cur.meta_relation
+      var key = cur.final_rel_key
       if (result.has(key)) {
         continue
       }
