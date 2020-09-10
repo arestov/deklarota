@@ -79,27 +79,27 @@ export const getParentRelMentions = cachedField(
 
 
 
-export function getRootRelMentions(model) {
-  if (model.hasOwnProperty('__rel_mentions_root')) {
-    return model.__rel_mentions_root
-  }
+export const getRootRelMentions = cachedField(
+  '__rel_mentions_root',
+  [],
+  true,
+  function getRootRelMentions(model) {
+    var list = getAllGlueSources(model) || []
 
-  var list = getAllGlueSources(model) || []
+    var result = []
 
-  var result = []
+    for (var i = 0; i < list.length; i++) {
+      var cur = list[i]
+      if (!isGlueRoot(cur.source)) {
+        continue
+      }
 
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
-    if (!isGlueRoot(cur.source)) {
-      continue
+      result.push(cur)
     }
 
-    result.push(cur)
+    return result
   }
-
-  model.__rel_mentions_root = result
-  return result
-}
+)
 
 
 export default getAllPossibleRelMentionsCandidates
