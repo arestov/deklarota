@@ -5,8 +5,13 @@ import { createAddrByPart } from '../../utils/multiPath/parse'
 import createName from './createName'
 
 export const doRelSplit = function(addr) {
+  var source = createAddrByPart({
+    from_base: addr.from_base,
+    nesting: addr.nesting,
+    resource: addr.resource,
+  })
 
-  var meta_relation = createName(addr)
+  var meta_relation = createName(source)
 
   var destination = createUpdatedAddr(addr, {
     nesting: meta_relation,
@@ -14,16 +19,10 @@ export const doRelSplit = function(addr) {
     resource: null,
   })
 
-  var source = createAddrByPart({
-    from_base: addr.from_base,
-    nesting: addr.nesting,
-    resource: addr.resource,
-  })
 
   var final_rel_addr = createAddrByPart({
     nesting: addr.nesting
   })
-
 
   return {
     destination: destination,
