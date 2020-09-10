@@ -18,7 +18,7 @@ const cachedField = function(field, deps, final_compile, fn) {
     }
 
 
-    if (args.every(isNil)) {
+    if (args.length && args.every(isNil)) {
       model[field] = null
       return model[field]
     }
