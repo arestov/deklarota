@@ -1,4 +1,4 @@
-import { getStateInfo, getNestInfo, getBaseInfo, updateResultType } from './parse'
+import { getStateInfo, getNestInfo, getBaseInfo, updateResultType, getResourceInfo } from './parse'
 import { doCopy } from '../../../spv/cloneObj'
 
 var updatePart = function(addr, part, string) {
@@ -21,6 +21,11 @@ var updatePart = function(addr, part, string) {
     case 'from_base': {
       addr.as_string = null
       addr.from_base = getBaseInfo(string)
+      return
+    }
+    case 'resource': {
+      addr.as_string = null
+      addr.resource = getResourceInfo(string)
       return
     }
     default: {

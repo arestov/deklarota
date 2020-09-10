@@ -271,7 +271,7 @@ export function getNestInfo(string) {
   }
 }
 
-function getResourceInfo(string) {
+export function getResourceInfo(string) {
   if (!string) {
     return empty
   }
