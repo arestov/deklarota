@@ -1,17 +1,8 @@
 import isRelAddr from '../../utils/multiPath/isRelAddr'
-import { baseStringMin } from '../../utils/multiPath/asString'
 import cloneObj from '../../../spv/cloneObj'
 import createUpdatedAddr from '../../utils/multiPath/createUpdatedAddr'
 import { createAddrByPart } from '../../utils/multiPath/parse'
-
-
-const resourceStr = function(resource) {
-  return resource.path || ''
-}
-
-export const createName = function(addr) {
-  return '__/internal/rels/' + baseStringMin(addr.from_base) + '/' + resourceStr(addr.resource) + '_/' + addr.nesting.path.join('__')
-}
+import createName from './createName'
 
 const splitComplexRel = function(addr) {
   if (!isRelAddr(addr) || (!addr.from_base.type && !addr.resource.path)) {
