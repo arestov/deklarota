@@ -50,7 +50,7 @@ export const getAllGlueSources = cachedField(
       result.push(...cur.glue_sources)
     }
 
-    return result
+    return result.length ? result : null
   }
 )
 
