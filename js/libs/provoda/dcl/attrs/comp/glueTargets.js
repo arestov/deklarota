@@ -18,6 +18,8 @@ var sources = {
 
   // {zip:'all',                       rel: 'rel.rel.rel', route: '', asc: ''}
   rel: count++,
+
+  rel_of_ascendor: count++,
 }
 
 export default sources

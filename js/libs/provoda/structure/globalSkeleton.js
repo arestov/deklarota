@@ -6,6 +6,12 @@ import getAllPossibleRelMentionsCandidates, {
   getRootRelMentions, getParentRelMentions,
   getAllGlueSources,
 } from '../dcl/nest_compx/mentionsCandidates'
+import {
+  getRootRelMentions as getRootRelMentionsAttrs,
+  getParentRelMentions as getParentRelMentionsAttrs,
+  getAllGlueSources as getAllGlueSourcesAttrs,
+} from '../dcl/attrs/comp/mentionsCandidates'
+
 
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
@@ -72,7 +78,11 @@ function handleCompRels(global_skeleton, model) {
 }
 
 function markGlueRels(global_skeleton, model) {
-  const list = getAllGlueSources(model)
+  const list = [
+    ...(getAllGlueSources(model) || []),
+    ...(getAllGlueSourcesAttrs(model) || [])
+
+  ]
   if (list == null) {return}
   for (var i = 0; i < list.length; i++) {
     const cur = list[i]
@@ -111,12 +121,20 @@ const iterateMentions = function iterateMentions(iterateFn) {
   }
 }
 
+
+
 const getAllRootMentions = iterateMentions(function(model) {
-  return getRootRelMentions(model)
+  return [
+    ...(getRootRelMentions(model) || []),
+    ...(getRootRelMentionsAttrs(model) || []),
+  ]
 })
 
 const getAllParentMentions = iterateMentions(function(model, level) {
-  var list = level ? getParentRelMentions(model) : []
+  var list = level ? [
+    ...(getParentRelMentions(model) || []),
+    ...(getParentRelMentionsAttrs(model) || []),
+  ] : []
   if (!list.length) {
     return list
   }

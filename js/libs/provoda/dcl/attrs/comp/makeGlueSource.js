@@ -2,6 +2,7 @@ import spv from '../../../../spv'
 import asString from '../../../utils/multiPath/asString'
 import createUpdatedAddr from '../../../utils/multiPath/createUpdatedAddr'
 import zip_fns from '../../../utils/zip/multipath-as-dep'
+import { doRelSplit } from '../../glue_rels/splitComplexRel'
 
 import CompxAttrDecl from './item'
 
@@ -15,6 +16,7 @@ var zip_of_rel = glueTargets.zip_of_rel
 var zip_of_attr = glueTargets.zip_of_attr
 var long_attr_of_attr = glueTargets.long_attr_of_attr
 var long_attr_of_rel = glueTargets.long_attr_of_rel
+var rel_of_ascendor = glueTargets.rel_of_ascendor
 
 
 var getTreeGetter = function(val) {
@@ -61,6 +63,12 @@ function makeGlueSource(addr) {
 
       var source_addr = createUpdatedAddr(addr, {state: addr.state.base})
       return new CompxAttrDecl(target_key, [[asString(source_addr)], getValue])
+    }
+
+    case rel_of_ascendor: {
+      const splited = doRelSplit(addr)
+      var source_addr = splited.destination
+      return new CompxAttrDecl(target_key, [[asString(source_addr)]])
     }
 
     default: {

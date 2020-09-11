@@ -1,5 +1,11 @@
 import glueTargets from './glueTargets'
 import isNestingAddr from './isNestingAddr'
+import isGlueRoot from '../../glue_rels/runtime/isGlueRoot'
+import isGlueParent from '../../glue_rels/runtime/isGlueParent'
+
+const isAscending = function(addr) {
+  return isGlueRoot(addr) || isGlueParent(addr)
+}
 
 var hasGlueSourceAttr = function(addr) {
   if ((addr.zip_name != null && addr.zip_name != 'all') && isNestingAddr(addr)) {
@@ -20,6 +26,9 @@ var hasGlueSourceAttr = function(addr) {
     return glueTargets.long_attr_of_attr
   }
 
+  if (isNestingAddr(addr) && isAscending(addr)) {
+    return glueTargets.rel_of_ascendor
+  }
 
 }
 

@@ -124,4 +124,5 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   self.conndst_parent = result.conndst_parent
   self.conndst_nesting = result.conndst_nesting
   self.conndst_root = result.conndst_root
+  self.__temp_connect_glue = result.connect_glue
 }
