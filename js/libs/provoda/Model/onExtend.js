@@ -104,10 +104,6 @@ export default function(self, props, original, params) {
   collectStateChangeHandlers(self, props)
 
   parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
-  extendByServiceAttrs(self, props, typed_state_dcls)
-
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
-  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
 
   collectSubpages(self, props)
@@ -115,6 +111,12 @@ export default function(self, props, original, params) {
   checkRoutes(self, props)
 
   checkModernNests(self, props)
+
+  extendByServiceAttrs(self, props, typed_state_dcls)
+
+  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
+  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
+
   /*
     check global_skeleton for
     provideGlueRels(self, props)
