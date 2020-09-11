@@ -13,7 +13,13 @@ const provideGlueRels = cachedField(
       return emptyArray
     }
 
-    return all_glue_sources.map(prepareGlueSourceRuntime)
+    const uniq = new Map()
+    for (var i = 0; i < all_glue_sources.length; i++) {
+      const cur = all_glue_sources[i]
+      uniq.set(cur.meta_relation, cur)
+    }
+
+    return [...uniq.values()].map(prepareGlueSourceRuntime)
   }
 )
 
