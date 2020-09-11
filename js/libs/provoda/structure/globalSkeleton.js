@@ -9,6 +9,7 @@ import getAllPossibleRelMentionsCandidates, {
 
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
+import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
@@ -160,6 +161,7 @@ function addCompxNestForModel(global_skeleton, model, ascent_level, is_root) {
 }
 
 function addModel(global_skeleton, model, ascent_level, is_root) {
+  provideGlueRels(model)
   addCompxNestForModel(global_skeleton, model, ascent_level, is_root)
 
   if (model.__attrs_uniq_external_deps == null || !model.__attrs_uniq_external_deps.length) {
