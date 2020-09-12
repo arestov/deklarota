@@ -1,4 +1,5 @@
 import initInputAttrs from '../dcl/attrs/input/init'
+import { defaultMetaAttrValues as defaultRelMetaAttrsValues } from './rel/definedMetaAttrs'
 
 import { createFakeEtr, computeInitialAttrs, getComplexInitList } from '../updateProxy'
 
@@ -16,6 +17,18 @@ export default function ensureInitialAttrs(self) {
     }
     first_changes_list.push(cur.name, false)
   }
+
+  if (self._extendable_nest_index) {
+    var rels = self._extendable_nest_index
+    for (var rel_name in rels) {
+      if (!rels.hasOwnProperty(rel_name)) {
+        continue
+      }
+      var list = defaultRelMetaAttrsValues(rel_name)
+      first_changes_list.push(...list)
+    }
+  }
+
 
 
   var default_attrs = initInputAttrs(self)
