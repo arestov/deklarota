@@ -1,4 +1,4 @@
-var emptyArray = Object.seal([])
+var emptyArray = Object.freeze([])
 
 var useSharedEmpty = function(list) {
   if (list != null && !list.length) {
