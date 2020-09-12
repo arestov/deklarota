@@ -1,7 +1,3 @@
-
-import readDepValue from './utils/readDepValue'
-var read = readDepValue.read
-
 var bind = {
   root: function(bind) {
     return function(md, instructions, context) {
@@ -55,45 +51,6 @@ var unsubscribe = function(md, target, state_name, full_name) {
 
 export default {
   bind: bind,
-  prefill: {
-    self: function(md, states_list) {
-      if (!md.connect_self) {
-        return
-      }
-      states_list.push('<<<<', md)
-    },
-    parent: function(md, states_list) {
-      var list = md.conndst_parent
-      if (!list) {
-        return
-      }
-
-      for (var i = 0; i < list.length; i++) {
-        var cur = list[i]
-        var value = read.parent(md, cur)
-        if (value == null) {
-          continue
-        }
-
-        states_list.push(cur.full_name, value)
-      }
-    },
-    root: function(md, states_list) {
-      var list = md.conndst_root
-      if (!list) {
-        return
-      }
-      for (var i = 0; i < list.length; i++) {
-        var cur = list[i]
-        var value = read.root(md, cur)
-        if (value == null) {
-          continue
-        }
-
-        states_list.push(cur.full_name, value)
-      }
-    }
-  },
   connect: {
     nesting: function() {},
     parent: bind.parent(subscribe),
