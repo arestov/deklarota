@@ -1,4 +1,4 @@
-var emptyArray = Object.freeze([])
+import emptyArray from '../../emptyArray'
 
 var useSharedEmpty = function(list) {
   if (list != null && !list.length) {

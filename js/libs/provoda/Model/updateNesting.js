@@ -7,14 +7,13 @@ import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
 import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
 import updateMetaAttrs from './rel/updateMetaAttrs'
+import emptyArray from '../emptyArray'
 
 var checkNesting = nestWIndex.checkNesting
 
 var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1
 })
-
-var emptyArray = Object.freeze([])
 
 function getUniqCopy(input) {
   if (!input.length) {
