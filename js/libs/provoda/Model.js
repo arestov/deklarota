@@ -5,6 +5,7 @@ import hp from './helpers'
 import MDProxy from './MDProxy'
 import initDeclaredNestings from './initDeclaredNestings'
 import prsStCon from './prsStCon'
+
 import { initAttrs } from './updateProxy'
 import StatesEmitter from './StatesEmitter'
 import _requestsDeps from './Model/_requestsDeps'
@@ -18,6 +19,7 @@ import getLinedStructure from './Model/getLinedStructure'
 import toSimpleStructure from './Model/toSimpleStructure'
 import ensurePublicAttrs from './Model/ensurePublicAttrs'
 import addrFromObj from './provoda/dcl/addr.js'
+import prefillCompAttr from './dcl/attrs/comp/prefill'
 import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
@@ -248,9 +250,7 @@ add({
       }
     }
 
-    prsStCon.prefill.self(this, changes_list)
-    prsStCon.prefill.parent(this, changes_list)
-    prsStCon.prefill.root(this, changes_list)
+    prefillCompAttr(this, changes_list)
 
     if (changes_list && changes_list.length) {
       initAttrs(this, this._fake_etr, changes_list)
