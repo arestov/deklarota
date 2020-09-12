@@ -12,6 +12,7 @@ import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
 import initApis from './dcl/effects/legacy/api/init'
 import initInputAttrs from './dcl/attrs/input/init'
+import prefillCompAttr from './dcl/attrs/comp/prefill'
 import nestBorrowInit from './dcl_view/nest_borrow/init'
 import nestBorrowDestroy from './dcl_view/nest_borrow/destroy'
 import nestBorrowCheckChange from './dcl_view/nest_borrow/check-change'
@@ -122,6 +123,12 @@ var initView = function(target, view_otps, opts) {
   var default_attrs = initInputAttrs(target)
   if (default_attrs) {
     Object.assign(target._lbr.undetailed_states, default_attrs)
+  }
+
+  var changes_list = []
+  prefillCompAttr(target, changes_list)
+  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    target._lbr.undetailed_states[changes_list[i]] = changes_list[i + 1]
   }
 
   Object.assign(target._lbr.undetailed_children_models, target.mpx.nestings)
