@@ -32,6 +32,10 @@ function groupDeps(parse) {
           continue
         }
 
+        if (addr.result_type != 'state') {
+          continue
+        }
+
         var state_name = deps_list[jj]
         var parsing_result = parse(state_name)
         if (!parsing_result) {
