@@ -393,7 +393,12 @@ function getComplexInitList(etr) {
 
   for (var i = 0; i < etr.full_comlxs_list.length; i++) {
     var cur = etr.full_comlxs_list[i]
-    result_array.push(cur.name, compoundComplexState(etr, cur))
+    var cur_val = etr.state(cur.name)
+    var new_val = compoundComplexState(etr, cur)
+    if (isSameValue(cur_val, new_val)) {
+      continue
+    }
+    result_array.push(cur.name, new_val)
   }
 
   return result_array

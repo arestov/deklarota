@@ -10,7 +10,7 @@ export default function ensureInitialAttrs(self) {
     return
   }
 
-  var first_changes_list = getComplexInitList(self) || []
+  var first_changes_list = []
 
   for (var i = 0; i < self.__defined_attrs_bool.length; i++) {
     var cur = self.__defined_attrs_bool[i]
@@ -57,5 +57,13 @@ export default function ensureInitialAttrs(self) {
   var fake = createFakeEtr(self, first_changes_list)
 
   computeInitialAttrs(fake.etr, fake.total_original_states, fake.total_ch, fake.states_changing_stack)
+
+  var more_changes = getComplexInitList(fake.etr, fake.total_ch)
+  if (more_changes && more_changes.length) {
+    fake.states_changing_stack.push(more_changes)
+    computeInitialAttrs(fake.etr, fake.total_original_states, fake.total_ch, fake.states_changing_stack)
+  }
+
+
   self.constructor.prototype._fake_etr = fake
 }
