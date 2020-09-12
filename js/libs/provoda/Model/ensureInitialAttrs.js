@@ -1,4 +1,6 @@
+import asString from '../utils/multiPath/asString'
 import initInputAttrs from '../dcl/attrs/input/init'
+import emptyArray from '../emptyArray'
 import { defaultMetaAttrValues as defaultRelMetaAttrsValues } from './rel/definedMetaAttrs'
 
 import { createFakeEtr, computeInitialAttrs, getComplexInitList } from '../updateProxy'
@@ -28,6 +30,22 @@ export default function ensureInitialAttrs(self) {
       first_changes_list.push(...list)
     }
   }
+
+  if (self.__attrs_uniq_external_deps) {
+    var external_deps = self.__attrs_uniq_external_deps
+    for (var i = 0; i < external_deps.length; i++) {
+      var cur = external_deps[i]
+      if (!cur.nesting || !cur.nesting.path) {
+        continue
+      }
+      if (cur.zip_name && cur.zip_name != 'all') {
+        continue
+      }
+
+      first_changes_list.push(asString(cur), emptyArray)
+    }
+  }
+
 
 
 
