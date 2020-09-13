@@ -155,7 +155,8 @@ function checkCondition(head, hands, _provoda_id) {
     return false
   }
   var base_states = head.base_states
-  var args_schema = head.declr.args_schema
+  var declr = head.declr
+  var args_schema = declr.args_schema
 
   var args = new Array(args_schema.length)
   for (var i = 0; i < args_schema.length; i++) {
@@ -173,7 +174,7 @@ function checkCondition(head, hands, _provoda_id) {
     }
     args[i] = value
   }
-  return Boolean(head.declr.selectFn.apply(null, args))
+  return Boolean(declr.selectFn.apply(null, args))
 }
 
 function keyFromCache(head, hands, cache, key) {
