@@ -99,18 +99,16 @@ function checkCondition(declr, base_md, cur_md) {
   var args = new Array(args_schema.length)
   for (var i = 0; i < args_schema.length; i++) {
     const cur = args_schema[i]
-    var value
     switch (cur.type) {
       case 'deep':
-        value = pvState(cur_md, cur.name)
+        args[i] = pvState(cur_md, cur.name)
         break
       case 'base':
-        value = pvState(base_md, cur.name)
+        args[i] = pvState(base_md, cur.name)
         break
       default:
         throw new Error('unknow type dep type')
     }
-    args[i] = value
   }
   return Boolean(selectFn.apply(null, args))
 }
