@@ -184,7 +184,7 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-const prepareCompRel = function prepareCompRel(self, comp_attrs, attr_to_rel_name, comp_rels_list) {
+const relToCompAttr = function relToCompAttr(self, comp_attrs, attr_to_rel_name, comp_rels_list) {
   if (!comp_rels_list || !comp_rels_list.length) {
     return
   }
@@ -243,7 +243,7 @@ export default function checkPass(self, props, typed_state_dcls) {
   var comp_attrs = typed_state_dcls['comp']
 
 
-  prepareCompRel(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp)
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp)
 
   return true
 }
