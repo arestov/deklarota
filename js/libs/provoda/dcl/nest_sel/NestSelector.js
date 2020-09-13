@@ -122,19 +122,24 @@ function switchDistant(do_switch, base, deep) {
 }
 
 function getFiltered(head, hands) {
-  if (!hands.items) {return}
-  var dcl = head.declr
-  var cond_base = dcl.deps.base.cond
-  var cond_deep = dcl.deps.deep.cond
+  const items_list = hands.items
+  if (!items_list) {return}
+
+  const dcl = head.declr
+  const base_md = head.md
+
+  const cond_base = dcl.deps.base.cond
+  const cond_deep = dcl.deps.deep.cond
+
   if (!(cond_base && cond_base.list) && !(cond_deep && cond_deep.list)) {
-    return hands.items
+    return items_list
   }
 
   var result = []
 
-  for (var i = 0; i < hands.items.length; i++) {
-    var cur = hands.items[i]
-    if (isFine(head.declr, head.md, cur)) {
+  for (var i = 0; i < items_list.length; i++) {
+    var cur = items_list[i]
+    if (isFine(dcl, base_md, cur)) {
       result.push(cur)
     }
   }
