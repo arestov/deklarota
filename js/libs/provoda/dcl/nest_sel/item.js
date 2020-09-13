@@ -18,6 +18,24 @@ var startsWith = spv.startsWith
 
 var types = ['sort', 'map', 'cond']
 
+/*
+EXAMPLE
+
+{
+  from: 'all_sources',
+  where: {
+    '>ready': [['=', 'boolean'], [true]]
+  },
+  sort: [
+    ['>search_name', 'searches_pr'],
+    function (one, two, base) {
+      return byBestSearchIndex(one, two, pvState(base, 'searches_pr'));
+    }
+  ]
+},
+
+*/
+
 var getMap = function(map_chunk) {
   if (typeof map_chunk != 'string') {
     return map_chunk
