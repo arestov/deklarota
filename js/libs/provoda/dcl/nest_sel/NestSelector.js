@@ -143,8 +143,7 @@ function getFiltered(dcl, base_md, items_list) {
   return result
 }
 
-function getReadyItems(head, hands, filtered) {
-  var dcl = head.declr
+function getReadyItems(dcl, base_md, filtered) {
 
   if (!dcl.map) {
     return filtered
@@ -155,11 +154,11 @@ function getReadyItems(head, hands, filtered) {
   var distant = dcl.map.from_distant_model
   for (var i = 0; i < filtered.length; i++) {
     var cur = filtered[i]
-    var md_from = switchDistant(distant, head.md, cur)
-    var md_states_from = switchDistant(distant, cur, head.md)
+    var md_from = switchDistant(distant, base_md, cur)
+    var md_states_from = switchDistant(distant, cur, base_md)
 
     arr[i] = executeStringTemplate(
-      head.md.app, md_from, dcl.map.template, false, md_states_from
+      base_md.app, md_from, dcl.map.template, false, md_states_from
     )
   }
   return arr
@@ -193,7 +192,7 @@ function getFilteredAndSorted(dcl, base_md, items_list) {
 
 function runHeadFilter(motivator, head, hands) {
   var sorted = getFilteredAndSorted(head.declr, head.md, hands.items)
-  var result = getReadyItems(head, hands, sorted)
+  var result = getReadyItems(head.declr, head.md, sorted)
 
   var md = head.md
   var old_motivator = md.current_motivator
