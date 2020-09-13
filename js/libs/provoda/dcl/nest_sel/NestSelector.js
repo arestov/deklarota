@@ -121,12 +121,8 @@ function switchDistant(do_switch, base, deep) {
   return do_switch ? deep : base
 }
 
-function getFiltered(head, hands) {
-  const items_list = hands.items
+function getFiltered(dcl, base_md, items_list) {
   if (!items_list) {return}
-
-  const dcl = head.declr
-  const base_md = head.md
 
   const cond_base = dcl.deps.base.cond
   const cond_deep = dcl.deps.deep.cond
@@ -169,35 +165,34 @@ function getReadyItems(head, hands, filtered) {
   return arr
 }
 
-function getCommonFiltered(head, hands) {
-  return getFiltered(head, hands)
+function getCommonFiltered(dcl, base_md, items_list) {
+  return getFiltered(dcl, base_md, items_list)
 }
 
-function getSorted(head, hands, items) {
-  if (!items) {return}
-  const sortFn = head.declr.sortFn
-  const base_md = head.md
+function getSorted(dcl, base_md, list) {
+  if (!list) {return}
+  const sortFn = dcl.sortFn
 
-  return items.slice().sort(function(one, two) {
+  return list.slice().sort(function(one, two) {
     return sortFn.call(null, one, two, base_md)
   })
 }
 
-function getCommonSorted(head, hands, items) {
-  return getSorted(head, hands, items)
+function getCommonSorted(dcl, base_md, items_list) {
+  return getSorted(dcl, base_md, items_list)
 }
 
-function getFilteredAndSorted(head, hands) {
-  var filtered = getCommonFiltered(head, hands)
-  var sorted = (filtered && head.declr.sortFn)
-    ? getCommonSorted(head, hands, filtered)
+function getFilteredAndSorted(dcl, base_md, items_list) {
+  var filtered = getCommonFiltered(dcl, base_md, items_list)
+  var sorted = (filtered && dcl.sortFn)
+    ? getCommonSorted(dcl, base_md, filtered)
     : filtered
 
   return sorted
 }
 
 function runHeadFilter(motivator, head, hands) {
-  var sorted = getFilteredAndSorted(head, hands)
+  var sorted = getFilteredAndSorted(head.declr, head.md, hands.items)
   var result = getReadyItems(head, hands, sorted)
 
   var md = head.md
