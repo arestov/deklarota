@@ -6,6 +6,7 @@ import NestCntDeclr from '../nest_conj/item'
 import NestDcl from '../nest/item'
 import NestCompx from '../nest_compx/item'
 import NestModel from '../nest_model/item'
+import CompxAttrDecl from '../attrs/comp/item'
 import buildSel from '../nest_sel/build'
 import buildNest from '../nest/build'
 import buildConj from '../nest_conj/build'
@@ -184,8 +185,7 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-export default function checkPass(self, props) {
-
+export default function checkPass(self, props, typed_state_dcls) {
   var currentIndex = self._extendable_nest_index
 
   checkLegacy(self, props)
@@ -195,6 +195,8 @@ export default function checkPass(self, props) {
     return
   }
 
+  const attr_to_rel_name = new Map()
+  self.__attr_to_rel_name = attr_to_rel_name
 
   var oldByType = self._nest_by_type || {}
   self._nest_by_type = byType(self._extendable_nest_index)
@@ -220,5 +222,28 @@ export default function checkPass(self, props) {
     self._nest_by_type_listed[type_name] = result
 
   }
+
+  var comp_rels_list = self._nest_by_type_listed && self._nest_by_type_listed.comp && self._nest_by_type_listed.comp
+  if (!comp_rels_list || !comp_rels_list.length) {
+    return
+  }
+
+  typed_state_dcls['comp'] = typed_state_dcls['comp'] || {}
+  var comp_attrs = typed_state_dcls['comp']
+
+
+
+  for (var i = 0; i < comp_rels_list.length; i++) {
+    var cur = comp_rels_list[i]
+    var rel_name = '__/internal/rels//_/' + cur.dest_name
+    comp_attrs[rel_name] = new CompxAttrDecl(rel_name, [
+      cur.deps,
+      cur.calcFn,
+    ])
+
+    attr_to_rel_name.set(rel_name, cur.dest_name)
+  }
+
+
   return true
 }

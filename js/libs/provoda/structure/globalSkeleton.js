@@ -18,7 +18,6 @@ import target_types from '../Model/mentions/target_types'
 import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
-var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
 var TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
 function addrToLinks(addr, chain) {
@@ -73,7 +72,6 @@ function handleCompRels(global_skeleton, model) {
       continue
     }
 
-    global_skeleton.chains.push(new Chain(model, TARGET_TYPE_REL, candidate.addr, candidate.dest_name))
   }
 }
 

@@ -4,6 +4,7 @@ import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
 import produceEffects from './StatesEmitter/produceEffects'
 import checkStates from './nest-watch/checkStates'
 import _passHandleState from './dcl/passes/handleState/handle'
+import attrToRel from './dcl/nests/attrToRel'
 import deliverAttrQueryUpdates from './Model/mentions/deliverAttrQueryUpdates'
 import sameName from './sameName'
 
@@ -515,6 +516,7 @@ function _triggerStChanges(etr, i, state_name, value, total_original_states) {
   _passHandleState(etr, total_original_states, state_name, value)
 
   checkStates(etr, state_name, value, total_original_states.get(state_name))
+  attrToRel(etr, state_name, value)
   deliverAttrQueryUpdates(etr, state_name)
   // states_links
 

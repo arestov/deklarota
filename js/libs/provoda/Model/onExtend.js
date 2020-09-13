@@ -110,7 +110,7 @@ export default function(self, props, original, params) {
   checkSubpager(self, props)
   checkRoutes(self, props)
 
-  checkModernNests(self, props)
+  checkModernNests(self, props, typed_state_dcls)
 
   extendByServiceAttrs(self, props, typed_state_dcls)
 
