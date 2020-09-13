@@ -196,6 +196,12 @@ const relToCompAttr = function relToCompAttr(self, comp_attrs, attr_to_rel_name,
   }
 }
 
+const prepareConjRel = function prepareConjRel(self, typed_state_dcls, rels_list) {
+  if (!rels_list || !rels_list.length) {
+    return
+  }
+}
+
 export default function checkPass(self, props, typed_state_dcls) {
   var currentIndex = self._extendable_nest_index
 
@@ -244,6 +250,7 @@ export default function checkPass(self, props, typed_state_dcls) {
 
 
   relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp)
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.conj)
 
   return true
 }

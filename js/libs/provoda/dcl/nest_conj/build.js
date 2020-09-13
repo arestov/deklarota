@@ -1,10 +1,4 @@
 
-var build = function(self, cnts) {
-  self.nest_concat_nest_matches = []
-
-  for (var res in cnts) {
-    self.nest_concat_nest_matches.push(cnts[res])
-  }
-}
+var build = function() {}
 
 export default build

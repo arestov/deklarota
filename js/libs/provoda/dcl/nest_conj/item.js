@@ -1,58 +1,31 @@
-
 import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
-import NestWatch from '../../nest-watch/NestWatch'
-import _updateRel from '../../_internal/_updateRel'
+import emptyArray from '../../emptyArray'
+import CompxAttrDecl from '../attrs/comp/item'
+import asString from '../../utils/multiPath/asString'
 
-var NestCntDeclr = function(name, data) {
-  this.dest_name = name
+const push = Array.prototype.push
 
-  this.nwbases = new Array(data.length)
-
-  for (var i = 0; i < data.length; i++) {
-    this.nwbases[i] = new NestWatch(asMultiPath(data[i]), null, {
-      onchd_count: handleChdCount,
-    })
+const caclConj = function caclConj(...args) {
+  const result = []
+  for (var i = 0; i < args.length; i++) {
+    const cur = args[i] || emptyArray
+    push.apply(result, cur)
   }
-}
 
-function handleChdCount(motivator, _, lnwatch, __, items) {
-  var cnt = lnwatch.data.cnt
-  cnt.items[lnwatch.data.index] = items
-  runConcat(motivator, cnt)
-}
-
-function runConcat(motivator, cnt) {
-  var result = concatItems(cnt)
-
-  var md = cnt.md
-  var old_motivator = md.current_motivator
-  md.current_motivator = motivator
-  _updateRel(md, cnt.dcl.dest_name, result)
-  md.current_motivator = old_motivator
+  if (!result.length) {
+    return emptyArray
+  }
 
   return result
 }
 
-
-function concatItems(cnt) {
-  var items = []
-  var index_added = {}
-
-  for (var i = 0; i < cnt.items.length; i++) {
-    if (!cnt.items[i]) {
-      continue
-    }
-    for (var jj = 0; jj < cnt.items[i].length; jj++) {
-      var cur = cnt.items[i][jj]
-
-      var _provoda_id = cur._provoda_id
-      if (index_added[_provoda_id] === true) {continue}
-      index_added[_provoda_id] = true
-      items.push(cur)
-    }
-  }
-
-  return items
+var NestCntDeclr = function(name, data) {
+  var rel_name = '__/internal/rels//_/' + name
+  this.dest_name = name
+  this.comp_attr = new CompxAttrDecl(rel_name, [
+    data.map(asMultiPath).map(asString),
+    caclConj,
+  ])
 }
 
 export default NestCntDeclr
