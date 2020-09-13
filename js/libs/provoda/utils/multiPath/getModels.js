@@ -24,11 +24,18 @@ import getStart from './getStart'
 var getModels = function(md, multi_path, data, all_nestings) {
   var start_md = getStart(md, multi_path, false, data)
 
-  return getDeepNesting(
+  const result = getDeepNesting(
     start_md,
     multi_path,
     all_nestings
   )
+
+  if (!Array.isArray(result)) {
+    return result
+  }
+
+  return Array.from(new Set(result))
+
   // var base;
   // var resource;
   // var nesting;

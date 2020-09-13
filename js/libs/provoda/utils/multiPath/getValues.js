@@ -50,19 +50,20 @@ export default function(models, multi_path) {
       }
 
       // results is always array here
-      var result = []
+      var list_of_rels = []
       for (var i = 0; i < models.length; i++) {
         var cur = readNesting(models[i], multi_path)
         if (!cur) {continue}
 
-        result.push(cur)
+        list_of_rels.push(cur)
       }
 
-      result = Array.prototype.concat.apply([], result)
+      var flat = Array.prototype.concat.apply([], list_of_rels)
+      var uniq = Array.from(new Set(flat))
 
       var zipFn = zip_fns[multi_path.zip_name || 'all']
 
-      return zipFn(result)
+      return zipFn(uniq)
     }
   }
 
