@@ -6,7 +6,6 @@ import NestCntDeclr from '../nest_conj/item'
 import NestDcl from '../nest/item'
 import NestCompx from '../nest_compx/item'
 import NestModel from '../nest_model/item'
-import CompxAttrDecl from '../attrs/comp/item'
 import buildSel from '../nest_sel/build'
 import buildNest from '../nest/build'
 import buildConj from '../nest_conj/build'
@@ -192,15 +191,9 @@ const prepareCompRel = function prepareCompRel(self, comp_attrs, attr_to_rel_nam
 
   for (var i = 0; i < comp_rels_list.length; i++) {
     var cur = comp_rels_list[i]
-    var rel_name = '__/internal/rels//_/' + cur.dest_name
-    comp_attrs[rel_name] = new CompxAttrDecl(rel_name, [
-      cur.deps,
-      cur.calcFn,
-    ])
-
-    attr_to_rel_name.set(rel_name, cur.dest_name)
+    comp_attrs[cur.comp_attr.name] = cur.comp_attr
+    attr_to_rel_name.set(cur.comp_attr.name, cur.dest_name)
   }
-
 }
 
 export default function checkPass(self, props, typed_state_dcls) {

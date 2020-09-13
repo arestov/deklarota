@@ -5,6 +5,7 @@ import parseMultiPath from '../../utils/multiPath/parse'
 import splitComplexRel from '../glue_rels/splitComplexRel'
 import asString from '../../utils/multiPath/asString'
 import isRelAddr from '../../utils/multiPath/isRelAddr'
+import CompxAttrDecl from '../attrs/comp/item'
 
 var simpleAddrToUse = function(addr, string) {
   if (!addr) {
@@ -127,6 +128,14 @@ var NestCompxDcl = function(name, data) {
   this.deps = prepared_to_run.map(asString)
   // will be used by runner (to init watchers)
   this.parsed_deps = groupBySubscribing(prepared_to_run)
+
+
+  var rel_name = '__/internal/rels//_/' + this.dest_name
+
+  this.comp_attr = new CompxAttrDecl(rel_name, [
+    this.deps,
+    this.calcFn,
+  ])
 
 }
 
