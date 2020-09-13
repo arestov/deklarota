@@ -92,31 +92,31 @@ function rerun(motivator, _, lnwatch) {
   runFilter(motivator, lnwatch.data)
 }
 
-function checkCondition(head, hands, md) {
-  var declr = head.declr
-  var args_schema = declr.args_schema
+function checkCondition(declr, base_md, cur_md) {
+  const args_schema = declr.args_schema
+  const selectFn = declr.selectFn
 
   var args = new Array(args_schema.length)
   for (var i = 0; i < args_schema.length; i++) {
-    var cur = args_schema[i]
+    const cur = args_schema[i]
     var value
     switch (cur.type) {
       case 'deep':
-        value = pvState(md, cur.name)
+        value = pvState(cur_md, cur.name)
         break
       case 'base':
-        value = pvState(head.md, cur.name)
+        value = pvState(base_md, cur.name)
         break
       default:
         throw new Error('unknow type dep type')
     }
     args[i] = value
   }
-  return Boolean(declr.selectFn.apply(null, args))
+  return Boolean(selectFn.apply(null, args))
 }
 
-function isFine(md, head, hands) {
-  return checkCondition(head, hands, md)
+function isFine(declr, base_md, md) {
+  return checkCondition(declr, base_md, md)
 }
 
 function switchDistant(do_switch, base, deep) {
@@ -136,7 +136,7 @@ function getFiltered(head, hands) {
 
   for (var i = 0; i < hands.items.length; i++) {
     var cur = hands.items[i]
-    if (isFine(cur, head, hands)) {
+    if (isFine(head.declr, head.md, cur)) {
       result.push(cur)
     }
   }
@@ -172,8 +172,11 @@ function getCommonFiltered(head, hands) {
 
 function getSorted(head, hands, items) {
   if (!items) {return}
+  const sortFn = head.declr.sortFn
+  const base_md = head.md
+
   return items.slice().sort(function(one, two) {
-    return head.declr.sortFn.call(null, one, two, head.md)
+    return sortFn.call(null, one, two, base_md)
   })
 }
 
