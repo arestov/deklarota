@@ -185,6 +185,24 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
+const prepareCompRel = function prepareCompRel(self, comp_attrs, attr_to_rel_name, comp_rels_list) {
+  if (!comp_rels_list || !comp_rels_list.length) {
+    return
+  }
+
+  for (var i = 0; i < comp_rels_list.length; i++) {
+    var cur = comp_rels_list[i]
+    var rel_name = '__/internal/rels//_/' + cur.dest_name
+    comp_attrs[rel_name] = new CompxAttrDecl(rel_name, [
+      cur.deps,
+      cur.calcFn,
+    ])
+
+    attr_to_rel_name.set(rel_name, cur.dest_name)
+  }
+
+}
+
 export default function checkPass(self, props, typed_state_dcls) {
   var currentIndex = self._extendable_nest_index
 
@@ -223,27 +241,16 @@ export default function checkPass(self, props, typed_state_dcls) {
 
   }
 
-  var comp_rels_list = self._nest_by_type_listed && self._nest_by_type_listed.comp && self._nest_by_type_listed.comp
-  if (!comp_rels_list || !comp_rels_list.length) {
-    return
+  if (!self._nest_by_type_listed) {
+    return true
   }
+
 
   typed_state_dcls['comp'] = typed_state_dcls['comp'] || {}
   var comp_attrs = typed_state_dcls['comp']
 
 
-
-  for (var i = 0; i < comp_rels_list.length; i++) {
-    var cur = comp_rels_list[i]
-    var rel_name = '__/internal/rels//_/' + cur.dest_name
-    comp_attrs[rel_name] = new CompxAttrDecl(rel_name, [
-      cur.deps,
-      cur.calcFn,
-    ])
-
-    attr_to_rel_name.set(rel_name, cur.dest_name)
-  }
-
+  prepareCompRel(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp)
 
   return true
 }
