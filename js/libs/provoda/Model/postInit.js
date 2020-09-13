@@ -4,7 +4,6 @@ import prsStCon from '../prsStCon'
 import nestWIndex from '../nest-watch/index'
 import runGlueRelSources from '../dcl/glue_rels/runtime/run'
 import initNestSel from '../dcl/nest_sel/init'
-import initNestConcat from '../dcl/nest_conj/init'
 import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
 import __handleInit from '../dcl/passes/handleInit/handle'
@@ -32,7 +31,6 @@ function connectNests(self) {
 
   runGlueRelSources(self)
   initNestSel(self)
-  initNestConcat(self)
 }
 
 function markInitied(md) {
