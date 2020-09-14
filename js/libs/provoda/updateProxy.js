@@ -367,8 +367,16 @@ function isSameValue(old_value, value) {
   return false
 }
 
+function getAttr(etr, attr_name) {
+  return etr.states[attr_name]
+}
+
+function setAttr(etr, attr_name, value) {
+  etr.states[attr_name] = value
+}
+
 function _replaceState(etr, total_original_states, state_name, value, stack) {
-  var old_value = etr.states[state_name]
+  var old_value = getAttr(etr, state_name)
   if (isSameValue(old_value, value)) {
     return
   }
@@ -380,7 +388,7 @@ function _replaceState(etr, total_original_states, state_name, value, stack) {
   }
 
   etr._attrs_collector.ensureAttr(state_name)
-  etr.states[state_name] = value
+  setAttr(etr, state_name, value)
 
   if (stack == null) {
     return
