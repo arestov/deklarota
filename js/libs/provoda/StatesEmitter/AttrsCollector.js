@@ -23,13 +23,12 @@ Wrap.prototype = {
   get: function(target, name) {
     var collector = target[0]
 
-    var bitnum = collector.boolByName[name]
-    if (bitnum != null) {
+    if (collector.boolByName.has(name)) {
       var bitfield = target[1]
       if (!bitfield) {
         return false
       }
-      return bitfield.get(bitnum)
+      return bitfield.get(collector.boolByName.get(name))
     }
 
 
@@ -47,14 +46,13 @@ Wrap.prototype = {
   set: function(target, name, value) {
     var collector = target[0]
 
-    var bitnum = collector.boolByName[name]
-    if (bitnum != null) {
+    if (collector.boolByName.has(name)) {
       if (!target[1]) {
         target[1] = collector.makeBitField()
       }
       var bitfield = target[1]
 
-      bitfield.set(bitnum, Boolean(value))
+      bitfield.set(collector.boolByName.get(name), Boolean(value))
       return true
     }
 
@@ -104,10 +102,10 @@ function AttrsCollector(defined_attrs) {
   this.counter = reserved
   // 0 is reserved to ref to collector
   // 1 is reserved to bitfield
-  this.indexByName = Object.create(null)
+  this.indexByName = new Map()
 
   this.bools = 0
-  this.boolByName = Object.create(null)
+  this.boolByName = new Map()
 
   this.public_attrs = []
   this.all = []
@@ -131,11 +129,11 @@ AttrsCollector.prototype = {
 
     switch (type) {
       case 'bool': {
-        this.boolByName[name] = this.bools++
+        this.boolByName.set(name, this.bools++)
       }
       break
       default: {
-        this.indexByName[name] = this.counter++
+        this.indexByName.set(name, this.counter++)
       }
     }
 
@@ -147,7 +145,7 @@ AttrsCollector.prototype = {
     }
   },
   hasAttr: function(name) {
-    return (name in this.indexByName) || (name in this.boolByName)
+    return this.indexByName.has(name) || this.boolByName.has(name)
   },
   ensureAttr: function(name) {
     // ensure usual attr without type
@@ -158,14 +156,14 @@ AttrsCollector.prototype = {
     this.ensureAttrNum(name)
   },
   ensureAttrNum: function(name) {
-    if (name in this.indexByName) {
-      return this.indexByName[name]
+    if (this.indexByName.has(name)) {
+      return this.indexByName.get(name)
     }
 
     // console.warn(new Error('define ' + name))
 
     var num = this.counter++
-    this.indexByName[name] = num
+    this.indexByName.set(name, num)
 
     this.all.push(name)
 
@@ -176,7 +174,7 @@ AttrsCollector.prototype = {
     return num
   },
   getAttrNum: function(name) {
-    return this.indexByName[name]
+    return this.indexByName.get(name)
   },
   makeBitField: function() {
     return new BitField(this.bools, grow)
