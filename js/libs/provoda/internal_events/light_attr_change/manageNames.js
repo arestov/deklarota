@@ -2,25 +2,21 @@
 
 import makeKey from '../makeKey'
 
-var toName = {}
-var toAttr = {}
+var toName = new Map()
+var toAttr = new Map()
 
 var getAttrByName = function(key) {
-  if (toAttr.hasOwnProperty(key)) {
-    return toAttr[key]
-  }
-
-  return null
+  return toAttr.get(key)
 }
 
 var getNameByAttr = function(attr) {
-  if (toName.hasOwnProperty(attr)) {
-    return toName[attr]
+  if (toName.has(attr)) {
+    return toName.get(attr)
   }
 
   var key = makeKey(attr)
-  toName[attr] = key
-  toAttr[key] = attr
+  toName.set(attr, key)
+  toAttr.set(key, attr)
   return key
 }
 
