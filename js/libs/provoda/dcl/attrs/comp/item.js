@@ -1,4 +1,3 @@
-import getShortStateName from '../../../utils/getShortStateName'
 import getParsedState from '../../../utils/getParsedState'
 import fromLegacy from '../../../utils/multiPath/fromLegacy'
 import parse from '../../../utils/multiPath/parse'
@@ -87,14 +86,7 @@ var CompxAttrDecl = function(comlx_name, cur) {
 
   this.name = comlx_name
 
-  this.watch_list = new Array(this.depends_on.length || 0)
-
-  for (var i = 0; i < this.depends_on.length; i++) {
-    if (!this.depends_on[i]) {
-      throw new Error('state name should not be empty')
-    }
-    this.watch_list[i] = getShortStateName(this.depends_on[i])
-  }
+  this.watch_list = this.depends_on
   return this
 }
 
