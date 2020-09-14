@@ -1,6 +1,3 @@
-
-
-import hp from '../helpers'
 import LocalWatchRoot from '../nest-watch/LocalWatchRoot'
 import addRemoveN from '../nest-watch/add-remove'
 import NestWatch from '../nest-watch/NestWatch'
@@ -169,8 +166,7 @@ var unhandleNesting = function(dep, req_dep, self) {
 
 var handleState = function(dep, req_dep, self) {
   if (dep.can_request) {
-    var short_name = hp.getShortStateName(dep.value)
-    self.requestState(short_name)
+    self.requestState(dep.value)
   }
 
   if (dep.related) {

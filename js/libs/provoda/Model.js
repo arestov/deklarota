@@ -101,7 +101,7 @@ add(_requestsDeps)
 add({
   getNonComplexStatesList: function(state_name) {
     // get source states
-    var short_name = hp.getShortStateName(state_name)
+    var short_name = state_name
 
     if (!this.hasComplexStateFn(short_name)) {
       return short_name
