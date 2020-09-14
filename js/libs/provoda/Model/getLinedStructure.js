@@ -36,12 +36,6 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
     }
     checkModel(cur_md.map_parent, models_index, local_index, all_for_parse)
 
-    var public_attrs = cur_md.__getPublicAttrs()
-    for (var i = 0; i < public_attrs.length; i++) {
-      var state_name = public_attrs[i]
-      checkModel(cur_md.states[state_name], models_index, local_index, all_for_parse)
-    }
-
     for (var nesting_name in cur_md.children_models) {
       if (isGlueRel(cur_md, nesting_name)) {
         continue
