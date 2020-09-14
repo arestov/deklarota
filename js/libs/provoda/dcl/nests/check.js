@@ -6,7 +6,6 @@ import NestCntDeclr from '../nest_conj/item'
 import NestDcl from '../nest/item'
 import NestCompx from '../nest_compx/item'
 import NestModel from '../nest_model/item'
-import buildSel from '../nest_sel/build'
 import buildNest from '../nest/build'
 import buildModel from '../nest_model/build'
 var cloneObj = spv.cloneObj
@@ -113,10 +112,6 @@ var rebuildType = function(self, type, result) {
   switch (type) {
     case 'nest': {
       buildNest(self, result)
-      return
-    }
-    case 'sel': {
-      buildSel(self, result)
       return
     }
     case 'model': {
