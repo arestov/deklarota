@@ -190,9 +190,13 @@ function getFilteredAndSorted(dcl, base_md, items_list) {
   return sorted
 }
 
+export function calcRelSelByDcl(dcl, base_md, list) {
+  var sorted = getFilteredAndSorted(dcl, base_md, list)
+  return getReadyItems(dcl, base_md, sorted)
+}
+
 function runHeadFilter(motivator, head, hands) {
-  var sorted = getFilteredAndSorted(head.declr, head.md, hands.items)
-  var result = getReadyItems(head.declr, head.md, sorted)
+  var result = calcRelSelByDcl(head.declr, head.md, hands.items)
 
   var md = head.md
   var old_motivator = md.current_motivator

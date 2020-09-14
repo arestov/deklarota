@@ -3,16 +3,17 @@
 import spv from '../../../spv'
 import getShortStateName from '../../utils/getShortStateName'
 import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
-import NestWatch from '../../nest-watch/NestWatch'
-import NestSelector from './NestSelector'
+import createUpdatedAddr from '../../utils/multiPath/createUpdatedAddr'
+import { createAddrByPart } from '../../utils/multiPath/parse'
+import asString from '../../utils/multiPath/asString'
+
+import CompxAttrDecl from '../attrs/comp/item'
+import emptyArray from '../../emptyArray'
+
+import { calcRelSelByDcl } from './NestSelector'
 import getParsedPath from '../../routes/legacy/getParsedPath'
 import where from './where'
 var push = Array.prototype.push
-var handleChdDeepState = NestSelector.handleChdDeepState
-var handleChdCount = NestSelector.handleChdCount
-var handleAdding = NestSelector.handleAdding
-var handleRemoving = NestSelector.handleRemoving
-var rerun = NestSelector.rerun
 
 var startsWith = spv.startsWith
 
@@ -49,15 +50,8 @@ var getMap = function(map_chunk) {
   }
 }
 
-var warnSel = function() {
-  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
-    return
-  }
-  console.warn('sel does not follow source reorder')
-}
 
 var SelectNestingDeclaration = function(dest_name, data) {
-  warnSel()
 
   this.map = null
   if (data.map) {
@@ -67,7 +61,7 @@ var SelectNestingDeclaration = function(dest_name, data) {
   if (this.map && typeof this.map !== 'object') {
     throw new Error('unsupported map type')
   }
-  var multi_path = asMultiPath(data.from)
+  var multi_path = createUpdatedAddr(asMultiPath(data.from), {zip_name: 'all'})
 
   this.dest_name = dest_name
   this.deps_dest = null
@@ -84,12 +78,35 @@ var SelectNestingDeclaration = function(dest_name, data) {
 
   this.deps = getDeps(data, this.map, this.where_states)
 
-  this.nwbase = new NestWatch(multi_path, this.deps.deep.all.shorts, {
-    onchd_count: handleChdCount,
-    onchd_state: this.selectFn ? handleChdDeepState : rerun
-  }, this.selectFn && handleAdding, this.selectFn && handleRemoving)
+  const local = createAddrByPart({})
+  const toBase = function(attr_name) {
+    return createUpdatedAddr(local, {state: attr_name})
+  }
+  const toDeep = function(attr_name) {
+    return createUpdatedAddr(multi_path, {state: attr_name})
+  }
 
+  const base_deps = this.deps.base.all.list
+  const deep_deps = this.deps.deep.all.list
 
+  const all_base_deps = base_deps ? base_deps.map(toBase) : []
+  const all_deep_deps = deep_deps ? deep_deps.map(toDeep) : []
+
+  const dcl = this
+  const comp_attr_deps = ['<<<<', ...[multi_path, ...all_base_deps, ...all_deep_deps].map(asString)]
+  var rel_name = '__/internal/rels//_/' + this.dest_name
+
+  this.comp_attr = new CompxAttrDecl(rel_name, [comp_attr_deps, function calcRelSel(self, list) {
+    const result = calcRelSelByDcl(dcl, self, list)
+    if (result == null) {
+      return result
+    }
+    if (!result.length) {
+      return emptyArray
+    }
+
+    return result
+  }])
 }
 
 

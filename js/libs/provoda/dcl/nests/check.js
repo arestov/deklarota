@@ -246,6 +246,7 @@ export default function checkPass(self, props, typed_state_dcls) {
 
   relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp)
   relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.conj)
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.sel)
 
   return true
 }
