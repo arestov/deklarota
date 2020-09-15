@@ -305,6 +305,7 @@ function isSimpleObject(obj) {
     return false
   }
 
+  // Allow arrays!
   if (Array.isArray(obj)) {
     return true
   }
@@ -323,6 +324,16 @@ function isSimpleObject(obj) {
 
 function shallowEqual(objA, objB) {
   if (!isSimpleObject(objA) || !isSimpleObject(objB)) {
+    return false
+  }
+
+  const a_is_arr = Array.isArray(objA)
+  const b_is_arr = Array.isArray(objB)
+  if (a_is_arr != b_is_arr) {
+    return false
+  }
+
+  if (a_is_arr && objA.length != objB.length) {
     return false
   }
 
