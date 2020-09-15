@@ -3,16 +3,17 @@ import spv from '../../spv'
 import hp from '../helpers'
 import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
-import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
+import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
+import updateMetaAttrs from './rel/updateMetaAttrs'
+import emptyArray from '../emptyArray'
+
 var checkNesting = nestWIndex.checkNesting
 
 var hasDot = spv.memorize(function(nesting_name) {
   return nesting_name.indexOf('.') != -1
 })
-
-var emptyArray = Object.seal([])
 
 function getUniqCopy(input) {
   if (!input.length) {
@@ -20,6 +21,12 @@ function getUniqCopy(input) {
   }
   var result = Array.from(new Set(input))
   return result.length ? result : emptyArray
+}
+
+const isGlueRel = function(self, rel_key) {
+  var skeleton = self.__global_skeleton
+
+  return skeleton.glue_rels.has(rel_key)
 }
 
 export default function updateNesting(self, collection_name, input, opts) {
@@ -46,6 +53,14 @@ export default function updateNesting(self, collection_name, input, opts) {
 
   self.children_models[collection_name] = array
 
+
+
+  if (isGlueRel(self, collection_name)) {
+    handleMentions(self, collection_name, old_value, array)
+    triggerLightRelChange(self, collection_name, array)
+    return
+  }
+
   if (old_value && array) {
     var arr1 = Array.isArray(old_value)
     var arr2 = Array.isArray(array)
@@ -55,34 +70,15 @@ export default function updateNesting(self, collection_name, input, opts) {
   }
 
 
-
-  var count = Array.isArray(array)
-    ? array.length
-    : (array ? 1 : 0)
-
-  var name_for_length_legacy = collection_name + '$length'
-  var name_for_length_modern = '$meta$nests$' + collection_name + '$length'
-
-  var name_for_exists_legacy = collection_name + '$exists'
-  var name_for_exists_modern = '$meta$nests$' + collection_name + '$exists'
-
-  self._attrs_collector.defineAttr(name_for_length_legacy, 'int')
-  self._attrs_collector.defineAttr(name_for_length_modern, 'int')
-  self._attrs_collector.defineAttr(name_for_exists_legacy, 'bool')
-  self._attrs_collector.defineAttr(name_for_exists_modern, 'bool')
-
-  _updateAttrsByChanges(self, [
-    name_for_length_legacy, count,
-    name_for_length_modern, count,
-    name_for_exists_legacy, Boolean(count),
-    name_for_exists_modern, Boolean(count),
-  ])
+  updateMetaAttrs(self, collection_name, array)
 
   var removed = hp.getRemovedNestingItems(array, old_value)
 
   _passHandleNesting(self, collection_name, old_value, array)
 
   handleMentions(self, collection_name, old_value, array)
+
+  triggerLightRelChange(self, collection_name, array)
 
   checkNesting(self, collection_name, array, removed)
   // !?

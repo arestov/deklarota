@@ -1,5 +1,3 @@
-
-
 import spv from '../spv'
 import utils_simple from './utils/simple'
 import updateProxy from './updateProxy'
@@ -15,26 +13,11 @@ import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
-import getShortStateName from './utils/getShortStateName'
-var splitByDot = spv.splitByDot
-var getTargetField = spv.getTargetField
 
-
-var getLightConnector = spv.memorize(function(state_name, donor_state) {
-  if (donor_state == getShortStateName(donor_state)) {
-    return function updateStateBindedLightly(value) {
-      _updateAttr(this, state_name, value)
-    }
-  }
-  var path = splitByDot(donor_state)
-  var rest = path.slice(1)
-
+var getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
-    _updateAttr(this, state_name, getTargetField(value, rest))
+    _updateAttr(this, state_name, value)
   }
-
-}, function(arg1, arg2) {
-  return arg1 + ' ' + arg2
 })
 
 
@@ -44,7 +27,7 @@ function props(add) {
 var EvConxOpts = function(context, immediately) {
   this.context = context
   this.immediately = immediately
-  Object.seal(this)
+  Object.freeze(this)
 }
 
 add({
@@ -98,9 +81,6 @@ add({
     })
   },
   lwch: function(donor, donor_state, func) {
-    if (donor_state != getShortStateName(donor_state)) {
-      throw new Error('"." cant be used in attr path, here for ' + donor_state + '. not implemented')
-    }
     this._bindLight(donor, donor_state, func)
   },
   removeLwch: function(donor, donor_state, func) {
@@ -110,12 +90,12 @@ add({
   wlch: function(donor, donor_state, acceptor_state_name) {
     var cb = getLightConnector(acceptor_state_name, donor_state)
 
-    var event_name = utils_simple.getSTEVNameLight(getShortStateName(donor_state))
-    donor.evcompanion._addEventHandler(event_name, cb, this)
+    var event_name = utils_simple.getSTEVNameLight(donor_state)
+    donor.evcompanion._addEventHandler(event_name, cb, this, null, null, true)
   },
   unwlch: function(donor, donor_state, acceptor_state_name) {
     var cb = getLightConnector(acceptor_state_name, donor_state)
-    this.removeLwch(donor, getShortStateName(donor_state), cb)
+    this.removeLwch(donor, donor_state, cb)
   },
   onExtend: function(props, original) {
     onPropsExtend(this, props, original)

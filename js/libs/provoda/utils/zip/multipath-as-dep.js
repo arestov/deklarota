@@ -1,4 +1,4 @@
-var emptyArray = Object.seal([])
+import emptyArray from '../../emptyArray'
 
 var useSharedEmpty = function(list) {
   if (list != null && !list.length) {

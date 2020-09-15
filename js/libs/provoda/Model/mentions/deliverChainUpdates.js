@@ -1,13 +1,11 @@
 
 import _updateAttr from '../../_internal/_updateAttr'
+import _updateRel from '../../_internal/_updateRel'
 import getDepValue from '../../utils/multiPath/getDepValue'
-import multiPathAsString from '../../utils/multiPath/asString'
-import nestCompxHandlers from '../../dcl/nest_compx/handler'
 
 import target_types from './target_types'
-var changeValue = nestCompxHandlers.changeValue
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
-var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
+var TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
 export default function deliverChainUpdates(self, chain) {
 
@@ -17,9 +15,8 @@ export default function deliverChainUpdates(self, chain) {
 
       break
     }
-    case TARGET_TYPE_REL: {
-      var runner = self.__nest_calculations[chain.target_name]
-      changeValue(self._currentMotivator(), runner, multiPathAsString(chain.addr), getDepValue(self, chain.addr))
+    case TARGET_TYPE_GLUE_REL: {
+      _updateRel(self, chain.target_name, getDepValue(self, chain.addr))
       break
     }
     default: {

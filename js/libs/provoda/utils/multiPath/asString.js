@@ -93,7 +93,7 @@ function baseStringMin(from_base) {
 
 function baseString(from_base) {
   var result = baseStringMin(from_base)
-  return result ? '< ' + result : result
+  return result ? '< ' + result : '<'
 }
 
 export { baseStringMin }

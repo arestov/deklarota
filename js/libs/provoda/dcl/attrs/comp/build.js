@@ -4,8 +4,7 @@ import getEncodedState from '../../../utils/getEncodedState'
 import asString from '../../../utils/multiPath/asString'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
 import isJustAttrAddr from './isJustAttrAddr'
-
-
+import isGlueTargetAttr from './isGlueTargetAttr'
 
 var makeGroups = groupDeps(getEncodedState)
 
@@ -76,6 +75,10 @@ function uniqExternalDeps(full_comlxs_list) {
         continue
       }
 
+      if (isGlueTargetAttr(addr)) {
+        continue
+      }
+
       const key = asString(addr)
 
       if (uniq.has(key)) {
@@ -105,20 +108,21 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list)
 
   var result = makeGroups(full_comlxs_list)
-  var compx_nest_matches = []
+
   for (var i = 0; i < result.conndst_nesting.length; i++) {
     var nwatch = result.conndst_nesting[i].nwatch
     var addr = nwatch.nmpath_source
     if (mentionsSupportedAddr(addr)) {
       continue
     }
-    compx_nest_matches.push(nwatch)
+
+    throw new Error('should not be reason to use legacy nestwatch')
   }
 
-  self.compx_nest_matches = compx_nest_matches
   self.connect_self = result.connect_self
 
   self.conndst_parent = result.conndst_parent
   self.conndst_nesting = result.conndst_nesting
   self.conndst_root = result.conndst_root
+  self.__temp_connect_glue = result.connect_glue
 }

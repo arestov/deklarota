@@ -2,13 +2,23 @@
 
 import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
-import getAllPossibleRelMentionsCandidates from '../dcl/nest_compx/mentionsCandidates'
+import getAllPossibleRelMentionsCandidates, {
+  getRootRelMentions, getParentRelMentions,
+  getAllGlueSources,
+} from '../dcl/nest_compx/mentionsCandidates'
+import {
+  getRootRelMentions as getRootRelMentionsAttrs,
+  getParentRelMentions as getParentRelMentionsAttrs,
+  getAllGlueSources as getAllGlueSourcesAttrs,
+} from '../dcl/attrs/comp/mentionsCandidates'
+
 
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
+import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
-var TARGET_TYPE_REL = target_types.TARGET_TYPE_REL
+var TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
 function addrToLinks(addr, chain) {
   var list = []
@@ -45,12 +55,12 @@ function GlobalSkeleton() {
   this.chains = []
   this.chains_by_rel = null
   this.chains_by_attr = null
+  this.glue_rels = new Set()
 
   Object.seal(this)
 }
 
-function addCompxNestForModel(global_skeleton, model) {
-
+function handleCompRels(global_skeleton, model) {
   var all_deps = getAllPossibleRelMentionsCandidates(model)
   if (all_deps == null) {
     return
@@ -62,12 +72,113 @@ function addCompxNestForModel(global_skeleton, model) {
       continue
     }
 
-    global_skeleton.chains.push(new Chain(model, TARGET_TYPE_REL, candidate.addr, candidate.dest_name))
   }
 }
 
-function addModel(global_skeleton, model) {
-  addCompxNestForModel(global_skeleton, model)
+function markGlueRels(global_skeleton, model) {
+  const list = [
+    ...(getAllGlueSources(model) || []),
+    ...(getAllGlueSourcesAttrs(model) || [])
+
+  ]
+  if (list == null) {return}
+  for (var i = 0; i < list.length; i++) {
+    const cur = list[i]
+    global_skeleton.glue_rels.add(cur.meta_relation)
+    global_skeleton.glue_rels.add(cur.final_rel_key)
+  }
+}
+
+const iterateMentions = function iterateMentions(iterateFn) {
+  return function iterate(model, level) {
+    var full_list = []
+    full_list.push(...iterateFn(model, level))
+    for (var chi in model._all_chi) {
+      if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
+        continue
+      }
+      full_list.push(...iterate(model._all_chi[chi].prototype, level + 1))
+    }
+
+    if (!full_list.length) {
+      return full_list
+    }
+
+    var result = new Map()
+    for (var i = 0; i < full_list.length; i++) {
+      var cur = full_list[i]
+      var key = cur.final_rel_key
+      if (result.has(key)) {
+        continue
+      }
+
+      result.set(key, cur)
+    }
+
+    return [...result.values()]
+  }
+}
+
+
+
+const getAllRootMentions = iterateMentions(function(model) {
+  return [
+    ...(getRootRelMentions(model) || []),
+    ...(getRootRelMentionsAttrs(model) || []),
+  ]
+})
+
+const getAllParentMentions = iterateMentions(function(model, level) {
+  var list = level ? [
+    ...(getParentRelMentions(model) || []),
+    ...(getParentRelMentionsAttrs(model) || []),
+  ] : []
+  if (!list.length) {
+    return list
+  }
+
+  return list.filter(function(item) {
+    return (level - item.source.from_base.steps) == 0
+  })
+})
+
+
+function handleGlueParentAscent(global_skeleton, model) {
+  var list = getAllParentMentions(model, 0)
+
+  for (var i = 0; i < list.length; i++) {
+    var candidate = list[i]
+    global_skeleton.chains.push(new Chain(
+      model, TARGET_TYPE_GLUE_REL, candidate.final_rel_addr, candidate.final_rel_key
+    ))
+  }
+}
+
+function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
+  markGlueRels(global_skeleton, model)
+  handleGlueParentAscent(global_skeleton, model, ascent_level)
+
+  if (!is_root) {
+    return
+  }
+  var root_mentions = getAllRootMentions(model, 0)
+
+  for (var i = 0; i < root_mentions.length; i++) {
+    var candidate = root_mentions[i]
+    global_skeleton.chains.push(new Chain(
+      model, TARGET_TYPE_GLUE_REL, candidate.final_rel_addr, candidate.final_rel_key
+    ))
+  }
+}
+
+function addCompxNestForModel(global_skeleton, model, ascent_level, is_root) {
+  handleCompRels(global_skeleton, model)
+  handleGlueRels(global_skeleton, model, ascent_level, is_root)
+}
+
+function addModel(global_skeleton, model, ascent_level, is_root) {
+  provideGlueRels(model)
+  addCompxNestForModel(global_skeleton, model, ascent_level, is_root)
 
   if (model.__attrs_uniq_external_deps == null || !model.__attrs_uniq_external_deps.length) {
     return

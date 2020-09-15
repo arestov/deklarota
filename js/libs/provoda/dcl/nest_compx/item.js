@@ -1,17 +1,15 @@
-
 import spv from '../../../spv'
-import NestWatch from '../../nest-watch/NestWatch'
+import cloneObj from '../../../spv/cloneObj'
+
 import parseMultiPath from '../../utils/multiPath/parse'
+import splitComplexRel from '../glue_rels/splitComplexRel'
 import asString from '../../utils/multiPath/asString'
-import zip_fns from '../../utils/zip/nest-compx'
-import handler from './handler'
-var hnest = handler.hnest
-var hnest_state = handler.hnest_state
+import isRelAddr from '../../utils/multiPath/isRelAddr'
+import CompxAttrDecl from '../attrs/comp/item'
 
 var simpleAddrToUse = function(addr, string) {
   if (!addr) {
     throw new Error('cant parse: ' + string)
-    return null
   }
 
   if (addr.base_itself) {
@@ -44,22 +42,9 @@ var getDeps = spv.memorize(function getEncodedState(string) {
     return simple_addr
   }
 
-  var copy = spv.cloneObj({}, result)
-
-  var state_name = result.state && result.state.path
-
-  var nwatch = new NestWatch(result, state_name, {
-    onchd_state: hnest_state,
-    onchd_count: hnest,
-  })
-
-  copy.nwatch = nwatch
-
-  var zip_name = result.zip_name || 'all'
-  var zipFn = zip_fns[zip_name]
-  copy.zipFn = zipFn
-
-  return copy
+  var result = cloneObj({}, splitComplexRel(result) || result)
+  result.nwatch = true
+  return result
 })
 
 var groupBySubscribing = function(list) {
@@ -74,7 +59,7 @@ var groupBySubscribing = function(list) {
     var cur = list[i]
     if (cur.base_itself) {
       result.self = true
-    } else if (cur.nwatch) {
+    } else if (cur.nwatch || isRelAddr(cur)) {
       result.nest_watch.push(cur)
     } else {
       if (cur.result_type != 'state' && (!cur.resource || !cur.resource.path)) {
@@ -94,24 +79,63 @@ var same = function(item) {
   return item
 }
 
+var getGlueSources = function(list) {
+  var result = []
+  for (var i = 0; i < list.length; i++) {
+    var addr = list[i]
+    if (addr.splited == null) {
+      continue
+    }
+
+    result.push({
+      meta_relation: addr.splited.meta_relation,
+      source: addr.splited.source,
+      final_rel_addr: addr.splited.final_rel_addr,
+      final_rel_key: addr.splited.final_rel_key,
+    })
+  }
+
+  return result
+}
+
+var useDesination = function(addr) {
+  if (addr.splited == null) {
+    return addr
+  }
+
+  return addr.splited.destination
+}
+
+
 var NestCompxDcl = function(name, data) {
+  var fn = data[2]
+
+  this.calcFn = fn || same
+
   this.dest_name = name
 
   var deps = data[1]
-  var fn = data[2]
-
   var list = deps.map(getDeps)
+
+  this.glue_sources = getGlueSources(list)
 
   // for prefill
   this.raw_deps = list
 
+
+  var prepared_to_run = list.map(useDesination)
   // for cache keys
-  this.deps = list.map(asString)
-
-  this.calcFn = fn || same
-
+  this.deps = prepared_to_run.map(asString)
   // will be used by runner (to init watchers)
-  this.parsed_deps = groupBySubscribing(list)
+  this.parsed_deps = groupBySubscribing(prepared_to_run)
+
+
+  var rel_name = '__/internal/rels//_/' + this.dest_name
+
+  this.comp_attr = new CompxAttrDecl(rel_name, [
+    this.deps,
+    this.calcFn,
+  ])
 
 }
 

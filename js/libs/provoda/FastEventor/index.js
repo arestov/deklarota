@@ -13,7 +13,7 @@ var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wra
   this.context = context
   this.immediately = immediately
   this.wrapper = wrapper || null
-  Object.seal(this)
+  Object.freeze(this)
 }
 
 var iterateSubsCache = function(func) {

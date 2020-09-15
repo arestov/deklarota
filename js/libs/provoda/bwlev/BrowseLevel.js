@@ -153,10 +153,10 @@ var BrowseLevel = spv.inh(Model, {
 
     '__struc_list': [
       'comp',
-      ['struc'],
-      function(struc) {
-        if (!this.getNesting('pioneer') || !struc) {return}
-        return flatStruc(this.getNesting('pioneer'), struc)
+      ['struc', '<< @one:pioneer'],
+      function(struc, pioneer) {
+        if (!pioneer || !struc) {return}
+        return flatStruc(pioneer, struc)
       }
     ],
 

@@ -130,8 +130,7 @@ function checkNestingPath(app, md, dep, path, original_need) {
 }
 
 var relatedDeps = function(app, md, state_name) {
-  var short_name = hp.getShortStateName(state_name)
-
+  var short_name = state_name
   var is_compx_state = modelInfo(md).hasComplexStateFn(short_name)
   if (!is_compx_state) {
     return null

@@ -1,13 +1,7 @@
-
-import stateGetter from './stateGetter'
-var getter = stateGetter
-
 export default function(item, state_path) {
-  var getField = getter(state_path)
-
-  if (item._lbr && item._lbr.undetailed_states) {
-    return getField(item._lbr.undetailed_states)
+  if (item._lbr != null && item._lbr.undetailed_states != null) {
+    return item._lbr.undetailed_states[state_path]
   }
 
-  return getField(item.states)
+  return item.states[state_path]
 }

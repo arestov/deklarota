@@ -4,6 +4,7 @@ import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
 import produceEffects from './StatesEmitter/produceEffects'
 import checkStates from './nest-watch/checkStates'
 import _passHandleState from './dcl/passes/handleState/handle'
+import attrToRel from './dcl/nests/attrToRel'
 import deliverAttrQueryUpdates from './Model/mentions/deliverAttrQueryUpdates'
 import sameName from './sameName'
 
@@ -304,6 +305,7 @@ function isSimpleObject(obj) {
     return false
   }
 
+  // Allow arrays!
   if (Array.isArray(obj)) {
     return true
   }
@@ -322,6 +324,16 @@ function isSimpleObject(obj) {
 
 function shallowEqual(objA, objB) {
   if (!isSimpleObject(objA) || !isSimpleObject(objB)) {
+    return false
+  }
+
+  const a_is_arr = Array.isArray(objA)
+  const b_is_arr = Array.isArray(objB)
+  if (a_is_arr != b_is_arr) {
+    return false
+  }
+
+  if (a_is_arr && objA.length != objB.length) {
     return false
   }
 
@@ -350,17 +362,33 @@ function shallowEqual(objA, objB) {
   return true
 }
 
-function _replaceState(etr, total_original_states, state_name, value, stack) {
-  var old_value = etr.states[state_name]
+function isSameValue(old_value, value) {
   if (old_value == null && value == null) {
-    return
+    return true
   }
 
   if (old_value === value) {
-    return
+    return true
   }
 
   if (shallowEqual(old_value, value)) {
+    return true
+  }
+
+  return false
+}
+
+function getAttr(etr, attr_name) {
+  return etr.states[attr_name]
+}
+
+function setAttr(etr, attr_name, value) {
+  etr.states[attr_name] = value
+}
+
+function _replaceState(etr, total_original_states, state_name, value, stack) {
+  var old_value = getAttr(etr, state_name)
+  if (isSameValue(old_value, value)) {
     return
   }
 
@@ -371,7 +399,7 @@ function _replaceState(etr, total_original_states, state_name, value, stack) {
   }
 
   etr._attrs_collector.ensureAttr(state_name)
-  etr.states[state_name] = value
+  setAttr(etr, state_name, value)
 
   if (stack == null) {
     return
@@ -385,7 +413,12 @@ function getComplexInitList(etr) {
 
   for (var i = 0; i < etr.full_comlxs_list.length; i++) {
     var cur = etr.full_comlxs_list[i]
-    result_array.push(cur.name, compoundComplexState(etr, cur))
+    var cur_val = etr.state(cur.name)
+    var new_val = compoundComplexState(etr, cur)
+    if (isSameValue(cur_val, new_val)) {
+      continue
+    }
+    result_array.push(cur.name, new_val)
   }
 
   return result_array
@@ -502,6 +535,7 @@ function _triggerStChanges(etr, i, state_name, value, total_original_states) {
   _passHandleState(etr, total_original_states, state_name, value)
 
   checkStates(etr, state_name, value, total_original_states.get(state_name))
+  attrToRel(etr, state_name, value)
   deliverAttrQueryUpdates(etr, state_name)
   // states_links
 

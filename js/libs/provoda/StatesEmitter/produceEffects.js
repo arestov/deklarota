@@ -43,10 +43,6 @@ function agendaKey(self, initial_transaction_id) {
 }
 
 function ensureEffectStore(self, effect_name, initial_transaction_id) {
-  if (!self._highway.__produce_side_effects_schedule) {
-    self._highway.__produce_side_effects_schedule = new Map()
-  }
-
   var key = agendaKey(self, initial_transaction_id)
   if (!self._highway.__produce_side_effects_schedule.get(key)) {
     self._highway.__produce_side_effects_schedule.set(key, {})
@@ -205,6 +201,13 @@ function getValue(self, agenda, state_name) {
   return pvState(self, state_name)
 }
 
+function checkSchedule(self, trans_store, effect_name, key) {
+  delete trans_store[effect_name]
+  if (!countKeys(trans_store)) {
+    self._highway.__produce_side_effects_schedule.delete(key)
+  }
+}
+
 function executeEffect(self, effect_name, transaction_id) {
   var key = agendaKey(self, transaction_id)
   var trans_store = self._highway.__produce_side_effects_schedule.get(key)
@@ -223,10 +226,7 @@ function executeEffect(self, effect_name, transaction_id) {
     var api = self._interfaces_using.used[effect.apis[i]]
     if (!api) {
       // do not call effect fn
-      delete trans_store[effect_name]
-      if (!countKeys(trans_store)) {
-        self._highway.__produce_side_effects_schedule.delete(key)
-      }
+      checkSchedule(self, trans_store, effect_name, key)
       return
     }
     args[i] = api
@@ -238,11 +238,7 @@ function executeEffect(self, effect_name, transaction_id) {
   var result = effect.fn.apply(null, args)
   handleEffectResult(self, effect, result)
 
-  delete trans_store[effect_name]
-  if (!countKeys(trans_store)) {
-    self._highway.__produce_side_effects_schedule.delete(key)
-  }
-
+  checkSchedule(self, trans_store, effect_name, key)
 }
 
 function checkExecuteMutateEffects(self) {

@@ -6,16 +6,16 @@ import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 
 var splitByDot = spv.splitByDot
-var empty = {}
-var root = {
+var empty = Object.freeze({})
+var root = Object.freeze({
   type: 'root',
   steps: null,
-}
+})
 var parents = spv.memorize(function(num) {
-  return {
+  return Object.freeze({
     type: 'parent',
     steps: num,
-  }
+  })
 })
 var parent_count_regexp = /\^+/gi
 
@@ -94,7 +94,7 @@ var parseModern = spv.memorize(function parseModern(string) {
 var matchNotStateSymbols = /(^\W)|\@|\:/
 
 
-var getStateInfo = spv.memorize(function getStateInfo(string) {
+export var getStateInfo = spv.memorize(function getStateInfo(string) {
   if (!string) {
     return empty
   }
@@ -221,6 +221,27 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 }
 
 
+export function updateResultType(draft) {
+  draft.result_type = getResultType(draft.state, draft.nesting, draft.resource, draft.from_base)
+
+}
+
+export function createAddrByPart(source) {
+  var draft = {
+    result_type: null,
+    zip_name: null,
+    state: source.state || empty ,
+    nesting: source.nesting || empty,
+    resource: source.resource || empty,
+    from_base: source.from_base || empty,
+    as_string: null,
+  }
+
+  updateResultType(draft)
+  return draft
+}
+
+
 export function getNestInfo(string) {
   if (!string) {
     return empty
@@ -250,7 +271,7 @@ export function getNestInfo(string) {
   }
 }
 
-function getResourceInfo(string) {
+export function getResourceInfo(string) {
   if (!string) {
     return empty
   }

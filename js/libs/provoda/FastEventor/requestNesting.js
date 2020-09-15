@@ -169,7 +169,7 @@ export default function(dclt, nesting_name, limit) {
   function markAttemptComplete() {
     var states = {}
     statesComplete(states, nesting_name)
-     _this.sputnik.updateManyStates(states)
+    _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
   }
 
   function anyway() {
@@ -180,14 +180,14 @@ export default function(dclt, nesting_name, limit) {
 
     var states = {}
     statesAnyway(states, nesting_name, is_main_list)
-    _this.sputnik.updateManyStates(states)
+    _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
   }
 
   function handleError() {
     store.error = true
     var states = {}
     statesError(states, nesting_name)
-    _this.sputnik.updateManyStates(states)
+    _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
 
     anyway()
     markAttemptComplete()
@@ -298,11 +298,12 @@ export default function(dclt, nesting_name, limit) {
 
     var many_states = {}
     statesData(many_states, nesting_name, can_load_more, is_main_list)
-    sputnik.updateManyStates(many_states)
 
     items = paging_opts.remainder ? items.slice(paging_opts.remainder) : items
 
     sputnik.insertDataAsSubitems(sputnik, nesting_name, items, serv_data, source_name)
+
+    sputnik.nextTick(sputnik.updateManyStates, [many_states], true)
 
     if (!sputnik.loaded_nestings_items) {
       sputnik.loaded_nestings_items = {}

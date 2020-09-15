@@ -2,6 +2,7 @@
 import CallbacksFlow from '../../../CallbacksFlow'
 import SyncSender from '../../../sync_sender'
 import views_proxies from '../../../views_proxies'
+import initEffects from '../../../StatesEmitter/initEffects'
 
 function AppRuntime(optionsRaw) {
 
@@ -19,6 +20,8 @@ function AppRuntime(optionsRaw) {
   this.calls_flow = flow
 
   this.views_counter = 1 // check to remove
+
+  initEffects(this)
 
   var whenAllReady = function(fn) {
     flow.pushToFlow(fn, null, null, null, null, null, null, true)

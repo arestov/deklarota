@@ -12,6 +12,7 @@ import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
 import initApis from './dcl/effects/legacy/api/init'
 import initInputAttrs from './dcl/attrs/input/init'
+import prefillCompAttr from './dcl/attrs/comp/prefill'
 import nestBorrowInit from './dcl_view/nest_borrow/init'
 import nestBorrowDestroy from './dcl_view/nest_borrow/destroy'
 import nestBorrowCheckChange from './dcl_view/nest_borrow/check-change'
@@ -23,8 +24,6 @@ var CH_GR_LE = 2
 
 
 // var spyglassDestroy = require('./dcl_view/spyglass/destroy');
-
-var cloneObj = spv.cloneObj
 
 var ViewLabour = function() {
   this.has_details = null
@@ -120,13 +119,19 @@ var initView = function(target, view_otps, opts) {
   target._lbr = new ViewLabour()
 
   target.mpx._assignPublicAttrs(target._lbr.undetailed_states)
-  cloneObj(target._lbr.undetailed_states, target.mpx.vstates)
+  Object.assign(target._lbr.undetailed_states, target.mpx.vstates)
   var default_attrs = initInputAttrs(target)
   if (default_attrs) {
-    cloneObj(target._lbr.undetailed_states, default_attrs)
+    Object.assign(target._lbr.undetailed_states, default_attrs)
   }
 
-  cloneObj(target._lbr.undetailed_children_models, target.mpx.nestings)
+  var changes_list = []
+  prefillCompAttr(target, changes_list)
+  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    target._lbr.undetailed_states[changes_list[i]] = changes_list[i + 1]
+  }
+
+  Object.assign(target._lbr.undetailed_children_models, target.mpx.nestings)
 
   prsStCon.connect.parent(target, target)
   prsStCon.connect.root(target, target)
@@ -838,7 +843,7 @@ var View = spv.inh(StatesEmitter, {
     updateProxy(this, [name, value])
   },
   checkChildrenModelsRendering: function() {
-    var obj = cloneObj(false, this.children_models)
+    var obj = Object.assign({}, this.children_models)
     this.setMdChildren(obj)
   },
   setMdChildren: function(collections) {

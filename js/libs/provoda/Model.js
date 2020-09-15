@@ -5,6 +5,7 @@ import hp from './helpers'
 import MDProxy from './MDProxy'
 import initDeclaredNestings from './initDeclaredNestings'
 import prsStCon from './prsStCon'
+
 import { initAttrs } from './updateProxy'
 import StatesEmitter from './StatesEmitter'
 import _requestsDeps from './Model/_requestsDeps'
@@ -18,13 +19,14 @@ import getLinedStructure from './Model/getLinedStructure'
 import toSimpleStructure from './Model/toSimpleStructure'
 import ensurePublicAttrs from './Model/ensurePublicAttrs'
 import addrFromObj from './provoda/dcl/addr.js'
+import prefillCompAttr from './dcl/attrs/comp/prefill'
+import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
 import wrapInputCall from './provoda/wrapInputCall'
 
 var push = Array.prototype.push
-var cloneObj = spv.cloneObj
 
 var getMDOfReplace = function() {
   return this.md
@@ -99,9 +101,11 @@ var getStrucParent = function(item, _count, soft) {
 function modelProps(add) {
 add(_requestsDeps)
 add({
+  'regfr-light_rel_ev': regfr_light_rel_ev,
+
   getNonComplexStatesList: function(state_name) {
     // get source states
-    var short_name = hp.getShortStateName(state_name)
+    var short_name = state_name
 
     if (!this.hasComplexStateFn(short_name)) {
       return short_name
@@ -221,7 +225,7 @@ add({
     if (!this.init_states) {
       this.init_states = {}
     }
-    cloneObj(this.init_states, more_states)
+    Object.assign(this.init_states, more_states)
   },
   __initStates: function() {
     if (this.init_states === false) {
@@ -246,9 +250,7 @@ add({
       }
     }
 
-    prsStCon.prefill.self(this, changes_list)
-    prsStCon.prefill.parent(this, changes_list)
-    prsStCon.prefill.root(this, changes_list)
+    prefillCompAttr(this, changes_list)
 
     if (changes_list && changes_list.length) {
       initAttrs(this, this._fake_etr, changes_list)

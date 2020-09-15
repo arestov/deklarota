@@ -1,6 +1,7 @@
 
 import cloneObj from '../../../../spv/cloneObj'
 import CallbacksFlow from '../../../CallbacksFlow'
+import initEffects from '../../../StatesEmitter/initEffects'
 
 function ViewRuntime(optionsRaw) {
   var options = optionsRaw || {}
@@ -15,6 +16,8 @@ function ViewRuntime(optionsRaw) {
   this.views_counter = 1
   this.views_proxies = options.proxies
   this.calls_flow = flow
+
+  initEffects(this)
 
   var whenAllReady = function(fn) {
     flow.pushToFlow(fn, null, null, null, null, null, null, true)

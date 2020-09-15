@@ -6,9 +6,7 @@ import NestCntDeclr from '../nest_conj/item'
 import NestDcl from '../nest/item'
 import NestCompx from '../nest_compx/item'
 import NestModel from '../nest_model/item'
-import buildSel from '../nest_sel/build'
 import buildNest from '../nest/build'
-import buildConj from '../nest_conj/build'
 import buildModel from '../nest_model/build'
 var cloneObj = spv.cloneObj
 
@@ -116,14 +114,6 @@ var rebuildType = function(self, type, result) {
       buildNest(self, result)
       return
     }
-    case 'conj': {
-      buildConj(self, result)
-      return
-    }
-    case 'sel': {
-      buildSel(self, result)
-      return
-    }
     case 'model': {
       buildModel(self, result)
       return
@@ -184,8 +174,19 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-export default function checkPass(self, props) {
+const relToCompAttr = function relToCompAttr(self, comp_attrs, attr_to_rel_name, comp_rels_list) {
+  if (!comp_rels_list || !comp_rels_list.length) {
+    return
+  }
 
+  for (var i = 0; i < comp_rels_list.length; i++) {
+    var cur = comp_rels_list[i]
+    comp_attrs[cur.comp_attr.name] = cur.comp_attr
+    attr_to_rel_name.set(cur.comp_attr.name, cur.dest_name)
+  }
+}
+
+export default function checkPass(self, props, typed_state_dcls) {
   var currentIndex = self._extendable_nest_index
 
   checkLegacy(self, props)
@@ -195,6 +196,8 @@ export default function checkPass(self, props) {
     return
   }
 
+  const attr_to_rel_name = new Map()
+  self.__attr_to_rel_name = attr_to_rel_name
 
   var oldByType = self._nest_by_type || {}
   self._nest_by_type = byType(self._extendable_nest_index)
@@ -220,5 +223,19 @@ export default function checkPass(self, props) {
     self._nest_by_type_listed[type_name] = result
 
   }
+
+  if (!self._nest_by_type_listed) {
+    return true
+  }
+
+
+  typed_state_dcls['comp'] = typed_state_dcls['comp'] || {}
+  var comp_attrs = typed_state_dcls['comp']
+
+
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp)
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.conj)
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.sel)
+
   return true
 }

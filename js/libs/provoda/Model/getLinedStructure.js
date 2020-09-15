@@ -1,5 +1,6 @@
 
 import spv from '../../spv'
+import isGlueRel from '../dcl/glue_rels/isGlueRel'
 
 var checkModel = function(md, models_index, local_index, all_for_parse) {
   if (!md) {
@@ -35,32 +36,34 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
     }
     checkModel(cur_md.map_parent, models_index, local_index, all_for_parse)
 
-    var public_attrs = cur_md.__getPublicAttrs()
-    for (var i = 0; i < public_attrs.length; i++) {
-      var state_name = public_attrs[i]
-      checkModel(cur_md.states[state_name], models_index, local_index, all_for_parse)
-    }
-
     for (var nesting_name in cur_md.children_models) {
+      if (isGlueRel(cur_md, nesting_name)) {
+        continue
+      }
       var cur = cur_md.children_models[nesting_name]
-      if (cur) {
-        if (cur._provoda_id) {
-          checkModel(cur, models_index, local_index, all_for_parse)
-        } else {
-          var array
-          if (Array.isArray(cur)) {
-            array = cur
-          } else {
-            array = spv.getTargetField(cur, 'residents_struc.all_items')
-            if (!array) {
-              throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
-            }
-          }
-          for (var i = 0; i < array.length; i++) {
-            checkModel(array[i], models_index, local_index, all_for_parse)
-          }
+      if (cur == null) {
+        continue
+      }
+
+      if (cur._provoda_id) {
+        checkModel(cur, models_index, local_index, all_for_parse)
+        continue
+      }
+
+      var array
+      if (Array.isArray(cur)) {
+        array = cur
+      } else {
+        array = spv.getTargetField(cur, 'residents_struc.all_items')
+        if (!array) {
+          throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
         }
       }
+
+      for (var i = 0; i < array.length; i++) {
+        checkModel(array[i], models_index, local_index, all_for_parse)
+      }
+
     }
 
 

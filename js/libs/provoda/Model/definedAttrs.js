@@ -1,3 +1,4 @@
+import definedMetaAttrs from './rel/definedMetaAttrs'
 
 var push = Array.prototype.push
 
@@ -41,7 +42,24 @@ export default function(self) {
     push.apply(result, self.__defined_api_attrs_bool)
   }
 
+  if (self._extendable_nest_index) {
+    var rels = self._extendable_nest_index
+    for (var rel_name in rels) {
+      if (!rels.hasOwnProperty(rel_name)) {
+        continue
+      }
+      var list = definedMetaAttrs(rel_name)
+      for (var kk = 0; kk < list.length; kk++) {
+        var cur = list[kk]
+        var [attr_name, type] = cur
+        result.push({name: attr_name, type: type || null})
+      }
+    }
+  }
+
+
   self.__defined_attrs_bool = result
+
 
   // DONT NOT PREDEFINE things that could be bool (like $routed, $length)
 

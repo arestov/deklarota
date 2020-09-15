@@ -3,7 +3,6 @@
 import spv from '../spv'
 import utils_simple from './utils/simple'
 import pvState from './utils/state'
-import stateGetter from './utils/stateGetter'
 import probeDiff from './probeDiff'
 import selecPoineertDeclr from './structure/selecPoineertDeclr'
 import createTemplate from './View/createTemplate'
@@ -52,7 +51,6 @@ export default {
     return nesting_name
   },
   getShortStateName: getShortStateName,
-  stateGetter: stateGetter,
   getEncodedState: getEncodedState,
   getNetApiByDeclr: getNetApiByDeclr,
   getPropsPrefixChecker: getPropsPrefixChecker,
