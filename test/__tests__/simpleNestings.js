@@ -17,7 +17,9 @@ test('nestings legacy inited', async t => {
   })
 
   const person = (await init({
-    'nest-appartment': [Appartment],
+    rels: {
+      appartment: ['nest', [Appartment]],
+    },
   })).app_model
 
   return waitFlow(person).then(person => {
