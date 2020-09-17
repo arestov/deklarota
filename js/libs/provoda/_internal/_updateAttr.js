@@ -1,6 +1,5 @@
 
-import updateProxy from '../updateProxy'
-var update = updateProxy.update
+import { update } from '../updateProxy'
 
 function updateAttr(self, name, value) {
   if (self._currentMotivator() == null) {

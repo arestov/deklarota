@@ -228,7 +228,9 @@ test('special nestings by pass calculated', async t => {
   async function setup() {
     const Song = createDeepChild('Song')
     const Playlist = createDeepChild('playlist', {
-      'nest_rqc-songs_list': Song,
+      rels: {
+        songs_list: ['model', Song],
+      },
     })
 
     const createAction = (method, id = 1) => ({

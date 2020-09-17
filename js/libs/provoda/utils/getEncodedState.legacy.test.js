@@ -23,9 +23,10 @@ test('modern can be converted and used as legacy', function(t) {
     var legacyParsed = getParsedState(legacyAddr)
     var legacyParsedFromModern = modernAsLegacyParsed(toModernString(legacyAddr))
 
+    // we don't compare full_name, zip_name, nil_allowed (so don't use `&` prefix in test fixtures)
     t.deepEqual(
-      Object.assign({}, clean(legacyParsed), {full_name: null, zip_name: null}),
-      Object.assign({}, clean(legacyParsedFromModern), {full_name: null, zip_name: null})
+      Object.assign({}, clean(legacyParsed), {full_name: null, zip_name: null, nil_allowed: false}),
+      Object.assign({}, clean(legacyParsedFromModern), {full_name: null, zip_name: null, nil_allowed: false})
     )
   })
 })

@@ -30,7 +30,9 @@ test('nestings updated', async t => {
   })
 
   const { app_model: person, steps } = await init({
-    'nest-appartment': [Appartment],
+    rels: {
+      appartment: ['nest', [Appartment]],
+    },
   })
 
 
@@ -47,7 +49,9 @@ test('compx with nestings calculated', async t => {
   const Brother = spv.inh(Model, {}, {})
 
   const { app_model: person, steps } = await init({
-    'nest-brother': [Brother],
+    rels: {
+      brother: ['nest', [Brother]],
+    },
     attrs: {
       richest: [
         'comp',
@@ -85,13 +89,19 @@ test('state compx calculated from parent and root states', async t => {
     },
   })
   const DeepChild = spv.inh(Model, {}, {
-    'nest-child': [DeepestChild],
+    rels: {
+      child: ['nest', [DeepestChild]],
+    },
   })
   const Child = spv.inh(Model, {}, {
-    'nest-child': [DeepChild],
+    rels: {
+      child: ['nest', [DeepChild]],
+    },
   })
   const { app_model: app, steps } = (await init({
-    'nest-child': [Child],
+    rels: {
+      child: ['nest', [Child]],
+    },
   }))
 
   await steps([
