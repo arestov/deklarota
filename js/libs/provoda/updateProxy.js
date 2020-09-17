@@ -560,7 +560,7 @@ function reportBadChange() {
   // console.warn('unexpectd change of attr: ', state_name, etr.model_name || 'Noname', etr.__code_path)
 }
 
-updateProxy.update = function(md, state_name, state_value, opts) {
+const update = function updateWithValidation(md, state_name, state_value, opts) {
   /*if (state_name.indexOf('-') != -1 && console.warn){
     console.warn('fix prop state_name: ' + state_name);
   }*/
@@ -572,8 +572,10 @@ updateProxy.update = function(md, state_name, state_value, opts) {
 
   // md.updateState(state_name, state_value, opts);
 }
+
+updateProxy.update = update
 updateProxy.getComplexInitList = getComplexInitList
 
-export { createFakeEtr, computeInitialAttrs, getComplexInitList, initAttrs }
+export { createFakeEtr, computeInitialAttrs, getComplexInitList, initAttrs, update }
 
 export default updateProxy
