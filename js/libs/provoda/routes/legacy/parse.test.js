@@ -1,5 +1,7 @@
 import parse from './parse'
 
-test('check parsing', function() {
-  expect(parse('tracks/[:artist],[:track]')).toMatchSnapshot()
+describe('parse', () => {
+  it('should parse "tracks/[:artist],[:track]" correctly', () => {
+    expect(parse('tracks/[:artist],[:track]')).toMatchSnapshot()
+  })
 })

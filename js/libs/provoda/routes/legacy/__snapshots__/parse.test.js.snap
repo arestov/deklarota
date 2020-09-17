@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`check parsing 1`] = `
+exports[`parse should parse "tracks/[:artist],[:track]" correctly 1`] = `
 Object {
   "clean_string_parts": Array [
     "tracks/",
