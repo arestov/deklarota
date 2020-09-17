@@ -1,5 +1,3 @@
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvState from 'pv/getAttr'
@@ -21,7 +19,7 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('auto dispatch and handle `handleInit` pass', async t => {
+test('auto dispatch and handle `handleInit` pass', async () => {
   const app = await setup()
   const steps = makeStepsRunner(app)
   const getData = (item, keys = ['artist', 'title']) => {
@@ -52,10 +50,7 @@ test('auto dispatch and handle `handleInit` pass', async t => {
 
   return steps([
     () => {
-      t.deepEqual(
-        {},
-        getListItem(0),
-      )
+      expect({}).toEqual(getListItem(0))
     },
     () => {
       pvPass(app.start_page, 'addToEnd', {
@@ -67,16 +62,12 @@ test('auto dispatch and handle `handleInit` pass', async t => {
       })
     },
     () => {
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: 'added to end',
-          crazy_state: 'new york value',
-          special_prop: 'new york value',
-        },
-        getData(getSong(0), ['artist', 'title', 'crazy_state', 'special_prop']),
-        'should add proper states to song of songs_list',
-      )
+      expect({
+        artist: 'Cloudy beasts',
+        title: 'added to end',
+        crazy_state: 'new york value',
+        special_prop: 'new york value',
+      }).toEqual(getData(getSong(0), ['artist', 'title', 'crazy_state', 'special_prop']))
     },
   ])
 

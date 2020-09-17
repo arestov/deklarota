@@ -1,5 +1,3 @@
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvUpdate from 'pv/updateAttr'
@@ -29,7 +27,7 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('compx-nests', async t => {
+test('compx-nests', async () => {
   let mutated_result = null // eslint-disable-line
 
   const app = await setup()
@@ -44,7 +42,7 @@ test('compx-nests', async t => {
       updateNesting(target_child, 'list', getNesting(app.start_page, 'list_source'))
     },
     () => {
-      t.snapshot(mutated_result)
+      expect(mutated_result).toMatchSnapshot()
     },
   ])
 

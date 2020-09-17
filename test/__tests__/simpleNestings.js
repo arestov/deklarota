@@ -1,6 +1,3 @@
-import test from 'ava'
-
-
 import spv from 'spv'
 import Model from 'pv/Model'
 // import pvUpdate from 'pv/updateAttr'
@@ -11,7 +8,7 @@ import init from 'test/init'
 
 const waitFlow = require('../waitFlow')
 
-test('nestings legacy inited', async t => {
+test('nestings legacy inited', async () => {
   const Appartment = spv.inh(Model, {}, {
     attrs: {},
   })
@@ -24,12 +21,12 @@ test('nestings legacy inited', async t => {
 
   return waitFlow(person).then(person => {
     // t.is(undefined, getNesting(person, 'garage'))
-    t.truthy(getNesting(person, 'appartment'))
+    expect(getNesting(person, 'appartment')).toBeTruthy()
     // t.is(49588, pvState(getNesting(person, 'appartment'), 'number'))
   })
 })
 
-test('nestings new inited', async t => {
+test('nestings new inited', async () => {
   const Appartment = spv.inh(Model, {}, {
     attrs: {},
   })
@@ -41,6 +38,6 @@ test('nestings new inited', async t => {
   })).app_model
 
   return waitFlow(person).then(person => {
-    t.truthy(getNesting(person, 'appartment'))
+    expect(getNesting(person, 'appartment')).toBeTruthy()
   })
 })

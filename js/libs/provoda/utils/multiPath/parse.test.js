@@ -1,52 +1,50 @@
-import test from 'ava'
-
 import parse from './parse'
 
-test('check parsing', function(t) {
+test('check parsing', function() {
   //
   // "< state_name < nesting < resource < #"
 
-  t.snapshot(parse('< @one:state_name < nesting < resource < #'))
+  expect(parse('< @one:state_name < nesting < resource < #')).toMatchSnapshot()
 
   // t.snapshot(parse("< state_name < @one:nesting < resource < #"));
 
-  t.throws(function() {
+  expect(function() {
     parse('< state_name < @one:nesting < resource < #')
-  })
+  }).toThrow()
 
-  t.throws(function() {
+  expect(function() {
     parse('< @one: < nesting < resource < #')
-  })
+  }).toThrow()
 
-  t.snapshot(parse('< state_name < nesting < resource < #'))
+  expect(parse('< state_name < nesting < resource < #')).toMatchSnapshot()
 
-  t.throws(function() {
+  expect(function() {
     parse('< state_name < aggr:nesting < resource < #')
-  })
+  }).toThrow()
 
-  t.snapshot(parse('< state_name << /resource/[:ddaf]/sdf < #'))
+  expect(parse('< state_name << /resource/[:ddaf]/sdf < #')).toMatchSnapshot()
 
-  t.snapshot(parse('< state_name <<< #'))
+  expect(parse('< state_name <<< #')).toMatchSnapshot()
 
-  t.snapshot(parse('<< nesting_name << #'))
+  expect(parse('<< nesting_name << #')).toMatchSnapshot()
 
-  t.snapshot(parse('<< nesting_name << ^^'))
+  expect(parse('<< nesting_name << ^^')).toMatchSnapshot()
 
-  t.snapshot(parse('< state_name <<< ^^'))
+  expect(parse('< state_name <<< ^^')).toMatchSnapshot()
 
-  t.snapshot(parse('< state_name'))
+  expect(parse('< state_name')).toMatchSnapshot()
 
-  t.snapshot(parse('state_name'))
+  expect(parse('state_name')).toMatchSnapshot()
 
-  t.snapshot(parse('@one:state_name:nest'))
-  t.snapshot(parse('@state_name:nest.test'))
+  expect(parse('@one:state_name:nest')).toMatchSnapshot()
+  expect(parse('@state_name:nest.test')).toMatchSnapshot()
 
 
-  t.snapshot(parse('/resource/[:ddaf]/sdf < #'))
+  expect(parse('/resource/[:ddaf]/sdf < #')).toMatchSnapshot()
 
-  t.snapshot(parse('/resource/[:ddaf]/sdf <'))
+  expect(parse('/resource/[:ddaf]/sdf <')).toMatchSnapshot()
 
-  t.snapshot(parse('nesting_name < < ^^'))
+  expect(parse('nesting_name < < ^^')).toMatchSnapshot()
 
 
 })

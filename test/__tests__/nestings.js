@@ -1,6 +1,3 @@
-import test from 'ava'
-
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvUpdate from 'pv/updateAttr'
@@ -18,7 +15,7 @@ const toIds = md_list => {
   return md_list.map(item => item._provoda_id)
 }
 
-test('nestings updated', async t => {
+test('nestings updated', async () => {
   const Appartment = spv.inh(Model, {}, {
     attrs: {
       number: [
@@ -38,14 +35,14 @@ test('nestings updated', async t => {
 
   await steps([
     () => {
-      t.is(undefined, getNesting(person, 'garage'))
-      t.is(undefined, pvState(getNesting(person, 'appartment'), 'nothing'))
-      t.is(49588, pvState(getNesting(person, 'appartment'), 'number'))
+      expect(undefined).toBe(getNesting(person, 'garage'))
+      expect(undefined).toBe(pvState(getNesting(person, 'appartment'), 'nothing'))
+      expect(49588).toBe(pvState(getNesting(person, 'appartment'), 'number'))
     },
   ])
 })
 
-test('compx with nestings calculated', async t => {
+test('compx with nestings calculated', async () => {
   const Brother = spv.inh(Model, {}, {})
 
   const { app_model: person, steps } = await init({
@@ -68,17 +65,17 @@ test('compx with nestings calculated', async t => {
       pvUpdate(person, 'money', 12)
     },
     () => {
-      t.is(false, pvState(person, 'richest'))
+      expect(false).toBe(pvState(person, 'richest'))
 
       pvUpdate(person, 'money', 20)
     },
     () => {
-      t.is(true, pvState(person, 'richest'))
+      expect(true).toBe(pvState(person, 'richest'))
     },
   ])
 })
 
-test('state compx calculated from parent and root states', async t => {
+test('state compx calculated from parent and root states', async () => {
   const DeepestChild = spv.inh(Model, {}, {
     attrs: {
       description_name: [
@@ -117,7 +114,7 @@ test('state compx calculated from parent and root states', async t => {
     },
     () => {
       const { deepest_child } = getModels(app)
-      t.is('Mike Smith, son of John', pvState(deepest_child, 'description_name'))
+      expect('Mike Smith, son of John').toBe(pvState(deepest_child, 'description_name'))
     },
   ])
 
@@ -136,7 +133,7 @@ test('state compx calculated from parent and root states', async t => {
 })
 
 
-test('nest compx calculated', async t => {
+test('nest compx calculated', async () => {
   const createDeepChild = (num, props) => {
     const DeepChild = spv.inh(Model, {}, {
       attrs: {
@@ -203,11 +200,7 @@ test('nest compx calculated', async t => {
       const expected = getNesting(target_child, 'list')
       const calculated = getNesting(target_child, 'calculated_child')
 
-      t.deepEqual(
-        toIds(expected),
-        toIds(calculated),
-        'should use default value',
-      )
+      expect(toIds(expected)).toEqual(toIds(calculated))
     },
     () => pvUpdate(app.start_page, 'nickname', 'smith'),
     () => {
@@ -216,11 +209,7 @@ test('nest compx calculated', async t => {
       const expected = [getNesting(target_child, 'indie')]
       const calculated = getNesting(target_child, 'calculated_child')
 
-      t.deepEqual(
-        toIds(expected),
-        toIds(calculated),
-        'should use "parent" case',
-      )
+      expect(toIds(expected)).toEqual(toIds(calculated))
     },
     () => pvUpdate(app, 'number', 100),
     () => {
@@ -230,17 +219,9 @@ test('nest compx calculated', async t => {
       const calculated = getNesting(target_child, 'calculated_child')
       const notExpected = [getNesting(target_child, 'indie')]
 
-      t.deepEqual(
-        toIds(expected),
-        toIds(calculated),
-        'should use "root" case',
-      )
+      expect(toIds(expected)).toEqual(toIds(calculated))
 
-      t.notDeepEqual(
-        toIds(notExpected),
-        toIds(calculated),
-        'should not use "parent" case',
-      )
+      expect(toIds(notExpected)).not.toEqual(toIds(calculated))
     },
     () => {
       const target_child = targetChild()
@@ -255,11 +236,7 @@ test('nest compx calculated', async t => {
       const expected = [getNesting(target_child, 'list')[1]]
       const calculated = getNesting(target_child, 'calculated_child')
 
-      t.deepEqual(
-        toIds(expected),
-        toIds(calculated),
-        'should use special "parent" case',
-      )
+      expect(toIds(expected)).toEqual(toIds(calculated))
     },
   ])
 })

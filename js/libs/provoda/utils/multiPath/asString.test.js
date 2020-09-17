@@ -1,5 +1,3 @@
-import test from 'ava'
-
 import parse from './parse'
 import asString from './asString'
 
@@ -7,34 +5,34 @@ function pipe(str) {
   return asString(parse(str))
 }
 
-test('check asString', function(t) {
+test('check asString', function() {
 
   // "< state_name < nesting < resource < #"
 
-  t.snapshot(pipe('< @one:state_name < nesting < resource < #'))
-  t.snapshot(pipe('<< @one:nesting'))
+  expect(pipe('< @one:state_name < nesting < resource < #')).toMatchSnapshot()
+  expect(pipe('<< @one:nesting')).toMatchSnapshot()
 
   // t.snapshot(parse("< state_name < @one:nesting < resource < #"));
 
-  t.snapshot(pipe('< state_name < nesting < resource < #'))
+  expect(pipe('< state_name < nesting < resource < #')).toMatchSnapshot()
 
-  t.snapshot(pipe('< state_name << /resource/[:ddaf]/sdf < #'))
+  expect(pipe('< state_name << /resource/[:ddaf]/sdf < #')).toMatchSnapshot()
 
-  t.snapshot(pipe('< state_name <<< #'))
+  expect(pipe('< state_name <<< #')).toMatchSnapshot()
 
-  t.snapshot(pipe('<< nesting_name << #'))
+  expect(pipe('<< nesting_name << #')).toMatchSnapshot()
 
-  t.snapshot(pipe('<< nesting_name << ^^'))
+  expect(pipe('<< nesting_name << ^^')).toMatchSnapshot()
 
-  t.snapshot(pipe('< state_name <<< ^^'))
+  expect(pipe('< state_name <<< ^^')).toMatchSnapshot()
 
-  t.snapshot(pipe('< state_name'))
+  expect(pipe('< state_name')).toMatchSnapshot()
 
-  t.snapshot(pipe('state_name'))
+  expect(pipe('state_name')).toMatchSnapshot()
 
-  t.snapshot(pipe('/resource/[:ddaf]/sdf < #'))
+  expect(pipe('/resource/[:ddaf]/sdf < #')).toMatchSnapshot()
 
-  t.snapshot(pipe('/resource/[:ddaf]/sdf <'))
+  expect(pipe('/resource/[:ddaf]/sdf <')).toMatchSnapshot()
 
-  t.snapshot(pipe('nesting_name < < ^^'))
+  expect(pipe('nesting_name < < ^^')).toMatchSnapshot()
 })

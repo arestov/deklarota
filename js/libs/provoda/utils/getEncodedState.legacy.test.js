@@ -1,5 +1,3 @@
-import test from 'ava'
-
 import getParsedState from './getParsedState'
 import asString from './multiPath/asString'
 import fromLegacy from './multiPath/fromLegacy'
@@ -7,7 +5,7 @@ import modernAsLegacyParsed from './modernAsLegacyParsed'
 
 var list = getList()
 
-test('modern can be converted and used as legacy', function(t) {
+test('modern can be converted and used as legacy', function() {
   var toModernString = function(legacyAddr) {
     var modernParsed = fromLegacy(legacyAddr)
     var modernAddr = asString(modernParsed)
@@ -24,8 +22,9 @@ test('modern can be converted and used as legacy', function(t) {
     var legacyParsedFromModern = modernAsLegacyParsed(toModernString(legacyAddr))
 
     // we don't compare full_name, zip_name, nil_allowed (so don't use `&` prefix in test fixtures)
-    t.deepEqual(
-      Object.assign({}, clean(legacyParsed), {full_name: null, zip_name: null, nil_allowed: false}),
+    expect(
+      Object.assign({}, clean(legacyParsed), {full_name: null, zip_name: null, nil_allowed: false})
+    ).toEqual(
       Object.assign({}, clean(legacyParsedFromModern), {full_name: null, zip_name: null, nil_allowed: false})
     )
   })

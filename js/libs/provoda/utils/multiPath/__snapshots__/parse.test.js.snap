@@ -1,0 +1,315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`check parsing 1`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": null,
+    "type": "root",
+  },
+  "nesting": Object {
+    "base": Array [],
+    "path": Array [
+      "nesting",
+    ],
+    "target_nest_name": "nesting",
+  },
+  "resource": Object {
+    "path": "resource",
+    "template": Object {
+      "from_parent": undefined,
+      "from_root": false,
+      "full_usable_string": "resource",
+      "parsed": Object {
+        "clean_string_parts": Array [
+          "resource",
+        ],
+        "states": null,
+        "states_map": null,
+      },
+    },
+  },
+  "result_type": "state",
+  "state": Object {
+    "base": "state_name",
+    "path": "state_name",
+  },
+  "zip_name": "one",
+}
+`;
+
+exports[`check parsing 2`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": null,
+    "type": "root",
+  },
+  "nesting": Object {
+    "base": Array [],
+    "path": Array [
+      "nesting",
+    ],
+    "target_nest_name": "nesting",
+  },
+  "resource": Object {
+    "path": "resource",
+    "template": Object {
+      "from_parent": undefined,
+      "from_root": false,
+      "full_usable_string": "resource",
+      "parsed": Object {
+        "clean_string_parts": Array [
+          "resource",
+        ],
+        "states": null,
+        "states_map": null,
+      },
+    },
+  },
+  "result_type": "state",
+  "state": Object {
+    "base": "state_name",
+    "path": "state_name",
+  },
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 3`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": null,
+    "type": "root",
+  },
+  "nesting": Object {},
+  "resource": Object {
+    "path": "/resource/[:ddaf]/sdf",
+    "template": Object {
+      "from_parent": undefined,
+      "from_root": false,
+      "full_usable_string": "/resource/[:ddaf]/sdf",
+      "parsed": Object {
+        "clean_string_parts": Array [
+          "/resource/",
+          "/sdf",
+        ],
+        "states": Array [
+          "ddaf",
+        ],
+        "states_map": Array [
+          Array [
+            "ddaf",
+            "ddaf",
+          ],
+        ],
+      },
+    },
+  },
+  "result_type": "state",
+  "state": Object {
+    "base": "state_name",
+    "path": "state_name",
+  },
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 4`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": null,
+    "type": "root",
+  },
+  "nesting": Object {},
+  "resource": Object {},
+  "result_type": "state",
+  "state": Object {
+    "base": "state_name",
+    "path": "state_name",
+  },
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 5`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": null,
+    "type": "root",
+  },
+  "nesting": Object {
+    "base": Array [],
+    "path": Array [
+      "nesting_name",
+    ],
+    "target_nest_name": "nesting_name",
+  },
+  "resource": Object {},
+  "result_type": "nesting",
+  "state": Object {},
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 6`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": 2,
+    "type": "parent",
+  },
+  "nesting": Object {
+    "base": Array [],
+    "path": Array [
+      "nesting_name",
+    ],
+    "target_nest_name": "nesting_name",
+  },
+  "resource": Object {},
+  "result_type": "nesting",
+  "state": Object {},
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 7`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": 2,
+    "type": "parent",
+  },
+  "nesting": Object {},
+  "resource": Object {},
+  "result_type": "state",
+  "state": Object {
+    "base": "state_name",
+    "path": "state_name",
+  },
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 8`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {},
+  "nesting": Object {},
+  "resource": Object {},
+  "result_type": "state",
+  "state": Object {
+    "base": "state_name",
+    "path": "state_name",
+  },
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 9`] = `
+SimpleStateAddr {
+  "state": Object {
+    "base": "state_name",
+    "path": "state_name",
+  },
+}
+`;
+
+exports[`check parsing 10`] = `null`;
+
+exports[`check parsing 11`] = `null`;
+
+exports[`check parsing 12`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": null,
+    "type": "root",
+  },
+  "nesting": Object {},
+  "resource": Object {
+    "path": "/resource/[:ddaf]/sdf",
+    "template": Object {
+      "from_parent": undefined,
+      "from_root": false,
+      "full_usable_string": "/resource/[:ddaf]/sdf",
+      "parsed": Object {
+        "clean_string_parts": Array [
+          "/resource/",
+          "/sdf",
+        ],
+        "states": Array [
+          "ddaf",
+        ],
+        "states_map": Array [
+          Array [
+            "ddaf",
+            "ddaf",
+          ],
+        ],
+      },
+    },
+  },
+  "result_type": null,
+  "state": Object {},
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 13`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {},
+  "nesting": Object {},
+  "resource": Object {
+    "path": "/resource/[:ddaf]/sdf",
+    "template": Object {
+      "from_parent": undefined,
+      "from_root": false,
+      "full_usable_string": "/resource/[:ddaf]/sdf",
+      "parsed": Object {
+        "clean_string_parts": Array [
+          "/resource/",
+          "/sdf",
+        ],
+        "states": Array [
+          "ddaf",
+        ],
+        "states_map": Array [
+          Array [
+            "ddaf",
+            "ddaf",
+          ],
+        ],
+      },
+    },
+  },
+  "result_type": null,
+  "state": Object {},
+  "zip_name": null,
+}
+`;
+
+exports[`check parsing 14`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": 2,
+    "type": "parent",
+  },
+  "nesting": Object {
+    "base": Array [],
+    "path": Array [
+      "nesting_name",
+    ],
+    "target_nest_name": "nesting_name",
+  },
+  "resource": Object {},
+  "result_type": "nesting",
+  "state": Object {},
+  "zip_name": null,
+}
+`;

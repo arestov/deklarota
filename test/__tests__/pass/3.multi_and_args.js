@@ -2,8 +2,6 @@
 
 // a - передача state
 
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvState from 'pv/getAttr'
@@ -62,7 +60,7 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('multiple state to arg base by pass calculated', async t => {
+test('multiple state to arg base by pass calculated', async () => {
   const app = await setup()
   const steps = makeStepsRunner(app)
 
@@ -75,27 +73,15 @@ test('multiple state to arg base by pass calculated', async t => {
       updateNesting(app.start_page, 'selected', getB())
     },
     () => {
-      t.is(
-        undefined,
-        pvState(getA(), 'selected'),
-      )
-      t.is(
-        true,
-        pvState(getB(), 'selected'),
-      )
+      expect(undefined).toBe(pvState(getA(), 'selected'))
+      expect(true).toBe(pvState(getB(), 'selected'))
     },
     () => {
       updateNesting(app.start_page, 'selected', getA())
     },
     () => {
-      t.is(
-        true,
-        pvState(getA(), 'selected'),
-      )
-      t.is(
-        false,
-        pvState(getB(), 'selected'),
-      )
+      expect(true).toBe(pvState(getA(), 'selected'))
+      expect(false).toBe(pvState(getB(), 'selected'))
     },
   ])
 
