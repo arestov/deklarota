@@ -8,7 +8,7 @@ function AppRuntime(optionsRaw) {
 
   var options = optionsRaw || {}
 
-  var glo = typeof global !== 'undefined' ? global : window
+  var glo = typeof globalThis !== 'undefined' ? globalThis : window
   var flow = new CallbacksFlow({
     glo: glo,
     reportLongTask: options.reportLongTask,
