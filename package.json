@@ -5,16 +5,20 @@
     "type": "git",
     "url": "git@github.com:arestov/deklarota.git"
   },
-  "source": "js/main.js",
-  "main": "dist/dkt.js",
-  "module": "dist/dkt.module.js",
-  "unpkg": "dist/dkt.umd.js",
   "files": [
-    "/dist"
+    "/core/dist",
+    "/view/dist",
+    "/router/dist"
   ],
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
+    "build:core": "cd core && npm run build",
+    "build:view": "cd view && npm run build",
+    "build:router": "cd router && npm run build",
+    "build": "run-p build:*",
+    "dev:core": "cd core && npm run dev",
+    "dev:view": "cd view && npm run dev",
+    "dev:router": "cd router && npm run dev",
+    "dev": "run-p dev:*",
     "test": "jest",
     "test:watch": "jest --watch-all",
     "prepack": "npm run build"
@@ -39,6 +43,7 @@
     "jest": "^26.4.2",
     "jscodeshift": "^0.10.0",
     "microbundle": "^0.12.4",
+    "npm-run-all": "^4.1.5",
     "postcss": "5.0.5",
     "xmldom": "0.1.19"
   },

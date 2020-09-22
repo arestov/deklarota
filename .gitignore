@@ -1,5 +1,8 @@
 *.eprj
 /dist
+/core/dist
+/view/dist
+/router/dist
 nodejs/troxent2/
 node_modules
 node_modules/*
