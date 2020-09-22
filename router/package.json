@@ -1,0 +1,14 @@
+{
+  "source": "src/main.js",
+  "main": "dist/dkt-router.js",
+  "module": "dist/dkt-router.module.js",
+  "unpkg": "dist/dkt-router.umd.js",
+  "sideEffects": false,
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
+  "peerDependencies": {
+    "cash-dom": "*"
+  }
+}

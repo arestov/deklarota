@@ -1,0 +1,11 @@
+{
+  "source": "src/main.js",
+  "main": "dist/dkt-core.js",
+  "module": "dist/dkt-core.module.js",
+  "unpkg": "dist/dkt-core.umd.js",
+  "sideEffects": false,
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  }
+}

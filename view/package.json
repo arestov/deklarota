@@ -1,0 +1,14 @@
+{
+  "source": "src/main.js",
+  "main": "dist/dkt-view.js",
+  "module": "dist/dkt-view.module.js",
+  "unpkg": "dist/dkt-view.umd.js",
+  "sideEffects": false,
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
+  "peerDependencies": {
+    "cash-dom": "*"
+  }
+}
