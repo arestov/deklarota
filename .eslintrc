@@ -7,8 +7,7 @@
   "env": {
     "node": true,
     "amd": true,
-    "es6": true,
-    "jest": true
+    "es6": true
   },
   "globals": {
     "window": false,

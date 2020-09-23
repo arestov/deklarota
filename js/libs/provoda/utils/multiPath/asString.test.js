@@ -1,3 +1,5 @@
+import {describe, it, expect} from '@jest/globals'
+
 import parse from './parse'
 import asString from './asString'
 
