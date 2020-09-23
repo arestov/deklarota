@@ -3,7 +3,7 @@ import spv from '../../../../../spv'
 import targetedResult from '../../../passes/targetedResult/dcl.js'
 
 var warnStateUsing = function() {
-  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     return
   }
 

@@ -23,7 +23,7 @@ var transportName = function(spyglass_name) {
 }
 
 var warnStruct = function() {
-  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     return
   }
   console.warn('add struct')

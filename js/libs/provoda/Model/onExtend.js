@@ -36,7 +36,7 @@ var copyProps = function(original_props_raw, extending_values) {
 var check = /initStates/gi
 
 var warnV2Bad = function() {
-  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     return
   }
 
