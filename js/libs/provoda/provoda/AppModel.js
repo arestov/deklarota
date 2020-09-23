@@ -39,7 +39,7 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
   }
 }, {
   checkActingRequestsPriority: function() {
-    if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       return
     }
 
