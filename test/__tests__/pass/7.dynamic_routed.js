@@ -1,6 +1,3 @@
-import test from 'ava'
-
-
 import spv from 'spv'
 import pvPass from 'pv/pass'
 import LoadableList from 'pv/LoadableList'
@@ -10,7 +7,7 @@ import makeStepsRunner from '../../steps'
 
 const mdl = props => spv.inh(LoadableList, {}, props)
 
-test('change for dynamic routed resource calculated', async t => {
+test('change for dynamic routed resource calculated', async () => {
   const app = await setup()
   const steps = makeStepsRunner(app)
 
@@ -26,14 +23,8 @@ test('change for dynamic routed resource calculated', async t => {
       })
     },
     app => {
-      t.deepEqual(
-        'hey!',
-        app.start_page.getSPI('nice_resource').state('title'),
-      )
-      t.deepEqual(
-        'dup some Data',
-        app.start_page.getSPI('nice_resource').state('dup_default_title'),
-      )
+      expect('hey!').toEqual(app.start_page.getSPI('nice_resource').state('title'))
+      expect('dup some Data').toEqual(app.start_page.getSPI('nice_resource').state('dup_default_title'))
     },
   ])
 

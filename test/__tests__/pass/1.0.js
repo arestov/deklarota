@@ -24,8 +24,6 @@
 
 */
 
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvState from 'pv/getAttr'
@@ -74,7 +72,7 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('simple state by pass1 && pass2 calculated', async t => {
+test('simple state by pass1 && pass2 calculated', async () => {
   const app = await setup()
   const steps = makeStepsRunner(app)
 
@@ -83,19 +81,13 @@ test('simple state by pass1 && pass2 calculated', async t => {
       pvPass(app.start_page, 'action1', 13)
     },
     () => {
-      t.is(
-        'young',
-        pvState(app.start_page, 'age_state'),
-      )
+      expect('young').toBe(pvState(app.start_page, 'age_state'))
     },
     () => {
       pvPass(app.start_page, 'action2', 45)
     },
     () => {
-      t.is(
-        'old',
-        pvState(app.start_page, 'age_state'),
-      )
+      expect('old').toBe(pvState(app.start_page, 'age_state'))
     },
   ])
 

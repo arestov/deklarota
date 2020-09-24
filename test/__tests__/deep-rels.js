@@ -1,5 +1,3 @@
-import test from 'ava'
-
 import bhv from 'pv/bhv'
 import mergeBhv from 'pv/dcl/merge'
 import pvState from 'pv/getAttr'
@@ -13,7 +11,7 @@ const toIds = md_list => {
   return md_list.map(item => item._provoda_id)
 }
 
-test('attr based on deep list', async t => {
+test('attr based on deep list', async () => {
   const modelForLevel = (levelName, model) => ({
     rels: {
       [levelName]: ['model', model],
@@ -120,13 +118,13 @@ test('attr based on deep list', async t => {
       app.dispatch('stage1CreateLevel3v1')
     },
     () => {
-      t.is(true, pvState(app, 'level3ArrayNotEmpty'))
+      expect(true).toBe(pvState(app, 'level3ArrayNotEmpty'))
     },
     () => {
       app.dispatch('stage2MoveLevel2')
     },
     () => {
-      t.is(false, pvState(app, 'level3ArrayNotEmpty'))
+      expect(false).toBe(pvState(app, 'level3ArrayNotEmpty'))
     },
   ])
 

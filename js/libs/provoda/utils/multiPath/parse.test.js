@@ -1,52 +1,34 @@
-import test from 'ava'
+import {describe, it, expect} from '@jest/globals'
 
 import parse from './parse'
 
-test('check parsing', function(t) {
-  //
-  // "< state_name < nesting < resource < #"
+describe('parse', () => {
+  describe('smoke', () => {
+    it.each([
+      ['< @one:state_name < nesting < resource < #'],
+      ['< state_name < nesting < resource < #'],
+      ['< state_name << /resource/[:ddaf]/sdf < #'],
+      ['< state_name <<< #'],
+      ['<< nesting_name << #'],
+      ['<< nesting_name << ^^'],
+      ['< state_name <<< ^^'],
+      ['< state_name'],
+      ['state_name'],
+      ['@one:state_name:nest'],
+      ['@state_name:nest.test'],
+      ['/resource/[:ddaf]/sdf < #'],
+      ['/resource/[:ddaf]/sdf <'],
+      ['nesting_name < < ^^'],
+    ])('result should match snapshot for "%s"', input => {
+      expect(parse(input)).toMatchSnapshot()
+    })
 
-  t.snapshot(parse('< @one:state_name < nesting < resource < #'))
-
-  // t.snapshot(parse("< state_name < @one:nesting < resource < #"));
-
-  t.throws(function() {
-    parse('< state_name < @one:nesting < resource < #')
+    it.each([
+      ['< state_name < @one:nesting < resource < #'],
+      ['< @one: < nesting < resource < #'],
+      ['< state_name < aggr:nesting < resource < #'],
+    ])('should throw for "%s"', input => {
+      expect(() => parse(input)).toThrow()
+    })
   })
-
-  t.throws(function() {
-    parse('< @one: < nesting < resource < #')
-  })
-
-  t.snapshot(parse('< state_name < nesting < resource < #'))
-
-  t.throws(function() {
-    parse('< state_name < aggr:nesting < resource < #')
-  })
-
-  t.snapshot(parse('< state_name << /resource/[:ddaf]/sdf < #'))
-
-  t.snapshot(parse('< state_name <<< #'))
-
-  t.snapshot(parse('<< nesting_name << #'))
-
-  t.snapshot(parse('<< nesting_name << ^^'))
-
-  t.snapshot(parse('< state_name <<< ^^'))
-
-  t.snapshot(parse('< state_name'))
-
-  t.snapshot(parse('state_name'))
-
-  t.snapshot(parse('@one:state_name:nest'))
-  t.snapshot(parse('@state_name:nest.test'))
-
-
-  t.snapshot(parse('/resource/[:ddaf]/sdf < #'))
-
-  t.snapshot(parse('/resource/[:ddaf]/sdf <'))
-
-  t.snapshot(parse('nesting_name < < ^^'))
-
-
 })

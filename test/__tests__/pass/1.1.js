@@ -13,8 +13,6 @@
     update nested_model state by _provoda_id
 */
 
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvUpdate from 'pv/updateAttr'
@@ -35,7 +33,7 @@ const action = {
   ],
 }
 
-test('simple pass by * calculated', async t => {
+test('simple pass by * calculated', async () => {
   const createDeepChild = (num, props) => {
     const DeepChild = spv.inh(Model, {}, {
       attrs: {
@@ -87,10 +85,7 @@ test('simple pass by * calculated', async t => {
     },
     () => {
       // read my_friend state
-      t.is(
-        13,
-        pvState(getNesting(app.start_page, 'my_friend'), 'balance'),
-      )
+      expect(13).toBe(pvState(getNesting(app.start_page, 'my_friend'), 'balance'))
     },
   ])
 })

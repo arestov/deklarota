@@ -3,8 +3,6 @@
 // a - передача state
 // b - передача nestings
 
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvState from 'pv/getAttr'
@@ -56,7 +54,7 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('multiple state by pass calculated', async t => {
+test('multiple state by pass calculated', async () => {
   const { app_model: app, steps } = await setup()
 
   return steps([
@@ -65,32 +63,20 @@ test('multiple state by pass calculated', async t => {
       pvPass(app.start_page, 'action', 13)
     },
     () => {
-      t.is(
-        true,
-        pvState(app.start_page, 'selected'),
-      )
-      t.is(
-        'untouched',
-        pvState(app.start_page, 'skip_this_state'),
-      )
+      expect(true).toBe(pvState(app.start_page, 'selected'))
+      expect('untouched').toBe(pvState(app.start_page, 'skip_this_state'))
 
-      t.is(
-        'Michael Jackson',
-        pvState(
-          getNesting(getNesting(app.start_page, 'target_child'), 'indie'),
-          'title',
-        ),
-      )
+      expect('Michael Jackson').toBe(pvState(
+        getNesting(getNesting(app.start_page, 'target_child'), 'indie'),
+        'title',
+      ))
     },
     () => {
       pvUpdate(app.start_page, 'customNoopProp', 'untouched')
       pvPass(app.start_page, 'action2', 13)
     },
     () => {
-      t.is(
-        'untouched',
-        pvState(app.start_page, 'customNoopProp'),
-      )
+      expect('untouched').toBe(pvState(app.start_page, 'customNoopProp'))
     },
   ])
 

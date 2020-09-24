@@ -8,8 +8,6 @@
   добавть Song в /playlists/1 в songs_list
 */
 
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvState from 'pv/getAttr'
@@ -31,7 +29,7 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('special nestings by pass calculated', async t => {
+test('special nestings by pass calculated', async () => {
   const app = await setup()
   const steps = makeStepsRunner(app)
   const getData = item => {
@@ -59,10 +57,7 @@ test('special nestings by pass calculated', async t => {
 
   return steps([
     () => {
-      t.deepEqual(
-        {},
-        getListItem(0),
-      )
+      expect({}).toEqual(getListItem(0))
       pvPass(app.start_page, 'addToStart', {
         states: {
           artist: 'Cloudy beasts',
@@ -83,30 +78,18 @@ test('special nestings by pass calculated', async t => {
       })
     },
     () => {
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: '3rd added to start',
-        },
-        getListItem(0),
-        'should be 1st from start',
-      )
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: '2nd added to start',
-        },
-        getListItem(1),
-        'should be 2nd from start',
-      )
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: '1st added to start',
-        },
-        getListItem(2),
-        'should be 3rd from start',
-      )
+      expect({
+        artist: 'Cloudy beasts',
+        title: '3rd added to start',
+      }).toEqual(getListItem(0))
+      expect({
+        artist: 'Cloudy beasts',
+        title: '2nd added to start',
+      }).toEqual(getListItem(1))
+      expect({
+        artist: 'Cloudy beasts',
+        title: '1st added to start',
+      }).toEqual(getListItem(2))
     },
 
     () => {
@@ -118,14 +101,10 @@ test('special nestings by pass calculated', async t => {
       })
     },
     () => {
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: 'added to end',
-        },
-        getListItem(3),
-        'should add to end',
-      )
+      expect({
+        artist: 'Cloudy beasts',
+        title: 'added to end',
+      }).toEqual(getListItem(3))
     },
 
     () => {
@@ -141,14 +120,10 @@ test('special nestings by pass calculated', async t => {
       ])
     },
     () => {
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: 'added to index 1',
-        },
-        getListItem(1),
-        'should be 2d from start',
-      )
+      expect({
+        artist: 'Cloudy beasts',
+        title: 'added to index 1',
+      }).toEqual(getListItem(1))
     },
 
     () => {
@@ -164,21 +139,14 @@ test('special nestings by pass calculated', async t => {
       ])
     },
     () => {
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: 'replaced at index 1',
-        },
-        getListItem(1),
-      )
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: '2nd added to start',
-        },
-        getListItem(2),
-        'should be 3rd from start',
-      )
+      expect({
+        artist: 'Cloudy beasts',
+        title: 'replaced at index 1',
+      }).toEqual(getListItem(1))
+      expect({
+        artist: 'Cloudy beasts',
+        title: '2nd added to start',
+      }).toEqual(getListItem(2))
     },
 
     () => {
@@ -192,16 +160,12 @@ test('special nestings by pass calculated', async t => {
     },
     () => {
       const item = getListItem(null, 1)
-      t.is(false, Array.isArray(item), 'nesting should not be array')
+      expect(false).toBe(Array.isArray(item))
 
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: 'just one',
-        },
-        getData(item),
-        'should be just one item instead of list',
-      )
+      expect({
+        artist: 'Cloudy beasts',
+        title: 'just one',
+      }).toEqual(getData(item))
 
       pvPass(app.start_page, 'setOne', {
         states: {
@@ -212,16 +176,12 @@ test('special nestings by pass calculated', async t => {
     },
     () => {
       const item = getListItem(null, 1)
-      t.is(false, Array.isArray(item), 'nesting should not be array')
+      expect(false).toBe(Array.isArray(item))
 
-      t.deepEqual(
-        {
-          artist: 'Cloudy beasts',
-          title: 'another one',
-        },
-        getData(item),
-        'should be just one item instead of list',
-      )
+      expect({
+        artist: 'Cloudy beasts',
+        title: 'another one',
+      }).toEqual(getData(item))
     },
   ])
 

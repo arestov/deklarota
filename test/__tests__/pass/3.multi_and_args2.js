@@ -2,8 +2,6 @@
 
 // a - передача state
 
-import test from 'ava'
-
 import spv from 'spv'
 import Model from 'pv/Model'
 import pvState from 'pv/getAttr'
@@ -48,7 +46,7 @@ const createDeepChild = (num, props) => mdl({
   ...props,
 })
 
-test('map_values_list_to_target in pass', async t => {
+test('map_values_list_to_target in pass', async () => {
   const app = await setup()
   const steps = makeStepsRunner(app)
 
@@ -58,27 +56,15 @@ test('map_values_list_to_target in pass', async t => {
 
   return steps([
     () => {
-      t.is(
-        undefined,
-        pvState(getA(), 'selected'),
-      )
-      t.is(
-        undefined,
-        pvState(getB(), 'selected'),
-      )
+      expect(undefined).toBe(pvState(getA(), 'selected'))
+      expect(undefined).toBe(pvState(getB(), 'selected'))
     },
     () => {
       updateNesting(app.start_page, 'selected', [getA(), getB()])
     },
     () => {
-      t.is(
-        true,
-        pvState(getA(), 'selected'),
-      )
-      t.is(
-        false,
-        pvState(getB(), 'selected'),
-      )
+      expect(true).toBe(pvState(getA(), 'selected'))
+      expect(false).toBe(pvState(getB(), 'selected'))
       //
       // t.throws(() => {
       //   updateNesting(app.start_page, 'selected', [getA()])

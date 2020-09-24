@@ -1,6 +1,3 @@
-import test from 'ava'
-
-
 import pvState from 'pv/getAttr'
 import BrowseMap from 'pv/Model'
 
@@ -16,7 +13,7 @@ const input = (app, fn) => new Promise(resolve => {
 })
 
 
-test('routes', async t => {
+test('routes', async () => {
   const app = (await init({
     zero_map_level: true,
     rels: {
@@ -48,20 +45,11 @@ test('routes', async t => {
   // STEP 1. GET ROUTES
   await waitFlow(app)
 
-  t.is(
-    app.getSPI('tracks/super-hit-0', { autocreate: false }),
-    undefined,
-  )
+  expect(app.getSPI('tracks/super-hit-0', { autocreate: false })).toBe(undefined)
 
-  t.is(
-    app.getSPI('tracks/super-hit-1', { autocreate: false }),
-    app.getNesting('tracklist')[0],
-  )
+  expect(app.getSPI('tracks/super-hit-1', { autocreate: false })).toBe(app.getNesting('tracklist')[0])
 
-  t.is(
-    app.getSPI('tracks/super-hit-2', { autocreate: false }),
-    app.getNesting('tracklist')[1],
-  )
+  expect(app.getSPI('tracks/super-hit-2', { autocreate: false })).toBe(app.getNesting('tracklist')[1])
 
   await input(app, () => {
     // STEP 1. CHANGE STATE AND ROUTES
@@ -73,26 +61,14 @@ test('routes', async t => {
   await waitFlow(app)
 
   await input(app, () => {
-    t.is(
-      app.getSPI('tracks/super-hit-1', { autocreate: false }),
-      undefined,
-    )
+    expect(app.getSPI('tracks/super-hit-1', { autocreate: false })).toBe(undefined)
 
-    t.is(
-      app.getSPI('tracks/cloud-remix', { autocreate: false }),
-      app.getNesting('tracklist')[0],
-    )
+    expect(app.getSPI('tracks/cloud-remix', { autocreate: false })).toBe(app.getNesting('tracklist')[0])
 
     const created = app.getSPI('tracks/fresh-cover', { autocreate: true })
-    t.is(
-      created && pvState(created, 'trackName'),
-      'fresh-cover',
-    )
+    expect(created && pvState(created, 'trackName')).toBe('fresh-cover')
 
-    t.is(
-      created && pvState(created, 'url_part'),
-      '/tracks/fresh-cover',
-    )
+    expect(created && pvState(created, 'url_part')).toBe('/tracks/fresh-cover')
   })
 
   // get proper routes

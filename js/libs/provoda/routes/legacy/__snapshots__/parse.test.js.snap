@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse should parse "tracks/[:artist],[:track]" correctly 1`] = `
+Object {
+  "clean_string_parts": Array [
+    "tracks/",
+    ",",
+    "",
+  ],
+  "states": Array [
+    "artist",
+    "track",
+  ],
+  "states_map": Array [
+    Array [
+      "artist",
+      "artist",
+    ],
+    Array [
+      "track",
+      "track",
+    ],
+  ],
+}
+`;

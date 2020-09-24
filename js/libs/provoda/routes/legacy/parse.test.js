@@ -1,7 +1,9 @@
-import test from 'ava'
+import {describe, it, expect} from '@jest/globals'
 
 import parse from './parse'
 
-test('check parsing', function(t) {
-  t.snapshot(parse('tracks/[:artist],[:track]'))
+describe('parse', () => {
+  it('should parse "tracks/[:artist],[:track]" correctly', () => {
+    expect(parse('tracks/[:artist],[:track]')).toMatchSnapshot()
+  })
 })
