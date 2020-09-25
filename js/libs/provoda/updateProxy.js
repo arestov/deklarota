@@ -125,18 +125,18 @@ function processStackedAttrChanges(etr, serv_st) {
   var total_original_states = serv_st.total_original_states
   var total_ch = serv_st.total_ch
 
-  applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
+  while (states_changing_stack.length) {
+    applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
 
-  //устраняем измененное дважды и более
-  compressStatesChanges(total_ch)
+    //устраняем измененное дважды и более
+    compressStatesChanges(total_ch)
 
-  propagateAttrChanges(etr, total_original_states, total_ch)
+    propagateAttrChanges(etr, total_original_states, total_ch)
 
+    total_ch.length = 0
 
-  total_ch.length = 0
-
-  total_original_states.clear()
-
+    total_original_states.clear()
+  }
 
   serv_st.collecting_states_changing = false
   etr.serv_st = null
