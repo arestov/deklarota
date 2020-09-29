@@ -1,4 +1,5 @@
 {
+  "name": "dkt-router",
   "source": "src/main.js",
   "main": "dist/dkt-router.js",
   "module": "dist/dkt-router.module.js",

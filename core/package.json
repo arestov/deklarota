@@ -1,4 +1,5 @@
 {
+  "name": "dkt-core",
   "source": "src/main.js",
   "main": "dist/dkt-core.js",
   "module": "dist/dkt-core.module.js",
