@@ -1,4 +1,5 @@
 {
+  "name": "dkt-view",
   "source": "src/main.js",
   "main": "dist/dkt-view.js",
   "module": "dist/dkt-view.module.js",
