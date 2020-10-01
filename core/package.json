@@ -4,6 +4,7 @@
   "main": "dist/dkt-core.js",
   "module": "dist/dkt-core.module.js",
   "unpkg": "dist/dkt-core.umd.js",
+  "typings": "dkt-core.d.ts",
   "sideEffects": false,
   "scripts": {
     "build": "microbundle",
