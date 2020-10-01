@@ -91,7 +91,7 @@ function bindRequest(request, selected_map, store, self) {
 
     self.sputnik.input(anyway)
     self.sputnik.input(markAttemptComplete)
-    console.log(err)
+    console.error(err)
   })
 
 
