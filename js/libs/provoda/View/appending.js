@@ -359,7 +359,6 @@ export default {
       if (view) {
         if (!node_to_use) {
           node_to_use = pv_view.sampler.getClone()
-          //node_to_use = pv_view.original_node.cloneNode(true);
         }
         view.pv_view_node = wrap(node_to_use)
         //var model_name = mmm.model_name;
@@ -431,7 +430,6 @@ export default {
 
       if (view) {
         if (!node_to_use) {
-          //node_to_use = pv_view.original_node.cloneNode(true);
           node_to_use = pv_view.sampler.getClone()
         }
         view.pv_view_node = wrap(node_to_use)
@@ -441,9 +439,11 @@ export default {
         pv_view.views.push(view.view_id)
 
         pv_view.last_node = node_to_use
+
         pv_view.onDie(function() {
           view.die()
         })
+
         return view
       }
     }
