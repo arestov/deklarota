@@ -366,8 +366,6 @@ export default {
         pv_view.node = null
         pv_view.views.push(view.view_id)
 
-        pv_view.last_node = node_to_use
-
         pv_view.onDie(function() {
           view.die()
         })
@@ -437,8 +435,6 @@ export default {
 
         pv_view.node = null
         pv_view.views.push(view.view_id)
-
-        pv_view.last_node = node_to_use
 
         pv_view.onDie(function() {
           view.die()
