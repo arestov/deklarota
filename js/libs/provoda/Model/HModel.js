@@ -3,6 +3,7 @@ import spv from '../../spv'
 import Model from '../Model'
 import _updateAttr from '../_internal/_updateAttr'
 import getModelById from '../utils/getModelById'
+import checkAndDisposeModel from './checkAndDisposeModel'
 
 var HModel = spv.inh(Model, {
   strict: true,
@@ -82,6 +83,18 @@ var HModel = spv.inh(Model, {
   },
   checkPMDSwiched: function(value) {
     _updateAttr(this, 'pmd_vswitched', value == this._provoda_id)
+  },
+  effects: {
+    produce: {
+      __remove_model: {
+        api: ['self'],
+        trigger: ['$meta$removed'],
+        require: ['$meta$removed'],
+        fn: function(self, value) {
+          checkAndDisposeModel(self, value)
+        }
+      }
+    }
   }
 })
 

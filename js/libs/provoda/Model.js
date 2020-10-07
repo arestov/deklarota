@@ -67,6 +67,12 @@ var changeSourcesByApiNames = function(md, store) {
   }
 }
 
+
+function MODELLEAK() {}
+
+const leak = new MODELLEAK()
+
+
 var Model = spv.inh(StatesEmitter, {
   naming: function(fn) {
     return function Model(opts, data, params, more, states) {
@@ -313,13 +319,21 @@ add({
     return Boolean(this.dead)
   },
   die: function() {
+    if (this.dead != false) {
+      return
+    }
+
     prsStCon.disconnect.parent(this, this)
     prsStCon.disconnect.root(this, this)
 
     this.stopRequests()
     //this.mpx.die();
+    // send to views
     this._highway.views_proxies.killMD(this)
     hp.triggerDestroy(this)
+
+    this.dead = leak
+
     this._highway.models[this._provoda_id] = null
     return this
   }

@@ -8,6 +8,7 @@ var selectModern = createModern.selectModern
 var cloneObj = spv.cloneObj
 var getSPI = getterSPI()
 var getSPIConstr = getterSPIConstr()
+const MARKED_REMOVED = Symbol()
 
 var routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options, extra_states) {
 
@@ -202,6 +203,7 @@ function getterSPI() {
 
       var created = autocreate && createModern(self, sp_name)
       if (created) {
+        watchModelDie(self, created)
         return created
       }
     }
@@ -221,6 +223,9 @@ function getterSPI() {
       var key = getKey ? getKey(decodeURIComponent(sp_name), sp_name) : sp_name
 
       if (self.sub_pages && self.sub_pages[key]) {
+        if (self.sub_pages[key] === MARKED_REMOVED) {
+          return null
+        }
         return self.sub_pages[key]
       }
 
@@ -230,6 +235,7 @@ function getterSPI() {
 
       var instance = item && prepare(self, item, sp_name, slash(sp_name), extra_states)
       if (instance) {
+        watchModelDie(self, instance)
         watchSubPageKey(self, instance, key)
         self.sub_pages[key] = instance
         if (can_be_reusable) {
@@ -254,6 +260,7 @@ function getterSPI() {
         : sub_page
 
       self.sub_pages[sp_name] = instance
+      watchModelDie(self, instance)
       watchSubPageKey(self, instance, sp_name)
       return instance
 
@@ -282,6 +289,30 @@ function getterSPIConstr() {
       }
     }
   }
+}
+
+function watchModelDie(self, instance) {
+  var sub_pages = self.sub_pages
+  instance.onDie(function() {
+    if (sub_pages == null) {
+      return
+    }
+
+    for (var key in sub_pages) {
+      if (!sub_pages.hasOwnProperty(key)) {
+        continue
+      }
+
+      var cur = sub_pages[key]
+      if (cur !== instance) {
+        continue
+      }
+
+      sub_pages[key] = MARKED_REMOVED
+    }
+
+    sub_pages = null
+  })
 }
 
 function watchSubPageKey(self, instance, key) {
