@@ -149,10 +149,11 @@ Proxies.prototype = {
   pushStates: function(md, states_list) {
     for (var i = 0; i < this.spaces_list.length; i++) {
       var cur = this.spaces_list[i]
-      if (cur.ids_index[md._provoda_id]) {
-        cur.mpxes_index[md._provoda_id].stackReceivedStates(states_list)
-
+      if (!cur.ids_index[md._provoda_id] || cur.mpxes_index[md._provoda_id] == null) {
+        continue
       }
+
+      cur.mpxes_index[md._provoda_id].stackReceivedStates(states_list)
     }
   },
   killMD: function(md) {
@@ -160,7 +161,7 @@ Proxies.prototype = {
       var cur = this.spaces_list[i]
       if (cur.ids_index[md._provoda_id]) {
         cur.mpxes_index[md._provoda_id].die()
-
+        cur.mpxes_index[md._provoda_id] = null
       }
     }
   },
