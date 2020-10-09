@@ -50,7 +50,7 @@ Space.prototype = {
   dispose: function() {
     this.ids_index = null
     for (var id in this.mpxes_index) {
-      if (!this.mpxes_index .hasOwnProperty(id)) {
+      if (this.mpxes_index[id] == null) {
         continue
       }
       this.mpxes_index[id].dispose()
@@ -159,8 +159,11 @@ Proxies.prototype = {
   killMD: function(md) {
     for (var i = 0; i < this.spaces_list.length; i++) {
       var cur = this.spaces_list[i]
+      var mpx = cur.mpxes_index[md._provoda_id]
       if (cur.ids_index[md._provoda_id]) {
-        cur.mpxes_index[md._provoda_id].die()
+        var mpx = cur.mpxes_index[md._provoda_id]
+        mpx.die()
+        mpx.dispose()
         cur.mpxes_index[md._provoda_id] = null
       }
     }
