@@ -680,6 +680,9 @@ var View = spv.inh(StatesEmitter, {
   markDomDead: function() {
 
   },
+  wasDisposed: function() {
+    return Boolean(this._lbr.marked_as_dead)
+  },
   die: function(opts) {
     if (this._lbr.marked_as_dead) {
       return this

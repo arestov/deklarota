@@ -309,6 +309,9 @@ add({
 
     }
   }),
+  wasDisposed: function() {
+    return Boolean(this.dead)
+  },
   die: function() {
     prsStCon.disconnect.parent(this, this)
     prsStCon.disconnect.root(this, this)
