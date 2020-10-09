@@ -558,7 +558,7 @@ add({
 
     while (all_requests && all_requests.length) {
       var rq = all_requests.pop()
-      if (rq) {
+      if (rq && rq.abort) {
         if (softAbort(rq, this.sputnik) === null) {
           rq.abort(this.sputnik)
         }
