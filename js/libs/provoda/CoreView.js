@@ -11,6 +11,8 @@ import StatesEmitter from './StatesEmitter'
 import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
 import initApis from './dcl/effects/legacy/api/init'
+import disposeEffects from './dcl/effects/dispose'
+
 import initInputAttrs from './dcl/attrs/input/init'
 import prefillCompAttr from './dcl/attrs/comp/prefill'
 import nestBorrowInit from './dcl_view/nest_borrow/init'
@@ -690,6 +692,8 @@ var View = spv.inh(StatesEmitter, {
 
     prsStCon.disconnect.parent(this, this)
     prsStCon.disconnect.root(this, this)
+
+    disposeEffects(this)
 
 
     this.domDie()
