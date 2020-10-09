@@ -22,6 +22,7 @@ import addrFromObj from './provoda/dcl/addr.js'
 import prefillCompAttr from './dcl/attrs/comp/prefill'
 import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
 import { disposeGlueSources } from './dcl/glue_rels/runtime/run'
+import disposeEffects from './dcl/effects/dispose'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
@@ -328,6 +329,7 @@ add({
     prsStCon.disconnect.root(this, this)
 
     disposeGlueSources(this)
+    disposeEffects(this)
 
     this.stopRequests()
     //this.mpx.die();

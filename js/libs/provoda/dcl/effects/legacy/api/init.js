@@ -27,6 +27,15 @@ function needsSelf(self) {
   return self.__api_effects_$_index_by_apis && self.__api_effects_$_index_by_apis['self']
 }
 
+export const dispose = function(self) {
+  for (var name in self._interfaces_using.used) {
+    if (!self._interfaces_using.used.hasOwnProperty(name)) {
+      continue
+    }
+    self.useInterface(name, null)
+  }
+}
+
 export default function(self, apis_as_arg) {
 
   if (apis_as_arg) {
