@@ -19,12 +19,37 @@ var connectRootApis = function(self, list) {
   }
 }
 
+var disconnectRootApis = function(self, list) {
+  if (!list) {
+    return
+  }
+  for (var i = 0; i < list.length; i++) {
+    var cur = list[i]
+    var meta_state_name = '$meta$apis$' + cur + '$used'
+    self.removeLwch(self.getStrucRoot(), meta_state_name, updateRootInterface(cur))
+  }
+}
+
 function needsSelf(self) {
   if (self.__apis_$__needs_self == true) {
     return true
   }
 
   return self.__api_effects_$_index_by_apis && self.__api_effects_$_index_by_apis['self']
+}
+
+export const dispose = function(self) {
+  disconnectRootApis(self, self.__apis_$__needs_root_apis)
+  disconnectRootApis(self, self.__api_root_dep_apis)
+  disconnectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
+
+
+  for (var name in self._interfaces_using.used) {
+    if (!self._interfaces_using.used.hasOwnProperty(name)) {
+      continue
+    }
+    self.useInterface(name, null)
+  }
 }
 
 export default function(self, apis_as_arg) {

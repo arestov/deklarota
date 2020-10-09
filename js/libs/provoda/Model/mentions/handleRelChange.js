@@ -1,5 +1,6 @@
 
 import deliverRelQueryUpdates from './deliverRelQueryUpdates'
+import checkAndDisposeModel from '../checkAndDisposeModel'
 
 function handleMentions(self, collection_name, old_value, array) {
   if (old_value != null) {
@@ -43,11 +44,15 @@ function handleRemoveMetionItem(mentioner, collection_name, item) {
   }
 
   var valueOfSet = item.__mentions_as_rel[collection_name]
-  var old_length = valueOfSet.size
+  // var old_length = valueOfSet.size
   valueOfSet.delete(mentioner)
-  if (valueOfSet.size == old_length) {
-    return
+
+  if (!valueOfSet.size) {
+    checkAndDisposeModel(item, item.getAttr('$meta$removed'))
   }
+  // if (valueOfSet.size == old_length) {
+  //   return
+  // }
 }
 
 function handleAddMetionItem(mentioner, collection_name, item) {

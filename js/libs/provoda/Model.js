@@ -21,10 +21,13 @@ import ensurePublicAttrs from './Model/ensurePublicAttrs'
 import addrFromObj from './provoda/dcl/addr.js'
 import prefillCompAttr from './dcl/attrs/comp/prefill'
 import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
+import { disposeGlueSources } from './dcl/glue_rels/runtime/run'
+import disposeEffects from './dcl/effects/dispose'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
 import wrapInputCall from './provoda/wrapInputCall'
+import disposeMentions from './Model/mentions/dispose'
 
 var push = Array.prototype.push
 
@@ -66,6 +69,12 @@ var changeSourcesByApiNames = function(md, store) {
     }
   }
 }
+
+
+function MODELLEAK() {}
+
+const leak = new MODELLEAK()
+
 
 var Model = spv.inh(StatesEmitter, {
   naming: function(fn) {
@@ -309,14 +318,29 @@ add({
 
     }
   }),
+  wasDisposed: function() {
+    return Boolean(this.dead)
+  },
   die: function() {
+    if (this.dead != false) {
+      return
+    }
+
     prsStCon.disconnect.parent(this, this)
     prsStCon.disconnect.root(this, this)
 
+    disposeGlueSources(this)
+    disposeEffects(this)
+    disposeMentions(this)
+
     this.stopRequests()
     //this.mpx.die();
+    // send to views
     this._highway.views_proxies.killMD(this)
     hp.triggerDestroy(this)
+
+    this.dead = leak
+
     this._highway.models[this._provoda_id] = null
     return this
   }

@@ -14,9 +14,10 @@ const gotRelGlue = memorize(function(rel_key) {
   }
 })
 
-// const unsubscribe = function(from, to, event_name, func) {
-//   from.evcompanion.off(event_name, func, false, to)
-// }
+const unsubscribe = function(from, to, event_name, func) {
+// donor.evcompanion.off(utils_simple.getSTEVNameLight(donor_state), func, false, this)
+  from.evcompanion.off(event_name, func, false, to)
+}
 
 const subscribe = function(from, to, event_name, cb) {
   // copied from _bindLight
@@ -25,16 +26,6 @@ const subscribe = function(from, to, event_name, cb) {
   if (to == from) {
     return
   }
-
-  // TODO unsubscribe when disposing model
-  // to.onDie(function() {
-  //   if (!from) {
-  //     return
-  //   }
-  //   unsubscribe(from, to, event_name, cb)
-  //   from = null
-  //   cb = null
-  // })
 }
 
 const runGlueSources = function(self) {
@@ -62,6 +53,28 @@ const runGlueSources = function(self) {
   }
 
 
+}
+
+export const disposeGlueSources = function(self) {
+  if (self.__rel_all_glue_sources == null) {
+    return
+  }
+
+  for (var i = 0; i < self.__rel_all_glue_sources.length; i++) {
+    var cur = self.__rel_all_glue_sources[i]
+
+    if (isGlueRoot(cur.addr)) {
+      unsubscribe(self.app, self, getNameByValue(cur.final_rel_key), gotRelGlue(cur.meta_relation))
+      continue
+    }
+
+    if (isGlueParent(cur.addr)) {
+      unsubscribe(getStart(self, cur.addr), self, getNameByValue(cur.final_rel_key), gotRelGlue(cur.meta_relation))
+      continue
+    }
+
+    throw new Error('get rid of LocalWatchRoot using rel-glue')
+  }
 }
 
 export default runGlueSources

@@ -40,6 +40,7 @@ export default function initModel(self, opts, data, params, more, states) {
   var _highway = opts._highway
 
   self.current_motivator = self.current_motivator || (current_motivator)
+  self.dead = false
 
   if (app != null) {
     self.app = app
