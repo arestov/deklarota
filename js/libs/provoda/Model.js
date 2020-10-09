@@ -27,6 +27,7 @@ import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
 import wrapInputCall from './provoda/wrapInputCall'
+import disposeMentions from './Model/mentions/dispose'
 
 var push = Array.prototype.push
 
@@ -330,6 +331,7 @@ add({
 
     disposeGlueSources(this)
     disposeEffects(this)
+    disposeMentions(this)
 
     this.stopRequests()
     //this.mpx.die();
