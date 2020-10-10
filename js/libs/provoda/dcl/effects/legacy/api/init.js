@@ -43,6 +43,9 @@ export const dispose = function(self) {
   disconnectRootApis(self, self.__api_root_dep_apis)
   disconnectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
 
+  if (self._interfaces_using == null || self._interfaces_using.used == null) {
+    return
+  }
 
   for (var name in self._interfaces_using.used) {
     if (!self._interfaces_using.used.hasOwnProperty(name)) {
