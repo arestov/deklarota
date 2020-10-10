@@ -47,6 +47,17 @@ export const dispose = function(self) {
     return
   }
 
+  if (self.__apis_$_index) {
+    for (var name in self.__apis_$_index) {
+      if (!self.__apis_$_index.hasOwnProperty(name)) {
+        continue
+      }
+      var declr = self.__apis_$_index[name]
+
+      self.useInterface(declr.name, null, declr.destroy)
+    }
+  }
+
   for (var name in self._interfaces_using.used) {
     if (!self._interfaces_using.used.hasOwnProperty(name)) {
       continue
