@@ -1,9 +1,9 @@
 
 import spv from '../../spv'
-import Model from '../Model'
+import LoadableList from './LoadableList'
 
 export default function behavior(declr, declr_extend_from, named) {
-  var behaviorFrom = declr.extends || declr_extend_from || Model
+  var behaviorFrom = declr.extends || declr_extend_from || LoadableList
   if (declr.extends && declr_extend_from) {
     throw new Error('choose one: `extends` param or Model arg')
   }
