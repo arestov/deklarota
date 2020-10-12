@@ -21,7 +21,7 @@
     "dev": "run-p dev:*",
     "test": "jest",
     "test:watch": "jest --watch-all",
-    "prepack": "npm run build"
+    "prepare": "npm run build"
   },
   "sideEffects": false,
   "peerDependencies": {
