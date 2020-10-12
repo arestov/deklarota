@@ -9,8 +9,9 @@ module.exports = {
         spv: path.join(__dirname, 'js/libs/spv.js'),
         pv: path.join(__dirname, 'js/libs/provoda/provoda'),
       }
-    }]
-  ],
+    }],
+    process.env.MEMORY_SLICER && 'babel-plugin-memory-consumers-slicer'
+  ].filter(Boolean),
   env: {
     development: {
       sourceMaps: "inline"
