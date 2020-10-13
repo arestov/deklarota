@@ -12,7 +12,8 @@ function AppRuntime(optionsRaw) {
   var flow = new CallbacksFlow({
     glo: glo,
     reportLongTask: options.reportLongTask,
-    reportHugeQueue: options.reportHugeQueue
+    reportHugeQueue: options.reportHugeQueue,
+    onError: options.onError,
   })
 
   this.models_counters = 1

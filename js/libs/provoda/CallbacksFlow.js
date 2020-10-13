@@ -133,10 +133,20 @@ var sortFlows = function(item_one, item_two) {
 }
 
 
-var getBoxedSetImmFunc = function(win) {
+var getBoxedSetImmFunc = function(win, onError) {
   var prom = win.Promise.resolve()
+  if (!onError) {
+    return function(fn) {
+      prom.then(fn)
+    }
+  }
+
+  const handle = function(err) {
+    onError(err)
+  }
+
   return function(fn) {
-    prom.then(fn)
+    prom.then(fn).catch(handle)
   }
 }
 
@@ -184,7 +194,7 @@ var CallbacksFlow = function(options) {
       return raf(fn)
     }
   } else {
-    var setImmediate = getBoxedSetImmFunc(glo)
+    var setImmediate = getBoxedSetImmFunc(glo, options.onError)
     this.pushIteration = function(fn) {
       return setImmediate(fn)
     }

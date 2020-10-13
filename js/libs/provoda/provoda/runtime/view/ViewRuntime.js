@@ -10,7 +10,8 @@ function ViewRuntime(optionsRaw) {
   var flow = new CallbacksFlow({
     glo: glo,
     reportLongTask: options.reportLongTask,
-    reportHugeQueue: options.reportHugeQueue
+    reportHugeQueue: options.reportHugeQueue,
+    onError: options.onError,
   })
 
   this.views_counter = 1
