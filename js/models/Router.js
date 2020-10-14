@@ -1,5 +1,5 @@
 
-import Model from '../libs/provoda/provoda/Model'
+import Model from '../libs/provoda/provoda/model/Model'
 import spv from '../libs/spv'
 import pvState from '../libs/provoda/provoda/state'
 import _updateRel from '../libs/provoda/_internal/_updateRel'
