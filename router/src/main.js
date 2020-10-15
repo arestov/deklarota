@@ -4,6 +4,7 @@ export { default as getSPByPathTemplate } from '../../js/libs/provoda/routes/leg
 export { default as changeBridge } from '../../js/libs/provoda/bwlev/changeBridge'
 export { default as showMOnMap } from '../../js/libs/provoda/bwlev/showMOnMap'
 export { default as getUsageTree } from '../../js/libs/provoda/structure/getUsageTree'
+export { default as routePathByModels } from '../../js/libs/provoda/routePathByModels'
 export { default as MapSliceSpyglassCore } from '../../js/views/map_slice/MapSliceSpyglassCore'
 export { default as BrowseLevViewCore } from '../../js/views/map_slice/BrowseLevViewCore'
 export { default as BrowseLevel } from '../../js/libs/provoda/bwlev/BrowseLevel'

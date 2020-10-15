@@ -6,6 +6,7 @@
     "url": "git@github.com:arestov/deklarota.git"
   },
   "files": [
+    "/dev",
     "/core/dist",
     "/view/dist",
     "/router/dist"
@@ -49,6 +50,7 @@
   },
   "dependencies": {
     "babel-plugin-memory-consumers-slicer": "github:arestov/babel-plugin-memory-consumers-slicer#5d6da44",
+    "gulp-util": "^3.0.8",
     "requirejs": "^2.3.6"
   }
 }
