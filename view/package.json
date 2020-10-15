@@ -6,8 +6,8 @@
   "unpkg": "dist/dkt-view.umd.js",
   "sideEffects": false,
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch"
+    "build": "microbundle build --no-compress",
+    "dev": "microbundle watch --no-compress"
   },
   "peerDependencies": {
     "cash-dom": "*"
