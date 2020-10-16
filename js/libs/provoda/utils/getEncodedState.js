@@ -1,12 +1,16 @@
 
 import spv from '../../spv'
-import NestWatch from '../nest-watch/NestWatch'
-import getStateWriter from '../nest-watch/getStateWriter'
 import getParsedState from './getParsedState'
 import toMultiPath from './NestingSourceDr/toMultiPath'
 import asString from './multiPath/asString'
 import fromLegacy from './multiPath/fromLegacy'
 import modernAsLegacyParsed from './modernAsLegacyParsed'
+
+const fake = {
+  get: function() { throw new Error('wrong nwatch') },
+  enumerable: true,
+  configurable: true
+}
 
 var getEncodedState = spv.memorize(function getEncodedState(state_name) {
 
@@ -28,14 +32,10 @@ var getEncodedState = spv.memorize(function getEncodedState(state_name) {
     return result
   }
 
-  var doubleHandler = getStateWriter(result.full_name, result.state_name, result.zip_name)
-  var nwatch = new NestWatch(toMultiPath(result.nesting_source), result.state_name, {
-    onchd_state: doubleHandler,
-    onchd_count: doubleHandler,
-  })
-
   var copy = spv.cloneObj({}, result)
-  copy.nwatch = nwatch
+  copy.addr = toMultiPath(result.nesting_source)
+
+  Object.defineProperty(copy, 'nwatch', fake)
 
   return copy
 })

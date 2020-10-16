@@ -110,8 +110,7 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   var result = makeGroups(full_comlxs_list)
 
   for (var i = 0; i < result.conndst_nesting.length; i++) {
-    var nwatch = result.conndst_nesting[i].nwatch
-    var addr = nwatch.nmpath_source
+    var addr = result.conndst_nesting[i].addr
     if (mentionsSupportedAddr(addr)) {
       continue
     }
