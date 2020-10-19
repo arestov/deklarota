@@ -11,7 +11,7 @@ var softMerge = function(to, from, strict) {
     }
 
     if (strict !== false) {
-      if (to.hasOwnProperty(prop)) {
+      if (to.hasOwnProperty(prop) && to[prop] !== from[prop]) {
         console.log('merge conflict', to, from)
         throw new Error('merge conflict')
       }
