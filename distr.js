@@ -10,6 +10,7 @@ const build = ({
     external: ['cash-dom'],
     input: [
       'js/libs/provoda/provoda.js',
+      'js/libs/provoda/provoda/model.js',
       'js/libs/provoda/provoda/getAttr.js',
       'js/libs/provoda/provoda/updateAttr.js',
       'js/libs/provoda/provoda/updateManyAttrs.js',
@@ -19,8 +20,8 @@ const build = ({
       'js/libs/provoda/structure/flatStruc',
       'js/libs/provoda/provoda/routePathByModels.js',
       'js/libs/provoda/provoda/LoadableList.js',
-      'js/libs/provoda/provoda/CoreView',
-      'js/libs/provoda/provoda/View',
+      'js/libs/provoda/provoda/view/CoreView',
+      'js/libs/provoda/provoda/view/View',
       'js/libs/provoda/provoda/runtime/app/prepare',
       'js/libs/provoda/provoda/runtime/app/start',
       'js/libs/provoda/provoda/runtime/view/prepare',
