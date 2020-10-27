@@ -146,6 +146,16 @@ var initView = function(target, view_otps, opts) {
   }
 
   initApis(target, opts && opts.interfaces)
+  if (target.isRootView) {
+    var parent_opts = target.parent_view && target.parent_view.opts
+    if (parent_opts) {
+      for (var interface_name in parent_opts.interfaces) {
+        target.useInterface(interface_name, parent_opts.interfaces[interface_name])
+      }
+    }
+
+  }
+
 
 }
 
