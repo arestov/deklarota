@@ -82,7 +82,7 @@ var RootLev = spv.inh(Model, {
     updateSpyglass(this.app.CBWL, this, data)
   },
   toggleSpyglass: function(data) {
-    updateSpyglass.toggle(this.app.CWBL, this, data)
+    updateSpyglass.toggle(this.app.CBWL, this, data)
   },
   spyglassURL: function(name, pattern, data) {
     // navigation, "/tags/[:tag]" {tag: "tgbbb"}
