@@ -72,8 +72,10 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
     __BWLev.hierarchy_counter = RootConstr.hierarchy_counter++
 
     self.__BWLev = mark(__BWLev, RootConstr, next_ascent_level)
+    self._all_chi.__BWLev = self.__BWLev
 
     self.CBWL = mark(BrowseLevel, RootConstr, next_ascent_level)
+    self._all_chi.CBWL = self.CBWL
   }
 
   self._attrs_collector = new AttrsCollector(definedAttrs(self))
