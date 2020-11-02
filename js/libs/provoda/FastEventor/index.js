@@ -5,6 +5,7 @@ import utils_simple from '../utils/simple'
 import requesting from './requesting'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 var wipeObj = utils_simple.wipeObj
+const removeItem = spv.removeItem
 
 var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
   this.ev_name = ev_name
@@ -42,7 +43,7 @@ var addToSubscribesCache = iterateSubsCache(function(matched, obj) {
 var removeFromSubscribesCache = iterateSubsCache(function(matched, obj) {
   var pos = matched.indexOf(obj)
   if (pos != -1) {
-    return spv.removeItem(matched, pos)
+    return removeItem(matched, pos)
   }
 })
 
@@ -205,7 +206,7 @@ add({
       if (obj) {
         var pos = items.indexOf(obj)
         if (pos != -1) {
-          this.subscribes[ev_name] = spv.removeItem(items, pos)
+          this.subscribes[ev_name] = removeItem(items, pos)
           removeFromSubscribesCache(this, obj.ev_name, obj)
           // resetSubscribesCache(this, obj.ev_name);
         }
