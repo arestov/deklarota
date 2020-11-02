@@ -1405,4 +1405,6 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
   }())
 }
 
+Object.freeze(spv)
+
 export default spv
