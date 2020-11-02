@@ -64,6 +64,46 @@ var fireFire = function(context, sputnik, matched_reg_fire, soft_reg, callbacks_
   )
 }
 
+const withoutIndex = (array, index, length) => {
+  for (var i = index + 1; i < length; i++) {
+    array[ i - 1 ] = array[ i ]
+  }
+}
+
+
+
+const withoutCriteria = (isOk) => (array, arg1, arg2, arg3) => {
+  let count = 0
+  for (let i = array.length - 1; i >= 0; i--) {
+    if (!isOk(array[i], arg1, arg2, arg3)) {
+      continue
+    }
+    withoutIndex(array, i, array.length - count)
+    count++
+
+  }
+
+  array.length = array.length - count
+
+  return array
+}
+
+const withoutEvItem = withoutCriteria((cur, ev_name, cb, context) => {
+  if (cb && cur.cb != cb) {
+    return false
+  }
+
+  if (context && cur.context != context) {
+    return false
+  }
+
+  return cur.ev_name == ev_name
+})
+
+const withoutOnce = withoutCriteria((cur) => {
+  return Boolean(cur.cb)
+})
+
 var FastEventor = function(context) {
   this.sputnik = context
   this.subscribes = null
@@ -211,33 +251,14 @@ add({
           // resetSubscribesCache(this, obj.ev_name);
         }
       } else {
-        var clean = []
-        if (cb) {
-          for (var i = 0; i < items.length; i++) {
-            var cur = items[i]
-            if (cur.cb == cb && cur.ev_name == ev_name) {
-              if (!context || cur.context == context) {
-                continue
-              }
-            }
-            clean.push(items[i])
-          }
-        } else {
-          for (var i = 0; i < items.length; i++) {
-            var cur = items[i]
-            if (cur.ev_name == ev_name) {
-              if (!context || cur.context == context) {
-                continue
-              }
-            }
-            clean.push(items[i])
-          }
-        }
+        var original_length = items.length
 
+
+        var clean = withoutEvItem(items, ev_name, cb, context)
         // losing `order by subscriging time` here
         // clean.push.apply(clean, queried.not_matched);
 
-        if (clean.length != this.subscribes[ev_name].length) {
+        if (clean.length != original_length) {
           this.subscribes[ev_name] = clean
           resetSubscribesCache(this, ev_name)
         }
@@ -324,17 +345,10 @@ add({
 
     var items = this.subscribes && this.subscribes[ev_name]
     if (items) {
-      var clean = []
+      var original_length = items.length
+      var clean = withoutOnce(items, null, null, null)
 
-      for (var i = 0; i < items.length; i++) {
-        var cur = items[i]
-        if (!cur.cb) {
-          continue
-        }
-        clean.push(items[i])
-      }
-
-      if (clean.length != this.subscribes[ev_name].length) {
+      if (clean.length != original_length) {
         this.subscribes[ev_name] = clean
         resetSubscribesCache(this, ev_name)
       }
