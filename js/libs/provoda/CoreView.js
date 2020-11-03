@@ -924,12 +924,14 @@ var View = spv.inh(StatesEmitter, {
     var location_id = getViewLocationId(this, nesname, space || 'main')
     for (var i = 0; i < array.length; i++) {
 
-      var view = this.getStoredMpx(array[i]).getView(location_id)
-      if (view) {
-        view.die()
-      } else {
-        //throw 'wrong';
+      var mpx = this.getStoredMpx(array[i])
+      // case when model was removed before nesting updated
+      // TODO: consider to review order of state changes
+      var view = mpx && mpx.getView(location_id)
+      if (!view) {
+        continue
       }
+      view.die()
     }
   },
   callCollectionChangeDeclaration: function(dclr_fpckg, nesname, array, old_value, removed) {
