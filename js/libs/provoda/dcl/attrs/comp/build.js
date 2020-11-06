@@ -5,6 +5,7 @@ import asString from '../../../utils/multiPath/asString'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
 import isJustAttrAddr from './isJustAttrAddr'
 import isGlueTargetAttr from './isGlueTargetAttr'
+import cachedField from '../../cachedField'
 
 var makeGroups = groupDeps(getEncodedState)
 
@@ -38,20 +39,26 @@ var makeWatchIndex = function(full_comlxs_list) {
   return full_comlxs_index
 }
 
-var extendTyped = function(self, typed_state_dcls) {
-  var result = doCopy(null, self._dcl_cache__compx) || {}
+var extendTyped = cachedField(
+  '_dcl_cache__compx',
+  ['_dcl_cache__compx', '__attrs_added_comp'],
+  false,
+  function extendTyped(dcl_cache__compx, typed_state_dcls) {
+    var result = doCopy(null, dcl_cache__compx) || {}
+    result = doCopy(result, typed_state_dcls)
 
-  result = doCopy(result, typed_state_dcls)
-
-  self._dcl_cache__compx = result
-}
+    return result
+  }
+)
 
 export default function(self, props, typed_part) {
   if (!typed_part) {
     return
   }
 
-  extendTyped(self, typed_part)
+  self.__attrs_added_comp = typed_part
+
+  extendTyped(self)
 
   collectBuildParts(self)
   self.full_comlxs_index = makeWatchIndex(self.full_comlxs_list)

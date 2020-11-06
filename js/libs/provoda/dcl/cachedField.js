@@ -3,10 +3,6 @@ const isNil = function isNil(arg) {
 }
 
 const cachedField = function(field, deps, final_compile, fn) {
-  if (final_compile !== true) {
-    throw new Error('make hasOwnProperty check for deps with final_compile=false')
-  }
-
   return function checkCompiledField(model) {
     if (model.hasOwnProperty(field)) {
       return model[field]
