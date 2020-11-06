@@ -47,14 +47,11 @@ var extendTyped = function(self, typed_state_dcls) {
 }
 
 export default function(self, props, typed_part) {
-  if (typed_part) {
-    extendTyped(self, typed_part)
-  }
-
-  var need_recalc = typed_part
-  if (!need_recalc) {
+  if (!typed_part) {
     return
   }
+
+  extendTyped(self, typed_part)
 
   collectBuildParts(self)
   self.full_comlxs_index = makeWatchIndex(self.full_comlxs_list)
