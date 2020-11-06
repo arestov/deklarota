@@ -9,19 +9,6 @@ import cachedField from '../../cachedField'
 
 var makeGroups = groupDeps(getEncodedState)
 
-var collectBuildParts = function(self) {
-  var compx_check = {}
-  var full_comlxs_list = []
-
-  for (var key_name_one in self._dcl_cache__compx) {
-    compx_check[key_name_one] = self._dcl_cache__compx[key_name_one]
-    full_comlxs_list.push(compx_check[key_name_one])
-  }
-
-  self.compx_check = compx_check
-  self.full_comlxs_list = full_comlxs_list
-}
-
 var makeWatchIndex = function(full_comlxs_list) {
   var full_comlxs_index = {}
   var i, jj, cur, state_name
@@ -51,6 +38,36 @@ var extendTyped = cachedField(
   }
 )
 
+var collectCheck = cachedField(
+  'compx_check',
+  ['_dcl_cache__compx'],
+  false,
+  function collectCheck(dcl_cache__compx) {
+    var compx_check = {}
+
+    for (var key_name_one in dcl_cache__compx) {
+      compx_check[key_name_one] = dcl_cache__compx[key_name_one]
+    }
+
+    return compx_check
+  }
+)
+
+var collectList = cachedField(
+  'full_comlxs_list',
+  ['_dcl_cache__compx'],
+  false,
+  function collectList(dcl_cache__compx) {
+    var full_comlxs_list = []
+
+    for (var key_name_one in dcl_cache__compx) {
+      full_comlxs_list.push(dcl_cache__compx[key_name_one])
+    }
+
+    return full_comlxs_list
+  }
+)
+
 export default function(self, props, typed_part) {
   if (!typed_part) {
     return
@@ -60,7 +77,8 @@ export default function(self, props, typed_part) {
 
   extendTyped(self)
 
-  collectBuildParts(self)
+  collectCheck(self)
+  collectList(self)
   self.full_comlxs_index = makeWatchIndex(self.full_comlxs_list)
 
   collectStatesConnectionsProps(self, self.full_comlxs_list)
