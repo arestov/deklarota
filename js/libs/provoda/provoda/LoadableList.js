@@ -32,6 +32,12 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
 }, {
   handling_v2_init: true,
   attrs: {
+
+    // TODO: find way to get rid of it
+    has_data_loader: ['input', null],
+    main_list_loading: ['input', false],
+    all_data_loaded: ['input', false],
+
     '$needs_load': [
       'comp',
       ['more_load_available', 'mp_has_focus'],
