@@ -78,15 +78,6 @@ export default function(self, props, original, params) {
 
   checkSideeffects(self, props, params)
 
-  if (props.default_states) {
-    console.warn(
-      'use attrs.input to define default attr, check «dk/dcl/attrs/input helper',
-      self.model_name,
-      self.__code_path
-    )
-  }
-
-
   self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
   self.__dcls_rels = copyProps(original.__dcls_rels, props['rels'])
   self.__dcls_routes = copyProps(original.__dcls_routes, props['routes'])
