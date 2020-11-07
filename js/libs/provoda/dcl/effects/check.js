@@ -106,14 +106,14 @@ var notEqual = function(one, two) {
   }
 }
 
-var rebuildType = function(self, type, result, list, typed_state_dcls) {
+var rebuildType = function(self, type, result, list, extended_comp_attrs) {
   switch (type) {
     case 'consume-state_request': {
-      buildStateReqs(self, list, typed_state_dcls)
+      buildStateReqs(self, list, extended_comp_attrs)
       return
     }
     case 'consume-nest_request': {
-      buildNestReqs(self, result, typed_state_dcls)
+      buildNestReqs(self, result, extended_comp_attrs)
       return
     }
     case 'consume-subscribe': {
@@ -121,16 +121,16 @@ var rebuildType = function(self, type, result, list, typed_state_dcls) {
       return
     }
     case 'produce-': {
-      buildProduce(self, result, typed_state_dcls)
+      buildProduce(self, result, extended_comp_attrs)
       return
     }
     case 'api-': {
-      buildApi(self, result, typed_state_dcls)
+      buildApi(self, result, extended_comp_attrs)
     }
   }
 }
 
-var rebuild = function(self, newV, oldV, listByType, typed_state_dcls) {
+var rebuild = function(self, newV, oldV, listByType, extended_comp_attrs) {
   for (var type in newV) {
     if (!newV.hasOwnProperty(type)) {
       continue
@@ -140,7 +140,7 @@ var rebuild = function(self, newV, oldV, listByType, typed_state_dcls) {
       continue
     }
 
-    rebuildType(self, type, newV[type], listByType[type], typed_state_dcls)
+    rebuildType(self, type, newV[type], listByType[type], extended_comp_attrs)
   }
 }
 
@@ -168,7 +168,7 @@ var checkModern = function(self, props) {
   )
 }
 
-export default function checkEffects(self, props, typed_state_dcls) {
+export default function checkEffects(self, props) {
   var currentIndex = self._extendable_effect_index
 
   checkModern(self, props)
@@ -176,6 +176,8 @@ export default function checkEffects(self, props, typed_state_dcls) {
   if (currentIndex === self._extendable_effect_index) {
     return
   }
+
+  var extended_comp_attrs = {}
 
 
   var oldByType = self._effect_by_type || {}
@@ -201,7 +203,7 @@ export default function checkEffects(self, props, typed_state_dcls) {
 
   }
 
-  rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed, typed_state_dcls)
+  rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed, extended_comp_attrs)
 
   if (self.hasOwnProperty('netsources_of_nestings') || self.hasOwnProperty('netsources_of_states')) {
     self.netsources_of_all = {
@@ -209,5 +211,9 @@ export default function checkEffects(self, props, typed_state_dcls) {
       states: self.netsources_of_states
     }
   }
+
+  self.__dcls_comp_attrs_from_effects = extended_comp_attrs
+
+
   return true
 }

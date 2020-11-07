@@ -2,7 +2,7 @@
 import changeSources from '../utils/changeSources'
 import assign from '../utils/assign'
 
-export default function buildNestReqs(self, by_name, typed_state_dcls) {
+export default function buildNestReqs(self, by_name, extended_comp_attrs) {
   self._nest_reqs = by_name
 
   self.netsources_of_nestings = {
@@ -19,6 +19,6 @@ export default function buildNestReqs(self, by_name, typed_state_dcls) {
       continue
     }
 
-    assign(typed_state_dcls, cur_nest)
+    assign(extended_comp_attrs, cur_nest)
   }
 }

@@ -1,6 +1,6 @@
 
 import spv from '../../spv'
-import extendDclCache from '../dcl/extendDclCache'
+import extendDclCache, { extendCompAttrs } from '../dcl/extendDclCache'
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
@@ -74,7 +74,8 @@ export default function(self, props, original) {
 
   collectSelectorsOfCollchs(self, props)
 
-  checkEffects(self, props, typed_state_dcls)
+  checkEffects(self, props)
+  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_effects')
 
   parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
   extendByServiceAttrs(self, props, typed_state_dcls)

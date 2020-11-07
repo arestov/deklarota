@@ -85,8 +85,8 @@ function wrapAttr(name) {
 }
 
 
-export default function rebuild(self, apis, typed_state_dcls) {
-  var inserted_names = getDepsToInsert(apis, self, typed_state_dcls)
+export default function rebuild(self, apis, extended_comp_attrs) {
+  var inserted_names = getDepsToInsert(apis, self, extended_comp_attrs)
   self.__defined_api_attrs_bool = inserted_names.map(wrapAttr)
 
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index

@@ -1,4 +1,4 @@
-import extendDclCache from '../dcl/extendDclCache'
+import extendDclCache, { extendCompAttrs } from '../dcl/extendDclCache'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
@@ -79,7 +79,8 @@ export default function(self, props, original, params) {
 
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
-  checkEffects(self, props, typed_state_dcls)
+  checkEffects(self, props)
+  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_effects')
   collectStateChangeHandlers(self, props)
 
   parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])

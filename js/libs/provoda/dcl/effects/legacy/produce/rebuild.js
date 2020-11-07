@@ -51,10 +51,10 @@ function rootApis(obj) {
   return result.length ? result : null
 }
 
-export default function rebuildEffects(self, effects, typed_state_dcls) {
+export default function rebuildEffects(self, effects, extended_comp_attrs) {
   self.__api_effects = effects
 
-  getDepsToInsert(effects, self, typed_state_dcls)
+  getDepsToInsert(effects, self, extended_comp_attrs)
 
   self.__api_effects_$_index = indexByDepName(effects) || self.__api_effects_$_index
   self.__api_effects_$_index_by_triggering = indexByList(effects, 'triggering_states') || self.__api_effects_$_index_by_triggering
