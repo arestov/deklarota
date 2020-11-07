@@ -1,5 +1,6 @@
 
 import spv from '../../spv'
+import copyProps from '../dcl/copyProps'
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
@@ -50,16 +51,6 @@ var getBaseTreeCheckList = function(start) {
   }
   return result
 
-}
-
-var copyProps = function(original_props_raw, extending_values) {
-  if (!extending_values) {
-    return original_props_raw
-  }
-
-  var original_props = original_props_raw || {}
-  var result = spv.cloneObj({}, original_props)
-  return spv.cloneObj(result, extending_values)
 }
 
 export default function(self, props, original) {

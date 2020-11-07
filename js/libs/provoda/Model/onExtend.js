@@ -1,6 +1,4 @@
-
-
-import spv from '../../spv'
+import copyProps from '../dcl/copyProps'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
@@ -22,16 +20,6 @@ import checkEffects from '../dcl/effects/check'
 import checkNest from '../dcl/nest/check'
 
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
-
-var copyProps = function(original_props_raw, extending_values) {
-  if (!extending_values) {
-    return original_props_raw
-  }
-
-  var original_props = original_props_raw || {}
-  var result = spv.cloneObj({}, original_props)
-  return spv.cloneObj(result, extending_values)
-}
 
 var check = /initStates/gi
 
