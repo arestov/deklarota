@@ -1,6 +1,6 @@
 
 import spv from '../../spv'
-import copyProps from '../dcl/copyProps'
+import extendDclCache from '../dcl/extendDclCache'
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
@@ -54,12 +54,12 @@ var getBaseTreeCheckList = function(start) {
 }
 
 export default function(self, props, original) {
-  self.__dcls_attrs = copyProps(original.__dcls_attrs, props['attrs'])
+  extendDclCache(self, '__dcls_attrs', props['attrs'])
 
   var effects = props['effects']
-  self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
-  self.__dcls_effects_consume = copyProps(original.__dcls_effects_consume, effects && effects['consume'])
-  self.__dcls_effects_produce = copyProps(original.__dcls_effects_produce, effects && effects['produce'])
+  extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
+  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
+  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
 
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}

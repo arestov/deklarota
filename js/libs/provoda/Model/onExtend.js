@@ -1,4 +1,4 @@
-import copyProps from '../dcl/copyProps'
+import extendDclCache from '../dcl/extendDclCache'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
@@ -66,16 +66,16 @@ export default function(self, props, original, params) {
 
   checkSideeffects(self, props, params)
 
-  self.__dcls_attrs = copyProps(original.__dcls_attrs, props['attrs'])
-  self.__dcls_rels = copyProps(original.__dcls_rels, props['rels'])
-  self.__dcls_routes = copyProps(original.__dcls_routes, props['routes'])
-  self.__dcls_actions = copyProps(original.__dcls_actions, props['actions'])
+  extendDclCache(self, '__dcls_attrs', props['attrs'])
+  extendDclCache(self, '__dcls_rels', props['rels'])
+  extendDclCache(self, '__dcls_routes', props['routes'])
+  extendDclCache(self, '__dcls_actions', props['actions'])
 
   var effects = props['effects']
-  self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
-  self.__dcls_effects_consume = copyProps(original.__dcls_effects_consume, effects && effects['consume'])
-  self.__dcls_effects_produce = copyProps(original.__dcls_effects_produce, effects && effects['produce'])
 
+  extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
+  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
+  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
 
