@@ -78,7 +78,7 @@ export default function(self, props, original, params) {
 
   checkSideeffects(self, props, params)
 
-  self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
+  self.__dcls_attrs = copyProps(original.__dcls_attrs, props['attrs'])
   self.__dcls_rels = copyProps(original.__dcls_rels, props['rels'])
   self.__dcls_routes = copyProps(original.__dcls_routes, props['routes'])
   self.__dcls_actions = copyProps(original.__dcls_actions, props['actions'])

@@ -63,7 +63,7 @@ var copyProps = function(original_props_raw, extending_values) {
 }
 
 export default function(self, props, original) {
-  self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
+  self.__dcls_attrs = copyProps(original.__dcls_attrs, props['attrs'])
 
   var effects = props['effects']
   self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
