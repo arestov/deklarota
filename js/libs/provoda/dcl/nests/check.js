@@ -174,7 +174,7 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-const relToCompAttr = function relToCompAttr(self, comp_attrs, attr_to_rel_name, comp_rels_list, result) {
+const relToCompAttr = function relToCompAttr(self, attr_to_rel_name, comp_rels_list, result) {
   if (!comp_rels_list || !comp_rels_list.length) {
     return
   }
@@ -186,7 +186,7 @@ const relToCompAttr = function relToCompAttr(self, comp_attrs, attr_to_rel_name,
   }
 }
 
-export default function checkPass(self, props, typed_state_dcls) {
+export default function checkPass(self, props) {
   var currentIndex = self._extendable_nest_index
 
   checkLegacy(self, props)
@@ -228,17 +228,11 @@ export default function checkPass(self, props, typed_state_dcls) {
     return true
   }
 
-
-  typed_state_dcls['comp'] = typed_state_dcls['comp'] || {}
-  var comp_attrs = typed_state_dcls['comp']
-
-
   var result = {}
 
-
-  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp, result)
-  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.conj, result)
-  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.sel, result)
+  relToCompAttr(self, self.__attr_to_rel_name, self._nest_by_type_listed.comp, result)
+  relToCompAttr(self, self.__attr_to_rel_name, self._nest_by_type_listed.conj, result)
+  relToCompAttr(self, self.__attr_to_rel_name, self._nest_by_type_listed.sel, result)
 
   assignField(self, '__dcls_comp_attrs_from_rels', result)
 
