@@ -79,6 +79,7 @@ export default function(self, props, original) {
 
   parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
   extendByServiceAttrs(self, props, typed_state_dcls)
+  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_glue')
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])

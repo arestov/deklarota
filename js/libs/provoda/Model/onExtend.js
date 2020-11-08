@@ -91,8 +91,10 @@ export default function(self, props, original, params) {
   checkRoutes(self, props)
 
   checkModernNests(self, props, typed_state_dcls)
+  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_rels')
 
   extendByServiceAttrs(self, props, typed_state_dcls)
+  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_glue')
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
   buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])

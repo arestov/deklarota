@@ -1,4 +1,4 @@
-
+import assignField from '../assignField'
 import spv from '../../../spv'
 
 import NestSelector from '../nest_sel/item'
@@ -174,14 +174,14 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-const relToCompAttr = function relToCompAttr(self, comp_attrs, attr_to_rel_name, comp_rels_list) {
+const relToCompAttr = function relToCompAttr(self, comp_attrs, attr_to_rel_name, comp_rels_list, result) {
   if (!comp_rels_list || !comp_rels_list.length) {
     return
   }
 
   for (var i = 0; i < comp_rels_list.length; i++) {
     var cur = comp_rels_list[i]
-    comp_attrs[cur.comp_attr.name] = cur.comp_attr
+    result[cur.comp_attr.name] = cur.comp_attr
     attr_to_rel_name.set(cur.comp_attr.name, cur.dest_name)
   }
 }
@@ -233,9 +233,15 @@ export default function checkPass(self, props, typed_state_dcls) {
   var comp_attrs = typed_state_dcls['comp']
 
 
-  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp)
-  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.conj)
-  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.sel)
+  var result = {}
+
+
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.comp, result)
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.conj, result)
+  relToCompAttr(self, comp_attrs, self.__attr_to_rel_name, self._nest_by_type_listed.sel, result)
+
+  assignField(self, '__dcls_comp_attrs_from_rels', result)
+
 
   return true
 }
