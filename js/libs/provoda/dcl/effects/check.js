@@ -1,5 +1,5 @@
 
-import spv from '../../../spv'
+import cloneObj from '../../../spv/cloneObj'
 
 // var NestReqMap = null
 
@@ -18,7 +18,6 @@ import ProduceEffectDeclr from './legacy/produce/dcl'
 import buildProduce from './legacy/produce/rebuild'
 import buildApi from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
-var cloneObj = spv.cloneObj
 
 
 // var buildSel = require('../nest_sel/build');
