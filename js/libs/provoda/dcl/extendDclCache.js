@@ -10,7 +10,6 @@ const extendDclCache = function(self, field, added) {
 }
 
 export const extendCompAttrs = (self, typed_state_dcls, extendingField) => {
-  if (!self.hasOwnProperty(extendingField)) {return}
 
   typed_state_dcls['comp'] = typed_state_dcls['comp'] || {}
 
