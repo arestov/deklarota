@@ -19,7 +19,7 @@ function makeAllGlueSources(mut_result, comp_item) {
   }
 }
 
-const extendByServiceAttrs = function(self, props, typed_state_dcls) {
+const extendByServiceAttrs = function(self, typed_state_dcls) {
   var comps = typed_state_dcls['comp']
 
   var result_list = []

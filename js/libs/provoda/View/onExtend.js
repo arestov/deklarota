@@ -78,7 +78,7 @@ export default function(self, props, original) {
   checkEffects(self, props)
   extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_effects')
 
-  extendByServiceAttrs(self, props, typed_state_dcls)
+  extendByServiceAttrs(self, typed_state_dcls)
   extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_glue')
 
   collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
