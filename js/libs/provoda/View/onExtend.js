@@ -63,6 +63,7 @@ export default function(self, props, original) {
 
 
   var typed_state_dcls = getTypedDcls(props['attrs']) || {}
+  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
 
   checkNestBorrow(self, props)
   // check effects
@@ -77,7 +78,6 @@ export default function(self, props, original) {
   checkEffects(self, props)
   extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_effects')
 
-  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
   extendByServiceAttrs(self, props, typed_state_dcls)
   extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_glue')
 

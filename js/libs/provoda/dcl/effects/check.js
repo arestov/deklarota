@@ -19,6 +19,7 @@ import buildProduce from './legacy/produce/rebuild'
 import buildApi from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
 
+import parseCompItems from '../attrs/comp/parseItems'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -210,6 +211,8 @@ export default function checkEffects(self, props) {
       states: self.netsources_of_states
     }
   }
+
+  parseCompItems(extended_comp_attrs)
 
   self.__dcls_comp_attrs_from_effects = extended_comp_attrs
 

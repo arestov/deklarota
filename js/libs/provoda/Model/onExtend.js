@@ -77,16 +77,14 @@ export default function(self, props, original, params) {
   extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
   extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
+  var typed_state_dcls = getTypedDcls(props['attrs']) || {}
+  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
+
 
   checkEffects(self, props)
-
-  var typed_state_dcls = getTypedDcls(props['attrs']) || {}
   extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_effects')
 
   collectStateChangeHandlers(self, props)
-
-  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
-
 
   collectSubpages(self, props)
   checkSubpager(self, props)
