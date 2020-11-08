@@ -85,7 +85,7 @@ export default function(self, props, original, params) {
 
   collectStateChangeHandlers(self, props)
 
-  parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
+  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
 
 
   collectSubpages(self, props)
