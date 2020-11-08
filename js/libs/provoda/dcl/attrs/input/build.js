@@ -1,9 +1,9 @@
 
 
-export default function(self, props, byName) {
-  if (!byName) {
-    return
-  }
+export default function(self) {
+  if (!self.hasOwnProperty('__attrs_base_input')) {return}
+
+  var byName = self.__attrs_base_input
 
   var result = {}
   for (var attr_name in byName) {

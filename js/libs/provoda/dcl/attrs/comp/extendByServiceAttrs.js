@@ -19,9 +19,7 @@ function makeAllGlueSources(mut_result, comp_item) {
   }
 }
 
-const extendByServiceAttrs = function(self, typed_state_dcls) {
-  var comps = typed_state_dcls['comp']
-
+const extendByServiceAttrs = function(self, comps) {
   var result_list = []
   var result = {}
 

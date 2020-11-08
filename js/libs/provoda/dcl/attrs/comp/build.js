@@ -1,4 +1,3 @@
-import { doCopy } from '../../../../spv/cloneObj'
 import groupDeps from './groupDeps'
 import getEncodedState from '../../../utils/getEncodedState'
 import asString from '../../../utils/multiPath/asString'
@@ -26,21 +25,9 @@ var makeWatchIndex = function(full_comlxs_list) {
   return full_comlxs_index
 }
 
-var extendTyped = cachedField(
-  '_dcl_cache__compx',
-  ['_dcl_cache__compx', '__attrs_added_comp'],
-  false,
-  function extendTyped(dcl_cache__compx, typed_state_dcls) {
-    var result = doCopy(null, dcl_cache__compx) || {}
-    result = doCopy(result, typed_state_dcls)
-
-    return result
-  }
-)
-
 var collectCheck = cachedField(
   'compx_check',
-  ['_dcl_cache__compx'],
+  ['__attrs_all_comp'],
   false,
   function collectCheck(dcl_cache__compx) {
     var compx_check = {}
@@ -55,7 +42,7 @@ var collectCheck = cachedField(
 
 var collectList = cachedField(
   'full_comlxs_list',
-  ['_dcl_cache__compx'],
+  ['__attrs_all_comp'],
   false,
   function collectList(dcl_cache__compx) {
     var full_comlxs_list = []
@@ -68,14 +55,8 @@ var collectList = cachedField(
   }
 )
 
-export default function(self, props, typed_part) {
-  if (!typed_part) {
-    return
-  }
-
-  self.__attrs_added_comp = typed_part
-
-  extendTyped(self)
+export default function(self) {
+  if (!self.hasOwnProperty('__attrs_all_comp')) {return}
 
   collectCheck(self)
   collectList(self)

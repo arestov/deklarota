@@ -1,9 +1,9 @@
-import extendDclCache, { extendCompAttrs } from '../dcl/extendDclCache'
+import extendDclCache from '../dcl/extendDclCache'
+import assignField from '../dcl/assignField'
+
 import getTypedDcls from '../dcl-h/getTypedDcls'
-import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
-import extendByServiceAttrs from '../dcl/attrs/comp/extendByServiceAttrs'
-import buildInputAttrs from '../dcl/attrs/input/build'
+import buildAttrsFinal from '../dcl/attrs/build'
 import checkChi from '../StatesEmitter/checkChi'
 
 import checkNestRqC from '../dcl/nest_model/check'
@@ -77,12 +77,13 @@ export default function(self, props, original, params) {
   extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
   extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
-  var typed_state_dcls = getTypedDcls(props['attrs']) || {}
+  var typed_state_dcls = getTypedDcls(self.__dcls_attrs || {})
   parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
 
+  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
+  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
 
   checkEffects(self, props)
-  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_effects')
 
   collectStateChangeHandlers(self, props)
 
@@ -91,13 +92,9 @@ export default function(self, props, original, params) {
   checkRoutes(self, props)
 
   checkModernNests(self, props)
-  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_rels')
 
-  extendByServiceAttrs(self, typed_state_dcls)
-  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_glue')
+  buildAttrsFinal(self)
 
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
-  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
   /*
     check global_skeleton for

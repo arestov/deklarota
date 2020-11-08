@@ -1,12 +1,11 @@
 
 import spv from '../../spv'
-import extendDclCache, { extendCompAttrs } from '../dcl/extendDclCache'
+import extendDclCache from '../dcl/extendDclCache'
+import assignField from '../dcl/assignField'
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
-import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
-import extendByServiceAttrs from '../dcl/attrs/comp/extendByServiceAttrs'
-import buildInputAttrs from '../dcl/attrs/input/build'
+import buildAttrsFinal from '../dcl/attrs/build'
 import checkEffects from '../dcl/effects/check'
 import collectSelectorsOfCollchs from '../dcl_view/collectSelectorsOfCollchs'
 import collectCollectionChangeDeclarations from '../dcl_view/collectCollectionChangeDeclarations'
@@ -62,8 +61,11 @@ export default function(self, props, original) {
   extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
 
-  var typed_state_dcls = getTypedDcls(props['attrs']) || {}
+  var typed_state_dcls = getTypedDcls(self.__dcls_attrs) || {}
   parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
+
+  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
+  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
 
   checkNestBorrow(self, props)
   // check effects
@@ -76,13 +78,8 @@ export default function(self, props, original) {
   collectSelectorsOfCollchs(self, props)
 
   checkEffects(self, props)
-  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_from_effects')
 
-  extendByServiceAttrs(self, typed_state_dcls)
-  extendCompAttrs(self, typed_state_dcls, '__dcls_comp_attrs_glue')
-
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
-  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
+  buildAttrsFinal(self)
 
   var base_tree_mofified = props.hasOwnProperty('base_tree')
   if (base_tree_mofified) {
