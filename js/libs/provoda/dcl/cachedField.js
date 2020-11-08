@@ -19,7 +19,12 @@ const cachedField = function(field, deps, final_compile, fn) {
       return model[field]
     }
 
-    model[field] = fn(...args, model)
+    var result = fn(...args, model)
+    if (model[field] === result) {
+      return model[field]
+    }
+
+    model[field] = result
 
     return model[field]
   }
