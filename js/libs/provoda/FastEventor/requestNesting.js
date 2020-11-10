@@ -18,10 +18,8 @@ function nestingMark(nesting_name, name) {
 }
 
 function statesAnyway(states, nesting_name, is_main_list) {
-  states[types.loading_nesting + '_' + nesting_name] = false // old legacy
-  states[nesting_name + '$' + types.loading] = false // legacy
   if (is_main_list) {
-    states[types.main_list_loading] = false // old old legacy
+    states[types.main_list_loading] = false // old old legacy ?
   }
 
   states[nestingMark(nesting_name, types.loading)] = false
@@ -30,14 +28,11 @@ function statesAnyway(states, nesting_name, is_main_list) {
 }
 
 function statesComplete(states, nesting_name) {
-  states[nesting_name + '$' + types.load_attempting] = false // legacy
   states[nestingMark(nesting_name, types.load_attempting)] = false
 
-  states[nesting_name + '$' + types.load_attempted] = true // legacy
   states[nestingMark(nesting_name, types.load_attempted)] = true
 
   var now = Date.now()
-  states[nesting_name + '$' + types.load_attempted_at] = now // legacy
   states[nestingMark(nesting_name, types.load_attempted_at)] = now
   return states
 }
@@ -45,10 +40,8 @@ function statesComplete(states, nesting_name) {
 
 
 function statesData(states, nesting_name, can_load_more, is_main_list) {
-  states[nesting_name + '$' + types.error] = null
   states[nestingMark(nesting_name, types.error)] = null
 
-  states[nesting_name + '$' + types.has_any] = true
   states[nestingMark(nesting_name, types.has_any)] = true
 
   if (can_load_more) {
@@ -59,17 +52,13 @@ function statesData(states, nesting_name, can_load_more, is_main_list) {
     states[types.all_data_loaded] = true // old old legacy
   }
 
-  states[nesting_name + '$' + types.all_loaded] = true
   states[nestingMark(nesting_name, types.all_loaded)] = true
 }
 
 
 function statesStart(states, nesting_name, is_main_list) {
-  states[nesting_name + '$' + types.load_attempting] = true // legacy
   states[nestingMark(nesting_name, types.load_attempting)] = true
 
-  states[types.loading_nesting + '_' + nesting_name] = true // old legacy
-  states[nesting_name + '$' + types.loading] = true // legacy
   states[nestingMark(nesting_name, types.loading)] = true
   if (is_main_list) {
     states[types.main_list_loading] = true // old old legacy
@@ -78,12 +67,10 @@ function statesStart(states, nesting_name, is_main_list) {
 }
 
 function statesError(states, nesting_name) {
-  states[nesting_name + '$' + types.error] = true // legacy
   states[nestingMark(nesting_name, types.error)] = true
 }
 
 function statesQueue(states, nesting_name, mark) {
-  states[nesting_name + '$' + types.waiting_queue] = mark // legacy
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 

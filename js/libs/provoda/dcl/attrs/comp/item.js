@@ -3,6 +3,8 @@ import fromLegacy from '../../../utils/multiPath/fromLegacy'
 import parse from '../../../utils/multiPath/parse'
 import asString from '../../../utils/multiPath/asString'
 import isJustAttrAddr from './isJustAttrAddr'
+import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
+import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
 
 var shortStringWhenPossible = function(addr) {
 
@@ -59,6 +61,10 @@ var toParsedDeps = function(array) {
 
 var emptyList = []
 
+const badAttrs = new Set(['main_list_loading', 'list_loading', 'all_data_loaded'])
+const ignoredLegacy = new Set(['$needs_load', 'list_loading', 'can_load_data', 'can_load_more', 'more_load_available'])
+
+
 var CompxAttrDecl = function(comlx_name, cur) {
   if (!Array.isArray(cur)) {
     throw new Error('don\'t use object structure of dep')
@@ -87,6 +93,47 @@ var CompxAttrDecl = function(comlx_name, cur) {
   this.name = comlx_name
 
   this.watch_list = this.depends_on
+
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return this
+  }
+
+  if (this.name == '_api_all_needs__') {
+    return this
+  }
+
+
+  for (var i = 0; i < this.addrs.length; i++) {
+    var addr = this.addrs[i]
+    var str = addr.state && addr.state.base
+
+    if (!str || str.startsWith('$meta$')) {
+      continue
+    }
+
+    if (str.includes('$')) {
+      console.warn('👺', 'dont-use-legacy-meta', this.name, str, new Error())
+    }
+
+    if (str.lastIndexOf('__') > 0) {
+      console.warn('👺', 'dont-use-legacy-meta', this.name, str, new Error())
+    }
+
+    if (str.startsWith('_api_used_') && !this.name.startsWith('_apis_need')) {
+      console.warn('🤖', 'dont-use-legacy-meta', this.name, str, '$meta$apis$' + str.replace('_api_used_', '') + '$used', new Error())
+    }
+
+
+    if (str.startsWith(relReqMetaTypes.loading_nesting)) {
+      console.warn('🤖', 'dont-use-legacy-meta', this.name, str, new Error())
+    }
+
+    if (badAttrs.has(str) && !ignoredLegacy.has(this.name)) {
+      console.warn('⚡', 'dont-use-legacy-meta', this.name, str, new Error())
+    }
+  }
+
+
   return this
 }
 

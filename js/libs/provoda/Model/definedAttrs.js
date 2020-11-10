@@ -7,7 +7,7 @@ export default function(self) {
     return self.__defined_attrs_bool
   }
 
-  var result = [{name: '$meta$inited', type: 'bool'}]
+  var result = [{name: '$meta$inited', type: 'bool'}, {name: '$meta$removed', type: 'bool'}]
 
   // Default attrs
   if (self.__default_attrs) {

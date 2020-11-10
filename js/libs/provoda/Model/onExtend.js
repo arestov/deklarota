@@ -1,11 +1,9 @@
+import extendDclCache from '../dcl/extendDclCache'
+import assignField from '../dcl/assignField'
 
-
-import spv from '../../spv'
 import getTypedDcls from '../dcl-h/getTypedDcls'
-import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
-import extendByServiceAttrs from '../dcl/attrs/comp/extendByServiceAttrs'
-import buildInputAttrs from '../dcl/attrs/input/build'
+import buildAttrsFinal from '../dcl/attrs/build'
 import checkChi from '../StatesEmitter/checkChi'
 
 import checkNestRqC from '../dcl/nest_model/check'
@@ -22,16 +20,6 @@ import checkEffects from '../dcl/effects/check'
 import checkNest from '../dcl/nest/check'
 
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
-
-var copyProps = function(original_props_raw, extending_values) {
-  if (!extending_values) {
-    return original_props_raw
-  }
-
-  var original_props = original_props_raw || {}
-  var result = spv.cloneObj({}, original_props)
-  return spv.cloneObj(result, extending_values)
-}
 
 var check = /initStates/gi
 
@@ -78,44 +66,35 @@ export default function(self, props, original, params) {
 
   checkSideeffects(self, props, params)
 
-  if (props.default_states) {
-    console.warn(
-      'use attrs.input to define default attr, check «dk/dcl/attrs/input helper',
-      self.model_name,
-      self.__code_path
-    )
-  }
-
-
-  self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
-  self.__dcls_rels = copyProps(original.__dcls_rels, props['rels'])
-  self.__dcls_routes = copyProps(original.__dcls_routes, props['routes'])
-  self.__dcls_actions = copyProps(original.__dcls_actions, props['actions'])
+  extendDclCache(self, '__dcls_attrs', props['attrs'])
+  extendDclCache(self, '__dcls_rels', props['rels'])
+  extendDclCache(self, '__dcls_routes', props['routes'])
+  extendDclCache(self, '__dcls_actions', props['actions'])
 
   var effects = props['effects']
-  self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
-  self.__dcls_effects_consume = copyProps(original.__dcls_effects_consume, effects && effects['consume'])
-  self.__dcls_effects_produce = copyProps(original.__dcls_effects_produce, effects && effects['produce'])
 
+  extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
+  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
+  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
-  var typed_state_dcls = getTypedDcls(props['attrs']) || {}
+  var typed_state_dcls = getTypedDcls(self.__dcls_attrs || {})
+  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
 
-  checkEffects(self, props, typed_state_dcls)
+  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
+  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
+
+  checkEffects(self, props)
+
   collectStateChangeHandlers(self, props)
-
-  parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
-
 
   collectSubpages(self, props)
   checkSubpager(self, props)
   checkRoutes(self, props)
 
-  checkModernNests(self, props, typed_state_dcls)
+  checkModernNests(self, props)
 
-  extendByServiceAttrs(self, props, typed_state_dcls)
+  buildAttrsFinal(self)
 
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
-  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
 
   /*
     check global_skeleton for

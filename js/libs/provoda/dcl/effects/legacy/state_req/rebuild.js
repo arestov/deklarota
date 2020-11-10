@@ -17,7 +17,7 @@ var doIndex = function(list, value) {
 }
 
 
-export default function buildStateReqs(self, list, typed_state_dcls) {
+export default function buildStateReqs(self, list, extended_comp_attrs) {
   self._states_reqs_index = {}
   self._states_reqs_list = list
   var states_index = {}
@@ -43,6 +43,6 @@ export default function buildStateReqs(self, list, typed_state_dcls) {
 
     // copy dependencies to comp, so runtime will subscribe to nonlocal changes
     // (todo: subscribe to nonlocal deps without mutating comp)
-    assign(typed_state_dcls, list[i])
+    assign(extended_comp_attrs, list[i])
   }
 }

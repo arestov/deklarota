@@ -1,6 +1,6 @@
 import CompxAttrDecl from './item'
 
-const parseItems = function(self, typed_state_dcls) {
+const parseItems = function(typed_state_dcls) {
   if (!typed_state_dcls) {
     return
   }

@@ -1,17 +1,16 @@
 
 
-var doCopy = function(item, self, typed_state_dcls) {
+var doCopy = function(item, self, extended_comp_attrs) {
   for (var i = 0; i < item.compxes.length; i += 2) {
     var name = item.compxes[ i ]
     var deps = item.compxes[ i + 1 ]
-    typed_state_dcls['comp'] = typed_state_dcls['comp'] || {}
-    typed_state_dcls['comp'][name] = deps
+    extended_comp_attrs[name] = deps
   }
 }
 
 var empty = []
 
-export default function getDepsToInsert(source, self, typed_state_dcls) {
+export default function getDepsToInsert(source, self, extended_comp_attrs) {
   if (!source) {return empty}
 
   var result = []
@@ -24,7 +23,7 @@ export default function getDepsToInsert(source, self, typed_state_dcls) {
 
     result.push(name)
 
-    doCopy(cur, self, typed_state_dcls)
+    doCopy(cur, self, extended_comp_attrs)
   }
 
   return result

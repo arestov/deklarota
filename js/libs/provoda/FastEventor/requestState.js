@@ -118,7 +118,6 @@ function bindRequest(request, selected_map, store, self) {
     }
 
     for (var i = 0; i < states_list.length; i++) {
-      result_states[states_list[i] + '__$complete'] = true
       result_states['$meta$states$' + states_list[i] + '$complete'] = true
 
     }
@@ -208,7 +207,6 @@ function requestDependencies(self, dependencies, soft) {
 function makeLoadingMarks(suffix, states_list, value, result) {
   var loading_marks = result || {}
   for (var i = 0; i < states_list.length; i++) {
-    loading_marks[states_list[i] + '__' + suffix] = value // legacy
     loading_marks['$meta$states$' + states_list[i] + '$' + suffix] = value
 
   }

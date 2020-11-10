@@ -1,5 +1,6 @@
 import memorize from '../../../../spv/memorize'
 import asString from '../../../utils/multiPath/asString'
+import assignField from '../../assignField'
 
 import makeGlueSource from './makeGlueSource'
 
@@ -18,10 +19,9 @@ function makeAllGlueSources(mut_result, comp_item) {
   }
 }
 
-const extendByServiceAttrs = function(self, props, typed_state_dcls) {
-  var comps = typed_state_dcls['comp']
-
-  var result = []
+const extendByServiceAttrs = function(self, comps) {
+  var result_list = []
+  var result = {}
 
   for (var prop in comps) {
     if (!comps.hasOwnProperty(prop)) {
@@ -30,14 +30,16 @@ const extendByServiceAttrs = function(self, props, typed_state_dcls) {
     var cur = comps[prop]
 
     for (var i = 0; i < cur.addrs.length; i++) {
-      makeAllGlueSources(result, cur)
+      makeAllGlueSources(result_list, cur)
     }
   }
 
-  for (var i = 0; i < result.length; i++) {
-    var cur = result[i]
-    comps[cur.name] = cur
+  for (var i = 0; i < result_list.length; i++) {
+    var cur = result_list[i]
+    result[cur.name] = cur
   }
+
+  assignField(self, '__dcls_comp_attrs_glue', result)
 }
 
 export default extendByServiceAttrs

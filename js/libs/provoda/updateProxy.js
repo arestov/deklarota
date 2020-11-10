@@ -6,7 +6,9 @@ import checkStates from './nest-watch/checkStates'
 import _passHandleState from './dcl/passes/handleState/handle'
 import attrToRel from './dcl/nests/attrToRel'
 import deliverAttrQueryUpdates from './Model/mentions/deliverAttrQueryUpdates'
+import isPrivateState from './Model/isPrivateState'
 import sameName from './sameName'
+import shallowEqual from './shallowEqual'
 
 var CH_GR_LE = 2
 
@@ -300,68 +302,6 @@ function getChanges(etr, total_original_states, start_from, changes_list, result
   // return changed_states;
 }
 
-function isSimpleObject(obj) {
-  if (obj == null) {
-    return false
-  }
-
-  // Allow arrays!
-  if (Array.isArray(obj)) {
-    return true
-  }
-
-  if (typeof obj != 'object') {
-    return false
-  }
-
-  if (obj.constructor != Object) {
-    // Don't allow custom instances like Date, URL, etc...
-    return false
-  }
-
-  return true
-}
-
-function shallowEqual(objA, objB) {
-  if (!isSimpleObject(objA) || !isSimpleObject(objB)) {
-    return false
-  }
-
-  const a_is_arr = Array.isArray(objA)
-  const b_is_arr = Array.isArray(objB)
-  if (a_is_arr != b_is_arr) {
-    return false
-  }
-
-  if (a_is_arr && objA.length != objB.length) {
-    return false
-  }
-
-  /*
-    fast check. just 1st level of props
-  */
-
-  for (var name in objA) {
-    if (objA.hasOwnProperty(name)) {
-      if (objA[name] !== objB[name]) {
-        return false
-      }
-    }
-  }
-
-  // objA and objB can have dirrenent keys number. so check both
-
-  for (var name in objB) {
-    if (objB.hasOwnProperty(name)) {
-      if (objB[name] !== objA[name]) {
-        return false
-      }
-    }
-  }
-
-  return true
-}
-
 function isSameValue(old_value, value) {
   if (old_value == null && value == null) {
     return true
@@ -542,22 +482,64 @@ function _triggerStChanges(etr, i, state_name, value, total_original_states) {
   triggerLightAttrChange(etr, state_name, value)
 }
 
-function reportBadChange() {
-  // if (etr.__default_attrs && etr.__default_attrs.hasOwnProperty(state_name)) {
-  //   return
-  // }
+function reportBadChange(etr, state_name) {
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
+
+  if (!etr.getInstanceKey) {return}
+
+  if (!etr._highway.warn_unexpected_attrs) {return}
+
+  // only for models
+  if (!etr._provoda_id) {return}
+
+
   //
-  // if (etr.__bad_attrs_reported && etr.__bad_attrs_reported.hasOwnProperty(state_name)) {
-  //   return
-  // }
+  if (etr.__bad_attrs_reported && etr.__bad_attrs_reported.hasOwnProperty(state_name)) {
+    return
+  }
   //
-  // if (!etr.__bad_attrs_reported) {
-  //   // __bad_attss_reported should be shared for all model instances
-  //   etr.constructor.prototype.__bad_attrs_reported = {}
-  // }
-  //
-  // etr.__bad_attrs_reported[state_name] = true
-  // console.warn('unexpectd change of attr: ', state_name, etr.model_name || 'Noname', etr.__code_path)
+  if (!etr.__bad_attrs_reported) {
+    // __bad_attss_reported should be shared for all model instances
+    etr.constructor.prototype.__bad_attrs_reported = {}
+  }
+
+  etr.__bad_attrs_reported[state_name] = true
+
+  if (state_name == '_provoda_id') {
+    return
+  }
+
+  if (etr.__default_attrs && etr.__default_attrs.hasOwnProperty(state_name)) {
+    return
+  }
+
+
+  if (etr.__defined_attrs_bool) {
+    for (var i = 0; i < etr.__defined_attrs_bool.length; i++) {
+      var cur = etr.__defined_attrs_bool[i].name
+      if (cur == state_name) {
+        return
+      }
+    }
+  }
+
+  if (isPrivateState(state_name) && !state_name.startsWith('__')) {
+    return
+  }
+
+  // allow meta to be changed unexpectedly. make analysis in dkt
+  if (state_name.startsWith('$meta$')) {
+    return
+  }
+
+  // don't force to declare thing that can be done using analysis
+  if (etr._states_reqs_index && etr._states_reqs_index[state_name] != null) {
+    return
+  }
+
+  console.warn('unexpected-attr-change: ', state_name, etr.__code_path)
 }
 
 const update = function updateWithValidation(md, state_name, state_value, opts) {

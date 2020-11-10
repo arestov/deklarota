@@ -1,11 +1,11 @@
 
 import spv from '../../spv'
+import extendDclCache from '../dcl/extendDclCache'
+import assignField from '../dcl/assignField'
 
 import getTypedDcls from '../dcl-h/getTypedDcls'
-import collectCompxs from '../dcl/attrs/comp/build'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
-import extendByServiceAttrs from '../dcl/attrs/comp/extendByServiceAttrs'
-import buildInputAttrs from '../dcl/attrs/input/build'
+import buildAttrsFinal from '../dcl/attrs/build'
 import checkEffects from '../dcl/effects/check'
 import collectSelectorsOfCollchs from '../dcl_view/collectSelectorsOfCollchs'
 import collectCollectionChangeDeclarations from '../dcl_view/collectCollectionChangeDeclarations'
@@ -52,26 +52,20 @@ var getBaseTreeCheckList = function(start) {
 
 }
 
-var copyProps = function(original_props_raw, extending_values) {
-  if (!extending_values) {
-    return original_props_raw
-  }
-
-  var original_props = original_props_raw || {}
-  var result = spv.cloneObj({}, original_props)
-  return spv.cloneObj(result, extending_values)
-}
-
 export default function(self, props, original) {
-  self.__dcls_attrs = copyProps(original.__states_dcls, props['attrs'])
+  extendDclCache(self, '__dcls_attrs', props['attrs'])
 
   var effects = props['effects']
-  self.__dcls_effects_api = copyProps(original.__dcls_effects_api, effects && effects['api'])
-  self.__dcls_effects_consume = copyProps(original.__dcls_effects_consume, effects && effects['consume'])
-  self.__dcls_effects_produce = copyProps(original.__dcls_effects_produce, effects && effects['produce'])
+  extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
+  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
+  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
 
-  var typed_state_dcls = getTypedDcls(props['attrs']) || {}
+  var typed_state_dcls = getTypedDcls(self.__dcls_attrs) || {}
+  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
+
+  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
+  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
 
   checkNestBorrow(self, props)
   // check effects
@@ -83,13 +77,9 @@ export default function(self, props, original) {
 
   collectSelectorsOfCollchs(self, props)
 
-  checkEffects(self, props, typed_state_dcls)
+  checkEffects(self, props)
 
-  parseCompItems(self, typed_state_dcls && typed_state_dcls['comp'])
-  extendByServiceAttrs(self, props, typed_state_dcls)
-
-  collectCompxs(self, props, typed_state_dcls && typed_state_dcls['comp'])
-  buildInputAttrs(self, props, typed_state_dcls && typed_state_dcls['input'])
+  buildAttrsFinal(self)
 
   var base_tree_mofified = props.hasOwnProperty('base_tree')
   if (base_tree_mofified) {

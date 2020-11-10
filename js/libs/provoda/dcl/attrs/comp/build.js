@@ -1,25 +1,12 @@
-import { doCopy } from '../../../../spv/cloneObj'
 import groupDeps from './groupDeps'
 import getEncodedState from '../../../utils/getEncodedState'
 import asString from '../../../utils/multiPath/asString'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
 import isJustAttrAddr from './isJustAttrAddr'
 import isGlueTargetAttr from './isGlueTargetAttr'
+import cachedField from '../../cachedField'
 
 var makeGroups = groupDeps(getEncodedState)
-
-var collectBuildParts = function(self) {
-  var compx_check = {}
-  var full_comlxs_list = []
-
-  for (var key_name_one in self._dcl_cache__compx) {
-    compx_check[key_name_one] = self._dcl_cache__compx[key_name_one]
-    full_comlxs_list.push(compx_check[key_name_one])
-  }
-
-  self.compx_check = compx_check
-  self.full_comlxs_list = full_comlxs_list
-}
 
 var makeWatchIndex = function(full_comlxs_list) {
   var full_comlxs_index = {}
@@ -38,25 +25,41 @@ var makeWatchIndex = function(full_comlxs_list) {
   return full_comlxs_index
 }
 
-var extendTyped = function(self, typed_state_dcls) {
-  var result = doCopy(null, self._dcl_cache__compx) || {}
+var collectCheck = cachedField(
+  'compx_check',
+  ['__attrs_all_comp'],
+  false,
+  function collectCheck(dcl_cache__compx) {
+    var compx_check = {}
 
-  result = doCopy(result, typed_state_dcls)
+    for (var key_name_one in dcl_cache__compx) {
+      compx_check[key_name_one] = dcl_cache__compx[key_name_one]
+    }
 
-  self._dcl_cache__compx = result
-}
-
-export default function(self, props, typed_part) {
-  if (typed_part) {
-    extendTyped(self, typed_part)
+    return compx_check
   }
+)
 
-  var need_recalc = typed_part
-  if (!need_recalc) {
-    return
+var collectList = cachedField(
+  'full_comlxs_list',
+  ['__attrs_all_comp'],
+  false,
+  function collectList(dcl_cache__compx) {
+    var full_comlxs_list = []
+
+    for (var key_name_one in dcl_cache__compx) {
+      full_comlxs_list.push(dcl_cache__compx[key_name_one])
+    }
+
+    return full_comlxs_list
   }
+)
 
-  collectBuildParts(self)
+export default function(self) {
+  if (!self.hasOwnProperty('__attrs_all_comp')) {return}
+
+  collectCheck(self)
+  collectList(self)
   self.full_comlxs_index = makeWatchIndex(self.full_comlxs_list)
 
   collectStatesConnectionsProps(self, self.full_comlxs_list)
