@@ -17,6 +17,9 @@ var RootLev = spv.inh(Model, {
   }
 }, {
   model_name: 'root_bwlev',
+  attrs: {
+    used_data_structure: ['input'],
+  },
   rpc_legacy: {
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {

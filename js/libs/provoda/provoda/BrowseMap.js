@@ -150,6 +150,11 @@ BrowseMap.Model = spv.inh(HModel, {
   attrs: {
     'url_part': ['input', null],
     'nav_title': ['input', null],
+    'bmp_show': ['input'],
+    url_part: ['input'],
+    mp_has_focus: ['input'],
+    mpl_attached: ['input'],
+    bmpl_attached: ['input'],
   },
   handling_v2_init: true,
   network_data_as_states: true,

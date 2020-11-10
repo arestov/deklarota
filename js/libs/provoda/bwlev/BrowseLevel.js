@@ -59,6 +59,17 @@ var BrowseLevel = spv.inh(Model, {
 }, {
   model_name: 'bwlev',
   attrs: {
+    map_level_num: ['input'],
+    probe_name: ['input'],
+    pioneer_provoda_id: ['input'],
+    pioneer: ['input'],
+    currentReq: ['input'],
+    mpl_attached: ['input'],
+    mp_dft: ['input'],
+    mp_show: ['input'],
+    mp_has_focus: ['input'],
+    // bmpl_attached: ['input'],
+    mpl_attached: ['input'],
     'check_focus_leave': [
       'comp',
       ['mp_has_focus'],
