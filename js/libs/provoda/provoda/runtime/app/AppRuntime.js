@@ -37,6 +37,8 @@ function AppRuntime(optionsRaw) {
   this.proxies = proxies
   this.logger = options.logger || null
   this.env = options.env || null
+
+  this.warn_unexpected_attrs = Boolean(options.warnUnexpectedAttrs)
 }
 
 AppRuntime.prototype.start = function(options) {
