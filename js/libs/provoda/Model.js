@@ -28,6 +28,7 @@ import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
 import wrapInputCall from './provoda/wrapInputCall'
 import disposeMentions from './Model/mentions/dispose'
+import checkAndDisposeModel from './Model/checkAndDisposeModel'
 
 var push = Array.prototype.push
 
@@ -108,6 +109,22 @@ var getStrucParent = function(item, _count, soft) {
 }
 
 function modelProps(add) {
+
+add({
+  effects: {
+    produce: {
+      __remove_model: {
+        api: ['self'],
+        trigger: ['$meta$removed'],
+        require: ['$meta$removed'],
+        fn: function(self, value) {
+          checkAndDisposeModel(self, value)
+        }
+      }
+    }
+  },
+})
+
 add(_requestsDeps)
 add({
   'regfr-light_rel_ev': regfr_light_rel_ev,
@@ -446,5 +463,4 @@ add({
   },
 })
 }
-
 export default Model
