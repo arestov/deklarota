@@ -1,5 +1,5 @@
 
-import cloneObj from '../../../spv/cloneObj'
+import { doCopy } from '../../../spv/cloneObj'
 
 // var NestReqMap = null
 
@@ -20,6 +20,7 @@ import buildApi from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
 
 import parseCompItems from '../attrs/comp/parseItems'
+import cachedField from '../cachedField'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -47,7 +48,7 @@ var parse = function(type, name, data) {
 }
 
 var extend = function(prefix, index, more_effects) {
-  var cur = cloneObj({}, index) || {}
+  var cur = doCopy({}, index) || {}
   var prefix_string = prefix ? (prefix + '-') : ''
 
   for (var name in more_effects) {
@@ -106,14 +107,20 @@ var notEqual = function(one, two) {
   }
 }
 
-var rebuildType = function(self, type, result, list, extended_comp_attrs) {
+var rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
+      let extended_comp_attrs = {}
       buildStateReqs(self, list, extended_comp_attrs)
+      parseCompItems(extended_comp_attrs)
+      self.___dcl_eff_consume_req_st = extended_comp_attrs
       return
     }
     case 'consume-nest_request': {
+      let extended_comp_attrs = {}
       buildNestReqs(self, result, extended_comp_attrs)
+      parseCompItems(extended_comp_attrs)
+      self.___dcl_eff_consume_req_nest = extended_comp_attrs
       return
     }
     case 'consume-subscribe': {
@@ -121,16 +128,22 @@ var rebuildType = function(self, type, result, list, extended_comp_attrs) {
       return
     }
     case 'produce-': {
+      let extended_comp_attrs = {}
       buildProduce(self, result, extended_comp_attrs)
+      parseCompItems(extended_comp_attrs)
+      self.___dcl_eff_produce = extended_comp_attrs
       return
     }
     case 'api-': {
+      let extended_comp_attrs = {}
       buildApi(self, result, extended_comp_attrs)
+      parseCompItems(extended_comp_attrs)
+      self.___dcl_eff_api = extended_comp_attrs
     }
   }
 }
 
-var rebuild = function(self, newV, oldV, listByType, extended_comp_attrs) {
+var rebuild = function(self, newV, oldV, listByType) {
   for (var type in newV) {
     if (!newV.hasOwnProperty(type)) {
       continue
@@ -140,7 +153,7 @@ var rebuild = function(self, newV, oldV, listByType, extended_comp_attrs) {
       continue
     }
 
-    rebuildType(self, type, newV[type], listByType[type], extended_comp_attrs)
+    rebuildType(self, type, newV[type], listByType[type])
   }
 }
 
@@ -168,6 +181,23 @@ var checkModern = function(self, props) {
   )
 }
 
+
+const fxAttrs = cachedField(
+  '__dcls_comp_attrs_from_effects',
+  ['___dcl_eff_consume_req_st', '___dcl_eff_consume_req_nest', '___dcl_eff_produce', '___dcl_eff_api'],
+  false,
+  function collectCheck(s1, s2, s3, s4) {
+    let result = {}
+
+    doCopy(result, s1)
+    doCopy(result, s2)
+    doCopy(result, s3)
+    doCopy(result, s4)
+
+    return result
+  }
+)
+
 export default function checkEffects(self, props) {
   var currentIndex = self._extendable_effect_index
 
@@ -176,9 +206,6 @@ export default function checkEffects(self, props) {
   if (currentIndex === self._extendable_effect_index) {
     return
   }
-
-  var extended_comp_attrs = {}
-
 
   var oldByType = self._effect_by_type || {}
   self._effect_by_type = byType(self._extendable_effect_index)
@@ -203,7 +230,7 @@ export default function checkEffects(self, props) {
 
   }
 
-  rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed, extended_comp_attrs)
+  rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
 
   if (self.hasOwnProperty('netsources_of_nestings') || self.hasOwnProperty('netsources_of_states')) {
     self.netsources_of_all = {
@@ -212,10 +239,7 @@ export default function checkEffects(self, props) {
     }
   }
 
-  parseCompItems(extended_comp_attrs)
-
-  self.__dcls_comp_attrs_from_effects = extended_comp_attrs
-
+  fxAttrs(self)
 
   return true
 }
