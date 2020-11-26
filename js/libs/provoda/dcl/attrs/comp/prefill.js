@@ -1,6 +1,6 @@
 import asString from '../../../utils/multiPath/asString'
 import getDepValue from '../../../utils/multiPath/getDepValue'
-import isNestingAddr from './isNestingAddr'
+import isRelAddr from '../../../utils/multiPath/isRelAddr'
 
 const prefillCompAttr = function prefillCompAttr(self, changes_list) {
   var list = self.__attrs_uniq_external_deps
@@ -15,7 +15,7 @@ const prefillCompAttr = function prefillCompAttr(self, changes_list) {
       continue
     }
 
-    if (isNestingAddr(cur) && Array.isArray(value) && !value.length) {
+    if (isRelAddr(cur) && Array.isArray(value) && !value.length) {
       continue
     }
 
