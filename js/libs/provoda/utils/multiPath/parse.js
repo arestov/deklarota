@@ -4,6 +4,7 @@ import spv from '../../../spv'
 import getParsedPath from '../../routes/legacy/getParsedPath'
 import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
+import isJustAttrAddr from './isJustAttrAddr'
 
 var splitByDot = spv.splitByDot
 var empty = Object.freeze({})
@@ -144,6 +145,11 @@ var parseMultiPath = function(string, allow_legacy) {
 
   var modern = parseModern(string)
   if (modern != null) {
+    var state_info = modern.state
+    if (state_info && state_info.base && !isJustAttrAddr(modern) && state_info.base.startsWith('__')) {
+      console.warn(new Error('private attr used'), string)
+    }
+
     return modern
   }
 
