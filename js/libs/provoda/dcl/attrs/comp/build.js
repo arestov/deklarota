@@ -2,7 +2,8 @@ import groupDeps from './groupDeps'
 import getEncodedState from '../../../utils/getEncodedState'
 import asString from '../../../utils/multiPath/asString'
 import mentionsSupportedAddr from '../../../Model/mentions/supportedAttrTargetAddr'
-import isJustAttrAddr from './isJustAttrAddr'
+import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
+
 import isGlueTargetAttr from './isGlueTargetAttr'
 import cachedField from '../../cachedField'
 

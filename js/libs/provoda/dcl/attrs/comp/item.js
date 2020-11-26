@@ -2,7 +2,7 @@ import getParsedState from '../../../utils/getParsedState'
 import fromLegacy from '../../../utils/multiPath/fromLegacy'
 import parse from '../../../utils/multiPath/parse'
 import asString from '../../../utils/multiPath/asString'
-import isJustAttrAddr from './isJustAttrAddr'
+import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
 import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
 

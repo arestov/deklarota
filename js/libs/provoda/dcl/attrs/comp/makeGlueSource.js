@@ -6,7 +6,7 @@ import { doRelSplit } from '../../glue_rels/splitComplexRel'
 
 import CompxAttrDecl from './item'
 
-import isJustAttrAddr from './isJustAttrAddr'
+import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 
 import glueTargets from './glueTargets'
 import isGlueTargetAttr from './isGlueTargetAttr'
