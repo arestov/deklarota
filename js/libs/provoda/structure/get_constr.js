@@ -68,6 +68,5 @@ function constrsList(app, md, items) {
 }
 
 export default {
-  getDeclrConstr: getDeclrConstr,
   getNestingConstr: getNestingConstr
 }
