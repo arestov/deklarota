@@ -7,6 +7,8 @@ import AttrsCollector from '../StatesEmitter/AttrsCollector'
 import RootLev from '../bwlev/RootLev'
 import BrowseLevel from '../bwlev/BrowseLevel'
 import globalSkeleton from './globalSkeleton'
+import analyzeLinks from './analyzeLinks'
+
 import {clearCache as clearCacheCompAttr} from '../dcl/attrs/comp/parseItems'
 import {clearCache as clearCacheCompGlue} from '../dcl/attrs/comp/extendByServiceAttrs'
 import {clearCache as clearCacheMultiPathParse} from '../utils/multiPath/parse'
@@ -33,6 +35,9 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
     self.__all_constrs = {}
     self.__global_skeleton = new globalSkeleton.GlobalSkeleton()
   }
+
+  self.RootConstr = RootConstr
+  // _root_constr
 
   self.hierarchy_num = RootConstr.hierarchy_counter++
 
@@ -95,6 +100,7 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
   if (Constr == RootConstr) {
     globalSkeleton.complete(self.__global_skeleton)
+    analyzeLinks(Constr, RootConstr)
     clearCaches()
   }
 
