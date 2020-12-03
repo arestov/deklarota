@@ -25,7 +25,7 @@ var parse = function(name, data) {
       return data[1] && new NestDcl(name, data[1])
     }
     case 'conj': {
-      return new NestCntDeclr(name, data[1])
+      return new NestCntDeclr(name, data)
     }
     case 'sel': {
       return new NestSelector(name, data[1])

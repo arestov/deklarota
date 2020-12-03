@@ -6,6 +6,7 @@ import splitComplexRel from '../glue_rels/splitComplexRel'
 import asString from '../../utils/multiPath/asString'
 import isRelAddr from '../../utils/multiPath/isRelAddr'
 import CompxAttrDecl from '../attrs/comp/item'
+import relShape from '../nests/relShape'
 
 var simpleAddrToUse = function(addr, string) {
   if (!addr) {
@@ -108,7 +109,7 @@ var useDesination = function(addr) {
 
 
 var NestCompxDcl = function(name, data) {
-  var fn = data[2]
+  var fn = typeof data[2] == 'function' ? data[2] : null
 
   this.calcFn = fn || same
 
@@ -121,6 +122,8 @@ var NestCompxDcl = function(name, data) {
 
   // for prefill
   this.raw_deps = Object.freeze(list)
+
+  this.rel_shape = relShape(typeof data[2] == 'function' ? data[3] : data[2])
 
 
   var prepared_to_run = list.map(useDesination)
