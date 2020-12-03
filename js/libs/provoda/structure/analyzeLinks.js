@@ -1,3 +1,4 @@
+import reportStaticUsage from '../dcl/attrs/comp/reportStaticUsage'
 import validateActionsDestinations from '../dcl/passes/validateActionsDestinations'
 
 const relink = (Constr, RootConstr) => {
@@ -15,6 +16,7 @@ const relink = (Constr, RootConstr) => {
     relink(all[prop], RootConstr)
   }
 
+  reportStaticUsage(RootConstr.prototype, self, self.__attrs_comp_to_be_serviced)
   validateActionsDestinations(RootConstr.prototype, self)
 
 }
