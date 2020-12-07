@@ -1,10 +1,75 @@
 import { getNestingConstr } from '../../structure/get_constr'
 
-const getRelConstr = (self, rel_name) => {
+const getRelDcl = (self, rel_name) => {
+  const storage = self._extendable_nest_index
+  return storage && storage[rel_name] && storage[rel_name].dcl
+}
+
+const getAddrBaseConstr = (self, from_base) => {
+  if (!from_base || !from_base.type) {
+    return self
+  }
+
+  switch (from_base.type) {
+    case 'root': {
+      return self.RootConstr.prototype
+    }
+    case 'parent': {
+      let count = from_base.steps
+      let result = self
+      while (count) {
+        result = result._parent_constr.prototype
+        count = count - 1
+      }
+      return result
+    }
+    default: {
+      throw new Error('unknown type ' + from_base.type)
+    }
+  }
+}
+
+const getAddrRelConstr = (base, rel) => {
+  let cur = base
+  for (var i = 0; i < rel.path.length; i++) {
+    const rel_name = rel.path[i]
+
+    cur = getRelConstr(cur, rel_name)
+    if (!cur) {
+      console.log('🤼‍♂️problem', rel.path, rel_name)
+      break
+    }
+  }
+
+  return cur
+}
+
+const getRelConstrByRef = (self, rel_name) => {
+  const dcl = getRelDcl(self, rel_name)
+  if (!dcl || !dcl.rel_shape || !dcl.rel_shape.ref) {
+    return
+  }
+
+  const ref = dcl.rel_shape.ref
+
+  var base = getAddrBaseConstr(self, ref.from_base)
+  return getAddrRelConstr(base, ref.nesting)
+
+}
+
+function getRelConstr(self, rel_name) {
   if (!self.RootConstr) {
     debugger
   }
-  var result = getNestingConstr(self.RootConstr.prototype, self, rel_name)
+
+  var by_ref = getRelConstrByRef(self, rel_name)
+  if (by_ref) {
+    return by_ref
+  }
+
+
+  const Constr = getNestingConstr(self.RootConstr.prototype, self, rel_name)
+  var result = Constr && Constr.prototype
   if (!result) {
     // find by ref rel addr
   }

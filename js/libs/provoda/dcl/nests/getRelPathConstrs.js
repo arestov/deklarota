@@ -9,11 +9,10 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
     const step = rel_path[i]
     for (let jj = 0; jj < list_to_check.length; jj++) {
       const item_to_check = list_to_check[jj]
-      const Constr = getRelConstr(item_to_check, step)
+      const proto = getRelConstr(item_to_check, step)
 
-      if (!Constr) {
+      if (!proto) {
         console.warn('🧶', 'cant find rel', step, rel_path, self.__code_path)
-
         if (soft_check) {
           continue
         }
@@ -22,7 +21,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
         // throw new Error('cant find rel')
       }
 
-      next_check.push(Constr.prototype)
+      next_check.push(proto)
 
     }
     const reuse = list_to_check
