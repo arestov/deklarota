@@ -2,6 +2,8 @@
 
 import spv from '../../spv'
 import pvState from '../utils/state'
+import getRelPath from './getRelPath'
+
 var getTargetField = spv.getTargetField
 var arrayExclude = spv.arrayExclude
 
@@ -9,6 +11,10 @@ var parent_count_regexp = /^\^+/gi
 
 export default function(view, con) {
   if (!view._lbr.hndTriggerTPLevents) {
+    const warn = (target_view, e, error) => {
+      console.warn(error, '\n', getRelPath(target_view), '\n', '\n', e.path, target_view.__code_path)
+    }
+
     view._lbr.hndTriggerTPLevents = function(e) {
       var cb_data = e.callback_data
 
@@ -83,9 +89,21 @@ export default function(view, con) {
       }
 
       if (!e.pv_repeat_context || args_list.length) {
-        target_view.tpl_events[fnName].apply(target_view, [e.event, e.node].concat(args_list))
+        var fn = target_view.tpl_events[fnName]
+        if (!fn) {
+          var error = new Error('cant find tpl_events item: ' + fnName)
+          warn(target_view, e.event, error)
+          throw error
+        }
+        fn.apply(target_view, [e.event, e.node].concat(args_list))
       } else {
-        target_view.tpl_r_events[e.pv_repeat_context][fnName].call(target_view, e.event, e.node, e.scope)
+        var fn = target_view.tpl_r_events[e.pv_repeat_context][fnName]
+        if (!fn) {
+          var error = new Error('cant find tpl_r_events item: ' + fnName)
+          warn(target_view, e.event, error)
+          throw error
+        }
+        fn.call(target_view, e.event, e.node, e.scope)
       }
 
     }
