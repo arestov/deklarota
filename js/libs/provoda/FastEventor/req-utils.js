@@ -107,7 +107,9 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
   var api_part = getApiPart(send_declr, sputnik)
 
   if (!network_api) {
-    throw new Error('network_api must present!')
+    const error = new Error('network_api must present!')
+    console.warn(error, send_declr, sputnik.hierarchy_path, sputnik.__code_path)
+    throw error
   }
 
 
