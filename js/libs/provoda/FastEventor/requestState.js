@@ -23,6 +23,8 @@ var withoutSelf = function(array, name) {
   return array
 }
 
+const NO_RESULT = 'no Result'
+
 
 function failed(err) {
   return Promise.reject(err)
@@ -77,7 +79,12 @@ function bindRequest(request, selected_map, store, self) {
           }
         }
 
-        resolve(failed(new Error(has_error || 'no Result')))
+        if (has_error) {
+          resolve(failed(new Error(has_error)))
+          return
+        }
+
+        resolve(failed(new Error(NO_RESULT)))
       })
     })
   }).then(self.sputnik.inputFn(function(response) {
@@ -91,7 +98,7 @@ function bindRequest(request, selected_map, store, self) {
 
     self.sputnik.input(anyway)
     self.sputnik.input(markAttemptComplete)
-    console.error(err)
+    console.warn(err)
   })
 
 
