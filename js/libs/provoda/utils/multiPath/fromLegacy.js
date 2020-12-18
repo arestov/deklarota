@@ -24,6 +24,17 @@ var createStateInfo = function(full_state_name, base_state_name) {
   if (!full_state_name) {
     return {}
   }
+
+
+  if (typeof full_state_name == 'object') {
+    // getPath case
+
+    return {
+      base: full_state_name.base_state_name,
+      path: splitByDot(full_state_name.full_name),
+    }
+  }
+
   return {
     base: base_state_name || splitByDot(full_state_name)[0],
     path: full_state_name,
