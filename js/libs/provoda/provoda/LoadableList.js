@@ -1,7 +1,6 @@
 
 import BrowseMap from './BrowseMap'
 import spv from '../../spv'
-import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 
 import pushToRoute from '../structure/pushToRoute'
@@ -21,14 +20,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     self.excess_data_items = null
     self.loaded_nestings_items = null
     self.loadable_lists = null
-
-    //self.loadable_lists[ self.main_list_name ] = [];
-
-    var has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name])
-    if (has_loader) {
-      _updateAttr(self, 'has_data_loader', true)
-    }
-  }
+  },
 }, {
   handling_v2_init: true,
   attrs: {
