@@ -5,21 +5,7 @@ import { defaultMetaAttrValues as defaultRelMetaAttrsValues } from './rel/define
 
 import { createFakeEtr, computeInitialAttrs, getComplexInitList } from '../updateProxy'
 
-export default function ensureInitialAttrs(self) {
-  if (self._fake_etr != null) {
-    return
-  }
-
-  var first_changes_list = []
-
-  for (var i = 0; i < self.__defined_attrs_bool.length; i++) {
-    var cur = self.__defined_attrs_bool[i]
-    if (cur.type != 'bool') {
-      continue
-    }
-    first_changes_list.push(cur.name, false)
-  }
-
+const fillExternalDeps = (self, first_changes_list) => {
   if (self._extendable_nest_index) {
     var rels = self._extendable_nest_index
     for (var rel_name in rels) {
@@ -45,9 +31,25 @@ export default function ensureInitialAttrs(self) {
       first_changes_list.push(asString(cur), emptyArray)
     }
   }
+}
+
+export default function ensureInitialAttrs(self) {
+  if (self._fake_etr != null) {
+    return
+  }
+
+  var first_changes_list = []
+
+  for (var i = 0; i < self.__defined_attrs_bool.length; i++) {
+    var cur = self.__defined_attrs_bool[i]
+    if (cur.type != 'bool') {
+      continue
+    }
+    first_changes_list.push(cur.name, false)
+  }
 
 
-
+  fillExternalDeps(self, first_changes_list)
 
   var default_attrs = initInputAttrs(self)
   for (var attr_name in default_attrs) {
