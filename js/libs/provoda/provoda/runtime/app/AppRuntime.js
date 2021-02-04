@@ -39,6 +39,9 @@ function AppRuntime(optionsRaw) {
   this.env = options.env || null
 
   this.warn_unexpected_attrs = Boolean(options.warnUnexpectedAttrs)
+
+  this.relation_mocks = options.relation_mocks
+  this.no_effects = Boolean(this.relation_mocks)
 }
 
 AppRuntime.prototype.start = function(options) {

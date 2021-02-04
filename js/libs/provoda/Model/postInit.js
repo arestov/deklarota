@@ -7,9 +7,12 @@ import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
 import __handleInit from '../dcl/passes/handleInit/handle'
 import ensureInitialAttrs from './ensureInitialAttrs'
+import mockRelations from './mockRelations'
 
 import _updateAttr from '../_internal/_updateAttr'
 var initWatchList = nestWIndex.initList
+
+const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
 
 function connectStates(self) {
@@ -17,6 +20,11 @@ function connectStates(self) {
   ensureInitialAttrs(self)
 
   self.__initStates()
+
+  if (!is_prod && self._highway.relation_mocks) {
+    mockRelations(self)
+    return
+  }
 
   prsStCon.connect.parent(self, self)
   prsStCon.connect.root(self, self)
