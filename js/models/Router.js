@@ -220,7 +220,9 @@ export default spv.inh(BasicRouter, {
 
 
 function initMapTree(target, start_page, needs_url_history, navi) {
-  target.useInterface('navi', needs_url_history && navi)
+  if (navi) {
+    target.useInterface('navi', needs_url_history && navi)
+  }
   _updateRel(target, 'navigation', [])
   _updateRel(target, 'start_page', start_page)
 
