@@ -44,6 +44,15 @@ add({
 
   // 	return this;
   // },
+  watchInterface: function(from, interface_name, fn) {
+    var meta_state_name = '$meta$apis$' + interface_name + '$used'
+    this.lwch(from, meta_state_name, fn)
+  },
+  unwatchInterface: function(from, interface_name, fn) {
+    var meta_state_name = '$meta$apis$' + interface_name + '$used'
+    this.removeLwch(from, meta_state_name, fn)
+
+  },
   useInterface: function(interface_name, obj, destroy) {
     useInterface(this, interface_name, obj, destroy)
   },
