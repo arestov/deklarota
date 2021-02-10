@@ -4,10 +4,10 @@ import updateProxy from './updateProxy'
 import Eventor from './Eventor'
 import useInterface from './StatesEmitter/useInterface'
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
+import attr_events from './StatesEmitter/attr_events'
 import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
 import regfr_lightstev from './internal_events/light_attr_change/regfire'
 import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
-import subscribeToDie from './internal_events/die/subscribe'
 import _updateAttr from './_internal/_updateAttr'
 import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
@@ -30,13 +30,12 @@ var EvConxOpts = function(context, immediately) {
   Object.freeze(this)
 }
 
+add(attr_events)
+
 add({
   __act: act,
   dispatch: function(action_name, data) {
     this._calls_flow.pushToFlow(act, this, [this, action_name, data])
-  },
-  onDie: function(cb) {
-    subscribeToDie(this, cb)
   },
   // init: function(){
   // 	this._super();
@@ -75,29 +74,7 @@ add({
     }
     return this.conx_opts
   },
-  _bindLight: function(donor, state_name, cb) {
-    var event_name = utils_simple.getSTEVNameLight(state_name)
-    donor.evcompanion._addEventHandler(event_name, cb, this)
 
-    if (this == donor || !(this instanceof StatesEmitter)) {
-      return
-    }
-
-    this.onDie(function() {
-      if (!donor) {
-        return
-      }
-      this.removeLwch(donor, state_name, cb)
-      donor = null
-      cb = null
-    })
-  },
-  lwch: function(donor, donor_state, func) {
-    this._bindLight(donor, donor_state, func)
-  },
-  removeLwch: function(donor, donor_state, func) {
-    donor.evcompanion.off(utils_simple.getSTEVNameLight(donor_state), func, false, this)
-  },
 
   wlch: function(donor, donor_state, acceptor_state_name) {
     var cb = getLightConnector(acceptor_state_name, donor_state)
