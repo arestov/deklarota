@@ -28,25 +28,26 @@ var disconnectRootApis = function(self, list) {
   }
 }
 
-function needsSelf(self) {
-  if (self.__apis_$__needs_self == true) {
+function needsSelf(rt_schema) {
+  if (rt_schema.__apis_$__needs_self == true) {
     return true
   }
 
-  return self.__api_effects_$_index_by_apis && self.__api_effects_$_index_by_apis['self']
+  return rt_schema.__api_effects_$_index_by_apis && rt_schema.__api_effects_$_index_by_apis['self']
 }
 
 export const dispose = function(self) {
-  disconnectRootApis(self, self.__apis_$__needs_root_apis)
-  disconnectRootApis(self, self.__api_root_dep_apis)
-  disconnectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
+  const rt_schema = self.rt_schema
+  disconnectRootApis(self, rt_schema.__apis_$__needs_root_apis)
+  disconnectRootApis(self, rt_schema.__api_root_dep_apis)
+  disconnectRootApis(self, rt_schema.__api_root_dep_apis_subscribe_eff)
 
-  if (self.__apis_$_index) {
-    for (var name in self.__apis_$_index) {
-      if (!self.__apis_$_index.hasOwnProperty(name)) {
+  if (rt_schema.__apis_$_index) {
+    for (var name in rt_schema.__apis_$_index) {
+      if (!rt_schema.__apis_$_index.hasOwnProperty(name)) {
         continue
       }
-      var declr = self.__apis_$_index[name]
+      var declr = rt_schema.__apis_$_index[name]
 
       self.useInterface(declr.name, null, declr.destroy)
     }
@@ -68,16 +69,18 @@ export default function(self, apis_as_arg) {
     }
   }
 
-  if (self.__apis_$_usual && self.__apis_$_usual.length) {
-    for (var i = 0; i < self.__apis_$_usual.length; i++) {
-      var cur = self.__apis_$_usual[i]
+  const rt_schema = self.rt_schema
+
+  if (rt_schema.__apis_$_usual && rt_schema.__apis_$_usual.length) {
+    for (var i = 0; i < rt_schema.__apis_$_usual.length; i++) {
+      var cur = rt_schema.__apis_$_usual[i]
       self.useInterface(cur.name, cur.fn())
     }
   }
 
-  connectRootApis(self, self.__apis_$__needs_root_apis)
-  connectRootApis(self, self.__api_root_dep_apis)
-  connectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
+  connectRootApis(self, rt_schema.__apis_$__needs_root_apis)
+  connectRootApis(self, rt_schema.__api_root_dep_apis)
+  connectRootApis(self, rt_schema.__api_root_dep_apis_subscribe_eff)
 
   if (needsSelf(self)) {
     self.useInterface('self', self)

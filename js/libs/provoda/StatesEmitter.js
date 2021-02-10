@@ -195,6 +195,7 @@ var StatesEmitter = spv.inh(Eventor, {
     }
   },
   init: function(self) {
+    self.rt_schema = self
     self.conx_optsi = null
     self.conx_opts = null
     self.current_motivator = self.current_motivator || null
