@@ -14,8 +14,7 @@ var connectRootApis = function(self, list) {
   }
   for (var i = 0; i < list.length; i++) {
     var cur = list[i]
-    var meta_state_name = '$meta$apis$' + cur + '$used'
-    self.lwch(self.getStrucRoot(), meta_state_name, updateRootInterface(cur))
+    self.watchInterface(self.getStrucRoot(), cur, updateRootInterface(cur))
   }
 }
 
@@ -25,8 +24,7 @@ var disconnectRootApis = function(self, list) {
   }
   for (var i = 0; i < list.length; i++) {
     var cur = list[i]
-    var meta_state_name = '$meta$apis$' + cur + '$used'
-    self.removeLwch(self.getStrucRoot(), meta_state_name, updateRootInterface(cur))
+    self.unwatchInterface(self.getStrucRoot(), cur, updateRootInterface(cur))
   }
 }
 
