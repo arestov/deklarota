@@ -2,7 +2,7 @@ import spv from '../spv'
 import utils_simple from './utils/simple'
 import updateProxy from './updateProxy'
 import Eventor from './Eventor'
-import useInterface from './StatesEmitter/useInterface'
+import useInterface, { __reportInterfaceChange, __updateInteraceState } from './StatesEmitter/useInterface'
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
 import attr_events from './StatesEmitter/attr_events'
 import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
@@ -55,6 +55,8 @@ add({
     this.removeLwch(from, meta_state_name, fn)
 
   },
+  __updateInteraceState: __updateInteraceState,
+  __reportInterfaceChange: __reportInterfaceChange,
   useInterface: function(interface_name, obj, destroy) {
     useInterface(this, interface_name, obj, destroy)
   },
