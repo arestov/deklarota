@@ -349,7 +349,8 @@ function scheduleTransactionEnd(self) {
   var calls_flow = self._getCallsFlow()
 
   var tid = getCurrentTransactionId(self)
-  var key = agendaKey(self, getCurrentTransactionKey(self))
+  const transaction_key = getCurrentTransactionKey(self)
+  var key = agendaKey(self, transaction_key)
 
   if (!self._highway.__produce_side_effects_schedule.has(key)) {
     return
@@ -358,12 +359,14 @@ function scheduleTransactionEnd(self) {
   calls_flow.scheduleTransactionEnd(
     tid ? tid : Infinity,
     null,
-    [self, key],
+    [self, transaction_key],
     handleTransactionEnd
   )
 }
 
-function handleTransactionEnd(self, key) {
+function handleTransactionEnd(self, transaction_key) {
+  var key = agendaKey(self, transaction_key)
+
   if (!self._highway.__produce_side_effects_schedule.has(key)) {
     return
   }
