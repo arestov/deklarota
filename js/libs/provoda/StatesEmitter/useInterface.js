@@ -22,7 +22,12 @@ var template = function() {
   }
 }
 
-var update = function(self, interface_name, value) {
+export function __reportInterfaceChange(interface_name, value) {
+  this.__updateInteraceState(this, interface_name, value)
+}
+
+
+export function __updateInteraceState(self, interface_name, value) {
   var name_for_used_legacy = '_api_used_' + interface_name
   var name_for_used_modern = '$meta$apis$' + interface_name + '$used'
 
@@ -58,7 +63,7 @@ var useInterface = function(self, interface_name, obj, destroy) {
   }
 
   if (!obj) {
-    update(self, interface_name, false)
+    self.__reportInterfaceChange(interface_name, false)
     return
   }
 
@@ -67,7 +72,7 @@ var useInterface = function(self, interface_name, obj, destroy) {
   using = runOnApiAdded(self, using, interface_name, values_original2)
   self._interfaces_using = using
 
-  update(self, interface_name, Date.now())
+  self.__reportInterfaceChange(interface_name, Date.now())
 
 }
 
