@@ -168,7 +168,8 @@ function checkDependencies(selected_map, store, self) {
 }
 
 function compxUsed(self, cur) {
-  var compx = self.sputnik.compx_check[cur]
+  const rt_schema = self.sputnik.rt_schema
+  var compx = rt_schema.compx_check[cur]
   if (!compx) {
     return null
   }
@@ -182,6 +183,7 @@ function compxUsed(self, cur) {
 }
 
 function requestDependencies(self, dependencies, soft) {
+  const rt_schema = self.sputnik.rt_schema
   var reqs_list = []
   for (var i = 0; i < dependencies.length; i++) {
     var cur = dependencies[i]
@@ -192,7 +194,7 @@ function requestDependencies(self, dependencies, soft) {
     }
 
     if (soft) {
-      var maps_for_state = self.sputnik._states_reqs_index && self.sputnik._states_reqs_index[cur]
+      var maps_for_state = rt_schema._states_reqs_index && rt_schema._states_reqs_index[cur]
       if (!maps_for_state) {
         continue
       }
@@ -221,7 +223,8 @@ function makeLoadingMarks(suffix, states_list, value, result) {
 }
 
 function resetRequestedState(state_name) {
-  var maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name]
+  const rt_schema = this.sputnik.rt_schema
+  var maps_for_state = rt_schema._states_reqs_index && rt_schema._states_reqs_index[state_name]
   if (!maps_for_state) {
     console.warn('cant reset requested state:', state_name, 'but tried. should not try without dcl')
   }
@@ -263,7 +266,9 @@ var requestState = function(state_name) {
   }
 
   var i, cur
-  var maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name]
+  const rt_schema = this.sputnik.rt_schema
+
+  var maps_for_state = rt_schema._states_reqs_index && rt_schema._states_reqs_index[state_name]
   if (!maps_for_state) {
     console.warn('cant request state:', state_name, 'but tried. should not try without dcl')
   }
