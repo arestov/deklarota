@@ -1,5 +1,3 @@
-
-import pvState from '../utils/state'
 import spv from '../../spv'
 var countKeys = spv.countKeys
 var CH_GR_LE = 2
@@ -91,7 +89,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
 function prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect) {
   for (var i = 0; i < effect.triggering_states.length; i++) {
     var state_name = effect.triggering_states[i]
-    scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, pvState(self, state_name), true)
+    scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, self.getAttr(state_name), true)
 
   }
 }
@@ -193,7 +191,7 @@ function getValue(self, agenda, state_name) {
     return agenda.next_values[state_name]
   }
 
-  return pvState(self, state_name)
+  return self.getAttr(self, state_name)
 }
 
 function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) {
