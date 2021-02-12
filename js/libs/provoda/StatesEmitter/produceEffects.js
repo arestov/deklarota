@@ -3,7 +3,8 @@ var countKeys = spv.countKeys
 var CH_GR_LE = 2
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
-  var index = self.__api_effects_$_index
+  const rt_schema = self.rt_schema
+  var index = rt_schema.__api_effects_$_index
 
   for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
     var state_name = changes_list[i]
@@ -62,7 +63,8 @@ function scheduleEffect(self, initial_transaction_id, total_original_states, eff
 }
 
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
-  var index = self.__api_effects_$_index_by_triggering
+  const rt_schema = self.rt_schema
+  var index = rt_schema.__api_effects_$_index_by_triggering
   var using = self._effects_using
 
   for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
@@ -95,8 +97,9 @@ function prefillAgenda(self, initial_transaction_id, total_original_states, effe
 }
 
 function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states) {
+  const rt_schema = self.rt_schema
   var using = self._effects_using
-  var effects = self.__api_effects
+  var effects = rt_schema.__api_effects
 
   // маркировать готовые
   /*
@@ -214,8 +217,8 @@ function executeEffect(self, effect_name, transaction_id) {
   }
 
 
-
-  var effect = self.__api_effects[effect_name]
+  const rt_schema = self.rt_schema
+  var effect = rt_schema.__api_effects[effect_name]
 
   var args = new Array(effect.apis.length + effect.triggering_states.length)
   for (var i = 0; i < effect.apis.length; i++) {
@@ -257,7 +260,8 @@ function checkExecuteMutateEffects(initial_transaction_id, self) {
 }
 
 function iterateEffects(initial_transaction_id, changes_list, total_original_states, self) {
-  if (!self.__api_effects_$_index) {
+  const rt_schema = self.rt_schema
+  if (!rt_schema.__api_effects_$_index) {
     return
   }
 
@@ -311,7 +315,8 @@ function checkApi(declr, value, self) {
 
 function iterateApis(changes_list, context) {
   //index by uniq
-  var index = context.__apis_$_index
+  const rt_schema = context.rt_schema
+  var index = rt_schema.__apis_$_index
   if (!index) {
     return
   }

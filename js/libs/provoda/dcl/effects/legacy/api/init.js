@@ -82,7 +82,7 @@ export default function(self, apis_as_arg) {
   connectRootApis(self, rt_schema.__api_root_dep_apis)
   connectRootApis(self, rt_schema.__api_root_dep_apis_subscribe_eff)
 
-  if (needsSelf(self)) {
+  if (needsSelf(rt_schema)) {
     self.useInterface('self', self)
   }
 }
