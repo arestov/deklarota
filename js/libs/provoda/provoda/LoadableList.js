@@ -112,8 +112,12 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     return (this.loaded_nestings_items && this.loaded_nestings_items[ nesting_name ]) || 0
   },
 
-  loadStart: function() {
-    if (this.state('more_load_available') && !this.getLength(this.main_list_name)) {
+  loadStart: function(nesting_name) {
+    if (!nesting_name) {
+      throw new Error('rel name should be provided')
+    }
+
+    if (this.state('more_load_available') && !this.getLength(nesting_name)) {
       this.requestMoreData()
     }
   },
@@ -122,7 +126,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     if (!nesting_name) {
       throw new Error('rel name should be provided')
     }
-    nesting_name = nesting_name || this.main_list_name
+
     if (this._nest_reqs && this._nest_reqs[nesting_name]) {
       this.requestNesting(this._nest_reqs[nesting_name], nesting_name)
     }
@@ -158,8 +162,11 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     return items_list
   },
 
-  getRelativeRequestsGroups: function(space) {
-    var main_models = this.getNesting(this.main_list_name)
+  getRelativeRequestsGroups: function(space, rel_name) {
+    if (!rel_name) {
+      throw new Error('rel name should be provided')
+    }
+    var main_models = this.getNesting(rel_name)
     if (!main_models || !main_models.length) {
       return
     } else {
@@ -180,18 +187,21 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  dataListChange: function(mlc_opts, items, nesting_name) {
-    nesting_name = nesting_name || this.main_list_name
-    var array = this.loadable_lists && this.loadable_lists[nesting_name]
+  dataListChange: function(mlc_opts, items, rel_name) {
+    if (!rel_name) {
+      throw new Error('rel name should be provided')
+    }
+
+    var array = this.loadable_lists && this.loadable_lists[rel_name]
     if (this.beforeReportChange) {
 
       array = this.beforeReportChange(array, items)
       if (!this.loadable_lists) {
         this.loadable_lists = {}
       }
-      this.loadable_lists[nesting_name] = array
+      this.loadable_lists[rel_name] = array
     }
-    _updateRel(this, nesting_name, array, mlc_opts)
+    _updateRel(this, rel_name, array, mlc_opts)
   },
 
   compareItemWithObj: function(item, data) {
@@ -222,7 +232,10 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   addDataItem: function(obj, skip_changes, nesting_name, item_params) {
-    nesting_name = nesting_name || this.main_list_name
+    if (!nesting_name) {
+      throw new Error('rel name should be provided')
+    }
+
     if (!this.loadable_lists) {
       this.loadable_lists = {}
     }
@@ -277,6 +290,8 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   getMainlist: function() {
+    throw new Error('getMainlist is depricated')
+
     if (!this.loadable_lists) {
       this.loadable_lists = {}
     }
@@ -320,14 +335,20 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   findMustBePresentDataItem: function(obj, nesting_name) {
-    nesting_name = nesting_name || this.main_list_name
+    if (!nesting_name) {
+      throw new Error('rel name should be provided')
+    }
+
     var list = this.getNesting(nesting_name)
     var matched = list && this.compareItemsWithObj(this.getNesting(nesting_name), obj)
     return matched || this.injectExcessDataItem(obj, nesting_name)
   },
 
   injectExcessDataItem: function(obj, nesting_name) {
-    nesting_name = nesting_name || this.main_list_name
+    if (!nesting_name) {
+      throw new Error('rel name should be provided')
+    }
+
     if (this.isDataInjValid && !this.isDataInjValid(obj)) {
       return
     }
