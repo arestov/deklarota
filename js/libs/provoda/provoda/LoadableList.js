@@ -119,6 +119,9 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   requestMoreData: function(nesting_name) {
+    if (!nesting_name) {
+      throw new Error('rel name should be provided')
+    }
     nesting_name = nesting_name || this.main_list_name
     if (this._nest_reqs && this._nest_reqs[nesting_name]) {
       this.requestNesting(this._nest_reqs[nesting_name], nesting_name)
