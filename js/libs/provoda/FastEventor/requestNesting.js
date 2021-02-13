@@ -122,12 +122,6 @@ export default function(dclt, nesting_name, limit) {
   var parse_items = dclt.parse_items
   var parse_serv = dclt.parse_serv
   var side_data_parsers = dclt.side_data_parsers
-  var send_declr = dclt.send_declr
-
-  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
-    console.warn(new Error('api not ready yet'), send_declr)
-    return
-  }
 
   var supports_paging = !!parse_serv
   var limit_value = limit && (limit[1] - limit[0])
@@ -142,6 +136,12 @@ export default function(dclt, nesting_name, limit) {
   }
 
 
+  var send_declr = dclt.send_declr
+
+  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
+    console.warn(new Error('api not ready yet'), send_declr)
+    return
+  }
 
 
   var request = getRequestByDeclr(send_declr, this.sputnik,
