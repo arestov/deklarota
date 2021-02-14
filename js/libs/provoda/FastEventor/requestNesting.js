@@ -148,7 +148,7 @@ export default function(dclt, nesting_name, limit) {
     {has_error: store.error, paging: paging_opts},
     network_api_opts)
   var network_api = request.network_api
-  var source_name = network_api.source_name
+  var source_name = request.source_name
 
   store.process = true
   store.req = request

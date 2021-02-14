@@ -164,6 +164,7 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
 
   var result_request = checkRequest(request)
   result_request.network_api = network_api
+  result_request.source_name = network_api.source_name
   if (cache_key) {
     requests_by_declarations[cache_key] = result_request
     result_request.then(anyway, anyway)
