@@ -1,5 +1,3 @@
-
-import batching from './batching'
 import req_utils from './req-utils'
 import types from './nestReqTypes'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
@@ -7,8 +5,6 @@ import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 var getRequestByDeclr = req_utils.getRequestByDeclr
 var findErrorByList = req_utils.findErrorByList
 
-var releaseBatch = batching.releaseBatch
-var batch = batching.batch
 
 var clean_obj = {}
 
@@ -181,18 +177,6 @@ export default function(dclt, nesting_name, limit) {
 
   }
 
-  var initiator = _this.sputnik.current_motivator
-  var release
-  if (initiator) {
-    var num = initiator.num
-    batch(_this.sputnik, num)
-
-    release = function() {
-      releaseBatch(this, num)
-    }
-    release.init_end = true
-  }
-
   /*
     postfixes:
 
@@ -226,9 +210,6 @@ export default function(dclt, nesting_name, limit) {
 
 
   request.then(function(response) {
-    if (release) {
-      _this.sputnik.nextTick(release, null, false, initiator)
-    }
     if (!isValidRequest(request)) {
       return
     }
@@ -250,9 +231,6 @@ export default function(dclt, nesting_name, limit) {
     })
 
   }, function() {
-    if (release) {
-      _this.sputnik.nextTick(release, null, false, initiator)
-    }
     if (!isValidRequest(request)) {
       return
     }

@@ -50,6 +50,10 @@ function SendDeclaration(declr) {
     this.ids_declr.fn_body = this.ids_declr.req.toString()
   }
 
+  if (this.ids_declr) {
+    throw new Error('batching using ids_declr depricated')
+  }
+
   this.getArgs = declr[2]
   this.non_standart_api_opts = declr[3]
 }
