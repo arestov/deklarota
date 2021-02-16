@@ -70,6 +70,44 @@ function statesQueue(states, nesting_name, mark) {
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 
+function startFetching(self, nesting_name, paging_opts, has_error, network_api_opts) {
+  const dclt = self._nest_reqs[nesting_name]
+  const send_declr = dclt.send_declr
+
+  if (!getNetApiByDeclr(send_declr, self)) {
+    console.warn(new Error('api not ready yet'), send_declr)
+    return
+  }
+
+  var request = getRequestByDeclr(send_declr, self,
+    {has_error: has_error, paging: paging_opts},
+    network_api_opts)
+
+  var network_api = request.network_api
+  var source_name = request.source_name
+
+  request.then(function(response) {
+    var has_error = detectError(response)
+    if (has_error) {
+      return [has_error, response, source_name]
+    }
+
+    return [false, response, source_name]
+  })
+
+
+  function detectError(resp) {
+    var has_error = network_api.errors_fields
+      ? findErrorByList(resp, network_api.errors_fields)
+      : network_api.checkResponse(resp)
+
+    return has_error
+  }
+
+
+  return request
+}
+
 export default function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -140,11 +178,8 @@ export default function(dclt, nesting_name, limit) {
   }
 
 
-  var request = getRequestByDeclr(send_declr, this.sputnik,
-    {has_error: store.error, paging: paging_opts},
-    network_api_opts)
-  var network_api = request.network_api
-  var source_name = request.source_name
+  const request = startFetching(_this.sputnik, nesting_name, paging_opts, store.error, network_api_opts)
+
 
   store.process = true
   store.req = request
@@ -204,14 +239,6 @@ export default function(dclt, nesting_name, limit) {
   }
 
   request
-  .then(function(response) {
-    var has_error = detectError(response)
-    if (has_error) {
-      return [has_error, response, source_name]
-    }
-
-    return [false, response, source_name]
-  })
   .then(function(wrapped_response) {
     const [has_error, response, source_name] = wrapped_response
 
@@ -243,14 +270,6 @@ export default function(dclt, nesting_name, limit) {
 
 
   })
-
-  function detectError(resp) {
-    var has_error = network_api.errors_fields
-      ? findErrorByList(resp, network_api.errors_fields)
-      : network_api.checkResponse(resp)
-
-    return has_error
-  }
 
   function handleNestResponse(r, source_name, markListIncomplete) {
     // should be in data bus queue - use `.input` wrap
