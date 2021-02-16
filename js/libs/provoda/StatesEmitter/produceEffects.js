@@ -1,6 +1,59 @@
 import spv from '../../spv'
+import replaceModelInState, {hasId} from '../model/replaceModelInState'
+
 var countKeys = spv.countKeys
 var CH_GR_LE = 2
+
+function needsReplace(value) {
+  if (!value) {return false}
+
+  if (!Array.isArray(value)) {
+    return hasId(value)
+  }
+
+  return value.some(hasId)
+}
+
+function replaceChanges(changes_list) {
+  const result = new Array(changes_list.length)
+  for (var i = 0; i < result.length; i += CH_GR_LE) {
+    result[i] = changes_list[i]
+
+    result[i + 1] = replaceModelInState(changes_list[i + 1])
+  }
+
+  return result
+}
+
+function checkPv(changes_list) {
+  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    const attr = changes_list[i ]
+    const value = changes_list[i + 1]
+
+    if (attr == '_provoda_id' && !value) {
+      debugger
+    }
+  }
+
+  return changes_list
+}
+
+function changesToSend(changes_list) {
+  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+
+    const value = changes_list[i + 1]
+
+    if (needsReplace(value)) {
+      return replaceChanges(changes_list)
+    }
+  }
+
+  return changes_list
+}
+
+function originalAttrsToSend(total) {
+  return total
+}
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
   const rt_schema = self.rt_schema
@@ -331,13 +384,70 @@ function iterateApis(changes_list, context) {
   }
 }
 
-
-export default function(total_ch, total_original_states, self) {
+export const makeTasks = (self, initial_transaction_id, total_ch, total_original_states) => {
+  // schedule draft tasks
   iterateApis(total_ch, self)
+  iterateEffects(initial_transaction_id, total_ch, total_original_states, self)
+}
+
+const makeDraftTasks = (total_ch, total_original_states, self) => {
   const initial_transaction_id = getCurrentTransactionKey(self)
 
-  iterateEffects(initial_transaction_id, total_ch, total_original_states, self)
-  scheduleTransactionEnd(self, initial_transaction_id)
+  if (!self._highway.calcSeparator) {
+    makeTasks(self, initial_transaction_id, total_ch, total_original_states)
+    return
+  }
+
+  self._highway.calcSeparator.sendChanges(
+    self,
+    initial_transaction_id,
+    checkPv(changesToSend(total_ch)),
+    originalAttrsToSend(total_original_states)
+  )
+
+}
+
+const sendTransactionEnd = (self, transaction_key) => {
+  self._highway.calcSeparator.sendTransactionEnd(
+    self,
+    transaction_key
+  )
+}
+
+const scheduleTaksExecution = (self) => {
+  const initial_transaction_id = getCurrentTransactionKey(self)
+
+
+  if (!self._highway.calcSeparator) {
+    // wait actions/attrs-devlivering be complete
+
+    scheduleTransactionEnd(self, initial_transaction_id)
+    return
+  }
+
+  var calls_flow = self._getCallsFlow()
+
+  var tid = getCurrentTransactionId(self)
+  const transaction_key = initial_transaction_id
+
+  calls_flow.scheduleTransactionEnd(
+    tid ? tid : Infinity,
+    null,
+    [self, transaction_key],
+    sendTransactionEnd
+  )
+  return
+
+
+}
+
+
+export default function(total_ch, total_original_states, self) {
+  // create tasks
+  makeDraftTasks(total_ch, total_original_states, self)
+
+  // exec tasks
+  scheduleTaksExecution(self)
 }
 
 function scheduleTransactionEnd(self, transaction_key) {
@@ -358,11 +468,11 @@ function scheduleTransactionEnd(self, transaction_key) {
     tid ? tid : Infinity,
     null,
     [self, transaction_key],
-    handleTransactionEnd
+    runScheduledEffects
   )
 }
 
-function handleTransactionEnd(self, transaction_key) {
+export function runScheduledEffects(self, transaction_key) {
   var key = agendaKey(self, transaction_key)
 
   if (!self._highway.__produce_side_effects_schedule.has(key)) {

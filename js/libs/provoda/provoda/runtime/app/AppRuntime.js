@@ -16,6 +16,8 @@ function AppRuntime(optionsRaw) {
     onError: options.onError,
   })
 
+  this.calcSeparator = options.calcSeparator || null
+
   this.models_counters = 1
   this.models = {}
   this.calls_flow = flow

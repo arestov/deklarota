@@ -1,14 +1,11 @@
-
-import pvState from '../../provoda/state'
-import getNesting from '../../provoda/getNesting'
 import zip_fns from '../zip/multipath-as-dep'
 
 var readState = function(md, multi_path) {
-  return pvState(md, multi_path.state.path)
+  return md.getAttr(multi_path.state.path)
 }
 
 var readNesting = function(md, multi_path) {
-  return getNesting(md, multi_path.nesting.target_nest_name)
+  return md.getNesting(multi_path.nesting.target_nest_name)
 }
 
 var getOne = function(items) {

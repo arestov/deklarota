@@ -58,6 +58,10 @@ add({
   __updateInteraceState: __updateInteraceState,
   __reportInterfaceChange: __reportInterfaceChange,
   useInterface: function(interface_name, obj, destroy) {
+    if (this._highway.calcSeparator) {
+      throw new Error('dont call useInterface')
+    }
+
     useInterface(this, interface_name, obj, destroy)
   },
   'regfr-lightstev': regfr_lightstev,

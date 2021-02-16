@@ -1,6 +1,6 @@
 
 
-var hasId = function(value) {
+export const hasId = function(value) {
   return value && value._provoda_id
 }
 

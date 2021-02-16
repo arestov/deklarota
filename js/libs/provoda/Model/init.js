@@ -80,6 +80,10 @@ export default function initModel(self, opts, data, params, more, states) {
   self._provoda_id = self._highway.models_counters++
   self._highway.models[self._provoda_id] = self
 
+  if (self._highway.calcSeparator) {
+    self._highway.calcSeparator.initModel(self)
+  }
+
   //self.states = {};
 
   self.children_models = null

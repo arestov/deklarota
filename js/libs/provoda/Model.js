@@ -373,6 +373,10 @@ add({
   }
 })
 
+const getRel = function(rel_name) {
+  return this.children_models && this.children_models[rel_name]
+}
+
 add({
   getRelativeRequestsGroups: function(space, only_models) {
     var all_models = []
@@ -404,9 +408,8 @@ add({
       return groups
     }
   },
-  getNesting: function(collection_name) {
-    return this.children_models && this.children_models[collection_name]
-  },
+  getRel: getRel,
+  getNesting: getRel,
 
   updateNesting: function(collection_name, array, opts, spec_data) {
     gentlyUpdateNesting(this, collection_name, array, opts, spec_data)

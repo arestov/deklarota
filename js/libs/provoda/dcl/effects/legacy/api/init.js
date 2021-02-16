@@ -1,5 +1,6 @@
 
 import spv from '../../../../../spv'
+
 var updateRootInterface = spv.memorize(function(name) {
   return function(val) {
     var interface_instance = val
@@ -62,6 +63,13 @@ export const dispose = function(self) {
 }
 
 export default function(self, apis_as_arg) {
+
+  if (self._highway.calcSeparator) {
+    if (apis_as_arg) {
+      console.warn('dont pass apis when calcSeparator mode enabled')
+    }
+    return
+  }
 
   if (apis_as_arg) {
     for (var name in apis_as_arg) {
