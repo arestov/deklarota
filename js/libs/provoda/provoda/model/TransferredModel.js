@@ -10,6 +10,7 @@ import hndMotivationWrappper from '../../helpers/hndMotivationWrappper'
 import getDepValue from '../../utils/multiPath/getDepValue'
 import parseAddr from '../../utils/multiPath/parse'
 import addrFromObj from '../dcl/addr.js'
+import { startFetching } from '../../FastEventor/requestNesting'
 
 
 var getParsedAddr = function(addr) {
@@ -205,9 +206,15 @@ function collectProps(add) {
     },
   })
 
+  add({
+    requestMoreData: function(rel_name) {
+      this.sendCall('requestMoreData', rel_name)
+    }
+  })
+
 }
 
 
 
 export default TransferredModel
-export { initApis, makeTasks, runScheduledEffects }
+export { initApis, makeTasks, runScheduledEffects, startFetching }
