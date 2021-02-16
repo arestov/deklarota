@@ -70,8 +70,8 @@ function statesQueue(states, nesting_name, mark) {
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 
-function startFetching(self, nesting_name, paging_opts, has_error, network_api_opts) {
-  const dclt = self._nest_reqs[nesting_name]
+export function startFetching(self, nesting_name, paging_opts, has_error, network_api_opts) {
+  const dclt = self.rt_schema._nest_reqs[nesting_name]
   const send_declr = dclt.send_declr
 
   if (!getNetApiByDeclr(send_declr, self)) {
@@ -110,7 +110,13 @@ function startFetching(self, nesting_name, paging_opts, has_error, network_api_o
 
 function initRequest(self, nesting_name, paging_opts, has_error, network_api_opts) {
   // check context isolation
-  return startFetching(self, nesting_name, paging_opts, has_error, network_api_opts)
+  if (!self._highway.calcSeparator) {
+    return startFetching(self, nesting_name, paging_opts, has_error, network_api_opts)
+  }
+
+  return self._highway.calcSeparator.startRelFetching(
+    self, nesting_name, paging_opts, has_error, network_api_opts
+  )
 }
 
 export default function(dclt, nesting_name, limit) {
@@ -173,15 +179,6 @@ export default function(dclt, nesting_name, limit) {
   if (supports_paging) {
     network_api_opts.paging = paging_opts
   }
-
-
-  var send_declr = dclt.send_declr
-
-  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
-    console.warn(new Error('api not ready yet'), send_declr)
-    return
-  }
-
 
   const request = initRequest(_this.sputnik, nesting_name, paging_opts, store.error, network_api_opts)
 
