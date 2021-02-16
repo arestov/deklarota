@@ -102,7 +102,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   preloadStart: function() {
-    this.loadStart()
+    this.loadStart(this.__getLoadableRel())
   },
 
   getLength: function(nesting_name) {
@@ -161,8 +161,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     target.dataListChange(mlc_opts, items_list, nesting_name)
     return items_list
   },
-
-  getRelativeRequestsGroups: function(space) {
+  __getLoadableRel: function() {
     var rel_name
     for (rel_name in this._nest_reqs) {
       if (!this._nest_reqs.hasOwnProperty(rel_name)) {
@@ -172,6 +171,10 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
 
       break
     }
+    return rel_name
+  },
+  getRelativeRequestsGroups: function(space) {
+    const rel_name = this.__getLoadableRel()
     if (!rel_name) {
       return
     }
