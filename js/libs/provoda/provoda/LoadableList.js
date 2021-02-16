@@ -102,7 +102,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   preloadStart: function() {
-    this.loadStart()
+    this.loadStart(this.main_list_name)
   },
 
   getLength: function(nesting_name) {

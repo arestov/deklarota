@@ -600,7 +600,7 @@ add({
     if (immediate) {
       groups.push(immediate)
     }
-    var relative = this.sputnik.getRelativeRequestsGroups(space)
+    var relative = this.sputnik.getRelativeRequestsGroups(space, this.sputnik.main_list_name)
     if (relative && relative.length) {
       groups.push.apply(groups, relative)
     }
