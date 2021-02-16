@@ -257,7 +257,7 @@ export default function(dclt, nesting_name, limit) {
     var sputnik = _this.sputnik
 
     var morph_helpers = sputnik.app.morph_helpers
-    var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api)
+    var items = parse_items.call(sputnik, r, clean_obj, morph_helpers)
     var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers)
     var can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
 
