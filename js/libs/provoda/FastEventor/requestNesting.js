@@ -207,14 +207,22 @@ export default function(dclt, nesting_name, limit) {
     request.queued_promise.then(stopWaiting, stopWaiting)
   }
 
+  request
+  .then(function(response) {
+    var has_error = detectError(response)
+    if (has_error) {
+      return [has_error, response]
+    }
 
+    return [false, response]
+  })
+  .then(function(wrapped_response) {
+    const [has_error, response] = wrapped_response
 
-  request.then(function(response) {
     if (!isValidRequest(request)) {
       return
     }
 
-    var has_error = detectError(response)
     if (has_error) {
       _this.sputnik.input(handleError)
       return
