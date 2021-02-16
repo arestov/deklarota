@@ -99,3 +99,5 @@
 - don't use abortFlowSteps for 'collch'
 
 - default_states
+
+- requests batching (ids_declr)
