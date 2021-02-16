@@ -207,13 +207,13 @@ export default function(dclt, nesting_name, limit) {
   .then(function(response) {
     var has_error = detectError(response)
     if (has_error) {
-      return [has_error, response]
+      return [has_error, response, source_name]
     }
 
-    return [false, response]
+    return [false, response, source_name]
   })
   .then(function(wrapped_response) {
-    const [has_error, response] = wrapped_response
+    const [has_error, response, source_name] = wrapped_response
 
     if (!isValidRequest(request)) {
       return
@@ -227,7 +227,7 @@ export default function(dclt, nesting_name, limit) {
     _this.sputnik.input(function() {
       store.error = false
       store.has_all_items = true
-      handleNestResponse(response, function() {
+      handleNestResponse(response, source_name, function() {
         store.has_all_items = false
       })
       anyway()
@@ -252,7 +252,7 @@ export default function(dclt, nesting_name, limit) {
     return has_error
   }
 
-  function handleNestResponse(r, markListIncomplete) {
+  function handleNestResponse(r, source_name, markListIncomplete) {
     // should be in data bus queue - use `.input` wrap
     var sputnik = _this.sputnik
 
