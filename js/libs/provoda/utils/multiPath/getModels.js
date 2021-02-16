@@ -1,5 +1,3 @@
-import getNesting from '../../provoda/getNesting'
-
 import getStart from './getStart'
 
 // {
@@ -43,7 +41,7 @@ var getModels = function(md, multi_path, data, all_nestings) {
 }
 
 function addExisting(result, from, nest_name) {
-  var subject = from && getNesting(from, nest_name)
+  var subject = from && from.getNesting(nest_name)
   if (!subject) {
     return
   }

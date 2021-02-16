@@ -72,7 +72,13 @@ export default function updateNesting(self, collection_name, input, opts) {
 
   updateMetaAttrs(self, collection_name, array)
 
+  if (self._highway.calcSeparator) {
+   self._highway.calcSeparator.sendRel(self, collection_name, array)
+ }
+
+
   var removed = hp.getRemovedNestingItems(array, old_value)
+
 
   _passHandleNesting(self, collection_name, old_value, array)
 

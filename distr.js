@@ -11,6 +11,7 @@ const build = ({
     input: [
       'js/libs/provoda/provoda.js',
       'js/libs/provoda/provoda/model.js',
+      'js/libs/provoda/provoda/model/TransferredModel.js',
       'js/libs/provoda/provoda/getAttr.js',
       'js/libs/provoda/provoda/updateAttr.js',
       'js/libs/provoda/provoda/updateManyAttrs.js',
