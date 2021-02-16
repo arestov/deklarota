@@ -101,3 +101,5 @@
 - default_states
 
 - requests batching (ids_declr)
+
+- no network_api (interface instance) for parse_items
