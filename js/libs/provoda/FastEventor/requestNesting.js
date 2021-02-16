@@ -108,6 +108,11 @@ function startFetching(self, nesting_name, paging_opts, has_error, network_api_o
   return request
 }
 
+function initRequest(self, nesting_name, paging_opts, has_error, network_api_opts) {
+  // check context isolation
+  return startFetching(self, nesting_name, paging_opts, has_error, network_api_opts)
+}
+
 export default function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -178,7 +183,7 @@ export default function(dclt, nesting_name, limit) {
   }
 
 
-  const request = startFetching(_this.sputnik, nesting_name, paging_opts, store.error, network_api_opts)
+  const request = initRequest(_this.sputnik, nesting_name, paging_opts, store.error, network_api_opts)
 
 
   store.process = true
