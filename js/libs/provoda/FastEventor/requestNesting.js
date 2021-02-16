@@ -189,21 +189,17 @@ export default function(dclt, nesting_name, limit) {
   */
 
   if (request.queued_promise) {
-    var startWaiting = function() {
+    var changeWaitingState = (value) => () => {
       if (!isValidRequest(request)) {
         return
       }
-      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, true))
+      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, value))
     }
+
+    const startWaiting = changeWaitingState(true)
     this.sputnik.input(startWaiting)
 
-    var stopWaiting = function() {
-      if (!isValidRequest(request)) {
-        return
-      }
-      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, false))
-    }
-
+    const stopWaiting = changeWaitingState(false)
     request.queued_promise.then(stopWaiting, stopWaiting)
   }
 
