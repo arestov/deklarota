@@ -86,14 +86,7 @@ function startFetching(self, nesting_name, paging_opts, has_error, network_api_o
   var network_api = request.network_api
   var source_name = request.source_name
 
-  request.then(function(response) {
-    var has_error = detectError(response)
-    if (has_error) {
-      return [has_error, response, source_name]
-    }
 
-    return [false, response, source_name]
-  })
 
 
   function detectError(resp) {
@@ -105,7 +98,14 @@ function startFetching(self, nesting_name, paging_opts, has_error, network_api_o
   }
 
 
-  return request
+  return request.then(function(response) {
+    var has_error = detectError(response)
+    if (has_error) {
+      return [has_error, response, source_name]
+    }
+
+    return [false, response, source_name]
+  })
 }
 
 function initRequest(self, nesting_name, paging_opts, has_error, network_api_opts) {
