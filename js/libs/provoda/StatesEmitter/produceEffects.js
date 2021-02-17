@@ -67,7 +67,22 @@ function changesToSend(changes_list) {
   return changes_list
 }
 
+function replaceTotalOriginalValues(total) {
+  const result = []
+
+  for (var [key, value] of total) {
+    result.push([key, replaceValue(value)])
+  }
+
+  return new Map(result)
+}
+
 function originalAttrsToSend(total) {
+  for (var [, value] of total) {
+    if (needsReplace(value)) {
+      return replaceTotalOriginalValues(total)
+    }
+  }
   return total
 }
 
