@@ -85,9 +85,21 @@ var Eventor = spv.inh(function() {}, {
       return this.evcompanion.setPrio.apply(this.evcompanion, arguments)
     },
     requestState: function() {
+      if (this._highway.calcSeparator) {
+        const attr_name = arguments[0]
+        this._highway.calcSeparator.requestState(this, attr_name)
+        return
+      }
+
       return this.evcompanion.requestState.apply(this.evcompanion, arguments)
     },
     resetRequestedState: function() {
+      if (this._highway.calcSeparator) {
+        const attr_name = arguments[0]
+        this._highway.calcSeparator.resetRequestedState(this, attr_name)
+        return
+      }
+
       return this.evcompanion.resetRequestedState.apply(this.evcompanion, arguments)
     },
     requestNesting: function() {
