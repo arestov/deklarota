@@ -190,8 +190,6 @@ function collectProps(add) {
 
       this.__updateInteraceState(interface_name, value)
 
-      console.log('__reportInterfaceChange', interface_name, value)
-
       const event_name = interfaceEventName(interface_name)
 
       var callbacks = this.evcompanion.getMatchedCallbacks(event_name)
