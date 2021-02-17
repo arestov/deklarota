@@ -6,5 +6,8 @@ export default function(related_md, id) {
     return undefined
   }
 
+  if (related_md.is_messaging_model) {
+    return related_md.__getModelById(id)
+  }
   return related_md._highway.models[id]
 };

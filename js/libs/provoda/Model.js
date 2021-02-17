@@ -132,6 +132,8 @@ add({
 
 add(_requestsDeps)
 add({
+  is_messaging_model: false,
+
   'regfr-light_rel_ev': regfr_light_rel_ev,
 
   getNonComplexStatesList: function(state_name) {

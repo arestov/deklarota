@@ -6,5 +6,8 @@ export default function getNesting(md, collection_name) {
     return undefined
   }
 
+  if (md.is_messaging_model) {
+    return md.getRel(collection_name)
+  }
   return md.children_models && md.children_models[collection_name]
 };

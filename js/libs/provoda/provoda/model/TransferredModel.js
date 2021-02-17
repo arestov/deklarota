@@ -23,12 +23,12 @@ var getParsedAddr = function(addr) {
 
 var TransferredModel = spv.inh(Eventor, {
   naming: function(fn) {
-    return function TransferredModel(constrp, __sendToState, _highway, app, id, parent) {
-      fn(this, constrp, __sendToState, _highway, app, id, parent)
+    return function TransferredModel(constrp, __sendToState, _highway, getModelById, app, id, parent) {
+      fn(this, constrp, __sendToState, _highway, getModelById, app, id, parent)
     }
   },
 
-  init: function(self, constrp, __sendToState, _highway, app, id, parent) {
+  init: function(self, constrp, __sendToState, _highway, getModelById, app, id, parent) {
 
     self.app = app
       ? app
@@ -38,6 +38,7 @@ var TransferredModel = spv.inh(Eventor, {
 
     self._highway = _highway
     self.__sendToState = __sendToState
+    self.__getModelById = getModelById
     self._calls_flow = self._highway.calls_flow
 
     self._provoda_id = id
@@ -66,6 +67,7 @@ function collectProps(add) {
 
 
   add({
+    is_messaging_model: true,
     sendCall: function(...payload) {
       this.__sendToState([this._provoda_id, ...payload])
     }
