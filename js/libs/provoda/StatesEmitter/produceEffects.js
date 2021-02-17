@@ -8,10 +8,26 @@ function needsReplace(value) {
   if (!value) {return false}
 
   if (!Array.isArray(value)) {
+    if (!Object(value)) {
+      return false
+    }
+
+    if (value instanceof URL) {
+      return true
+    }
+
     return hasId(value)
   }
 
   return value.some(hasId)
+}
+
+function replaceValue(value) {
+  if (value instanceof URL) {
+    return value.toJSON()
+  }
+
+  return replaceModelInState(value)
 }
 
 function replaceChanges(changes_list) {
@@ -19,7 +35,7 @@ function replaceChanges(changes_list) {
   for (var i = 0; i < result.length; i += CH_GR_LE) {
     result[i] = changes_list[i]
 
-    result[i + 1] = replaceModelInState(changes_list[i + 1])
+    result[i + 1] = replaceValue(changes_list[i + 1])
   }
 
   return result
