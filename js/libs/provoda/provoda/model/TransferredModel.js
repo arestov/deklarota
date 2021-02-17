@@ -125,6 +125,10 @@ function collectProps(add) {
     updateManyAttrs: updateManyAttrs,
     updateManyStates: updateManyAttrs,
 
+    dispatch: function(...args) {
+      this.sendCall('dispatch', ...args)
+    },
+
     getRel: getRel,
     getNesting: getRel,
     updateRel: function(rel_name, value) {
