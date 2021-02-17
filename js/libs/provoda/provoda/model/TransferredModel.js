@@ -50,6 +50,8 @@ var TransferredModel = spv.inh(Eventor, {
     self._effects_using = null
     initEffectsSubscribe(self)
 
+    self.extra = self.rt_schema.use_extra ? {} : null
+
 
     // self.evcompanion = new FastEventor(self)
 
