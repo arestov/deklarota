@@ -29,16 +29,19 @@ const collectAllComp = cachedField(
   '__attrs_all_comp',
   ['__attrs_all_comp', '__attrs_comp_to_be_serviced', '__dcls_comp_attrs_glue'],
   false,
-  (current, arg1, arg2) => {
+  (current, arg1, arg2, self) => {
+    const mock = Boolean(self.mock_relations)
+    const glue = mock ? {} : arg2
+
     const result = {}
 
-    doCopy(result, arg2)
+    doCopy(result, glue)
 
     for (var name in arg1) {
       if (!arg1.hasOwnProperty(name)) {
         continue
       }
-      if (arg2.hasOwnProperty(name)) {
+      if (glue.hasOwnProperty(name)) {
         continue
       }
 

@@ -29,8 +29,11 @@ import logger from './dx/logger'
 import wrapInputCall from './provoda/wrapInputCall'
 import disposeMentions from './Model/mentions/dispose'
 import checkAndDisposeModel from './Model/checkAndDisposeModel'
+import {normalizeAddrsToValuesMap} from './Model/mockRelations'
 
 var push = Array.prototype.push
+
+const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
 var getMDOfReplace = function() {
   return this.md
@@ -276,7 +279,11 @@ add({
       }
     }
 
-    prefillCompAttr(this, changes_list)
+    const mock = Boolean(this.mock_relations)
+    if (is_prod || !mock) {
+      prefillCompAttr(this, changes_list)
+    }
+
 
     if (changes_list && changes_list.length) {
       initAttrs(this, this._fake_etr, changes_list)
@@ -462,5 +469,14 @@ add({
     return getDepValue(this, parsed)
   },
 })
+
+if (!is_prod) {
+  add({
+    __updateRelationMocks: function(map) {
+      const values = normalizeAddrsToValuesMap(map)
+      this.updateManyStates(values)
+    }
+  })
+}
 }
 export default Model
