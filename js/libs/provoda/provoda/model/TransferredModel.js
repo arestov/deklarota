@@ -111,7 +111,7 @@ function collectProps(add) {
       return getLinedStructure.apply(this, args)
     },
     _assignPublicAttrs: function(target) {
-      Object.assign(this, target)
+      Object.assign(target, this.public_attrs)
     },
     __assignRelChanges: function(rel_name, value, old_value, removed) {
       this.children_models[rel_name] = value
