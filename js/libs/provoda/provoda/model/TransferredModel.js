@@ -113,6 +113,9 @@ function collectProps(add) {
     _assignPublicAttrs: function(target) {
       Object.assign(this, target)
     },
+    __assignRelChanges: function(rel_name, value) {
+      this.children_models[rel_name] = value
+    },
     __assignChanges: function(changes_list) {
       if (!this.attrs) {
         this.attrs = {}
