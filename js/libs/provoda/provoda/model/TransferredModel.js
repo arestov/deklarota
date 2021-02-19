@@ -121,6 +121,8 @@ function collectProps(add) {
         initApis(this)
       }
 
+      var dubl = []
+
       for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
         const attr = changes_list[i]
         const value = changes_list[i + 1]
@@ -129,7 +131,12 @@ function collectProps(add) {
 
         if (!isPrivate(attr)) {
           this.public_attrs[attr] = value
+          dubl.push(attr, value)
         }
+      }
+
+      if (this._highway.views_proxies != null) {
+        this._highway.views_proxies.pushStates(this, dubl)
       }
     }
   })
