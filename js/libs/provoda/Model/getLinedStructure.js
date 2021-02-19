@@ -35,7 +35,7 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
     checkModel(original_models, cur_md.map_parent, models_index, local_index, all_for_parse)
 
     for (var nesting_name in cur_md.children_models) {
-      if (!isPublicRel(cur_md, nesting_name)) {
+      if (!cur_md.is_messaging_model && !isPublicRel(cur_md, nesting_name)) {
         continue
       }
       var cur = cur_md.children_models[nesting_name]
