@@ -37,7 +37,7 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
     checkModel(cur_md.map_parent, models_index, local_index, all_for_parse)
 
     for (var nesting_name in cur_md.children_models) {
-      if (isGlueRel(cur_md, nesting_name)) {
+      if (!cur_md.is_messaging_model && isGlueRel(cur_md, nesting_name)) {
         continue
       }
       var cur = cur_md.children_models[nesting_name]

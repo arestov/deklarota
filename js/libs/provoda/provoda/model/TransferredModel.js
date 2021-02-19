@@ -11,7 +11,11 @@ import getDepValue from '../../utils/multiPath/getDepValue'
 import parseAddr from '../../utils/multiPath/parse'
 import addrFromObj from '../dcl/addr.js'
 import { startFetching } from '../../FastEventor/requestNesting'
+import getLinedStructure from '../../Model/getLinedStructure'
+// import toTransferableStatesList from '../../Model/toTransferableStatesList'
+import isPrivate from '../../Model/isPrivateState'
 
+var CH_GR_LE = 2
 
 var getParsedAddr = function(addr) {
   if (typeof addr == 'object') {
@@ -44,6 +48,7 @@ var TransferredModel = spv.inh(Eventor, {
     self._provoda_id = id
     self.map_parent = parent
     self.attrs = null
+    self.public_attrs = null
     self.children_models = {}
     self.rt_schema = constrp
 
@@ -100,6 +105,34 @@ function collectProps(add) {
 
     return value.map(itemToId)
   }
+
+  add({
+    getLinedStructure: function(...args) {
+      return getLinedStructure.apply(this, args)
+    },
+    _assignPublicAttrs: function(target) {
+      Object.assign(this, target)
+    },
+    __assignChanges: function(changes_list) {
+      if (!this.attrs) {
+        this.attrs = {}
+        this.public_attrs = {}
+
+        initApis(this)
+      }
+
+      for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
+        const attr = changes_list[i]
+        const value = changes_list[i + 1]
+
+        this.attrs[attr] = value
+
+        if (!isPrivate(attr)) {
+          this.public_attrs[attr] = value
+        }
+      }
+    }
+  })
 
 
   add({
