@@ -168,6 +168,10 @@ function collectProps(add) {
       this.sendCall('updateRel', rel_name, valueToIds(value))
     },
 
+    RPCLegacy: function(...args) {
+      this.sendCall('RPCLegacy', ...args)
+    },
+
     getStrucRoot: function() {
       return this.app
     },
