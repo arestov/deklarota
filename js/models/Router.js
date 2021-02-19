@@ -55,6 +55,7 @@ export default spv.inh(Model, {
     })
   }
 }, {
+  __use_navi: false,
   attrs: {
     'used_data_structure': [
       'comp',
@@ -192,7 +193,7 @@ export default spv.inh(Model, {
 
 
 function initMapTree(target, start_page, needs_url_history, navi) {
-  if (navi) {
+  if (target.__use_navi && navi) {
     target.useInterface('navi', needs_url_history && navi)
   }
   _updateRel(target, 'navigation', [])

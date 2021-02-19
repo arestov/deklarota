@@ -103,3 +103,5 @@
 - requests batching (ids_declr)
 
 - no network_api (interface instance) for parse_items
+
+- internal 'navi' interface is semi depricated. use `__use_navi` flag to enable it
