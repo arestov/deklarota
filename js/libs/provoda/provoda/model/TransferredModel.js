@@ -168,6 +168,9 @@ function collectProps(add) {
     updateAttr: updateAttr,
     updateManyAttrs: updateManyAttrs,
     updateManyStates: updateManyAttrs,
+    getSPI: ()=> {
+      console.error('getSPI')
+    },
 
     dispatch: function(...args) {
       this.sendCall('dispatch', ...args)
