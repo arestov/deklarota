@@ -235,6 +235,9 @@ function collectProps(add) {
   }
 
   add({
+    getInterface: function(interface_name) {
+      return this._interfaces_using && this._interfaces_using.used[interface_name]
+    },
     watchInterface: function(donor, interface_name, fn) {
       donor.evcompanion._addEventHandler(interfaceEventName(interface_name), fn, this)
     },
