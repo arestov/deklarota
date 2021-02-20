@@ -23,6 +23,7 @@ import prefillCompAttr from './dcl/attrs/comp/prefill'
 import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
 import { disposeGlueSources } from './dcl/glue_rels/runtime/run'
 import disposeEffects from './dcl/effects/dispose'
+import { handleConsumeEffect } from './dcl/effects/legacy/subscribe/run/makeBindChanges'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
 import logger from './dx/logger'
@@ -133,6 +134,9 @@ add({
 add(_requestsDeps)
 add({
   is_messaging_model: false,
+  __handleConsumeEffect: function(dcl_key, data) {
+    return handleConsumeEffect(this, dcl_key, data)
+  },
 
   'regfr-light_rel_ev': regfr_light_rel_ev,
 

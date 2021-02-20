@@ -71,8 +71,24 @@ var getRemoteHandler = ensureHandler(function(em, dcl, data) {
   }
 }, false)
 
+var sendToState = function(self, dcl) {
+  const value = getCacheValue(self, dcl)
+  if (value) {return value}
+
+  const newValue = (value) => {
+    self.sendCall('handleConsumeEffect', dcl.key, value)
+  }
+
+  setCacheValue(self, dcl, newValue)
+
+  return newValue
+}
 
 var getHandler = function(self, dcl) {
+  if (self.is_messaging_model) {
+    return sendToState(self, dcl)
+  }
+
   if (dcl.remote) {
     return getRemoteHandler(self, dcl, dcl)
   }
@@ -88,6 +104,12 @@ var getHandler = function(self, dcl) {
   return getStateUpdater(self, dcl, dcl.state_name)
 }
 
+
+export const handleConsumeEffect = (self, key, data) => {
+  const dcl = self._build_cache_interfaces[key]
+  const handler = getHandler(self, dcl)
+  handler(data)
+}
 
 var makeBindChanges = function(self, index, binders, original_values) {
   // _build_cache_interfaces
