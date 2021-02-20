@@ -3,7 +3,7 @@ import spv from '../../../../../spv'
 var updateRootInterface = spv.memorize(function(name) {
   return function(val) {
     var interface_instance = val
-      ? this.getStrucRoot()._interfaces_using.used[name]
+      ? this.getStrucRoot().getInterface(name)
       : null
     this.useInterface('#' + name, interface_instance)
   }
