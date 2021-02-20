@@ -192,6 +192,9 @@ function collectProps(add) {
     getStrucRoot: function() {
       return this.app
     },
+    getStrucParent: function() {
+      return this.map_parent
+    }
   })
 
   add({
