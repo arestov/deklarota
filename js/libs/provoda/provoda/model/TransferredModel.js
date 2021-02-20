@@ -240,6 +240,7 @@ function collectProps(add) {
     },
     watchInterface: function(donor, interface_name, fn) {
       donor.evcompanion._addEventHandler(interfaceEventName(interface_name), fn, this)
+      this.nextTick(fn, [Boolean(donor.getInterface(interface_name))], true)
     },
     unwatchInterface: function(donor, interface_name, fn) {
       donor.evcompanion.off(interfaceEventName(interface_name), fn, false, this)
