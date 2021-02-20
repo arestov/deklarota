@@ -18,6 +18,11 @@ export default function gentlyUpdateNesting(self, collection_name, input, opts) 
     return null
   }
 
+  if (self.is_messaging_model) {
+    self.updateRel(collection_name, input)
+    return
+  }
+
   if (self._currentMotivator() != null) {
     updateNesting(self, collection_name, input, opts)
     return
