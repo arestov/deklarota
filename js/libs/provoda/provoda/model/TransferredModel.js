@@ -162,6 +162,9 @@ function collectProps(add) {
       var parsed = getParsedAddr(addr)
       return getDepValue(this, parsed)
     },
+    ___attrsToSync: function() {
+      return this.public_attrs
+    },
         getAttr: getAttr,
     state: getAttr,
     // resetRequestedState: imp,
