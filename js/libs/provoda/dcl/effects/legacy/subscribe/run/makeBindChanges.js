@@ -4,21 +4,33 @@ import saveResult from '../../../../passes/targetedResult/save.js'
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
+const getCacheStore = (em) => {
+  if (!em._highway._subscribe_effect_handlers) {
+    em._highway._subscribe_effect_handlers = {}
+  }
+
+  var store = em._highway._subscribe_effect_handlers
+  return store
+}
+
+const getCacheValue = (em, dcl) => {
+  const key = em.getInstanceKey() + '-' + dcl.id
+  const store = getCacheStore(em, dcl)
+  return store[key]
+}
+
+const setCacheValue = (em, dcl, value) => {
+  const key = em.getInstanceKey() + '-' + dcl.id
+  const store = getCacheStore(em, dcl)
+  store[key] = value
+}
+
 var ensureHandler = function(fn, use_input) {
   return function(em, dcl, exactPart) {
-    if (!em._highway._subscribe_effect_handlers) {
-      em._highway._subscribe_effect_handlers = {}
-    }
+    const value = getCacheValue(em, dcl)
+    if (value) {return value}
 
-    var store = em._highway._subscribe_effect_handlers
-
-    var key = em.getInstanceKey() + '-' + dcl.id
-
-    if (store[key]) {
-      return store[key]
-    }
-
-    store[key] = use_input !== false ?
+    const newValue = use_input !== false ?
       em.inputFn(function(value) {
         fn(this, exactPart, value)
       })
@@ -26,7 +38,9 @@ var ensureHandler = function(fn, use_input) {
         fn(em, exactPart, value)
       }
 
-    return store[key]
+    setCacheValue(em, dcl, newValue)
+
+    return newValue
   }
 }
 
