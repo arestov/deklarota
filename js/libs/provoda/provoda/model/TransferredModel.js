@@ -12,6 +12,7 @@ import parseAddr from '../../utils/multiPath/parse'
 import addrFromObj from '../dcl/addr.js'
 import { startFetching } from '../../FastEventor/requestNesting'
 import getLinedStructure from '../../Model/getLinedStructure'
+import toTransferableNestings from '../../Model/toTransferableNestings'
 // import toTransferableStatesList from '../../Model/toTransferableStatesList'
 import isPrivate from '../../Model/isPrivateState'
 
@@ -284,4 +285,4 @@ function collectProps(add) {
 
 
 export default TransferredModel
-export { initApis, makeTasks, runScheduledEffects, startFetching }
+export { initApis, makeTasks, runScheduledEffects, startFetching, toTransferableNestings }
