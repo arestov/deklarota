@@ -115,17 +115,10 @@ var getStrucParent = function(item, _count, soft) {
 function modelProps(add) {
 
 add({
-  effects: {
-    produce: {
-      __remove_model: {
-        api: ['self'],
-        trigger: ['$meta$removed'],
-        require: ['$meta$removed'],
-        fn: function(self, value) {
-          checkAndDisposeModel(self, value)
-        }
-      }
-    }
+  'stch-$meta$removed': (self, value) => {
+    if (!value) {return}
+
+    checkAndDisposeModel(self, value)
   },
 })
 
