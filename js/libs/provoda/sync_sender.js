@@ -2,6 +2,7 @@
 
 import spv from '../spv'
 import toTransferableStatesList from './Model/toTransferableStatesList'
+import toTransferableNestings from './Model/toTransferableNestings'
 import toSimpleStructure from './Model/toSimpleStructure'
 import isPublicRel from './Model/rel/isPublicRel'
 var parseNesting = toSimpleStructure.parseNesting
@@ -48,40 +49,6 @@ var SyncSender = function() {
     }
   }
   Object.seal(this)
-}
-
-var toTransferableNestings = function(value) {
-    if (!value) {
-      return value
-    }
-
-    var parsed_value
-
-    if (value && value.each_items) {
-      // creating value to pass
-      var copy = spv.cloneObj({
-        $not_model: true,
-      }, value)
-      delete copy.each_items
-      return copy
-    }
-
-    if (value._provoda_id) {
-      parsed_value = value._provoda_id
-    } else if (Array.isArray(value)) {
-
-      parsed_value = new Array(value.length)
-      for (var jj = 0; jj < value.length; jj++) {
-        parsed_value[jj] = value[jj]._provoda_id
-      }
-    } else {
-      console.warn('unparsed', value)
-    }
-    if (typeof parsed_value == 'undefined') {
-      parsed_value = null
-    }
-
-    return parsed_value
 }
 
 SyncSender.prototype = {
