@@ -31,12 +31,12 @@ var MDReplace = function(_provoda_id) {
 
 var TransferredModel = spv.inh(Eventor, {
   naming: function(fn) {
-    return function TransferredModel(constrp, __sendToState, _highway, getModelById, app, id, parent) {
-      fn(this, constrp, __sendToState, _highway, getModelById, app, id, parent)
+    return function TransferredModel(constrp, model_name, __sendToState, _highway, getModelById, app, id, parent) {
+      fn(this, constrp, model_name, __sendToState, _highway, getModelById, app, id, parent)
     }
   },
 
-  init: function(self, constrp, __sendToState, _highway, getModelById, app, id, parent) {
+  init: function(self, constrp, model_name, __sendToState, _highway, getModelById, app, id, parent) {
 
     self.app = app
       ? app
@@ -56,6 +56,7 @@ var TransferredModel = spv.inh(Eventor, {
     self.children_models = {}
     self.rt_schema = constrp
     self.md_replacer = null
+    self.model_name = model_name
 
     self.current_motivator = null
     self._effects_using = null
