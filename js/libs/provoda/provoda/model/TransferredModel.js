@@ -200,6 +200,9 @@ function collectProps(add) {
     getStrucParent: function() {
       return this.map_parent
     },
+    getParentMapModel: function() {
+      return this.map_parent
+    },
     getMDReplacer: function() {
       if (!this.md_replacer) {
         this.md_replacer = new MDReplace(this._provoda_id)
