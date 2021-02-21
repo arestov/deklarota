@@ -25,6 +25,9 @@ var getParsedAddr = function(addr) {
   return parseAddr(addr)
 }
 
+var MDReplace = function(_provoda_id) {
+  this._provoda_id = _provoda_id
+}
 
 var TransferredModel = spv.inh(Eventor, {
   naming: function(fn) {
@@ -52,6 +55,7 @@ var TransferredModel = spv.inh(Eventor, {
     self.public_attrs = null
     self.children_models = {}
     self.rt_schema = constrp
+    self.md_replacer = null
 
     self.current_motivator = null
     self._effects_using = null
@@ -195,7 +199,13 @@ function collectProps(add) {
     },
     getStrucParent: function() {
       return this.map_parent
-    }
+    },
+    getMDReplacer: function() {
+      if (!this.md_replacer) {
+        this.md_replacer = new MDReplace(this._provoda_id)
+      }
+      return this.md_replacer
+    },
   })
 
   add({
