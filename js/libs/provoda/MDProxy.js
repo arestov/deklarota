@@ -72,7 +72,7 @@ Object.assign(MDProxy.prototype, {
     return this.md.getAttr(name)
   },
   __getBhvId: function() {
-    return this.md.constr_id
+    return this.md.rt_schema.constr_id
   },
   _assignPublicAttrs: function(target) {
     return this.md._assignPublicAttrs(target)
