@@ -118,29 +118,31 @@ Proxies.prototype = {
     var raw_array = []
     for (var i = 0; i < this.spaces_list.length; i++) {
       var cur = this.spaces_list[i]
-      if (cur.ids_index[md._provoda_id]) {
-        if (!collected) {
-          collected = true
-          if (value) {
-            if (value._provoda_id) {
-              raw_array = [value]
-            } else if (Array.isArray(value)) {
-              raw_array = value
+      if (!cur.ids_index[md._provoda_id]) {
+        continue
+      }
+      if (!collected) {
+        collected = true
+        if (value) {
+          if (value._provoda_id) {
+            raw_array = [value]
+          } else if (Array.isArray(value)) {
+            raw_array = value
+          } else {
+
+            var pos_array = spv.getTargetField(value, 'residents_struc.all_items')
+            if (pos_array) {
+              raw_array = pos_array
             } else {
-
-              var pos_array = spv.getTargetField(value, 'residents_struc.all_items')
-              if (pos_array) {
-                raw_array = pos_array
-              } else {
-                throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
-              }
-
+              throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
             }
+
           }
         }
-        createMPXesByRawData(raw_array, cur.ids_index, cur.mpxes_index, cur)
-        cur.mpxes_index[md._provoda_id].sendCollectionChange(nesname, value, oldv, removed)
       }
+      createMPXesByRawData(raw_array, cur.ids_index, cur.mpxes_index, cur)
+      cur.mpxes_index[md._provoda_id].sendCollectionChange(nesname, value, oldv, removed)
+
     }
 
 
