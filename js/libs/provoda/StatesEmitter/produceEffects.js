@@ -64,7 +64,7 @@ function changesToSend(changes_list) {
     }
   }
 
-  return changes_list
+  return [...changes_list]
 }
 
 function replaceTotalOriginalValues(total) {
@@ -83,7 +83,7 @@ function originalAttrsToSend(total) {
       return replaceTotalOriginalValues(total)
     }
   }
-  return total
+  return new Map(total)
 }
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
