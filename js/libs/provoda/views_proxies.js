@@ -121,6 +121,12 @@ Proxies.prototype = {
       if (!cur.ids_index[md._provoda_id]) {
         continue
       }
+
+      if (cur.mpxes_index[md._provoda_id] === null) {
+        // model & mdproxy were disposed
+        continue
+      }
+
       if (!collected) {
         collected = true
         if (value) {
@@ -141,6 +147,12 @@ Proxies.prototype = {
         }
       }
       createMPXesByRawData(raw_array, cur.ids_index, cur.mpxes_index, cur)
+
+      if (!cur.mpxes_index[md._provoda_id]) {
+        console.error(new Error(`Couldn't update rel views "${nesname}" of model ${md._provoda_id}.`))
+        continue
+      }
+
       cur.mpxes_index[md._provoda_id].sendCollectionChange(nesname, value, oldv, removed)
 
     }
