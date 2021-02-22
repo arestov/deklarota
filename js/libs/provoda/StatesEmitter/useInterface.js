@@ -74,5 +74,9 @@ var useInterface = function(self, interface_name, obj, destroy) {
 useInterface.skipAliveCheck = true
 
 export default function useInterfaceWrap(self, interface_name, obj, destroy) {
+  if (self == null) {
+    console.error(new Error(`Couldn't use "${interface_name}" interface in ${self}.`))
+    return undefined
+  }
   self.nextTick(useInterface, [self, interface_name, obj, destroy], false, false)
 }

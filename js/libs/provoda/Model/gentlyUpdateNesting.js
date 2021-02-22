@@ -3,6 +3,11 @@
 import updateNesting from './updateNesting'
 
 export default function gentlyUpdateNesting(self, collection_name, input, opts) {
+  if (self == null) {
+    console.error(new Error(`Couldn't update "${collection_name}" rel in ${self}.`))
+    return undefined
+  }
+
   if (self.wasDisposed()) {
     return null
   }
