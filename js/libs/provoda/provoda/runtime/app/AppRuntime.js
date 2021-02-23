@@ -14,6 +14,7 @@ function AppRuntime(optionsRaw) {
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
     onError: options.onError,
+    onTransactionHandeled: options.onTransactionHandeled,
   })
 
   this.calcSeparator = options.calcSeparator || null
