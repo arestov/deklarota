@@ -182,6 +182,9 @@ var CallbacksFlow = function(options) {
   this.iteration_delayed_check_time = 0
   this.flow_steps_counter = 1
   this.bad_stops_strike_counter = 0
+  this.callbacks_busy = false
+  this.current_step = null
+  this.onTransactionHandeled = options.onTransactionHandeled || null
 
   // this.flow_steps_collating_invalidated = null;
   var _this = this
@@ -203,6 +206,7 @@ var CallbacksFlow = function(options) {
   this.reportLongTask = options.reportLongTask || null
   this.reportHugeQueue = options.reportHugeQueue || null
 
+  Object.seal(this)
 }
 
 CallbacksFlow.prototype = {
