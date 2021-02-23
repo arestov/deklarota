@@ -268,6 +268,10 @@ CallbacksFlow.prototype = {
 
       var toClean = cur
 
+      if (this.onTransactionHandeled != null) {
+        this.checkCompleteTransation(cur)
+      }
+
       if (this.flow_start == cur) {
         cur = cur.next
       } else {
@@ -294,6 +298,19 @@ CallbacksFlow.prototype = {
       this.callbacks_busy = false
     }
 
+  },
+  checkCompleteTransation: function(cur) {
+    if (!cur.next) {
+      this.onTransactionHandeled()
+      return
+    }
+
+    const cur_num = cur.complex_order[0]
+    const next_num = cur.next.complex_order[0]
+    if (cur_num != next_num) {
+      this.onTransactionHandeled()
+      return
+    }
   },
   checkCallbacksFlow: function() {
     if (this.callbacks_busy) {
