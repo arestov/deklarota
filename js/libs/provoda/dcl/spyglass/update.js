@@ -47,6 +47,10 @@ var getProbeChange = function(toggle) {
 
     // var probe_mds = bwlev.getNesting(transportName(probe_name));
     var index = pvState(bwlev, 'spyglasses_index')
+    if (!index) {
+      console.error(new Error('make router requqest before calling router'))
+      return
+    }
     var probe_id = index[getKey({name: probe_name, bwlev: data.bwlev, context_md: data.context_md})]
     var probe_md = probe_id && getModelById(bwlev, probe_id)
     // var probe_md = spv.set.get(set, key);

@@ -337,9 +337,10 @@ add({
     }
     if (this.rpc_legacy && this.rpc_legacy[method_name]) {
       this.rpc_legacy[method_name].apply(this, args)
-    } else {
+    } else if (this[method_name]) {
       this[method_name].apply(this, args)
-
+    } else {
+      console.error(new Error('missing method: ' + method_name), this.__code_path)
     }
   }),
   wasDisposed: function() {
