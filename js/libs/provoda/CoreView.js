@@ -499,6 +499,7 @@ var View = spv.inh(StatesEmitter, {
         Constr = address_opts.sampleController
       }
       if (!Constr) {
+        console.error('there is no View for', address_opts)
         throw new Error('there is no View for ' + address_opts.nesting_name)
       }
 
