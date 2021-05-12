@@ -20,7 +20,7 @@ export default function loadNestingsByStruc(md, struc) {
     if (Array.isArray(item) || !item.preloadStart) {
       continue
     }
-    if (item.full_comlxs_index['preview_list'] || item.full_comlxs_index['preview_loading']) {
+    if (item.hasComplexStateFn('preview_list') || item.hasComplexStateFn('preview_loading')) {
       continue
     }
     item.preloadStart()
