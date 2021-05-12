@@ -5,7 +5,8 @@ import sameArrayIfEmpty from '../../../utils/sameArrayIfEmpty'
 import asString from '../../../utils/multiPath/asString'
 import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
-import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
+// import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
+import sameName from '../../../sameName'
 
 var shortStringWhenPossible = function(addr) {
 
@@ -66,7 +67,9 @@ const badAttrs = new Set(['main_list_loading', 'list_loading', 'all_data_loaded'
 const ignoredLegacy = new Set(['$needs_load', 'list_loading', 'can_load_data', 'can_load_more', 'more_load_available'])
 
 
-var CompxAttrDecl = function(comlx_name, cur) {
+var CompxAttrDecl = function(comlx_name_raw, cur) {
+  const comlx_name = sameName(comlx_name_raw)
+
   if (!Array.isArray(cur)) {
     throw new Error('don\'t use object structure of dep')
   }
