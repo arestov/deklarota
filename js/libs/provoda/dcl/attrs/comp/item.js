@@ -91,14 +91,20 @@ var CompxAttrDecl = function(comlx_name_raw, cur) {
   var parsed = toParsedDeps(deps_list)
 
   this.addrs = parsed.fixed_deps
+  Object.freeze(this.addrs)
+
   this.depends_on = parsed.fixed_deps.map(shortStringWhenPossible)
+  Object.freeze(this.depends_on)
+
   this.require_marks = parsed.require_marks
+  Object.freeze(this.require_marks)
 
   this.name = comlx_name
 
   this.watch_list = this.depends_on
 
   Object.freeze(this)
+
 
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
     return this
