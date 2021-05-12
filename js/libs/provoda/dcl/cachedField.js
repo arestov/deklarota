@@ -1,5 +1,21 @@
+import sameArrayIfEmpty from '../utils/sameArrayIfEmpty'
+import sameObjectIfEmpty from '../utils/sameObjectIfEmpty'
+
 const isNil = function isNil(arg) {
   return arg == null
+}
+
+const getFinalResult = (result) => {
+  if (result == null) {
+    return null
+  }
+
+  if (Array.isArray(result)) {
+    return sameArrayIfEmpty(result)
+  }
+
+  return sameObjectIfEmpty(result)
+
 }
 
 const cachedField = function(field, deps, final_compile, fn) {
@@ -24,7 +40,9 @@ const cachedField = function(field, deps, final_compile, fn) {
       return model[field]
     }
 
-    model[field] = result
+    const finalResult = getFinalResult(result)
+
+    model[field] = finalResult
 
     return model[field]
   }
