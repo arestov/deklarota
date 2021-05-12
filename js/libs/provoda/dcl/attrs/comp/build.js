@@ -8,8 +8,12 @@ import isGlueTargetAttr from './isGlueTargetAttr'
 import cachedField from '../../cachedField'
 
 var makeGroups = groupDeps(getEncodedState)
+const emptyObject = Object.freeze({})
 
 var makeWatchIndex = function(full_comlxs_list) {
+  if (!full_comlxs_list.length) {
+    return emptyObject
+  }
   var full_comlxs_index = {}
   var i, jj, cur, state_name
   for (i = 0; i < full_comlxs_list.length; i++) {
