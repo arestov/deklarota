@@ -1287,7 +1287,7 @@ spv.forEachKey = function(obj, fn, arg1, arg2) {
   }
 }
 
-spv.countKeys = function(obj, truthy) {
+export const countKeys = function(obj, truthy) {
   var count = 0
   for (var prop in obj) {
     if (!obj.hasOwnProperty(prop)) {
@@ -1302,6 +1302,8 @@ spv.countKeys = function(obj, truthy) {
   }
   return count
 }
+
+spv.countKeys = countKeys
 
 spv.nil = function(arg) {
   if (arg !== undefined && arg !== null) {
