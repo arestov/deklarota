@@ -321,3 +321,15 @@ function getResultType(state, nest) {
 
   return null
 }
+
+export const clearCache = () => {
+  parents.__clear()
+  parseFromStart.__clear()
+  parseFromEnd.__clear()
+  parseModern.__clear()
+  getStateInfo.__clear()
+  simpleState.__clear()
+  getNestInfo.__clear()
+  parseLegacyCached.__clear()
+  parseModernCached.__clear()
+}

@@ -7,7 +7,9 @@ import BrowseLevel from '../bwlev/BrowseLevel'
 import globalSkeleton from './globalSkeleton'
 import {clearCache as clearCacheCompAttr} from '../dcl/attrs/comp/parseItems'
 import {clearCache as clearCacheCompGlue} from '../dcl/attrs/comp/extendByServiceAttrs'
-
+import {clearCache as clearCacheMultiPathParse} from '../utils/multiPath/parse'
+import {clearCache as clearCacheMultiPathLegacy} from '../utils/multiPath/fromLegacy'
+//
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
   if (!parent_path) {
@@ -98,6 +100,8 @@ function clearCaches() {
   // all build process should be done in mark() fn, not during onExtend fn
   clearCacheCompAttr()
   clearCacheCompGlue()
+  clearCacheMultiPathParse()
+  clearCacheMultiPathLegacy()
 }
 
 export default mark

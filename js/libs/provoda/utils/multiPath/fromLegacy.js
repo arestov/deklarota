@@ -137,4 +137,9 @@ var getFullPathInfo = spv.memorize(function(full_path) {
 
 })
 
+export const clearCache = () => {
+  getPath.__clear()
+  getFullPathInfo.__clear()
+}
+
 export default getFullPathInfo
