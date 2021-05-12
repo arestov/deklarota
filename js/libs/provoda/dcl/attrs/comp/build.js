@@ -27,6 +27,19 @@ var makeWatchIndex = function(full_comlxs_list) {
       full_comlxs_index[state_name].push(cur)
     }
   }
+
+  for (var attr_name in full_comlxs_index) {
+    if (!full_comlxs_index.hasOwnProperty(attr_name)) {
+      continue
+    }
+
+    if (full_comlxs_index[attr_name].length == 1) {
+      full_comlxs_index[attr_name] = full_comlxs_index[attr_name][0]
+    }
+  }
+
+  Object.freeze(full_comlxs_index)
+
   return full_comlxs_index
 }
 

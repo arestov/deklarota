@@ -364,6 +364,21 @@ function getComplexInitList(etr) {
   return result_array
 }
 
+function applyOneComplexAttr(etr, total_original_states, input_and_output, subj, uniq) {
+  var name = subj.name
+  if (uniq.has(name)) {
+    return
+  }
+
+  uniq.add(name)
+
+  var value = compoundComplexState(etr, subj)
+  _replaceState(
+    etr, total_original_states,
+    sameName(subj.name), value, input_and_output
+  )
+}
+
 function applyComplexStates(etr, total_original_states, start_from, input_and_output) {
   // reuse set
   var uniq = getFreeSet()
@@ -377,20 +392,15 @@ function applyComplexStates(etr, total_original_states, start_from, input_and_ou
     if (cur == null) {
       continue
     }
+
+    if (!Array.isArray(cur)) {
+      applyOneComplexAttr(etr, total_original_states, input_and_output, cur, uniq)
+      continue
+    }
+
     for (var jj = 0; jj < cur.length; jj++) {
       var subj = cur[jj]
-      var name = subj.name
-      if (uniq.has(name)) {
-        continue
-      }
-
-      uniq.add(name)
-
-      var value = compoundComplexState(etr, subj)
-      _replaceState(
-        etr, total_original_states,
-        sameName(subj.name), value, input_and_output
-      )
+      applyOneComplexAttr(etr, total_original_states, input_and_output, subj, uniq)
     }
   }
 
