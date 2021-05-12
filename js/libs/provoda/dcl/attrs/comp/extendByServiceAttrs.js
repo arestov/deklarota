@@ -42,4 +42,9 @@ const extendByServiceAttrs = function(self, comps) {
   assignField(self, '__dcls_comp_attrs_glue', result)
 }
 
+
+export const clearCache = () => {
+  makeGlueSourceCached.__clear()
+}
+
 export default extendByServiceAttrs

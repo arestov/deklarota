@@ -6,6 +6,7 @@ import RootLev from '../bwlev/RootLev'
 import BrowseLevel from '../bwlev/BrowseLevel'
 import globalSkeleton from './globalSkeleton'
 import {clearCache as clearCacheCompAttr} from '../dcl/attrs/comp/parseItems'
+import {clearCache as clearCacheCompGlue} from '../dcl/attrs/comp/extendByServiceAttrs'
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -96,6 +97,7 @@ function clearCaches() {
   // caches should not be singleton.
   // all build process should be done in mark() fn, not during onExtend fn
   clearCacheCompAttr()
+  clearCacheCompGlue()
 }
 
 export default mark
