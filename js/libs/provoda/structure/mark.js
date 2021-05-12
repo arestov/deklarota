@@ -5,6 +5,7 @@ import AttrsCollector from '../StatesEmitter/AttrsCollector'
 import RootLev from '../bwlev/RootLev'
 import BrowseLevel from '../bwlev/BrowseLevel'
 import globalSkeleton from './globalSkeleton'
+import {clearCache as clearCacheCompAttr} from '../dcl/attrs/comp/parseItems'
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -86,8 +87,15 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
   if (Constr == RootConstr) {
     globalSkeleton.complete(self.__global_skeleton)
+    clearCaches()
   }
   return Constr
+}
+
+function clearCaches() {
+  // caches should not be singleton.
+  // all build process should be done in mark() fn, not during onExtend fn
+  clearCacheCompAttr()
 }
 
 export default mark
