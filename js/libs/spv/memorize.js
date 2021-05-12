@@ -2,7 +2,8 @@
 
 export default function memorize(func, getter) {
   var cache = new Map()
-  return getter ? function chechCacheByGetter() {
+
+  const result = getter ? function chechCacheByGetter() {
     var key = getter.apply(this, arguments)
     if (!cache.has(key)) {
       var result = func.apply(this, arguments)
@@ -18,4 +19,10 @@ export default function memorize(func, getter) {
     }
     return cache.get(key)
   }
+
+  result.__clear = () => {
+    cache.clear()
+  }
+
+  return result
 };
