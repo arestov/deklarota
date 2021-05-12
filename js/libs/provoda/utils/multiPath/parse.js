@@ -132,10 +132,40 @@ var attemptSimpleStateName = function(string) {
   return simpleState(string)
 }
 
-var self = {
+var self = Object.freeze({
   as_string: '<<<<',
   base_itself: true,
-}
+})
+
+
+export const getNestInfo = spv.memorize(function getNestInfo(string) {
+  if (!string) {
+    return empty
+  }
+
+  var parts = string.split(':')
+  var path = parts.pop()
+
+  var full_path = splitByDot(path)
+
+  var zip_name = parts[0] || null
+
+  if (zip_name) {
+    throw new Error('dont use. use < @[zip_name] [statename] < [nestingname]')
+  }
+
+  var target_nest_name = full_path[full_path.length - 1] // last one
+
+  if (!target_nest_name) {
+    throw new Error('wrong nest path: ' + string)
+  }
+
+  return {
+    path: full_path,
+    base: full_path.slice(0, full_path.length - 1), // all, except last
+    target_nest_name: target_nest_name,
+  }
+})
 
 var parseMultiPath = function(string, allow_legacy) {
   if (string == '<<<<') {
@@ -215,7 +245,7 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 
   var result_type = getResultType(state_info, nest_info, resource_info, base_info)
 
-  return {
+  return Object.seal({
     result_type: result_type,
     zip_name: zip_name,
     state: state_info,
@@ -223,7 +253,7 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
     resource: resource_info,
     from_base: base_info,
     as_string: null,
-  }
+  })
 }
 
 
@@ -233,7 +263,7 @@ export function updateResultType(draft) {
 }
 
 export function createAddrByPart(source) {
-  var draft = {
+  var draft = Object.seal({
     result_type: null,
     zip_name: null,
     state: source.state || empty ,
@@ -241,41 +271,12 @@ export function createAddrByPart(source) {
     resource: source.resource || empty,
     from_base: source.from_base || empty,
     as_string: null,
-  }
+  })
 
   updateResultType(draft)
   return draft
 }
 
-
-export function getNestInfo(string) {
-  if (!string) {
-    return empty
-  }
-
-  var parts = string.split(':')
-  var path = parts.pop()
-
-  var full_path = splitByDot(path)
-
-  var zip_name = parts[0] || null
-
-  if (zip_name) {
-    throw new Error('dont use. use < @[zip_name] [statename] < [nestingname]')
-  }
-
-  var target_nest_name = full_path[full_path.length - 1] // last one
-
-  if (!target_nest_name) {
-    throw new Error('wrong nest path: ' + string)
-  }
-
-  return {
-    path: full_path,
-    base: full_path.slice(0, full_path.length - 1), // all, except last
-    target_nest_name: target_nest_name,
-  }
-}
 
 export function getResourceInfo(string) {
   if (!string) {
