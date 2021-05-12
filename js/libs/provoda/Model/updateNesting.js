@@ -8,6 +8,7 @@ import handleMentions from './mentions/handleRelChange'
 import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
 import updateMetaAttrs from './rel/updateMetaAttrs'
 import emptyArray from '../emptyArray'
+import sameName from '../sameName'
 
 var checkNesting = nestWIndex.checkNesting
 
@@ -29,7 +30,8 @@ const isGlueRel = function(self, rel_key) {
   return skeleton.glue_rels.has(rel_key)
 }
 
-export default function updateNesting(self, collection_name, input, opts) {
+export default function updateNesting(self, collection_name_raw, input, opts) {
+  const collection_name = sameName(collection_name_raw)
 
   if (self._currentMotivator() == null) {
     throw new Error('wrap updateRel call in `.input()`')
