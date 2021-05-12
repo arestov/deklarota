@@ -167,5 +167,9 @@ var getParsedState = spv.memorize(function getParsedState(state_name) {
   }
 })
 
+export const clearCache = () => {
+  getParsedState.__clear()
+}
+
 getParsedState.fromMultiPath = fromMultiPath
 export default getParsedState
