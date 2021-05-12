@@ -4,6 +4,7 @@ import memorize from './spv/memorize'
 import coe from './spv/coe'
 import Class from './spv/Class'
 import inh from './spv/inh'
+import splitByDot from './spv/splitByDot'
 
 var spv = {}
 
@@ -200,9 +201,6 @@ spv.shuffleArray = function(obj) {
 
 spv.memorize = memorize
 
-var splitByDot = spv.memorize(function splitByDot(string) {
-  return string.split('.')
-})
 spv.splitByDot = splitByDot
 
 var getFieldsTree = function getFieldsTree(string) {
