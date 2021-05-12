@@ -10,6 +10,7 @@ import {clearCache as clearCacheCompGlue} from '../dcl/attrs/comp/extendByServic
 import {clearCache as clearCacheMultiPathParse} from '../utils/multiPath/parse'
 import {clearCache as clearCacheMultiPathLegacy} from '../utils/multiPath/fromLegacy'
 import {clearCache as clearCacheLegacyAddr} from '../utils/getParsedState.js'
+import splitByDot from '../../spv/splitByDot'
 
 function makePath(parent_path, current_name) {
   var used_name = [current_name || 'unknown']
@@ -104,6 +105,7 @@ function clearCaches() {
   clearCacheMultiPathParse()
   clearCacheMultiPathLegacy()
   clearCacheLegacyAddr()
+  splitByDot.__clear()
 }
 
 export default mark
