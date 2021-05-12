@@ -95,6 +95,8 @@ var CompxAttrDecl = function(comlx_name, cur) {
 
   this.watch_list = this.depends_on
 
+  Object.freeze(this)
+
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
     return this
   }
