@@ -1,6 +1,7 @@
 import getParsedState from '../../../utils/getParsedState'
 import fromLegacy from '../../../utils/multiPath/fromLegacy'
 import parse from '../../../utils/multiPath/parse'
+import sameArrayIfEmpty from '../../../utils/sameArrayIfEmpty'
 import asString from '../../../utils/multiPath/asString'
 import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
@@ -56,7 +57,7 @@ var toParsedDeps = function(array) {
     require_marks.push(i)
   }
 
-  return {fixed_deps: result, require_marks: require_marks}
+  return {fixed_deps: result, require_marks: sameArrayIfEmpty(require_marks)}
 }
 
 var emptyList = []
@@ -70,7 +71,7 @@ var CompxAttrDecl = function(comlx_name, cur) {
     throw new Error('don\'t use object structure of dep')
   }
 
-  var deps_list = cur[0] || emptyList
+  var deps_list = cur[0] || sameArrayIfEmpty(emptyList)
   var fn = cur[1]
 
   if (!deps_list.length && typeof fn !== 'function') {
