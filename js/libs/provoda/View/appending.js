@@ -488,12 +488,12 @@ export default {
     for (; i >= 0; i--) {
       var view = this.getStoredMpx(array[i]).getView(location_id)
       var dom_hook = view && !view._lbr.detached && view.getT()
-      if (dom_hook) {
-        if (view_itself) {
-          return view
-        } else {
-          return dom_hook
-        }
+      if (!dom_hook) {continue}
+
+      if (view_itself) {
+        return view
+      } else {
+        return dom_hook
       }
 
     }
@@ -506,12 +506,12 @@ export default {
     for (; i < array.length; i++) {
       var view = this.getStoredMpx(array[i]).getView(location_id)
       var dom_hook = view && !view._lbr.detached && view.getT()
-      if (dom_hook) {
-        if (view_itself) {
-          return view
-        } else {
-          return dom_hook
-        }
+      if (!dom_hook) {continue}
+
+      if (view_itself) {
+        return view
+      } else {
+        return dom_hook
       }
     }
   },
