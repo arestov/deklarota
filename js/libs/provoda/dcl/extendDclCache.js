@@ -1,4 +1,4 @@
-import cloneObj from '../../spv/cloneObj'
+import { doCopy } from '../../spv/cloneObj'
 import copyProps from './copyProps'
 
 const extendDclCache = function(self, field, added) {
@@ -13,7 +13,7 @@ export const extendCompAttrs = (self, typed_state_dcls, extendingField) => {
 
   typed_state_dcls['comp'] = typed_state_dcls['comp'] || {}
 
-  cloneObj(typed_state_dcls['comp'], self[extendingField])
+  doCopy(typed_state_dcls['comp'], self[extendingField])
 }
 
 export default extendDclCache

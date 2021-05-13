@@ -1,5 +1,7 @@
 
 import spv from '../../spv'
+import { doCopy } from '../../spv/cloneObj'
+
 import definedAttrs from '../Model/definedAttrs'
 import AttrsCollector from '../StatesEmitter/AttrsCollector'
 import RootLev from '../bwlev/RootLev'
@@ -37,12 +39,12 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
   var all = {}
 
-  spv.cloneObj(all, self._chi)
-  spv.cloneObj(all, self._chi_sub_pager)
-  spv.cloneObj(all, self._chi_sub_pages)
-  spv.cloneObj(all, self._chi_sub_pages_side)
-  spv.cloneObj(all, self._chi_nest)
-  spv.cloneObj(all, self._chi_nest_rqc)
+  doCopy(all, self._chi)
+  doCopy(all, self._chi_sub_pager)
+  doCopy(all, self._chi_sub_pages)
+  doCopy(all, self._chi_sub_pages_side)
+  doCopy(all, self._chi_nest)
+  doCopy(all, self._chi_nest_rqc)
 
   for (var prop in all) {
     var cur = all[prop]
