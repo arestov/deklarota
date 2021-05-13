@@ -18,6 +18,7 @@ var appendSpace = function() {
   //$(target).append(document.createTextNode(' '));
 }
 
+const mpxRemoved = (mpx) => mpx === null
 
 export default {
   appen_ne_vws: {
@@ -120,7 +121,9 @@ export default {
     //исправляем порядковый номер вьюхи в нэстинге
     var counter = 0
     for (var i = 0; i < array.length; i++) {
-      var view = this.getStoredMpx(array[i]).getView(location_id)
+      const mpx = this.getStoredMpx(array[i])
+      if (mpxRemoved(mpx)) {continue}
+      var view = mpx.getView(location_id)
       if (view) {
         view._lbr.innesting_pos_current = counter
 
@@ -174,7 +177,10 @@ export default {
         //если у всех приоритезированных моделей уже есть вьюхи, то не не используем преоритезацию
         var has_any_nonviewed = false
         for (i = 0; i < ordered_part.length; i++) {
-          if (this.getStoredMpx(ordered_part[i]).getView(location_id)) {
+          const mpx = this.getStoredMpx(ordered_part[i])
+          if (mpxRemoved(mpx)) {continue}
+
+          if (mpx.getView(location_id)) {
             has_any_nonviewed = true
           }
         }
@@ -190,7 +196,10 @@ export default {
 
     for (i = 0; i < array.length; i++) {
       cur = array[i]
-      view = this.getStoredMpx(cur).getView(location_id)
+      const mpx = this.getStoredMpx(cur)
+      if (mpxRemoved(mpx)) {continue}
+
+      view = mpx.getView(location_id)
       if (view) {
         prev_view = this.getPrevView(array, i, location_id, true)
         if (prev_view) {
@@ -229,7 +238,10 @@ export default {
 
     for (i = 0; i < array.length; i++) {
       cur = array[i]
-      view = this.getStoredMpx(cur).getView(location_id)
+      const mpx = this.getStoredMpx(cur)
+      if (mpxRemoved(mpx)) {continue}
+
+      view = mpx.getView(location_id)
       if (view && !view._lbr.detached) {
         continue
       }
@@ -255,7 +267,10 @@ export default {
       cur = append_list[ i ]
       var complect = append_list[ i + 1 ]
 
-      view = this.getStoredMpx(cur).getView(location_id)
+      const mpx = this.getStoredMpx(cur)
+      if (mpxRemoved(mpx)) {continue}
+
+      view = mpx.getView(location_id)
       if (!view) {
         view = funcs.getFreeView(cur)
       }
@@ -269,7 +284,10 @@ export default {
     }
     if (!this._lbr._collections_set_processing) {
       for (i = array.length - 1; i >= 0; i--) {
-        view = this.getStoredMpx(array[i]).getView(location_id)
+        const mpx = this.getStoredMpx(array[i])
+        if (mpxRemoved(mpx)) {continue}
+
+        view = mpx.getView(location_id)
         if (view) {
           view.requestDetailesCreating()
         }
@@ -300,7 +318,9 @@ export default {
 
 
     for (i = 0; i < array.length; i++) {
-      view = this.getStoredMpx(array[i]).getView(location_id)
+      const mpx = this.getStoredMpx(array[i])
+      if (mpxRemoved(mpx)) {continue}
+      view = mpx.getView(location_id)
       if (view) {
         view._lbr.innest_prev_view = this.getPrevView(array, i, location_id, true)
         view._lbr.innest_next_view = this.getNextView(array, i, location_id, true)
@@ -486,7 +506,10 @@ export default {
       return
     }
     for (; i >= 0; i--) {
-      var view = this.getStoredMpx(array[i]).getView(location_id)
+      const mpx = this.getStoredMpx(array[i])
+      if (mpxRemoved(mpx)) {continue}
+
+      var view = mpx.getView(location_id)
       var dom_hook = view && !view._lbr.detached && view.getT()
       if (!dom_hook) {continue}
 
@@ -504,7 +527,10 @@ export default {
       return
     }
     for (; i < array.length; i++) {
-      var view = this.getStoredMpx(array[i]).getView(location_id)
+      const mpx = this.getStoredMpx(array[i])
+      if (mpxRemoved(mpx)) {continue}
+
+      var view = mpx.getView(location_id)
       var dom_hook = view && !view._lbr.detached && view.getT()
       if (!dom_hook) {continue}
 
