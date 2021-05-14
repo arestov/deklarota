@@ -121,6 +121,8 @@ var initView = function(target, view_otps, opts) {
   }
   target._lbr = new ViewLabour()
 
+  target._lbr.undetailed_states['$entry'] = target.mpx
+
   target.mpx._assignPublicAttrs(target._lbr.undetailed_states)
   Object.assign(target._lbr.undetailed_states, target.mpx.vstates)
   var default_attrs = initInputAttrs(target)

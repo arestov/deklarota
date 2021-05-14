@@ -3,9 +3,12 @@
 import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
 import cloneObj from '../spv/cloneObj'
 import sameName from './sameName'
+import { init as initStores, methods as storesMethods } from './MDProxy/stores'
+const CH_GR_LE = 2
 
 var MDProxy = function(_provoda_id, children_models, md, space) {
   this._provoda_id = _provoda_id
+  this.key = _provoda_id
   this.views = null
   this.views_index = null
   this.vstates = null
@@ -13,10 +16,47 @@ var MDProxy = function(_provoda_id, children_models, md, space) {
   this.md = md
   this.nestings = cloneObj({}, children_models)
   this.space = space || null
+  initStores(this)
+
   Object.seal(this)
 }
 
-MDProxy.prototype = {
+Object.assign(MDProxy.prototype, storesMethods)
+
+Object.assign(MDProxy.prototype, {
+  getAttr: function(attr_name) {
+    return this.md.states[attr_name]
+  },
+  getRel: function(rel_name) {
+    if (!this.nestings == null) {
+      return null
+    }
+
+    var list = this.nestings[rel_name]
+    if (list == null) {
+      return null
+    }
+    if (!Array.isArray(list)) {
+      return list
+    }
+
+    let result = []
+    for (var i = 0; i < list.length; i++) {
+      const item = list[i]
+      const key = item._provoda_id
+      const mpx = this.space.mpxes_index[key]
+      if (!mpx) {continue}
+
+      result.push(mpx)
+    }
+
+    return result
+
+  },
+  dispatch: function(payload) {
+    this.RPCLegacy('dispatch', payload)
+  },
+
   __getAttr: function(name) {
     return this.md.states[name]
   },
@@ -87,6 +127,8 @@ MDProxy.prototype = {
     var old_value = this.nestings[collection_name]
     this.nestings[collection_name] = array
 
+    this.__notifyRelChangeWatchers(collection_name)
+
     if (!this.views) {
       return
     }
@@ -98,6 +140,11 @@ MDProxy.prototype = {
   },
 
   stackReceivedStates: function(states_list) {
+    // should be scheduled using context's mircotasks
+    for (var i = 0; i < states_list.length; i += CH_GR_LE) {
+      this.__notifyAttrChangeWatchers(states_list[i], states_list[i + 1])
+    }
+
     if (!this.views) {
       return
     }
@@ -106,6 +153,10 @@ MDProxy.prototype = {
     }
   },
   sendStatesToViews: function(states_list, opts) {
+    for (var i = 0; i < states_list.length; i += CH_GR_LE) {
+      this.__notifyAttrChangeWatchers(states_list[i], states_list[i + 1])
+    }
+
     if (!this.views) {
       return
     }
@@ -211,5 +262,5 @@ MDProxy.prototype = {
     this.nestings = null
     this.space = null
   }
-}
+})
 export default MDProxy
