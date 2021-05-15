@@ -3,6 +3,7 @@
 import spv from '../../spv'
 import angbo from '../StatementsAngularParser.min'
 import dom_helpers from '../utils/dom_helpers'
+import { emptyObject } from '../utils/sameObjectIfEmpty'
 import parser from './parser'
 import PvSimpleSampler from './PvSimpleSampler'
 import parseEasy from './parseEasy'
@@ -55,6 +56,15 @@ var makeSpecStatesList = function(states) {
   }
   return result
 }
+
+const mutateStwat = (target) => {
+  if (Object.isFrozen(target.stwat_index)) {
+    target.stwat_index = {}
+  }
+
+  return target.stwat_index
+}
+
 var PvTemplate = function(opts) {
   this.dead = false
   this.pv_types_collecting = false
@@ -65,7 +75,7 @@ var PvTemplate = function(opts) {
   //this.pv_views = null;
   //this.parsed_pv_views = null;
 
-  this.stwat_index = null
+  this.stwat_index = emptyObject
   this.all_chunks = []
 
   this.root_node = opts.node
@@ -107,7 +117,6 @@ var PvTemplate = function(opts) {
   this.data_limitations = opts.data_limitations
 
   this.states_watchers = []
-  this.stwat_index = {}
   this.pv_types = null
   this.pv_repeats_data = null
   this.destroyers = null
@@ -445,7 +454,7 @@ spv.Class.extendTo(PvTemplate, {
     }
     handleChunks(this.all_chunks, this, false)
     this.all_chunks = null
-    this.stwat_index = {}
+    this.stwat_index = emptyObject
 
     if (this.destroyers) {
 
@@ -642,6 +651,7 @@ spv.Class.extendTo(PvTemplate, {
     }
 
     var matched = [], i = 0
+    mutateStwat(this)
     for (i = 0; i < changes.length; i += CH_GR_LE) { //ищем подходящие директивы
       var name = changes[i]
       if (this.stwat_index[name]) {
