@@ -59,6 +59,25 @@ var ViewLabour = function() {
   this.__sync_nest_hooks = null
 }
 
+const emptyObject = Object.freeze({})
+const emptyArray = Object.freeze([])
+
+const mutateRels = (target) => {
+  if (Object.isFrozen(target.children_models)) {
+    target.children_models = {}
+  }
+
+  return target.children_models
+}
+
+const mutateChildren = (target) => {
+  if (Object.isFrozen(target.children)) {
+    target.children = []
+  }
+
+  return target.children
+}
+
 var initView = function(target, view_otps, opts) {
 
   target.used_data_structure = view_otps.used_data_structure || target.used_data_structure
@@ -96,8 +115,8 @@ var initView = function(target, view_otps, opts) {
     target.opts = opts
   }
 
-  target.children = []
-  target.children_models = {}
+  target.children = emptyArray
+  target.children_models = emptyObject
 
   if (target.parent_view && !view_otps.location_name) {
     throw new Error('give me location name!')
@@ -566,7 +585,9 @@ var View = spv.inh(StatesEmitter, {
     return all_requests
   },
   addChildView: function(view) {
-    this.children.push.call(this.children, view)
+    mutateChildren(this)
+
+    this.children.push(view)
     //fixme - possible memory leak when child is dead (this.children)
   },
   getChildViewsByMpx: function(mpx, nesting_name) {
@@ -882,7 +903,7 @@ var View = spv.inh(StatesEmitter, {
       target._lbr.undetailed_children_models[nesname] = items
       return target
     }
-
+    mutateRels(target)
     var old_value = target.children_models[nesname]
     target.children_models[nesname] = items
 
