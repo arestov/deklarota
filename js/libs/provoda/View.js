@@ -489,9 +489,9 @@ spv.cloneObj(props, {
     var total_ch = this.__total_states_list
     this.updateTemplatesStates(total_ch)
 
-    for (var nesname in this.children_models) {
-
-      this.pvCollectionChange(nesname, this.children_models[nesname])
+    var children_models = this.mpx.__getRels()
+    for (var nesname in children_models) {
+      this.pvCollectionChange(nesname, children_models[nesname])
     }
 
     this.current_motivator = old_mt

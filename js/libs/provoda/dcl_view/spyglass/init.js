@@ -6,11 +6,13 @@ var nil = spv.nil
 
 function watchAndRequest(root_bwlev_view, self, spyglass) {
   var key = spyglass.nest_name + '---' + self.view_id
+  var current = null
 
   self.lwch(root_bwlev_view, 'spyglasses_requests', function handleChange(index) {
     var value = index[key] || null
 
-    self.collectionChange(self, spyglass.nest_name, value && getModel(self, value))
+    self.collectionChange(self, spyglass.nest_name, value && getModel(self, value), current && getModel(self, current))
+    current = value
     // TODO if (value) {unsubscribe()}
   })
 
@@ -26,7 +28,7 @@ function watchAndRequest(root_bwlev_view, self, spyglass) {
 
 function getContextId(view, parent_bwlev_view, steps) {
   if (steps === true) {
-    return parent_bwlev_view.children_models.pioneer._provoda_id
+    return parent_bwlev_view.getNesting('pioneer')._provoda_id
   }
 
   if (steps.startsWith('.')) {

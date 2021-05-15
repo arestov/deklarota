@@ -59,16 +59,7 @@ var ViewLabour = function() {
   this.__sync_nest_hooks = null
 }
 
-const emptyObject = Object.freeze({})
 const emptyArray = Object.freeze([])
-
-const mutateRels = (target) => {
-  if (Object.isFrozen(target.children_models)) {
-    target.children_models = {}
-  }
-
-  return target.children_models
-}
 
 const mutateChildren = (target) => {
   if (Object.isFrozen(target.children)) {
@@ -116,7 +107,6 @@ var initView = function(target, view_otps, opts) {
   }
 
   target.children = emptyArray
-  target.children_models = emptyObject
 
   if (target.parent_view && !view_otps.location_name) {
     throw new Error('give me location name!')
@@ -186,7 +176,7 @@ var getSpyglassData = function(current_view, target_id, probe_name, value, req) 
   var parent_bwlev_view = getBwlevView(current_view)
 
   var data = {
-    context_md: parent_bwlev_view && parent_bwlev_view.children_models.pioneer._provoda_id,
+    context_md: parent_bwlev_view && parent_bwlev_view.getNesting('pioneer')._provoda_id,
     bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._provoda_id,
     target_id: target_id,
     probe_name: probe_name,
@@ -271,7 +261,7 @@ var View = spv.inh(StatesEmitter, {
       ? (bwlev_view && bwlev_view.mpx._provoda_id)
       : null
     var current_bwlev_map = remember_context
-      ? (bwlev_view && bwlev_view.mpx.md.children_models.map.children_models.current_mp_bwlev._provoda_id)
+      ? (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._provoda_id)
       : null
 
     this.root_view.parent_view.RPCLegacy('navShowByReq', {
@@ -352,7 +342,7 @@ var View = spv.inh(StatesEmitter, {
     return this.view_id
   },
   getNesting: function(collection_name) {
-    return this.children_models[collection_name]
+    return this.mpx.nestings[collection_name]
   },
   demensions_cache: {},
   checkDemensionsKeyStart: function() {
@@ -856,7 +846,7 @@ var View = spv.inh(StatesEmitter, {
     updateProxy(this, [name, value])
   },
   checkChildrenModelsRendering: function() {
-    var obj = Object.assign({}, this.children_models)
+    var obj = Object.assign({}, this.mpx.nestings)
     this.setMdChildren(obj)
   },
   setMdChildren: function(collections) {
@@ -868,7 +858,7 @@ var View = spv.inh(StatesEmitter, {
     this._lbr._collections_set_processing = null
   },
   getMdChild: function(name) {
-    return this.children_models[name]
+    return this.getNesting(name)
   },
   pvserv: {
     simple: {
@@ -896,6 +886,11 @@ var View = spv.inh(StatesEmitter, {
     this.nextTick(this.collectionChange, args)
   },
   collectionChange: function(target, nesname, items, rold_value, removed) {
+    /*
+      - rold_value makes no sense during initialization
+      - rold_value should be passed during live changes
+    */
+
     if (!target.isAlive()) {
       return
     }
@@ -903,11 +898,8 @@ var View = spv.inh(StatesEmitter, {
       target._lbr.undetailed_children_models[nesname] = items
       return target
     }
-    mutateRels(target)
-    var old_value = target.children_models[nesname]
-    target.children_models[nesname] = items
 
-    selectCollectionChange(target, nesname, items, removed, old_value)
+    selectCollectionChange(target, nesname, items, removed, rold_value)
 
     target.checkDeadChildren()
     nestBorrowCheckChange(target, nesname, items, rold_value, removed)
@@ -1047,7 +1039,7 @@ var View = spv.inh(StatesEmitter, {
     return views
   },
   __viewsList: function(nesting_name) {
-    return this.__mapListToViews(nesting_name, this.children_models[nesting_name])
+    return this.__mapListToViews(nesting_name, this.getNesting(nesting_name))
   },
   __hookNestSync: function(nesting_name, fn) {
     if (!this.__sync_nest_hooks) {

@@ -74,6 +74,9 @@ Object.assign(MDProxy.prototype, {
   _assignPublicAttrs: function(target) {
     return this.md._assignPublicAttrs(target)
   },
+  __getRels: function() {
+    return this.nestings
+  },
   RPCLegacy: function() {
     var args = Array.prototype.slice.call(arguments)
     var data = JSON.parse(JSON.stringify(args))

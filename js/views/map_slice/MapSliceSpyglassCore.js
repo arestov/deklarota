@@ -157,7 +157,7 @@ export default spv.inh(View, {
       return
     }
 
-    var real_num = bwlev.children_models['pioneer'].map_level_num
+    var real_num = bwlev.getNesting('pioneer').map_level_num
     var num = raw_num + (deeper ? 1 : 0)
     if (num == -1 && real_num == -1) {
       return this.lev_containers.start_page
