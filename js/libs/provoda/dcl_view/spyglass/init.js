@@ -1,7 +1,5 @@
 
 import spv from '../../../spv'
-import getModelById from '../../utils/getModelById'
-import getRootBwlevView from './getRootBwlevView'
 import getBwlevView from '../getBwlevView'
 import getModel from '../../View/getModel'
 var nil = spv.nil
