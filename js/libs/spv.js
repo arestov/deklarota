@@ -1287,6 +1287,18 @@ spv.forEachKey = function(obj, fn, arg1, arg2) {
   }
 }
 
+export const isObjectEmpty = (obj) => {
+  for (var prop in obj) {
+    if (!obj.hasOwnProperty(prop)) {
+      continue
+    }
+
+    return false
+  }
+
+  return true
+}
+
 export const countKeys = function(obj, truthy) {
   var count = 0
   for (var prop in obj) {

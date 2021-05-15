@@ -1,8 +1,8 @@
-
-
 import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
 import cloneObj from '../spv/cloneObj'
+import { isObjectEmpty } from '../spv'
 import sameName from './sameName'
+import { emptyObject } from './utils/sameObjectIfEmpty'
 import { init as initStores, methods as storesMethods } from './MDProxy/stores'
 const CH_GR_LE = 2
 
@@ -14,11 +14,19 @@ var MDProxy = function(_provoda_id, children_models, md, space) {
   this.vstates = null
   //this.children_models = children_models;
   this.md = md
-  this.nestings = cloneObj({}, children_models)
+  this.nestings = isObjectEmpty(children_models) ? emptyObject : cloneObj({}, children_models)
   this.space = space || null
   initStores(this)
 
   Object.seal(this)
+}
+
+const mutateRels = (target) => {
+  if (Object.isFrozen(target.nestings)) {
+    target.nestings = {}
+  }
+
+  return target.nestings
 }
 
 Object.assign(MDProxy.prototype, storesMethods)
@@ -125,6 +133,8 @@ Object.assign(MDProxy.prototype, {
   },
   sendCollectionChange: function(collection_name, array) {
     var old_value = this.nestings[collection_name]
+
+    mutateRels(this)
     this.nestings[collection_name] = array
 
     this.__notifyRelChangeWatchers(collection_name)

@@ -1,6 +1,6 @@
 import { countKeys } from '../../spv'
 
-const emptyObject = Object.freeze({})
+export const emptyObject = Object.freeze({})
 
 const sameObjectIfEmpty = (object) => {
   if (object == null) {
