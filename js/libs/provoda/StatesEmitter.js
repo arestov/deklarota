@@ -45,7 +45,7 @@ add({
   // 	return this;
   // },
   getInterface: function(interface_name) {
-    return this._interfaces_using.used[interface_name]
+    return this._interfaces_used[interface_name]
   },
   watchInterface: function(from, interface_name, fn) {
     var meta_state_name = '$meta$apis$' + interface_name + '$used'

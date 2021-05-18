@@ -139,7 +139,7 @@ function checkAndMutateDepReadyEffects(self, total_original_states) {
     for (var cc = 0; cc < effect.apis.length; cc++) {
       var api = effect.apis[cc]
 
-      if (!self._interfaces_using || !self._interfaces_using.used[api]) {
+      if (!self._interfaces_using || !self._interfaces_used[api]) {
         deps_ready = false
         break
       }
@@ -223,7 +223,7 @@ function executeEffect(self, effect_name, transaction_id) {
 
   var args = new Array(effect.apis.length + effect.triggering_states.length)
   for (var i = 0; i < effect.apis.length; i++) {
-    var api = self._interfaces_using.used[effect.apis[i]]
+    var api = self._interfaces_used[effect.apis[i]]
     if (!api) {
       // do not call effect fn
       checkSchedule(self, trans_store, effect_name, key)
@@ -310,7 +310,7 @@ function checkApi(declr, value, self) {
 
   var args = new Array(declr.needed_apis.length)
   for (var i = 0; i < declr.needed_apis.length; i++) {
-    args[i] = self._interfaces_using.used[declr.needed_apis[i]]
+    args[i] = self._interfaces_used[declr.needed_apis[i]]
   }
 
   self.useInterface(declr.name, declr.fn.apply(null, args))

@@ -91,7 +91,7 @@ var makeBindChanges = function(self, index, using, original_values) {
 
       bind_args[0] = getHandler(self, cur)
       for (var i = 0; i < apis.length; i++) {
-        bind_args[i + 1] = using.used[apis[i]]
+        bind_args[i + 1] = self._interfaces_used[apis[i]]
       }
       var cancel = cur.fn.apply(null, bind_args)
       if (cancel == null) {

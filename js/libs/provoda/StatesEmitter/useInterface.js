@@ -7,7 +7,6 @@ import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 
 var template = function() {
   return {
-    used: {},
     binders: {
       indexes: {},
 
@@ -47,7 +46,10 @@ var useInterface = function(self, interface_name, obj, destroy) {
   }
 
   var values_original = spv.cloneObj({}, using.binders.values)
-  using.used[interface_name] = null
+
+  if (self._interfaces_used[interface_name] != null) {
+    self._interfaces_used[interface_name] = null
+  }
 
 
   using = runOnApiRemoved(self, using, interface_name, values_original)
@@ -63,7 +65,12 @@ var useInterface = function(self, interface_name, obj, destroy) {
   }
 
   var values_original2 = spv.cloneObj({}, using.binders.values)
-  using.used[interface_name] = obj
+
+  if (Object.isFrozen(self._interfaces_used)) {
+    self._interfaces_used = {}
+  }
+
+  self._interfaces_used[interface_name] = obj
   using = runOnApiAdded(self, using, interface_name, values_original2)
   self._interfaces_using = using
 
