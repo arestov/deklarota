@@ -36,8 +36,8 @@ var update = function(self, interface_name, value) {
 
 var useInterface = function(self, interface_name, obj, destroy) {
   var using = self._interfaces_using
-  var old_interface = using && using.used[interface_name]
-  if (obj === old_interface) {
+  var old_interface = self._interfaces_used[interface_name]
+  if (obj === old_interface || (obj == null && old_interface == null)) {
     return
   }
 
