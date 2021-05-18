@@ -139,7 +139,7 @@ function checkAndMutateDepReadyEffects(self, total_original_states) {
     for (var cc = 0; cc < effect.apis.length; cc++) {
       var api = effect.apis[cc]
 
-      if (!self._interfaces_using || !self._interfaces_used[api]) {
+      if (!self._interfaces_used[api]) {
         deps_ready = false
         break
       }
