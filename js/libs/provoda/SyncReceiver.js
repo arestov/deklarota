@@ -44,6 +44,9 @@ FakeModel.prototype = {
     }
     return this.md_replacer
   },
+  getNesting: function(rel_name) {
+    return this.children_models[rel_name]
+  }
 }
 
 
