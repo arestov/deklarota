@@ -9,14 +9,14 @@ var FakeModel = function(model_skeleton, stream) {
   this.stream = stream
   this._provoda_id = model_skeleton._provoda_id
 
-  this.children_models = model_skeleton.children_models
+  this.children_models = Object.assign({}, model_skeleton.children_models)
   this.map_level_num = model_skeleton.map_level_num
   this.map_parent = model_skeleton.map_parent
   this.hierarchy_num = model_skeleton.hierarchy_num
   this.constr_id = model_skeleton.constr_id
   this.model_name = model_skeleton.model_name
   this.mpx = model_skeleton.mpx
-  this.states = model_skeleton.states
+  this.states = Object.assign({}, model_skeleton.states)
   this.md_replacer = null
   Object.seal(this)
 }
@@ -110,9 +110,10 @@ SyncReceiver.prototype = {
       //создаём передатчики обновлений во вьюхи
       cur = array[i]
       cur_pvid = cur._provoda_id
+      const fake_model = this.models_index[cur_pvid]
       if (!this.md_proxs_index[cur_pvid]) {
-        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, cur.children_models, this.models_index[cur_pvid])
-        this.models_index[cur_pvid].mpx = this.md_proxs_index[cur_pvid]
+        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, fake_model.children_models, fake_model)
+        fake_model.mpx = this.md_proxs_index[cur_pvid]
       }
     }
     return array.length && this.models_index[array[0]._provoda_id]
