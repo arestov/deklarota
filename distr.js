@@ -58,7 +58,7 @@ const build = ({
 
         return babel({
           babelHelpers: 'bundled',
-          include: ['*/js/libs/**/**'],
+          include: ['*/js/libs/**/**',  '*/js/views/**/**'],
           "plugins": [pathm.join(__dirname, "./node_modules/babel-plugin-memory-consumers-slicer")],
         })
       })(),
