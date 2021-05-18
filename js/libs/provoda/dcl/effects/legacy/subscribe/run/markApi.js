@@ -1,8 +1,8 @@
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
-var checkState = function(using, binder) {
-  var keys = using.binders.indexes[binder.key]
+var checkState = function(binders, binder) {
+  var keys = binders.indexes[binder.key]
   var value = true
   for (var i = 0; i < binder.apis.length; i++) {
     if (!keys[binder.apis[i]]) {
@@ -11,25 +11,25 @@ var checkState = function(using, binder) {
     }
   }
 
-  using.binders.values[binder.key] = value
-  return using
+  binders.values[binder.key] = value
+  return binders
 }
 
-var markApi = function(index, using, interface_name, mark) {
+var markApi = function(index, binders, interface_name, mark) {
   var list = index && index[interface_name]
   if (!list || !list.length) {
-    return using
+    return binders
   }
 
   for (var i = 0; i < list.length; i++) {
     var cur = list[i]
-    if (!using.binders.indexes[cur.key]) {
-      using.binders.indexes[cur.key] = {}
+    if (!binders.indexes[cur.key]) {
+      binders.indexes[cur.key] = {}
     }
-    using.binders.indexes[cur.key][interface_name] = mark
+    binders.indexes[cur.key][interface_name] = mark
   }
 
-  var result = using
+  var result = binders
   for (var i = 0; i < list.length; i++) {
     var cur = list[i]
     result = checkState(result, cur)

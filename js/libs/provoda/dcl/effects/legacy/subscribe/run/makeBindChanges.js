@@ -75,17 +75,17 @@ var getHandler = function(self, dcl) {
 }
 
 
-var makeBindChanges = function(self, index, using, original_values) {
+var makeBindChanges = function(self, index, binders, original_values) {
   // _build_cache_interfaces
-  for (var key in using.binders.values) {
-    var change = Boolean(original_values[key]) != Boolean(using.binders.values[key])
+  for (var key in binders.values) {
+    var change = Boolean(original_values[key]) != Boolean(binders.values[key])
     if (!change) {
       continue
     }
 
     var cur = index[key]
 
-    if (using.binders.values[key]) {
+    if (binders.values[key]) {
       var apis = cur.apis
       var bind_args = new Array(apis.length + 1)
 
@@ -98,15 +98,15 @@ var makeBindChanges = function(self, index, using, original_values) {
         console.error(self.__code_path)
         throw new Error('effect should provide fn to cancel subscription ' + key)
       }
-      using.binders.removers[key] = cancel
+      binders.removers[key] = cancel
 
     } else {
-      using.binders.removers[key].call()
-      using.binders.removers[key] = null
+      binders.removers[key].call()
+      binders.removers[key] = null
     }
   }
 
-  return using
+  return binders
 }
 
 export default makeBindChanges

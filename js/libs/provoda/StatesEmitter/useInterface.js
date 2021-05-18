@@ -7,17 +7,15 @@ import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 
 var template = function() {
   return {
-    binders: {
-      indexes: {},
+    indexes: {},
 
-      /*
-        value - true, когда есть все нужные api
-        при смене value для state происходит bind.
-        при value === false происходит unbind
-      */
-      values: {},
-      removers: {}
-    },
+    /*
+      value - true, когда есть все нужные api
+      при смене value для state происходит bind.
+      при value === false происходит unbind
+    */
+    values: {},
+    removers: {}
   }
 }
 
@@ -35,25 +33,25 @@ var update = function(self, interface_name, value) {
 }
 
 var useInterface = function(self, interface_name, obj, destroy) {
-  var using = self._interfaces_using
   var old_interface = self._interfaces_used[interface_name]
   if (obj === old_interface || (obj == null && old_interface == null)) {
     return
   }
 
-  if (!using) {
-    using = self._interfaces_using = template()
+  var binders = self._interfaces_binders
+  if (!binders) {
+    binders = self._interfaces_binders = template()
   }
 
-  var values_original = spv.cloneObj({}, using.binders.values)
+  var values_original = spv.cloneObj({}, binders.values)
 
   if (self._interfaces_used[interface_name] != null) {
     self._interfaces_used[interface_name] = null
   }
 
 
-  using = runOnApiRemoved(self, using, interface_name, values_original)
-  self._interfaces_using = using
+  binders = runOnApiRemoved(self, binders, interface_name, values_original)
+  self._interfaces_binders = binders
 
   if (old_interface && destroy) {
     destroy(old_interface)
@@ -64,15 +62,15 @@ var useInterface = function(self, interface_name, obj, destroy) {
     return
   }
 
-  var values_original2 = spv.cloneObj({}, using.binders.values)
+  var values_original2 = spv.cloneObj({}, binders.values)
 
   if (Object.isFrozen(self._interfaces_used)) {
     self._interfaces_used = {}
   }
 
   self._interfaces_used[interface_name] = obj
-  using = runOnApiAdded(self, using, interface_name, values_original2)
-  self._interfaces_using = using
+  binders = runOnApiAdded(self, binders, interface_name, values_original2)
+  self._interfaces_binders = binders
 
   update(self, interface_name, Date.now())
 
