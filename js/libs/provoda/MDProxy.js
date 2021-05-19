@@ -31,6 +31,12 @@ const mutateRels = (target) => {
 
 Object.assign(MDProxy.prototype, storesMethods)
 
+const toMpx = (context, md) => {
+  const key = md._provoda_id
+  const mpx = context.space.mpxes_index[key]
+  return mpx
+}
+
 Object.assign(MDProxy.prototype, {
   getAttr: function(attr_name) {
     return this.md.states[attr_name]
@@ -45,14 +51,13 @@ Object.assign(MDProxy.prototype, {
       return null
     }
     if (!Array.isArray(list)) {
-      return list
+      return toMpx(this, list)
     }
 
     let result = []
     for (var i = 0; i < list.length; i++) {
       const item = list[i]
-      const key = item._provoda_id
-      const mpx = this.space.mpxes_index[key]
+      const mpx = toMpx(this, item)
       if (!mpx) {continue}
 
       result.push(mpx)
