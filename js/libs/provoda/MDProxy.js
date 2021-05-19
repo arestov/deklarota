@@ -66,8 +66,8 @@ Object.assign(MDProxy.prototype, {
     return result
 
   },
-  dispatch: function(payload) {
-    this.RPCLegacy('dispatch', payload)
+  dispatch: function(action_name, payload) {
+    this.RPCLegacy('dispatch', action_name, payload)
   },
 
   __getAttr: function(name) {
