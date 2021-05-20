@@ -1,5 +1,3 @@
-
-import spv from '../../spv'
 import hp from '../helpers'
 import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
@@ -11,10 +9,6 @@ import emptyArray from '../emptyArray'
 import sameName from '../sameName'
 
 var checkNesting = nestWIndex.checkNesting
-
-var hasDot = spv.memorize(function(nesting_name) {
-  return nesting_name.indexOf('.') != -1
-})
 
 function getUniqCopy(input) {
   if (!input.length) {
@@ -35,10 +29,6 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
 
   if (self._currentMotivator() == null) {
     throw new Error('wrap updateRel call in `.input()`')
-  }
-
-  if (hasDot(collection_name)) {
-    throw new Error('remove "." (dot) from name')
   }
 
   if (!self.children_models) {
