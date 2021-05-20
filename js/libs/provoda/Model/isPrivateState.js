@@ -3,6 +3,10 @@ import spv from '../../spv'
 import parse from '../utils/multiPath/parse'
 var memorize = spv.memorize
 var isPrivate = memorize(function(str) {
+  if (typeof str === 'symbol') {
+    return true
+  }
+
   if (str.startsWith('__') || str.startsWith('@')) {
     return true
   }
