@@ -2,6 +2,8 @@
 
 import spv from '../spv'
 import MDProxy from './MDProxy'
+import isPublicRel from './Model/rel/isPublicRel'
+import createMutableRelStore from './Model/rel/createMutableRelStore'
 
 var push = Array.prototype.push
 
@@ -9,7 +11,7 @@ var push = Array.prototype.push
 var createMPXes = function(array, store, space) {
   for (var i = 0; i < array.length; i++) {
     var cur = array[i]
-    store[cur._provoda_id] = new MDProxy(cur._provoda_id, cur.children_models, cur, space)
+    store[cur._provoda_id] = new MDProxy(cur._provoda_id, createMutableRelStore(cur), cur, space)
   }
 }
 
@@ -114,6 +116,10 @@ Proxies.prototype = {
 
 
   pushNesting: function(md, nesname, value, oldv, removed) {
+    if (!isPublicRel(md, nesname)) {
+      return
+    }
+
     var collected
     var raw_array = []
     for (var i = 0; i < this.spaces_list.length; i++) {

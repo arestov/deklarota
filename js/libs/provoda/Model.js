@@ -30,6 +30,8 @@ import wrapInputCall from './provoda/wrapInputCall'
 import disposeMentions from './Model/mentions/dispose'
 import checkAndDisposeModel from './Model/checkAndDisposeModel'
 import {normalizeAddrsToValuesMap} from './Model/mockRelations'
+import isPublicRel from './Model/rel/isPublicRel'
+import createMutableRelStore from './Model/rel/createMutableRelStore'
 
 var push = Array.prototype.push
 
@@ -302,7 +304,7 @@ add({
   },
   connectMPX: function() {
     if (!this.mpx) {
-      this.mpx = new MDProxy(this._provoda_id, this.children_models, this)
+      this.mpx = new MDProxy(this._provoda_id, createMutableRelStore(this), this)
     }
     return this.mpx
   },
@@ -412,7 +414,10 @@ add({
   },
   sendCollectionChange: function(collection_name, array, old_value, removed) {
     //this.removeDeadViews();
-    logger.logNesting(this, collection_name, array, old_value, removed)
+    const is_public_rel = isPublicRel(this, collection_name)
+    if (is_public_rel) {
+      logger.logNesting(this, collection_name, array, old_value, removed)
+    }
     var _highway = this._highway
     if (_highway.sync_sender != null) {
       _highway.sync_sender.pushNesting(this, collection_name, array, old_value, removed)
@@ -420,7 +425,7 @@ add({
     if (_highway.views_proxies != null) {
       this._highway.views_proxies.pushNesting(this, collection_name, array, old_value, removed)
     }
-    if (this.mpx != null) {
+    if (is_public_rel && this.mpx != null) {
       this.mpx.sendCollectionChange(collection_name, array, old_value, removed)
     }
   },

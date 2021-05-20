@@ -1,5 +1,7 @@
 
 import spv from '../spv'
+import { doCopy } from '../spv/cloneObj'
+
 import MDProxy from './MDProxy'
 var CH_GR_LE = 2
 
@@ -112,7 +114,7 @@ SyncReceiver.prototype = {
       cur_pvid = cur._provoda_id
       const fake_model = this.models_index[cur_pvid]
       if (!this.md_proxs_index[cur_pvid]) {
-        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, fake_model.children_models, fake_model)
+        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, doCopy({}, fake_model.children_models), fake_model)
         fake_model.mpx = this.md_proxs_index[cur_pvid]
       }
     }

@@ -3,6 +3,7 @@
 import spv from '../spv'
 import toTransferableStatesList from './Model/toTransferableStatesList'
 import toSimpleStructure from './Model/toSimpleStructure'
+import isPublicRel from './Model/rel/isPublicRel'
 var parseNesting = toSimpleStructure.parseNesting
 
 var SyncSender = function() {
@@ -113,6 +114,10 @@ SyncSender.prototype = {
   },
   pushNesting: function(md, nesname, value) {
     //var struc;
+    if (!isPublicRel(md, nesname)) {
+      return
+    }
+
     var parsed_value = toTransferableNestings(value)
 
 
