@@ -14,12 +14,8 @@ export default function ApiDeclr(name, data) {
   this.name = name
 
   this.fn = null
-  this.triggering_deps = null
-  this.triggering_deps_name = null
 
   this.needed_apis = null
-  this.needed_apis_dep = null
-  this.needed_apis_dep_name = null
 
   this.deps = null
   this.deps_name = null
@@ -31,11 +27,11 @@ export default function ApiDeclr(name, data) {
   } else {
     switch (data.length) {
       case 2: {
-        this.triggering_deps = wrapDeps(data[0])
-        this.triggering_deps_name = '_triggered_api_' + name
+        var triggering_deps = wrapDeps(data[0])
+        var triggering_deps_name = '_triggered_api_' + name
 
-        this.deps = this.triggering_deps
-        this.deps_name = this.triggering_deps_name
+        this.deps = triggering_deps
+        this.deps_name = triggering_deps_name
 
         this.fn = data[1]
         this.compxes = [
@@ -45,19 +41,20 @@ export default function ApiDeclr(name, data) {
       break
       case 3:
       case 4: {
-        this.triggering_deps = wrapDeps(data[0])
-        this.triggering_deps_name = '_triggered_api_' + name
+        var triggering_deps = wrapDeps(data[0])
+        var triggering_deps_name = '_triggered_api_' + name
 
-        this.needed_apis = data[1]
-        this.needed_apis_dep = wrapDeps(prefixArray(this.needed_apis, '_api_used_'))
-        this.needed_apis_dep_name = '_apis_need_for_' + name
+        var needed_apis = data[1]
+        this.needed_apis = needed_apis
+        var needed_apis_dep = wrapDeps(prefixArray(needed_apis, '_api_used_'))
+        var needed_apis_dep_name = '_apis_need_for_' + name
 
-        this.deps = wrapDeps([this.triggering_deps_name, this.needed_apis_dep_name])
+        this.deps = wrapDeps([triggering_deps_name, needed_apis_dep_name])
         this.deps_name = '_api_all_needs_' + name
 
         this.compxes = [
-          this.triggering_deps_name, this.triggering_deps,
-          this.needed_apis_dep_name, this.needed_apis_dep,
+          triggering_deps_name, triggering_deps,
+          needed_apis_dep_name, needed_apis_dep,
           this.deps_name, this.deps
         ]
 
@@ -68,4 +65,6 @@ export default function ApiDeclr(name, data) {
     }
 
   }
+
+  Object.seal(this)
 }
