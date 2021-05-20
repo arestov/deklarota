@@ -3,6 +3,7 @@ import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
+import isGlueRel from './mentions/isGlueRel'
 import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
 import updateMetaAttrs from './rel/updateMetaAttrs'
 import emptyArray from '../emptyArray'
@@ -16,12 +17,6 @@ function getUniqCopy(input) {
   }
   var result = Array.from(new Set(input))
   return result.length ? result : emptyArray
-}
-
-const isGlueRel = function(self, rel_key) {
-  var skeleton = self.__global_skeleton
-
-  return skeleton.glue_rels.has(rel_key)
 }
 
 export default function updateNesting(self, collection_name_raw, input, opts) {
