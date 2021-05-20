@@ -17,7 +17,6 @@ export default function ApiDeclr(name, data) {
 
   this.needed_apis = null
 
-  this.deps = null
   this.deps_name = null
 
   this.compxes = null
@@ -30,12 +29,12 @@ export default function ApiDeclr(name, data) {
         var attr_deps = wrapDeps(data[0])
         var attr_deps_name = '_triggered_api_' + name
 
-        this.deps = attr_deps
+        var all_deps = attr_deps
         this.deps_name = attr_deps_name
 
         this.fn = data[1]
         this.compxes = [
-          this.deps_name, this.deps,
+          this.deps_name, all_deps,
         ]
       }
       break
@@ -49,13 +48,13 @@ export default function ApiDeclr(name, data) {
         var needed_apis_dep = wrapDeps(prefixArray(needed_apis, '_api_used_'))
         var needed_apis_dep_name = '_apis_need_for_' + name
 
-        this.deps = wrapDeps([attr_deps_name, needed_apis_dep_name])
+        var all_deps = wrapDeps([attr_deps_name, needed_apis_dep_name])
         this.deps_name = '_api_all_needs_' + name
 
         this.compxes = [
           attr_deps_name, attr_deps,
           needed_apis_dep_name, needed_apis_dep,
-          this.deps_name, this.deps
+          this.deps_name, all_deps
         ]
 
         this.fn = data[2]
