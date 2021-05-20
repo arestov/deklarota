@@ -27,11 +27,11 @@ export default function ApiDeclr(name, data) {
   } else {
     switch (data.length) {
       case 2: {
-        var triggering_deps = wrapDeps(data[0])
-        var triggering_deps_name = '_triggered_api_' + name
+        var attr_deps = wrapDeps(data[0])
+        var attr_deps_name = '_triggered_api_' + name
 
-        this.deps = triggering_deps
-        this.deps_name = triggering_deps_name
+        this.deps = attr_deps
+        this.deps_name = attr_deps_name
 
         this.fn = data[1]
         this.compxes = [
@@ -41,19 +41,19 @@ export default function ApiDeclr(name, data) {
       break
       case 3:
       case 4: {
-        var triggering_deps = wrapDeps(data[0])
-        var triggering_deps_name = '_triggered_api_' + name
+        var attr_deps = wrapDeps(data[0])
+        var attr_deps_name = '_triggered_api_' + name
 
         var needed_apis = data[1]
         this.needed_apis = needed_apis
         var needed_apis_dep = wrapDeps(prefixArray(needed_apis, '_api_used_'))
         var needed_apis_dep_name = '_apis_need_for_' + name
 
-        this.deps = wrapDeps([triggering_deps_name, needed_apis_dep_name])
+        this.deps = wrapDeps([attr_deps_name, needed_apis_dep_name])
         this.deps_name = '_api_all_needs_' + name
 
         this.compxes = [
-          triggering_deps_name, triggering_deps,
+          attr_deps_name, attr_deps,
           needed_apis_dep_name, needed_apis_dep,
           this.deps_name, this.deps
         ]
