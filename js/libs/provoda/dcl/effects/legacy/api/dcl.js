@@ -2,10 +2,10 @@
 
 import wrapDeps from './utils/wrapDeps'
 
-var prefixArray = function(arr, prefix) {
+var wrapInterfaceAttrs = function(arr) {
   var result = new Array(arr.length)
   for (var i = 0; i < arr.length; i++) {
-    result[i] = prefix + arr[i]
+    result[i] = '$meta$apis$' + arr[i] + '$used'
   }
   return result
 }
@@ -51,7 +51,7 @@ export default function ApiDeclr(name, data) {
 
         this.needed_apis = needed_apis
 
-        var needed_apis_deps = prefixArray(needed_apis, '_api_used_')
+        var needed_apis_deps = wrapInterfaceAttrs(needed_apis)
 
         var all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
         var all_deps_name = '_api_all_needs_' + name
