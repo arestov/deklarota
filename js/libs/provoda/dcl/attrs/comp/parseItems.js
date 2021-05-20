@@ -28,6 +28,10 @@ const parseItems = function(typed_state_dcls) {
     }
     typed_state_dcls[name] = getItem(typed_state_dcls[name], name)
   }
+
+  for (var prop of Object.getOwnPropertySymbols(typed_state_dcls)) {
+    typed_state_dcls[prop] = getItem(typed_state_dcls[prop], prop)
+  }
 }
 
 export const clearCache = () => {cache.clear()}

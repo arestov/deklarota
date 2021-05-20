@@ -21,6 +21,7 @@ import ApiDeclr from './legacy/api/dcl'
 
 import parseCompItems from '../attrs/comp/parseItems'
 import cachedField from '../cachedField'
+import copyWithSymbols from '../copyWithSymbols'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -192,7 +193,7 @@ const fxAttrs = cachedField(
     doCopy(result, s1)
     doCopy(result, s2)
     doCopy(result, s3)
-    doCopy(result, s4)
+    copyWithSymbols(result, s4)
 
     return result
   }

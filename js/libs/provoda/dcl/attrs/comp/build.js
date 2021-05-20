@@ -54,6 +54,11 @@ var collectCheck = cachedField(
       compx_check[key_name_one] = dcl_cache__compx[key_name_one]
     }
 
+    for (var prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
+      compx_check[prop] = dcl_cache__compx[prop]
+    }
+
+
     return compx_check
   }
 )
@@ -67,6 +72,10 @@ var collectList = cachedField(
 
     for (var key_name_one in dcl_cache__compx) {
       full_comlxs_list.push(dcl_cache__compx[key_name_one])
+    }
+
+    for (var prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
+      full_comlxs_list.push(dcl_cache__compx[prop])
     }
 
     return full_comlxs_list

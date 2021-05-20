@@ -37,8 +37,8 @@ export default function ApiDeclr(name, data) {
         var attr_deps = data[0]
 
         var all_deps = wrapDeps(attr_deps)
-        var all_deps_name = '_api_all_needs_' + name
-        this.deps_name = all_deps_name
+        // var all_deps_name = '_api_all_needs_' + name
+        this.deps_name = Symbol() // Symbol(all_deps_name)
 
         this.fn = data[1]
         this.compxes = [this.deps_name, all_deps]
@@ -54,9 +54,8 @@ export default function ApiDeclr(name, data) {
         var needed_apis_deps = wrapInterfaceAttrs(needed_apis)
 
         var all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
-        var all_deps_name = '_api_all_needs_' + name
-
-        this.deps_name = all_deps_name
+        // var all_deps_name = '_api_all_needs_' + name
+        this.deps_name = Symbol() // Symbol(all_deps_name)
 
         this.compxes = [this.deps_name, all_deps]
 

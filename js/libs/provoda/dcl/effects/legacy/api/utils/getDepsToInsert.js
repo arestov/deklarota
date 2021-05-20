@@ -26,5 +26,14 @@ export default function getDepsToInsert(source, self, extended_comp_attrs) {
     doCopy(cur, self, extended_comp_attrs)
   }
 
+  for (var prop of Object.getOwnPropertySymbols(source)) {
+    let cur = source[prop]
+    if (!cur.compxes) {continue}
+
+    result.push(prop)
+
+    doCopy(cur, self, extended_comp_attrs)
+  }
+
   return result
 };
