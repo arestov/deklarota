@@ -2,14 +2,13 @@
 import spv from '../../spv'
 import isGlueRel from '../dcl/glue_rels/isGlueRel'
 
-var checkModel = function(md, models_index, local_index, all_for_parse) {
-  if (!md) {
-    return
-  }
-  var cur_id = md._provoda_id
-  if (typeof cur_id == 'undefined') {
-    return
-  }
+var checkModel = function(original_models, md_or_mdreplacer, models_index, local_index, all_for_parse) {
+  if (md_or_mdreplacer == null) {return}
+  var cur_id = md_or_mdreplacer._provoda_id
+  if (cur_id == null) {return}
+
+  var md = original_models[cur_id]
+
   if (!models_index[cur_id] && !local_index[cur_id]) {
     local_index[cur_id] = true
     all_for_parse.push(md)
@@ -24,8 +23,7 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
   var big_result_array = []
   var all_for_parse = [this]
 
-
-
+  var original_models = this._highway.models
 
 
   while (all_for_parse.length) {
@@ -34,7 +32,7 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
     if (can_push) {
       models_index[cur_md._provoda_id] = true
     }
-    checkModel(cur_md.map_parent, models_index, local_index, all_for_parse)
+    checkModel(original_models, cur_md.map_parent, models_index, local_index, all_for_parse)
 
     for (var nesting_name in cur_md.children_models) {
       if (isGlueRel(cur_md, nesting_name)) {
@@ -46,7 +44,7 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
       }
 
       if (cur._provoda_id) {
-        checkModel(cur, models_index, local_index, all_for_parse)
+        checkModel(original_models, cur, models_index, local_index, all_for_parse)
         continue
       }
 
@@ -61,7 +59,7 @@ var getLinedStructure = function(models_index_raw, local_index_raw) {
       }
 
       for (var i = 0; i < array.length; i++) {
-        checkModel(array[i], models_index, local_index, all_for_parse)
+        checkModel(original_models, array[i], models_index, local_index, all_for_parse)
       }
 
     }
