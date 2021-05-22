@@ -10,6 +10,14 @@ import cachedField from '../../cachedField'
 var makeGroups = groupDeps(getEncodedState)
 const emptyObject = Object.freeze({})
 
+const compressList = (result, prop) => {
+  if (result[prop].length == 1) {
+    result[prop] = result[prop][0]
+  } else {
+    Object.freeze(result[prop])
+  }
+}
+
 var makeWatchIndex = function(full_comlxs_list) {
   if (!full_comlxs_list.length) {
     return emptyObject
@@ -33,11 +41,7 @@ var makeWatchIndex = function(full_comlxs_list) {
       continue
     }
 
-    if (full_comlxs_index[attr_name].length == 1) {
-      full_comlxs_index[attr_name] = full_comlxs_index[attr_name][0]
-    } else {
-      Object.freeze(full_comlxs_index[attr_name])
-    }
+    compressList(full_comlxs_index, attr_name)
   }
 
   Object.freeze(full_comlxs_index)
