@@ -44,6 +44,10 @@ var makeWatchIndex = function(full_comlxs_list) {
     compressList(full_comlxs_index, attr_name)
   }
 
+  for (var prop of Object.getOwnPropertySymbols(full_comlxs_index)) {
+    compressList(full_comlxs_index, prop)
+  }
+
   Object.freeze(full_comlxs_index)
 
   return full_comlxs_index
