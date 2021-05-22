@@ -68,13 +68,13 @@ function groupDeps(parse) {
       }
     }
 
-    return {
+    return Object.freeze({
       connect_self: connect_self,
       conndst_parent: toList(states_of_parent),
       conndst_nesting: toList(states_of_nesting),
       conndst_root: toList(states_of_root),
-      connect_glue: [...connect_glue.values()],
-    }
+      connect_glue: Object.freeze([...connect_glue.values()]),
+    })
   }
 }
 
@@ -86,6 +86,7 @@ function toList(obj) {
       result.push(obj[p])
     }
   }
+  Object.freeze(result)
   return result
 }
 

@@ -35,6 +35,7 @@ function ChainLink(chain, num, rel) {
   this.chain = chain
   this.num = num
   this.rel = rel
+  Object.freeze(this)
 }
 
 function Chain(target, target_type, addr, target_name) {
@@ -43,6 +44,7 @@ function Chain(target, target_type, addr, target_name) {
   this.addr = addr
   this.list = addrToLinks(addr, this)
   this.target_name = target_name || ''
+  Object.freeze(this)
 }
 
 function GlobalSkeleton() {
