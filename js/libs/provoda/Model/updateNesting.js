@@ -11,12 +11,21 @@ import sameName from '../sameName'
 
 var checkNesting = nestWIndex.checkNesting
 
-function getUniqCopy(input) {
+function getUniqReadonly(input) {
+  // yes, make Object.freeze for input array!
+  Object.freeze(input)
+
   if (!input.length) {
     return emptyArray
   }
-  var result = Array.from(new Set(input))
-  return result.length ? result : emptyArray
+
+  // share same memory object of array when possible
+  var uniq = new Set(input)
+  if (input.length == uniq.size) {
+    return input
+  }
+
+  return Object.freeze(Array.from(uniq))
 }
 
 export default function updateNesting(self, collection_name_raw, input, opts) {
@@ -32,7 +41,7 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
 
   var old_value = self.children_models[collection_name]
 
-  var array = Array.isArray(input) ? getUniqCopy(input) : input
+  var array = Array.isArray(input) ? getUniqReadonly(input) : input
 
   if (!isNestingChanged(old_value, array)) {
     return self
