@@ -68,6 +68,8 @@ var collectCheck = cachedField(
       compx_check[prop] = dcl_cache__compx[prop]
     }
 
+    Object.freeze(compx_check)
+
 
     return compx_check
   }

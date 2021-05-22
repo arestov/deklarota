@@ -117,9 +117,11 @@ function AttrsCollector(defined_attrs) {
     var cur = defined_attrs[i]
     this.defineAttr(cur.name, cur.type)
   }
+
+  Object.seal(this)
 }
 
-var grow = {grow: Infinity}
+var grow = Object.freeze({grow: Infinity})
 
 AttrsCollector.prototype = {
   defineAttr: function(name, type) {

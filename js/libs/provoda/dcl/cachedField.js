@@ -46,6 +46,8 @@ const cachedField = function(field, deps, final_compile, fn) {
 
     const finalResult = getFinalResult(result)
 
+    Object.freeze(finalResult)
+
     model[field] = finalResult
 
     return model[field]
