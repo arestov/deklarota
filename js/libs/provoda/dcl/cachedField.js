@@ -14,6 +14,10 @@ const getFinalResult = (result) => {
     return sameArrayIfEmpty(result)
   }
 
+  if (Object.getOwnPropertySymbols(result).length) {
+    return result
+  }
+
   return sameObjectIfEmpty(result)
 
 }
