@@ -91,6 +91,8 @@ var CompxAttrDecl = function(comlx_name_raw, cur) {
     throw new Error('should be list')
   }
 
+  Object.freeze(deps_list)
+
   var parsed = toParsedDeps(deps_list)
 
   this.addrs = parsed.fixed_deps

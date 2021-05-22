@@ -35,6 +35,8 @@ var makeWatchIndex = function(full_comlxs_list) {
 
     if (full_comlxs_index[attr_name].length == 1) {
       full_comlxs_index[attr_name] = full_comlxs_index[attr_name][0]
+    } else {
+      Object.freeze(full_comlxs_index[attr_name])
     }
   }
 
