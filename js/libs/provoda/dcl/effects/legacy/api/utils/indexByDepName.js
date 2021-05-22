@@ -18,6 +18,10 @@ export default function indexByDepName(obj) {
     var cur = obj[name]
     checkAndAdd(result, cur)
   }
+
+  for (var prop of Object.getOwnPropertySymbols(obj)) {
+    var cur = obj[prop]
+    checkAndAdd(result, cur)
   }
 
   return result

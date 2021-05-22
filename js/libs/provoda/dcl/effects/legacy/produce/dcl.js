@@ -44,8 +44,7 @@ export default function ApiEffectDeclr(name, data) {
     if (data.require) {
       this.deps = wrapDeps(data.require)
       // var desc = '_need_api_effect_' + name
-      // this.deps_name = Symbol() // || Symbol(desc)
-      this.deps_name = '_need_api_effect_' + name
+      this.deps_name = Symbol() // || Symbol(desc)
 
       this.all_deps = this.deps
     }
@@ -71,8 +70,7 @@ export default function ApiEffectDeclr(name, data) {
   if (deps) {
     this.deps = wrapDeps(deps)
     // var desc = '_need_api_effect_' + name
-    // this.deps_name = Symbol() // || Symbol(desc)
-    this.deps_name = '_need_api_effect_' + name
+    this.deps_name = Symbol() // || Symbol(desc)
     this.all_deps = this.deps
   }
   var effects_deps = condition && condition[1]

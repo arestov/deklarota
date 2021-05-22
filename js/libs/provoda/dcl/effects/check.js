@@ -192,7 +192,7 @@ const fxAttrs = cachedField(
 
     doCopy(result, s1)
     doCopy(result, s2)
-    doCopy(result, s3)
+    copyWithSymbols(result, s3)
     copyWithSymbols(result, s4)
 
     return result

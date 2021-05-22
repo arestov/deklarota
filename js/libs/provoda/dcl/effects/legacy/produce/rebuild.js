@@ -31,6 +31,10 @@ var indexByList = function(obj, list_name) {
     var cur = obj[name]
     buildIndexFromListInProp(result, cur, list_name)
   }
+
+  for (var prop of Object.getOwnPropertySymbols(obj)) {
+    var cur = obj[prop]
+    buildIndexFromListInProp(result, cur, list_name)
   }
 
   return result
@@ -55,6 +59,10 @@ function rootApis(obj) {
 
     makeRequiredApiIndex(index, cur, '#')
   }
+
+  for (var prop of Object.getOwnPropertySymbols(obj)) {
+    var cur = obj[prop]
+    makeRequiredApiIndex(index, cur, '#')
   }
 
   var result = Object.keys(index)
