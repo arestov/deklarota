@@ -58,7 +58,10 @@ var toParsedDeps = function(array) {
     require_marks.push(i)
   }
 
-  return {fixed_deps: result, require_marks: sameArrayIfEmpty(require_marks)}
+  Object.freeze(result)
+  Object.freeze(require_marks)
+
+  return Object.freeze({fixed_deps: result, require_marks: sameArrayIfEmpty(require_marks)})
 }
 
 var emptyList = []
