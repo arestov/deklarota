@@ -32,7 +32,7 @@ export default function ApiEffectDeclr(name, data) {
   this.is_async = null
   this.result_handler = null
 
-  this.compxes = null
+  this.all_deps = null
 
   if (!Array.isArray(data)) {
     this.apis = toRealArray(data.api)
@@ -45,9 +45,7 @@ export default function ApiEffectDeclr(name, data) {
       this.deps = wrapDeps(data.require)
       this.deps_name = '_need_api_effect_' + name
 
-      this.compxes = [
-        this.deps_name, this.deps
-      ]
+      this.all_deps = this.deps
     }
 
     if (data.effects) {
@@ -71,10 +69,7 @@ export default function ApiEffectDeclr(name, data) {
   if (deps) {
     this.deps = wrapDeps(deps)
     this.deps_name = '_need_api_effect_' + name
-
-    this.compxes = [
-      this.deps_name, this.deps
-    ]
+    this.all_deps = this.deps
   }
   var effects_deps = condition && condition[1]
   this.effects_deps = (effects_deps && toRealArray(effects_deps)) || null

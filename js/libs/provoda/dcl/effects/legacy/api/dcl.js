@@ -27,7 +27,7 @@ export default function ApiDeclr(name, data) {
 
   this.deps_name = null
 
-  this.compxes = null
+  this.all_deps = null
 
   if (typeof data == 'function') {
     this.fn = data
@@ -41,7 +41,7 @@ export default function ApiDeclr(name, data) {
         this.deps_name = Symbol() // Symbol(all_deps_name)
 
         this.fn = data[1]
-        this.compxes = [this.deps_name, all_deps]
+        this.all_deps = all_deps
       }
       break
       case 3:
@@ -56,8 +56,7 @@ export default function ApiDeclr(name, data) {
         var all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
         // var all_deps_name = '_api_all_needs_' + name
         this.deps_name = Symbol() // Symbol(all_deps_name)
-
-        this.compxes = [this.deps_name, all_deps]
+        this.all_deps = all_deps
 
         this.fn = data[2]
         this.destroy = data[3]
