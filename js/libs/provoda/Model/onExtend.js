@@ -66,6 +66,10 @@ export default function(self, props, original, params) {
 
   checkSideeffects(self, props, params)
 
+  collectStateChangeHandlers(self, props)
+  depricateOldSubpages(props)
+
+
   extendDclCache(self, '__dcls_attrs', props['attrs'])
   extendDclCache(self, '__dcls_rels', props['rels'])
   extendDclCache(self, '__dcls_routes', props['routes'])
@@ -85,9 +89,6 @@ export default function(self, props, original, params) {
 
   checkEffects(self)
 
-  collectStateChangeHandlers(self, props)
-
-  depricateOldSubpages(props)
   collectSubpages(self)
   checkSubpager(self)
   checkRoutes(self)
