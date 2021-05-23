@@ -200,6 +200,18 @@ const fxAttrs = cachedField(
   }
 )
 
+const checkNetworkSources = cachedField(
+  'netsources_of_all',
+  ['netsources_of_nestings', 'netsources_of_states'],
+  false,
+  (netsources_of_nestings, netsources_of_states) => {
+    return {
+      nestings: netsources_of_nestings,
+      states: netsources_of_states
+    }
+  }
+)
+
 export default function checkEffects(self, props) {
   var currentIndex = self._extendable_effect_index
 
@@ -234,12 +246,7 @@ export default function checkEffects(self, props) {
 
   rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
 
-  if (self.hasOwnProperty('netsources_of_nestings') || self.hasOwnProperty('netsources_of_states')) {
-    self.netsources_of_all = {
-      nestings: self.netsources_of_nestings,
-      states: self.netsources_of_states
-    }
-  }
+  checkNetworkSources(self)
 
   fxAttrs(self)
 
