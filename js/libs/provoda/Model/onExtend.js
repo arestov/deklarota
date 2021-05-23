@@ -4,7 +4,7 @@ import assignField from '../dcl/assignField'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
 import buildAttrsFinal from '../dcl/attrs/build'
-import checkChi from '../StatesEmitter/checkChi'
+import checkChi, { checkChiProps } from '../StatesEmitter/checkChi'
 
 import checkNestRqC from '../dcl/nest_model/check'
 import checkNestSel from '../dcl/nest_sel/check'
@@ -68,6 +68,7 @@ export default function(self, props, original, params) {
 
   collectStateChangeHandlers(self, props)
   depricateOldSubpages(props)
+  checkChiProps(self, props)
 
 
   extendDclCache(self, '__dcls_attrs', props['attrs'])
@@ -107,7 +108,7 @@ export default function(self, props, original, params) {
   checkPasses(self)
 
 
-  checkChi(self, props)
+  checkChi(self)
 
 
   self._attrs_collector = null
