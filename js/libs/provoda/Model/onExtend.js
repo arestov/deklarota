@@ -56,32 +56,7 @@ var checkSideeffects = function(self, props, params) {
   }
 }
 
-export default function(self, props, original, params) {
-  /** LEGACY CHEKS **/
-
-  checkNestRqC(self, props)
-  checkNestSel(self, props)
-  checkNestCnt(self, props)
-  checkNest(self, props)
-
-  checkSideeffects(self, props, params)
-
-  collectStateChangeHandlers(self, props)
-  depricateOldSubpages(props)
-  checkChiProps(self, props)
-
-
-  extendDclCache(self, '__dcls_attrs', props['attrs'])
-  extendDclCache(self, '__dcls_rels', props['rels'])
-  extendDclCache(self, '__dcls_routes', props['routes'])
-  extendDclCache(self, '__dcls_actions', props['actions'])
-
-  var effects = props['effects']
-
-  extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
-  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
-  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
-
+export const completeBuild = (self) => {
   var typed_state_dcls = getTypedDcls(self.__dcls_attrs || {})
   parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
 
@@ -112,4 +87,32 @@ export default function(self, props, original, params) {
 
 
   self._attrs_collector = null
+}
+
+export default function(self, props, original, params) {
+  /** LEGACY CHEKS **/
+
+  checkNestRqC(self, props)
+  checkNestSel(self, props)
+  checkNestCnt(self, props)
+  checkNest(self, props)
+
+  checkSideeffects(self, props, params)
+
+  collectStateChangeHandlers(self, props)
+  depricateOldSubpages(props)
+  checkChiProps(self, props)
+
+  extendDclCache(self, '__dcls_attrs', props['attrs'])
+  extendDclCache(self, '__dcls_rels', props['rels'])
+  extendDclCache(self, '__dcls_routes', props['routes'])
+  extendDclCache(self, '__dcls_actions', props['actions'])
+
+  var effects = props['effects']
+
+  extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
+  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
+  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
+
+  completeBuild(self)
 }
