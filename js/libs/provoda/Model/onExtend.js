@@ -90,7 +90,7 @@ export default function(self, props, original, params) {
   depricateOldSubpages(props)
   collectSubpages(self)
   checkSubpager(self)
-  checkRoutes(self, props)
+  checkRoutes(self)
 
   checkModernNests(self, props)
 

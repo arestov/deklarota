@@ -46,23 +46,24 @@ var extend = function(index, more) {
   return cur
 }
 
-var checkModern = function(self, props) {
-  if (!props['routes']) {
+var checkModern = function(self) {
+  const routes = self.hasOwnProperty('routes') && self.routes
+  if (!routes) {
     return
   }
 
   self._extendable_routes_index = extend(
     self._extendable_routes_index,
-    props['routes']
+    routes
   )
 }
 
 
-export default function checkPass(self, props) {
+export default function checkRoutes(self) {
 
   var currentIndex = self._extendable_routes_index
 
-  checkModern(self, props)
+  checkModern(self)
 
   if (currentIndex === self._extendable_routes_index) {
     return
