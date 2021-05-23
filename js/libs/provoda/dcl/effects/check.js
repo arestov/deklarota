@@ -212,6 +212,29 @@ const checkNetworkSources = cachedField(
   }
 )
 
+const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], false, (_effect_by_type) => {
+  var _effect_by_type_listed = {}
+  for (var type_name in _effect_by_type) {
+    if (!_effect_by_type.hasOwnProperty(type_name)) {
+      continue
+    }
+
+    var result = []
+
+    var cur = _effect_by_type[type_name]
+    for (var effect_name in cur) {
+      if (!cur.hasOwnProperty(effect_name)) {
+        continue
+      }
+      result.push(cur[effect_name])
+    }
+
+    _effect_by_type_listed[type_name] = result
+
+  }
+  return _effect_by_type_listed
+})
+
 export default function checkEffects(self, props) {
   var currentIndex = self._extendable_effect_index
 
@@ -224,25 +247,7 @@ export default function checkEffects(self, props) {
   var oldByType = self._effect_by_type || {}
   self._effect_by_type = byType(self._extendable_effect_index)
 
-  self._effect_by_type_listed = {}
-  for (var type_name in self._effect_by_type) {
-    if (!self._effect_by_type.hasOwnProperty(type_name)) {
-      continue
-    }
-
-    var result = []
-
-    var cur = self._effect_by_type[type_name]
-    for (var effect_name in cur) {
-      if (!cur.hasOwnProperty(effect_name)) {
-        continue
-      }
-      result.push(cur[effect_name])
-    }
-
-    self._effect_by_type_listed[type_name] = result
-
-  }
+  checkListed(self)
 
   rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
 
