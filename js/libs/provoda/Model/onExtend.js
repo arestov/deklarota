@@ -103,7 +103,7 @@ export default function(self, props, original, params) {
 
   */
 
-  checkPasses(self, props)
+  checkPasses(self)
 
 
   checkChi(self, props)

@@ -7,19 +7,20 @@ import rebuildHandleNesting from './handleNesting/rebuild'
 import rebuildHandleInit from './handleInit/rebuild'
 var cloneObj = spv.cloneObj
 
-export default function checkPasses(self, props) {
-  if (!props.hasOwnProperty('actions')) {
+export default function checkPasses(self) {
+  const actions = self.hasOwnProperty('actions') && self.actions
+  if (!actions) {
     return
   }
 
   var result = {}
   cloneObj(result, self._extendable_passes_index || {})
 
-  for (var name in props['actions']) {
-    if (!props['actions'].hasOwnProperty(name)) {
+  for (var name in actions) {
+    if (!actions.hasOwnProperty(name)) {
       continue
     }
-    result[name] = new Dcl(name, props['actions'][name])
+    result[name] = new Dcl(name, actions[name])
   }
 
   rebuildHandleState(self, result)
