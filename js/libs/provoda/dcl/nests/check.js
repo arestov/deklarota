@@ -1,5 +1,5 @@
-import assignField from '../assignField'
 import spv from '../../../spv'
+import cachedField from '../cachedField'
 
 import NestSelector from '../nest_sel/item'
 import NestCntDeclr from '../nest_conj/item'
@@ -174,7 +174,7 @@ var checkLegacy = function(self) {
   handleLegacy(self, '__nest_rqc', 'model')
 }
 
-const relToCompAttr = function relToCompAttr(self, attr_to_rel_name, comp_rels_list, result) {
+const relToCompAttr = function relToCompAttr(result, comp_rels_list) {
   if (!comp_rels_list || !comp_rels_list.length) {
     return
   }
@@ -182,9 +182,46 @@ const relToCompAttr = function relToCompAttr(self, attr_to_rel_name, comp_rels_l
   for (var i = 0; i < comp_rels_list.length; i++) {
     var cur = comp_rels_list[i]
     result[cur.comp_attr.name] = cur.comp_attr
+  }
+}
+
+const checkCompAttrsFromRels = cachedField(
+  '__dcls_comp_attrs_from_rels',
+  ['_nest_by_type_listed'],
+  false,
+  function collectCheck(nest_by_type_listed) {
+    let result = {}
+
+    relToCompAttr(result, nest_by_type_listed.comp)
+    relToCompAttr(result, nest_by_type_listed.conj)
+    relToCompAttr(result, nest_by_type_listed.sel)
+
+    return result
+  }
+)
+
+
+
+const attrToRelValue = function relToCompAttr(attr_to_rel_name, comp_rels_list) {
+  if (!comp_rels_list || !comp_rels_list.length) {
+    return
+  }
+
+  for (var i = 0; i < comp_rels_list.length; i++) {
+    var cur = comp_rels_list[i]
     attr_to_rel_name.set(cur.comp_attr.name, cur.dest_name)
   }
 }
+
+const checkAttrsToRelValues = cachedField('__attr_to_rel_name', ['_nest_by_type_listed'], false, (nest_by_type_listed) => {
+  const attr_to_rel_name = new Map()
+
+  attrToRelValue(attr_to_rel_name, nest_by_type_listed.comp)
+  attrToRelValue(attr_to_rel_name, nest_by_type_listed.conj)
+  attrToRelValue(attr_to_rel_name, nest_by_type_listed.sel)
+
+  return attr_to_rel_name
+})
 
 export default function checkPass(self, props) {
   var currentIndex = self._extendable_nest_index
@@ -196,8 +233,6 @@ export default function checkPass(self, props) {
     return
   }
 
-  const attr_to_rel_name = new Map()
-  self.__attr_to_rel_name = attr_to_rel_name
 
   var oldByType = self._nest_by_type || {}
   self._nest_by_type = byType(self._extendable_nest_index)
@@ -228,14 +263,8 @@ export default function checkPass(self, props) {
     return true
   }
 
-  var result = {}
-
-  relToCompAttr(self, self.__attr_to_rel_name, self._nest_by_type_listed.comp, result)
-  relToCompAttr(self, self.__attr_to_rel_name, self._nest_by_type_listed.conj, result)
-  relToCompAttr(self, self.__attr_to_rel_name, self._nest_by_type_listed.sel, result)
-
-  assignField(self, '__dcls_comp_attrs_from_rels', result)
-
+  checkAttrsToRelValues(self)
+  checkCompAttrsFromRels(self)
 
   return true
 }
