@@ -14,7 +14,7 @@ import checkModernNests from '../dcl/nests/check'
 import checkPasses from '../dcl/passes/check'
 import checkRoutes from '../dcl/routes/check'
 import checkSubpager from '../dcl/sub_pager/check'
-import collectSubpages from '../dcl/sub_pager/collectSubpages'
+import collectSubpages, { depricateOldSubpages } from '../dcl/sub_pager/collectSubpages'
 import checkEffects from '../dcl/effects/check'
 
 import checkNest from '../dcl/nest/check'
@@ -87,6 +87,7 @@ export default function(self, props, original, params) {
 
   collectStateChangeHandlers(self, props)
 
+  depricateOldSubpages(props)
   collectSubpages(self, props)
   checkSubpager(self, props)
   checkRoutes(self, props)

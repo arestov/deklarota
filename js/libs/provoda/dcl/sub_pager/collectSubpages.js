@@ -15,12 +15,14 @@ var buildMany = function(self) {
   }
 }
 
-export default function collectSubpages(self, props) {
+export const depricateOldSubpages = (props) => {
   var changed_singled = hasPrefixedProps(props)
   if (changed_singled) {
     throw new Error('use sub_page: {}, sub_page-*')
   }
+}
 
+export default function collectSubpages(self, props) {
   var changed_pack = !!props.sub_page
   if (!changed_pack) {
     return
