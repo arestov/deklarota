@@ -83,7 +83,7 @@ export default function(self, props, original, params) {
   assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
   assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
 
-  checkEffects(self, props)
+  checkEffects(self)
 
   collectStateChangeHandlers(self, props)
 

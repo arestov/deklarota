@@ -158,27 +158,28 @@ var rebuild = function(self, newV, oldV, listByType) {
   }
 }
 
-var checkModern = function(self, props) {
-  if (!props['effects']) {
+var checkModern = function(self) {
+  if (!self.hasOwnProperty('effects')) {
     return
   }
+  var effects = self.effects
 
   self._extendable_effect_index = extend(
     'consume',
     self._extendable_effect_index,
-    props['effects'].consume
+    effects.consume
   )
 
   self._extendable_effect_index = extend(
     'produce',
     self._extendable_effect_index,
-    props['effects'].produce
+    effects.produce
   )
 
   self._extendable_effect_index = extend(
     'api',
     self._extendable_effect_index,
-    props['effects'].api
+    effects.api
   )
 }
 
