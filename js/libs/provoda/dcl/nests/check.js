@@ -135,14 +135,15 @@ var rebuild = function(self, newV, oldV) {
   }
 }
 
-var checkModern = function(self, props) {
-  if (!props['rels']) {
+var checkModern = function(self) {
+  const rels = self.hasOwnProperty('rels') && self.rels
+  if (!rels) {
     return
   }
 
   self._extendable_nest_index = extend(
     self._extendable_nest_index,
-    props['rels']
+    rels
   )
 }
 
@@ -223,11 +224,11 @@ const checkAttrsToRelValues = cachedField('__attr_to_rel_name', ['_nest_by_type_
   return attr_to_rel_name
 })
 
-export default function checkPass(self, props) {
+export default function checkRels(self) {
   var currentIndex = self._extendable_nest_index
 
-  checkLegacy(self, props)
-  checkModern(self, props)
+  checkLegacy(self)
+  checkModern(self)
 
   if (currentIndex === self._extendable_nest_index) {
     return

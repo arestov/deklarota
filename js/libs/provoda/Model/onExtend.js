@@ -92,7 +92,7 @@ export default function(self, props, original, params) {
   checkSubpager(self)
   checkRoutes(self)
 
-  checkModernNests(self, props)
+  checkModernNests(self)
 
   buildAttrsFinal(self)
 
