@@ -22,8 +22,8 @@ export const depricateOldSubpages = (props) => {
   }
 }
 
-export default function collectSubpages(self, props) {
-  var changed_pack = !!props.sub_page
+export default function collectSubpages(self) {
+  var changed_pack = self.hasOwnProperty('sub_page')
   if (!changed_pack) {
     return
   }

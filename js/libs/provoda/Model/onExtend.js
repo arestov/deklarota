@@ -88,7 +88,7 @@ export default function(self, props, original, params) {
   collectStateChangeHandlers(self, props)
 
   depricateOldSubpages(props)
-  collectSubpages(self, props)
+  collectSubpages(self)
   checkSubpager(self, props)
   checkRoutes(self, props)
 
