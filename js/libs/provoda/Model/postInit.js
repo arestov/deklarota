@@ -52,14 +52,17 @@ export default function postInitModel(self, opts) {
   initWatchList(self, self.st_nest_matches)
   initRoutes(self)
 
-
-  if (self.init_v2_data) {
-    __handleInit(self, self.init_v2_data)
+  var init_v2_data = self.init_v2_data
+  if (init_v2_data != null) {
+    __handleInit(self, init_v2_data)
     self.init_v2_data = null
   } else {
     __handleInit(self, null)
   }
 
+  if (init_v2_data != null && init_v2_data.interfaces != null) {
+    initApis(self, init_v2_data.interfaces)
+  }
   initApis(self, opts && opts.interfaces)
 
   self.nextTick(markInitied, null, false, self.current_motivator)
