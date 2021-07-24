@@ -1,5 +1,4 @@
-import spv from 'spv'
-import Model from 'pv/Model'
+import model from 'pv/model'
 import pvState from 'pv/getAttr'
 import pvPass from 'pv/pass'
 import getNesting from 'pv/getRel'
@@ -7,7 +6,7 @@ import getNesting from 'pv/getRel'
 import init from '../../init'
 import makeStepsRunner from '../../steps'
 
-const mdl = props => spv.inh(Model, {}, props)
+const mdl = props => model(props)
 const createDeepChild = (num, props) => mdl({
   attrs: {
     desc: [

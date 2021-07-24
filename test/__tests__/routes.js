@@ -1,5 +1,5 @@
 import pvState from 'pv/getAttr'
-import BrowseMap from 'pv/Model'
+import model from 'pv/model'
 
 import init from 'test/init'
 
@@ -17,7 +17,7 @@ test('routes', async () => {
   const app = (await init({
     zero_map_level: true,
     rels: {
-      tracklist: ['model', BrowseMap],
+      tracklist: ['model', model({})],
     },
     actions: {
       handleInit: {

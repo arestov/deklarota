@@ -13,8 +13,7 @@
     update nested_model state by _provoda_id
 */
 
-import spv from 'spv'
-import Model from 'pv/Model'
+import model from 'pv/model'
 import pvUpdate from 'pv/updateAttr'
 import pvState from 'pv/getAttr'
 import pvPass from 'pv/pass'
@@ -35,7 +34,7 @@ const action = {
 
 test('simple pass by * calculated', async () => {
   const createDeepChild = (num, props) => {
-    const DeepChild = spv.inh(Model, {}, {
+    const DeepChild = model({
       attrs: {
         desc: [
           'comp',
@@ -49,7 +48,7 @@ test('simple pass by * calculated', async () => {
   }
 
 
-  const TargetChild = spv.inh(Model, {}, {})
+  const TargetChild = model({})
 
   const startModel = createDeepChild('start', {
     model_name: 'startModel',

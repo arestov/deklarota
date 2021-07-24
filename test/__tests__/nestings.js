@@ -1,5 +1,5 @@
 import spv from 'spv'
-import Model from 'pv/Model'
+import model from 'pv/model'
 import pvUpdate from 'pv/updateAttr'
 import pvState from 'pv/getAttr'
 import getNesting from 'pv/getRel'
@@ -16,7 +16,7 @@ const toIds = md_list => {
 }
 
 test('nestings updated', async () => {
-  const Appartment = spv.inh(Model, {}, {
+  const Appartment = model({
     attrs: {
       number: [
         'comp',
@@ -43,7 +43,7 @@ test('nestings updated', async () => {
 })
 
 test('compx with nestings calculated', async () => {
-  const Brother = spv.inh(Model, {}, {})
+  const Brother = model({})
 
   const { app_model: person, steps } = await init({
     rels: {
@@ -76,7 +76,7 @@ test('compx with nestings calculated', async () => {
 })
 
 test('state compx calculated from parent and root states', async () => {
-  const DeepestChild = spv.inh(Model, {}, {
+  const DeepestChild = model({
     attrs: {
       description_name: [
         'comp',
@@ -85,12 +85,12 @@ test('state compx calculated from parent and root states', async () => {
       ],
     },
   })
-  const DeepChild = spv.inh(Model, {}, {
+  const DeepChild = model({
     rels: {
       child: ['nest', [DeepestChild]],
     },
   })
-  const Child = spv.inh(Model, {}, {
+  const Child = model({
     rels: {
       child: ['nest', [DeepChild]],
     },
@@ -135,7 +135,7 @@ test('state compx calculated from parent and root states', async () => {
 
 test('nest compx calculated', async () => {
   const createDeepChild = (num, props) => {
-    const DeepChild = spv.inh(Model, {}, {
+    const DeepChild = model({
       attrs: {
         desc: [
           'comp',
@@ -150,7 +150,7 @@ test('nest compx calculated', async () => {
 
   const indie = createDeepChild('indie')
 
-  const TargetChild = spv.inh(Model, {}, {
+  const TargetChild = model({
     rels: {
       indie: ['nest', [indie]],
       list: [
