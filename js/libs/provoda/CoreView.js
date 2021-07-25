@@ -294,19 +294,6 @@ var View = spv.inh(StatesEmitter, {
     requestPageById: function(e, node, _provoda_id) {
       this.requestPageById(_provoda_id)
     },
-    requestNavParent: function(e, node, value) {
-      // it's legacy. avoid using it
-
-      var num = Math.max(1, value ? parseInt(value, 10) : 1)
-      var parent = this.mpx.md.map_parent
-      var back = num
-      while (back > 1) {
-        parent = parent.map_parent
-        back--
-      }
-
-      this.requestPageById(parent._provoda_id)
-    },
     followTo: function() {
       var md_id = this.mpx._provoda_id
       var bwlev_view = getBwlevView(this)

@@ -103,3 +103,5 @@
 - don't pass model ref to comp attr fn
 
 - remove svg-mod
+
+- remove requestNavParent from View
