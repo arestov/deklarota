@@ -27,57 +27,6 @@ var getDeclrConstr = get_constr.getDeclrConstr
 
 var BrowseMap = {}
 
-var getCommonBwlevParent = function(bwlev, md) {
-  var cur_bwlev = bwlev
-  while (cur_bwlev) {
-    var pioneer = cur_bwlev.getNesting('pioneer')
-
-    var cur_md = md
-    while (cur_md) {
-      if (pioneer == cur_md) {
-        return cur_bwlev
-      }
-      cur_md = cur_md.map_parent
-    }
-
-    cur_bwlev = cur_bwlev.map_parent
-  }
-}
-
-var getPathToBwlevParent = function(bwlev, md) {
-  var pioneer = bwlev.getNesting('pioneer')
-  var matched
-  var result = []
-  var cur = md
-  while (cur) {
-
-    if (pioneer == cur) {
-      matched = true
-      break
-    }
-
-    result.push(cur)
-
-    cur = cur.map_parent
-  }
-
-  if (!matched) {
-    throw new Error('trying to get path for unconnected parts')
-  }
-  return result.reverse()
-
-}
-
-
-BrowseMap.getConnectedBwlev = function(bwlev, md) {
-  var common_bwlev = getCommonBwlevParent(bwlev, md)
-  var path = getPathToBwlevParent(common_bwlev, md)
-  var cur = common_bwlev
-  for (var i = 0; i < path.length; i++) {
-    cur = getBwlevFromParentBwlev(common_bwlev, md)
-  }
-  return cur
-}
 
 BrowseMap.getBwlevFromParentBwlev = getBwlevFromParentBwlev
 

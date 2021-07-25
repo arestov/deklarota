@@ -105,3 +105,5 @@
 - remove svg-mod
 
 - remove requestNavParent from View
+
+- remove dead getConnectedBwlev
