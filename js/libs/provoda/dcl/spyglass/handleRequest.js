@@ -28,20 +28,6 @@ export default function(request) {
   _updateAttr(self, 'spyglasses_requests', requests_index)
 }
 
-function getModel(bwlev, steps) {
-  var self = bwlev.getNesting('pioneer')
-
-  if (steps === true) {
-    return self
-  }
-
-  var cur = self
-  for (var i = 0; i < steps.length; i++) {
-    cur = cur.map_parent
-  }
-  return cur
-}
-
 function ensureSpyglass(self, index, key, request) {
   if (index[key]) {
     return index
