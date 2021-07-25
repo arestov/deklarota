@@ -1,6 +1,7 @@
 
 import _goDeeper from './_goDeeper'
 import showMOnMap from './showMOnMap'
+import getRouteStepParent from './getRouteStepParent'
 
 export default function showInterest(map, interest) {
   var BWL = map.app.CBWL
@@ -20,7 +21,7 @@ export default function showInterest(map, interest) {
     var distance = cur.distance
     if (!distance) {throw new Error('must be distance: 1 or more')}
     while (distance) {
-      var md = getDistantModel(interest[i].md, distance)
+      var md = getDistantModel(map, interest[i].md, distance)
       parent_bwlev = _goDeeper(BWL, map, md, parent_bwlev)
       distance--
     }
@@ -31,10 +32,10 @@ export default function showInterest(map, interest) {
   return parent_bwlev
 }
 
-function getDistantModel(md, distance) {
+function getDistantModel(map, md, distance) {
   var cur = md
   for (var i = 1; i < distance; i++) {
-    cur = cur.map_parent
+    cur = getRouteStepParent(map, cur)
   }
   return cur
 }

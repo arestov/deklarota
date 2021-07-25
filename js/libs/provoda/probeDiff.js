@@ -30,6 +30,7 @@ var getTree = function(highway_holder, mdrp) {
   var cur = getModelByR(highway_holder, mdrp)
   while (cur) {
     result.unshift(cur)
+    console.warn('consider to use getRouteStepParent')
     cur = cur.map_parent
   }
   return result

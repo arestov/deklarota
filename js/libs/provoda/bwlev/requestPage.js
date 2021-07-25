@@ -3,6 +3,7 @@ import _goDeeper from './_goDeeper'
 import getModelById from '../utils/getModelById'
 import changeBridge from './changeBridge'
 import showMOnMap from './showMOnMap'
+import getRouteStepParent from './getRouteStepParent'
 
 export default function requestPage(BWL, self, id) {
   var md = getModelById(self, id)
@@ -13,17 +14,18 @@ export default function requestPage(BWL, self, id) {
   var cur = md
   var bwlev_children = []
 
-  while (cur.map_parent) {
+  var map = self.map
+
+  while (getRouteStepParent(map, cur)) {
     bwlev_children.push(cur)
 
-    if (cur.map_parent == pioneer) {
+    if (getRouteStepParent(map, cur) == pioneer) {
       target_is_deep_child = true
       break
     }
-    cur = cur.map_parent
+    cur = getRouteStepParent(map, cur)
   }
 
-  var map = self.map
 
   if (!target_is_deep_child) {
 

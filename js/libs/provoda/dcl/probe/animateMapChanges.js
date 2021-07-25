@@ -90,6 +90,7 @@ var goUp = function(bwlev, cb) {
   var cur = bwlev
   while (cur) {
     cb(cur, md, count)
+    // it's ok to get map_parent (without using getRouteStepParent) from bwlev
     cur = cur.map_parent
     md = cur && cur.getNesting('pioneer')
     count++

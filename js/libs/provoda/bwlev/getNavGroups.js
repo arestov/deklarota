@@ -15,7 +15,7 @@ export default function getNavGroups(bwlev) {
       groups.push(cur_group)
     }
 
-    cur = cur.map_parent
+    cur = cur.map_parent // it's ok to do `bwlev.map_parent`
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups

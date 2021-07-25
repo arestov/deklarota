@@ -3,15 +3,16 @@ import pvState from '../utils/state'
 import createLevel from './createLevel'
 import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
 import toProperNavParent from './toProperNavParent'
+import getRouteStepParent from './getRouteStepParent'
 
 export default function _goDeeper(BWL, map, md, parent_bwlev) {
   // без parent_bwlev нет контекста
   if (!parent_bwlev) {
     // будем искать parent_bwlev на основе прямой потомственности от уровня -1
-    parent_bwlev = getBwlevInParentBwlev(toProperNavParent(md.map_parent), map)
+    parent_bwlev = getBwlevInParentBwlev(toProperNavParent(map, getRouteStepParent(map, md)), map)
   }
 
-  var parent_md = toProperNavParent(md.map_parent)
+  var parent_md = toProperNavParent(map, getRouteStepParent(map, md))
 
   var map_level_num
   if (parent_bwlev) {
@@ -32,7 +33,7 @@ export default function _goDeeper(BWL, map, md, parent_bwlev) {
 }
 
 function getBwlevInParentBwlev(md, map) {
-  if (!toProperNavParent(md.map_parent)) {
+  if (!toProperNavParent(map, getRouteStepParent(map, md))) {
     if (map.mainLevelResident == md) {
       return map.start_bwlev
     }
@@ -44,6 +45,6 @@ function getBwlevInParentBwlev(md, map) {
     throw new Error('root map_parent must be `map.mainLevelResident`')
   }
 
-  var parent_bwlev = getBwlevInParentBwlev(toProperNavParent(md.map_parent), map)
+  var parent_bwlev = getBwlevInParentBwlev(toProperNavParent(map, getRouteStepParent(map, md)), map)
   return getBwlevFromParentBwlev(parent_bwlev, md)
 }
