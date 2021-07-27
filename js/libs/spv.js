@@ -11,16 +11,7 @@ var spv = {}
 var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
 getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,
   debounce, throttle
-if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function(obj, start) {
-    for (var i = (start || 0); i < this.length; i++) {
-      if (this[i] == obj) {
-        return i
-      }
-    }
-    return -1
-  }
-}
+
 spv.getArrayNoDubs = function(array, clean_array) {
   clean_array = clean_array || []
   for (var i = 0; i < array.length; i++) {
