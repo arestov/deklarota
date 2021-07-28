@@ -25,6 +25,8 @@ function getWindow(self) {
 var PvTemplate = View._PvTemplate
 
 var AppBase = spv.inh(View, {}, {
+  location_name: 'root_view',
+
   dom_rp: true,
   createDetails: function() {
     this.root_view = this
@@ -178,7 +180,6 @@ var BrowserAppRootView = spv.inh(AppBase, {}, {
 })
 
 var AppBaseView = spv.inh(BrowserAppRootView, {}, {
-  location_name: 'root_view',
 
   createDetails: function() {
     this._super()
