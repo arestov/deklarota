@@ -139,7 +139,7 @@ export default spv.inh(View, {
     this.max_level_num = -1
     this.dom_related_props.push('lev_containers')
     this.completely_rendered_once = {}
-    this.wrapStartScreen(this.root_view.els.start_screen)
+    this.wrapStartScreen(this.root_view.getInterface('start_screen_node'))
     this.buildNav()
     this.handleSearchForm($('#search', this.d).parent().parent())
     this.buildNowPlayingButton()
