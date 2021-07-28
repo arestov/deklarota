@@ -50,6 +50,7 @@ var AppBase = spv.inh(View, {}, {
 
     Promise.resolve().then(function() {
       spv.domReady(self.d, self.inputFn(function() {
+        this.useInterface('bodyNode', this.d.body)
         this.buildAppDOM()
         this.onDomBuild()
 
@@ -345,7 +346,6 @@ var WebAppView = spv.inh(AppBaseView, {}, {
     var _this = this
     //var d = this.d;
 
-    this.useInterface('bodyNode', this.d.body)
 
     var wd = getWindow(this)
     _this.updateManyStates({
