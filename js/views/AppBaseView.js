@@ -134,7 +134,19 @@ var AppBase = spv.inh(View, {}, {
           self.connectChildrenModels()
           self.requestView()
         }
-      }
+      },
+      __build_template: {
+        api: ['self', 'con', 'ui_samples'],
+        trigger: ['$meta$apis$con$used'],
+        require: ['$meta$apis$con$used'],
+        fn: (self, con) => {
+          self.c = con
+          self.createTemplate()
+
+          _updateAttr(self, '$meta$apis$con$appended', true)
+          _updateAttr(self, 'vis_con_appended', true)
+        },
+      },
     }
   }
 })
@@ -342,7 +354,6 @@ var WebAppView = spv.inh(AppBaseView, {}, {
 
   },
   buildAppDOM: function() {
-    this.c = $(this.d.body)
     var _this = this
     //var d = this.d;
 
@@ -352,11 +363,6 @@ var WebAppView = spv.inh(AppBaseView, {}, {
       window_height: wd.innerHeight,
       window_width: wd.innerWidth
     })
-
-    this.useInterface('con', this.getCNode())
-    _updateAttr(this, '$meta$apis$con$appended', true)
-    _updateAttr(this, 'vis_con_appended', true)
-
   },
 })
 AppBaseView.WebAppView = WebAppView
