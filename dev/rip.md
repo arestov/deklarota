@@ -107,3 +107,5 @@
 - remove requestNavParent from View
 
 - remove dead getConnectedBwlev
+
+- remove WebComplexTreesView, BrowserAppRootView, AppBaseView

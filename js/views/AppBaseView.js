@@ -2,13 +2,10 @@
 import spv from '../libs/spv'
 import $ from 'cash-dom'
 import filters from './modules/filters'
-import getUsageTree from '../libs/provoda/structure/getUsageTree'
+// import getUsageTree from '../libs/provoda/structure/getUsageTree'
 import mutateGlobalTplFilters from '../libs/provoda/mutateGlobalTplFilters'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import View from '../libs/provoda/View'
-import dom_helpers from '../libs/provoda/utils/dom_helpers'
-
-var dUnwrap = dom_helpers.unwrap
 
 mutateGlobalTplFilters(function(filter_name) {
   if (filters[filter_name]) {
@@ -18,8 +15,15 @@ mutateGlobalTplFilters(function(filter_name) {
   }
 })
 
-function getWindow(self) {
-  return spv.getDefaultView(self.d || dUnwrap(self.getC()).ownerDocument)
+const reportStructure = () => {
+  // if (this.skip_structure_reporing == true) {
+  //   return
+  // }
+  // var used_data_structure = getUsageTree([], [], this, this)
+  // this.used_data_structure = used_data_structure
+  // this.parent_view.RPCLegacy('knowViewingDataStructure', this.constr_id, this.used_data_structure)
+  // this.parent_view.RPCLegacy('updateState', 'view_structure', used_data_structure)
+  // console.log('used_data_structure', this.used_data_structure)
 }
 
 var PvTemplate = View._PvTemplate
@@ -147,228 +151,10 @@ export const AppBase = spv.inh(View, {}, {
 
           _updateAttr(self, '$meta$apis$con$appended', true)
           _updateAttr(self, 'vis_con_appended', true)
+
+          reportStructure(self)
         },
       },
     }
   }
 })
-
-var BrowserAppRootView = spv.inh(AppBase, {}, {
-  dom_rp: true,
-  createDetails: function() {
-    this._super()
-
-    var _this = this
-
-    var opts = this.opts || this.parent_view.opts
-    if (opts.can_die && spv.getDefaultView(this.d)) {
-      this.can_die = true
-      this.checkLiveState = function() {
-        if (!spv.getDefaultView(_this.d)) {
-          _this.reportDomDeath()
-          return true
-        }
-      }
-
-      this.lst_interval = setInterval(this.checkLiveState, 1000)
-
-    }
-
-  },
-  reportDomDeath: function() {
-    if (this.can_die && !this.dead) {
-      this.dead = true
-      clearInterval(this.lst_interval)
-    //	var d = this.d;
-    //	delete this.d;
-      this.die()
-      console.log('DOM dead! ' + this.nums)
-
-    }
-  },
-  isAlive: function() {
-    if (this.dead) {
-      return false
-    }
-    return !this.checkLiveState || !this.checkLiveState()
-  }
-})
-
-var AppBaseView = spv.inh(BrowserAppRootView, {}, {
-
-  createDetails: function() {
-    this._super()
-
-    this.tpls = []
-    // this.struc_store = {};
-    this.els = {}
-    this.dom_related_props.push('els', 'struc_store')
-  },
-
-  getScrollVP: function() {
-    return this.els.scrolling_viewport
-  },
-
-  scollNeeded: function() {
-    return window.document.body.scrollHeight > window.document.body.clientHeight
-  },
-
-  scrollTo: function(jnode, view_port, opts) {
-    if (!jnode) {return false}
-  //	if (!this.view_port || !this.view_port.node){return false;}
-
-    //var scrollingv_port = ;
-
-    //var element = view.getC();
-
-  //	var jnode = $(view.getC());
-    if (!jnode[0]) {
-      return
-    }
-
-    var scrollTop = function(wNode, value) {
-      var node = wNode.get(0)
-      if (value == null) {
-        return node.scrollTop
-      }
-
-      node.scrollTop = value
-    }
-
-
-    var view_port_limit = (opts && opts.vp_limit) || 1
-
-    var svp = view_port || this.getScrollVP(),
-      scroll_c = svp.offset ? svp.node : svp.node,
-      scroll_top = scrollTop(scroll_c), //top
-      scrolling_viewport_height = svp.node.height(), //height
-      padding = (scrolling_viewport_height * (1 - view_port_limit)) / 2,
-      scroll_bottom = scroll_top + scrolling_viewport_height //bottom
-
-    var top_limit = scroll_top + padding,
-      bottom_limit = scroll_bottom - padding
-
-    var node_position
-    var node_top_post = jnode.offset().top
-    if (svp.offset) {
-      node_position = node_top_post
-    } else{
-      //throw new Error('fix this!');
-      var spv_top_pos = scroll_c.offset().top
-      node_position = scroll_top + (node_top_post - spv_top_pos)
-
-      //node_position = jnode.position().top + scroll_top + this.c.parent().position().top;
-    }
-    /*
-
-    var el_bottom = jnode.height() + node_position;
-
-    var new_position;
-    if ( el_bottom > bottom_limit || el_bottom < top_limit){
-      new_position =  el_bottom - scrolling_viewport_height/2;
-    }*/
-    var new_position
-    if (node_position < top_limit || node_position > bottom_limit) {
-      var allowed_height = Math.min(jnode.height(), scrolling_viewport_height)
-      new_position = node_position - allowed_height / 2 - scrolling_viewport_height / 2
-      //new_position =  node_position - scrolling_viewport_height/2;
-    }
-    if (new_position) {
-      if (opts && opts.animate) {
-        console.warn('animate scrolling')
-        scrollTop(scroll_c, new_position)
-      } else {
-        scrollTop(scroll_c, new_position)
-      }
-
-    }
-  },
-
-})
-AppBaseView.BrowserAppRootView = BrowserAppRootView
-
-var WebAppView = spv.inh(AppBaseView, {}, {
-  createDetails: function() {
-    this._super()
-    this.root_view_uid = Date.now()
-
-    var _this = this;
-
-
-    (function() {
-      var wd = getWindow(this)
-      var checkWindowSizes = spv.debounce(function() {
-        _this.updateManyStates({
-          window_height: wd.innerHeight,
-          window_width: wd.innerWidth
-        })
-      }, 150)
-
-      spv.addEvent(wd, 'resize', checkWindowSizes)
-
-      this.onDie(function() {
-        spv.removeEvent(wd, 'resize', checkWindowSizes)
-        wd = null
-      })
-
-
-    }).call(this)
-
-    this.onDie(function() {
-
-      _this = null
-    })
-  },
-  remove: function() {
-    this._super()
-    if (this.d) {
-      var wd = getWindow(this)
-      $(wd).off()
-      $(wd).remove()
-      wd = null
-
-      if (this.d.body && this.d.body.firstChild && this.d.body.firstChild.parentNode) {
-        $(this.d.body).off().find('*').remove()
-
-      }
-      $(this.d).off()
-      $(this.d).remove()
-
-
-    }
-
-
-    this.d = null
-  },
-  resortQueue: function(queue) {
-    return this.parent_view.resortQueue(queue)
-  },
-  onDomBuild: function() {
-    if (this.skip_structure_reporing == true) {
-      return
-    }
-    var used_data_structure = getUsageTree([], [], this, this)
-    this.used_data_structure = used_data_structure
-    this.parent_view.RPCLegacy('knowViewingDataStructure', this.constr_id, this.used_data_structure)
-    this.parent_view.RPCLegacy('updateState', 'view_structure', used_data_structure)
-    console.log('used_data_structure', this.used_data_structure)
-
-  },
-  buildAppDOM: function() {
-    var _this = this
-    //var d = this.d;
-
-
-    var wd = getWindow(this)
-    _this.updateManyStates({
-      window_height: wd.innerHeight,
-      window_width: wd.innerWidth
-    })
-  },
-})
-AppBaseView.WebAppView = WebAppView
-
-AppBaseView.WebComplexTreesView = WebAppView
-AppBaseView.AppBase = AppBase
-
-export default AppBaseView
