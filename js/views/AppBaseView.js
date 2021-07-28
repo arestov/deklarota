@@ -57,9 +57,6 @@ export const AppBase = spv.inh(View, {}, {
     Promise.resolve().then(function() {
       spv.domReady(self.d, self.inputFn(function() {
         this.useInterface('bodyNode', this.d.body)
-        this.buildAppDOM()
-        this.onDomBuild()
-
         this.updateState('domAndInterfacesReady', true)
         // since we have manual_states_connect
         self.connectStates()
