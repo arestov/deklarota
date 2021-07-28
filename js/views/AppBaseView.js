@@ -24,7 +24,7 @@ function getWindow(self) {
 
 var PvTemplate = View._PvTemplate
 
-var AppBase = spv.inh(View, {}, {
+export const AppBase = spv.inh(View, {}, {
   location_name: 'root_view',
 
   dom_rp: true,
