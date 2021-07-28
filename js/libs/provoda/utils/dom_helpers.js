@@ -70,6 +70,14 @@ var is = function(one, two) {
   return $(one).is(two)
 }
 
+var width = function(node) {
+  return $(node).width()
+}
+
+var offset = function(node) {
+  return $(node).offset()
+}
+
 export default {
   find: find,
   append: append,
@@ -85,4 +93,6 @@ export default {
   remove: remove,
   prev: prev,
   is: is,
+  width,
+  offset,
 }

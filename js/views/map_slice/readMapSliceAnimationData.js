@@ -3,6 +3,7 @@ import css from './css'
 import getAttr from '../../libs/provoda/provoda/getAttr'
 import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 import anyDeeplyIncludedViews from './anyDeeplyIncludedViews'
+import dom_helpers from '../../libs/provoda/utils/dom_helpers'
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')
 
@@ -17,10 +18,10 @@ var getNavOHeight = function() {
   return this.root_view.els.navs.outerHeight()
 }
 var getAMCWidth = function() {
-  return this.root_view.getInterface('app_map_con').width()
+  return dom_helpers.width(this.getInterface('app_map_con'))
 }
 var getAMCOffset = function() {
-  return this.root_view.getInterface('app_map_con').offset()
+  return dom_helpers.offset(this.getInterface('app_map_con'))
 }
 
 export default function readMapSliceAnimationData(view, transaction_data) {

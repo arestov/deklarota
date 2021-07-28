@@ -193,7 +193,7 @@ export default spv.inh(View, {
       if (next_lev_con) {
         node.insertBefore(next_lev_con.c)
       } else {
-        node.appendTo(this.root_view.getInterface('app_map_con'))
+        node.appendTo(this.getInterface('app_map_con'))
       }
 
       var lev_con = new LevContainer
