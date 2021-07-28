@@ -292,6 +292,7 @@ spv.cloneObj(props, {
   getCNode: function() {
     return dUnwrap(this.getC())
   },
+  unwrapNode: dUnwrap,
   isAlive: function(dead_doc) {
     if (this.dead) {
       return false
