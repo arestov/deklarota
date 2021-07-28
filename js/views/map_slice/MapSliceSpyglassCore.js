@@ -130,22 +130,43 @@ export default spv.inh(View, {
 
     this.RPCLegacy('attachUI', this.root_view.root_view_uid)
   },
-  createDetails: function() {
+  createDetails() {
     this._super()
 
-    this.tpls = []
+    this.input(() => {
+      // since manual_states_connect
+      this.connectStates()
+    })
+  },
+  manual_states_connect: true,
+  effects: {
+    api: {
+      base: [
+        ['_provoda_id'],
+        ['self', '#start_screen_node'],
+        (self, start_screen_node) => {
+          self.tpls = self.tpls || []
 
-    this.lev_containers = {}
-    this.max_level_num = -1
-    this.dom_related_props.push('lev_containers')
-    this.completely_rendered_once = {}
-    this.wrapStartScreen(this.root_view.getInterface('start_screen_node'))
-    this.buildNav()
-    this.handleSearchForm($('#search', this.d).parent().parent())
-    this.buildNowPlayingButton()
-    this.buildNavHelper()
+          self.lev_containers = {}
+          self.max_level_num = -1
+          self.dom_related_props.push('lev_containers')
+          self.completely_rendered_once = {}
+          self.wrapStartScreen(start_screen_node)
+          self.buildNav()
+          self.handleSearchForm()
+          self.buildNowPlayingButton()
+          self.buildNavHelper()
 
-    this.sendOnInit()
+          self.sendOnInit()
+
+          self.input(() => {
+            // since manual_states_connect
+            self.connectChildrenModels()
+            self.requestView()
+          })
+        }
+      ]
+    }
   },
   getLevByBwlev: function(bwlev, deeper) {
     return this.getLevelContainer(bwlev, deeper)
