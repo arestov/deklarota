@@ -64,7 +64,9 @@ var AppBase = spv.inh(View, {}, {
       return sampler
     }
 
-    var sample_node_raw = this.els.ui_samples.children('.' + sample_name)
+    const ui_samples = this.getInterface('ui_samples')
+
+    var sample_node_raw = ui_samples.children('.' + sample_name)
     var sample_node = sample_node_raw[0]
 
     if (!sample_node) {
@@ -99,12 +101,29 @@ var AppBase = spv.inh(View, {}, {
     domAndInterfacesReady: ['input', false],
   },
   effects: {
-    apis: {
+    api: {
+      ui_samples: [
+        '_provoda_id',
+        ['self', 'bodyNode', 'els'],
+        (self, body, els) => {
+          if (els.ui_samples) {
+            return els.ui_samples
+          }
 
+          if (self.ui_samples_csel === null) {
+            return null
+          }
+
+          var selector = self.ui_samples_csel || '#ui-samples'
+          var ui_samples = $(body).find(selector)
+          ui_samples.ui_samples.detach()
+          return ui_samples
+        }
+      ]
     },
     produce: {
       __build_children: {
-        api: ['self'],
+        api: ['self', 'ui_samples'],
         trigger: ['domAndInterfacesReady'],
         require: ['domAndInterfacesReady'],
         fn: function(self) {
@@ -325,23 +344,19 @@ var WebAppView = spv.inh(AppBaseView, {}, {
     var _this = this
     //var d = this.d;
 
+    this.useInterface('bodyNode', this.d.body)
 
     var wd = getWindow(this)
     _this.updateManyStates({
       window_height: wd.innerHeight,
       window_width: wd.innerWidth
     })
-    if (this.ui_samples_csel) {
-      this.els.ui_samples = this.c.find(this.ui_samples_csel)
-      this.els.ui_samples.detach()
-    }
 
     this.useInterface('con', this.getCNode())
     _updateAttr(this, '$meta$apis$con$appended', true)
     _updateAttr(this, 'vis_con_appended', true)
 
   },
-  ui_samples_csel: '#ui-samples'
 })
 AppBaseView.WebAppView = WebAppView
 
@@ -354,6 +369,7 @@ var WebComplexTreesView = spv.inh(WebAppView, {}, {
   },
   buildAppDOM: spv.precall(AppBaseView.WebAppView.prototype.buildAppDOM, function() {
     this.selectKeyNodes()
+    this.useInterface('els', this.els)
   }),
   onDomBuild: function() {
     this._super()
