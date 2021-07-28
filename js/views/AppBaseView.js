@@ -22,7 +22,9 @@ function getWindow(self) {
   return spv.getDefaultView(self.d || dUnwrap(self.getC()).ownerDocument)
 }
 
-var BrowserAppRootView = spv.inh(View, {}, {
+var PvTemplate = View._PvTemplate
+
+var AppBase = spv.inh(View, {}, {
   dom_rp: true,
   createDetails: function() {
     this.root_view = this
@@ -31,7 +33,83 @@ var BrowserAppRootView = spv.inh(View, {}, {
     this.d = opts.d
     this.dom_related_props.push('calls_flow')
 
+
+    var getSampleForTemplate = (function(_this) {
+      return function(sample_name, simple, opts) {
+        return _this.getSample(sample_name, simple, opts)
+      }
+    })(this)
+
+    var templator = PvTemplate.templator(this._getCallsFlow(), getSampleForTemplate)
+    this.pvtemplate = templator.template
+    this.pvsampler = templator.sampler
+
+    var self = this
+
+    Promise.resolve().then(function() {
+      spv.domReady(self.d, self.inputFn(function() {
+        self.buildAppDOM()
+        self.onDomBuild()
+        self.completeDomBuilding()
+      }))
+    })
+  },
+  manual_states_connect: true,
+  completeDomBuilding: function() {
+    this.connectStates()
+    this.connectChildrenModels()
+    this.requestView()
+  },
+  getSampler: function(sample_name) {
+    var sampler = this.samples[sample_name], sample_node
+    if (!sampler) {
+      sample_node = this.els.ui_samples.children('.' + sample_name)
+      sample_node = sample_node[0]
+      if (sample_node) {
+
+        sampler = this.samples[sample_name] = this.pvsampler(sample_node)
+      }
+
+    }
+    if (!sampler) {
+      sample_node = $(this.requirePart(sample_name))
+      sample_node = sample_node[0]
+      if (sample_node) {
+        sampler = this.samples[sample_name] = this.pvsampler(sample_node)
+      }
+
+    }
+    if (!sampler) {
+      throw new Error('no such sample')
+    }
+    return sampler
+  },
+  getSample: function(sample_name, simple, options) {
+    var sampler = this.getSampler(sample_name)
+
+    if (sampler.getClone) {
+      if (simple) {
+        return sampler.getClone(options)
+      } else {
+        return $(sampler.getClone(options))
+      }
+    } else {
+      if (options) {
+        throw new Error('not support options here')
+      }
+      return $(sampler).clone()
+    }
+  },
+})
+
+var BrowserAppRootView = spv.inh(AppBase, {}, {
+  dom_rp: true,
+  createDetails: function() {
+    this._super()
+
     var _this = this
+
+    var opts = this.opts || this.parent_view.opts
     if (opts.can_die && spv.getDefaultView(this.d)) {
       this.can_die = true
       this.checkLiveState = function() {
@@ -65,38 +143,18 @@ var BrowserAppRootView = spv.inh(View, {}, {
   }
 })
 
-var PvTemplate = View._PvTemplate
 var AppBaseView = spv.inh(BrowserAppRootView, {}, {
   location_name: 'root_view',
 
   createDetails: function() {
     this._super()
 
-    var getSampleForTemplate = (function(_this) {
-      return function(sample_name, simple, opts) {
-        return _this.getSample(sample_name, simple, opts)
-      }
-    })(this)
-
-    var templator = PvTemplate.templator(this._getCallsFlow(), getSampleForTemplate)
-    this.pvtemplate = templator.template
-    this.pvsampler = templator.sampler
-
     this.tpls = []
     // this.struc_store = {};
     this.els = {}
     this.samples = {}
     this.dom_related_props.push('samples', 'els', 'struc_store')
-
   },
-
-  completeDomBuilding: function() {
-    this.connectStates()
-    this.connectChildrenModels()
-    this.requestView()
-  },
-
-  manual_states_connect: true,
 
   getScrollVP: function() {
     return this.els.scrolling_viewport
@@ -177,47 +235,6 @@ var AppBaseView = spv.inh(BrowserAppRootView, {}, {
     }
   },
 
-  getSampler: function(sample_name) {
-    var sampler = this.samples[sample_name], sample_node
-    if (!sampler) {
-      sample_node = this.els.ui_samples.children('.' + sample_name)
-      sample_node = sample_node[0]
-      if (sample_node) {
-
-        sampler = this.samples[sample_name] = this.pvsampler(sample_node)
-      }
-
-    }
-    if (!sampler) {
-      sample_node = $(this.requirePart(sample_name))
-      sample_node = sample_node[0]
-      if (sample_node) {
-        sampler = this.samples[sample_name] = this.pvsampler(sample_node)
-      }
-
-    }
-    if (!sampler) {
-      throw new Error('no such sample')
-    }
-    return sampler
-  },
-
-  getSample: function(sample_name, simple, options) {
-    var sampler = this.getSampler(sample_name)
-
-    if (sampler.getClone) {
-      if (simple) {
-        return sampler.getClone(options)
-      } else {
-        return $(sampler.getClone(options))
-      }
-    } else {
-      if (options) {
-        throw new Error('not support options here')
-      }
-      return $(sampler).clone()
-    }
-  },
 })
 AppBaseView.BrowserAppRootView = BrowserAppRootView
 
@@ -226,14 +243,8 @@ var WebAppView = spv.inh(AppBaseView, {}, {
     this._super()
     this.root_view_uid = Date.now()
 
-    var _this = this
-    Promise.resolve().then(function() {
-      spv.domReady(_this.d, _this.inputFn(function() {
-        _this.buildAppDOM()
-        _this.onDomBuild()
-        _this.completeDomBuilding()
-      }))
-    });
+    var _this = this;
+
 
     (function() {
       var wd = getWindow(this)
@@ -336,5 +347,6 @@ var WebComplexTreesView = spv.inh(WebAppView, {}, {
 })
 
 AppBaseView.WebComplexTreesView = WebComplexTreesView
+AppBaseView.AppBase = AppBase
 
 export default AppBaseView
