@@ -367,14 +367,6 @@ var WebComplexTreesView = spv.inh(WebAppView, {}, {
 
     //this.search_input = null;
   },
-  buildAppDOM: spv.precall(AppBaseView.WebAppView.prototype.buildAppDOM, function() {
-    this.selectKeyNodes()
-    this.useInterface('els', this.els)
-  }),
-  onDomBuild: function() {
-    this._super()
-    this.c.addClass('app-loaded')
-  },
 })
 
 AppBaseView.WebComplexTreesView = WebComplexTreesView
