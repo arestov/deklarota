@@ -35,6 +35,8 @@ var AppBase = spv.inh(View, {}, {
     this.d = opts.d
     this.dom_related_props.push('calls_flow')
 
+    this.samples = {}
+    this.dom_related_props.push('samples')
 
     var getSampleForTemplate = (function(_this) {
       return function(sample_name, simple, opts) {
@@ -200,8 +202,7 @@ var AppBaseView = spv.inh(BrowserAppRootView, {}, {
     this.tpls = []
     // this.struc_store = {};
     this.els = {}
-    this.samples = {}
-    this.dom_related_props.push('samples', 'els', 'struc_store')
+    this.dom_related_props.push('els', 'struc_store')
   },
 
   getScrollVP: function() {
