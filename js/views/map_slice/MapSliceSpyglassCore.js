@@ -229,7 +229,8 @@ export default spv.inh(View, {
       return lev_con
     }
   },
-  wrapStartScreen: function(start_screen) {
+  wrapStartScreen: function(start_screen_node) {
+    const start_screen = $(start_screen_node)
     var st_scr_scrl_con = start_screen.parent()
     var start_page_wrap = st_scr_scrl_con.parent()
 
