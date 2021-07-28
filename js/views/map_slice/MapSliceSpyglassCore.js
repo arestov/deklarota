@@ -181,8 +181,7 @@ export default spv.inh(View, {
         '$lev_num': num
       })
 
-      this.tpls.push(tpl)
-      tpl.setStates(this._lbr.undetailed_states || this.states)
+      this.addTpl(tpl)
 
       var next_lev_con
       for (var i = num; i <= this.max_level_num; i++) {

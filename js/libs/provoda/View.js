@@ -130,6 +130,11 @@ spv.cloneObj(props, {
     this.tpl.parseAppended(node)
     this.tpl.setStates(this._lbr.undetailed_states || this.states)
   },
+  addTpl: function(tpl) {
+    this.tpls = this.tpls || []
+    this.tpls.push(tpl)
+    tpl.setStates(this._lbr.undetailed_states || this.states)
+  },
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {
       var bwlev_view = getBwlevView(this)
