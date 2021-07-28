@@ -17,10 +17,10 @@ var getNavOHeight = function() {
   return this.root_view.els.navs.outerHeight()
 }
 var getAMCWidth = function() {
-  return this.root_view.els.app_map_con.width()
+  return this.root_view.getInterface('app_map_con').width()
 }
 var getAMCOffset = function() {
-  return this.root_view.els.app_map_con.offset()
+  return this.root_view.getInterface('app_map_con').offset()
 }
 
 export default function readMapSliceAnimationData(view, transaction_data) {
