@@ -6,7 +6,9 @@ import getUsageTree from '../libs/provoda/structure/getUsageTree'
 import mutateGlobalTplFilters from '../libs/provoda/mutateGlobalTplFilters'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import View from '../libs/provoda/View'
+import dom_helpers from '../libs/provoda/utils/dom_helpers'
 
+var dUnwrap = dom_helpers.unwrap
 
 mutateGlobalTplFilters(function(filter_name) {
   if (filters[filter_name]) {
@@ -15,6 +17,10 @@ mutateGlobalTplFilters(function(filter_name) {
     throw new Error('no filter: ' + filter_name)
   }
 })
+
+function getWindow(self) {
+  return spv.getDefaultView(self.d || dUnwrap(self.getC()).ownerDocument)
+}
 
 var BrowserAppRootView = spv.inh(View, {}, {
   dom_rp: true,
@@ -230,7 +236,7 @@ var WebAppView = spv.inh(AppBaseView, {}, {
     });
 
     (function() {
-      var wd = this.getWindow()
+      var wd = getWindow(this)
       var checkWindowSizes = spv.debounce(function() {
         _this.updateManyStates({
           window_height: wd.innerHeight,
@@ -256,7 +262,7 @@ var WebAppView = spv.inh(AppBaseView, {}, {
   remove: function() {
     this._super()
     if (this.d) {
-      var wd = this.getWindow()
+      var wd = getWindow(this)
       $(wd).off()
       $(wd).remove()
       wd = null
@@ -294,7 +300,7 @@ var WebAppView = spv.inh(AppBaseView, {}, {
     //var d = this.d;
 
 
-    var wd = this.getWindow()
+    var wd = getWindow(this)
     _this.updateManyStates({
       window_height: wd.innerHeight,
       window_width: wd.innerWidth

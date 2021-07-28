@@ -284,9 +284,6 @@ spv.cloneObj(props, {
 
     //document.createTextNode('')
   },
-  getWindow: function() {
-    return spv.getDefaultView(this.d || dUnwrap(this.getC()).ownerDocument)
-  },
   getCNode: function() {
     return dUnwrap(this.getC())
   },
