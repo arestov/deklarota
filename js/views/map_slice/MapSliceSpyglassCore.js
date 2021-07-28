@@ -143,7 +143,7 @@ export default spv.inh(View, {
     api: {
       base: [
         ['_provoda_id'],
-        ['self', '#start_screen_node'],
+        ['self', 'start_screen_node'],
         (self, start_screen_node) => {
           self.tpls = self.tpls || []
 
