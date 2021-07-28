@@ -367,16 +367,7 @@ var WebAppView = spv.inh(AppBaseView, {}, {
 })
 AppBaseView.WebAppView = WebAppView
 
-var WebComplexTreesView = spv.inh(WebAppView, {}, {
-
-  remove: function() {
-    this._super()
-
-    //this.search_input = null;
-  },
-})
-
-AppBaseView.WebComplexTreesView = WebComplexTreesView
+AppBaseView.WebComplexTreesView = WebAppView
 AppBaseView.AppBase = AppBase
 
 export default AppBaseView
