@@ -62,28 +62,24 @@ var AppBase = spv.inh(View, {}, {
   },
   getSampler: function(sample_name) {
     var sampler = this.samples[sample_name]
-    var sample_node
-    if (!sampler) {
-      sample_node = this.els.ui_samples.children('.' + sample_name)
-      sample_node = sample_node[0]
-      if (sample_node) {
-
-        sampler = this.samples[sample_name] = this.pvsampler(sample_node)
-      }
-
+    if (sampler) {
+      return sampler
     }
-    if (!sampler) {
-      sample_node = $(this.requirePart(sample_name))
-      sample_node = sample_node[0]
-      if (sample_node) {
-        sampler = this.samples[sample_name] = this.pvsampler(sample_node)
-      }
 
+    var sample_node_raw = this.els.ui_samples.children('.' + sample_name)
+    var sample_node = sample_node_raw[0]
+
+    if (!sample_node) {
+      sample_node_raw = $(this.requirePart(sample_name))
+      sample_node = sample_node[0]
     }
-    if (!sampler) {
+
+    if (!sample_node) {
       throw new Error('no such sample')
     }
-    return sampler
+
+    this.samples[sample_name] = this.pvsampler(sample_node)
+    return this.samples[sample_name]
   },
   getSample: function(sample_name, simple, options) {
     var sampler = this.getSampler(sample_name)
