@@ -48,18 +48,16 @@ var AppBase = spv.inh(View, {}, {
 
     Promise.resolve().then(function() {
       spv.domReady(self.d, self.inputFn(function() {
-        self.buildAppDOM()
-        self.onDomBuild()
-        self.completeDomBuilding()
+        this.buildAppDOM()
+        this.onDomBuild()
+
+        this.updateState('domAndInterfacesReady', true)
+        // since we have manual_states_connect
+        self.connectStates()
       }))
     })
   },
   manual_states_connect: true,
-  completeDomBuilding: function() {
-    this.connectStates()
-    this.connectChildrenModels()
-    this.requestView()
-  },
   getSampler: function(sample_name) {
     var sampler = this.samples[sample_name]
     if (sampler) {
@@ -97,6 +95,26 @@ var AppBase = spv.inh(View, {}, {
       return $(sampler).clone()
     }
   },
+  attrs: {
+    domAndInterfacesReady: ['input', false],
+  },
+  effects: {
+    apis: {
+
+    },
+    produce: {
+      __build_children: {
+        api: ['self'],
+        trigger: ['domAndInterfacesReady'],
+        require: ['domAndInterfacesReady'],
+        fn: function(self) {
+          // since we have manual_states_connect
+          self.connectChildrenModels()
+          self.requestView()
+        }
+      }
+    }
+  }
 })
 
 var BrowserAppRootView = spv.inh(AppBase, {}, {
