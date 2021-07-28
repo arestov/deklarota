@@ -61,7 +61,8 @@ var AppBase = spv.inh(View, {}, {
     this.requestView()
   },
   getSampler: function(sample_name) {
-    var sampler = this.samples[sample_name], sample_node
+    var sampler = this.samples[sample_name]
+    var sample_node
     if (!sampler) {
       sample_node = this.els.ui_samples.children('.' + sample_name)
       sample_node = sample_node[0]
