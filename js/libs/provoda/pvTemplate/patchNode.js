@@ -21,13 +21,22 @@ var patching_directives = {
     }
 
     return function(node, params, getSample, opts) {
-      var template_options = getTemplateOptions(params, createKey)
-      var instance = getSample(params.sample_name, true, template_options)
-
+      var comment_anchor = window.document.createComment('anchor for pv-import ' + params.sample_name)
       var parent_node = node.parentNode
-      parent_node.replaceChild(instance, node)
+      parent_node.replaceChild(comment_anchor, node)
 
-      return instance
+      var template_options = getTemplateOptions(params, createKey)
+
+      var directives_data = {
+        new_scope_generator: true,
+        instructions: {
+          'pv-when-condition': makePvWhen(comment_anchor, '_provoda_id', function() {
+            return getSample(params.sample_name, true, template_options)
+          }, null)
+        }
+      }
+      comment_anchor.directives_data = directives_data
+      return comment_anchor
     }
   })(),
   'pv-when': function(node, params, getSample, opts) {
