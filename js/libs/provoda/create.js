@@ -10,11 +10,13 @@ export default function(Constr, states, params, map_parent, app) {
     map_parent: map_parent
   }
 
-  var model = new BehaviorContr(opts, null, null, null, states)
-  if (model.init) {
-    model.init(opts, null, null, null, states)
-  }
-
+  var model = new BehaviorContr(opts, {
+    by: 'utilCreate',
+    init_version: 2,
+    states: states,
+    head: null,
+    url_params: null,
+  })
 
   if (params) {
     if (params.interfaces) {
