@@ -8,7 +8,7 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function(target) {
+  preinit: function(target) {
     target.app = target
 
     target.all_queues = target.all_queues || []
