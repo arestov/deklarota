@@ -29,8 +29,10 @@ var getTree = function(highway_holder, mdrp) {
   }
   var cur = getModelByR(highway_holder, mdrp)
   while (cur) {
+    if (cur.model_name !== 'bwlev') {
+      throw new Error('consider to use getRouteStepParent for none bwlev model')
+    }
     result.unshift(cur)
-    console.warn('consider to use getRouteStepParent')
     cur = cur.map_parent
   }
   return result
