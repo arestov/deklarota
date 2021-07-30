@@ -19,6 +19,12 @@ var RootLev = spv.inh(Model, {
   model_name: 'root_bwlev',
   attrs: {
     used_data_structure: ['input'],
+    spyglasses_index: ['input'],
+    spyglasses_requests: ['input'],
+    probe_name: ['input'],
+    map_level_num: ['input'],
+    pioneer_provoda_id: ['input'],
+    pioneer: ['input'],
   },
   rpc_legacy: {
     requestSpyglass: handleSpyglassRequests,

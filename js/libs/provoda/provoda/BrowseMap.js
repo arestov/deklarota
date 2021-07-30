@@ -102,6 +102,7 @@ BrowseMap.Model = spv.inh(HModel, {
     'bmp_show': ['input'],
     url_part: ['input'],
     mp_has_focus: ['input'],
+    mp_show: ['input'],
     mpl_attached: ['input'],
     bmpl_attached: ['input'],
   },

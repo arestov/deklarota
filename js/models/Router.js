@@ -56,6 +56,7 @@ export default spv.inh(Model, {
   }
 }, {
   attrs: {
+    selected__name: ['input'],
     'used_data_structure': [
       'comp',
       ['< used_data_structure <<< ^'],
