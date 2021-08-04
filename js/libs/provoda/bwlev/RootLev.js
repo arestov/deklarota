@@ -45,9 +45,6 @@ var RootLev = spv.inh(Model, {
     },
     followTo: function(from_id, id) {
       var md = getModelById(this, id)
-      if (md.getRelativeModel) {
-        md = md.getRelativeModel()
-      }
 
       var from_bwlev = getModelById(this, from_id)
 

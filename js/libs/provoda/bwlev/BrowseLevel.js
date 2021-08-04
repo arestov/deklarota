@@ -256,9 +256,7 @@ var BrowseLevel = spv.inh(Model, {
   },
   followTo: function(id) {
     var md = getModelById(this, id)
-    if (md.getRelativeModel) {
-      md = md.getRelativeModel()
-    }
+
     // md.requestPage();
     var bwlev = followFromTo(BrowseLevel, this.map, this, md)
     changeBridge(bwlev)
