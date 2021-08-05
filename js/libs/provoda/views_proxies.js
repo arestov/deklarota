@@ -197,5 +197,3 @@ Proxies.prototype = {
     }
   }
 }
-
-export default new Proxies()

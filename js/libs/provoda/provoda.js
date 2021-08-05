@@ -4,7 +4,6 @@ import sync_sender from './sync_sender'
 import MDProxy from './MDProxy'
 import hp from './helpers'
 import getModelById from './utils/getModelById'
-import views_proxies from './views_proxies'
 import SyncReceiver from './SyncReceiver'
 import Eventor from './Eventor'
 import StatesEmitter from './StatesEmitter'
@@ -51,7 +50,6 @@ var provoda = {
   StatesEmitter: StatesEmitter,
   Model: Model,
   HModel: HModel,
-  views_proxies: views_proxies,
   getOCF: function(propcheck, callback) {
     //init once
     return function() {
