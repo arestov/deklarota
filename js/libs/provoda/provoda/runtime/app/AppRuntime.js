@@ -1,7 +1,7 @@
 
 import CallbacksFlow from '../../../CallbacksFlow'
 import SyncSender from '../../../sync_sender'
-import views_proxies from '../../../views_proxies'
+import { Proxies } from '../../../views_proxies'
 import initEffects from '../../../StatesEmitter/initEffects'
 
 function AppRuntime(optionsRaw) {
@@ -32,7 +32,7 @@ function AppRuntime(optionsRaw) {
 
   this.sync_sender = options.sync_sender ? new SyncSender() : null
 
-  var proxies = options.proxies ? new views_proxies.Proxies() : null
+  var proxies = options.proxies ? new Proxies() : null
   this.views_proxies = proxies
   this.proxies = proxies
   this.logger = options.logger || null

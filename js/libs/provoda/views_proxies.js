@@ -62,7 +62,7 @@ Space.prototype = {
   }
 }
 
-var Proxies = function(check_interval) {
+export const Proxies = function(check_interval) {
   this.spaces = {}
   this.spaces_list = []
   //инициализация простанства
@@ -77,7 +77,6 @@ var Proxies = function(check_interval) {
 }
 
 Proxies.prototype = {
-  Proxies: Proxies,
   addRootView: function(view, root_md) {
     return this.addSpaceById(view.view_id, root_md)
   },
