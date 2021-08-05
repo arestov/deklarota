@@ -43,25 +43,6 @@ var provoda = {
       return obj && !!obj.count
     }
   },
-  initWebApp: function(root_md, RootViewConstr) {
-    throw new Error('broken')
-
-    var proxies_space = Date.now()
-    var views_proxies = provoda.views_proxies
-    views_proxies.addSpaceById(proxies_space, root_md)
-    var mpx = views_proxies.getMPX(proxies_space, root_md);
-
-    (function() {
-      var view = new RootViewConstr()
-      mpx.addView(view, 'root')
-      view.init({
-        mpx: mpx,
-        proxies_space: proxies_space
-      }, {d: window.document})
-      view.requestView()
-      view = null
-    })()
-  },
   getModelById: getModelById,
   MDProxy: MDProxy,
   SyncSender: sync_sender,

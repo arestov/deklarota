@@ -109,3 +109,5 @@
 - remove dead getConnectedBwlev
 
 - remove WebComplexTreesView, BrowserAppRootView, AppBaseView
+
+- remove pv.initWebApp util
