@@ -1,4 +1,3 @@
-import spv from 'spv'
 import model from 'pv/model'
 import pvUpdate from 'pv/updateAttr'
 import pvState from 'pv/getAttr'
