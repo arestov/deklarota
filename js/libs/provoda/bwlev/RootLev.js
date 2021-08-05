@@ -12,6 +12,13 @@ import cloneObj from '../../spv/cloneObj'
 
 
 var RootLev = spv.inh(Model, {
+  /*
+    root lev manages routers
+
+    > SessionRoot (RootLev)
+      > Routers by name
+      > Routers by complex name (key)
+  */
   init: function(self) {
     self.used_data_structure = null
   }
