@@ -13,6 +13,7 @@ import getModelById from '../libs/provoda/utils/getModelById'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import BrowseMap from '../libs/BrowseMap'
 import animateMapChanges from '../libs/provoda/dcl/probe/animateMapChanges'
+import handlers from '../libs/provoda/bwlev/router_handlers'
 
 export const BasicRouter = spv.inh(Model, {
   naming: function (fn) {
@@ -24,6 +25,9 @@ export const BasicRouter = spv.inh(Model, {
     self.bwlevs = {}
   },
 }, {
+  rpc_legacy: {
+    ...handlers,
+  }
   // 'stch-used_struc': function(self, value) {
   //   console.log('GOT used_struc', value);
   // },

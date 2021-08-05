@@ -57,13 +57,51 @@ const RootSession = {
 
 
 test('should init router', async () => {
+  const User = model({
+    model_name: 'User',
+  })
+
   const AppRoot = modernRoot({
     BWLev: RootSession,
+    rels: {
+      user: ['nest', [User]],
+    },
+    checkActingRequestsPriority: () => {},
   })
 
   const inited = await testingInit(AppRoot)
 
   const mainNavigationRouter = await getMainNavigationRouter(inited)
-  expect(mainNavigationRouter).toBeTruthy()
-  expect(mainNavigationRouter.readAddr('<< @one:current_mp_md')).toBe(inited.app_model)
+
+  {
+    expect(mainNavigationRouter).toBeTruthy()
+    expect(mainNavigationRouter.readAddr('<< @one:current_mp_md')).toBe(inited.app_model)
+  }
+
+  {
+    const another_md = inited.app_model.readAddr('<< @one:user')
+    mainNavigationRouter.RPCLegacy('navigateToResource', another_md._provoda_id)
+
+    await inited.computed()
+
+    expect(mainNavigationRouter.readAddr('<< @one:current_mp_md')).toBe(another_md)
+  }
+
+  {
+    const another_md = inited.app_model
+    mainNavigationRouter.RPCLegacy('navigateToResource', another_md._provoda_id)
+
+    await inited.computed()
+
+    expect(mainNavigationRouter.readAddr('<< @one:current_mp_md')).toBe(another_md)
+  }
+
+  {
+    const another_md = inited.app_model.readAddr('<< @one:user')
+    inited.rootBwlev.RPCLegacy('navigateRouterToResource', another_md._provoda_id, 'router-main')
+
+    await inited.computed()
+
+    expect(mainNavigationRouter.readAddr('<< @one:current_mp_md')).toBe(another_md)
+  }
 })

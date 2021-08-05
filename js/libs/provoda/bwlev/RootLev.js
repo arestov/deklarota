@@ -9,7 +9,7 @@ import getModelById from '../utils/getModelById'
 import followFromTo from './followFromTo'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import cloneObj from '../../spv/cloneObj'
-
+import handlers from './router_handlers'
 
 var RootLev = spv.inh(Model, {
   /*
@@ -34,6 +34,7 @@ var RootLev = spv.inh(Model, {
     pioneer: ['input'],
   },
   rpc_legacy: {
+    ...handlers,
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
       var md = getModelById(this, id)
@@ -68,6 +69,7 @@ var RootLev = spv.inh(Model, {
       _updateAttr(this, 'used_data_structure', used_data_structure)
     },
     navShowByReq: function(req, router_name_arg) {
+      // TODO: move to router_handlers
       var router_name = router_name_arg
         ? ('router-' + router_name_arg)
         : 'router-navigation'

@@ -227,6 +227,13 @@ var getStrucParent = function(item, _count) {
 
 var emptyFakeList = {length:0}
 
+const getContextRouter = (self) => {
+  var bwlev_view = getBwlevView(self)
+  var current_bwlev_map = (bwlev_view && bwlev_view.getNesting('map')._provoda_id)
+  var context_router = current_bwlev_map || self.root_view.parent_view
+  return context_router
+}
+
 var View = spv.inh(StatesEmitter, {
   naming: function(fn) {
     return function View(view_otps, opts) {
@@ -287,6 +294,23 @@ var View = spv.inh(StatesEmitter, {
     },
     updateAttr: function(e, node, state_name, value) {
       this.updateAttr(state_name, value)
+    },
+
+    navigateToResource() {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateToResource', this.mpx._provoda_id)
+    },
+    navigateByLocator(locator) {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateByLocator', this.mpx._provoda_id, locator)
+    },
+    navigateRouterToResource(router) {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
+    },
+    navigateRouterByLocator(router, locator) {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
     },
     requestPage: function() {
       this.requestPage()
