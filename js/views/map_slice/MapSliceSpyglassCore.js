@@ -299,6 +299,11 @@ export default spv.inh(View, {
   'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
     var mp_show_states = nesting_data.residents_struc.mp_show_states
     var transaction = nesting_data.transaction
+
+    if (!transaction) {
+      throw new Error('map_slice should have `transaction`')
+    }
+
     var old_transaction = old_nesting_data && old_nesting_data.transaction
 
     var diff = probeDiff(this, transaction.bwlev, old_transaction && old_transaction.bwlev)
@@ -325,10 +330,6 @@ export default spv.inh(View, {
 
     //avoid nextTick method!
     if (this.completely_rendered_once['map_slice']) {
-      if (!transaction) {
-        return
-      }
-
       animateMapSlice(this, transaction, animation_data)
       if (!transaction.bwlev) {
         target_md = this.findBMapTarget(array)
