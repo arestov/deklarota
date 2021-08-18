@@ -151,15 +151,6 @@ if (!diff.array || !diff.array.length) {
  _updateRel(fake_spyglass, 'navigation', bwlevs)
 
  var app = fake_spyglass.app
- if (app.legacy_app) {
-   var nav_tree = models
-   app.nav_tree = nav_tree
-   if (app.matchNav) {
-     app.matchNav()
-   }
- }
-
-
 
  var changes = diff
  var i
@@ -204,16 +195,6 @@ if (!diff.array || !diff.array.length) {
    //_updateAttr(target_md, 'mp-highlight', false);
 
 
-   // // TODO: remove this legacy
-
-   if (app.legacy_app) {
-     _updateRel(app, 'current_mp_md', target_md)
-     // will be used for `imporant_models`
-     // will be using in views for size check?
-     _updateAttr(app, 'current_mp_bwlev', diff.bwlev.getMD())
-     // will be used for `imporant_models`
-
-   }
  }
 
 

@@ -113,3 +113,5 @@
 - remove pv.initWebApp util
 
 - remove pv.views_proxies (use app/prepare {proxies: true})
+
+- remove legacy_app and matchNav
