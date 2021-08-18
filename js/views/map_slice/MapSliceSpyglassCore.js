@@ -335,23 +335,24 @@ export default spv.inh(View, {
 
         }
       }
-    } else {
-      var models = new Array(array.length)
-      for (i = 0; i < array.length; i++) {
-        models[i] = getModelFromR(this, array[i])
-      }
-      target_md = this.findBMapTarget(models)
-      if (!target_md) {
-        throw new Error('there is no model with focus!')
-      }
-      this.markAnimationStart(models, -1)
-      for (i = 0; i < models.length; i++) {
-        this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
-      }
-      _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'))
-      this.markAnimationEnd(models, -1)
-      this.completely_rendered_once['map_slice'] = true
+      return
     }
+
+    var models = new Array(array.length)
+    for (i = 0; i < array.length; i++) {
+      models[i] = getModelFromR(this, array[i])
+    }
+    target_md = this.findBMapTarget(models)
+    if (!target_md) {
+      throw new Error('there is no model with focus!')
+    }
+    this.markAnimationStart(models, -1)
+    for (i = 0; i < models.length; i++) {
+      this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
+    }
+    _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'))
+    this.markAnimationEnd(models, -1)
+    this.completely_rendered_once['map_slice'] = true
   },
   'stch-doc_title': function(target, title) {
     target.parent_view.d.title = title || ''
