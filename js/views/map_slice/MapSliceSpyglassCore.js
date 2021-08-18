@@ -304,6 +304,10 @@ export default spv.inh(View, {
       throw new Error('map_slice should have `transaction`')
     }
 
+    if (!transaction.bwlev) {
+      throw new Error('map_slice transaction should have `bwlev`')
+    }
+
     var old_transaction = old_nesting_data && old_nesting_data.transaction
 
     var diff = probeDiff(this, transaction.bwlev, old_transaction && old_transaction.bwlev)
