@@ -325,15 +325,17 @@ export default spv.inh(View, {
 
     //avoid nextTick method!
     if (this.completely_rendered_once['map_slice']) {
-      if (transaction) {
-        animateMapSlice(this, transaction, animation_data)
-        if (!transaction.bwlev) {
-          target_md = this.findBMapTarget(array)
-          if (target_md) {
-            _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'))
-          }
+      if (!transaction) {
+        return
+      }
 
+      animateMapSlice(this, transaction, animation_data)
+      if (!transaction.bwlev) {
+        target_md = this.findBMapTarget(array)
+        if (target_md) {
+          _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'))
         }
+
       }
       return
     }
