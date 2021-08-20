@@ -201,7 +201,7 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       wwtch.local_state.root_node = root_node
 
       dAfter(node, root_node)
-      wwtch.local_state.all_chunks = wwtch.context.parseAppended(root_node)
+      wwtch.local_state.all_chunks = wwtch.context.parseAppendedAndInit(root_node)
       wwtch.destroyer = destroyerUsualWWtch
 
       // hotfix for pv-repeat

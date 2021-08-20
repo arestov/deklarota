@@ -128,12 +128,13 @@ spv.cloneObj(props, {
   },
   parseAppendedTPLPart: function(node) {
     this.tpl.parseAppended(node)
-    this.tpl.setStates(this._lbr.undetailed_states || this.states)
+    this.tpl.ensureInitedWithStates(this._lbr.undetailed_states || this.states)
+
   },
   addTpl: function(tpl) {
     this.tpls = this.tpls || []
     this.tpls.push(tpl)
-    tpl.setStates(this._lbr.undetailed_states || this.states)
+    tpl.ensureInitedWithStates(this._lbr.undetailed_states || this.states)
   },
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {

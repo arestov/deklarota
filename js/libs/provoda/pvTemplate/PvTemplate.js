@@ -633,20 +633,37 @@ spv.Class.extendTo(PvTemplate, {
       cur.checkFunc(states_summ, async_changes, current_motivator)
     }
   },
+  __rememberStates(full_states) {
+    //вместо того что бы собирать новый хэш на основе массива изменений используются объект всеъ состояний
+    var states_summ = this.getStatesSumm(full_states)
+    this.received_states = states_summ
+    return states_summ
+  },
+  __initIfNeeded() {
+    if (this.states_inited) {
+      return false
+    }
+
+    this.states_inited = true
+    this.initStates()
+
+    return true
+  },
+  ensureInitedWithStates(full_states) {
+    this.__rememberStates(full_states)
+
+    return this.__initIfNeeded()
+  },
   checkChanges: function(changes, full_states, async_changes, current_motivator) {
     // async_changes is always true?
     if (this.dead) {return}
     if (async_changes && !current_motivator) {
       // throw new Error('should be current_motivator');
     }
-    //вместо того что бы собирать новый хэш на основе массива изменений используются объект всеъ состояний
-    var states_summ = this.getStatesSumm(full_states)
-    this.received_states = states_summ
 
-    if (!this.states_inited) {
-      this.states_inited = true
-      this.initStates()
+    var states_summ = this.__rememberStates(full_states)
 
+    if (this.__initIfNeeded()) {
       return
     }
 
@@ -821,6 +838,9 @@ spv.Class.extendTo(PvTemplate, {
     return result
   },
   parseAppended: function(node) {
+    return this.parsePvDirectives(node)
+  },
+  parseAppendedAndInit: function(node) {
     var result = this.parsePvDirectives(node)
     if (!result.length) {
       return result
