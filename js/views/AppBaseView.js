@@ -130,12 +130,14 @@ export const AppBase = spv.inh(View, {}, {
     produce: {
       __build_children: {
         api: ['self', 'ui_samples'],
-        trigger: ['domAndInterfacesReady'],
-        require: ['domAndInterfacesReady'],
+        trigger: ['domAndInterfacesReady', '$meta$apis$con$appended'],
+        require: ['domAndInterfacesReady', '$meta$apis$con$appended'],
         fn: function(self) {
-          // since we have manual_states_connect
-          self.connectChildrenModels()
-          self.requestView()
+          self.input(() => {
+            // since we have manual_states_connect
+            self.connectChildrenModels()
+            self.requestView()
+          })
         }
       },
       __build_template: {
@@ -145,11 +147,13 @@ export const AppBase = spv.inh(View, {}, {
         fn: (self, con) => {
           self.c = con
           self.createTemplate()
-
-          _updateAttr(self, '$meta$apis$con$appended', true)
-          _updateAttr(self, 'vis_con_appended', true)
-
           reportStructure(self)
+
+          self.input(() => {
+            _updateAttr(self, '$meta$apis$con$appended', true)
+            _updateAttr(self, 'vis_con_appended', true)
+
+          })
         },
       },
     }
