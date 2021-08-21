@@ -1,9 +1,10 @@
 
 
-var FlowStep = function(num, complex_order, inited_order, fn, context, args, arg, cb_wrapper, real_context, finup, init_end) {
+var FlowStep = function(is_transaction_end, num, complex_order, inited_order, fn, context, args, arg, cb_wrapper, real_context, finup, init_end) {
   this.aborted = false
   this.p_space = ''
   this.p_index_key = ''
+  this.is_transaction_end = Boolean(is_transaction_end)
   this.num = 1 // just hint type for engine
   this.num = num
   this.fn = Function.prototype // just hint type for engine
