@@ -1,10 +1,9 @@
 
 import { update } from '../updateProxy'
+import assertAttrUpdating from './assertAttrUpdating'
 
 function updateAttr(self, name, value) {
-  if (self._currentMotivator() == null) {
-    throw new Error('wrap updateAttr call in `.input()`')
-  }
+  assertAttrUpdating(self)
 
   update(self, name, value)
 }
