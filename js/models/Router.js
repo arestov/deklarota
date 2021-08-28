@@ -155,7 +155,7 @@ export default spv.inh(BasicRouter, {
     _updateAttr(bwlev, 'currentReq', req)
   },
   effects: {
-    'produce': {
+    out: {
       'browser-location': {
         api: ['navi', 'self'],
         trigger: 'full_url',

@@ -127,7 +127,7 @@ export const AppBase = spv.inh(View, {}, {
         }
       ]
     },
-    produce: {
+    out: {
       __build_children: {
         api: ['self', 'ui_samples'],
         trigger: ['domAndInterfacesReady', '$meta$apis$con$appended'],

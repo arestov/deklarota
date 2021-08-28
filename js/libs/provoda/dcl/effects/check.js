@@ -167,13 +167,13 @@ var checkModern = function(self) {
   self._extendable_effect_index = extend(
     'consume',
     self._extendable_effect_index,
-    effects.consume
+    effects.in
   )
 
   self._extendable_effect_index = extend(
     'produce',
     self._extendable_effect_index,
-    effects.produce
+    effects.out
   )
 
   self._extendable_effect_index = extend(

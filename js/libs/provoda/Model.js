@@ -117,7 +117,7 @@ function modelProps(add) {
 
 add({
   effects: {
-    produce: {
+    out: {
       __remove_model: {
         api: ['self'],
         trigger: ['$meta$removed'],
