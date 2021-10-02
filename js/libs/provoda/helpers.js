@@ -5,7 +5,6 @@ import utils_simple from './utils/simple'
 import pvState from './utils/state'
 import probeDiff from './probeDiff'
 import selecPoineertDeclr from './structure/selecPoineertDeclr'
-import createTemplate from './View/createTemplate'
 import getBwlevView from './View/getBwlevView'
 import getViewLocationId from './View/getViewLocationId'
 import getPropsPrefixChecker from './utils/getPropsPrefixChecker'
@@ -64,7 +63,6 @@ export default {
     getBwlevView: getBwlevView,
     getBwlevId: getBwlevId,
     getViewLocationId: getViewLocationId,
-    createTemplate: createTemplate,
     matchByParent: function(views, parent_view) {
       for (var i = 0; i < views.length; i++) {
         var cur = views[i]
