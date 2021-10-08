@@ -99,3 +99,5 @@
 - don't use abortFlowSteps for 'collch'
 
 - default_states
+
+- don't pass model ref to comp attr fn 

@@ -6,7 +6,11 @@ import mergeBhv from '../../libs/provoda/provoda/_lmerge'
 import used_str from '../utils/used_struc'
 var used_struc_bhv = used_str.bhv
 
-var BrowseLevView = spv.inh(View, {}, mergeBhv({
+var BrowseLevView = spv.inh(View, {
+  init(self) {
+    self.updateAttr('$meta$view$nesting_space', self.nesting_space)
+  },
+}, mergeBhv({
   attrs: {
     'mp_show_end': [
       'comp',
@@ -32,9 +36,8 @@ var BrowseLevView = spv.inh(View, {}, mergeBhv({
     ],
     'sources_of_item_details': [
       'comp',
-      ['sources_of_item_details_by_space'],
-      function(obj) {
-        var nesting_space = this.nesting_space
+      ['sources_of_item_details_by_space', '$meta$view$nesting_space'],
+      function(obj, nesting_space) {
         return obj && obj[nesting_space]
       }
     ],

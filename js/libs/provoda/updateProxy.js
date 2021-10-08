@@ -421,7 +421,7 @@ function compoundComplexState(etr, temp_comx) {
   for (var i = 0; i < temp_comx.depends_on.length; i++) {
     values[i] = etr.state(temp_comx.depends_on[i])
   }
-  return temp_comx.fn.apply(etr, values)
+  return temp_comx.fn.apply(null, values)
 }
 
 function compressChangesList(result_changes, changes_list, i, prop_name, value, counter) {
