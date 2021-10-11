@@ -409,7 +409,33 @@ function applyComplexStates(etr, total_original_states, start_from, input_and_ou
 
 }
 
-function compoundComplexState(etr, temp_comx) {
+function depValue(etr, dcl, num) {
+  return etr.state(dcl.depends_on[num])
+}
+
+function callCompFn(etr, dcl) {
+  // avoid creating array (avoid GC work)
+  const fn = dcl.fn
+  switch (dcl.depends_on.length) {
+    case 1:
+      return fn(depValue(etr, dcl, 0))
+    case 2:
+      return fn(depValue(etr, dcl, 0), depValue(etr, dcl, 1))
+    case 3:
+      return fn(depValue(etr, dcl, 0), depValue(etr, dcl, 1), depValue(etr, dcl, 2))
+    case 4:
+      return fn(depValue(etr, dcl, 0), depValue(etr, dcl, 1), depValue(etr, dcl, 2), depValue(etr, dcl, 3))
+    default: {
+      var values = new Array(dcl.depends_on.length)
+      for (var i = 0; i < dcl.depends_on.length; i++) {
+        values[i] = depValue(etr, dcl, i)
+      }
+      return fn.apply(null, values)
+    }
+  }
+}
+
+export function compoundComplexState(etr, temp_comx) {
   for (var i = 0; i < temp_comx.require_marks.length; i++) {
     var cur = temp_comx.require_marks[i]
     var state_name = temp_comx.depends_on[cur]
@@ -417,11 +443,8 @@ function compoundComplexState(etr, temp_comx) {
       return null
     }
   }
-  var values = new Array(temp_comx.depends_on.length)
-  for (var i = 0; i < temp_comx.depends_on.length; i++) {
-    values[i] = etr.state(temp_comx.depends_on[i])
-  }
-  return temp_comx.fn.apply(etr, values)
+
+  return callCompFn(etr, temp_comx)
 }
 
 function compressChangesList(result_changes, changes_list, i, prop_name, value, counter) {

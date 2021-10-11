@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compoundComplexState 1`] = `
+Array [
+  "attrAValue",
+]
+`;
+
+exports[`compoundComplexState 2`] = `
+Array [
+  "attrAValue",
+  "attrBValue",
+]
+`;
+
+exports[`compoundComplexState 3`] = `
+Array [
+  "attrAValue",
+  "attrBValue",
+  "attrCValue",
+]
+`;
+
+exports[`compoundComplexState 4`] = `
+Array [
+  "attrAValue",
+  "attrBValue",
+  "attrCValue",
+  "attrDValue",
+]
+`;
+
+exports[`compoundComplexState 5`] = `
+Array [
+  "attrAValue",
+  "attrBValue",
+  "attrCValue",
+  "attrDValue",
+  "attrEValue",
+]
+`;

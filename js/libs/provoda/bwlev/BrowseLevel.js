@@ -173,10 +173,10 @@ var BrowseLevel = spv.inh(Model, {
 
     '__supervision': [
       'comp',
-      [],
-      function() {
+      ['_provoda_id'],
+      function(_provoda_id) {
           return {
-            needy_id: this._provoda_id,
+            needy_id: _provoda_id,
             store: {},
             reqs: {},
             is_active: {}
