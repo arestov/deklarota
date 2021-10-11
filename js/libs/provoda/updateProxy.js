@@ -409,7 +409,7 @@ function applyComplexStates(etr, total_original_states, start_from, input_and_ou
 
 }
 
-function compoundComplexState(etr, temp_comx) {
+export function compoundComplexState(etr, temp_comx) {
   for (var i = 0; i < temp_comx.require_marks.length; i++) {
     var cur = temp_comx.require_marks[i]
     var state_name = temp_comx.depends_on[cur]
