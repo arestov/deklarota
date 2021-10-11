@@ -2,14 +2,17 @@ import checkAndDisposeModel from '../checkAndDisposeModel'
 
 const disposeOneMention = function(owner, target, name) {
   // owner.children_models[name] == target
+  const mentions = target.__mentions_as_rel[name]
 
-  target.__mentions_as_rel[name].delete(owner)
+  if (mentions != null) {
+    mentions.delete(owner)
+  }
 
   if (owner == target) {
     return
   }
 
-  if (!target.__mentions_as_rel[name].size) {
+  if (mentions == null || !mentions.size) {
     checkAndDisposeModel(target, target.getAttr('$meta$removed'))
   }
 }
