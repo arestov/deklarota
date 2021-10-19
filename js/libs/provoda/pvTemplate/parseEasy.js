@@ -10,6 +10,23 @@ function getPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, false, getSample)
 }
 
+const patchTillCanPatch = (node, struc_store, getSample) => {
+  let node_to_patch = node
+  let last_patched = null
+  while (node_to_patch) {
+    if (node_to_patch.nodeType != 1 && node_to_patch.nodeType != 8) {
+      return last_patched
+    }
+    const directives_data = getPVData(node_to_patch, struc_store, getSample)
+    const patched = patchNode(node_to_patch, struc_store, directives_data, getSample, null)
+
+    if (!patched) {
+      return last_patched
+    }
+    last_patched = patched
+    node_to_patch = patched
+  }
+}
 
 export default function parserEasy(start_node, vroot_node, struc_store, getSample) {
   //полный парсинг, байндинг одного scope (раньше и парсинг был только в пределах одного scope)
@@ -50,7 +67,7 @@ export default function parserEasy(start_node, vroot_node, struc_store, getSampl
         list_for_binding.push(false, cur_node, directives_data)
       }
     }
-    var patched = !is_start_node && patchNode(cur_node, struc_store, directives_data, getSample, null)
+    var patched = !is_start_node && patchTillCanPatch(cur_node, struc_store, getSample)
     if (patched) {
       match_stack.unshift(patched, can_bind)
     }
