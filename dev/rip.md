@@ -100,4 +100,4 @@
 
 - default_states
 
-- don't pass model ref to comp attr fn 
+- don't pass model ref to comp attr fn
