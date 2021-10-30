@@ -2,64 +2,61 @@
 
 import wrapDeps from './utils/wrapDeps'
 
-var prefixArray = function(arr, prefix) {
+var wrapInterfaceAttrs = function(arr) {
   var result = new Array(arr.length)
   for (var i = 0; i < arr.length; i++) {
-    result[i] = prefix + arr[i]
+    result[i] = '$meta$apis$' + arr[i] + '$used'
   }
   return result
+}
+
+const attrToList = (str) => {
+  if (typeof str == 'string') {
+    return [str]
+  }
+
+  return str
 }
 
 export default function ApiDeclr(name, data) {
   this.name = name
 
   this.fn = null
-  this.triggering_deps = null
-  this.triggering_deps_name = null
 
   this.needed_apis = null
-  this.needed_apis_dep = null
-  this.needed_apis_dep_name = null
 
-  this.deps = null
   this.deps_name = null
 
-  this.compxes = null
+  this.all_deps = null
 
   if (typeof data == 'function') {
     this.fn = data
   } else {
     switch (data.length) {
       case 2: {
-        this.triggering_deps = wrapDeps(data[0])
-        this.triggering_deps_name = '_triggered_api_' + name
+        var attr_deps = data[0]
 
-        this.deps = this.triggering_deps
-        this.deps_name = this.triggering_deps_name
+        var all_deps = wrapDeps(attr_deps)
+        // var all_deps_name = '_api_all_needs_' + name
+        this.deps_name = Symbol() // Symbol(all_deps_name)
 
         this.fn = data[1]
-        this.compxes = [
-          this.deps_name, this.deps,
-        ]
+        this.all_deps = all_deps
       }
       break
       case 3:
       case 4: {
-        this.triggering_deps = wrapDeps(data[0])
-        this.triggering_deps_name = '_triggered_api_' + name
+        var attr_deps = data[0]
+        var needed_apis = data[1]
 
-        this.needed_apis = data[1]
-        this.needed_apis_dep = wrapDeps(prefixArray(this.needed_apis, '_api_used_'))
-        this.needed_apis_dep_name = '_apis_need_for_' + name
+        this.needed_apis = needed_apis
 
-        this.deps = wrapDeps([this.triggering_deps_name, this.needed_apis_dep_name])
-        this.deps_name = '_api_all_needs_' + name
+        var needed_apis_deps = wrapInterfaceAttrs(needed_apis)
 
-        this.compxes = [
-          this.triggering_deps_name, this.triggering_deps,
-          this.needed_apis_dep_name, this.needed_apis_dep,
-          this.deps_name, this.deps
-        ]
+        var all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
+        // var all_deps_name = '_api_all_needs_' + name
+        this.deps_name = Symbol() // Symbol(all_deps_name)
+        this.all_deps = all_deps
 
         this.fn = data[2]
         this.destroy = data[3]
@@ -68,4 +65,6 @@ export default function ApiDeclr(name, data) {
     }
 
   }
+
+  Object.seal(this)
 }

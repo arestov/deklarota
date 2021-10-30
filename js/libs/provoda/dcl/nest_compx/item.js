@@ -87,15 +87,15 @@ var getGlueSources = function(list) {
       continue
     }
 
-    result.push({
+    result.push(Object.freeze({
       meta_relation: addr.splited.meta_relation,
       source: addr.splited.source,
       final_rel_addr: addr.splited.final_rel_addr,
       final_rel_key: addr.splited.final_rel_key,
-    })
+    }))
   }
 
-  return result
+  return Object.freeze(result)
 }
 
 var useDesination = function(addr) {
@@ -117,17 +117,17 @@ var NestCompxDcl = function(name, data) {
   var deps = data[1]
   var list = deps.map(getDeps)
 
-  this.glue_sources = getGlueSources(list)
+  this.glue_sources = Object.freeze(getGlueSources(list))
 
   // for prefill
-  this.raw_deps = list
+  this.raw_deps = Object.freeze(list)
 
 
   var prepared_to_run = list.map(useDesination)
   // for cache keys
-  this.deps = prepared_to_run.map(asString)
+  this.deps = Object.freeze(prepared_to_run.map(asString))
   // will be used by runner (to init watchers)
-  this.parsed_deps = groupBySubscribing(prepared_to_run)
+  this.parsed_deps = Object.freeze(groupBySubscribing(prepared_to_run))
 
 
   var rel_name = '__/internal/rels//_/' + this.dest_name

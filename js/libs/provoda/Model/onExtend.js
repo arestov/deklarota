@@ -4,7 +4,7 @@ import assignField from '../dcl/assignField'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
 import buildAttrsFinal from '../dcl/attrs/build'
-import checkChi from '../StatesEmitter/checkChi'
+import checkChi, { checkChiProps } from '../StatesEmitter/checkChi'
 
 import checkNestRqC from '../dcl/nest_model/check'
 import checkNestSel from '../dcl/nest_sel/check'
@@ -14,7 +14,7 @@ import checkModernNests from '../dcl/nests/check'
 import checkPasses from '../dcl/passes/check'
 import checkRoutes from '../dcl/routes/check'
 import checkSubpager from '../dcl/sub_pager/check'
-import collectSubpages from '../dcl/sub_pager/collectSubpages'
+import collectSubpages, { depricateOldSubpages } from '../dcl/sub_pager/collectSubpages'
 import checkEffects from '../dcl/effects/check'
 
 import checkNest from '../dcl/nest/check'
@@ -56,6 +56,39 @@ var checkSideeffects = function(self, props, params) {
   }
 }
 
+export const completeBuild = (self) => {
+  var typed_state_dcls = getTypedDcls(self.__dcls_attrs || {})
+  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
+
+  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
+  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
+
+  checkEffects(self)
+
+  collectSubpages(self)
+  checkSubpager(self)
+  checkRoutes(self)
+
+  checkModernNests(self)
+
+  buildAttrsFinal(self)
+
+
+  /*
+    check global_skeleton for
+    provideGlueRels(self, props)
+
+  */
+
+  checkPasses(self)
+
+
+  checkChi(self)
+
+
+  self._attrs_collector = null
+}
+
 export default function(self, props, original, params) {
   /** LEGACY CHEKS **/
 
@@ -65,6 +98,10 @@ export default function(self, props, original, params) {
   checkNest(self, props)
 
   checkSideeffects(self, props, params)
+
+  collectStateChangeHandlers(self, props)
+  depricateOldSubpages(props)
+  checkChiProps(self, props)
 
   extendDclCache(self, '__dcls_attrs', props['attrs'])
   extendDclCache(self, '__dcls_rels', props['rels'])
@@ -77,36 +114,5 @@ export default function(self, props, original, params) {
   extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
   extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
-  var typed_state_dcls = getTypedDcls(self.__dcls_attrs || {})
-  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
-
-  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
-  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
-
-  checkEffects(self, props)
-
-  collectStateChangeHandlers(self, props)
-
-  collectSubpages(self, props)
-  checkSubpager(self, props)
-  checkRoutes(self, props)
-
-  checkModernNests(self, props)
-
-  buildAttrsFinal(self)
-
-
-  /*
-    check global_skeleton for
-    provideGlueRels(self, props)
-
-  */
-
-  checkPasses(self, props)
-
-
-  checkChi(self, props)
-
-
-  self._attrs_collector = null
+  completeBuild(self)
 }

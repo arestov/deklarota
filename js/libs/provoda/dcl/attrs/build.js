@@ -1,4 +1,5 @@
 import cachedField from '../cachedField'
+import copyWithSymbols from '../copyWithSymbols'
 import { doCopy } from '../../../spv/cloneObj'
 import shallowEqual from '../../shallowEqual'
 
@@ -14,12 +15,8 @@ const prepareToExtendByServicingAttrs = cachedField(
     const result = {}
 
     doCopy(result, arg1)
-    doCopy(result, arg2)
+    copyWithSymbols(result, arg2)
     doCopy(result, arg3)
-
-    if (shallowEqual(current, result)) {
-      return current
-    }
 
     return result
   }
@@ -48,8 +45,8 @@ const collectAllComp = cachedField(
       result[name] = arg1[name]
     }
 
-    if (shallowEqual(current, result)) {
-      return current
+    for (var prop of Object.getOwnPropertySymbols(arg1)) {
+      result[prop] = arg1[prop]
     }
 
     return result

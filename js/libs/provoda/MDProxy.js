@@ -1,12 +1,10 @@
 import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
-import cloneObj from '../spv/cloneObj'
-import { isObjectEmpty } from '../spv'
 import sameName from './sameName'
-import { emptyObject } from './utils/sameObjectIfEmpty'
+import sameObjectIfEmpty from './utils/sameObjectIfEmpty'
 import { init as initStores, methods as storesMethods } from './MDProxy/stores'
 const CH_GR_LE = 2
 
-var MDProxy = function(_provoda_id, children_models, md, space) {
+var MDProxy = function(_provoda_id, mutable_children_models, md, space) {
   this._provoda_id = _provoda_id
   this.key = _provoda_id
   this.views = null
@@ -14,7 +12,7 @@ var MDProxy = function(_provoda_id, children_models, md, space) {
   this.vstates = null
   //this.children_models = children_models;
   this.md = md
-  this.nestings = isObjectEmpty(children_models) ? emptyObject : cloneObj({}, children_models)
+  this.nestings = sameObjectIfEmpty(mutable_children_models)
   this.space = space || null
   initStores(this)
 

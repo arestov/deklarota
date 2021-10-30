@@ -10,6 +10,14 @@ import cachedField from '../../cachedField'
 var makeGroups = groupDeps(getEncodedState)
 const emptyObject = Object.freeze({})
 
+const compressList = (result, prop) => {
+  if (result[prop].length == 1) {
+    result[prop] = result[prop][0]
+  } else {
+    Object.freeze(result[prop])
+  }
+}
+
 var makeWatchIndex = function(full_comlxs_list) {
   if (!full_comlxs_list.length) {
     return emptyObject
@@ -33,9 +41,11 @@ var makeWatchIndex = function(full_comlxs_list) {
       continue
     }
 
-    if (full_comlxs_index[attr_name].length == 1) {
-      full_comlxs_index[attr_name] = full_comlxs_index[attr_name][0]
-    }
+    compressList(full_comlxs_index, attr_name)
+  }
+
+  for (var prop of Object.getOwnPropertySymbols(full_comlxs_index)) {
+    compressList(full_comlxs_index, prop)
   }
 
   Object.freeze(full_comlxs_index)
@@ -54,6 +64,13 @@ var collectCheck = cachedField(
       compx_check[key_name_one] = dcl_cache__compx[key_name_one]
     }
 
+    for (var prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
+      compx_check[prop] = dcl_cache__compx[prop]
+    }
+
+    Object.freeze(compx_check)
+
+
     return compx_check
   }
 )
@@ -67,6 +84,10 @@ var collectList = cachedField(
 
     for (var key_name_one in dcl_cache__compx) {
       full_comlxs_list.push(dcl_cache__compx[key_name_one])
+    }
+
+    for (var prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
+      full_comlxs_list.push(dcl_cache__compx[prop])
     }
 
     return full_comlxs_list

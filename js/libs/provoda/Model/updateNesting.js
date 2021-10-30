@@ -1,10 +1,9 @@
-
-import spv from '../../spv'
 import hp from '../helpers'
 import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import handleMentions from './mentions/handleRelChange'
+import isGlueRel from './mentions/isGlueRel'
 import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
 import updateMetaAttrs from './rel/updateMetaAttrs'
 import emptyArray from '../emptyArray'
@@ -12,22 +11,21 @@ import sameName from '../sameName'
 
 var checkNesting = nestWIndex.checkNesting
 
-var hasDot = spv.memorize(function(nesting_name) {
-  return nesting_name.indexOf('.') != -1
-})
+function getUniqReadonly(input) {
+  // yes, make Object.freeze for input array!
+  Object.freeze(input)
 
-function getUniqCopy(input) {
   if (!input.length) {
     return emptyArray
   }
-  var result = Array.from(new Set(input))
-  return result.length ? result : emptyArray
-}
 
-const isGlueRel = function(self, rel_key) {
-  var skeleton = self.__global_skeleton
+  // share same memory object of array when possible
+  var uniq = new Set(input)
+  if (input.length == uniq.size) {
+    return input
+  }
 
-  return skeleton.glue_rels.has(rel_key)
+  return Object.freeze(Array.from(uniq))
 }
 
 export default function updateNesting(self, collection_name_raw, input, opts) {
@@ -37,17 +35,13 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
     throw new Error('wrap updateRel call in `.input()`')
   }
 
-  if (hasDot(collection_name)) {
-    throw new Error('remove "." (dot) from name')
-  }
-
   if (!self.children_models) {
     self.children_models = {}
   }
 
   var old_value = self.children_models[collection_name]
 
-  var array = Array.isArray(input) ? getUniqCopy(input) : input
+  var array = Array.isArray(input) ? getUniqReadonly(input) : input
 
   if (!isNestingChanged(old_value, array)) {
     return self

@@ -52,6 +52,20 @@ var getBaseTreeCheckList = function(start) {
 
 }
 
+const completeBuild = (self) => {
+
+  var typed_state_dcls = getTypedDcls(self.__dcls_attrs) || {}
+  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
+
+  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
+  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
+
+
+  checkEffects(self)
+
+  buildAttrsFinal(self)
+}
+
 export default function(self, props, original) {
   extendDclCache(self, '__dcls_attrs', props['attrs'])
 
@@ -60,12 +74,6 @@ export default function(self, props, original) {
   extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
   extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
 
-
-  var typed_state_dcls = getTypedDcls(self.__dcls_attrs) || {}
-  parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
-
-  assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
-  assignField(self, '__attrs_base_input', typed_state_dcls['input'] || {})
 
   checkNestBorrow(self, props)
   // check effects
@@ -77,9 +85,6 @@ export default function(self, props, original) {
 
   collectSelectorsOfCollchs(self, props)
 
-  checkEffects(self, props)
-
-  buildAttrsFinal(self)
 
   var base_tree_mofified = props.hasOwnProperty('base_tree')
   if (base_tree_mofified) {
@@ -101,4 +106,5 @@ export default function(self, props, original) {
   }
 
   checkNestBorrowWatch(self, props)
+  completeBuild(self)
 }

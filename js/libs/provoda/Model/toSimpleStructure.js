@@ -1,6 +1,7 @@
 
 import spv from '../../spv'
 import ensurePublicAttrs from './ensurePublicAttrs'
+import isPublicRel from './rel/isPublicRel'
 var cloneObj = spv.cloneObj
 
 var checkModel = function(md, models_index, local_index, all_for_parse) {
@@ -74,6 +75,10 @@ var iterate = function(models_index, all_for_parse, local_index, big_result) {
 
     for (var nesting_name in cur_md.children_models) {
       var cur = cur_md.children_models[nesting_name]
+      if (!isPublicRel(cur_md, nesting_name)) {
+        continue
+      }
+
       result.children_models[nesting_name] = handleNesting(cur, models_index, local_index, all_for_parse)
     }
     if (can_push) {

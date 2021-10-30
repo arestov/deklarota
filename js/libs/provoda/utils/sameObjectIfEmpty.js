@@ -1,4 +1,4 @@
-import { countKeys } from '../../spv'
+import { isObjectEmpty } from '../../spv'
 
 export const emptyObject = Object.freeze({})
 
@@ -7,7 +7,7 @@ const sameObjectIfEmpty = (object) => {
     return null
   }
 
-  if (!countKeys(object)) {
+  if (isObjectEmpty(object)) {
     return emptyObject
   }
 

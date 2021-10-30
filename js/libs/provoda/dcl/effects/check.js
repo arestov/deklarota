@@ -21,6 +21,7 @@ import ApiDeclr from './legacy/api/dcl'
 
 import parseCompItems from '../attrs/comp/parseItems'
 import cachedField from '../cachedField'
+import copyWithSymbols from '../copyWithSymbols'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -157,27 +158,28 @@ var rebuild = function(self, newV, oldV, listByType) {
   }
 }
 
-var checkModern = function(self, props) {
-  if (!props['effects']) {
+var checkModern = function(self) {
+  if (!self.hasOwnProperty('effects')) {
     return
   }
+  var effects = self.effects
 
   self._extendable_effect_index = extend(
     'consume',
     self._extendable_effect_index,
-    props['effects'].consume
+    effects.consume
   )
 
   self._extendable_effect_index = extend(
     'produce',
     self._extendable_effect_index,
-    props['effects'].produce
+    effects.produce
   )
 
   self._extendable_effect_index = extend(
     'api',
     self._extendable_effect_index,
-    props['effects'].api
+    effects.api
   )
 }
 
@@ -191,12 +193,47 @@ const fxAttrs = cachedField(
 
     doCopy(result, s1)
     doCopy(result, s2)
-    doCopy(result, s3)
-    doCopy(result, s4)
+    copyWithSymbols(result, s3)
+    copyWithSymbols(result, s4)
 
     return result
   }
 )
+
+const checkNetworkSources = cachedField(
+  'netsources_of_all',
+  ['netsources_of_nestings', 'netsources_of_states'],
+  false,
+  (netsources_of_nestings, netsources_of_states) => {
+    return {
+      nestings: netsources_of_nestings,
+      states: netsources_of_states
+    }
+  }
+)
+
+const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], false, (_effect_by_type) => {
+  var _effect_by_type_listed = {}
+  for (var type_name in _effect_by_type) {
+    if (!_effect_by_type.hasOwnProperty(type_name)) {
+      continue
+    }
+
+    var result = []
+
+    var cur = _effect_by_type[type_name]
+    for (var effect_name in cur) {
+      if (!cur.hasOwnProperty(effect_name)) {
+        continue
+      }
+      result.push(cur[effect_name])
+    }
+
+    _effect_by_type_listed[type_name] = result
+
+  }
+  return _effect_by_type_listed
+})
 
 export default function checkEffects(self, props) {
   var currentIndex = self._extendable_effect_index
@@ -210,34 +247,11 @@ export default function checkEffects(self, props) {
   var oldByType = self._effect_by_type || {}
   self._effect_by_type = byType(self._extendable_effect_index)
 
-  self._effect_by_type_listed = {}
-  for (var type_name in self._effect_by_type) {
-    if (!self._effect_by_type.hasOwnProperty(type_name)) {
-      continue
-    }
-
-    var result = []
-
-    var cur = self._effect_by_type[type_name]
-    for (var effect_name in cur) {
-      if (!cur.hasOwnProperty(effect_name)) {
-        continue
-      }
-      result.push(cur[effect_name])
-    }
-
-    self._effect_by_type_listed[type_name] = result
-
-  }
+  checkListed(self)
 
   rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
 
-  if (self.hasOwnProperty('netsources_of_nestings') || self.hasOwnProperty('netsources_of_states')) {
-    self.netsources_of_all = {
-      nestings: self.netsources_of_nestings,
-      states: self.netsources_of_states
-    }
-  }
+  checkNetworkSources(self)
 
   fxAttrs(self)
 

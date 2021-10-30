@@ -3,6 +3,21 @@ import spv from '../../../../../spv'
 import indexByDepName from '../api/utils/indexByDepName'
 import getDepsToInsert from '../api/utils/getDepsToInsert'
 
+
+var buildIndexFromListInProp = (result, cur, list_prop_name) => {
+  var list = cur[list_prop_name]
+  if (!list) {
+    return
+  }
+  for (var i = 0; i < list.length; i++) {
+    var state_name = list[i]
+    if (!result[state_name]) {
+      result[state_name] = []
+    }
+    result[state_name].push(cur)
+  }
+}
+
 var indexByList = function(obj, list_name) {
   if (!obj) {
     return
@@ -14,20 +29,22 @@ var indexByList = function(obj, list_name) {
       continue
     }
     var cur = obj[name]
-    var list = cur[list_name]
-    if (!list) {
-      continue
-    }
-    for (var i = 0; i < list.length; i++) {
-      var state_name = list[i]
-      if (!result[state_name]) {
-        result[state_name] = []
-      }
-      result[state_name].push(cur)
-    }
+    buildIndexFromListInProp(result, cur, list_name)
+  }
+
+  for (var prop of Object.getOwnPropertySymbols(obj)) {
+    var cur = obj[prop]
+    buildIndexFromListInProp(result, cur, list_name)
   }
 
   return result
+}
+
+function makeRequiredApiIndex(result, cur, checking_prefix) {
+  for (var i = 0; i < cur.apis.length; i++) {
+    if (!spv.startsWith(cur.apis[i], checking_prefix)) {continue}
+    result[cur.apis[i].slice(1)] = true
+  }
 }
 
 
@@ -40,10 +57,12 @@ function rootApis(obj) {
     var cur = obj[name]
     if (!cur) {continue}
 
-    for (var i = 0; i < cur.apis.length; i++) {
-      if (!spv.startsWith(cur.apis[i], '#')) {continue}
-      index[cur.apis[i].slice(1)] = true
-    }
+    makeRequiredApiIndex(index, cur, '#')
+  }
+
+  for (var prop of Object.getOwnPropertySymbols(obj)) {
+    var cur = obj[prop]
+    makeRequiredApiIndex(index, cur, '#')
   }
 
   var result = Object.keys(index)

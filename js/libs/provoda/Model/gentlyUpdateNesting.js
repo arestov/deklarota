@@ -1,11 +1,17 @@
-
-
 import updateNesting from './updateNesting'
+
+var hasDot = function(nesting_name) {
+  return nesting_name.indexOf('.') != -1
+}
 
 export default function gentlyUpdateNesting(self, collection_name, input, opts) {
   if (self == null) {
     console.error(new Error(`Couldn't update "${collection_name}" rel in ${self}.`))
     return undefined
+  }
+
+  if (hasDot(collection_name)) {
+    throw new Error('remove "." (dot) from name')
   }
 
   if (self.wasDisposed()) {

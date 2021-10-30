@@ -13,11 +13,7 @@ function checkAndMutateCondReadyEffects(changes_list, self) {
 
     var value = changes_list[i + 1]
 
-    var old_ready = self._effects_using.conditions_ready[index[state_name].name]
     self._effects_using.conditions_ready[index[state_name].name] = Boolean(value)
-    if (Boolean(old_ready) === Boolean(value)) {
-      continue
-    }
   }
 }
 

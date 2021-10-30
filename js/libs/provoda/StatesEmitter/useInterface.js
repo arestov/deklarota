@@ -20,14 +20,11 @@ var template = function() {
 }
 
 var update = function(self, interface_name, value) {
-  var name_for_used_legacy = '_api_used_' + interface_name
   var name_for_used_modern = '$meta$apis$' + interface_name + '$used'
 
-  self._attrs_collector.defineAttr(name_for_used_legacy, 'bool')
   self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
 
   _updateAttrsByChanges(self, [
-    name_for_used_legacy, value,
     name_for_used_modern, value,
   ])
 }

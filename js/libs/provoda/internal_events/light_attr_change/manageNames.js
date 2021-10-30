@@ -10,6 +10,9 @@ var getAttrByName = function(key) {
 }
 
 var getNameByAttr = function(attr) {
+  if (typeof attr == 'symbol') {
+    return attr
+  }
   if (toName.has(attr)) {
     return toName.get(attr)
   }

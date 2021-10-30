@@ -2,8 +2,8 @@
 
 import getSubpageItem from './getSubpageItem'
 
-export default function checkSubpager(self, props) {
-  var sub_pager = props.sub_pager
+export default function checkSubpager(self) {
+  const sub_pager = self.hasOwnProperty('sub_pager') && self.sub_pager
 
   if (!sub_pager) {
     return

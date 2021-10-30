@@ -14,6 +14,14 @@ const getFinalResult = (result) => {
     return sameArrayIfEmpty(result)
   }
 
+  if (result.constructor !== Object) {
+    return result
+  }
+
+  if (Object.getOwnPropertySymbols(result).length) {
+    return result
+  }
+
   return sameObjectIfEmpty(result)
 
 }
@@ -41,6 +49,8 @@ const cachedField = function(field, deps, final_compile, fn) {
     }
 
     const finalResult = getFinalResult(result)
+
+    Object.freeze(finalResult)
 
     model[field] = finalResult
 

@@ -22,6 +22,15 @@ var usualApis = function(obj) {
     result.push(cur)
   }
 
+  for (var prop of Object.getOwnPropertySymbols(obj)) {
+    var cur = obj[prop]
+    if (cur.deps_name) {
+      continue
+    }
+
+    result.push(cur)
+  }
+
   return result
 }
 
@@ -41,6 +50,15 @@ function checkApi(fn) {
 
       acc = fn(acc, api)
 
+    }
+
+    for (var prop of Object.getOwnPropertySymbols(apis_index)) {
+      var api = apis_index[prop]
+      if (!api || !api.needed_apis) {
+        continue
+      }
+
+      acc = fn(acc, api)
     }
 
     return acc
