@@ -111,8 +111,8 @@ export default function(self, props, original, params) {
   var effects = props['effects']
 
   extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
-  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
-  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
+  extendDclCache(self, '__dcls_effects_consume', effects && effects['in'])
+  extendDclCache(self, '__dcls_effects_produce', effects && effects['out'])
 
   completeBuild(self)
 }

@@ -62,22 +62,29 @@ Space.prototype = {
   }
 }
 
-var Proxies = function(check_interval) {
+export const Proxies = function(check_interval, options = {}) {
   this.spaces = {}
   this.spaces_list = []
+  /*
+    you can disable check to prevent tests from hang
+  */
+  const { __proxies_leaks_check = true } = options
+  const { __proxies_leaks_check_interval } = options
   //инициализация простанства
   //поддержка простанства в актуальном состоянии
   //очистка пространства
 
   var self = this
 
-  setInterval(function() {
+  this.leaksCheck = __proxies_leaks_check && setInterval(function() {
     self.checkAlive()
-  }, check_interval || 10000)
+  }, __proxies_leaks_check_interval || 10000)
 }
 
 Proxies.prototype = {
-  Proxies: Proxies,
+  dispose() {
+    clearInterval(this.leaksCheck)
+  },
   addRootView: function(view, root_md) {
     return this.addSpaceById(view.view_id, root_md)
   },
@@ -198,5 +205,3 @@ Proxies.prototype = {
     }
   }
 }
-
-export default new Proxies()

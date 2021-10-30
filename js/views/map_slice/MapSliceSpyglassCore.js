@@ -14,7 +14,7 @@ import $ from 'cash-dom'
 import wrapInputCall from '../../libs/provoda/provoda/wrapInputCall'
 import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 import readMapSliceAnimationData from './readMapSliceAnimationData'
-import animateMapSlice from './animateMapSlice'
+import animateMapSlice, { getLevNum } from './animateMapSlice'
 import findMpxViewInChildren from './findMpxViewInChildren'
 
 var can_animate = css.transform && css.transition
@@ -130,22 +130,43 @@ export default spv.inh(View, {
 
     this.RPCLegacy('attachUI', this.root_view.root_view_uid)
   },
-  createDetails: function() {
+  createDetails() {
     this._super()
 
-    this.tpls = []
+    this.input(() => {
+      // since manual_states_connect
+      this.connectStates()
+    })
+  },
+  manual_states_connect: true,
+  effects: {
+    api: {
+      base: [
+        ['_provoda_id'],
+        ['self', 'start_screen_node'],
+        (self, start_screen_node) => {
+          self.tpls = self.tpls || []
 
-    this.lev_containers = {}
-    this.max_level_num = -1
-    this.dom_related_props.push('lev_containers')
-    this.completely_rendered_once = {}
-    this.wrapStartScreen(this.root_view.els.start_screen)
-    this.buildNav()
-    this.handleSearchForm($('#search', this.d).parent().parent())
-    this.buildNowPlayingButton()
-    this.buildNavHelper()
+          self.lev_containers = {}
+          self.max_level_num = -1
+          self.dom_related_props.push('lev_containers')
+          self.completely_rendered_once = {}
+          self.wrapStartScreen(start_screen_node)
+          self.buildNav()
+          self.handleSearchForm()
+          self.buildNowPlayingButton()
+          self.buildNavHelper()
 
-    this.sendOnInit()
+          self.sendOnInit()
+
+          self.input(() => {
+            // since manual_states_connect
+            self.connectChildrenModels()
+            self.requestView()
+          })
+        }
+      ]
+    }
   },
   getLevByBwlev: function(bwlev, deeper) {
     return this.getLevelContainer(bwlev, deeper)
@@ -181,8 +202,7 @@ export default spv.inh(View, {
         '$lev_num': num
       })
 
-      this.tpls.push(tpl)
-      tpl.setStates(this._lbr.undetailed_states || this.states)
+      this.addTpl(tpl)
 
       var next_lev_con
       for (var i = num; i <= this.max_level_num; i++) {
@@ -194,7 +214,7 @@ export default spv.inh(View, {
       if (next_lev_con) {
         node.insertBefore(next_lev_con.c)
       } else {
-        node.appendTo(this.root_view.els.app_map_con)
+        node.appendTo(this.getInterface('app_map_con'))
       }
 
       var lev_con = new LevContainer
@@ -209,7 +229,8 @@ export default spv.inh(View, {
       return lev_con
     }
   },
-  wrapStartScreen: function(start_screen) {
+  wrapStartScreen: function(start_screen_node) {
+    const start_screen = $(start_screen_node)
     var st_scr_scrl_con = start_screen.parent()
     var start_page_wrap = st_scr_scrl_con.parent()
 
@@ -278,9 +299,18 @@ export default spv.inh(View, {
   'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
     var mp_show_states = nesting_data.residents_struc.mp_show_states
     var transaction = nesting_data.transaction
+
+    if (!transaction) {
+      throw new Error('map_slice should have `transaction`')
+    }
+
+    if (!transaction.bwlev) {
+      throw new Error('map_slice transaction should have `bwlev`')
+    }
+
     var old_transaction = old_nesting_data && old_nesting_data.transaction
 
-    var diff = probeDiff(this, nesting_data.transaction.bwlev, old_nesting_data && old_nesting_data.transaction.bwlev)
+    var diff = probeDiff(this, transaction.bwlev, old_transaction && old_transaction.bwlev)
 
     var bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
     var mds = nesting_data.residents_struc.items
@@ -304,33 +334,24 @@ export default spv.inh(View, {
 
     //avoid nextTick method!
     if (this.completely_rendered_once['map_slice']) {
-      if (transaction) {
-        animateMapSlice(this, transaction, animation_data)
-        if (!transaction.bwlev) {
-          target_md = this.findBMapTarget(array)
-          if (target_md) {
-            _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'))
-          }
-
-        }
-      }
-    } else {
-      var models = new Array(array.length)
-      for (i = 0; i < array.length; i++) {
-        models[i] = getModelFromR(this, array[i])
-      }
-      target_md = this.findBMapTarget(models)
-      if (!target_md) {
-        throw new Error('there is no model with focus!')
-      }
-      this.markAnimationStart(models, -1)
-      for (i = 0; i < models.length; i++) {
-        this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
-      }
-      _updateAttr(this, 'current_lev_num', pvState(target_md, 'map_level_num'))
-      this.markAnimationEnd(models, -1)
-      this.completely_rendered_once['map_slice'] = true
+      animateMapSlice(this, transaction, animation_data)
+      return
     }
+
+    const current_lev_num = getLevNum(this, transaction)
+
+    var models = new Array(array.length)
+    for (i = 0; i < array.length; i++) {
+      models[i] = getModelFromR(this, array[i])
+    }
+
+    this.markAnimationStart(models, -1)
+    for (i = 0; i < models.length; i++) {
+      this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
+    }
+    _updateAttr(this, 'current_lev_num', current_lev_num)
+    this.markAnimationEnd(models, -1)
+    this.completely_rendered_once['map_slice'] = true
   },
   'stch-doc_title': function(target, title) {
     target.parent_view.d.title = title || ''

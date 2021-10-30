@@ -11,16 +11,7 @@ var spv = {}
 var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
 getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,
   debounce, throttle
-if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function(obj, start) {
-    for (var i = (start || 0); i < this.length; i++) {
-      if (this[i] == obj) {
-        return i
-      }
-    }
-    return -1
-  }
-}
+
 spv.getArrayNoDubs = function(array, clean_array) {
   clean_array = clean_array || []
   for (var i = 0; i < array.length; i++) {
@@ -69,35 +60,21 @@ spv.getExistingItems = function(arr) {
   return result
 }
 
-if (typeof window !== 'undefined') {
-  addEvent = spv.addEvent = window.addEventListener ?
-  function(elem, evType, fn) {
-    elem.addEventListener(evType, fn, false)
-    return fn
-  } :
-  function(elem, evType, fn) {
-    elem.attachEvent('on' + evType, fn)
-    return fn
+addEvent = spv.addEvent = function(elem, evType, fn) {
+  elem.addEventListener(evType, fn, false)
+  return fn
+}
+removeEvent = spv.removeEvent = function(elem, evType, fn) {
+  if (!elem.removeEventListener) {
+    return
   }
-  removeEvent = spv.removeEvent = window.addEventListener ?
-  function(elem, evType, fn) {
-    if (!elem.removeEventListener) {
-      return
-    }
-    elem.removeEventListener(evType, fn, false)
-  } :
-  function(elem, evType, fn) {
-    if (!elem.detachEvent) {
-      return
-    }
-    elem.detachEvent('on' + evType, fn)
-  }
+  elem.removeEventListener(evType, fn, false)
+}
 
-  spv.listenEvent = function(elem, evType, fn) {
-    addEvent(elem, evType, fn)
-    return function() {
-      removeEvent(elem, evType, fn)
-    }
+spv.listenEvent = function(elem, evType, fn) {
+  addEvent(elem, evType, fn)
+  return function() {
+    removeEvent(elem, evType, fn)
   }
 }
 

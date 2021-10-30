@@ -30,13 +30,14 @@ var warnStruct = function() {
 }
 
 var BrowseLevel = spv.inh(Model, {
-  strict: true,
   naming: function(fn) {
     return function BrowseLevel(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function(self, opts, data, params, more, states) {
+
+  postInit: function(self) {
+
     self.children_bwlevs = {}
     self.map = null
 
@@ -45,6 +46,8 @@ var BrowseLevel = spv.inh(Model, {
     // if (!self.model_name) {
     // 	throw new Error('must have model name');
     // }
+
+    var states = self.init_v2_data.states
 
     var pioneer = states['pioneer']
 
@@ -253,9 +256,7 @@ var BrowseLevel = spv.inh(Model, {
   },
   followTo: function(id) {
     var md = getModelById(this, id)
-    if (md.getRelativeModel) {
-      md = md.getRelativeModel()
-    }
+
     // md.requestPage();
     var bwlev = followFromTo(BrowseLevel, this.map, this, md)
     changeBridge(bwlev)

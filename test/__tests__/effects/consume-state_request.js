@@ -9,7 +9,7 @@ import fakeInterface from '../../fakeInterface'
 test('state loaded', async () => {
   const StartPage = spv.inh(BrowseMap.Model, {}, {
     effects: {
-      consume: {
+      in: {
         0: {
           type: 'state_request',
           states: ['bio'],

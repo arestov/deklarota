@@ -70,9 +70,19 @@ export default function(self, props, original) {
   extendDclCache(self, '__dcls_attrs', props['attrs'])
 
   var effects = props['effects']
+
+  if (effects) {
+    if (effects.produce) {
+      throw new Error('use `out` section for output effects')
+    }
+    if (effects.consume) {
+      throw new Error('use `in` section for input effects')
+    }
+  }
+
   extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
-  extendDclCache(self, '__dcls_effects_consume', effects && effects['consume'])
-  extendDclCache(self, '__dcls_effects_produce', effects && effects['produce'])
+  extendDclCache(self, '__dcls_effects_consume', effects && effects['in'])
+  extendDclCache(self, '__dcls_effects_produce', effects && effects['out'])
 
 
   checkNestBorrow(self, props)

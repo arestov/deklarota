@@ -227,6 +227,13 @@ var getStrucParent = function(item, _count) {
 
 var emptyFakeList = {length:0}
 
+const getContextRouter = (self) => {
+  var bwlev_view = getBwlevView(self)
+  var current_bwlev_map = (bwlev_view && bwlev_view.getNesting('map')._provoda_id)
+  var context_router = current_bwlev_map || self.root_view.parent_view
+  return context_router
+}
+
 var View = spv.inh(StatesEmitter, {
   naming: function(fn) {
     return function View(view_otps, opts) {
@@ -288,24 +295,28 @@ var View = spv.inh(StatesEmitter, {
     updateAttr: function(e, node, state_name, value) {
       this.updateAttr(state_name, value)
     },
+
+    navigateToResource() {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateToResource', this.mpx._provoda_id)
+    },
+    navigateByLocator (e, node, locator) {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateByLocator', this.mpx._provoda_id, locator)
+    },
+    navigateRouterToResource (e, node, router) {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
+    },
+    navigateRouterByLocator (e, node, router, locator) {
+      var contextRouter = getContextRouter(this)
+      contextRouter.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
+    },
     requestPage: function() {
       this.requestPage()
     },
     requestPageById: function(e, node, _provoda_id) {
       this.requestPageById(_provoda_id)
-    },
-    requestNavParent: function(e, node, value) {
-      // it's legacy. avoid using it
-
-      var num = Math.max(1, value ? parseInt(value, 10) : 1)
-      var parent = this.mpx.md.map_parent
-      var back = num
-      while (back > 1) {
-        parent = parent.map_parent
-        back--
-      }
-
-      this.requestPageById(parent._provoda_id)
     },
     followTo: function() {
       var md_id = this.mpx._provoda_id

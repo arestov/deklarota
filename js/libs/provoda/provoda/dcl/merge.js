@@ -40,8 +40,8 @@ function copyEffects(target_api, target_consume, target_produce, source) {
   }
 
   softMerge(target_api, source.api)
-  softMerge(target_consume, source.consume)
-  softMerge(target_produce, source.produce)
+  softMerge(target_consume, source.in)
+  softMerge(target_produce, source.out)
 }
 
 export default function() {

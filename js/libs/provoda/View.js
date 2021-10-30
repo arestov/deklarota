@@ -128,7 +128,13 @@ spv.cloneObj(props, {
   },
   parseAppendedTPLPart: function(node) {
     this.tpl.parseAppended(node)
-    this.tpl.setStates(this._lbr.undetailed_states || this.states)
+    this.tpl.ensureInitedWithStates(this._lbr.undetailed_states || this.states)
+
+  },
+  addTpl: function(tpl) {
+    this.tpls = this.tpls || []
+    this.tpls.push(tpl)
+    tpl.ensureInitedWithStates(this._lbr.undetailed_states || this.states)
   },
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {
@@ -284,12 +290,10 @@ spv.cloneObj(props, {
 
     //document.createTextNode('')
   },
-  getWindow: function() {
-    return spv.getDefaultView(this.d || dUnwrap(this.getC()).ownerDocument)
-  },
   getCNode: function() {
     return dUnwrap(this.getC())
   },
+  unwrapNode: dUnwrap,
   isAlive: function(dead_doc) {
     if (this.dead) {
       return false

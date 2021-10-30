@@ -321,7 +321,8 @@ CallbacksFlow.prototype = {
     var inited_order = initedOrder(initiator, motivator)
     inited_order.push(flow_step_num)
 
-    var flow_step = new FlowStep(flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
+    var is_transaction_end = motivator ? motivator.is_transaction_end : false
+    var flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
     order(this, flow_step)
     this.checkCallbacksFlow()
     return flow_step
@@ -332,7 +333,8 @@ CallbacksFlow.prototype = {
     var complex_order = [starter_id, Infinity, flow_step_num]
     var inited_order = complex_order
 
-    var flow_step = new FlowStep(flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
+    var is_transaction_end = true
+    var flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
     order(this, flow_step)
     this.checkCallbacksFlow()
   },

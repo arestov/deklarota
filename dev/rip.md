@@ -103,3 +103,15 @@
 - don't pass model ref to comp attr fn
 
 - remove svg-mod
+
+- remove requestNavParent from View
+
+- remove dead getConnectedBwlev
+
+- remove WebComplexTreesView, BrowserAppRootView, AppBaseView
+
+- remove pv.initWebApp util
+
+- remove pv.views_proxies (use app/prepare {proxies: true})
+
+- remove legacy_app and matchNav

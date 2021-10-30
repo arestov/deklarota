@@ -1,3 +1,7 @@
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
 
 function isSimpleObject(obj) {
   if (obj == null) {
@@ -41,7 +45,11 @@ function shallowEqual(objA, objB) {
   */
 
   for (var name in objA) {
-    if (objA.hasOwnProperty(name)) {
+    if (hasOwnProperty(objA, name)) {
+      if (!hasOwnProperty(objB, name)) {
+        return false
+      }
+
       if (objA[name] !== objB[name]) {
         return false
       }
@@ -51,7 +59,11 @@ function shallowEqual(objA, objB) {
   // objA and objB can have dirrenent keys number. so check both
 
   for (var name in objB) {
-    if (objB.hasOwnProperty(name)) {
+    if (hasOwnProperty(objB, name)) {
+      if (!hasOwnProperty(objA, name)) {
+        return false
+      }
+
       if (objB[name] !== objA[name]) {
         return false
       }

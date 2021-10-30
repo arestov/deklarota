@@ -9,9 +9,16 @@ import getModelById from '../utils/getModelById'
 import followFromTo from './followFromTo'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import cloneObj from '../../spv/cloneObj'
-
+import handlers from './router_handlers'
 
 var RootLev = spv.inh(Model, {
+  /*
+    root lev manages routers
+
+    > SessionRoot (RootLev)
+      > Routers by name
+      > Routers by complex name (key)
+  */
   init: function(self) {
     self.used_data_structure = null
   }
@@ -19,8 +26,15 @@ var RootLev = spv.inh(Model, {
   model_name: 'root_bwlev',
   attrs: {
     used_data_structure: ['input'],
+    spyglasses_index: ['input'],
+    spyglasses_requests: ['input'],
+    probe_name: ['input'],
+    map_level_num: ['input'],
+    pioneer_provoda_id: ['input'],
+    pioneer: ['input'],
   },
   rpc_legacy: {
+    ...handlers,
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
       var md = getModelById(this, id)
@@ -39,9 +53,6 @@ var RootLev = spv.inh(Model, {
     },
     followTo: function(from_id, id) {
       var md = getModelById(this, id)
-      if (md.getRelativeModel) {
-        md = md.getRelativeModel()
-      }
 
       var from_bwlev = getModelById(this, from_id)
 
@@ -58,6 +69,7 @@ var RootLev = spv.inh(Model, {
       _updateAttr(this, 'used_data_structure', used_data_structure)
     },
     navShowByReq: function(req, router_name_arg) {
+      // TODO: move to router_handlers
       var router_name = router_name_arg
         ? ('router-' + router_name_arg)
         : 'router-navigation'

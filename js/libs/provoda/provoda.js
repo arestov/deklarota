@@ -4,7 +4,6 @@ import sync_sender from './sync_sender'
 import MDProxy from './MDProxy'
 import hp from './helpers'
 import getModelById from './utils/getModelById'
-import views_proxies from './views_proxies'
 import SyncReceiver from './SyncReceiver'
 import Eventor from './Eventor'
 import StatesEmitter from './StatesEmitter'
@@ -43,25 +42,6 @@ var provoda = {
       return obj && !!obj.count
     }
   },
-  initWebApp: function(root_md, RootViewConstr) {
-    throw new Error('broken')
-
-    var proxies_space = Date.now()
-    var views_proxies = provoda.views_proxies
-    views_proxies.addSpaceById(proxies_space, root_md)
-    var mpx = views_proxies.getMPX(proxies_space, root_md);
-
-    (function() {
-      var view = new RootViewConstr()
-      mpx.addView(view, 'root')
-      view.init({
-        mpx: mpx,
-        proxies_space: proxies_space
-      }, {d: window.document})
-      view.requestView()
-      view = null
-    })()
-  },
   getModelById: getModelById,
   MDProxy: MDProxy,
   SyncSender: sync_sender,
@@ -70,7 +50,6 @@ var provoda = {
   StatesEmitter: StatesEmitter,
   Model: Model,
   HModel: HModel,
-  views_proxies: views_proxies,
   getOCF: function(propcheck, callback) {
     //init once
     return function() {

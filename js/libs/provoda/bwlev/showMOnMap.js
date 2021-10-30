@@ -5,18 +5,21 @@ import ba_canReuse from './ba_canReuse'
 import _goDeeper from './_goDeeper'
 import createLevel from './createLevel'
 import toProperNavParent from './toProperNavParent'
+import getRouteStepParent from './getRouteStepParent'
 
 var ba_inUse = ba_canReuse.ba_inUse
 
-function isStart(md) {
+function isStart(map, md) {
   var cur = md
   while (cur) {
     if (cur.map_level_num == -1) {
       return true
     }
 
-    if (cur.map_parent && cur.map_parent._x_skip_navigation) {
-      cur = cur.map_parent
+    var parent = getRouteStepParent(map, cur)
+
+    if (parent && parent._x_skip_navigation) {
+      cur = parent
       continue
     }
 
@@ -51,7 +54,7 @@ function ensureStartBwlev(map, md) {
 
 export default function showMOnMap(BWL, map, model, bwlev) {
 
-  var is_start = isStart(model)
+  var is_start = isStart(map, model)
 
   if (is_start) {
     bwlev = ensureStartBwlev(map, model)
@@ -66,10 +69,10 @@ export default function showMOnMap(BWL, map, model, bwlev) {
     if (bwlev) {
       parent_md = bwlev.map_parent.getNesting('pioneer')
     } else {
-      parent_md = model.map_parent
+      parent_md = getRouteStepParent(map, model)
     }
 
-    parent_md = toProperNavParent(parent_md)
+    parent_md = toProperNavParent(map, parent_md)
 
     bwlev_parent = showMOnMap(BWL, map, parent_md, bwlev && bwlev.map_parent, true)
   }

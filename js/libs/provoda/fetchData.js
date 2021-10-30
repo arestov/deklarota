@@ -6,7 +6,7 @@ import flatStruc from './structure/flatStruc'
 throw new Error('use runtime/app/start to init app')
 
 function fetchData(db, App, schema, url) {
-  var proxies = new pv.views_proxies.Proxies()
+  throw new Error('make proper init of proxies = views_proxies')
   var globthis = typeof globalThis !== 'undefined' ? globalThis : window
 
   var calls_flow = new pv.CallbacksFlow(globthis)

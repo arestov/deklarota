@@ -13,14 +13,43 @@ import getModelById from '../libs/provoda/utils/getModelById'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import BrowseMap from '../libs/BrowseMap'
 import animateMapChanges from '../libs/provoda/dcl/probe/animateMapChanges'
+import handlers from '../libs/provoda/bwlev/router_handlers'
 
-export default spv.inh(Model, {
-  naming: function(fn) {
-    return function Router(opts, data, params, more, states) {
+export const BasicRouter = spv.inh(Model, {
+  naming: function (fn) {
+		return function BasicRouter (opts, data, params, more, states) {
+			fn(this, opts, data, params, more, states)
+		}
+	},
+  init: function (self) {
+    self.bwlevs = {}
+  },
+}, {
+  rpc_legacy: {
+    ...handlers,
+  }
+  // 'stch-used_struc': function(self, value) {
+  //   console.log('GOT used_struc', value);
+  // },
+  // '+states': {
+  //   struc: [
+  //     "compx", ['used_struc', '@current_md', 'name'],
+  // 		function(struc, pioneer, probe_name) {
+  // 			// if (num == -2) {return}
+  // 			if (!struc || !pioneer || !probe_name) {return;}
+  // 			return getUsageStruc(pioneer, probe_name, struc, this.app);
+  // 		}
+  // 	],
+  // }
+})
+
+export default spv.inh(BasicRouter, {
+  naming: function (fn) {
+    return function Router (opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function(self) {
+  init: function (self) {
     self.mainLevelResidents = null // BrowseLevel, showMOnMap
     self.bridge_bwlev = null
     self.mainLevelResidents = null
@@ -30,8 +59,6 @@ export default spv.inh(Model, {
     // target.navigation = [];
     // target.map = ;
     self.current_mp_md = null
-
-    self.bwlevs = {}
 
     if (self.is_simple_router) {
       return
@@ -56,6 +83,7 @@ export default spv.inh(Model, {
   }
 }, {
   attrs: {
+    selected__name: ['input'],
     'used_data_structure': [
       'comp',
       ['< used_data_structure <<< ^'],
@@ -127,7 +155,7 @@ export default spv.inh(Model, {
     _updateAttr(bwlev, 'currentReq', req)
   },
   effects: {
-    'produce': {
+    out: {
       'browser-location': {
         api: ['navi', 'self'],
         trigger: 'full_url',
