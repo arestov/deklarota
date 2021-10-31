@@ -1,8 +1,29 @@
 import parse from '../../utils/multiPath/parse'
 
+const convertLinkingPart = (item) => {
+  if (typeof item == 'object') {
+    return item
+  }
+
+  return {
+    type: 'addr',
+    value: parse(item),
+  }
+}
+
+const prepareLinking = (value) => {
+  if (!Array.isArray(value)) {
+    return convertLinkingPart(value)
+  }
+
+  return value.map(convertLinkingPart)
+}
 
 const RelShape = function RelShape(options) {
-  this.ref = options.ref ? parse(options.ref) : null
+
+  this.constr_linking = options.linking ? prepareLinking(options.linking) : null
+
+  Object.freeze(this)
 }
 
 const relShape = (options) => {

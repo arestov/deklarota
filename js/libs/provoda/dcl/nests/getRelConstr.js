@@ -42,14 +42,21 @@ const getAddrRelConstr = (base, rel) => {
 
 const getRelConstrByRef = (self, rel_name) => {
   const rel_shape = getRelShape(self, rel_name)
-  if (!rel_shape || !rel_shape.ref) {
+  if (!rel_shape || !rel_shape.constr_linking) {
     return
   }
 
-  const ref = rel_shape.ref
+  const constr_linking = rel_shape.constr_linking
+  if (Array.isArray(constr_linking)) {
+    throw new Error('implement list of constr_linking')
+  }
 
-  var base = getAddrBaseConstr(self, ref.from_base)
-  return getAddrRelConstr(base, ref.nesting)
+  if (constr_linking.type != 'addr') {
+    throw new Error('implement support for not addr')
+  }
+
+  var base = getAddrBaseConstr(self, constr_linking.from_base)
+  return getAddrRelConstr(base, constr_linking.nesting)
 
 }
 
