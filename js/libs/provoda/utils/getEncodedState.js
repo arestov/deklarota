@@ -19,7 +19,7 @@ var getEncodedState = spv.memorize(function getEncodedState(state_name) {
   if (result1) { // uncomment to help migrate
     var nice = fromLegacy(state_name)
     var best = asString(nice)
-    console.warn('replace ' + state_name + ' by ' + best)
+    throw new Error('replace ' + state_name + ' by ' + best)
   }
 
   var result = result1 || modernAsLegacyParsed(state_name)

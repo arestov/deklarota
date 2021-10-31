@@ -51,7 +51,7 @@ test('compx with nestings calculated', async () => {
     attrs: {
       richest: [
         'comp',
-        ['@one:money:brother', 'money'],
+        ['< @one:money < brother <<', 'money'],
         (broher_money, my_money) => broher_money < my_money,
       ],
     },
@@ -79,7 +79,7 @@ test('state compx calculated from parent and root states', async () => {
     attrs: {
       description_name: [
         'comp',
-        ['#family_name', '^name', 'name'],
+        ['< family_name <<< #', '< name <<< ^', 'name'],
         (family_name, parent_name, name) => `${name} ${family_name}, son of ${parent_name}`,
       ],
     },

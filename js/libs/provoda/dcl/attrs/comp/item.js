@@ -28,7 +28,7 @@ var toAddr = function(state_name) {
   if (result1) {
     var nice = fromLegacy(state_name)
     var best = asString(nice)
-    console.warn('replace ' + state_name + ' by ' + best)
+    throw new Error('replace ' + state_name + ' by ' + best)
 
     return nice
   }
