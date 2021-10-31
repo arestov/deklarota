@@ -1,4 +1,4 @@
-import {describe, it, expect} from '@jest/globals'
+import {describe, it, expect, beforeEach, jest} from '@jest/globals'
 
 import getParsedState from './getParsedState'
 import asString from './multiPath/asString'
@@ -6,6 +6,9 @@ import fromLegacy from './multiPath/fromLegacy'
 import modernAsLegacyParsed from './modernAsLegacyParsed'
 
 describe('modern addr used as legacy addr', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  })
   it.each([
     ['^auth_token'],
     ['@one:bestIconToShow:recipe'],
