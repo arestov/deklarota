@@ -1,9 +1,5 @@
 import { getNestingConstr } from '../../structure/get_constr'
-
-const getRelDcl = (self, rel_name) => {
-  const storage = self._extendable_nest_index
-  return storage && storage[rel_name] && storage[rel_name].dcl
-}
+import getRelShape from './getRelShape'
 
 const getAddrBaseConstr = (self, from_base) => {
   if (!from_base || !from_base.type) {
@@ -45,12 +41,12 @@ const getAddrRelConstr = (base, rel) => {
 }
 
 const getRelConstrByRef = (self, rel_name) => {
-  const dcl = getRelDcl(self, rel_name)
-  if (!dcl || !dcl.rel_shape || !dcl.rel_shape.ref) {
+  const rel_shape = getRelShape(self, rel_name)
+  if (!rel_shape || !rel_shape.ref) {
     return
   }
 
-  const ref = dcl.rel_shape.ref
+  const ref = rel_shape.ref
 
   var base = getAddrBaseConstr(self, ref.from_base)
   return getAddrRelConstr(base, ref.nesting)
