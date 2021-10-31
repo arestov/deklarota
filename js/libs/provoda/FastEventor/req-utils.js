@@ -4,10 +4,8 @@ import extendPromise from '../../../modules/extendPromise'
 import spv from '../../spv'
 import getApiPart from './getApiPart'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
-import batching from './batching'
 var getTargetField = spv.getTargetField
 var toBigPromise = extendPromise.toBigPromise
-var doBatch = batching
 
 
 var usualRequest = function(send_declr, sputnik, opts, network_api_opts) {
@@ -63,39 +61,6 @@ var manualRequest = function(send_declr, sputnik, opts) {
 
 
 
-var idsRequest = function(send_declr, sputnik) {
-  var declr = send_declr.ids_declr
-  var api_name = send_declr.api_name
-  var allow_cache = send_declr.allow_cache === true
-
-  var ids = sputnik.state(declr.arrayof)
-
-  var cache_key = allow_cache && [
-    'ids', api_name, send_declr.api_resource_path, declr.fn_body, ids
-  ]
-
-  return {
-    cache_key: cache_key,
-    data: ids
-  }
-
-  // var states = new Array();
-  // arrayof: 'user_id',
-  // indexBy: '_id',
-  // req: function(api, ids) {
-  // 	return api.find({_id: {'$in': ids}}).limit(ids.length);
-  // }
-}
-
-var oneFromList = function(array) {
-  return array && array[0]
-}
-
-
-
-
-
-
 var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
   if (!sputnik._highway.requests_by_declarations) {
     sputnik._highway.requests_by_declarations = {}
@@ -135,8 +100,6 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
     request_data = usualRequest(send_declr, sputnik, opts, network_api_opts)
   } else if (send_declr.manual) {
     request_data = manualRequest(send_declr, sputnik, opts)
-  } else if (send_declr.ids_declr) {
-    request_data = idsRequest(send_declr, sputnik)
   }
 
   var cache_key = request_data.cache_key
@@ -151,19 +114,11 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
   } else if (send_declr.manual) {
     request_data.data[0] = api_part
     request = send_declr.manual.fn.apply(null, request_data.data)
-  } else if (send_declr.ids_declr) {
-    if (sputnik._highway.reqs_batching.is_processing) {
-      request = doBatch(sputnik._highway.reqs_batching, send_declr, request_data.data)
-    } else {
-      request = send_declr.ids_declr.req.call(null, api_part, [request_data.data])
-        .then(oneFromList)
-    }
-
-    //  idsRequest(send_declr, sputnik, opts);
   }
 
   var result_request = checkRequest(request)
   result_request.network_api = network_api
+  result_request.source_name = network_api.source_name
   if (cache_key) {
     requests_by_declarations[cache_key] = result_request
     result_request.then(anyway, anyway)

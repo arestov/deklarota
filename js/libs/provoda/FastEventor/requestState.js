@@ -98,7 +98,7 @@ function bindRequest(request, selected_map, store, self) {
 
     self.sputnik.input(anyway)
     self.sputnik.input(markAttemptComplete)
-    console.error(err, self.hierarchy_path_string, self.__code_path)
+    console.error(err, self.sputnik.hierarchy_path_string, self.sputnik.__code_path)
   })
 
 

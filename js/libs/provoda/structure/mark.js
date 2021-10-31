@@ -30,6 +30,7 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
   var self = Constr.prototype
 
   if (Constr == RootConstr) {
+    self.__all_constrs = {}
     self.__global_skeleton = new globalSkeleton.GlobalSkeleton()
   }
 
@@ -96,6 +97,8 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
     globalSkeleton.complete(self.__global_skeleton)
     clearCaches()
   }
+
+  RootConstr.prototype.__all_constrs[self.hierarchy_num] = self
   return Constr
 }
 

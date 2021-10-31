@@ -1,5 +1,3 @@
-
-import pvState from '../utils/state'
 import spv from '../../spv'
 var countKeys = spv.countKeys
 var CH_GR_LE = 2
@@ -54,8 +52,7 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
   return self._highway.__produce_side_effects_schedule.get(key)[effect_name]
 }
 
-function scheduleEffect(self, total_original_states, effect_name, state_name, new_value, skip_prev) {
-  var initial_transaction_id = getCurrentTransactionKey(self)
+function scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, new_value, skip_prev) {
   var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
   if (!skip_prev && !effectAgenda.prev_values.hasOwnProperty(state_name)) {
     effectAgenda.prev_values[state_name] = total_original_states.get(state_name)
@@ -64,7 +61,7 @@ function scheduleEffect(self, total_original_states, effect_name, state_name, ne
   effectAgenda.next_values[state_name] = new_value
 }
 
-function checkAndMutateInvalidatedEffects(changes_list, total_original_states, self) {
+function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
   var index = self.__api_effects_$_index_by_triggering
   var using = self._effects_using
 
@@ -81,7 +78,7 @@ function checkAndMutateInvalidatedEffects(changes_list, total_original_states, s
       }
 
       // mark state
-      scheduleEffect(self, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
+      scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
       self._effects_using.invalidated[list[jj].name] = true
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
@@ -89,15 +86,15 @@ function checkAndMutateInvalidatedEffects(changes_list, total_original_states, s
   }
 }
 
-function prefillAgenda(self, total_original_states, effect_name, effect) {
+function prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect) {
   for (var i = 0; i < effect.triggering_states.length; i++) {
     var state_name = effect.triggering_states[i]
-    scheduleEffect(self, total_original_states, effect_name, state_name, pvState(self, state_name), true)
+    scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, self.getAttr(state_name), true)
 
   }
 }
 
-function checkAndMutateDepReadyEffects(self, total_original_states) {
+function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states) {
   var using = self._effects_using
   var effects = self.__api_effects
 
@@ -148,7 +145,7 @@ function checkAndMutateDepReadyEffects(self, total_original_states) {
 
     if (!effect.effects_deps) {
       using.dep_effects_ready[effect_name] = true
-      prefillAgenda(self, total_original_states, effect_name, effect)
+      prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
       has_one = true
       continue
     }
@@ -166,7 +163,7 @@ function checkAndMutateDepReadyEffects(self, total_original_states) {
 
     using.dep_effects_ready[effect_name] = deps_ready
     if (using.dep_effects_ready[effect_name]) {
-      prefillAgenda(self, total_original_states, effect_name, effect)
+      prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
     }
   }
   using.dep_effects_ready_is_empty = using.dep_effects_ready_is_empty && !has_one
@@ -194,7 +191,7 @@ function getValue(self, agenda, state_name) {
     return agenda.next_values[state_name]
   }
 
-  return pvState(self, state_name)
+  return self.getAttr(self, state_name)
 }
 
 function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) {
@@ -237,7 +234,7 @@ function executeEffect(self, effect_name, transaction_id) {
   handleEffectResult(self, effect, result)
 }
 
-function checkExecuteMutateEffects(self) {
+function checkExecuteMutateEffects(initial_transaction_id, self) {
   var using = self._effects_using
 
   for (var effect_name in using.dep_effects_ready) {
@@ -248,7 +245,6 @@ function checkExecuteMutateEffects(self) {
     // we can push anytimes we want
     // 1st handler will erase agenda, so effects will be called just 1 time
 
-    var initial_transaction_id = getCurrentTransactionKey(self)
     var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
     effectAgenda.schedule_confirmed = true
 
@@ -260,7 +256,7 @@ function checkExecuteMutateEffects(self) {
   using.dep_effects_ready_is_empty = true
 }
 
-function iterateEffects(changes_list, total_original_states, self) {
+function iterateEffects(initial_transaction_id, changes_list, total_original_states, self) {
   if (!self.__api_effects_$_index) {
     return
   }
@@ -282,13 +278,13 @@ function iterateEffects(changes_list, total_original_states, self) {
   self._effects_using.processing = true
 
   checkAndMutateCondReadyEffects(changes_list, self)
-  checkAndMutateInvalidatedEffects(changes_list, total_original_states, self)
+  checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self)
 
-  checkAndMutateDepReadyEffects(self, total_original_states)
+  checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
 
   while (!self._effects_using.dep_effects_ready_is_empty) {
-    checkExecuteMutateEffects(self)
-    checkAndMutateDepReadyEffects(self, total_original_states)
+    checkExecuteMutateEffects(initial_transaction_id, self)
+    checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
   }
   self._effects_using.processing = false
 }
@@ -333,11 +329,13 @@ function iterateApis(changes_list, context) {
 
 export default function(total_ch, total_original_states, self) {
   iterateApis(total_ch, self)
-  iterateEffects(total_ch, total_original_states, self)
-  scheduleTransactionEnd(self)
+  const initial_transaction_id = getCurrentTransactionKey(self)
+
+  iterateEffects(initial_transaction_id, total_ch, total_original_states, self)
+  scheduleTransactionEnd(self, initial_transaction_id)
 }
 
-function scheduleTransactionEnd(self) {
+function scheduleTransactionEnd(self, transaction_key) {
   if (self._highway.__produce_side_effects_schedule == null) {
     return
   }
@@ -345,7 +343,7 @@ function scheduleTransactionEnd(self) {
   var calls_flow = self._getCallsFlow()
 
   var tid = getCurrentTransactionId(self)
-  var key = agendaKey(self, getCurrentTransactionKey(self))
+  var key = agendaKey(self, transaction_key)
 
   if (!self._highway.__produce_side_effects_schedule.has(key)) {
     return
@@ -354,18 +352,20 @@ function scheduleTransactionEnd(self) {
   calls_flow.scheduleTransactionEnd(
     tid ? tid : Infinity,
     null,
-    [self, key],
+    [self, transaction_key],
     handleTransactionEnd
   )
 }
 
-function handleTransactionEnd(self, key) {
+function handleTransactionEnd(self, transaction_key) {
+  var key = agendaKey(self, transaction_key)
+
   if (!self._highway.__produce_side_effects_schedule.has(key)) {
     return
   }
 
   var flow = self._getCallsFlow()
-  var tkey = getCurrentTransactionKey(self)
+  var tkey = transaction_key
 
   var effects_schedule = self._highway.__produce_side_effects_schedule.get(key)
   for (var effect_name in effects_schedule) {

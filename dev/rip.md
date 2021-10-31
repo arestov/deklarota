@@ -115,3 +115,9 @@
 - remove pv.views_proxies (use app/prepare {proxies: true})
 
 - remove legacy_app and matchNav
+
+- internal 'navi' interface is semi depricated. use `__use_navi` flag to enable it
+
+- requests batching (ids_declr)
+
+- no network_api (interface instance) for parse_items

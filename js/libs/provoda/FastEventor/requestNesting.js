@@ -1,5 +1,3 @@
-
-import batching from './batching'
 import req_utils from './req-utils'
 import types from './nestReqTypes'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
@@ -7,8 +5,6 @@ import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 var getRequestByDeclr = req_utils.getRequestByDeclr
 var findErrorByList = req_utils.findErrorByList
 
-var releaseBatch = batching.releaseBatch
-var batch = batching.batch
 
 var clean_obj = {}
 
@@ -74,6 +70,49 @@ function statesQueue(states, nesting_name, mark) {
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 
+function startFetching(self, nesting_name, paging_opts, has_error, network_api_opts) {
+  const dclt = self._nest_reqs[nesting_name]
+  const send_declr = dclt.send_declr
+
+  if (!getNetApiByDeclr(send_declr, self)) {
+    console.warn(new Error('api not ready yet'), send_declr)
+    return
+  }
+
+  var request = getRequestByDeclr(send_declr, self,
+    {has_error: has_error, paging: paging_opts},
+    network_api_opts)
+
+  var network_api = request.network_api
+  var source_name = request.source_name
+
+
+
+
+  function detectError(resp) {
+    var has_error = network_api.errors_fields
+      ? findErrorByList(resp, network_api.errors_fields)
+      : network_api.checkResponse(resp)
+
+    return has_error
+  }
+
+
+  return request.then(function(response) {
+    var has_error = detectError(response)
+    if (has_error) {
+      return [has_error, response, source_name]
+    }
+
+    return [false, response, source_name]
+  })
+}
+
+function initRequest(self, nesting_name, paging_opts, has_error, network_api_opts) {
+  // check context isolation
+  return startFetching(self, nesting_name, paging_opts, has_error, network_api_opts)
+}
+
 export default function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -122,12 +161,6 @@ export default function(dclt, nesting_name, limit) {
   var parse_items = dclt.parse_items
   var parse_serv = dclt.parse_serv
   var side_data_parsers = dclt.side_data_parsers
-  var send_declr = dclt.send_declr
-
-  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
-    console.warn(new Error('api not ready yet'), send_declr)
-    return
-  }
 
   var supports_paging = !!parse_serv
   var limit_value = limit && (limit[1] - limit[0])
@@ -142,13 +175,16 @@ export default function(dclt, nesting_name, limit) {
   }
 
 
+  var send_declr = dclt.send_declr
+
+  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
+    console.warn(new Error('api not ready yet'), send_declr)
+    return
+  }
 
 
-  var request = getRequestByDeclr(send_declr, this.sputnik,
-    {has_error: store.error, paging: paging_opts},
-    network_api_opts)
-  var network_api = request.network_api
-  var source_name = network_api.source_name
+  const request = initRequest(_this.sputnik, nesting_name, paging_opts, store.error, network_api_opts)
+
 
   store.process = true
   store.req = request
@@ -181,18 +217,6 @@ export default function(dclt, nesting_name, limit) {
 
   }
 
-  var initiator = _this.sputnik.current_motivator
-  var release
-  if (initiator) {
-    var num = initiator.num
-    batch(_this.sputnik, num)
-
-    release = function() {
-      releaseBatch(this, num)
-    }
-    release.init_end = true
-  }
-
   /*
     postfixes:
 
@@ -205,35 +229,28 @@ export default function(dclt, nesting_name, limit) {
   */
 
   if (request.queued_promise) {
-    var startWaiting = function() {
+    var changeWaitingState = (value) => () => {
       if (!isValidRequest(request)) {
         return
       }
-      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, true))
+      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, value))
     }
+
+    const startWaiting = changeWaitingState(true)
     this.sputnik.input(startWaiting)
 
-    var stopWaiting = function() {
-      if (!isValidRequest(request)) {
-        return
-      }
-      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, false))
-    }
-
+    const stopWaiting = changeWaitingState(false)
     request.queued_promise.then(stopWaiting, stopWaiting)
   }
 
+  request
+  .then(function(wrapped_response) {
+    const [has_error, response, source_name] = wrapped_response
 
-
-  request.then(function(response) {
-    if (release) {
-      _this.sputnik.nextTick(release, null, false, initiator)
-    }
     if (!isValidRequest(request)) {
       return
     }
 
-    var has_error = detectError(response)
     if (has_error) {
       _this.sputnik.input(handleError)
       return
@@ -242,7 +259,7 @@ export default function(dclt, nesting_name, limit) {
     _this.sputnik.input(function() {
       store.error = false
       store.has_all_items = true
-      handleNestResponse(response, function() {
+      handleNestResponse(response, source_name, function() {
         store.has_all_items = false
       })
       anyway()
@@ -250,9 +267,6 @@ export default function(dclt, nesting_name, limit) {
     })
 
   }, function() {
-    if (release) {
-      _this.sputnik.nextTick(release, null, false, initiator)
-    }
     if (!isValidRequest(request)) {
       return
     }
@@ -262,20 +276,12 @@ export default function(dclt, nesting_name, limit) {
 
   })
 
-  function detectError(resp) {
-    var has_error = network_api.errors_fields
-      ? findErrorByList(resp, network_api.errors_fields)
-      : network_api.checkResponse(resp)
-
-    return has_error
-  }
-
-  function handleNestResponse(r, markListIncomplete) {
+  function handleNestResponse(r, source_name, markListIncomplete) {
     // should be in data bus queue - use `.input` wrap
     var sputnik = _this.sputnik
 
     var morph_helpers = sputnik.app.morph_helpers
-    var items = parse_items.call(sputnik, r, clean_obj, morph_helpers, network_api)
+    var items = parse_items.call(sputnik, r, clean_obj, morph_helpers)
     var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers)
     var can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
 

@@ -82,6 +82,7 @@ export default spv.inh(BasicRouter, {
     })
   }
 }, {
+  __use_navi: false,
   attrs: {
     selected__name: ['input'],
     'used_data_structure': [
@@ -220,7 +221,9 @@ export default spv.inh(BasicRouter, {
 
 
 function initMapTree(target, start_page, needs_url_history, navi) {
-  target.useInterface('navi', needs_url_history && navi)
+  if (target.__use_navi && navi) {
+    target.useInterface('navi', needs_url_history && navi)
+  }
   _updateRel(target, 'navigation', [])
   _updateRel(target, 'start_page', start_page)
 
