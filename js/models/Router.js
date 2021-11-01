@@ -140,6 +140,10 @@ export default spv.inh(BasicRouter, {
       }
     ],
   },
+  rels: {
+    navigation: ['input', {any: true, many: true}],
+    start_page: ['input', {any: true}],
+  },
   'stch-resolved_navigation_desire': function(self, state) {
     if (!state) {
       return
