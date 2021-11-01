@@ -51,6 +51,7 @@ test('simple pass by * calculated', async () => {
   const TargetChild = model({})
 
   const startModel = createDeepChild('start', {
+    zero_map_level: true,
     model_name: 'startModel',
     rels: {
       my_friend: ['nest', [TargetChild]],
@@ -62,6 +63,7 @@ test('simple pass by * calculated', async () => {
 
 
   const app = (await init({
+    zero_map_level: false,
     'chi-start__page': startModel,
   }, self => {
     self.start_page = self.initChi('start__page') // eslint-disable-line

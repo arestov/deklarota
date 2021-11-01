@@ -92,7 +92,9 @@ test('simple state by pass1 && pass2 calculated', async () => {
     })
 
     const app = (await init({
+      zero_map_level: false,
       'chi-start__page': createDeepChild('start', {
+        zero_map_level: true,
         model_name: 'startModel',
         rels: {
           target_child: ['nest', [TargetChild]],

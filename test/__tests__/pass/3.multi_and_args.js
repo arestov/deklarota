@@ -86,7 +86,9 @@ test('multiple state to arg base by pass calculated', async () => {
 
   async function setup() {
     const app = (await init({
+      zero_map_level: false,
       'chi-start__page': createDeepChild('start', {
+        zero_map_level: true,
         model_name: 'startModel',
         rels: {
           nest_a: ['nest', [createDeepChild('nestA')]],
