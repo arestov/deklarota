@@ -27,6 +27,10 @@ const RelShape = function RelShape(options) {
 
   this.constr_linking = options.linking ? prepareLinking(options.linking) : null
 
+  if (this.constr_linking == null) {
+    throw new Error('expected linking param is empty')
+  }
+
   this.many = Boolean(options.many)
 
   Object.freeze(this)
