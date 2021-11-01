@@ -33,6 +33,9 @@ var RootLev = spv.inh(Model, {
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
   },
+  rels: {
+    pioneer: ['input', {linking: '<<<< #'}],
+  },
   rpc_legacy: {
     ...handlers,
     requestSpyglass: handleSpyglassRequests,

@@ -199,6 +199,10 @@ var BrowseLevel = spv.inh(Model, {
       }
     ]
   },
+  rels: {
+    pioneer: ['input', {any: true}],
+    map: ['input', {any: true}], // how to make ref to Router?
+  },
 
   getParentMapModel: function() {
     return this.map_parent
