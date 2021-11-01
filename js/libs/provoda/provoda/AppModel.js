@@ -17,6 +17,16 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
     target.important_model = null
   },
   postInit: function(target) {
+
+    if (target.hasOwnProperty('start_page')) {
+      const isOk = target.start_page instanceof target.constructor.prototype.start_page.constructor
+      if (!isOk) {
+        if (target.zero_map_level) {
+          throw new Error('provide constructor of start_page or set zero_map_level to false')
+        }
+        throw new Error('provide constructor of start_page')
+      }
+    }
     if (target.zero_map_level) {
       // start_page will be app root
 
