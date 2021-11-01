@@ -1,4 +1,5 @@
 import relShape from '../nests/relShape'
+import {getResourceInfo, createAddrByPart} from '../../utils/multiPath/parse'
 
 import constr_mention from '../../structure/constr_mention'
 var declarationConstructor = constr_mention.declarationConstructor
@@ -9,7 +10,9 @@ const subPageToLink = (item) => {
     case 'route': {
       return {
         type: 'addr',
-        value: item.value,
+        value: createAddrByPart({
+          resource: getResourceInfo(item.value),
+        }),
       }
     }
     case 'constr': {
