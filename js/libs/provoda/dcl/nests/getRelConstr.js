@@ -1,4 +1,4 @@
-import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
+import routePathByModels from '../../routePathByModels'
 import { getNestingConstr } from '../../structure/get_constr'
 import getRelShape from './getRelShape'
 
@@ -45,7 +45,7 @@ const getBaseConstrByAddr = (self, addr) => {
 
 
   if (addr.resource.path) {
-    return getSPByPathTemplate(self.app, self, addr.resource.path, true)
+    return routePathByModels(self, addr.resource.path, true)
   }
 
   var base = getAddrBaseConstr(self, addr.from_base)
