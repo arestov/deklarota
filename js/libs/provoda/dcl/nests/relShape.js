@@ -23,6 +23,8 @@ const RelShape = function RelShape(options) {
 
   this.constr_linking = options.linking ? prepareLinking(options.linking) : null
 
+  this.many = Boolean(options.many)
+
   Object.freeze(this)
 }
 

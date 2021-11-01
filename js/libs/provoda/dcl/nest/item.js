@@ -40,6 +40,7 @@ var NestDcl = function(name, data) {
 
 
   this.rel_shape = relShape({
+    many: Array.isArray(this.subpages_names_list),
     linking: subPagesToRelShapeLinks(this.subpages_names_list)
   })
 
