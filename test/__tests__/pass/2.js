@@ -107,7 +107,9 @@ test('multiple state by pass calculated', async () => {
     })
 
     return init({
+      zero_map_level: false,
       'chi-start__page': createDeepChild('start', {
+        zero_map_level: true,
         model_name: 'startModel',
         rels: {
           target_child: ['nest', [TargetChild]],

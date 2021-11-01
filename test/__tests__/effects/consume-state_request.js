@@ -1,13 +1,13 @@
-import spv from 'spv'
+import model from 'pv/model'
 import pvState from 'pv/getAttr'
-import BrowseMap from 'js/libs/BrowseMap'
 
 import init from '../../init'
 import waitFlow from '../../waitFlow'
 import fakeInterface from '../../fakeInterface'
 
 test('state loaded', async () => {
-  const StartPage = spv.inh(BrowseMap.Model, {}, {
+  const StartPage = model({
+    zero_map_level: true,
     effects: {
       in: {
         0: {
@@ -31,7 +31,6 @@ test('state loaded', async () => {
     },
 
     model_name: 'start_page',
-    zero_map_level: true,
 
     attrs: {
       someid: [
@@ -52,7 +51,8 @@ test('state loaded', async () => {
         },
       },
     },
-    'chi-start__page': StartPage,
+    zero_map_level: false,
+  'chi-start__page': StartPage,
 
     checkActingRequestsPriority() {
 
