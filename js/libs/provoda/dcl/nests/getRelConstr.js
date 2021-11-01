@@ -1,3 +1,4 @@
+import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 import { getNestingConstr } from '../../structure/get_constr'
 import getRelShape from './getRelShape'
 
@@ -64,7 +65,7 @@ const getRelByConstrByLinking = (self, constr_linking) => {
   }
 
   if (addr.resource.path) {
-    throw new Error('implement resource addr for relShape')
+    return getSPByPathTemplate(self.app, self, addr.resource.path, true)
   }
 
   var base = getAddrBaseConstr(self, constr_linking.value.from_base)
