@@ -42,15 +42,13 @@ const getAddrRelConstr = (base, rel) => {
 }
 
 const getBaseConstrByAddr = (self, addr) => {
-
-
-  if (addr.resource.path) {
-    return routePathByModels(self, addr.resource.path, true)
-  }
-
   var base = getAddrBaseConstr(self, addr.from_base)
 
-  return base
+  if (!addr.resource.path) {
+    return base
+  }
+
+  return routePathByModels(base, addr.resource.path, true)
 }
 
 const getRelByConstrByLinking = (self, constr_linking) => {
