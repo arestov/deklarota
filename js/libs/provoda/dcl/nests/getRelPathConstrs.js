@@ -1,4 +1,5 @@
-import getRelConstr from './getRelConstr'
+import getRelShape from './getRelShape'
+import {getRelByConstrByLinking} from './getRelConstr'
 
 const getRelPathConstrs = (self, rel_path, soft_check) => {
 
@@ -9,7 +10,11 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
     const step = rel_path[i]
     for (let jj = 0; jj < list_to_check.length; jj++) {
       const item_to_check = list_to_check[jj]
-      const proto = getRelConstr(item_to_check, step)
+      const rel_shape = getRelShape(item_to_check, step)
+      if (rel_shape && rel_shape.any) {
+        continue
+      }
+      const proto = rel_shape && getRelByConstrByLinking(item_to_check, step)
 
       if (!proto) {
         console.warn('🧶', 'cant find rel', step, rel_path, self.__code_path)
@@ -17,8 +22,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
           continue
         }
 
-        continue
-        // throw new Error('cant find rel')
+        throw new Error('cant find rel')
       }
 
       if (Array.isArray(proto)) {
