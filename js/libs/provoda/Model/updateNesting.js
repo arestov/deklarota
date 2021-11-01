@@ -2,6 +2,8 @@ import hp from '../helpers'
 import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
+import validateRuntimeValue from '../dcl/nests/validateRuntimeValue'
+
 import handleMentions from './mentions/handleRelChange'
 import isGlueRel from './mentions/isGlueRel'
 import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
@@ -34,6 +36,8 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
   if (self._currentMotivator() == null) {
     throw new Error('wrap updateRel call in `.input()`')
   }
+
+  validateRuntimeValue(self, collection_name, input)
 
   if (!self.children_models) {
     self.children_models = {}
