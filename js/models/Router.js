@@ -111,10 +111,6 @@ export default spv.inh(BasicRouter, {
         return as_first + ' ← ' + as_second
       }
     ],
-    'current_song': [
-      'comp',
-      ['< @one:current_song < player <<'],
-    ],
     resolved_navigation_desire: [
       'comp',
       ['resolved_navigation_desire', 'wantedReq', '< createdByReqIdResources <<< #'],
