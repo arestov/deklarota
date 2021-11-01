@@ -41,12 +41,20 @@ const getAddrRelConstr = (base, rel) => {
 }
 
 const getRelByConstrByLinking = (self, constr_linking) => {
+  if (constr_linking == null) {
+    return null
+  }
+
   if (Array.isArray(constr_linking)) {
     throw new Error('implement list of constr_linking')
   }
 
+  if (constr_linking.type == 'constr') {
+    return self._all_chi[constr_linking.value]
+  }
+
   if (constr_linking.type != 'addr') {
-    throw new Error('implement support for not addr')
+    throw new Error('unknown type')
   }
 
   var base = getAddrBaseConstr(self, constr_linking.value.from_base)
