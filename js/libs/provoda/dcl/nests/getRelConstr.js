@@ -41,6 +41,18 @@ const getAddrRelConstr = (base, rel) => {
   return cur
 }
 
+const getBaseConstrByAddr = (self, addr) => {
+
+
+  if (addr.resource.path) {
+    return getSPByPathTemplate(self.app, self, addr.resource.path, true)
+  }
+
+  var base = getAddrBaseConstr(self, addr.from_base)
+
+  return base
+}
+
 const getRelByConstrByLinking = (self, constr_linking) => {
   if (constr_linking == null) {
     return null
@@ -59,16 +71,11 @@ const getRelByConstrByLinking = (self, constr_linking) => {
   }
 
   const addr = constr_linking.value
-
-  if (constr_linking.value.base_itself) {
+  if (addr.base_itself) {
     return self.constructor
   }
 
-  if (addr.resource.path) {
-    return getSPByPathTemplate(self.app, self, addr.resource.path, true)
-  }
-
-  var base = getAddrBaseConstr(self, constr_linking.value.from_base)
+  var base = getBaseConstrByAddr(self, addr)
 
   if (!addr.nesting.path) {
     return base
