@@ -5,9 +5,13 @@ const convertLinkingPart = (item) => {
     return item
   }
 
+  const addr = parse(item)
+
+  // TODO: validate it's rel, base or route
+
   return {
     type: 'addr',
-    value: parse(item),
+    value: addr,
   }
 }
 
