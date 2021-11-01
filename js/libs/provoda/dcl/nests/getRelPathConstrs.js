@@ -21,7 +21,11 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
         // throw new Error('cant find rel')
       }
 
-      next_check.push(proto)
+      if (Array.isArray(proto)) {
+        next_check.push(...proto)
+      } else {
+        next_check.push(proto)
+      }
 
     }
     const reuse = list_to_check
