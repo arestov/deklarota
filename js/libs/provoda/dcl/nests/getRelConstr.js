@@ -40,13 +40,7 @@ const getAddrRelConstr = (base, rel) => {
   return cur
 }
 
-const getRelConstrByRef = (self, rel_name) => {
-  const rel_shape = getRelShape(self, rel_name)
-  if (!rel_shape || !rel_shape.constr_linking) {
-    return
-  }
-
-  const constr_linking = rel_shape.constr_linking
+const getRelByConstrByLinking = (self, constr_linking) => {
   if (Array.isArray(constr_linking)) {
     throw new Error('implement list of constr_linking')
   }
@@ -61,6 +55,16 @@ const getRelConstrByRef = (self, rel_name) => {
     return self.constructor
   }
   return getAddrRelConstr(base, constr_linking.value.nesting)
+}
+
+const getRelConstrByRef = (self, rel_name) => {
+  const rel_shape = getRelShape(self, rel_name)
+  if (!rel_shape || !rel_shape.constr_linking) {
+    return
+  }
+
+  const constr_linking = rel_shape.constr_linking
+  return getRelByConstrByLinking(self, constr_linking)
 
 }
 
@@ -84,5 +88,5 @@ function getRelConstr(self, rel_name) {
   return result
 }
 
-
+export { getRelByConstrByLinking }
 export default getRelConstr
