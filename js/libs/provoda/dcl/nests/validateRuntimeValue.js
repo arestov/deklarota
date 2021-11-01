@@ -1,4 +1,5 @@
 import getRelShape from './getRelShape'
+import { getRelByConstrByLinking } from './getRelConstr'
 import isGlueRel from '../../Model/mentions/isGlueRel'
 
 const throwError = (msg, self, context) => {
@@ -18,7 +19,12 @@ const validateRuntimeValue = (self, rel_name, value) => {
     throwError('unexpected change of rel. use rels.input', self, {rel_name})
   }
 
-  // 1.1 ensure we can get constr?
+  // 1.1 ensure we can get constr
+  // TODO: move validation to build step
+  const Constr = getRelByConstrByLinking(self, rel_shape.constr_linking)
+  if (!Constr) {
+    throwError('invalid rel_shape', self, {rel_name})
+  }
 
   if (value == null) {return}
 
@@ -33,7 +39,7 @@ const validateRuntimeValue = (self, rel_name, value) => {
     }
   }
 
-  // 3. check if value is instace of allowed Constr
+  // 3. check if value is instance of allowed Constr?
 }
 
 export default validateRuntimeValue
