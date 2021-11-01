@@ -139,6 +139,13 @@ export default spv.inh(BasicRouter, {
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
+    wanted_bwlev_chain: ['input', {any: true, many: true}],
+    current_mp_md: ['input', {any: true}],
+    current_mp_bwlev: ['input', {any: true}],
+    map_slice: ['input', {any: true}], // many { each_items: all_items,} ???
+    selected__bwlev: ['input', {any: true}],
+    selected__md: ['input', {any: true}],
+
   },
   'stch-resolved_navigation_desire': function(self, state) {
     if (!state) {

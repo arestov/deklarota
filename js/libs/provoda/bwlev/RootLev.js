@@ -35,6 +35,7 @@ var RootLev = spv.inh(Model, {
   },
   rels: {
     pioneer: ['input', {linking: '<<<< #'}],
+    spyglasses: ['input', {any: true, many: true}],
   },
   rpc_legacy: {
     ...handlers,
