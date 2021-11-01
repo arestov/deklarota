@@ -57,12 +57,23 @@ const getRelByConstrByLinking = (self, constr_linking) => {
     throw new Error('unknown type')
   }
 
-  var base = getAddrBaseConstr(self, constr_linking.value.from_base)
+  const addr = constr_linking.value
 
   if (constr_linking.value.base_itself) {
     return self.constructor
   }
-  return getAddrRelConstr(base, constr_linking.value.nesting)
+
+  if (addr.resource.path) {
+    throw new Error('implement resource addr for relShape')
+  }
+
+  var base = getAddrBaseConstr(self, constr_linking.value.from_base)
+
+  if (!addr.nesting.path) {
+    return base
+  }
+
+  return getAddrRelConstr(base, addr.nesting)
 }
 
 const getRelConstrByRef = (self, rel_name) => {
