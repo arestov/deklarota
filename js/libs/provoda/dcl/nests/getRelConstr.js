@@ -55,8 +55,12 @@ const getRelConstrByRef = (self, rel_name) => {
     throw new Error('implement support for not addr')
   }
 
-  var base = getAddrBaseConstr(self, constr_linking.from_base)
-  return getAddrRelConstr(base, constr_linking.nesting)
+  var base = getAddrBaseConstr(self, constr_linking.value.from_base)
+
+  if (constr_linking.value.base_itself) {
+    return self.constructor
+  }
+  return getAddrRelConstr(base, constr_linking.value.nesting)
 
 }
 
