@@ -1,6 +1,12 @@
 import getRelShape from './getRelShape'
 import isGlueRel from '../../Model/mentions/isGlueRel'
 
+const throwError = (msg, self, context) => {
+  const err = new Error(msg)
+  console.error(err, '\n', context, '\n', self.__code_path)
+  throw err
+}
+
 const validateRuntimeValue = (self, rel_name, value) => {
   if (isGlueRel(self, rel_name)) {
     return
@@ -9,9 +15,7 @@ const validateRuntimeValue = (self, rel_name, value) => {
   // 1. check if rel_name allowed (defined)
   const rel_shape = getRelShape(self, rel_name)
   if (!rel_shape) {
-    const err = new Error('unexpected change of rel. use rels.input')
-    console.error(err, '\n', {rel_name}, '\n', self.__code_path)
-    throw err
+    throwError('unexpected change of rel. use rels.input', self, {rel_name})
   }
 
   // 1.1 ensure we can get constr?
@@ -21,17 +25,11 @@ const validateRuntimeValue = (self, rel_name, value) => {
   // 2. check if value match "many" param of schema
   if (rel_shape.many) {
     if (!Array.isArray(value)) {
-      const err = new Error('expected list of items. match rel_shape.many param with value')
-      console.error(err, '\n', {rel_name}, '\n', self.__code_path)
-      throw err
-
+      throwError('expected list of items. match rel_shape.many param with value', self, {rel_name})
     }
   } else {
     if (Array.isArray(value)) {
-      const err = new Error('expected one item. match rel_shape.many param with value')
-      console.error(err, '\n', {rel_name}, '\n', self.__code_path)
-      throw err
-
+      throwError('expected one item. match rel_shape.many param with value', self, {rel_name})
     }
   }
 
