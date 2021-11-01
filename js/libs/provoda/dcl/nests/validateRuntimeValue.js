@@ -21,9 +21,11 @@ const validateRuntimeValue = (self, rel_name, value) => {
 
   // 1.1 ensure we can get constr
   // TODO: move validation to build step
-  const Constr = getRelByConstrByLinking(self, rel_shape.constr_linking)
-  if (!Constr) {
-    throwError('invalid rel_shape', self, {rel_name})
+  if (!rel_shape.any) {
+    const Constr = getRelByConstrByLinking(self, rel_shape.constr_linking)
+    if (!Constr) {
+      throwError('invalid rel_shape', self, {rel_name})
+    }
   }
 
   if (value == null) {return}

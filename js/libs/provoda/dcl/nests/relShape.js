@@ -24,10 +24,10 @@ const prepareLinking = (value) => {
 }
 
 const RelShape = function RelShape(options) {
-
+  this.any = Boolean(options.any)
   this.constr_linking = options.linking ? prepareLinking(options.linking) : null
 
-  if (this.constr_linking == null) {
+  if (!this.any && this.constr_linking == null) {
     throw new Error('expected linking param is empty')
   }
 
