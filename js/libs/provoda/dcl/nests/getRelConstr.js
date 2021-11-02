@@ -48,7 +48,10 @@ const getBasePrtByAddr = (self, addr) => {
     return base
   }
 
-  return routePathByModels(base, addr.resource.path, true)
+  const constr = routePathByModels(base, addr.resource.path, true)
+
+
+  return constr && constr.prototype
 }
 
 const getRelByConstrByLinking = (self, constr_linking) => {
