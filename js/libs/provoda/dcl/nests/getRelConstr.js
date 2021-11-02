@@ -17,8 +17,7 @@ const getAddrRelConstr = (prt, rel_path) => {
   return cur
 }
 
-
-const getRelConstrByRelLinking = (prt, constr_linking) => {
+const recurGetConstrByRelLinking = (getAddrRelConstr) => (prt, constr_linking) => {
   if (constr_linking == null) {
     return null
   }
@@ -48,6 +47,8 @@ const getRelConstrByRelLinking = (prt, constr_linking) => {
 
   return getAddrRelConstr(base, addr.nesting.path)
 }
+
+const getRelConstrByRelLinking = recurGetConstrByRelLinking(getAddrRelConstr)
 
 const getRelConstrByRef = (self, rel_name) => {
   const rel_shape = getRelShape(self, rel_name)
@@ -80,5 +81,5 @@ function getRelConstr(prt, rel_name) {
   return result
 }
 
-export { getRelConstrByRelLinking, getBasePrtByAddr }
+export { recurGetConstrByRelLinking, getBasePrtByAddr, getRelConstrByRelLinking }
 export default getRelConstr

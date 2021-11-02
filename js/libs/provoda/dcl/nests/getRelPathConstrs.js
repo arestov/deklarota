@@ -1,5 +1,5 @@
 import getRelShape from './getRelShape'
-import {getRelConstrByRelLinking} from './getRelConstr'
+import {recurGetConstrByRelLinking} from './getRelConstr'
 
 const getRelPathConstrs = (self, rel_path, soft_check) => {
 
@@ -14,6 +14,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
       if (rel_shape && rel_shape.any) {
         continue
       }
+      // eslint-disable-next-line no-use-before-define
       const proto = rel_shape && getRelConstrByRelLinking(item_to_check, rel_shape.constr_linking)
 
       if (!proto) {
@@ -41,5 +42,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
 
   return next_check
 }
+
+const getRelConstrByRelLinking = recurGetConstrByRelLinking(getRelPathConstrs)
 
 export default getRelPathConstrs
