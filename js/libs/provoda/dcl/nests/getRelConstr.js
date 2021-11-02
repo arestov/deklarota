@@ -9,7 +9,7 @@ const getAddrBaseConstr = (self, from_base) => {
 
   switch (from_base.type) {
     case 'root': {
-      return self.RootConstr.prototype
+      return self.RootConstr.prototype.start_page
     }
     case 'parent': {
       let count = from_base.steps
