@@ -2,18 +2,18 @@ import routePathByModels from '../../routePathByModels'
 import { getNestingConstr } from '../../structure/get_constr'
 import getRelShape from './getRelShape'
 
-const getAddrBasePrt = (self, from_base) => {
+const getAddrBasePrt = (prt, from_base) => {
   if (!from_base || !from_base.type) {
-    return self
+    return prt
   }
 
   switch (from_base.type) {
     case 'root': {
-      return self.RootConstr.prototype.start_page
+      return prt.RootConstr.prototype.start_page
     }
     case 'parent': {
       let count = from_base.steps
-      let result = self
+      let result = prt
       while (count) {
         result = result._parent_constr.prototype
         count = count - 1
@@ -26,8 +26,8 @@ const getAddrBasePrt = (self, from_base) => {
   }
 }
 
-const getAddrRelConstr = (base, rel) => {
-  let cur = base
+const getAddrRelConstr = (prt, rel) => {
+  let cur = prt
   for (var i = 0; i < rel.path.length; i++) {
     const rel_name = rel.path[i]
 
@@ -41,8 +41,8 @@ const getAddrRelConstr = (base, rel) => {
   return cur
 }
 
-const getBasePrtByAddr = (self, addr) => {
-  var base = getAddrBasePrt(self, addr.from_base)
+const getBasePrtByAddr = (prt, addr) => {
+  var base = getAddrBasePrt(prt, addr.from_base)
 
   if (!addr.resource.path) {
     return base
@@ -54,7 +54,7 @@ const getBasePrtByAddr = (self, addr) => {
   return constr && constr.prototype
 }
 
-const getRelByConstrByLinking = (self, constr_linking) => {
+const getRelByConstrByLinking = (prt, constr_linking) => {
   if (constr_linking == null) {
     return null
   }
@@ -64,7 +64,7 @@ const getRelByConstrByLinking = (self, constr_linking) => {
   }
 
   if (constr_linking.type == 'constr') {
-    return self._all_chi[constr_linking.value]
+    return prt._all_chi[constr_linking.value]
   }
 
   if (constr_linking.type != 'addr') {
@@ -73,13 +73,13 @@ const getRelByConstrByLinking = (self, constr_linking) => {
 
   const addr = constr_linking.value
   if (addr.base_itself) {
-    return self.constructor
+    return prt.constructor
   }
 
-  var base = getBasePrtByAddr(self, addr)
+  var base = getBasePrtByAddr(prt, addr)
 
   if (!addr.nesting.path) {
-    return base
+    return base.constructor
   }
 
   return getAddrRelConstr(base, addr.nesting)
@@ -96,18 +96,18 @@ const getRelConstrByRef = (self, rel_name) => {
 
 }
 
-function getRelConstr(self, rel_name) {
-  if (!self.RootConstr) {
+function getRelConstr(prt, rel_name) {
+  if (!prt.RootConstr) {
     debugger
   }
 
-  var by_ref = getRelConstrByRef(self, rel_name)
+  var by_ref = getRelConstrByRef(prt, rel_name)
   if (by_ref) {
     return by_ref
   }
 
 
-  const Constr = getNestingConstr(self.RootConstr.prototype, self, rel_name)
+  const Constr = getNestingConstr(prt.RootConstr.prototype, prt, rel_name)
   var result = Constr && Constr.prototype
   if (!result) {
     // find by ref rel addr
