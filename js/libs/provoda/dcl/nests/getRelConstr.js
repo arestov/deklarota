@@ -2,14 +2,14 @@ import { getNestingConstr } from '../../structure/get_constr'
 import getRelShape from './getRelShape'
 import getBasePrtByAddr from './getBasePrtByAddr'
 
-const getAddrRelConstr = (prt, rel) => {
+const getAddrRelConstr = (prt, rel_path) => {
   let cur = prt
-  for (var i = 0; i < rel.path.length; i++) {
-    const rel_name = rel.path[i]
+  for (var i = 0; i < rel_path.length; i++) {
+    const rel_name = rel_path[i]
 
     cur = getRelConstr(cur, rel_name)
     if (!cur) {
-      console.log('🤼‍♂️problem', rel.path, rel_name)
+      console.log('🤼‍♂️problem', rel_path, rel_name)
       break
     }
   }
@@ -46,7 +46,7 @@ const getRelConstrByRelLinking = (prt, constr_linking) => {
     return base.constructor
   }
 
-  return getAddrRelConstr(base, addr.nesting)
+  return getAddrRelConstr(base, addr.nesting.path)
 }
 
 const getRelConstrByRef = (self, rel_name) => {
