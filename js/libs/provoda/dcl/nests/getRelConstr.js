@@ -41,7 +41,7 @@ const getAddrRelConstr = (base, rel) => {
   return cur
 }
 
-const getBaseConstrByAddr = (self, addr) => {
+const getBasePrtByAddr = (self, addr) => {
   var base = getAddrBasePrt(self, addr.from_base)
 
   if (!addr.resource.path) {
@@ -73,7 +73,7 @@ const getRelByConstrByLinking = (self, constr_linking) => {
     return self.constructor
   }
 
-  var base = getBaseConstrByAddr(self, addr)
+  var base = getBasePrtByAddr(self, addr)
 
   if (!addr.nesting.path) {
     return base
@@ -113,5 +113,5 @@ function getRelConstr(self, rel_name) {
   return result
 }
 
-export { getRelByConstrByLinking }
+export { getRelByConstrByLinking, getBasePrtByAddr }
 export default getRelConstr
