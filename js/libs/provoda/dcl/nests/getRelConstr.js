@@ -2,7 +2,7 @@ import routePathByModels from '../../routePathByModels'
 import { getNestingConstr } from '../../structure/get_constr'
 import getRelShape from './getRelShape'
 
-const getAddrBaseConstr = (self, from_base) => {
+const getAddrBasePrt = (self, from_base) => {
   if (!from_base || !from_base.type) {
     return self
   }
@@ -42,7 +42,7 @@ const getAddrRelConstr = (base, rel) => {
 }
 
 const getBaseConstrByAddr = (self, addr) => {
-  var base = getAddrBaseConstr(self, addr.from_base)
+  var base = getAddrBasePrt(self, addr.from_base)
 
   if (!addr.resource.path) {
     return base
