@@ -1,36 +1,15 @@
 import relShape from '../nests/relShape'
-import {getResourceInfo, createAddrByPart} from '../../utils/multiPath/parse'
+import nestContstuctorToRelLinkItem from '../nests/nestContstuctorToRelLinkItem'
 
 import constr_mention from '../../structure/constr_mention'
 var declarationConstructor = constr_mention.declarationConstructor
 
-
-const subPageToLink = (item) => {
-  switch (item.type) {
-    case 'route': {
-      return {
-        type: 'addr',
-        value: createAddrByPart({
-          resource: getResourceInfo(item.value),
-        }),
-      }
-    }
-    case 'constr': {
-      return {
-        type: 'constr',
-        value: item.key,
-      }
-    }
-    default: throw new Error('unknown item type')
-  }
-}
-
 const subPagesToRelShapeLinks = (list) => {
   if (!Array.isArray(list)) {
-    return subPageToLink(list)
+    return nestContstuctorToRelLinkItem(list)
   }
 
-  return list.map(subPageToLink)
+  return list.map(nestContstuctorToRelLinkItem)
 }
 
 var NestDcl = function(name, data) {
