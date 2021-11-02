@@ -54,7 +54,7 @@ const getBasePrtByAddr = (prt, addr) => {
   return constr && constr.prototype
 }
 
-const getRelByConstrByLinking = (prt, constr_linking) => {
+const getRelConstrByRelLinking = (prt, constr_linking) => {
   if (constr_linking == null) {
     return null
   }
@@ -92,7 +92,7 @@ const getRelConstrByRef = (self, rel_name) => {
   }
 
   const constr_linking = rel_shape.constr_linking
-  return getRelByConstrByLinking(self, constr_linking)
+  return getRelConstrByRelLinking(self, constr_linking)
 
 }
 
@@ -116,5 +116,5 @@ function getRelConstr(prt, rel_name) {
   return result
 }
 
-export { getRelByConstrByLinking, getBasePrtByAddr }
+export { getRelConstrByRelLinking, getBasePrtByAddr }
 export default getRelConstr

@@ -1,5 +1,5 @@
 import getRelShape from './getRelShape'
-import { getRelByConstrByLinking } from './getRelConstr'
+import { getRelConstrByRelLinking } from './getRelConstr'
 import isGlueRel from '../../Model/mentions/isGlueRel'
 
 const throwError = (msg, self, context) => {
@@ -22,7 +22,7 @@ const validateRuntimeValue = (self, rel_name, value) => {
   // 1.1 ensure we can get constr
   // TODO: move validation to build step
   if (!rel_shape.any) {
-    const Constr = getRelByConstrByLinking(self, rel_shape.constr_linking)
+    const Constr = getRelConstrByRelLinking(self, rel_shape.constr_linking)
     if (!Constr) {
       throwError('invalid rel_shape', self, {rel_name})
     }

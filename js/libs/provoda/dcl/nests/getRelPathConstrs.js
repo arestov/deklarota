@@ -1,5 +1,5 @@
 import getRelShape from './getRelShape'
-import {getRelByConstrByLinking} from './getRelConstr'
+import {getRelConstrByRelLinking} from './getRelConstr'
 
 const getRelPathConstrs = (self, rel_path, soft_check) => {
 
@@ -14,7 +14,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
       if (rel_shape && rel_shape.any) {
         continue
       }
-      const proto = rel_shape && getRelByConstrByLinking(item_to_check, rel_shape.constr_linking)
+      const proto = rel_shape && getRelConstrByRelLinking(item_to_check, rel_shape.constr_linking)
 
       if (!proto) {
         console.warn('🧶', 'cant find rel', step, rel_path, self.__code_path)
