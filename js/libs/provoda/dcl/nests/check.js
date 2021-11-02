@@ -40,7 +40,7 @@ var parse = function(name, data) {
       return new NestCompx(name, data)
     }
     case 'model': {
-      return new NestModel(name, data[1])
+      return new NestModel(name, data[1], data[2])
     }
     case 'input': {
       return new NestInput(name, data)
