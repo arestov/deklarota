@@ -8,13 +8,14 @@ const getAddrRelConstr = (prt, rel_path) => {
     const rel_name = rel_path[i]
 
     cur = getRelConstr(cur, rel_name)
+    cur = cur && cur.prototype
     if (!cur) {
       console.log('🤼‍♂️problem', rel_path, rel_name)
       break
     }
   }
 
-  return cur
+  return cur && cur.constructor
 }
 
 const recurGetConstrByRelLinking = (getAddrRelConstr) => {
