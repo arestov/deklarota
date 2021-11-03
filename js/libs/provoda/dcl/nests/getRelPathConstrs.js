@@ -1,6 +1,9 @@
 import getRelShape from './getRelShape'
 import {recurGetConstrByRelLinking} from './getRelConstr'
 
+const getPrototype = (constr) => constr.prototype
+const getConstructor = (prt) => prt.constructor
+
 const getRelPathConstrs = (self, rel_path, soft_check) => {
 
   var list_to_check = [self]
@@ -15,9 +18,10 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
         continue
       }
       // eslint-disable-next-line no-use-before-define
-      const proto = rel_shape && getRelConstrByRelLinking(item_to_check, rel_shape.constr_linking)
+      const constr = rel_shape && getRelConstrByRelLinking(item_to_check, rel_shape.constr_linking)
 
-      if (!proto) {
+      if (!constr) {
+
         console.warn('🧶', 'cant find rel', step, rel_path, self.__code_path)
         if (soft_check) {
           continue
@@ -26,10 +30,10 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
         throw new Error('cant find rel')
       }
 
-      if (Array.isArray(proto)) {
-        next_check.push(...proto)
+      if (Array.isArray(constr)) {
+        next_check.push(...constr.map(getPrototype))
       } else {
-        next_check.push(proto)
+        next_check.push(getPrototype(constr))
       }
 
     }
@@ -40,7 +44,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
   }
     // debugger
 
-  return next_check
+  return next_check.map(getConstructor)
 }
 
 const getRelConstrByRelLinking = recurGetConstrByRelLinking(getRelPathConstrs)
