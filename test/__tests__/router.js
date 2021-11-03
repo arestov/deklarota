@@ -65,6 +65,9 @@ test('should init router', async () => {
     BWLev: RootSession,
     rels: {
       user: ['nest', [User]],
+      start_page: ['input', {
+        linking: '<<<<',
+      }],
     },
     checkActingRequestsPriority: () => {},
   })

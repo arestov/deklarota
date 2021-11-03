@@ -58,12 +58,12 @@ test('interface passed to action should be assigned', async () => {
     const Song = createDeepChild('Song')
     const Playlist = createDeepChild('playlist', {
       rels: {
-        songs_list: ['model', Song],
+        songs_list: ['model', Song, { many: true }],
       },
     })
 
     const createAction = (method, id = 1) => ({
-      to: [`songs_list < /playlists/${id}/ < #`, {
+      to: [`songs_list < /playlists/${id} < #`, {
         method,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
         // model: Song,

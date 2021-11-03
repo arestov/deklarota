@@ -102,6 +102,7 @@ test('multiple state by pass calculated', async () => {
 
             return list
           },
+          { linking: ['<< indie', '<< list'], many: true },
         ],
       },
     })

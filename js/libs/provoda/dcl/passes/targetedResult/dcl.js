@@ -35,6 +35,19 @@ var targetData = function(to, result_name, dsl_options) {
     }
   }
 
+  switch (options?.base) {
+    case undefined:
+    case 'arg_nesting_next':
+    case 'arg_nesting_prev': {
+      break
+    }
+    default: {
+      throw new Error('unknow base ' + options.base)
+    }
+  }
+
+  // how validate options.map_values_list_to_target ?
+
   return {
     path_type: target_path == '*' ? 'by_provoda_id' : 'by_path',
     value_by_name: result_name ? true : false,

@@ -6,6 +6,8 @@ import NestCntDeclr from '../nest_conj/item'
 import NestDcl from '../nest/item'
 import NestCompx from '../nest_compx/item'
 import NestModel from '../nest_model/item'
+import NestInput from './input/item'
+
 import buildNest from '../nest/build'
 import buildModel from '../nest_model/build'
 var cloneObj = spv.cloneObj
@@ -25,7 +27,7 @@ var parse = function(name, data) {
       return data[1] && new NestDcl(name, data[1])
     }
     case 'conj': {
-      return new NestCntDeclr(name, data[1])
+      return new NestCntDeclr(name, data)
     }
     case 'sel': {
       return new NestSelector(name, data[1])
@@ -38,7 +40,10 @@ var parse = function(name, data) {
       return new NestCompx(name, data)
     }
     case 'model': {
-      return new NestModel(name, data[1])
+      return new NestModel(name, data[1], data[2])
+    }
+    case 'input': {
+      return new NestInput(name, data)
     }
   }
 

@@ -13,8 +13,6 @@ import routePathByModels from '../routePathByModels'
 var getSPIConstr = routePathByModels.getSPIConstr
 var getSPI = routePathByModels.getSPI
 
-var getDeclrConstr = get_constr.getDeclrConstr
-
 /*
 поправить навигацию
 проверить работу истории
@@ -56,8 +54,6 @@ BrowseMap.getUserInterest = function(pth_string, start_md) {
 }
 
 BrowseMap.routePathByModels = routePathByModels
-
-BrowseMap.getDeclrConstr = getDeclrConstr
 
 BrowseMap.Model = spv.inh(HModel, {
   strict: true,

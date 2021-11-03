@@ -9,10 +9,10 @@ export default function initBWlev(BrowseLevel, md, probe_name, map_level_num, ma
     pioneer_provoda_id: md._provoda_id,
     pioneer: md
   }, {
-    nestings: {
-      pioneer: md,
-      map: map
-    }
+    nestings: Object.fromEntries([
+      ['pioneer', md],
+      map && ['map', map]
+    ].filter(Boolean))
   }, parent_bwlev, md.app)
 
   return bwlev

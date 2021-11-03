@@ -14,9 +14,16 @@ var followStringTemplate = function(app, md, obj, need_constr, full_path, strict
   if (obj.from_parent) {
     // "^page/ect"
     var target_md_start = md
-    for (var i = 0; i < obj.from_parent; i++) {
-      target_md_start = target_md_start.map_parent
+    if (target_md_start.getInstanceKey()) {
+      for (var i = 0; i < obj.from_parent; i++) {
+        target_md_start = target_md_start.map_parent
+      }
+    } else {
+      for (var i = 0; i < obj.from_parent; i++) {
+        target_md_start = target_md_start._parent_constr && target_md_start._parent_constr.prototype
+      }
     }
+
     if (!full_path) {
       return target_md_start
     }

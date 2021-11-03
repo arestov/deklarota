@@ -2,6 +2,7 @@ import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
 import emptyArray from '../../emptyArray'
 import CompxAttrDecl from '../attrs/comp/item'
 import asString from '../../utils/multiPath/asString'
+import relShape from '../nests/relShape'
 
 const push = Array.prototype.push
 
@@ -20,12 +21,16 @@ const caclConj = function caclConj(...args) {
 }
 
 var NestCntDeclr = function(name, data) {
+  const list = data[1]
   var rel_name = '__/internal/rels//_/' + name
   this.dest_name = name
   this.comp_attr = new CompxAttrDecl(rel_name, [
-    data.map(asMultiPath).map(asString),
+    list.map(asMultiPath).map(asString),
     caclConj,
   ])
+
+  this.rel_shape = relShape(data[2])
+
 }
 
 export default NestCntDeclr

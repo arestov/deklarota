@@ -91,39 +91,12 @@ test('simple state by pass1 && pass2 calculated', async () => {
   ])
 
   async function setup() {
-    const TargetChild = mdl({
-      rels: {
-        indie: [
-          'nest', [createDeepChild('indie')],
-        ],
-        list: [
-          'nest', [[createDeepChild(1), createDeepChild(2)]],
-        ],
-        calculated_child: [
-          'comp',
-          ['number <<< #', 'nickname <<< ^', '<< @all:indie', '<< @all:list'],
-          (num, nickname, indie_value, list) => {
-            if (num === 100) {
-              return list.slice(0, 1)
-            }
-
-            if (nickname === 'smith') {
-              return indie_value
-            }
-
-            return list
-          },
-        ],
-      },
-    })
-
     const app = (await init({
       zero_map_level: false,
       'chi-start__page': createDeepChild('start', {
         zero_map_level: true,
         model_name: 'startModel',
         rels: {
-          target_child: ['nest', [TargetChild]],
         },
         actions: {
           action1,

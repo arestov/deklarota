@@ -93,6 +93,10 @@ test('multiple state to arg base by pass calculated', async () => {
         rels: {
           nest_a: ['nest', [createDeepChild('nestA')]],
           nest_b: ['nest', [createDeepChild('nestB')]],
+          selected: [
+            'input',
+            { linking: ['<< nest_a', '<< nest_b'] },
+          ],
         },
         actions: {
           'handleRel:selected': action,

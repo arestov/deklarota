@@ -80,6 +80,10 @@ test('map_values_list_to_target in pass', async () => {
         rels: {
           nest_a: ['nest', [createDeepChild('nestA')]],
           nest_b: ['nest', [createDeepChild('nestB')]],
+          selected: [
+            'input',
+            { linking: ['<< nest_a', '<< nest_b'], many: true },
+          ],
         },
         actions: {
           'handleRel:selected': action,

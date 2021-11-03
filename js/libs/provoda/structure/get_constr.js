@@ -37,8 +37,8 @@ var specMap = function(func) {
 
 var nestList = specMap(nestConstrDeclaration)
 
-var getNestingConstr = function(app, md, nesting_name) {
-  nesting_name = getRightNestingName(md, nesting_name)
+export const getNestingConstr = function(app, md, nesting_name_raw) {
+  const nesting_name = getRightNestingName(md, nesting_name_raw)
 
   if (md._nest_rqc && md._nest_rqc[nesting_name ]) {
 
@@ -68,6 +68,5 @@ function constrsList(app, md, items) {
 }
 
 export default {
-  getDeclrConstr: getDeclrConstr,
   getNestingConstr: getNestingConstr
 }

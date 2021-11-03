@@ -10,6 +10,7 @@ import asString from '../../utils/multiPath/asString'
 import CompxAttrDecl from '../attrs/comp/item'
 import emptyArray from '../../emptyArray'
 
+import relShape from '../nests/relShape'
 import { calcRelSelByDcl } from './NestSelector'
 import getParsedPath from '../../routes/legacy/getParsedPath'
 import where from './where'
@@ -52,6 +53,7 @@ var getMap = function(map_chunk) {
 
 
 var SelectNestingDeclaration = function(dest_name, data) {
+  this.rel_shape = relShape(data.rel_shape)
 
   this.map = null
   if (data.map) {

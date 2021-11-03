@@ -49,6 +49,9 @@ test('compx-nests', async () => {
   async function setup() {
     const target_child = mdl({
       rels: {
+        indie: ['input', { linking: '<< indie_source << #' }],
+        list: ['input', { linking: '<< list_source << #', many: true }],
+
         calculated_child: [
           'comp',
           [
