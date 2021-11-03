@@ -151,7 +151,8 @@ test('nest compx calculated', async () => {
 
   const TargetChild = model({
     rels: {
-      indie: ['nest', [indie]],
+      indie_raw: ['nest', [indie]],
+      indie: ['input', { linking: ['<< indie_raw', '<< list'] }],
       list: [
         'nest', [[createDeepChild(1), createDeepChild(2)]],
       ],
@@ -203,6 +204,8 @@ test('nest compx calculated', async () => {
       const calculated = getNesting(target_child, 'calculated_child')
 
       expect(toIds(expected)).toEqual(toIds(calculated))
+
+      updateNesting(target_child, 'indie', getNesting(target_child, 'indie_raw'))
     },
     () => pvUpdate(app.start_page, 'nickname', 'smith'),
     () => {
