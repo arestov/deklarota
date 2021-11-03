@@ -1,5 +1,5 @@
 import getRelShape from './getRelShape'
-import { getRelConstrByRelLinking } from './getRelConstr'
+import { getRelConstrByRelLinking } from './getRelPathConstrs'
 import isGlueRel from '../../Model/mentions/isGlueRel'
 
 const throwError = (msg, self, context) => {

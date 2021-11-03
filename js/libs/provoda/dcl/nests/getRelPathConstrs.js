@@ -49,4 +49,5 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
 
 const getRelConstrByRelLinking = recurGetConstrByRelLinking(getRelPathConstrs)
 
+export { getRelConstrByRelLinking }
 export default getRelPathConstrs
