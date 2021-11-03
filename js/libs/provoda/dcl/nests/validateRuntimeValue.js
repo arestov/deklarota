@@ -27,7 +27,16 @@ const validateValueConstr = (self, rel_name, rel_shape, prts, value_item) => {
     return
   }
 
-  throwError('rel_shape constructors does not match value', self, {rel_name, rel_shape, prts, value_item})
+  const list = Array.isArray(prts) ? prts : [prts]
+
+  throwError('rel_shape constructors does not match value', self, {
+    rel_name,
+    rel_shape,
+    model_names: list.map(item => item.model_name),
+    model_define: list.map(item => item.__code_path),
+    value_model_name: value_item.model_name,
+    value_model_define: value_item.__code_path,
+  })
 }
 
 const validateConstr = (self, rel_name, rel_shape, value) => {
