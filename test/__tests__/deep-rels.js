@@ -3,14 +3,6 @@ import mergeBhv from 'pv/dcl/merge'
 import pvState from 'pv/getAttr'
 import init from 'test/init'
 
-const toIds = md_list => {
-  if (!Array.isArray(md_list)) {
-    return md_list && md_list._provoda_id
-  }
-
-  return md_list.map(item => item._provoda_id)
-}
-
 test('attr based on deep list', async () => {
   const modelForLevel = (levelName, model) => ({
     rels: {
