@@ -1,8 +1,4 @@
-
-
 import spv from '../../../../spv'
-var getDeprefixFunc = spv.getDeprefixFunc
-var check = getDeprefixFunc('handleRel:')
 
 export default function rebuild(self, index) {
   var result = {}
@@ -12,13 +8,10 @@ export default function rebuild(self, index) {
       continue
     }
 
-    var result_name = check(name)
+    const cur = index[name]
+    if (!cur.rel_name) {continue}
 
-    if (!result_name) {
-      continue
-    }
-
-    result[result_name] = index[name]
+    result[cur.rel_name] = index[name]
   }
 
   self.__handleNesting = result

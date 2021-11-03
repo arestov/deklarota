@@ -90,6 +90,14 @@ function same(arg) {
   return arg
 }
 
+const actionOfRelChange = (name) => {
+  if (!name.startsWith('handleRel:')) {
+    return null
+  }
+
+  return name.replace('handleRel:', '')
+}
+
 var PassDcl = function(name, data) {
   this.name = name
 
@@ -97,6 +105,14 @@ var PassDcl = function(name, data) {
 
   this.deps = null
   this.fn = same
+
+  /*
+    handleRel:some_rel.
+    used to get proper rel_shape and validate it validateActionsDestinations
+    (when options.base arg_nesting_* used)
+    so you don't have to define rel_shape
+  */
+  this.rel_name = actionOfRelChange(name)
 
   if (!data.fn) {
     return
