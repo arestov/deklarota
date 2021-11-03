@@ -1,5 +1,5 @@
 import getRelPathConstrs from '../nests/getRelPathConstrs'
-import {getBasePrtByAddr} from '../nests/getRelConstr'
+import getBasePrtByAddr from '../nests/getBasePrtByAddr'
 
 const validateActionTarget = (self, target) => {
   if (target.target_path.result_type != 'nesting') {
