@@ -8,6 +8,16 @@ const throwError = (msg, self, context) => {
   throw err
 }
 
+const validateConstr = (self, rel_name, rel_shape) => {
+  // TODO: move constr presence validation to build step
+  if (rel_shape.any) { return }
+
+  const Constr = getRelConstrByRelLinking(self, rel_shape.constr_linking)
+  if (!Constr) {
+    throwError('invalid rel_shape', self, {rel_name})
+  }
+}
+
 const validateRuntimeValue = (self, rel_name, value) => {
   if (isGlueRel(self, rel_name)) {
     return
@@ -20,13 +30,7 @@ const validateRuntimeValue = (self, rel_name, value) => {
   }
 
   // 1.1 ensure we can get constr
-  // TODO: move validation to build step
-  if (!rel_shape.any) {
-    const Constr = getRelConstrByRelLinking(self, rel_shape.constr_linking)
-    if (!Constr) {
-      throwError('invalid rel_shape', self, {rel_name})
-    }
-  }
+  validateConstr(self, rel_name, rel_shape, value)
 
   if (value == null) {return}
 
