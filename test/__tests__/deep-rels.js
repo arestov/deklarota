@@ -4,9 +4,9 @@ import pvState from 'pv/getAttr'
 import init from 'test/init'
 
 test('attr based on deep list', async () => {
-  const modelForLevel = (levelName, model) => ({
+  const modelForLevel = (levelName, model, { many } = {}) => ({
     rels: {
-      [levelName]: ['model', model],
+      [levelName]: ['model', model, { many }],
     },
     actions: {
       add: {
@@ -16,8 +16,8 @@ test('attr based on deep list', async () => {
   })
 
   const deepLevel3 = bhv({})
-  const deepLevel2 = bhv(modelForLevel('level3', deepLevel3))
-  const deepLevel1 = bhv(modelForLevel('level2', deepLevel2))
+  const deepLevel2 = bhv(modelForLevel('level3', deepLevel3, { many: true }))
+  const deepLevel1 = bhv(modelForLevel('level2', deepLevel2, { many: true }))
 
 
   const base1 = bhv({})
@@ -25,7 +25,7 @@ test('attr based on deep list', async () => {
 
 
   const App = mergeBhv(
-    modelForLevel('level1', deepLevel1),
+    modelForLevel('level1', deepLevel1, { many: true }),
     {
       attrs: {
         level3ArrayNotEmpty: [
@@ -36,6 +36,7 @@ test('attr based on deep list', async () => {
       rels: {
         base1: ['nest', [base1]],
         base2: ['nest', [base2]],
+        temp: ['input', { linking: '<< level1.level2', many: true }],
       },
       actions: {
         /* no nice attr */
