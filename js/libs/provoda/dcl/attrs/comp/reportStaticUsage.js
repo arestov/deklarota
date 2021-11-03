@@ -1,5 +1,5 @@
 import isExternalAttrAddr from '../../../utils/multiPath/isExternalAttrAddr'
-import getRelPathConstrs from '../../nests/getRelPathConstrs'
+import getPrtsByRelPath from '../../nests/getPrtsByRelPath'
 
 
 
@@ -15,7 +15,7 @@ const getEdgeRels = (Root, self, addr) => {
     return
   }
 
-  const rel_path = getRelPathConstrs(self, addr.nesting.path, true)
+  const rel_path = getPrtsByRelPath(self, addr.nesting.path, true)
 
 
 }

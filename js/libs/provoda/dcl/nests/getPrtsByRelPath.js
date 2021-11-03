@@ -2,7 +2,7 @@ import getRelShape from './getRelShape'
 import {recurGetPrtByRelLinking} from './getRelConstr'
 
 
-const getRelPathConstrs = (self, rel_path, soft_check) => {
+const getPrtsByRelPath = (self, rel_path, soft_check) => {
 
   var list_to_check = [self]
   var next_check = []
@@ -45,7 +45,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
   return list_to_check
 }
 
-const getRelConstrByRelLinking = recurGetPrtByRelLinking(getRelPathConstrs)
+const getRelConstrByRelLinking = recurGetPrtByRelLinking(getPrtsByRelPath)
 
 export { getRelConstrByRelLinking }
-export default getRelPathConstrs
+export default getPrtsByRelPath

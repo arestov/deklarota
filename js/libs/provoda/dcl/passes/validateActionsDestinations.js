@@ -1,4 +1,4 @@
-import getRelPathConstrs from '../nests/getRelPathConstrs'
+import getPrtsByRelPath from '../nests/getPrtsByRelPath'
 import getBasePrtByAddr from '../nests/getBasePrtByAddr'
 
 const validateActionTarget = (self, target) => {
@@ -9,7 +9,7 @@ const validateActionTarget = (self, target) => {
   const addr = target.target_path
 
   const base = getBasePrtByAddr(self, addr)
-  const rel_constr = getRelPathConstrs(
+  const rel_constr = getPrtsByRelPath(
     base,
     addr.nesting.path,
     false
