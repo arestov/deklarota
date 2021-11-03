@@ -1,10 +1,10 @@
 import getBasePrtByAddr from './getBasePrtByAddr'
 
-const recurGetConstrByRelLinking = (getAddrRelConstr) => {
+const recurGetPrtByRelLinking = (getAddrRelConstr) => {
 
   const oneItem = (prt, linking_item) => {
     if (linking_item.type == 'constr') {
-      return prt._all_chi[linking_item.value]
+      return prt._all_chi[linking_item.value].prototype
     }
 
     if (linking_item.type != 'addr') {
@@ -13,13 +13,13 @@ const recurGetConstrByRelLinking = (getAddrRelConstr) => {
 
     const addr = linking_item.value
     if (addr.base_itself) {
-      return prt.constructor
+      return prt
     }
 
     var base = getBasePrtByAddr(prt, addr)
 
     if (!addr.nesting.path) {
-      return base.constructor
+      return base
     }
 
     return getAddrRelConstr(base, addr.nesting.path)
@@ -49,4 +49,4 @@ const recurGetConstrByRelLinking = (getAddrRelConstr) => {
 }
 
 
-export { recurGetConstrByRelLinking }
+export { recurGetPrtByRelLinking }

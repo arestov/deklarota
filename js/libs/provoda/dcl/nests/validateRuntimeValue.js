@@ -8,13 +8,13 @@ const throwError = (msg, self, context) => {
   throw err
 }
 
-const matchConstuctors = (constrs, value_item) => {
-  if (!Array.isArray(constrs)) {
-    return value_item.constructor === constrs
+const matchConstuctors = (prts, value_item) => {
+  if (!Array.isArray(prts)) {
+    return value_item.constructor === prts.constructor
   }
 
-  for (var i = 0; i < constrs.length; i++) {
-    if (value_item.constructor === constrs[i]) {
+  for (var i = 0; i < prts.length; i++) {
+    if (value_item.constructor === prts[i].constructor) {
       return true
     }
   }
@@ -22,32 +22,32 @@ const matchConstuctors = (constrs, value_item) => {
   return false
 }
 
-const validateValueConstr = (self, rel_name, rel_shape, constrs, value_item) => {
-  if (matchConstuctors(constrs, value_item)) {
+const validateValueConstr = (self, rel_name, rel_shape, prts, value_item) => {
+  if (matchConstuctors(prts, value_item)) {
     return
   }
 
-  throwError('rel_shape constructors does not match value', self, {rel_name, rel_shape, constrs, value_item})
+  throwError('rel_shape constructors does not match value', self, {rel_name, rel_shape, prts, value_item})
 }
 
 const validateConstr = (self, rel_name, rel_shape, value) => {
   // TODO: move constr presence validation to build step
   if (rel_shape.any) { return }
 
-  const constrs = getRelConstrByRelLinking(self, rel_shape.constr_linking)
-  if (!constrs) {
+  const prts = getRelConstrByRelLinking(self, rel_shape.constr_linking)
+  if (!prts) {
     throwError('invalid rel_shape', self, {rel_name})
   }
 
   if (value == null) {return}
 
   if (!rel_shape.many) {
-    validateValueConstr(self, rel_name, rel_shape, constrs, value)
+    validateValueConstr(self, rel_name, rel_shape, prts, value)
     return
   }
 
   for (var i = 0; i < value.length; i++) {
-    validateValueConstr(self, rel_name, rel_shape, constrs, value[i])
+    validateValueConstr(self, rel_name, rel_shape, prts, value[i])
   }
 }
 
