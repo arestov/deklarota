@@ -58,7 +58,7 @@ test('interface passed to action should be assigned', async () => {
     const Song = createDeepChild('Song')
     const Playlist = createDeepChild('playlist', {
       rels: {
-        songs_list: ['model', Song],
+        songs_list: ['model', Song, { many: true }],
       },
     })
 
