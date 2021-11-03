@@ -18,6 +18,20 @@ const validateConstr = (self, rel_name, rel_shape) => {
   }
 }
 
+const validateManyValue = (self, rel_name, rel_shape, value) => {
+  if (value == null) {return}
+
+  if (rel_shape.many) {
+    if (!Array.isArray(value)) {
+      throwError('expected list of items. match rel_shape.many param with value', self, {rel_name})
+    }
+  } else {
+    if (Array.isArray(value)) {
+      throwError('expected one item. match rel_shape.many param with value', self, {rel_name})
+    }
+  }
+}
+
 const validateRuntimeValue = (self, rel_name, value) => {
   if (isGlueRel(self, rel_name)) {
     return
@@ -32,18 +46,8 @@ const validateRuntimeValue = (self, rel_name, value) => {
   // 1.1 ensure we can get constr
   validateConstr(self, rel_name, rel_shape, value)
 
-  if (value == null) {return}
-
   // 2. check if value match "many" param of schema
-  if (rel_shape.many) {
-    if (!Array.isArray(value)) {
-      throwError('expected list of items. match rel_shape.many param with value', self, {rel_name})
-    }
-  } else {
-    if (Array.isArray(value)) {
-      throwError('expected one item. match rel_shape.many param with value', self, {rel_name})
-    }
-  }
+  validateManyValue(self, rel_name, rel_shape, value)
 
   // 3. check if value is instance of allowed Constr?
 }
