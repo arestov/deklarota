@@ -82,7 +82,7 @@ test('map_values_list_to_target in pass', async () => {
           nest_b: ['nest', [createDeepChild('nestB')]],
           selected: [
             'input',
-            { linking: ['<< nest_a', '<< nest_b'] },
+            { linking: ['<< nest_a', '<< nest_b'], many: true },
           ],
         },
         actions: {
