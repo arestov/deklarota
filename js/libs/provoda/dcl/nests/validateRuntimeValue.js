@@ -43,13 +43,12 @@ const validateRuntimeValue = (self, rel_name, value) => {
     throwError('unexpected change of rel. use rels.input', self, {rel_name})
   }
 
-  // 1.1 ensure we can get constr
-  validateConstr(self, rel_name, rel_shape, value)
-
   // 2. check if value match "many" param of schema
   validateManyValue(self, rel_name, rel_shape, value)
 
-  // 3. check if value is instance of allowed Constr?
+  // 3.1 ensure we can get constr
+  // 3.2 check if value is instance of allowed Constr?
+  validateConstr(self, rel_name, rel_shape, value)
 }
 
 export default validateRuntimeValue
