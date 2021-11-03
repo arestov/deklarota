@@ -41,10 +41,10 @@ test('special nestings by pass calculated', async () => {
       title: pvState(item, 'title'),
     }
   }
-  const getListItem = (num, plnum = 0) => {
+  const getListItem = (num, plnum = 0, rel = 'songs_list') => {
     const list = getNesting(
       getNesting(app.start_page, 'all_playlists')[plnum],
-      'songs_list',
+      rel,
     ) || []
 
     if (num == null) {
@@ -158,7 +158,7 @@ test('special nestings by pass calculated', async () => {
       })
     },
     () => {
-      const item = getListItem(null, 1)
+      const item = getListItem(null, 1, 'one_song')
       expect(false).toBe(Array.isArray(item))
 
       expect({
@@ -174,7 +174,7 @@ test('special nestings by pass calculated', async () => {
       })
     },
     () => {
-      const item = getListItem(null, 1)
+      const item = getListItem(null, 1, 'one_song')
       expect(false).toBe(Array.isArray(item))
 
       expect({
@@ -188,12 +188,13 @@ test('special nestings by pass calculated', async () => {
     const Song = createDeepChild('Song')
     const Playlist = createDeepChild('playlist', {
       rels: {
-        songs_list: ['model', Song],
+        songs_list: ['model', Song, { many: true }],
+        one_song: ['model', Song, { many: false }],
       },
     })
 
-    const createAction = (method, id = 1) => ({
-      to: [`songs_list < /playlists/${id} < #`, {
+    const createAction = (method, id = 1, rel = 'songs_list') => ({
+      to: [`${rel} < /playlists/${id} < #`, {
         method,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
         // model: Song,
@@ -217,7 +218,7 @@ test('special nestings by pass calculated', async () => {
           addToEnd: createAction('at_end'),
           addToIndex: createAction('at_index'),
           replace: createAction('replace'),
-          setOne: createAction('set_one', 2),
+          setOne: createAction('set_one', 2, 'one_song'),
         },
         sub_pager: {
           type: {
