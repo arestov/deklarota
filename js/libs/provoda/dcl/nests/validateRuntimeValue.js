@@ -75,6 +75,10 @@ const validateManyValue = (self, rel_name, rel_shape, value) => {
 }
 
 const validateRuntimeValue = (self, rel_name, value) => {
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
+
   if (isGlueRel(self, rel_name)) {
     return
   }

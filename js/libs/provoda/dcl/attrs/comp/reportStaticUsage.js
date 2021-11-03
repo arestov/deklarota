@@ -21,6 +21,11 @@ const getEdgeRels = (Root, self, addr) => {
 }
 
 const reportStaticUsage = (Root, self, attrs) => {
+
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
+
   for (var comp_attr_name in attrs) {
     if (!attrs.hasOwnProperty(comp_attr_name)) {
       continue

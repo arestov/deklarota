@@ -55,6 +55,10 @@ const validateActionTarget = (self, target, action) => {
 }
 
 const validateActionsDestinations = (Root, self) => {
+  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
+    return
+  }
+
   const actions = self._extendable_passes_index
   if (!actions) {
     return
