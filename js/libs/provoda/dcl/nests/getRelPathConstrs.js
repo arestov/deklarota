@@ -44,7 +44,7 @@ const getRelPathConstrs = (self, rel_path, soft_check) => {
   }
     // debugger
 
-  return next_check.map(getConstructor)
+  return list_to_check.map(getConstructor)
 }
 
 const getRelConstrByRelLinking = recurGetConstrByRelLinking(getRelPathConstrs)
