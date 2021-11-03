@@ -3,6 +3,7 @@ import parseMultiPath from '../../utils/multiPath/parse'
 import noop from './noop'
 import now from './deps/now'
 import targetedResult from './targetedResult/dcl'
+import RelShape from '../nests/relShape'
 // var utils = require('../../utils/index.js');
 // var getParsedState = utils.getParsedState
 
@@ -113,6 +114,12 @@ var PassDcl = function(name, data) {
     so you don't have to define rel_shape
   */
   this.rel_name = actionOfRelChange(name)
+
+  /*
+    way to define rel_shape
+    when options.base arg_nesting_* used WITHOUT handleRel:some_rel
+  */
+  this.rel_shape = data.rel_shape ? RelShape(data.rel_shape) : null
 
   if (!data.fn) {
     return
