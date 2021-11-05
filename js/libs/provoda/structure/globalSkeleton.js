@@ -11,7 +11,7 @@ import {
   getParentRelMentions as getParentRelMentionsAttrs,
   getAllGlueSources as getAllGlueSourcesAttrs,
 } from '../dcl/attrs/comp/mentionsCandidates'
-import MentionChain from './MentionChain'
+import MentionChain from '../Model/mentions/MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
