@@ -20,11 +20,11 @@ import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
-function addrToLinks(addr, chain) {
+function addrToLinks(rel_path, chain) {
   var list = []
 
-  for (var i = 0; i < addr.nesting.path.length; i++) {
-    var rel = addr.nesting.path[i]
+  for (var i = 0; i < rel_path.length; i++) {
+    var rel = rel_path[i]
     list.push(new MentionChainLink(chain, i, rel))
   }
 
@@ -42,7 +42,7 @@ function MentionChain(target, target_type, addr, target_name) {
   this.target_mc = target
   this.target_type = target_type
   this.addr = addr
-  this.list = addrToLinks(addr, this)
+  this.list = addrToLinks(addr.nesting.path, this)
   this.target_name = target_name || ''
   Object.freeze(this)
 }
