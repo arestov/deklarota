@@ -11,7 +11,7 @@ export default function deliverChainUpdates(self, chain) {
 
   switch (chain.target_type) {
     case TARGET_TYPE_ATTR: {
-      _updateAttr(self, chain.addr.as_string, getDepValue(self, chain.addr))
+      _updateAttr(self, chain.target_name, getDepValue(self, chain.addr))
 
       break
     }

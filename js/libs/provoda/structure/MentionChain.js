@@ -22,7 +22,10 @@ function MentionChain(target, target_type, addr, target_name) {
   this.target_type = target_type
   this.addr = addr
   this.list = addrToLinks(addr.nesting.path, this)
-  this.target_name = target_name || ''
+  if (!target_name) {
+    throw new Error('target_name should be provided')
+  }
+  this.target_name = target_name
   Object.freeze(this)
 }
 

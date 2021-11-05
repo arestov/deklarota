@@ -166,7 +166,7 @@ function addModel(global_skeleton, model, ascent_level, is_root) {
       continue
     }
 
-    global_skeleton.chains.push(new MentionChain(model, TARGET_TYPE_ATTR, cur))
+    global_skeleton.chains.push(new MentionChain(model, TARGET_TYPE_ATTR, cur, cur.as_string))
   }
 
 
