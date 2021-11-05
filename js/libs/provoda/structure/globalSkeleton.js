@@ -11,7 +11,7 @@ import {
   getParentRelMentions as getParentRelMentionsAttrs,
   getAllGlueSources as getAllGlueSourcesAttrs,
 } from '../dcl/attrs/comp/mentionsCandidates'
-
+import MentionChain from './MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
 import target_types from '../Model/mentions/target_types'
@@ -20,32 +20,6 @@ import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
-function addrToLinks(rel_path, chain) {
-  var list = []
-
-  for (var i = 0; i < rel_path.length; i++) {
-    var rel = rel_path[i]
-    list.push(new MentionChainLink(chain, i, rel))
-  }
-
-  return list
-}
-
-function MentionChainLink(chain, num, rel) {
-  this.chain = chain
-  this.num = num
-  this.rel = rel
-  Object.freeze(this)
-}
-
-function MentionChain(target, target_type, addr, target_name) {
-  this.target_mc = target
-  this.target_type = target_type
-  this.addr = addr
-  this.list = addrToLinks(addr.nesting.path, this)
-  this.target_name = target_name || ''
-  Object.freeze(this)
-}
 
 function GlobalSkeleton() {
   /*
