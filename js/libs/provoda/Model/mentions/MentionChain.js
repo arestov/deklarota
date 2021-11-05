@@ -17,11 +17,11 @@ function MentionChainLink(chain, num, rel) {
   Object.freeze(this)
 }
 
-function MentionChain(target, target_type, addr, target_name) {
-  this.target_mc = target
+function MentionChain(target_type, rel_path, target_matcher, addr, target_name) {
+  this.target_matcher = target_matcher
   this.target_type = target_type
   this.addr = addr
-  this.list = addrToLinks(addr.nesting.path, this)
+  this.list = addrToLinks(rel_path, this)
   if (!target_name) {
     throw new Error('target_name should be provided')
   }
