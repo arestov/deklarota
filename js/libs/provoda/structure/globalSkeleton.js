@@ -188,18 +188,22 @@ function addModel(global_skeleton, model, ascent_level, is_root) {
   // this.list_of_compx.push()
 }
 
+const addChainToIndex = (storage, chain) => {
+  for (var jj = 0; jj < chain.list.length; jj++) {
+    var step = chain.list[jj]
+    // make index for each step
+    storage[step.rel] = storage[step.rel] || []
+    storage[step.rel].push(step)
+  }
+}
+
 
 function buildRelsIndex(chains) {
   var result = {}
   for (var i = 0; i < chains.length; i++) {
     var cur = chains[i]
 
-    for (var jj = 0; jj < cur.list.length; jj++) {
-      var step = cur.list[jj]
-      // make index for each step
-      result[step.rel] = result[step.rel] || []
-      result[step.rel].push(step)
-    }
+    addChainToIndex(result, cur)
   }
 
   for (var name in result) {
