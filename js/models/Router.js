@@ -217,7 +217,8 @@ export default spv.inh(BasicRouter, {
 
     var bwlev = list[ok_bwlev]
 
-    map.trigger('bridge-changed', bwlev)
+    animateMapChanges(target, bwlev)
+
     _updateRel(map, 'selected__bwlev', bwlev)
     _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'))
     _updateAttr(map, 'selected__name', bwlev.model_name)
@@ -234,10 +235,6 @@ function initMapTree(target, start_page, needs_url_history, navi) {
   _updateRel(target, 'navigation', [])
   _updateRel(target, 'start_page', start_page)
 
-  target
-    .on('bridge-changed', function(bwlev) {
-      animateMapChanges(target, bwlev)
-    }, target.app.getContextOptsI())
 }
 
 function initNav(map, navi, app) {

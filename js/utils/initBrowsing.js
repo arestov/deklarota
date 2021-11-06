@@ -20,10 +20,6 @@ function initMapTree(app, start_page) {
   _updateRel(app, 'navigation', [])
   _updateRel(app, 'start_page', start_page)
 
-  app.map
-    .on('bridge-changed', bwlev => {
-      animateMapChanges(app, bwlev)
-    }, app.getContextOptsI())
 
   return app.map
 }
