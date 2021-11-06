@@ -3,6 +3,7 @@ import CallbacksFlow from '../../../CallbacksFlow'
 import SyncSender from '../../../sync_sender'
 import { Proxies } from '../../../views_proxies'
 import initEffects from '../../../StatesEmitter/initEffects'
+import bindRuntimeError from '../../bindRuntimeError'
 
 function AppRuntime(optionsRaw) {
 
@@ -13,7 +14,7 @@ function AppRuntime(optionsRaw) {
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
-    onError: options.onError,
+    onError: bindRuntimeError(this, options.onError),
   })
 
   this.models_counters = 1
