@@ -14,7 +14,7 @@ const handleExpectedRelChange = (chain, current_md) => {
       complete = i == chain.list.length - 1
       continue
     }
-    const requesting_action = `requestRel:${rel_name}`
+    const requesting_action = `requireRel:${rel_name}`
     const action_dcl = getAction(link_step_value, requesting_action)
 
     if (!action_dcl) {

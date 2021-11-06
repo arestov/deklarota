@@ -60,7 +60,7 @@ beforeEach(() => {
 })
 
 
-test('should execute nested requestRel & reveal resource in router', async () => {
+test('should execute nested requireRel & reveal resource in router', async () => {
   const Billing = model({
     model_name: 'Billing',
   })
@@ -76,11 +76,11 @@ test('should execute nested requestRel & reveal resource in router', async () =>
       onboarding: ['model', Onboarding],
     },
     actions: {
-      'requestRel:billing': {
+      'requireRel:billing': {
         to: ['<< billing', { method: 'set_one' }],
         fn: () => ({}),
       },
-      'requestRel:onboarding': {
+      'requireRel:onboarding': {
         to: {
           onboarding: ['<< onboarding', { method: 'set_one' }],
         },
