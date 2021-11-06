@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should execute nested requestRel & reveal resource in router 1`] = `
+Array [
+  "start_page",
+  "User",
+  "Billing",
+]
+`;
+
+exports[`should execute nested requestRel & reveal resource in router 2`] = `"Billing"`;

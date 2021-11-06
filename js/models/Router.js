@@ -14,6 +14,7 @@ import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import BrowseMap from '../libs/BrowseMap'
 import animateMapChanges from '../libs/provoda/dcl/probe/animateMapChanges'
 import handlers from '../libs/provoda/bwlev/router_handlers'
+import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 
 export const BasicRouter = spv.inh(Model, {
   naming: function (fn) {
@@ -140,11 +141,22 @@ export default spv.inh(BasicRouter, {
       ['< @all:has_no_access < wanted_bwlev_chain.pioneer', '< @all:_provoda_id < wanted_bwlev_chain'],
       (arg1, arg2) => ([...arg1, ...arg2])
     ],
+    current_model_id: [
+      'comp',
+      ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md'],
+      (arg1, arg2) => arg1 || arg2,
+    ]
   },
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
     wanted_bwlev_chain: ['input', {any: true, many: true}],
+
+    /* is_simple_router=true: current_bwlev, current_md */
+    current_md: ['input', {any: true}],
+    current_bwlev: ['input', {any: true}],
+
+    /* is_simple_router=false: current_mp_bwlev, current_mp_md  */
     current_mp_md: ['input', {any: true}],
     current_mp_bwlev: ['input', {any: true}],
     map_slice: ['input', {any: true}], // many { each_items: all_items,} ???
@@ -220,6 +232,50 @@ export default spv.inh(BasicRouter, {
         }
       ]
     },
+    expectRelBeRevealedByRelPath: {
+      to: ['current_expected_rel'],
+      fn: [
+        ['$now', '_provoda_id', '< @one:_provoda_id < current_mp_md'],
+        (rel_path, now, self_id, current_mp_md_id) => {
+          return {
+            expected_at: now, // some kind of uniqness for this entry
+            rel_path,
+            router_id: self_id,
+
+            // current model of router will be used as "base" to start rel_path requesting
+            current_mp_md_id,
+          }
+        }
+      ]
+    },
+    'handleAttr:current_expected_rel': {
+      to: {
+        nothing: ['current_expected_rel']
+        },
+        fn: [
+          ['<<<<'],
+          (data, self) => {
+
+          handleCurrentExpectedRel(self, data)
+          return {}
+        }
+      ],
+    },
+    'handleAttr:current_model_id': {
+      to: ['current_expected_rel'],
+      fn: [
+        ['noop', 'current_expected_rel'],
+        (data, noop, current_expected_rel) => {
+          if (!current_expected_rel) {return noop}
+
+          if (current_expected_rel.current_mp_md_id != data.next_value) {return noop}
+
+          // erase current_expected_rel since router got expected current_mp_md_id
+          return null
+        }
+      ]
+    },
+
   },
   effects: {
     out: {
