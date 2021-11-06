@@ -107,25 +107,28 @@ test('should execute nested requestRel & reveal resource in router', async () =>
     expect(
       inited.app_model._highway.live_heavy_rel_query_by_rel_name,
     ).toMatchSnapshot()
+  }
 
+  {
     /*
-      todo:
-        1. check current_expected_rel for requestRel that does not conditions without resolving
+      1. check current_expected_rel for requestRel that does not conditions without resolving
 
-        // expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
-        //   expected_at: expect.any(Number),
-        //   current_mp_md_id: 1,
-        //   rel_path: 'user.billing',
-        // })
-
-
-        2. check fail when missing requestRel
-
-        //  await expect(failingAsyncTest())
-        // .rejects
-        // .toThrow('I should fail');
+      // expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
+      //   expected_at: expect.any(Number),
+      //   current_mp_md_id: 1,
+      //   rel_path: 'user.billing',
+      // })
     */
   }
 
+  {
+    /*
+    2. check fail when missing requestRel
+
+    //  await expect(failingAsyncTest())
+    // .rejects
+    // .toThrow('I should fail');
+    */
+  }
   //
 })
