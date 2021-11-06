@@ -7,6 +7,8 @@ function addrToLinks(rel_path, chain) {
     list.push(new MentionChainLink(chain, i, rel))
   }
 
+  Object.freeze(list)
+
   return list
 }
 
