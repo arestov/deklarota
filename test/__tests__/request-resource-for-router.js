@@ -55,6 +55,10 @@ const RootSession = {
   },
 }
 
+beforeEach(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {})
+})
+
 
 test('should execute nested requestRel & reveal resource in router', async () => {
   const Billing = model({
@@ -146,13 +150,9 @@ test('should execute nested requestRel & reveal resource in router', async () =>
   }
 
   {
-    /*
-    2. check fail when missing requestRel
+    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', 'user.superrandom')
 
-    //  await expect(failingAsyncTest())
-    // .rejects
-    // .toThrow('I should fail');
-    */
+    await expect(inited.computed()).rejects.toThrow('impossible to request')
   }
   //
 })
