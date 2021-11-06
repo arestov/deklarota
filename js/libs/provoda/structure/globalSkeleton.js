@@ -14,6 +14,7 @@ import {
 import MentionChain from '../Model/mentions/MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
+import addChainToIndex, { sortChainLinks } from '../Model/mentions/addChainToIndex'
 import target_types from '../Model/mentions/target_types'
 import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 
@@ -188,18 +189,6 @@ function addModel(global_skeleton, model, ascent_level, is_root) {
   // this.list_of_compx.push()
 }
 
-const addChainToIndex = (storage, chain) => {
-  for (var jj = 0; jj < chain.list.length; jj++) {
-    var step = chain.list[jj]
-    // make index for each step
-    storage[step.rel] = storage[step.rel] || []
-    storage[step.rel].push(step)
-  }
-}
-
-const sortChainLinks = (storage, rel_name) => {
-  storage[rel_name] = storage[rel_name].sort(numDiff)
-}
 
 
 function buildRelsIndex(chains) {
