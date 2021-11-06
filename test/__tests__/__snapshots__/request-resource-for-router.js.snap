@@ -9,3 +9,12 @@ Array [
 `;
 
 exports[`should execute nested requestRel & reveal resource in router 2`] = `"Billing"`;
+
+exports[`should execute nested requestRel & reveal resource in router 3`] = `undefined`;
+
+exports[`should execute nested requestRel & reveal resource in router 4`] = `
+Object {
+  "billing": null,
+  "user": null,
+}
+`;

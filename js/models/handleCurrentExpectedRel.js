@@ -2,14 +2,35 @@ import getModelById from '../libs/provoda/utils/getModelById'
 import MentionChain from '../libs/provoda/Model/mentions/MentionChain'
 import target_types from '../libs/provoda/Model/mentions/target_types'
 import addHeavyRelQuery from '../libs/provoda/Model/mentions/heavy_queries/addHeavyRelQuery'
+import removeHeavyRelQuery from '../libs/provoda/Model/mentions/heavy_queries/removeHeavyRelQuery'
 import { getNestInfo } from '../libs/provoda/utils/multiPath/parse'
 import handleExpectedRelChange from './handleExpectedRelChange'
 
 const { TARGET_TYPE_HEAVY_REQUESTER } = target_types
 
+const setChain = (self, expected_rel_entry, chain) => {
+  if (!self._highway.expected_rels_to_chains) {
+    self._highway.expected_rels_to_chains = new Map()
+  }
+  self._highway.expected_rels_to_chains.set(expected_rel_entry, chain)
+}
+
+const getChain = (self, expected_rel_entry) => {
+  if (!self._highway.expected_rels_to_chains) {return null}
+
+  return self._highway.expected_rels_to_chains.get(expected_rel_entry)
+}
+
 const handleCurrentExpectedRel = (self, data) => {
   if (data.prev_value) {
-    console.log('should remove heavy query')
+    const { current_mp_md_id } = data.prev_value
+    const current_md = getModelById(self, current_mp_md_id)
+    const chain = getChain(self, data.prev_value)
+    if (chain) {
+      removeHeavyRelQuery(current_md, chain)
+    } else {
+      console.error('missing chain for', {expected_rel_entry: data.prev_value})
+    }
   }
 
   if (data.next_value) {
@@ -32,6 +53,8 @@ const handleCurrentExpectedRel = (self, data) => {
       */
       {data: data.next_value, handler: handleExpectedRelChange},
     )
+
+    setChain(self, data.next_value, chain)
 
     addHeavyRelQuery(current_md, chain)
   }

@@ -103,6 +103,11 @@ test('should execute nested requestRel & reveal resource in router', async () =>
     expect(mainNavigationRouter.readAddr('<< @all:wanted_bwlev_chain.pioneer').map(item => item.model_name)).toMatchSnapshot()
     expect(mainNavigationRouter.readAddr('<< @one:current_mp_md').model_name).toMatchSnapshot()
 
+    expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot()
+    expect(
+      inited.app_model._highway.live_heavy_rel_query_by_rel_name,
+    ).toMatchSnapshot()
+
     /*
       todo:
         1. check current_expected_rel for requestRel that does not conditions without resolving
