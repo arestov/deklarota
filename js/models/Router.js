@@ -147,20 +147,33 @@ export default spv.inh(BasicRouter, {
     selected__md: ['input', {any: true}],
 
   },
-  'stch-resolved_navigation_desire': function(self, state) {
-    if (!state) {
-      return
+  actions: {
+    'handleAttr:resolved_navigation_desire': {
+      to: {
+        wantedReq: ['wantedReq'],
+        currentReq: ['currentReq'],
+      },
+      fn: [
+        ['<<<<'],
+        (data, self) => {
+          const state = data.next_value
+
+          if (!state) {
+            return
+          }
+
+          _updateAttr(self, 'wantedReq', null)
+
+          var req = state.req
+          var id = state.id
+          var md = getModelById(self, id)
+
+          var bwlev = showMOnMap(self.app.CBWL, self, md)
+          bwlev.showOnMap()
+          _updateAttr(bwlev, 'currentReq', req)
+        }
+      ]
     }
-
-    _updateAttr(self, 'wantedReq', null)
-
-    var req = state.req
-    var id = state.id
-    var md = getModelById(self, id)
-
-    var bwlev = showMOnMap(self.app.CBWL, self, md)
-    bwlev.showOnMap()
-    _updateAttr(bwlev, 'currentReq', req)
   },
   effects: {
     out: {
