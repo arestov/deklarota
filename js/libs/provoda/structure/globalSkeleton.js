@@ -197,6 +197,10 @@ const addChainToIndex = (storage, chain) => {
   }
 }
 
+const sortChainLinks = (storage, rel_name) => {
+  storage[rel_name] = storage[rel_name].sort(numDiff)
+}
+
 
 function buildRelsIndex(chains) {
   var result = {}
@@ -211,7 +215,7 @@ function buildRelsIndex(chains) {
       continue
     }
 
-    result[name] = result[name].sort(numDiff)
+    sortChainLinks(result, name)
   }
 
   return result
