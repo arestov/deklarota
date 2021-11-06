@@ -1,3 +1,4 @@
+import target_types from './target_types'
 
 function addrToLinks(rel_path, chain) {
   var list = []
@@ -24,9 +25,17 @@ function MentionChain(target_type, rel_path, target_matcher, addr, target_name) 
   this.target_type = target_type
   this.addr = addr
   this.list = addrToLinks(rel_path, this)
-  if (!target_name) {
-    throw new Error('target_name should be provided')
+  switch (target_type) {
+    case target_types.TARGET_TYPE_ATTR:
+    case target_types.TARGET_TYPE_GLUE_REL: {
+      if (!target_name) {
+        throw new Error('target_name should be provided')
+      }
+      break
+    }
+    default:
   }
+
   this.target_name = target_name
   Object.freeze(this)
 }
