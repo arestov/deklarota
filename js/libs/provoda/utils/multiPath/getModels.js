@@ -70,6 +70,18 @@ function add(result, list, nest_name) {
   }
 }
 
+function readRelPath(md, rel_path) {
+  var cur = [md]
+  for (var i = 0; i < rel_path.length; i++) {
+    var nested = []
+    var nest_name = rel_path[i]
+    add(nested, cur, nest_name)
+    cur = nested
+  }
+
+  return cur
+}
+
 function getDeepNesting(md, multi_path, all_nestings) {
   /*
   {
@@ -86,15 +98,7 @@ function getDeepNesting(md, multi_path, all_nestings) {
 
   var exec_path = just_base ? info.base : info.path
 
-  var cur = [md]
-  for (var i = 0; i < exec_path.length; i++) {
-    var nested = []
-    var nest_name = exec_path[i]
-    add(nested, cur, nest_name)
-    cur = nested
-  }
-
-  return cur
+  return readRelPath(md, exec_path)
 }
 
 export default getModels
