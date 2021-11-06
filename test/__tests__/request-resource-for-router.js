@@ -61,14 +61,25 @@ test('should execute nested requestRel & reveal resource in router', async () =>
     model_name: 'Billing',
   })
 
+  const Onboarding = model({
+    model_name: 'Onboarding',
+  })
+
   const User = model({
     model_name: 'User',
     rels: {
       billing: ['model', Billing],
+      onboarding: ['model', Onboarding],
     },
     actions: {
       'requestRel:billing': {
         to: ['<< billing', { method: 'set_one' }],
+        fn: () => ({}),
+      },
+      'requestRel:onboarding': {
+        to: {
+          onboarding: ['<< onboarding', { method: 'set_one' }],
+        },
         fn: () => ({}),
       },
     },
@@ -110,14 +121,25 @@ test('should execute nested requestRel & reveal resource in router', async () =>
   }
 
   {
+    // reset
+    mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._provoda_id)
+    await inited.computed()
+  }
+
+  {
+    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', 'user.onboarding')
+    await inited.computed()
+
+    expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
+      expected_at: expect.any(Number),
+      current_mp_md_id: 1,
+      rel_path: 'user.onboarding',
+    })
+
     /*
       1. check current_expected_rel for requestRel that does not conditions without resolving
 
-      // expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
-      //   expected_at: expect.any(Number),
-      //   current_mp_md_id: 1,
-      //   rel_path: 'user.billing',
-      // })
+
     */
   }
 

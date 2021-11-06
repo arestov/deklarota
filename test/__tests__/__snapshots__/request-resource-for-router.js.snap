@@ -18,3 +18,12 @@ Object {
   "user": null,
 }
 `;
+
+exports[`should execute nested requestRel & reveal resource in router 5`] = `
+Object {
+  "current_mp_md_id": 1,
+  "expected_at": Any<Number>,
+  "rel_path": "user.onboarding",
+  "router_id": 4,
+}
+`;
