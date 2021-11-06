@@ -135,6 +135,11 @@ export default spv.inh(BasicRouter, {
         }
       }
     ],
+    __access_list: [
+      'comp',
+      ['< @all:has_no_access < wanted_bwlev_chain.pioneer', '< @all:_provoda_id < wanted_bwlev_chain'],
+      (arg1, arg2) => ([...arg1, ...arg2])
+    ],
   },
   rels: {
     navigation: ['input', {any: true, many: true}],
@@ -173,7 +178,48 @@ export default spv.inh(BasicRouter, {
           _updateAttr(bwlev, 'currentReq', req)
         }
       ]
-    }
+    },
+    'handleAttr:__access_list': {
+      to: {
+        'selected__name': ['selected__name']
+      },
+      fn: [
+        ['<<<<'],
+        (data, self) => {
+          const target = self
+          var map = target
+
+          var list = getNesting(map, 'wanted_bwlev_chain')
+          if (!list) {
+            return {}
+          }
+
+          // start_page/level/i===0 can't have `Boolean(has_no_access) === true`. so ok_bwlev = 0
+          var ok_bwlev = 0
+
+          for (var i = 0; i < list.length; i++) {
+            var cur_bwlev = list[i]
+            var md = getNesting(cur_bwlev, 'pioneer')
+            var has_no_access = pvState(md, 'has_no_access')
+            if (has_no_access) {
+              break
+            }
+            ok_bwlev = i
+          }
+
+          var bwlev = list[ok_bwlev]
+
+          animateMapChanges(target, bwlev)
+
+          _updateRel(map, 'selected__bwlev', bwlev)
+          _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'))
+          _updateAttr(map, 'selected__name', bwlev.model_name)
+
+          askAuth(list[ok_bwlev + 1])
+          return {}
+        }
+      ]
+    },
   },
   effects: {
     out: {
@@ -206,37 +252,6 @@ export default spv.inh(BasicRouter, {
 
     self.app.important_model = getNesting(bwlev, 'pioneer')
     self.app.resortQueue()
-  },
-  'stch-has_no_access@wanted_bwlev_chain.pioneer': function(target, state, old_state, source) {
-    var map = target
-
-    var list = getNesting(map, 'wanted_bwlev_chain')
-    if (!list) {
-      return
-    }
-
-    // start_page/level/i===0 can't have `Boolean(has_no_access) === true`. so ok_bwlev = 0
-    var ok_bwlev = 0
-
-    for (var i = 0; i < list.length; i++) {
-      var cur_bwlev = list[i]
-      var md = getNesting(cur_bwlev, 'pioneer')
-      var has_no_access = pvState(md, 'has_no_access')
-      if (has_no_access) {
-        break
-      }
-      ok_bwlev = i
-    }
-
-    var bwlev = list[ok_bwlev]
-
-    animateMapChanges(target, bwlev)
-
-    _updateRel(map, 'selected__bwlev', bwlev)
-    _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'))
-    _updateAttr(map, 'selected__name', bwlev.model_name)
-
-    askAuth(list[ok_bwlev + 1])
   },
 })
 
