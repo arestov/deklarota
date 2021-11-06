@@ -27,3 +27,13 @@ Object {
   "router_id": 4,
 }
 `;
+
+exports[`should execute nested requestRel & reveal resource in router 6`] = `undefined`;
+
+exports[`should execute nested requestRel & reveal resource in router 7`] = `
+Object {
+  "billing": null,
+  "onboarding": null,
+  "user": null,
+}
+`;

@@ -136,11 +136,13 @@ test('should execute nested requestRel & reveal resource in router', async () =>
       rel_path: 'user.onboarding',
     })
 
-    /*
-      1. check current_expected_rel for requestRel that does not conditions without resolving
-
-
-    */
+    // reset
+    mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._provoda_id)
+    await inited.computed()
+    expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot()
+    expect(
+      inited.app_model._highway.live_heavy_rel_query_by_rel_name,
+    ).toMatchSnapshot()
   }
 
   {
