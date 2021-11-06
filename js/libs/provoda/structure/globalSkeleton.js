@@ -11,41 +11,16 @@ import {
   getParentRelMentions as getParentRelMentionsAttrs,
   getAllGlueSources as getAllGlueSourcesAttrs,
 } from '../dcl/attrs/comp/mentionsCandidates'
-
+import MentionChain from '../Model/mentions/MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
+import addChainToIndex, { sortChainLinks } from '../Model/mentions/addChainToIndex'
 import target_types from '../Model/mentions/target_types'
 import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 
 var TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 var TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
-function addrToLinks(addr, chain) {
-  var list = []
-
-  for (var i = 0; i < addr.nesting.path.length; i++) {
-    var rel = addr.nesting.path[i]
-    list.push(new ChainLink(chain, i, rel))
-  }
-
-  return list
-}
-
-function ChainLink(chain, num, rel) {
-  this.chain = chain
-  this.num = num
-  this.rel = rel
-  Object.freeze(this)
-}
-
-function Chain(target, target_type, addr, target_name) {
-  this.target_mc = target
-  this.target_type = target_type
-  this.addr = addr
-  this.list = addrToLinks(addr, this)
-  this.target_name = target_name || ''
-  Object.freeze(this)
-}
 
 function GlobalSkeleton() {
   /*
@@ -150,8 +125,12 @@ function handleGlueParentAscent(global_skeleton, model) {
 
   for (var i = 0; i < list.length; i++) {
     var candidate = list[i]
-    global_skeleton.chains.push(new Chain(
-      model, TARGET_TYPE_GLUE_REL, candidate.final_rel_addr, candidate.final_rel_key
+    global_skeleton.chains.push(new MentionChain(
+      TARGET_TYPE_GLUE_REL,
+      candidate.final_rel_addr.nesting.path,
+      model,
+      candidate.final_rel_addr,
+      candidate.final_rel_key
     ))
   }
 }
@@ -167,8 +146,12 @@ function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
 
   for (var i = 0; i < root_mentions.length; i++) {
     var candidate = root_mentions[i]
-    global_skeleton.chains.push(new Chain(
-      model, TARGET_TYPE_GLUE_REL, candidate.final_rel_addr, candidate.final_rel_key
+    global_skeleton.chains.push(new MentionChain(
+      TARGET_TYPE_GLUE_REL,
+      candidate.final_rel_addr.nesting.path,
+      model,
+      candidate.final_rel_addr,
+      candidate.final_rel_key
     ))
   }
 }
@@ -192,7 +175,13 @@ function addModel(global_skeleton, model, ascent_level, is_root) {
       continue
     }
 
-    global_skeleton.chains.push(new Chain(model, TARGET_TYPE_ATTR, cur))
+    global_skeleton.chains.push(new MentionChain(
+      TARGET_TYPE_ATTR,
+      cur.nesting.path,
+      model,
+      cur,
+      cur.as_string
+    ))
   }
 
 
@@ -201,17 +190,13 @@ function addModel(global_skeleton, model, ascent_level, is_root) {
 }
 
 
+
 function buildRelsIndex(chains) {
   var result = {}
   for (var i = 0; i < chains.length; i++) {
     var cur = chains[i]
 
-    for (var jj = 0; jj < cur.list.length; jj++) {
-      var step = cur.list[jj]
-      // make index for each step
-      result[step.rel] = result[step.rel] || []
-      result[step.rel].push(step)
-    }
+    addChainToIndex(result, cur)
   }
 
   for (var name in result) {
@@ -219,7 +204,7 @@ function buildRelsIndex(chains) {
       continue
     }
 
-    result[name] = result[name].sort(numDiff)
+    sortChainLinks(result, name)
   }
 
   return result

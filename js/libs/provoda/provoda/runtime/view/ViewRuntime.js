@@ -2,6 +2,7 @@
 import cloneObj from '../../../../spv/cloneObj'
 import CallbacksFlow from '../../../CallbacksFlow'
 import initEffects from '../../../StatesEmitter/initEffects'
+import bindRuntimeError from '../../bindRuntimeError'
 
 function ViewRuntime(optionsRaw) {
   var options = optionsRaw || {}
@@ -11,7 +12,7 @@ function ViewRuntime(optionsRaw) {
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
-    onError: options.onError,
+    onError: bindRuntimeError(this, options.onError),
   })
 
   this.views_counter = 1

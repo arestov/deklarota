@@ -29,7 +29,10 @@ const testingInit = async (
 
   const inited = await initCore(AppRoot, runtime, interfaces)
 
-  const computed = () => new Promise(resolve => inited.app_model.input(resolve))
+  const computed = () => Promise.race([
+    runtime.last_error,
+    new Promise(resolve => inited.app_model.input(resolve)),
+  ])
 
   return {
     ...inited,

@@ -45,11 +45,11 @@ var Eventor = spv.inh(function() {}, {
       return result
     },
     nextLocalTick: function(fn, args, use_current_motivator, finup) {
-      return this._getCallsFlow().pushToFlow(fn, this, args, false, hndMotivationWrappper, this, use_current_motivator && this.current_motivator, finup)
+      return this._getCallsFlow().pushToFlow(fn, this, args, false, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), finup)
     },
     nextTick: function(fn, args, use_current_motivator, initiator) {
       return this._calls_flow.pushToFlow(
-        fn, this, args, !args && this, hndMotivationWrappper, this, use_current_motivator && this.current_motivator, false,
+        fn, this, args, !args && this, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), false,
         initiator, fn.init_end
       )
     },

@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should execute nested requireRel & reveal resource in router 1`] = `
+Array [
+  "start_page",
+  "User",
+  "Billing",
+]
+`;
+
+exports[`should execute nested requireRel & reveal resource in router 2`] = `"Billing"`;
+
+exports[`should execute nested requireRel & reveal resource in router 3`] = `undefined`;
+
+exports[`should execute nested requireRel & reveal resource in router 4`] = `
+Object {
+  "billing": null,
+  "user": null,
+}
+`;
+
+exports[`should execute nested requireRel & reveal resource in router 5`] = `
+Object {
+  "current_mp_md_id": 1,
+  "expected_at": Any<Number>,
+  "rel_path": "user.onboarding",
+  "router_id": 4,
+}
+`;
+
+exports[`should execute nested requireRel & reveal resource in router 6`] = `undefined`;
+
+exports[`should execute nested requireRel & reveal resource in router 7`] = `
+Object {
+  "billing": null,
+  "onboarding": null,
+  "user": null,
+}
+`;

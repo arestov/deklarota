@@ -1,10 +1,10 @@
-
+import matchChainFinalTarget from './matchChainFinalTarget'
 
 export default function getAllOnwers(mut_result_list, mention_owner, link) {
   var cur_link = link
 
   if (cur_link.num == 0) {
-    if (cur_link.chain.target_mc == mention_owner.constructor.prototype) {
+    if (matchChainFinalTarget(cur_link.chain, mention_owner)) {
       mut_result_list.push({
         mention_owner: mention_owner,
         link: cur_link,

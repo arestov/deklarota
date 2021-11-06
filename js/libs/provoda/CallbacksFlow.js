@@ -135,13 +135,12 @@ var sortFlows = function(item_one, item_two) {
 
 var getBoxedSetImmFunc = function(win, onError) {
   var prom = win.Promise.resolve()
-  if (!onError) {
-    return function(fn) {
-      prom.then(fn)
-    }
-  }
 
   const handle = function(err) {
+    if (!onError) {
+      throw new Error('add onError handler for runtime')
+    }
+
     onError(err)
   }
 
