@@ -86,6 +86,7 @@ export default spv.inh(BasicRouter, {
   __use_navi: false,
   attrs: {
     selected__name: ['input'],
+    current_expected_rel: ['input'],
     'used_data_structure': [
       'comp',
       ['< used_data_structure <<< ^'],
