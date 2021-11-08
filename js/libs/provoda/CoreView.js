@@ -229,7 +229,7 @@ var emptyFakeList = {length:0}
 
 const getContextRouter = (self) => {
   var bwlev_view = getBwlevView(self)
-  var current_bwlev_map = (bwlev_view && bwlev_view.getNesting('map')._provoda_id)
+  var current_bwlev_map = (bwlev_view && bwlev_view.getNesting('map'))
   var context_router = current_bwlev_map || self.root_view.parent_view
   return context_router
 }
