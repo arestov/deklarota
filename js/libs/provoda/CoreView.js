@@ -312,6 +312,12 @@ var View = spv.inh(StatesEmitter, {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
     },
+    expectRelBeRevealedByRelPath(e, node, rel_path) {
+      const contextRouter = getContextRouter(this)
+      const current_md_id = this.mpx._provoda_id
+
+      contextRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {rel_path, current_md_id})
+    },
     requestPage: function() {
       this.requestPage()
     },
