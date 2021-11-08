@@ -103,6 +103,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
   const inited = await testingInit(AppRoot)
 
   const mainNavigationRouter = await getMainNavigationRouter(inited)
+  const getCurrentModelId = () => mainNavigationRouter.readAddr('< @one:_provoda_id < current_mp_md')
 
   {
     expect(mainNavigationRouter).toBeTruthy()
@@ -110,7 +111,10 @@ test('should execute nested requireRel & reveal resource in router', async () =>
   }
 
   {
-    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', 'user.billing')
+    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {
+      rel_path: 'user.billing',
+      current_md_id: getCurrentModelId(),
+    })
 
 
     await inited.computed()
@@ -131,12 +135,15 @@ test('should execute nested requireRel & reveal resource in router', async () =>
   }
 
   {
-    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', 'user.onboarding')
+    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {
+      rel_path: 'user.onboarding',
+      current_md_id: getCurrentModelId(),
+    })
     await inited.computed()
 
     expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
       expected_at: expect.any(Number),
-      current_mp_md_id: 1,
+      current_md_id: 1,
       rel_path: 'user.onboarding',
     })
 
@@ -150,7 +157,10 @@ test('should execute nested requireRel & reveal resource in router', async () =>
   }
 
   {
-    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', 'user.superrandom')
+    mainNavigationRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {
+      rel_path: 'user.superrandom',
+      current_md_id: getCurrentModelId(),
+    })
 
     await expect(inited.computed()).rejects.toThrow('impossible to request')
   }

@@ -236,15 +236,15 @@ export default spv.inh(BasicRouter, {
     expectRelBeRevealedByRelPath: {
       to: ['current_expected_rel'],
       fn: [
-        ['$now', '_provoda_id', '< @one:_provoda_id < current_mp_md'],
-        (rel_path, now, self_id, current_mp_md_id) => {
+        ['$now', '_provoda_id'],
+        ({rel_path, current_md_id}, now, self_id) => {
           return {
             expected_at: now, // some kind of uniqness for this entry
             rel_path,
             router_id: self_id,
 
-            // current model of router will be used as "base" to start rel_path requesting
-            current_mp_md_id,
+            // model from data will be used as "base" to start rel_path requesting
+            current_md_id,
           }
         }
       ]
@@ -269,9 +269,9 @@ export default spv.inh(BasicRouter, {
         (data, noop, current_expected_rel) => {
           if (!current_expected_rel) {return noop}
 
-          if (current_expected_rel.current_mp_md_id != data.next_value) {return noop}
+          if (current_expected_rel.current_md_id != data.next_value) {return noop}
 
-          // erase current_expected_rel since router got expected current_mp_md_id
+          // erase current_expected_rel since router got expected current_md_id
           return null
         }
       ]

@@ -23,8 +23,8 @@ const getChain = (self, expected_rel_entry) => {
 
 const handleCurrentExpectedRel = (self, data) => {
   if (data.prev_value) {
-    const { current_mp_md_id } = data.prev_value
-    const current_md = getModelById(self, current_mp_md_id)
+    const { current_md_id } = data.prev_value
+    const current_md = getModelById(self, current_md_id)
     const chain = getChain(self, data.prev_value)
     if (chain) {
       removeHeavyRelQuery(current_md, chain)
@@ -34,10 +34,10 @@ const handleCurrentExpectedRel = (self, data) => {
   }
 
   if (data.next_value) {
-    const { current_mp_md_id, rel_path: rel_path_str } = data.next_value
+    const { current_md_id, rel_path: rel_path_str } = data.next_value
     const rel_info = getNestInfo(rel_path_str)
     const rel_path = rel_info.path
-    const current_md = getModelById(self, current_mp_md_id)
+    const current_md = getModelById(self, current_md_id)
     const chain = new MentionChain(
       TARGET_TYPE_HEAVY_REQUESTER,
       rel_path,
