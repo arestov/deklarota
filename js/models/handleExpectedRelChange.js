@@ -8,12 +8,7 @@ const handleExpectedRelChange = (chain, current_md) => {
 
   for (var i = 0; i < chain.list.length; i++) {
     const rel_name = chain.list[i].rel
-    const value = link_step_value.getNesting(rel_name)
-    if (value && (Array.isArray(value) ? value.length : true)) {
-      link_step_value = value
-      complete = i == chain.list.length - 1
-      continue
-    }
+
     const requesting_action = `requireRel:${rel_name}`
     const action_dcl = getAction(link_step_value, requesting_action)
 
@@ -21,6 +16,13 @@ const handleExpectedRelChange = (chain, current_md) => {
       const err = new Error('impossible to request')
       console.error({rel_name}, err)
       throw err
+    }
+
+    const value = link_step_value.getNesting(rel_name)
+    if (value && (Array.isArray(value) ? value.length : true)) {
+      link_step_value = value
+      complete = i == chain.list.length - 1
+      continue
     }
 
     const self = link_step_value
