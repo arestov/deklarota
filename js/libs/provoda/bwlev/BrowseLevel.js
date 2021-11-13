@@ -77,6 +77,10 @@ var BrowseLevel = spv.inh(Model, {
       'comp',
       ['mp_has_focus'],
     ],
+    pioneer_removed: [
+      'comp',
+      ['< @one:$meta$removed < pioneer'],
+    ],
     'should_be_redirected': [
       'comp',
       ['< @one:nav_item_removed < pioneer <<', '< @one:_provoda_id < pioneer <<', 'mp_show'],
@@ -219,6 +223,17 @@ var BrowseLevel = spv.inh(Model, {
         }
       ],
     },
+    'handleAttr:pioneer_removed': {
+      to: ['$meta$removed'],
+      fn: [
+        ['$noop', '<<<<'],
+        (data, noop) => {
+          if (!data.next_value) {return noop}
+
+          return true
+        }
+      ]
+    }
   },
 
   getParentMapModel: function() {
