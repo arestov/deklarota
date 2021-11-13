@@ -204,6 +204,22 @@ var BrowseLevel = spv.inh(Model, {
     map: ['input', {any: true}], // how to make ref to Router?
     focus_referrer_bwlev: ['input', {any: true}],
   },
+  actions: {
+    'handleAttr:should_be_redirected': {
+      to: ['mp_show'],
+      fn: [
+        ['$noop', '<<<<'],
+        (data, noop, self) => {
+          if (!data.next_value) {
+            return noop
+          }
+
+          changeBridge(self.map_parent || self.map.start_bwlev, self.map)
+          return noop
+        }
+      ],
+    },
+  },
 
   getParentMapModel: function() {
     return this.map_parent
@@ -314,13 +330,6 @@ var BrowseLevel = spv.inh(Model, {
 
     loadAllByStruc(target.getNesting('pioneer'), obj, prev)
   },
-  'stch-should_be_redirected': function(self, state) {
-    if (!state) {
-      return
-    }
-
-    changeBridge(self.map_parent || self.map.start_bwlev, self.map)
-  }
 })
 
 function getStrucSources(md, struc) {
