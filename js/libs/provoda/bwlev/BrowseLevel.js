@@ -14,6 +14,8 @@ import initNestingsByStruc from '../structure/reactions/initNestingsByStruc'
 import loadNestingsByStruc from '../structure/reactions/loadNestingsByStruc'
 import loadAllByStruc from '../structure/reactions/loadAllByStruc'
 import getModelSources from '../structure/getModelSources'
+import showMOnMap from './showMOnMap'
+import getAliveNavPioneer from './getAliveNavPioneer'
 
 var countKeys = spv.countKeys
 var cloneObj = spv.cloneObj
@@ -27,6 +29,20 @@ var warnStruct = function() {
     return
   }
   console.warn('add struct')
+}
+
+const selectParentToGo = (map, pioneer, another_candidate) => {
+  const alive_pioneer = getAliveNavPioneer(map, pioneer)
+
+  if (alive_pioneer === pioneer) {
+    return null
+  }
+
+  if (alive_pioneer === another_candidate) {
+    return null
+  }
+
+  return showMOnMap(pioneer.app.CBWL, map, alive_pioneer)
 }
 
 var BrowseLevel = spv.inh(Model, {
@@ -77,9 +93,29 @@ var BrowseLevel = spv.inh(Model, {
       'comp',
       ['mp_has_focus'],
     ],
+    pioneer_removed: [
+      'comp',
+      ['< @one:$meta$removed < pioneer'],
+    ],
+    'navigation_unavailable': [
+      'comp',
+      ['< @one:prpt_navigation_available < pioneer', 'pioneer_removed', '< @one:nav_item_removed < pioneer'],
+      (nav_available, removed, legacy_removed) => {
+        /*
+           prpt_navigation_available allows to define custom logic
+           e.g. can redefine logic and be navigated to removed item
+        */
+
+        if (nav_available != null) {
+          return !nav_available
+        }
+
+        return Boolean(removed || legacy_removed)
+      },
+    ],
     'should_be_redirected': [
       'comp',
-      ['< @one:nav_item_removed < pioneer <<', '< @one:_provoda_id < pioneer <<', 'mp_show'],
+      ['navigation_unavailable', '< @one:_provoda_id < pioneer <<', 'mp_show'],
       function(state, _provoda_id, show) {
         return state && show && _provoda_id
       }
@@ -204,6 +240,40 @@ var BrowseLevel = spv.inh(Model, {
     map: ['input', {any: true}], // how to make ref to Router?
     focus_referrer_bwlev: ['input', {any: true}],
   },
+  actions: {
+    'handleAttr:should_be_redirected': {
+      to: ['mp_show'],
+      fn: [
+        ['$noop', '<<<<'],
+        (data, noop, self) => {
+          if (!data.next_value) {
+            return noop
+          }
+
+          changeBridge(
+            selectParentToGo(
+              self.map,
+              self.getNesting('pioneer'),
+              self.map_parent && self.map_parent.getNesting('pioneer')) ||
+            self.map_parent ||
+            self.map.start_bwlev,
+          self.map)
+          return noop
+        }
+      ],
+    },
+    'handleAttr:pioneer_removed': {
+      to: ['$meta$removed'],
+      fn: [
+        ['$noop', '<<<<'],
+        (data, noop) => {
+          if (!data.next_value) {return noop}
+
+          return true
+        }
+      ]
+    }
+  },
 
   getParentMapModel: function() {
     return this.map_parent
@@ -314,13 +384,6 @@ var BrowseLevel = spv.inh(Model, {
 
     loadAllByStruc(target.getNesting('pioneer'), obj, prev)
   },
-  'stch-should_be_redirected': function(self, state) {
-    if (!state) {
-      return
-    }
-
-    changeBridge(self.map_parent || self.map.start_bwlev, self.map)
-  }
 })
 
 function getStrucSources(md, struc) {

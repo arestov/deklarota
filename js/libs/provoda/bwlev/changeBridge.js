@@ -2,16 +2,18 @@
 import showMOnMap from './showMOnMap'
 import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
+import getAliveNavPioneer from './getAliveNavPioneer'
 
 var redirected = function(map, pioneer) {
   var BWL = map.app.CBWL
 
   var redirectBWLev = pioneer.redirectBWLev
   if (!redirectBWLev) {
-    return null
+    const alive = getAliveNavPioneer(map, pioneer)
+    return alive !== pioneer ? alive : null
   }
 
-  return showMOnMap(BWL, map, redirectBWLev(pioneer))
+  return showMOnMap(BWL, map, getAliveNavPioneer(map, redirectBWLev(pioneer)))
 
 }
 
