@@ -34,7 +34,7 @@ const fillExternalDeps = (self, first_changes_list) => {
 }
 
 export default function ensureInitialAttrs(self) {
-  if (self._fake_etr != null) {
+  if (self.constructor.prototype.hasOwnProperty('_fake_etr')) {
     return
   }
 

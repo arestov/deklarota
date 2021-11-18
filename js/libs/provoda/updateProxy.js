@@ -494,7 +494,7 @@ function reportBadChange(etr, state_name) {
     return
   }
   //
-  if (!etr.__bad_attrs_reported) {
+  if (!etr.constructor.prototype.hasOwnProperty('__bad_attrs_reported')) {
     // __bad_attss_reported should be shared for all model instances
     etr.constructor.prototype.__bad_attrs_reported = {}
   }
