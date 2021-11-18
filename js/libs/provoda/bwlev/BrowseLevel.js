@@ -45,6 +45,17 @@ const selectParentToGo = (map, pioneer, another_candidate) => {
   return showMOnMap(pioneer.app.CBWL, map, alive_pioneer)
 }
 
+const switchToAliveParent = (self) => {
+  changeBridge(
+    selectParentToGo(
+      self.map,
+      self.getNesting('pioneer'),
+      self.map_parent && self.map_parent.getNesting('pioneer')) ||
+    self.map_parent ||
+    self.map.start_bwlev,
+  self.map)
+}
+
 var BrowseLevel = spv.inh(Model, {
   naming: function(fn) {
     return function BrowseLevel(opts, data, params, more, states) {
@@ -241,6 +252,16 @@ var BrowseLevel = spv.inh(Model, {
     focus_referrer_bwlev: ['input', {any: true}],
   },
   actions: {
+    navigateToNavParent: {
+      to: ['mp_show'],
+      fn: [
+        ['$noop', '<<<<'],
+        (data, noop, self) => {
+          switchToAliveParent(self)
+          return noop
+        }
+      ]
+    },
     'handleAttr:should_be_redirected': {
       to: ['mp_show'],
       fn: [
@@ -250,14 +271,7 @@ var BrowseLevel = spv.inh(Model, {
             return noop
           }
 
-          changeBridge(
-            selectParentToGo(
-              self.map,
-              self.getNesting('pioneer'),
-              self.map_parent && self.map_parent.getNesting('pioneer')) ||
-            self.map_parent ||
-            self.map.start_bwlev,
-          self.map)
+          switchToAliveParent(self)
           return noop
         }
       ],
