@@ -288,6 +288,9 @@ var View = spv.inh(StatesEmitter, {
     var bwlev_view = getBwlevView(this)
     bwlev_view.RPCLegacy('navGetBack')
   },
+  getBwlevView() {
+    return getBwlevView(this)
+  },
   tpl_events: {
     updateState: function(e, node, state_name, value) {
       this.updateState(state_name, value)
@@ -320,6 +323,10 @@ var View = spv.inh(StatesEmitter, {
     },
     requestPage: function() {
       this.requestPage()
+    },
+    navigateToNavParent() {
+      var bwlev_view = getBwlevView(this)
+      bwlev_view.RPCLegacy('dispatch', 'navigateToNavParent')
     },
     requestPageById: function(e, node, _provoda_id) {
       this.requestPageById(_provoda_id)

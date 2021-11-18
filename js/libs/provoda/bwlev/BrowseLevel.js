@@ -252,6 +252,16 @@ var BrowseLevel = spv.inh(Model, {
     focus_referrer_bwlev: ['input', {any: true}],
   },
   actions: {
+    navigateToNavParent: {
+      to: ['mp_show'],
+      fn: [
+        ['$noop', '<<<<'],
+        (data, noop, self) => {
+          switchToAliveParent(self)
+          return noop
+        }
+      ]
+    },
     'handleAttr:should_be_redirected': {
       to: ['mp_show'],
       fn: [
