@@ -8,3 +8,6 @@ song_action:
 
 
 `_x_skip_navigation` предназначен для того чтобы модель не использовалась в качестве nav parent (а потомки для nav parent использовали не эту модель а nav parent этой модели, т.е вместо .map_parent был вызов .map_parent.map_parent) (устаревший, см. nav_parent_at_perspectivator_)
+
+
+метод `redirectBWLev` предназначен для перенаправления модели при попытке сделать ее "текущей" в перспективаторе
