@@ -97,6 +97,14 @@ test('should execute nested requireRel & reveal resource in router', async () =>
         linking: '<<<<',
       }],
     },
+    actions: {
+      'requireRel:user': {
+        to: {
+          user: ['<< user', { method: 'set_one' }],
+        },
+        fn: () => ({}),
+      },
+    },
     checkActingRequestsPriority: () => {},
   })
 
