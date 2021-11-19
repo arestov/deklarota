@@ -92,6 +92,10 @@ export const completeBuild = (self) => {
 export default function(self, props, original, params) {
   /** LEGACY CHEKS **/
 
+  if (props.hasOwnProperty('redirectBWLev')) { // legacy perspectivator redirects
+    throw new Error('replace redirectBWLev in model by selectPreferredCursor in perspectivator')
+  }
+
   checkNestRqC(self, props)
   checkNestSel(self, props)
   checkNestCnt(self, props)

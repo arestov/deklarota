@@ -121,3 +121,5 @@
 - requests batching (ids_declr)
 
 - no network_api (interface instance) for parse_items
+
+- remove redirectBWLev

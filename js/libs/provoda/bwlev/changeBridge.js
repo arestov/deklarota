@@ -11,12 +11,7 @@ const getRedirectedCursor = (map, pioneer) => {
     return getAliveNavPioneer(map, selectPreferredCursor(map, pioneer) || pioneer)
   }
 
-  var redirectBWLev = pioneer.redirectBWLev
-  if (!redirectBWLev) {
-    return getAliveNavPioneer(map, pioneer)
-  }
-
-  return getAliveNavPioneer(map, redirectBWLev(pioneer))
+  return getAliveNavPioneer(map, pioneer)
 }
 
 const redirected = function(map, pioneer) {
