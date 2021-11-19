@@ -16,8 +16,8 @@ const getRedirectedCursor = (map, pioneer) => {
 
 const redirected = function(map, pioneer) {
   var BWL = map.app.CBWL
-  const redirected_cursor = getRedirectedCursor(map, pioneer)
-  if (!redirected_cursor || redirected_cursor == pioneer) {
+  const redirected_cursor = getRedirectedCursor(map, pioneer) || map.mainLevelResident
+  if (redirected_cursor == pioneer) {
     return null
   }
   return showMOnMap(BWL, map, redirected_cursor)
