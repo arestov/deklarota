@@ -4,17 +4,23 @@ import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import getAliveNavPioneer from './getAliveNavPioneer'
 
-var redirected = function(map, pioneer) {
-  var BWL = map.app.CBWL
+const getRedirectedCursor = (map, pioneer) => {
 
-  var redirectBWLev = pioneer.redirectBWLev
-  if (!redirectBWLev) {
-    const alive = getAliveNavPioneer(map, pioneer)
-    return alive !== pioneer ? alive : null
+  const { selectPreferredCursor } = map
+  if (selectPreferredCursor) {
+    return getAliveNavPioneer(map, selectPreferredCursor(map, pioneer) || pioneer)
   }
 
-  return showMOnMap(BWL, map, getAliveNavPioneer(map, redirectBWLev(pioneer)))
+  return getAliveNavPioneer(map, pioneer)
+}
 
+const redirected = function(map, pioneer) {
+  var BWL = map.app.CBWL
+  const redirected_cursor = getRedirectedCursor(map, pioneer) || map.mainLevelResident
+  if (redirected_cursor == pioneer) {
+    return null
+  }
+  return showMOnMap(BWL, map, redirected_cursor)
 }
 
 const resetNavigationRequests = (router, bwlev) => {

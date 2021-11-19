@@ -5,3 +5,9 @@
 
 song_action:
   для каждой song и каждого bwlev будет создан отдельная перспективатор в рамках которой можно будет переключать отображаемую секцию для данной композиции, вроде add to favorite, add to playlist, playing repeat settings (global, but in context)
+
+
+`_x_skip_navigation` предназначен для того чтобы модель не использовалась в качестве nav parent (а потомки для nav parent использовали не эту модель а nav parent этой модели, т.е вместо .map_parent был вызов .map_parent.map_parent) (устаревший, см. nav_parent_at_perspectivator_)
+
+
+selectPreferredCursor, предназначен для перенаправления модели при попытке сделать ее "текущей" в перспективаторе, может использовать состояние перспективатора для дополнительной логики
