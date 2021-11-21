@@ -396,43 +396,20 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 })
 
-function convertNamed(list) {
-  if (!Array.isArray(list)) {
-    return {
-      states: list
-    }
-  }
-
-  var result = new Array(list.length)
-  for (var i = 0; i < list.length; i++) {
-    result[i] = {
-      states: list[i]
-    }
-  }
-
-  return result
-}
-
 function convertToNestings(params) {
-  if (!params || !params.subitems) {
-    return null
+  if (params == null) {return}
+
+  if (params.subitems) {
+    throw new Error('`subitems` prop of initingParams is depricated. use `rels`')
   }
 
-  var nestings = {}
-
-  for (var nesting_name in params.subitems) {
-    if (!params.subitems.hasOwnProperty(nesting_name)) {
-        continue
-    }
-
-    var cur = params.subitems[nesting_name]
-    var result = convertNamed(cur)
-    nestings[nesting_name] = result
+  if (params.subitems_source_name) {
+    throw new Error('`subitems_source_name` prop of initingParams is depricated. use `nestings_sources`')
   }
 
   return {
-    nestings: nestings,
-    nestings_sources: params.subitems_source_name,
+    rels: params.rels,
+    nestings_sources: params.nestings_sources,
   }
 }
 

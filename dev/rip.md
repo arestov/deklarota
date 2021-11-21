@@ -123,3 +123,5 @@
 - no network_api (interface instance) for parse_items
 
 - remove redirectBWLev
+
+- deprecate `subitems` and `subitems_source_name` for initingParams
