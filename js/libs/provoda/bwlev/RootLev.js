@@ -30,6 +30,7 @@ var RootLev = spv.inh(Model, {
     spyglasses_requests: ['input'],
     probe_name: ['input'],
     map_level_num: ['input'],
+    is_main_perspectivator_resident: ['input'],
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
   },
