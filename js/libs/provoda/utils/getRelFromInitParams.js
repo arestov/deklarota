@@ -3,7 +3,11 @@ const getRelFromInitParams = (params) => {
     return null
   }
 
-  return params.nestings
+  if (params.nestings) {
+    throw new Error('use `rels` instead of `nestings` for initing params')
+  }
+
+  return params.rels || null
 }
 
 export default getRelFromInitParams

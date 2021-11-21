@@ -9,7 +9,7 @@ export default function initBWlev(BrowseLevel, md, probe_name, map_level_num, ma
     pioneer_provoda_id: md._provoda_id,
     pioneer: md
   }, {
-    nestings: Object.fromEntries([
+    rels: Object.fromEntries([
       ['pioneer', md],
       map && ['map', map]
     ].filter(Boolean))
