@@ -1,5 +1,6 @@
 
 import spv from '../../../../spv'
+import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import getNesting from '../../../provoda/getNesting'
 import get_constr from '../../../structure/get_constr'
 import getModelById from '../../../utils/getModelById'
@@ -102,7 +103,7 @@ var replaceAt = function(old_value, value, index) {
 }
 
 var needsRefs = function(init_data) {
-  const rels = init_data.nestings
+  const rels = getRelFromInitParams(init_data)
   for (var nesting_name in rels) {
     if (!rels.hasOwnProperty(nesting_name)) {
       continue
@@ -146,7 +147,7 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
 
 
   var result = cloneObj({}, init_data)
-  const rels = init_data.nestings
+  const rels = getRelFromInitParams(init_data)
   if (rels) {
     result.nestings = cloneObj({}, rels)
   }
