@@ -17,6 +17,7 @@ export default function(Constr, states, params, map_parent, app) {
     states: states,
     head: null,
     url_params: null,
+    rels: getRelFromInitParams(params),
   })
 
   if (params == null) {
@@ -26,14 +27,6 @@ export default function(Constr, states, params, map_parent, app) {
   if (params.interfaces) {
     spv.forEachKey(params.interfaces, function(intrface, interface_name, model) {
       model.useInterface(interface_name, intrface)
-    }, model)
-  }
-
-  const rels = getRelFromInitParams(params)
-
-  if (rels) {
-    spv.forEachKey(rels, function(nesting, nesting_name, model) {
-      _updateRel(model, nesting_name, nesting)
     }, model)
   }
 
