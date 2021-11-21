@@ -9,7 +9,7 @@ const getNavParentForModelAtPerspectivator = (perspectivactor, model) => {
     return specific_nav_parent
   }
 
-  return model.map_parent
+  return model.map_parent // fallback to legacy parent
 }
 
 
