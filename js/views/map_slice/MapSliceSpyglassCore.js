@@ -175,7 +175,7 @@ export default spv.inh(View, {
   getLevelContainer: function(bwlev, deeper) {
     var raw_num = bwlev.getAttr('map_level_num')
     if (raw_num < -1) {
-      return
+      throw new Error('wrong map_level_num')
     }
 
     var real_num = bwlev.getNesting('pioneer').map_level_num
