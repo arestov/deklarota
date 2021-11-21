@@ -33,6 +33,7 @@ function ensureStartBwlev(map, md) {
     return map.start_bwlev
   }
 
+  /* for _x_skip_navigation */
   if (!map.mainLevelResidents) {
     map.mainLevelResidents = {}
   }
