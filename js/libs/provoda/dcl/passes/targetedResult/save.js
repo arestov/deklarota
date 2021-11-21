@@ -2,6 +2,7 @@
 
 import _updateAttr from '../../../_internal/_updateAttr'
 import getModelById from '../../../utils/getModelById'
+import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import _updateRel from '../../../_internal/_updateRel'
 import prepareResults from '../act/prepareResults'
 import act from '../act'
@@ -50,7 +51,7 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
     var data = wrap[id]
     var model = getModelById(md, id)
     var states = data.states
-    const rels = data.nestings
+    const rels = getRelFromInitParams(data)
 
     for (var state in states) {
       if (!states.hasOwnProperty(state)) {
