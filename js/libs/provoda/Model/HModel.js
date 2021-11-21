@@ -30,17 +30,7 @@ var HModel = spv.inh(Model, {
       }
     }
 
-    var map_parent = self.map_parent || opts.map_parent
 
-    self.map_level_num = null
-
-    if (self.zero_map_level) {
-      self.map_level_num = -1
-    } else {
-      if (map_parent) {
-        self.map_level_num = map_parent.map_level_num + 1
-      }
-    }
 
     // self._super.apply(this, arguments);
   },
