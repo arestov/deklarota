@@ -28,8 +28,10 @@ export default function(Constr, states, params, map_parent, app) {
     }, model)
   }
 
-  if (params.nestings) {
-    spv.forEachKey(params.nestings, function(nesting, nesting_name, model) {
+  const rels = params.nestings
+
+  if (rels) {
+    spv.forEachKey(rels, function(nesting, nesting_name, model) {
       _updateRel(model, nesting_name, nesting)
     }, model)
   }
