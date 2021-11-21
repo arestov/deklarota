@@ -50,7 +50,7 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
     var data = wrap[id]
     var model = getModelById(md, id)
     var states = data.states
-    var nestings = data.nestings
+    const rels = data.nestings
 
     for (var state in states) {
       if (!states.hasOwnProperty(state)) {
@@ -59,11 +59,11 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
       _updateAttr(model, state, states[state])
     }
 
-    for (var nesting in nestings) {
-      if (!nestings.hasOwnProperty(nesting)) {
+    for (var nesting in rels) {
+      if (!rels.hasOwnProperty(nesting)) {
         continue
       }
-      _updateRel(model, nesting, nestings[nesting])
+      _updateRel(model, nesting, rels[nesting])
     }
   }
 
