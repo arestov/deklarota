@@ -4,6 +4,7 @@ import createLevel from './createLevel'
 import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
 import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
+import isStart from './isStart'
 
 export default function _goDeeper(BWL, map, md, parent_bwlev) {
   // без parent_bwlev нет контекста
@@ -18,10 +19,10 @@ export default function _goDeeper(BWL, map, md, parent_bwlev) {
   if (parent_bwlev) {
     map_level_num = parent_bwlev.state('map_level_num') + 1
   } else {
-    if (typeof md.map_level_num != 'number') {
-      throw new Error('md must have `map_level_num`')
+    if (!isStart(map, md)) {
+      throw new Error('can\'t detect map_level_num')
     }
-    map_level_num = md.map_level_num
+    map_level_num = -1
   }
   // нужно чтобы потом использовать все уровни-предки
   var parent_lev = parent_bwlev
