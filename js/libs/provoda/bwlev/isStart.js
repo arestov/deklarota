@@ -3,7 +3,7 @@ import getRouteStepParent from './getRouteStepParent'
 const isStart = (map, md) => {
   var cur = md
   while (cur) {
-    if (cur.map_level_num == -1) {
+    if (map.mainLevelResident == cur) {
       return true
     }
 
