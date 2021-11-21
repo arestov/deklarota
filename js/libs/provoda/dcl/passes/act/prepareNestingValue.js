@@ -149,7 +149,7 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
   var result = cloneObj({}, init_data)
   const rels = getRelFromInitParams(init_data)
   if (rels) {
-    result.nestings = cloneObj({}, rels)
+    result.rels = cloneObj({}, rels)
   }
 
   for (var nesting_name in rels) {
@@ -158,7 +158,7 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
     }
     var cur = rels[nesting_name]
     if (!Array.isArray(cur)) {
-      result.nestings[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
+      result.rels[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
       continue
     }
 
@@ -185,7 +185,7 @@ var callInit = function(md, nesting_name, value) {
 
 
 
-  // expected `value` is : {states: {}, nestings: {}}
+  // expected `value` is : {states: {}, rels: {}}
   var init_data = {}
 
   cloneObj(init_data, value)
