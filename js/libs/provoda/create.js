@@ -2,6 +2,7 @@
 import spv from '../spv'
 import Model from './Model'
 import _updateRel from './_internal/_updateRel'
+import getRelFromInitParams from './utils/getRelFromInitParams'
 
 export default function(Constr, states, params, map_parent, app) {
   var BehaviorContr = Constr || Model
@@ -28,7 +29,7 @@ export default function(Constr, states, params, map_parent, app) {
     }, model)
   }
 
-  const rels = params.nestings
+  const rels = getRelFromInitParams(params)
 
   if (rels) {
     spv.forEachKey(rels, function(nesting, nesting_name, model) {
