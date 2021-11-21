@@ -102,12 +102,12 @@ var replaceAt = function(old_value, value, index) {
 }
 
 var needsRefs = function(init_data) {
-
-  for (var nesting_name in init_data.nestings) {
-    if (!init_data.nestings.hasOwnProperty(nesting_name)) {
+  const rels = init_data.nestings
+  for (var nesting_name in rels) {
+    if (!rels.hasOwnProperty(nesting_name)) {
       continue
     }
-    var cur = init_data.nestings[nesting_name]
+    var cur = rels[nesting_name]
 
     if (cur == null) {
       continue
@@ -146,15 +146,16 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
 
 
   var result = cloneObj({}, init_data)
-  if (init_data.nestings) {
-    result.nestings = cloneObj({}, init_data.nestings)
+  const rels = init_data.nestings
+  if (rels) {
+    result.nestings = cloneObj({}, rels)
   }
 
-  for (var nesting_name in init_data.nestings) {
-    if (!init_data.nestings.hasOwnProperty(nesting_name)) {
+  for (var nesting_name in rels) {
+    if (!rels.hasOwnProperty(nesting_name)) {
       continue
     }
-    var cur = init_data.nestings[nesting_name]
+    var cur = rels[nesting_name]
     if (!Array.isArray(cur)) {
       result.nestings[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
       continue
