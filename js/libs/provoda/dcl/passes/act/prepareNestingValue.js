@@ -108,6 +108,10 @@ var needsRefs = function(init_data) {
       continue
     }
     var cur = init_data.nestings[nesting_name]
+
+    if (cur == null) {
+      continue
+    }
     if (!Array.isArray(cur)) {
       if (needsRefs(cur)) {
         return true
