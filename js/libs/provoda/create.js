@@ -18,19 +18,20 @@ export default function(Constr, states, params, map_parent, app) {
     url_params: null,
   })
 
-  if (params) {
-    if (params.interfaces) {
-      spv.forEachKey(params.interfaces, function(intrface, interface_name, model) {
-        model.useInterface(interface_name, intrface)
-      }, model)
-    }
+  if (params == null) {
+    return model
+  }
 
-    if (params.nestings) {
-      spv.forEachKey(params.nestings, function(nesting, nesting_name, model) {
-        _updateRel(model, nesting_name, nesting)
-      }, model)
-    }
+  if (params.interfaces) {
+    spv.forEachKey(params.interfaces, function(intrface, interface_name, model) {
+      model.useInterface(interface_name, intrface)
+    }, model)
+  }
 
+  if (params.nestings) {
+    spv.forEachKey(params.nestings, function(nesting, nesting_name, model) {
+      _updateRel(model, nesting_name, nesting)
+    }, model)
   }
 
   return model
