@@ -51,7 +51,7 @@ import RelShape from '../nests/relShape'
 //         return {
 //             next: true, // Исполнитель должен проверить hasOwnProperty()
 //             prev: false,
-//             '*': {589592873598724: {nestings: {}, states: {}}}
+//             '*': {589592873598724: {rels: {}, states: {}}}
 //         }
 //     }
 // },

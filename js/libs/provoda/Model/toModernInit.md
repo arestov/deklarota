@@ -24,13 +24,13 @@ modern init accept
   - head info
   - url params
   - states (network + url + head info)
-  - nestings
+  - rels
 
 ```
 {
   head: {},
   states: {},
-  nestings: {},
+  rels: {},
   url_params: {},
 }
 ```

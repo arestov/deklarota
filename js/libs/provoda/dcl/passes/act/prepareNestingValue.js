@@ -1,5 +1,6 @@
 
 import spv from '../../../../spv'
+import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import getNesting from '../../../provoda/getNesting'
 import get_constr from '../../../structure/get_constr'
 import getModelById from '../../../utils/getModelById'
@@ -102,12 +103,12 @@ var replaceAt = function(old_value, value, index) {
 }
 
 var needsRefs = function(init_data) {
-
-  for (var nesting_name in init_data.nestings) {
-    if (!init_data.nestings.hasOwnProperty(nesting_name)) {
+  const rels = getRelFromInitParams(init_data)
+  for (var nesting_name in rels) {
+    if (!rels.hasOwnProperty(nesting_name)) {
       continue
     }
-    var cur = init_data.nestings[nesting_name]
+    var cur = rels[nesting_name]
 
     if (cur == null) {
       continue
@@ -146,17 +147,18 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
 
 
   var result = cloneObj({}, init_data)
-  if (init_data.nestings) {
-    result.nestings = cloneObj({}, init_data.nestings)
+  const rels = getRelFromInitParams(init_data)
+  if (rels) {
+    result.rels = cloneObj({}, rels)
   }
 
-  for (var nesting_name in init_data.nestings) {
-    if (!init_data.nestings.hasOwnProperty(nesting_name)) {
+  for (var nesting_name in rels) {
+    if (!rels.hasOwnProperty(nesting_name)) {
       continue
     }
-    var cur = init_data.nestings[nesting_name]
+    var cur = rels[nesting_name]
     if (!Array.isArray(cur)) {
-      result.nestings[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
+      result.rels[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
       continue
     }
 
@@ -183,7 +185,7 @@ var callInit = function(md, nesting_name, value) {
 
 
 
-  // expected `value` is : {states: {}, nestings: {}}
+  // expected `value` is : {states: {}, rels: {}}
   var init_data = {}
 
   cloneObj(init_data, value)
