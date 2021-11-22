@@ -2,12 +2,6 @@ import getRelShape from '../nests/getRelShape'
 import getPrtsByRelPath, { getRelConstrByRelLinking } from '../nests/getPrtsByRelPath'
 import getBasePrtByAddr from '../nests/getBasePrtByAddr'
 
-const throwError = (msg, item, context) => {
-  const err = new Error(msg)
-  console.error(err.message, context, item.__code_path)
-  throw err
-}
-
 const baseArgNestingStage = (prt, target_options, action) => {
   if (!target_options?.base) {
     return prt
@@ -16,7 +10,7 @@ const baseArgNestingStage = (prt, target_options, action) => {
   const rel_shape = action.rel_shape || getRelShape(prt, action.rel_name)
 
   if (!rel_shape) {
-    throwError('can\'t get rel_shape for action', prt, {action})
+    prt._throwError('can\'t get rel_shape for action', {action})
   }
 
   return getRelConstrByRelLinking(prt, rel_shape.constr_linking)

@@ -31,6 +31,7 @@ const getMainNavigationRouter = async inited => {
 
 const MainRouter = model({
   extends: RouterCore,
+  model_name: 'MainRouter',
   attrs: {
     ...inputAttrs({
       url_part: null,
@@ -59,6 +60,18 @@ const RootSession = {
 test('should init router', async () => {
   const User = model({
     model_name: 'User',
+    rels: {
+      nav_parent_at_perspectivator_MainRouter: ['input', { linking: '<<<< ^' }],
+    },
+    actions: {
+      handleInit: {
+        to: ['<< nav_parent_at_perspectivator_MainRouter', { method: 'set_one' }],
+        fn: [
+          ['<<<< ^'],
+          (_, parent) => parent,
+        ],
+      },
+    },
   })
 
   const AppRoot = modernRoot({
@@ -68,6 +81,7 @@ test('should init router', async () => {
       start_page: ['input', {
         linking: '<<<<',
       }],
+      nav_parent_at_perspectivator_MainRouter: ['comp', ['<<<<'], { linking: '<<<<' }],
     },
     checkActingRequestsPriority: () => {},
   })

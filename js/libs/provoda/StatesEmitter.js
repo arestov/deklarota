@@ -184,6 +184,15 @@ add({
   },
   __deliverChainUpdates: function(chain) {
     deliverChainUpdates(this, chain)
+  },
+  _throwError(msg, context) {
+    const err = msg instanceof Error ? msg : new Error(msg)
+    console.error(err, '\n', context, '\n', this.__code_path)
+    throw err
+  },
+  _warnError(msg, context) {
+    const err = msg instanceof Error ? msg : new Error(msg)
+    console.warn(err, '\n', context, '\n', this.__code_path)
   }
 })
 }

@@ -6,26 +6,10 @@ import _goDeeper from './_goDeeper'
 import createLevel from './createLevel'
 import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
+import isStart from './isStart'
 
 var ba_inUse = ba_canReuse.ba_inUse
 
-function isStart(map, md) {
-  var cur = md
-  while (cur) {
-    if (cur.map_level_num == -1) {
-      return true
-    }
-
-    var parent = getRouteStepParent(map, cur)
-
-    if (parent && parent._x_skip_navigation) {
-      cur = parent
-      continue
-    }
-
-    return false
-  }
-}
 
 function ensureStartBwlev(map, md) {
 
@@ -33,6 +17,11 @@ function ensureStartBwlev(map, md) {
     return map.start_bwlev
   }
 
+  if (!map.getAttr('works_without_main_resident')) {
+    throw new Error('perspectivator should have works_without_main_resident to work without main resident')
+  }
+
+  /* for works_without_main_resident */
   if (!map.mainLevelResidents) {
     map.mainLevelResidents = {}
   }

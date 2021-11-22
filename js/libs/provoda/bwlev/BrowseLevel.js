@@ -90,6 +90,7 @@ var BrowseLevel = spv.inh(Model, {
   model_name: 'bwlev',
   attrs: {
     map_level_num: ['input'],
+    is_main_perspectivator_resident: ['input', false],
     probe_name: ['input'],
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],

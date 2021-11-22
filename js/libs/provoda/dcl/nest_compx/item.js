@@ -125,6 +125,10 @@ var NestCompxDcl = function(name, data) {
 
   this.rel_shape = relShape(typeof data[2] == 'function' ? data[3] : data[2])
 
+  if (!this.rel_shape) {
+    throw new Error('rel_shape is required')
+  }
+
 
   var prepared_to_run = list.map(useDesination)
   // for cache keys

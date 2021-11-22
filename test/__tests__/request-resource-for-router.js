@@ -31,6 +31,7 @@ const getMainNavigationRouter = async inited => {
 
 const MainRouter = model({
   extends: RouterCore,
+  model_name: 'MainRouter',
   attrs: {
     ...inputAttrs({
       url_part: null,
@@ -63,10 +64,16 @@ beforeEach(() => {
 test('should execute nested requireRel & reveal resource in router', async () => {
   const Billing = model({
     model_name: 'Billing',
+    rels: {
+      nav_parent_at_perspectivator_MainRouter: ['input', { linking: '<<<< ^' }],
+    },
   })
 
   const Onboarding = model({
     model_name: 'Onboarding',
+    rels: {
+      nav_parent_at_perspectivator_MainRouter: ['input', { linking: '<<<< ^' }],
+    },
   })
 
   const User = model({
@@ -74,11 +81,26 @@ test('should execute nested requireRel & reveal resource in router', async () =>
     rels: {
       billing: ['model', Billing],
       onboarding: ['model', Onboarding],
+      nav_parent_at_perspectivator_MainRouter: ['input', { linking: '<<<< ^' }],
     },
     actions: {
+      handleInit: {
+        to: ['<< nav_parent_at_perspectivator_MainRouter', { method: 'set_one' }],
+        fn: [
+          ['<<<< ^'],
+          (_, parent) => parent,
+        ],
+      },
       'requireRel:billing': {
         to: ['<< billing', { method: 'set_one' }],
-        fn: () => ({}),
+        fn: [
+          ['<<<<'],
+          (_, self) => ({
+            rels: {
+              nav_parent_at_perspectivator_MainRouter: self,
+            },
+          }),
+        ],
       },
       'requireRel:onboarding': {
         to: {
@@ -96,6 +118,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
       start_page: ['input', {
         linking: '<<<<',
       }],
+      nav_parent_at_perspectivator_MainRouter: ['comp', ['<<<<'], { linking: '<<<<' }],
     },
     actions: {
       'requireRel:user': {

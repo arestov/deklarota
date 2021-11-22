@@ -31,6 +31,10 @@ var NestCntDeclr = function(name, data) {
 
   this.rel_shape = relShape(data[2])
 
+  if (!this.rel_shape) {
+    throw new Error('rel_shape is required')
+  }
+
 }
 
 export default NestCntDeclr

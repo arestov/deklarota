@@ -12,7 +12,6 @@ var FakeModel = function(model_skeleton, stream) {
   this._provoda_id = model_skeleton._provoda_id
 
   this.children_models = Object.assign({}, model_skeleton.children_models)
-  this.map_level_num = model_skeleton.map_level_num
   this.map_parent = model_skeleton.map_parent
   this.hierarchy_num = model_skeleton.hierarchy_num
   this.constr_id = model_skeleton.constr_id

@@ -175,12 +175,12 @@ export default spv.inh(View, {
   getLevelContainer: function(bwlev, deeper) {
     var raw_num = bwlev.getAttr('map_level_num')
     if (raw_num < -1) {
-      return
+      throw new Error('wrong map_level_num')
     }
 
-    var real_num = bwlev.getNesting('pioneer').map_level_num
+    const is_very_start = bwlev.getAttr('is_main_perspectivator_resident')
     var num = raw_num + (deeper ? 1 : 0)
-    if (num == -1 && real_num == -1) {
+    if (num == -1 && is_very_start) {
       return this.lev_containers.start_page
     }
 

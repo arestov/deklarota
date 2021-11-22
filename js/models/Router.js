@@ -24,6 +24,10 @@ export const BasicRouter = spv.inh(Model, {
 	},
   init: function (self) {
     self.bwlevs = {}
+
+    if (!self.model_name) {
+      throw self._throwError('model_name is required for perspectivator')
+    }
   },
 }, {
   rpc_legacy: {
@@ -85,6 +89,7 @@ export default spv.inh(BasicRouter, {
 }, {
   __use_navi: false,
   attrs: {
+    works_without_main_resident: ['input', false],
     selected__name: ['input'],
     current_expected_rel: ['input'],
     'used_data_structure': [

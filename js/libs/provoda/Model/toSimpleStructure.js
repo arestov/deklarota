@@ -69,7 +69,6 @@ var iterate = function(models_index, all_for_parse, local_index, big_result) {
       states: public_attrs,
       map_parent: cur_md.map_parent && checkModel(cur_md.map_parent, models_index, local_index, all_for_parse),
       children_models: {},
-      map_level_num: cur_md.map_level_num,
       mpx: null
     }
 
