@@ -14,10 +14,17 @@ const getNavParentForModelAtPerspectivator = (perspectivactor, model) => {
     throw new Error('cant be many/array')
   }
 
-  if (specific_nav_parent != null) {
-    return specific_nav_parent
+  if (specific_nav_parent === model) {
+    // link to self means there is no parent
+    return null
   }
 
+  if (specific_nav_parent == null) {
+    model._throwError('should not be null', {rel_name})
+    return
+  }
+
+  return specific_nav_parent
 }
 
 
