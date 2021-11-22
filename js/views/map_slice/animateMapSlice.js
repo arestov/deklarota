@@ -33,8 +33,8 @@ export const getLevNum = (view_with_highway, bwlev) => {
 }
 
 
-export default function(view, transaction_data, animation_data) {
-  let all_changhes = spv.filter(transaction_data.array, 'changes')
+export default function(view, bwlev, navigation_changes, animation_data) {
+  let all_changhes = spv.filter(navigation_changes, 'changes')
   all_changhes = concatArray(all_changhes)
   const models = spv.filter(all_changhes, 'target')
   let i
@@ -64,8 +64,8 @@ export default function(view, transaction_data, animation_data) {
     }
   }
 
-  if (transaction_data.bwlev) {
-    const current_lev_num = getLevNum(view, transaction_data.bwlev)
+  if (bwlev) {
+    const current_lev_num = getLevNum(view, bwlev)
 
     if (animation_data) {
       _updateAttr(view, 'disallow_animation', true)

@@ -341,7 +341,7 @@ export default spv.inh(View, {
 
     //avoid nextTick method!
     if (this.completely_rendered_once['map_slice']) {
-      animateMapSlice(this, transaction, animation_data)
+      animateMapSlice(this, transaction.bwlev, transaction.array, animation_data)
       return
     }
 
