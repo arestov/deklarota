@@ -8,10 +8,8 @@ const isStart = (map, md) => {
     }
 
     var parent = getRouteStepParent(map, cur)
-
-    if (parent && parent._x_skip_navigation) {
-      cur = parent
-      continue
+    if (parent == null && map.getAttr('works_without_main_resident')) {
+      return true
     }
 
     return false

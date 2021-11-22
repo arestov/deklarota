@@ -5,3 +5,5 @@
 2) менять "родителя" (как в случае с перемещением папки в файловой системе)
 
 Свойство map_parent рассматривается как depricated, а в качестве замены должен использоваться rel с именем образованным из имени перспективатора: `nav_parent_at_perspectivator_${perspectivator.model_name}`
+
+Чтобы обозначить что nav parent отсутствует нужно сослаться на себя в nav_parent_at_perspectivator_. Чтобы использовать такую модель она должна быть mainLevelResident либо perspectivator должен иметь атрибут `works_without_main_resident` 

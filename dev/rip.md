@@ -125,3 +125,5 @@
 - remove redirectBWLev
 
 - deprecate `subitems` and `subitems_source_name` for initingParams
+
+- deprecate `_x_skip_navigation` for perspectivator residents

@@ -1,11 +1,4 @@
-import getRouteStepParent from './getRouteStepParent'
-
 export default function properParent(map, md) {
-  var cur = md
-  while (cur && cur._x_skip_navigation) {
-    cur = getRouteStepParent(map, cur)
-  }
-
-  return cur
-
+  // there was logic here. now this fn requires refactoring/replacing
+  return md
 };
