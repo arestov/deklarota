@@ -1,5 +1,7 @@
+import getNavParentForModelAtPerspectivator from './getNavParentForModelAtPerspectivator'
+
 const getRouteStepParent = (router, md) => {
-  return md.map_parent
+  return getNavParentForModelAtPerspectivator(router, md)
 }
 
 export default getRouteStepParent
