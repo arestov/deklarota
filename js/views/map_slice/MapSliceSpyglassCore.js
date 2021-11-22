@@ -341,11 +341,11 @@ export default spv.inh(View, {
 
     //avoid nextTick method!
     if (this.completely_rendered_once['map_slice']) {
-      animateMapSlice(this, transaction.bwlev, transaction.array, animation_data)
+      animateMapSlice(this, diff.bwlev, diff.array, animation_data)
       return
     }
 
-    const current_lev_num = getLevNum(this, transaction.bwlev)
+    const current_lev_num = getLevNum(this, diff.bwlev)
 
     const models = new Array(array.length)
     for (let i = 0; i < array.length; i++) {
