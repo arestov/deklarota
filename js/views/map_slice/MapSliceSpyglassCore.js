@@ -345,7 +345,7 @@ export default spv.inh(View, {
       return
     }
 
-    const current_lev_num = getLevNum(this, transaction)
+    const current_lev_num = getLevNum(this, transaction.bwlev)
 
     const models = new Array(array.length)
     for (let i = 0; i < array.length; i++) {

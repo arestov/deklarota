@@ -61,13 +61,12 @@ const needsDestroing = function(view, all_changhes) {
   return result
 }
 
-export const getLevNum = (view_with_highway, transaction_data) => {
-  if (!transaction_data.bwlev) {
-    console.error('expecting bwlev in transaction_data: ', transaction_data)
-    throw new Error('expecting bwlev in transaction_data')
+export const getLevNum = (view_with_highway, bwlev) => {
+  if (!bwlev) {
+    throw new Error('expecting bwlev')
   }
 
-  const target_md = getModelFromR(view_with_highway, transaction_data.bwlev)
+  const target_md = getModelFromR(view_with_highway, bwlev)
   return getAttr(target_md, 'map_level_num')
 }
 
@@ -102,7 +101,7 @@ export default function(view, transaction_data, animation_data) {
   }
 
   if (transaction_data.bwlev) {
-    const current_lev_num = getLevNum(view, transaction_data)
+    const current_lev_num = getLevNum(view, transaction_data.bwlev)
 
     if (animation_data) {
       _updateAttr(view, 'disallow_animation', true)
