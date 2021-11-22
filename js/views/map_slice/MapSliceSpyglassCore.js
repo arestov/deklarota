@@ -317,16 +317,19 @@ export default spv.inh(View, {
 
 
     var array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
-    var i, cur
 
     var animation_data = readMapSliceAnimationData(this, diff)
 
-    for (i = array.length - 1; i >= 0; i--) {
-      var cur_md = getModelFromR(this, mds[i])
-      cur = getModelFromR(this, array[i])
+    for (let i = array.length - 1; i >= 0; i--) {
+      const cur_md = getModelFromR(this, mds[i])
+      const cur = getModelFromR(this, array[i])
 
-      var dclr = selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
-              nesname, cur_md.model_name, this.nesting_space)
+      const dclr = selecPoineertDeclr(
+        this.dclrs_fpckgs,
+        this.dclrs_selectors,
+        nesname, cur_md.model_name,
+        this.nesting_space
+      )
 
       this.callCollectionChangeDeclaration(dclr, nesname, cur)
     }
@@ -340,12 +343,12 @@ export default spv.inh(View, {
     const current_lev_num = getLevNum(this, transaction)
 
     var models = new Array(array.length)
-    for (i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       models[i] = getModelFromR(this, array[i])
     }
 
     this.markAnimationStart(models, -1)
-    for (i = 0; i < models.length; i++) {
+    for (let i = 0; i < models.length; i++) {
       this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
     }
     _updateAttr(this, 'current_lev_num', current_lev_num)
