@@ -2,12 +2,6 @@ import getRelShape from './getRelShape'
 import { getRelConstrByRelLinking } from './getPrtsByRelPath'
 import isGlueRel from '../../Model/mentions/isGlueRel'
 
-const throwError = (msg, self, context) => {
-  const err = new Error(msg)
-  console.error(err, '\n', context, '\n', self.__code_path)
-  throw err
-}
-
 const matchConstuctors = (prts, value_item) => {
   if (!Array.isArray(prts)) {
     return value_item.constructor === prts.constructor
@@ -29,7 +23,7 @@ const validateValueConstr = (self, rel_name, rel_shape, prts, value_item) => {
 
   const list = Array.isArray(prts) ? prts : [prts]
 
-  throwError('rel_shape constructors does not match value', self, {
+  self._throwError('rel_shape constructors does not match value', {
     rel_name,
     rel_shape,
     model_names: list.map(item => item.model_name),
@@ -45,7 +39,7 @@ const validateConstr = (self, rel_name, rel_shape, value) => {
 
   const prts = getRelConstrByRelLinking(self, rel_shape.constr_linking)
   if (!prts) {
-    throwError('invalid rel_shape', self, {rel_name})
+    self._throwError('invalid rel_shape', {rel_name})
   }
 
   if (value == null) {return}
@@ -65,11 +59,11 @@ const validateManyValue = (self, rel_name, rel_shape, value) => {
 
   if (rel_shape.many) {
     if (!Array.isArray(value)) {
-      throwError('expected list of items. match rel_shape.many param with value', self, {rel_name})
+      self._throwError('expected list of items. match rel_shape.many param with value', {rel_name})
     }
   } else {
     if (Array.isArray(value)) {
-      throwError('expected one item. match rel_shape.many param with value', self, {rel_name})
+      self._throwError('expected one item. match rel_shape.many param with value', {rel_name})
     }
   }
 }
@@ -86,7 +80,7 @@ const validateRuntimeValue = (self, rel_name, value) => {
   // 1. check if rel_name allowed (defined)
   const rel_shape = getRelShape(self, rel_name)
   if (!rel_shape) {
-    throwError('unexpected change of rel. use rels.input', self, {rel_name})
+    self._throwError('unexpected change of rel. use rels.input', {rel_name})
   }
 
   // 2. check if value match "many" param of schema
