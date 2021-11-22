@@ -20,7 +20,7 @@ const getNavParentForModelAtPerspectivator = (perspectivactor, model) => {
   }
 
   if (specific_nav_parent == null) {
-    model._throwError('should not be null', {rel_name})
+    model._throwError('should not be null. use self reference to mark nav parent as empty', {rel_name})
     return
   }
 
