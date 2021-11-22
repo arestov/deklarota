@@ -74,6 +74,8 @@ test('compx-nests', async () => {
             }
 
             return null
+          }, {
+            linking: '<< indie',
           },
         ],
       },

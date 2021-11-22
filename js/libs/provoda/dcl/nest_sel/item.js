@@ -55,6 +55,10 @@ var getMap = function(map_chunk) {
 var SelectNestingDeclaration = function(dest_name, data) {
   this.rel_shape = relShape(data.rel_shape)
 
+  if (!this.rel_shape) {
+    throw new Error('rel_shape is required')
+  }
+
   this.map = null
   if (data.map) {
     this.map = getMap(data.map)
