@@ -23,44 +23,6 @@ const concatArray = function(array_of_arrays) {
   return concat.apply(arrProtp, array_of_arrays)
 }
 
-const inCache = function(cache, key) {
-  return cache.hasOwnProperty(key) && cache[key] !== false
-}
-
-const needsDestroing = function(view, all_changhes) {
-  const destroy_insurance = {}
-  let i
-  let cur
-  let target
-  let pvid
-  const result = []
-
-  for (i = 0; i < all_changhes.length; i++) {
-    cur = all_changhes[i]
-    target = getModelFromR(view, cur.bwlev)
-    pvid = target._provoda_id
-    if (cur.type == 'destroy') {
-      destroy_insurance[pvid] = target
-    } else {
-      destroy_insurance[pvid] = false
-    }
-  }
-
-  for (i = all_changhes.length - 1; i >= 0; i--) {
-    cur = all_changhes[i]
-    target = getModelFromR(view, cur.bwlev)
-    pvid = target._provoda_id
-    if (cur.type == 'destroy') {
-      if (inCache(destroy_insurance, pvid)) {
-        destroy_insurance[pvid] = false
-        result.unshift(target)
-      }
-    }
-  }
-
-  return result
-}
-
 export const getLevNum = (view_with_highway, bwlev) => {
   if (!bwlev) {
     throw new Error('expecting bwlev')
