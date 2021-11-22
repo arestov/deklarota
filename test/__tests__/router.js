@@ -31,6 +31,7 @@ const getMainNavigationRouter = async inited => {
 
 const MainRouter = model({
   extends: RouterCore,
+  model_name: 'MainRouter',
   attrs: {
     ...inputAttrs({
       url_part: null,
