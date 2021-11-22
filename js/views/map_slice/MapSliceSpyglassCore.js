@@ -2,7 +2,6 @@
 import View from '../../libs/provoda/View'
 import spv from '../../libs/spv'
 import css from './css'
-import pvState from '../../libs/provoda/provoda/state'
 import updateAttr from '../../libs/provoda/provoda/updateAttr'
 import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mpxUpdateAttr from '../../libs/provoda/provoda/v/mpxUpdateAttr'
@@ -217,12 +216,13 @@ export default spv.inh(View, {
         node.appendTo(this.getInterface('app_map_con'))
       }
 
-      var lev_con = new LevContainer
-          (node,
-          tpl.ancs['scroll_con'],
-          tpl.ancs['material'],
-          tpl,
-          this)
+      var lev_con = new LevContainer(
+        node,
+        tpl.ancs['scroll_con'],
+        tpl.ancs['material'],
+        tpl,
+        this
+      )
       this.lev_containers[num] = lev_con
 
       this.max_level_num = Math.max(this.max_level_num, num)
@@ -314,7 +314,6 @@ export default spv.inh(View, {
 
     var bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
     var mds = nesting_data.residents_struc.items
-    var target_md
 
 
     var array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
