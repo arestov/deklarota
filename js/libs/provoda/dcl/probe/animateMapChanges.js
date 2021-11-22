@@ -150,8 +150,6 @@ if (!diff.array || !diff.array.length) {
 
  _updateRel(fake_spyglass, 'navigation', bwlevs)
 
- var app = fake_spyglass.app
-
  var changes = diff
  var i
  var all_changhes = spv.filter(changes.array, 'changes')
