@@ -5,7 +5,7 @@ const getNavParentForModelAtPerspectivator = (perspectivactor, model) => {
   const rel_shape = getRelShape(model, rel_name)
 
   if (!rel_shape) {
-    model._warnError('fallback to legacy parent', {rel_name})
+    model._throwError('fallback to legacy parent', {rel_name})
     return model.map_parent // fallback to legacy parent
   }
 
