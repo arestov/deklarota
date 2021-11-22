@@ -60,7 +60,6 @@ export default spv.inh(BasicRouter, {
     self.mainLevelResidents = null
     self.current_mp_bwlev = null
 
-    self.binded_models = {}
     // target.navigation = [];
     // target.map = ;
     self.current_mp_md = null

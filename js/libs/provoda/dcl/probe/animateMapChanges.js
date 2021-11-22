@@ -4,14 +4,6 @@ import _updateRel from '../../_internal/_updateRel'
 import _updateAttr from '../../_internal/_updateAttr'
 import probeDiff from '../../probeDiff'
 
-
-const bindMMapStateChanges = function(store_md, md) {
-  if (store_md.binded_models[md._provoda_id]) {
-    return
-  }
-  store_md.binded_models[md._provoda_id] = true
-}
-
 const complexBrowsing = function(bwlev, md, value) {
   // map levels. without knowing which map
   let obj = md.state('bmp_show')
@@ -22,11 +14,10 @@ const complexBrowsing = function(bwlev, md, value) {
 }
 
 const model_mapch = {
-  'move-view': function(change, spg) {
+  'move-view': function(change) {
     const md = change.target.getMD()
     const bwlev = change.bwlev.getMD()
 
-    bindMMapStateChanges(spg, md)
     // debugger;
 
     if (change.value) {
