@@ -87,10 +87,11 @@ export default function(view, transaction_data, animation_data) {
 
   view.markAnimationStart(models, changes_number)
 
-  // TODO: this part is dead (needsDestroing broken). make it works
-  const doomed = needsDestroing(view, all_changhes)
-  for (i = doomed.length - 1; i >= 0; i--) {
-    view.removeChildViewsByMd(view.getStoredMpx(doomed[i]), 'map_slice')
+  // TODO: find way to not remove important things, but just hide (performance optimisation)
+  for (let i = 0; i < all_changhes.length; i++) {
+    const cur = all_changhes[i]
+    if (cur.value) {continue}
+    view.removeChildViewsByMd(view.getStoredMpx(getModelFromR(view, cur.bwlev)), 'map_slice')
   }
 
   for (i = 0; i < all_changhes.length; i++) {
