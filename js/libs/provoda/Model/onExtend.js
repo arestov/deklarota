@@ -89,7 +89,7 @@ export const completeBuild = (self) => {
   self._attrs_collector = null
 }
 
-export default function(self, props, original, params) {
+export default function(self, props, _original, params) {
   /** LEGACY CHEKS **/
 
   if (props.hasOwnProperty('redirectBWLev')) { // legacy perspectivator redirects

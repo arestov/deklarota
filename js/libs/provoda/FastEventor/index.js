@@ -52,7 +52,7 @@ var resetSubscribesCache = iterateSubsCache(function() {
   return null
 })
 
-var fireFire = function(context, sputnik, matched_reg_fire, soft_reg, callbacks_wrapper, ev_name, cb, one_reg_arg) {
+var fireFire = function(context, sputnik, _matched_reg_fire, soft_reg, callbacks_wrapper, _ev_name, cb, one_reg_arg) {
   var mo_context = context || sputnik
   if (soft_reg === false) {
     cb.call(mo_context, one_reg_arg)

@@ -33,7 +33,7 @@ function buildHead(self, data) {
   return head
 }
 
-export default function initModel(self, opts, data, params, more, states) {
+export default function initModel(self, opts, data, _params, _more, states) {
   var current_motivator = opts._motivator
   var app = opts.app
   var map_parent = opts.map_parent

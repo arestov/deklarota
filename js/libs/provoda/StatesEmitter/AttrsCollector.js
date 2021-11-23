@@ -80,7 +80,7 @@ Wrap.prototype = {
     return target[0].hasAttr(name)
   },
 
-  getOwnPropertyDescriptor: function(target, prop) { // вызывается для каждого свойства
+  getOwnPropertyDescriptor: function(_target, prop) { // вызывается для каждого свойства
     if (prop === 'length') {
       return notOk
     }

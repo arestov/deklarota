@@ -189,7 +189,7 @@ var getSpyglassData = function(current_view, target_id, probe_name, value, req) 
 }
 
 var changeSpyglassUniversal = function(method) {
-  return function(e, node, probe_name, value, req) {
+  return function(_e, _node, probe_name, value, req) {
     var data = getSpyglassData(this, this.mpx._provoda_id, probe_name, value, req)
 
     var bwlev_view = this.root_view.parent_view
@@ -292,10 +292,10 @@ var View = spv.inh(StatesEmitter, {
     return getBwlevView(this)
   },
   tpl_events: {
-    updateState: function(e, node, state_name, value) {
+    updateState: function(_e, _node, state_name, value) {
       this.updateState(state_name, value)
     },
-    updateAttr: function(e, node, state_name, value) {
+    updateAttr: function(_e, _node, state_name, value) {
       this.updateAttr(state_name, value)
     },
 
@@ -303,19 +303,19 @@ var View = spv.inh(StatesEmitter, {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateToResource', this.mpx._provoda_id)
     },
-    navigateByLocator(e, node, locator) {
+    navigateByLocator(_e, _node, locator) {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateByLocator', this.mpx._provoda_id, locator)
     },
-    navigateRouterToResource(e, node, router) {
+    navigateRouterToResource(_e, _node, router) {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
     },
-    navigateRouterByLocator(e, node, router, locator) {
+    navigateRouterByLocator(_e, _node, router, locator) {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
     },
-    expectRelBeRevealedByRelPath(e, node, rel_path) {
+    expectRelBeRevealedByRelPath(_e, _node, rel_path) {
       const contextRouter = getContextRouter(this)
       const current_md_id = this.mpx._provoda_id
 
@@ -328,7 +328,7 @@ var View = spv.inh(StatesEmitter, {
       var bwlev_view = getBwlevView(this)
       bwlev_view.RPCLegacy('dispatch', 'navigateToNavParent')
     },
-    requestPageById: function(e, node, _provoda_id) {
+    requestPageById: function(_e, _node, _provoda_id) {
       this.requestPageById(_provoda_id)
     },
     followTo: function() {
@@ -336,7 +336,7 @@ var View = spv.inh(StatesEmitter, {
       var bwlev_view = getBwlevView(this)
       this.root_view.parent_view.RPCLegacy('followTo', bwlev_view.mpx._provoda_id, md_id)
     },
-    followURL: function(e, node, url) {
+    followURL: function(_e, _node, url) {
       var bwlev_view = getBwlevView(this)
       this.root_view.parent_view.RPCLegacy('followURL', bwlev_view.mpx._provoda_id, url)
     },
@@ -345,7 +345,7 @@ var View = spv.inh(StatesEmitter, {
     _log: (function() {
 
 
-      return function(e, node, message) {
+      return function(_e, _node, message) {
         console.log(message, `${getRelPath(this)}\n`, this)
       }
     }())
@@ -893,7 +893,7 @@ var View = spv.inh(StatesEmitter, {
     }
   },
   appendFVAncorByVN: function(opts) {
-    var view = this.getFreeChildView({
+    this.getFreeChildView({
       by_model_name: opts.by_model_name,
       nesting_name: opts.name,
       nesting_space: opts.space
@@ -983,7 +983,7 @@ var View = spv.inh(StatesEmitter, {
 
   },
 
-  __injecViewMetaStates: function(self, nesting_name, space, items) {
+  __injecViewMetaStates: function(self, nesting_name, _space, items) {
 
     var location_id = getViewLocationId(self, nesting_name, 'main')
     var array = spv.toRealArray(items)
