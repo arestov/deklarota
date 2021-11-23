@@ -8,8 +8,7 @@ import splitByDot from './spv/splitByDot'
 
 const spv = {}
 
-let addEvent
-let removeEvent
+
 let getFields
 let getTargetField
 let sortByRules
@@ -67,16 +66,20 @@ spv.getExistingItems = function(arr) {
   return result
 }
 
-addEvent = spv.addEvent = function(elem, evType, fn) {
+const addEvent = (elem, evType, fn) => {
   elem.addEventListener(evType, fn, false)
   return fn
 }
-removeEvent = spv.removeEvent = function(elem, evType, fn) {
+
+const removeEvent = (elem, evType, fn) => {
   if (!elem.removeEventListener) {
     return
   }
   elem.removeEventListener(evType, fn, false)
 }
+
+spv.addEvent = addEvent
+spv.removeEvent = removeEvent
 
 spv.listenEvent = function(elem, evType, fn) {
   addEvent(elem, evType, fn)
