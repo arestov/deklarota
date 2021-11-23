@@ -184,8 +184,6 @@ FastEventor.prototype = spv.coe(function(add) {
         this.off(ev_name)
       }
 
-      var one_reg_arg = null
-
       const reg_fires = this.getPossibleRegfires(ev_name)
       const matched_reg_fire = (reg_fires && reg_fires.length && reg_fires[0]) || null
 
@@ -193,7 +191,7 @@ FastEventor.prototype = spv.coe(function(add) {
       (matched_reg_fire && matched_reg_fire.getWrapper && matched_reg_fire.getWrapper.call(this.sputnik)) ||
       this.hndUsualEvCallbacksWrapper
 
-      var one_reg_arg = matched_reg_fire && matched_reg_fire.fn.call(this.sputnik, ev_name)
+      const one_reg_arg = matched_reg_fire && matched_reg_fire.fn.call(this.sputnik, ev_name)
       const fired = one_reg_arg != null
       if (fired && !skip_reg) {
         fireFire(context, this.sputnik, matched_reg_fire, soft_reg, callbacks_wrapper, ev_name, cb, one_reg_arg)
