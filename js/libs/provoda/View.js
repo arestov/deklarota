@@ -1,5 +1,6 @@
 
 import spv from '../spv'
+import cloneObj from '../spv/cloneObj'
 import CoreView from './CoreView'
 import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import PvTemplate from './pvTemplate/PvTemplate'
@@ -42,13 +43,9 @@ const getBaseTreeSkeleton = function(array) {
 }
 
 
-let DomView
 const props = {}
-spv.cloneObj(props, appending)
-spv.cloneObj(props, {
-  DOMView: function() {
-    return DomView
-  },
+cloneObj(props, appending)
+cloneObj(props, {
   createDetails: function() {
     if (this.pv_view_node) {
       this.useBase(this.pv_view_node)
@@ -505,13 +502,17 @@ spv.cloneObj(props, {
     this.current_motivator = old_mt
   },
 })
-DomView = spv.inh(CoreView, {
+const DomView = spv.inh(CoreView, {
   init: function initDomView(target) {
     if (target.base_tree_list) {
       target.base_skeleton = getBaseTreeSkeleton(target.base_tree_list)
     }
   }
-}, props)
+}, cloneObj(props, {
+  DOMView: function() {
+    return DomView
+  },
+}))
 DomView._PvTemplate = PvTemplate
 
 export default DomView
