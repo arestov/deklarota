@@ -1,9 +1,6 @@
-
-
 import spv from '../spv'
 import utils_simple from './utils/simple'
 import pvState from './utils/state'
-import probeDiff from './probeDiff'
 import selecPoineertDeclr from './structure/selecPoineertDeclr'
 import getBwlevView from './View/getBwlevView'
 import getViewLocationId from './View/getViewLocationId'
@@ -24,7 +21,6 @@ function getBwlevId(view) {
 }
 
 export default {
-  probeDiff: probeDiff,
   getRDep: (function() {
     const getTargetName = memorize(function getTargetName(state_name) {
       return state_name.split(':')[ 1 ]
