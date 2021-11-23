@@ -2,6 +2,7 @@
 import css from './css'
 import getAttr from '../../libs/provoda/provoda/getAttr'
 import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import getBwlevContentFromR from './getBwlevContentFromR'
 import anyDeeplyIncludedViews from './anyDeeplyIncludedViews'
 import dom_helpers from '../../libs/provoda/utils/dom_helpers'
 
@@ -37,7 +38,7 @@ export default function readMapSliceAnimationData(view, transaction_data) {
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return}
 
-  const best_matched_view = view.getMapSliceImmediateChildView(bwlev, getModelFromR(view, transaction_data.target))
+  const best_matched_view = view.getMapSliceImmediateChildView(bwlev, getBwlevContentFromR(view, bwlev))
 
   const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, bwlev)
   if (!target_in_parent) {return}
