@@ -72,12 +72,13 @@ const asMDR = function(md) {
   return md && md.getMDReplacer()
 }
 
-export default function probeDiff(highway_holder, value, oldvalue) {
-  const bwlev = value
-  const target = getNesting(getModelByR(highway_holder, bwlev), 'pioneer').getMDReplacer()
+export default function probeDiff(highway_holder, bwlev_r, oldvalue_r) {
 
-  const value_full_path = getBwlevsTree(highway_holder, value)
-  const oldvalue_full_path = getBwlevsTree(highway_holder, oldvalue)
+  const value_full_path = getBwlevsTree(highway_holder, bwlev_r)
+  const oldvalue_full_path = getBwlevsTree(highway_holder, oldvalue_r)
+
+  const bwlev = getModelByR(highway_holder, bwlev_r)
+  const target = getNesting(bwlev, 'pioneer').getMDReplacer()
 
   const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
   const value_path_to = closest_step != null && value_full_path.slice(closest_step)
@@ -100,8 +101,8 @@ export default function probeDiff(highway_holder, value, oldvalue) {
 
 
   return {
-    bwlev: bwlev,
-    prev_bwlev: oldvalue,
+    bwlev: bwlev_r,
+    prev_bwlev: oldvalue_r,
     target: target,
     value_full_path: value_full_path.map(asMDR),
     oldvalue_full_path: oldvalue_full_path.map(asMDR),
