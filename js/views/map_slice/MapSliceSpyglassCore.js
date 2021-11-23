@@ -178,8 +178,8 @@ export default spv.inh(View, {
     }
 
     const is_very_start = bwlev.getAttr('is_main_perspectivator_resident')
-    var num = raw_num + (deeper ? 1 : 0)
-    if (num == -1 && is_very_start) {
+    const num_erl = raw_num + (deeper ? 1 : 0)
+    if (num_erl == -1 && is_very_start) {
       return this.lev_containers.start_page
     }
 
@@ -187,6 +187,7 @@ export default spv.inh(View, {
       throw new Error('wont use `deeper` here')
     }
 
+    const num = raw_num
     if (this.lev_containers[num]) {
       return this.lev_containers[num]
     } else {
