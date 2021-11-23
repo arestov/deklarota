@@ -43,7 +43,7 @@ export default function ApiDeclr(name, data) {
         this.fn = data[1]
         this.all_deps = all_deps
       }
-      break
+        break
       case 3:
       case 4: {
         var attr_deps = data[0]
@@ -61,7 +61,7 @@ export default function ApiDeclr(name, data) {
         this.fn = data[2]
         this.destroy = data[3]
       }
-      break
+        break
     }
 
   }

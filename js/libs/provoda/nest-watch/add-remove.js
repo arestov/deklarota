@@ -66,14 +66,14 @@ var checkOneItemMode = function(subl_wtch, one) {
 
 
 var removeNestWatchs = function(item, array, one) {
-    for (var i = 0; i < array.length; i++) {
-      var cur = array[i]
-      cur.nwatch.one_item_mode = checkOneItemMode(cur, one)
+  for (var i = 0; i < array.length; i++) {
+    var cur = array[i]
+    cur.nwatch.one_item_mode = checkOneItemMode(cur, one)
 
-      removeNestWatch(item, cur.nwatch, cur.skip + 1)
+    removeNestWatch(item, cur.nwatch, cur.skip + 1)
 
-      markPosition(cur.nwatch, cur.skip, item, -1)
-    }
+    markPosition(cur.nwatch, cur.skip, item, -1)
+  }
 }
 
 function noNesting(nwatch) {

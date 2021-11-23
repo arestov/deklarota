@@ -18,10 +18,10 @@ import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 
 export const BasicRouter = spv.inh(Model, {
   naming: function(fn) {
-		return function BasicRouter(opts, data, params, more, states) {
-			fn(this, opts, data, params, more, states)
-		}
-	},
+    return function BasicRouter(opts, data, params, more, states) {
+      fn(this, opts, data, params, more, states)
+    }
+  },
   init: function(self) {
     self.bwlevs = {}
 
@@ -257,10 +257,10 @@ export default spv.inh(BasicRouter, {
     'handleAttr:current_expected_rel': {
       to: {
         nothing: ['current_expected_rel']
-        },
-        fn: [
-          ['<<<<'],
-          (data, self) => {
+      },
+      fn: [
+        ['<<<<'],
+        (data, self) => {
 
           handleCurrentExpectedRel(self, data)
           return {}

@@ -176,7 +176,7 @@ var convertEncoded = function(enc) {
         needed: needed
       }
     }
-    break
+      break
     case 'nesting': {
       return {
         dep_id: dep_counter++,
@@ -185,7 +185,7 @@ var convertEncoded = function(enc) {
         needed: needed
       }
     }
-    break
+      break
     case 'parent': {
       return {
         dep_id: dep_counter++,
@@ -194,7 +194,7 @@ var convertEncoded = function(enc) {
         needed: needed
       }
     }
-    break
+      break
   }
 }
 

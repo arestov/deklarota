@@ -302,7 +302,7 @@ export default {
       }
     })(),
     'pv-events': (function() {
-        var createPVEventData = function(event_name, data, event_opts) {
+      var createPVEventData = function(event_name, data, event_opts) {
 
         event_opts = event_opts && event_opts.split(',')
         var event_handling = {}

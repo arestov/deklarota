@@ -40,32 +40,32 @@ var FuncsStack = function(selectNext, initAtom) {
   }
   this.done =
     selectNext ?
-    function() {
-      if (this.stack === _this.arr) {
-        selectNext.call(_this, this, arguments)
-      }
-    } :
-    function() {
-      if (this.stack === _this.arr) {
-        if (this.atom_completed) {
-          throw new Error('executing second time!')
+      function() {
+        if (this.stack === _this.arr) {
+          selectNext.call(_this, this, arguments)
         }
-        if (_this.arr[0] === this) {
-          this.atom_completed = true
+      } :
+      function() {
+        if (this.stack === _this.arr) {
+          if (this.atom_completed) {
+            throw new Error('executing second time!')
+          }
+          if (_this.arr[0] === this) {
+            this.atom_completed = true
 
-          _this.arr.shift()
-          if (_this.arr[0]) {
-            _this.goAhead(_this.arr[0], arguments)
+            _this.arr.shift()
+            if (_this.arr[0]) {
+              _this.goAhead(_this.arr[0], arguments)
+            } else {
+              _this.waitNext(arguments)
+            }
           } else {
-            _this.waitNext(arguments)
+            throw new Error('wrong stack, func must be in [0]')
           }
         } else {
-          throw new Error('wrong stack, func must be in [0]')
-        }
-      } else {
         // was reseted - this.reset()
+        }
       }
-    }
 }
 
 FuncsStack.prototype = {

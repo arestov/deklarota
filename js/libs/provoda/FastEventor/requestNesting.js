@@ -244,37 +244,37 @@ export default function(dclt, nesting_name, limit) {
   }
 
   request
-  .then(function(wrapped_response) {
-    const [has_error, response, source_name] = wrapped_response
+    .then(function(wrapped_response) {
+      const [has_error, response, source_name] = wrapped_response
 
-    if (!isValidRequest(request)) {
-      return
-    }
+      if (!isValidRequest(request)) {
+        return
+      }
 
-    if (has_error) {
-      _this.sputnik.input(handleError)
-      return
-    }
+      if (has_error) {
+        _this.sputnik.input(handleError)
+        return
+      }
 
-    _this.sputnik.input(function() {
-      store.error = false
-      store.has_all_items = true
-      handleNestResponse(response, source_name, function() {
-        store.has_all_items = false
+      _this.sputnik.input(function() {
+        store.error = false
+        store.has_all_items = true
+        handleNestResponse(response, source_name, function() {
+          store.has_all_items = false
+        })
+        anyway()
+        markAttemptComplete()
       })
-      anyway()
-      markAttemptComplete()
+
+    }, function() {
+      if (!isValidRequest(request)) {
+        return
+      }
+
+      _this.sputnik.input(handleError)
+
+
     })
-
-  }, function() {
-    if (!isValidRequest(request)) {
-      return
-    }
-
-    _this.sputnik.input(handleError)
-
-
-  })
 
   function handleNestResponse(r, source_name, markListIncomplete) {
     // should be in data bus queue - use `.input` wrap

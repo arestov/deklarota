@@ -133,7 +133,7 @@ AttrsCollector.prototype = {
       case 'bool': {
         this.boolByName.set(name, this.bools++)
       }
-      break
+        break
       default: {
         this.indexByName.set(name, this.counter++)
       }

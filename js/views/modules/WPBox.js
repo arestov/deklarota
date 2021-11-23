@@ -581,7 +581,7 @@ spv.Class.extendTo(WPBox, {
         }
         if (!angle) {
           if ((pret_dems.offset.left + pret_dems.width) <= target_dems.offset.left) {
-          continue
+            continue
           }
           if (pret_dems.offset.left >= (target_dems.offset.left + target_dems.width)) {
             continue

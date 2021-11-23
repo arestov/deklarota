@@ -60,10 +60,10 @@ function calcsReady(highway) {
   var requests_promise = Promise.all(highway.requests)
 
   var flow_promise = calls_flow.flow_end ? new Promise(function(resolve) {
-      calls_flow.pushToFlow(function() {
-        resolve()
-      }, false, false, false, false, false, { complex_order: [Infinity], inited_order: [Infinity] }, true)
-    }) : Promise.resolve()
+    calls_flow.pushToFlow(function() {
+      resolve()
+    }, false, false, false, false, false, { complex_order: [Infinity], inited_order: [Infinity] }, true)
+  }) : Promise.resolve()
 
   return new Promise(function(resolve, reject) {
     Promise.all([flow_promise, requests_promise]).then(check, reject)

@@ -34,8 +34,8 @@ var getParsedPath = spv.memorize(function(string_template) {
   var full_usable_string = from_root
     ? from_root.cutted
     : (from_parent
-        ? from_parent.cutted
-        : string_template)
+      ? from_parent.cutted
+      : string_template)
 
 
 

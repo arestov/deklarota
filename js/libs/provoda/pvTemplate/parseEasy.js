@@ -50,13 +50,13 @@ export default function parserEasy(start_node, vroot_node, struc_store, getSampl
       // if (directives_data.replacer) {
       // 	match_stack.unshift(directives_data.node);
       // } else {
-        for (i = 0; i < cur_node.childNodes.length; i++) {
+      for (i = 0; i < cur_node.childNodes.length; i++) {
           // если запрещен байндинг текущего нода, то и его потомков тоже запрещён
-          match_stack.push(cur_node.childNodes[i], can_bind && can_bind_children)
-        }
-        if (can_bind) {
-          list_for_binding.push(is_root_node, cur_node, directives_data)
-        }
+        match_stack.push(cur_node.childNodes[i], can_bind && can_bind_children)
+      }
+      if (can_bind) {
+        list_for_binding.push(is_root_node, cur_node, directives_data)
+      }
       // }
     } else if (node_type == 8) {
       directives_data = getCommentPVData(cur_node, struc_store, getSample)

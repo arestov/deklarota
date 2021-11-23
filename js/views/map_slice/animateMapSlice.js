@@ -70,7 +70,7 @@ export const getLevNum = (view_with_highway, transaction_data) => {
 
 export default function(view, transaction_data, animation_data) {
   var all_changhes = spv.filter(transaction_data.array, 'changes')
-    all_changhes = concatArray(all_changhes)
+  all_changhes = concatArray(all_changhes)
   var models = spv.filter(all_changhes, 'target')
   var i
 

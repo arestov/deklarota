@@ -54,7 +54,7 @@ var getCommentDirectivesData = function(cur_node, getSample) {
     // 		data: chunk[2]
     // 	};
     // } else {
-      directives_data.instructions[directive_name] = chunk
+    directives_data.instructions[directive_name] = chunk
     // }
 
   }
@@ -115,7 +115,7 @@ var getDirectivesData = (function() {
         // 		data: value[2]
         // 	};
         // } else {
-          directives_data.instructions[directive_name] = value
+        directives_data.instructions[directive_name] = value
         // }
 
       }

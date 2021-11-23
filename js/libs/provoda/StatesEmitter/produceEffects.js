@@ -154,9 +154,9 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
     for (var i = 0; i < effect.effects_deps.length; i++) {
       var dep_effect_name = effect.effects_deps[i]
       if (using.invalidated[dep_effect_name] || !using.once[dep_effect_name]) {
-          deps_ready = false
-          has_one = false
-          break
+        deps_ready = false
+        has_one = false
+        break
       }
     }
 

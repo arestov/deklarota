@@ -12,11 +12,11 @@ export default function gentlyUpdateAttr(self, name, value, opts) {
   }
 
   if (self._currentMotivator() != null) {
-     updateAttr(self, name, value, opts)
-     return
-   }
+    updateAttr(self, name, value, opts)
+    return
+  }
 
-   self.input(function() {
-     updateAttr(self, name, value, opts)
-   })
+  self.input(function() {
+    updateAttr(self, name, value, opts)
+  })
 }

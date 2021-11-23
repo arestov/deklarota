@@ -53,7 +53,7 @@ const switchToAliveParent = (self) => {
       self.map_parent && self.map_parent.getNesting('pioneer')) ||
     self.map_parent ||
     self.map.start_bwlev,
-  self.map)
+    self.map)
 }
 
 var BrowseLevel = spv.inh(Model, {
@@ -163,8 +163,8 @@ var BrowseLevel = spv.inh(Model, {
     'struc': [
       'comp',
       ['enabled_loading',
-      '< @one:used_data_structure < map <<',
-      '<< @one:pioneer <<', 'map_level_num', 'probe_name'],
+        '< @one:used_data_structure < map <<',
+        '<< @one:pioneer <<', 'map_level_num', 'probe_name'],
       function(
         enabled_loading,
         struc,
@@ -226,13 +226,13 @@ var BrowseLevel = spv.inh(Model, {
       'comp',
       ['_provoda_id'],
       function(_provoda_id) {
-          return {
-            needy_id: _provoda_id,
-            store: {},
-            reqs: {},
-            is_active: {}
-          }
+        return {
+          needy_id: _provoda_id,
+          store: {},
+          reqs: {},
+          is_active: {}
         }
+      }
     ],
 
     '__to_load_all': [

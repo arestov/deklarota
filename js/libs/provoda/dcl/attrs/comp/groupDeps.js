@@ -47,23 +47,23 @@ function groupDeps(parse) {
               states_of_root[state_name] = parsing_result
             }
           }
-          break
+            break
           case 'nesting': {
             if (!states_of_nesting[state_name]) {
               states_of_nesting[state_name] = parsing_result
             }
           }
-          break
+            break
           case 'parent': {
             if (!states_of_parent[state_name]) {
               states_of_parent[state_name] = parsing_result
             }
           }
-          break
+            break
           case 'self': {
             connect_self = connect_self || true
           }
-          break
+            break
         }
       }
     }

@@ -143,14 +143,14 @@ function bindCheck(dcl, args_to_states) {
     case 'state': {
       getRight = bindArg(args_to_states[dcl.criteria.state])
     }
-    break
+      break
     case 'static_value': {
       var value = dcl.criteria.value
       getRight = function() {
         return value
       }
     }
-    break
+      break
   }
 
   var compareFn = dcl.compareFn

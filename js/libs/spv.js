@@ -9,7 +9,7 @@ import splitByDot from './spv/splitByDot'
 var spv = {}
 
 var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
-getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,
+  getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,
   debounce, throttle
 
 spv.getArrayNoDubs = function(array, clean_array) {
@@ -1359,9 +1359,9 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
     //http://learn.javascript.ru/setimmediate
 
     var head = {
-      func: null,
-      next: null
-    }, tail = head // очередь вызовов, 1-связный список
+        func: null,
+        next: null
+      }, tail = head // очередь вызовов, 1-связный список
 
     var ID = Math.random() // уникальный идентификатор
 
@@ -1388,9 +1388,9 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
       tail = tail.next = { func: func, next: null }
       win.postMessage(ID, '*')
     } :
-    function(func) { // IE<8
-      setTimeout(func, 0)
-    }
+      function(func) { // IE<8
+        setTimeout(func, 0)
+      }
   }())
 }
 

@@ -140,31 +140,31 @@ var asMDR = function(md) {
 }
 
 function animateMapChanges(fake_spyglass, bwlev) {
-var diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
-if (!diff.array || !diff.array.length) {
- return
-}
+  var diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
+  if (!diff.array || !diff.array.length) {
+    return
+  }
 
- var bwlevs = branch(bwlev)
- var models = bwlevs.map(getPioneer)
+  var bwlevs = branch(bwlev)
+  var models = bwlevs.map(getPioneer)
 
- _updateRel(fake_spyglass, 'navigation', bwlevs)
+  _updateRel(fake_spyglass, 'navigation', bwlevs)
 
- var changes = diff
- var i
- var all_changhes = spv.filter(changes.array, 'changes')
+  var changes = diff
+  var i
+  var all_changhes = spv.filter(changes.array, 'changes')
 
 
- all_changhes = Array.prototype.concat.apply(Array.prototype, all_changhes)
+  all_changhes = Array.prototype.concat.apply(Array.prototype, all_changhes)
  //var models = spv.filter(all_changhes, 'target');
 
- for (i = 0; i < all_changhes.length; i++) {
-   var change = all_changhes[i]
-   var handler = model_mapch[change.type]
-   if (handler) {
-     handler.call(null, change, fake_spyglass)
-   }
- }
+  for (i = 0; i < all_changhes.length; i++) {
+    var change = all_changhes[i]
+    var handler = model_mapch[change.type]
+    if (handler) {
+      handler.call(null, change, fake_spyglass)
+    }
+  }
 
  /*
    подсветить/заменить текущий источник
@@ -175,50 +175,50 @@ if (!diff.array || !diff.array.length) {
  // var bwlevs = residents && spv.filter(residents, 'lev.bwlev');
 
 
- if (diff.target) {
-   if (fake_spyglass.current_mp_md) {
-     _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
-   }
-   var target_md = fake_spyglass.current_mp_md = diff.target.getMD()
+  if (diff.target) {
+    if (fake_spyglass.current_mp_md) {
+      _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
+    }
+    var target_md = fake_spyglass.current_mp_md = diff.target.getMD()
 
-   fake_spyglass.current_mp_bwlev = depth(diff.bwlev.getMD(), fake_spyglass.current_mp_bwlev)
+    fake_spyglass.current_mp_bwlev = depth(diff.bwlev.getMD(), fake_spyglass.current_mp_bwlev)
 
-   _updateAttr(target_md, 'mp_has_focus', true)
-   _updateAttr(diff.bwlev.getMD(), 'mp_has_focus', true)
+    _updateAttr(target_md, 'mp_has_focus', true)
+    _updateAttr(diff.bwlev.getMD(), 'mp_has_focus', true)
 
    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
-   _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
-   _updateRel(fake_spyglass, 'current_mp_md', target_md)
-   _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD())
+    _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
+    _updateRel(fake_spyglass, 'current_mp_md', target_md)
+    _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD())
    //_updateAttr(target_md, 'mp-highlight', false);
 
 
- }
+  }
 
 
- var mp_show_wrap
- if (models) {
+  var mp_show_wrap
+  if (models) {
 
-   var all_items = models.concat(bwlevs)
+    var all_items = models.concat(bwlevs)
 
-   mp_show_wrap = {
-     items: models.map(asMDR),
-     bwlevs: bwlevs.map(asMDR),
-     all_items: all_items.map(asMDR),
-     mp_show_states: []
-   }
-   for (i = 0; i < models.length; i++) {
-     mp_show_wrap.mp_show_states.push(models[i].state('mp_show'))
-   }
- }
+    mp_show_wrap = {
+      items: models.map(asMDR),
+      bwlevs: bwlevs.map(asMDR),
+      all_items: all_items.map(asMDR),
+      mp_show_states: []
+    }
+    for (i = 0; i < models.length; i++) {
+      mp_show_wrap.mp_show_states.push(models[i].state('mp_show'))
+    }
+  }
 
 
- _updateRel(fake_spyglass, 'map_slice', {
-   residents_struc: mp_show_wrap,
-   $not_model: true,
-   each_items: all_items,
-   transaction: changes
- })
+  _updateRel(fake_spyglass, 'map_slice', {
+    residents_struc: mp_show_wrap,
+    $not_model: true,
+    each_items: all_items,
+    transaction: changes
+  })
 
 }
 

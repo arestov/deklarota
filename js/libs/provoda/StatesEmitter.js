@@ -24,177 +24,177 @@ var getLightConnector = spv.memorize(function(state_name) {
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
 
-var EvConxOpts = function(context, immediately) {
-  this.context = context
-  this.immediately = immediately
-  Object.freeze(this)
-}
+  var EvConxOpts = function(context, immediately) {
+    this.context = context
+    this.immediately = immediately
+    Object.freeze(this)
+  }
 
-add(attr_events)
+  add(attr_events)
 
-add({
-  __act: act,
-  dispatch: function(action_name, data) {
-    this._calls_flow.pushToFlow(act, this, [this, action_name, data])
-  },
+  add({
+    __act: act,
+    dispatch: function(action_name, data) {
+      this._calls_flow.pushToFlow(act, this, [this, action_name, data])
+    },
   // init: function(){
   // 	this._super();
 
 
   // 	return this;
   // },
-  getInterface: function(interface_name) {
-    return this._interfaces_used[interface_name]
-  },
-  watchInterface: function(from, interface_name, fn) {
-    var meta_state_name = '$meta$apis$' + interface_name + '$used'
-    this.lwch(from, meta_state_name, fn)
-  },
-  unwatchInterface: function(from, interface_name, fn) {
-    var meta_state_name = '$meta$apis$' + interface_name + '$used'
-    this.removeLwch(from, meta_state_name, fn)
+    getInterface: function(interface_name) {
+      return this._interfaces_used[interface_name]
+    },
+    watchInterface: function(from, interface_name, fn) {
+      var meta_state_name = '$meta$apis$' + interface_name + '$used'
+      this.lwch(from, meta_state_name, fn)
+    },
+    unwatchInterface: function(from, interface_name, fn) {
+      var meta_state_name = '$meta$apis$' + interface_name + '$used'
+      this.removeLwch(from, meta_state_name, fn)
 
-  },
-  __updateInteraceState: __updateInteraceState,
-  __reportInterfaceChange: __reportInterfaceChange,
-  useInterface: function(interface_name, obj, destroy) {
-    useInterface(this, interface_name, obj, destroy)
-  },
-  'regfr-lightstev': regfr_lightstev,
-  getContextOptsI: function() {
-    if (!this.conx_optsi) {
-      this.conx_optsi = new EvConxOpts(this, true)
-    }
-    return this.conx_optsi
-  },
-  ___attrsToSync: function() {
-    return this.states
-  },
-  getContextOpts: function() {
-    if (!this.conx_opts) {
-      this.conx_opts = new EvConxOpts(this)
-    }
-    return this.conx_opts
-  },
-
-
-  wlch: function(donor, donor_state, acceptor_state_name) {
-    var cb = getLightConnector(acceptor_state_name, donor_state)
-
-    var event_name = utils_simple.getSTEVNameLight(donor_state)
-    donor.evcompanion._addEventHandler(event_name, cb, this, null, null, true)
-  },
-  unwlch: function(donor, donor_state, acceptor_state_name) {
-    var cb = getLightConnector(acceptor_state_name, donor_state)
-    this.removeLwch(donor, donor_state, cb)
-  },
-  onExtend: function(props, original) {
-    onPropsExtend(this, props, original)
-  }
-})
-
-add({
-//	full_comlxs_list: [],
-  compx_check: {},
-//	full_comlxs_index: {},
-  state: function(state_path) {
-    return pvState(this, state_path)
-  },
-  getAttr: function(state_path) {
-    return pvState(this, state_path)
-  },
-  __getPublicAttrs: function() {
-    return this._attrs_collector.public_attrs
-  }
-})
-
-var updateAttr = function(state_name, value, opts) {
-  gentlyUpdateAttr(this, state_name, value, opts)
-}
-
-var updateManyAttrs = function(obj) {
-  var changes_list = []
-  for (var state_name in obj) {
-    if (obj.hasOwnProperty(state_name)) {
-      if (this.hasComplexStateFn(state_name)) {
-        throw new Error('you can\'t change complex state ' + state_name)
+    },
+    __updateInteraceState: __updateInteraceState,
+    __reportInterfaceChange: __reportInterfaceChange,
+    useInterface: function(interface_name, obj, destroy) {
+      useInterface(this, interface_name, obj, destroy)
+    },
+    'regfr-lightstev': regfr_lightstev,
+    getContextOptsI: function() {
+      if (!this.conx_optsi) {
+        this.conx_optsi = new EvConxOpts(this, true)
       }
-      changes_list.push(state_name, obj[state_name])
+      return this.conx_optsi
+    },
+    ___attrsToSync: function() {
+      return this.states
+    },
+    getContextOpts: function() {
+      if (!this.conx_opts) {
+        this.conx_opts = new EvConxOpts(this)
+      }
+      return this.conx_opts
+    },
+
+
+    wlch: function(donor, donor_state, acceptor_state_name) {
+      var cb = getLightConnector(acceptor_state_name, donor_state)
+
+      var event_name = utils_simple.getSTEVNameLight(donor_state)
+      donor.evcompanion._addEventHandler(event_name, cb, this, null, null, true)
+    },
+    unwlch: function(donor, donor_state, acceptor_state_name) {
+      var cb = getLightConnector(acceptor_state_name, donor_state)
+      this.removeLwch(donor, donor_state, cb)
+    },
+    onExtend: function(props, original) {
+      onPropsExtend(this, props, original)
     }
-  }
-
-  if (this._currentMotivator() != null) {
-    this._updateProxy(changes_list)
-    return
-  }
-
-  var self = this
-  this.input(function() {
-    self._updateProxy(changes_list)
   })
 
-}
-
-add({
-
-
-  updateManyStates: updateManyAttrs,
-  updateManyAttrs: updateManyAttrs,
-  updateState: updateAttr,
-  updateAttr: updateAttr,
-  setStateDependence: function(state_name, source_id, value) {
-    if (typeof source_id == 'object') {
-      source_id = source_id._provoda_id
+  add({
+//	full_comlxs_list: [],
+    compx_check: {},
+//	full_comlxs_index: {},
+    state: function(state_path) {
+      return pvState(this, state_path)
+    },
+    getAttr: function(state_path) {
+      return pvState(this, state_path)
+    },
+    __getPublicAttrs: function() {
+      return this._attrs_collector.public_attrs
     }
-    var old_value = this.state(state_name) || {index: {}, count: 0}
-    old_value.index[source_id] = value ? true : false
+  })
 
-    var count = 0
+  var updateAttr = function(state_name, value, opts) {
+    gentlyUpdateAttr(this, state_name, value, opts)
+  }
 
-    for (var prop in old_value.index) {
-      if (!old_value.index.hasOwnProperty(prop)) {
-        continue
-      }
-      if (old_value.index[prop]) {
-        count++
+  var updateManyAttrs = function(obj) {
+    var changes_list = []
+    for (var state_name in obj) {
+      if (obj.hasOwnProperty(state_name)) {
+        if (this.hasComplexStateFn(state_name)) {
+          throw new Error('you can\'t change complex state ' + state_name)
+        }
+        changes_list.push(state_name, obj[state_name])
       }
     }
 
+    if (this._currentMotivator() != null) {
+      this._updateProxy(changes_list)
+      return
+    }
 
-
-    _updateAttr(this, state_name, {
-      index: old_value.index,
-      count: count
+    var self = this
+    this.input(function() {
+      self._updateProxy(changes_list)
     })
 
-
-  },
-  hasComplexStateFn: function(state_name) {
-    return this.compx_check[state_name]
-  },
-
-  _updateProxy: function(changes_list, opts) {
-    updateProxy(this, changes_list, opts)
-  },
-  __count_lightevent_subscriber: function(attr_name) {
-    var light_name = getNameByAttr(attr_name)
-    var light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name)
-
-    return light_cb_cs ? light_cb_cs.length : 0
-  },
-  __deliverChainUpdates: function(chain) {
-    deliverChainUpdates(this, chain)
-  },
-  _throwError(msg, context) {
-    const err = msg instanceof Error ? msg : new Error(msg)
-    console.error(err, '\n', context, '\n', this.__code_path)
-    throw err
-  },
-  _warnError(msg, context) {
-    const err = msg instanceof Error ? msg : new Error(msg)
-    console.warn(err, '\n', context, '\n', this.__code_path)
   }
-})
+
+  add({
+
+
+    updateManyStates: updateManyAttrs,
+    updateManyAttrs: updateManyAttrs,
+    updateState: updateAttr,
+    updateAttr: updateAttr,
+    setStateDependence: function(state_name, source_id, value) {
+      if (typeof source_id == 'object') {
+        source_id = source_id._provoda_id
+      }
+      var old_value = this.state(state_name) || {index: {}, count: 0}
+      old_value.index[source_id] = value ? true : false
+
+      var count = 0
+
+      for (var prop in old_value.index) {
+        if (!old_value.index.hasOwnProperty(prop)) {
+          continue
+        }
+        if (old_value.index[prop]) {
+          count++
+        }
+      }
+
+
+
+      _updateAttr(this, state_name, {
+        index: old_value.index,
+        count: count
+      })
+
+
+    },
+    hasComplexStateFn: function(state_name) {
+      return this.compx_check[state_name]
+    },
+
+    _updateProxy: function(changes_list, opts) {
+      updateProxy(this, changes_list, opts)
+    },
+    __count_lightevent_subscriber: function(attr_name) {
+      var light_name = getNameByAttr(attr_name)
+      var light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name)
+
+      return light_cb_cs ? light_cb_cs.length : 0
+    },
+    __deliverChainUpdates: function(chain) {
+      deliverChainUpdates(this, chain)
+    },
+    _throwError(msg, context) {
+      const err = msg instanceof Error ? msg : new Error(msg)
+      console.error(err, '\n', context, '\n', this.__code_path)
+      throw err
+    },
+    _warnError(msg, context) {
+      const err = msg instanceof Error ? msg : new Error(msg)
+      console.warn(err, '\n', context, '\n', this.__code_path)
+    }
+  })
 }
 
 var StatesEmitter = spv.inh(Eventor, {
