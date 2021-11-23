@@ -19,6 +19,8 @@ import handleNavChange from './handleNavChange'
 
 const can_animate = css.transform && css.transition
 
+const last = (list) => list && list[list.length - 1]
+
 const LevContainer = function(con, scroll_con, material, tpl, context) {
   this.c = con
   this.scroll_con = scroll_con
@@ -285,30 +287,16 @@ export default spv.inh(View, {
     return target_md
   },
 
-  'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
-    const transaction = nesting_data.transaction
-    const bwlevs = nesting_data.residents_struc?.bwlevs
+  'collch-map_slice': function(nesname, next_tree, prev_tree) {
+    const diff = probeDiff(next_tree, prev_tree || [])
 
-    if (!transaction) {
-      throw new Error('map_slice should have `transaction`')
-    }
-
-    if (!transaction.bwlev) {
-      throw new Error('map_slice transaction should have `bwlev`')
-    }
-
-    const old_transaction = old_nesting_data?.transaction
-
-    const diff = probeDiff(this, transaction.bwlev, old_transaction?.bwlev)
-
-
-    const array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
+    const array = this.getRendOrderedNesting(nesname, next_tree) || next_tree
 
     const animation_data = readMapSliceAnimationData(
       this,
       isOneStepZoomIn(diff.array),
-      transaction.bwlev,
-      old_transaction?.bwlev
+      last(next_tree),
+      last(prev_tree)
     )
 
     for (let i = array.length - 1; i >= 0; i--) {

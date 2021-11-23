@@ -2,7 +2,7 @@
 import spv from '../../../spv'
 import _updateRel from '../../_internal/_updateRel'
 import _updateAttr from '../../_internal/_updateAttr'
-import probeDiff from '../../probeDiff'
+import probeDiff, { getBwlevsTree } from '../../probeDiff'
 
 const complexBrowsing = function(bwlev, md, value) {
   // map levels. without knowing which map
@@ -131,7 +131,11 @@ const asMDR = function(md) {
 }
 
 function animateMapChanges(fake_spyglass, bwlev) {
-  const diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
+
+  const next_tree = getBwlevsTree(fake_spyglass, bwlev)
+  const prev_tree = getBwlevsTree(fake_spyglass, fake_spyglass.current_mp_bwlev)
+  const diff = probeDiff(next_tree, prev_tree)
+
   if (!diff.array || !diff.array.length) {
     return
   }
@@ -205,12 +209,7 @@ function animateMapChanges(fake_spyglass, bwlev) {
   }
 
 
-  _updateRel(fake_spyglass, 'map_slice', {
-    residents_struc: mp_show_wrap,
-    $not_model: true,
-    each_items: all_items,
-    transaction: changes
-  })
+  _updateRel(fake_spyglass, 'map_slice', next_tree)
 
 }
 
