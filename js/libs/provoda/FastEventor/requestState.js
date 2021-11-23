@@ -7,10 +7,9 @@ import types from './stateReqTypes'
 
 const arrayExclude = spv.arrayExclude
 
-var getRequestByDeclr = req_utils.getRequestByDeclr
+const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
 const onPromiseFail = req_utils.onPromiseFail
-var getRequestByDeclr = req_utils.getRequestByDeclr
 
 
 const withoutSelf = function(array, name) {
@@ -104,7 +103,7 @@ function bindRequest(request, selected_map, store, self) {
 
   function handleStatesResponse(result) {
     // should be in data bus queue - use `.input` wrap
-    var i
+    let i
     let result_states = {}
 
     if (Array.isArray(result)) {
@@ -124,7 +123,7 @@ function bindRequest(request, selected_map, store, self) {
       result_states = result
     }
 
-    for (var i = 0; i < states_list.length; i++) {
+    for (i = 0; i < states_list.length; i++) {
       result_states['$meta$states$' + states_list[i] + '$complete'] = true
 
     }
