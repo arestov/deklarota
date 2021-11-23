@@ -1,6 +1,6 @@
 
 
-var doCopy = function(item, self, extended_comp_attrs) {
+var doCopy = function(item, _self, extended_comp_attrs) {
   if (!item.deps_name) {
     throw new Error('item should have deps_name')
   }

@@ -99,7 +99,7 @@ export default spv.inh(BasicRouter, {
     'full_url': [
       'comp',
       ['< @all:url_part < navigation.pioneer <<', '<< @all:navigation <<'],
-      function(nil, list) {
+      function(_updates, list) {
         return list && joinNavURL(list)
       }
     ],
@@ -203,7 +203,7 @@ export default spv.inh(BasicRouter, {
       },
       fn: [
         ['<<<<'],
-        (data, self) => {
+        (_, self) => {
           const target = self
           var map = target
 

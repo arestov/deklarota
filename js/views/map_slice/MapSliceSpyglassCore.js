@@ -68,10 +68,10 @@ export default spv.inh(View, {
       updateAttr(this, 'nav_helper_full', true)
     },
   },
-  'collch-current_mp_md': function(name, value) {
+  'collch-current_mp_md': function(_name, value) {
     _updateAttr(this, 'current_mp_md', value._provoda_id)
   },
-  'collch-current_mp_bwlev': function(name, value) {
+  'collch-current_mp_bwlev': function(_name, value) {
     _updateAttr(this, 'current_mp_bwlev', value._provoda_id)
   },
   'collch-navigation': {
