@@ -70,7 +70,7 @@ function mutateTreeStoreForChild(tree, store, path, struc) {
   spv.cloneObj(tree.children_index, struc.children_index)
 }
 
-var buildFreeChildren = function(tree, base_from_parent, base_root_constr_id) {
+const buildFreeChildren = function(tree, base_from_parent, base_root_constr_id) {
   const used_base = base_from_parent
   const children_list_index = {}
   const children_list = []
@@ -106,7 +106,7 @@ var buildFreeChildren = function(tree, base_from_parent, base_root_constr_id) {
   }
 }
 
-var getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent, base_root_constr_id) {
+const getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent, base_root_constr_id) {
   /*
   - collch
   - pv-view внутри .tpl
@@ -191,8 +191,8 @@ var getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent
     const cur = children_list[i]
 
     //var basetree = tree.basetree &&  spv.getTargetField(tree.basetree, cur);
-    var parent_basetree_chi
-    var chi_constr_id
+    let parent_basetree_chi
+    let chi_constr_id
 
     const base_tree_chi = tree.basetree && spv.getTargetField(tree.basetree, cur)
     if (tree.basetree) {
