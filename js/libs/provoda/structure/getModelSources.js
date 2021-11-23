@@ -55,7 +55,7 @@ export default function getModelSources(app, md, cur) {
     const items = getNestingConstr(app, md, nesting_name)
     for (const space_name in cur.m_children.children[nesting_name]) {
 
-      var constr_sources
+      let constr_sources
       if (!items) {
         continue
       }

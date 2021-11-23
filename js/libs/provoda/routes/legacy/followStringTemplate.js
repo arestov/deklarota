@@ -15,11 +15,11 @@ const followStringTemplate = function(app, md, obj, need_constr, full_path, stri
     // "^page/ect"
     let target_md_start = md
     if (target_md_start.getInstanceKey()) {
-      for (var i = 0; i < obj.from_parent; i++) {
+      for (let i = 0; i < obj.from_parent; i++) {
         target_md_start = target_md_start.map_parent
       }
     } else {
-      for (var i = 0; i < obj.from_parent; i++) {
+      for (let i = 0; i < obj.from_parent; i++) {
         target_md_start = target_md_start._parent_constr && target_md_start._parent_constr.prototype
       }
     }

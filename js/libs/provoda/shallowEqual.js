@@ -44,7 +44,7 @@ function shallowEqual(objA, objB) {
     fast check. just 1st level of props
   */
 
-  for (var name in objA) {
+  for (const name in objA) {
     if (hasOwnProperty(objA, name)) {
       if (!hasOwnProperty(objB, name)) {
         return false
@@ -58,7 +58,7 @@ function shallowEqual(objA, objB) {
 
   // objA and objB can have dirrenent keys number. so check both
 
-  for (var name in objB) {
+  for (const name in objB) {
     if (hasOwnProperty(objB, name)) {
       if (!hasOwnProperty(objA, name)) {
         return false

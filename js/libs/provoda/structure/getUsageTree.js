@@ -208,11 +208,11 @@ const getUsageTree = function(full_key, key, cur_view, root_view, base_from_pare
       : spv.getTargetField(own_children, cur)
 
     if (constr) {
-      var struc = getUsageTree(full_key.concat(cur), cur, constr.prototype, root_view, parent_basetree_chi, parent_basetree_chi && chi_constr_id)
+      const struc = getUsageTree(full_key.concat(cur), cur, constr.prototype, root_view, parent_basetree_chi, parent_basetree_chi && chi_constr_id)
       mutateTreeStoreForChild(tree, tree.constr_children, cur, struc)
 
     } else if (parent_basetree_chi) {
-      var struc = getTreeSample(full_key.concat(cur), cur)
+      const struc = getTreeSample(full_key.concat(cur), cur)
       mutateTreeStoreForChild(tree, tree.tree_children, cur, struc)
       buildFreeChildren(struc, parent_basetree_chi, parent_basetree_chi && chi_constr_id)
       struc.base_from_parent = parent_basetree_chi

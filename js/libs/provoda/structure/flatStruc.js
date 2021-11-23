@@ -65,7 +65,7 @@ function checkNestingPath(app, md, dep, path, original_need) {
       break
     }
 
-    var type
+    let type
     const declr = getNestReq(cur, right_nesting_name)
     if (declr || getNestConstr(cur, right_nesting_name)) {
       type = 'countless'
