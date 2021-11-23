@@ -31,11 +31,11 @@ export default function(models, multi_path) {
       }
 
       const result = new Array(models.length)
-      for (var i = 0; i < models.length; i++) {
+      for (let i = 0; i < models.length; i++) {
         result[i] = readState(models[i], multi_path)
       }
 
-      var zipFn = zip_fns[multi_path.zip_name || 'all']
+      const zipFn = zip_fns[multi_path.zip_name || 'all']
 
       return zipFn(result)
     }
@@ -51,7 +51,7 @@ export default function(models, multi_path) {
 
       // results is always array here
       const list_of_rels = []
-      for (var i = 0; i < models.length; i++) {
+      for (let i = 0; i < models.length; i++) {
         const cur = readNesting(models[i], multi_path)
         if (!cur) {continue}
 
@@ -61,7 +61,7 @@ export default function(models, multi_path) {
       const flat = Array.prototype.concat.apply([], list_of_rels)
       const uniq = Array.from(new Set(flat))
 
-      var zipFn = zip_fns[multi_path.zip_name || 'all']
+      const zipFn = zip_fns[multi_path.zip_name || 'all']
 
       return zipFn(uniq)
     }
