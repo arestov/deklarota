@@ -27,20 +27,19 @@ const getAMCOffset = function() {
 const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
 
 export default function readMapSliceAnimationData(view, transaction_data) {
-  const current_bwlev = transaction_data?.bwlev
-  if (!current_bwlev) {return}
+  const current_bwlev_r = transaction_data?.bwlev
+  if (!current_bwlev_r) {return}
 
-  const target_md = getModelFromR(view, current_bwlev)
-  const current_mp_bwlev = target_md
+  const bwlev = getModelFromR(view, current_bwlev_r)
 
-  const current_lev_num = getAttr(target_md, 'map_level_num')
+  const current_lev_num = getAttr(bwlev, 'map_level_num')
   const one_zoom_in = isOneStepZoomIn(transaction_data.array)
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return}
 
-  const best_matched_view = view.getMapSliceImmediateChildView(target_md, getModelFromR(view, transaction_data.target))
+  const best_matched_view = view.getMapSliceImmediateChildView(bwlev, getModelFromR(view, transaction_data.target))
 
-  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, target_md)
+  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, bwlev)
   if (!target_in_parent) {return}
 
   const targt_con = target_in_parent.getC()
@@ -98,7 +97,7 @@ export default function readMapSliceAnimationData(view, transaction_data) {
   const shift_x = width / 2 - min_scale * con_width / 2
   const shift_y = height / 2 - min_scale * con_height / 2
 
-  const lc = view.getLevelContainer(current_mp_bwlev)
+  const lc = view.getLevelContainer(bwlev)
 
   const transform_values = {}
   const value = 'translate(' + (offset.left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')'
