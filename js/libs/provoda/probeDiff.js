@@ -22,7 +22,7 @@ const getModelByR = function(highway_holder, mdr) {
   return getModelByIdUniversal(highway_holder, _provoda_id)
 }
 
-const getTree = function(highway_holder, mdrp) {
+export const getBwlevsTree = function(highway_holder, mdrp) {
   const result = []
   if (!mdrp) {
     return result
@@ -74,8 +74,8 @@ export default function probeDiff(highway_holder, value, oldvalue) {
   const bwlev = value
   const target = getNesting(getModelByR(highway_holder, bwlev), 'pioneer').getMDReplacer()
 
-  const value_full_path = getTree(highway_holder, value)
-  const oldvalue_full_path = getTree(highway_holder, oldvalue)
+  const value_full_path = getBwlevsTree(highway_holder, value)
+  const oldvalue_full_path = getBwlevsTree(highway_holder, oldvalue)
 
   const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
   const value_path_to = closest_step != null && value_full_path.slice(closest_step)
