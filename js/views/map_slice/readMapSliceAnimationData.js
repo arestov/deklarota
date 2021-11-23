@@ -26,8 +26,7 @@ const getAMCOffset = function() {
 }
 
 
-export default function readMapSliceAnimationData(view, one_zoom_in, transaction_data) {
-  const current_bwlev_r = transaction_data?.bwlev
+export default function readMapSliceAnimationData(view, one_zoom_in, current_bwlev_r, prev_bwlev_r) {
   if (!current_bwlev_r) {return}
 
   const bwlev = getModelFromR(view, current_bwlev_r)
@@ -38,7 +37,7 @@ export default function readMapSliceAnimationData(view, one_zoom_in, transaction
 
   const best_matched_view = view.getMapSliceImmediateChildView(bwlev, getBwlevContentFromR(view, bwlev))
 
-  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, bwlev)
+  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, prev_bwlev_r, bwlev)
   if (!target_in_parent) {return}
 
   const targt_con = target_in_parent.getC()

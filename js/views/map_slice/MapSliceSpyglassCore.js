@@ -304,7 +304,12 @@ export default spv.inh(View, {
 
     const array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
 
-    const animation_data = readMapSliceAnimationData(this, isOneStepZoomIn(diff.array), diff)
+    const animation_data = readMapSliceAnimationData(
+      this,
+      isOneStepZoomIn(diff.array),
+      transaction.bwlev,
+      old_transaction?.bwlev
+    )
 
     for (let i = array.length - 1; i >= 0; i--) {
       const cur = getModelFromR(this, array[i])
