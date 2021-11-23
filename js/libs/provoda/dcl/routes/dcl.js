@@ -26,7 +26,7 @@ var areStatesValid = function(md, states) {
   return true
 }
 
-var handleChangedCount = function handleChangedCount(motivator, n2, lnwatch, n3, ordered_items) {
+var handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _n3, ordered_items) {
 
   var runner = lnwatch.data.route_runner
 
@@ -56,7 +56,7 @@ var handleChangedCount = function handleChangedCount(motivator, n2, lnwatch, n3,
 
 }
 
-var handleChangedState = function(motivator, n1, lnwatch, changes) {
+var handleChangedState = function(motivator, _n1, lnwatch, _changes) {
   // PLACE TO IMPROVE PERFORMANCE
   // we dont need full run & index rebuilding
   // TODO:

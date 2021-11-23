@@ -46,7 +46,7 @@ export default {
   state: pvState,
   triggerDestroy: triggerDestroy,
   wipeObj: utils_simple.wipeObj,
-  getRightNestingName: function(md, nesting_name) {
+  getRightNestingName: function(_md, nesting_name) {
     return nesting_name
   },
   getShortStateName: getShortStateName,

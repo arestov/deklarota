@@ -9,6 +9,8 @@ function fetchData(db, App, schema, url) {
   throw new Error('make proper init of proxies = views_proxies')
   var globthis = typeof globalThis !== 'undefined' ? globalThis : window
 
+  const proxies = null
+
   var calls_flow = new pv.CallbacksFlow(globthis)
 
   var highway = {

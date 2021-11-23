@@ -26,7 +26,7 @@ function watchAndRequest(root_bwlev_view, self, spyglass) {
   // TODO remove key value from index on this view/self destroy
 }
 
-function getContextId(view, parent_bwlev_view, steps) {
+function getContextId(_view, parent_bwlev_view, steps) {
   if (steps === true) {
     return parent_bwlev_view.getNesting('pioneer')._provoda_id
   }

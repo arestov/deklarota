@@ -98,7 +98,7 @@ var goUp = function(bwlev, cb) {
 }
 
 var setDft = function(get_atom_value) {
-  return function(bwlev, md, count) {
+  return function(bwlev, _md, count) {
     var atom_value = get_atom_value(count)
     // var value = depthValue(md.state('bmp_dft'), bwlev._provoda_id, atom_value);
     // _updateAttr(md, 'bmp_dft', value);
