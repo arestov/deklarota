@@ -257,19 +257,8 @@ export default spv.inh(View, {
 
   'model-mapch': {
     'move-view': function(change) {
-      const parent = getModelFromR(this, change.bwlev).getParentMapModel()
-      if (parent) {
-      //	_updateAttr(parent, 'mp_has_focus', false);
-      }
       this.setVMpshow(this.getStoredMpx(getModelFromR(this, change.bwlev)), change.value)
     },
-    'zoom-out': function(change) {
-      this.setVMpshow(this.getStoredMpx(getModelFromR(this, change.bwlev)), false)
-    },
-    'destroy': function(change) {
-      const md = getModelFromR(this, change.bwlev)
-      this.setVMpshow(this.getStoredMpx(md), false)
-    }
   },
 
   'collch-$spec_common-map_slice': {
