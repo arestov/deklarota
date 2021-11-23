@@ -11,7 +11,6 @@ const spv = {}
 let addEvent
 let removeEvent
 let getFields
-let getStringPattern
 let toRealArray
 let getTargetField
 let sortByRules
@@ -278,6 +277,29 @@ spv.matchWords = function(source, query) {
   return r
 }
 
+const regexp_escaper = /([$\^*()+\[\]{}|.\/?\\])/g
+const escapeRegExp = function(str, clean) {
+  if (clean) {
+    str = str.replace(/\s+/g, ' ').replace(/(^\s)|(\s$)/g, '') //removing spaces
+  }
+  return str.replace(regexp_escaper, '\\$1') //escaping regexp symbols
+}
+
+spv.escapeRegExp = escapeRegExp
+
+const getStringPattern = function(str) {
+  if (str.replace(/\s/g, '')) {
+
+    str = escapeRegExp(str, true).split(/\s/g)
+    for (let i = 0; i < str.length; i++) {
+      str[i] = '((^\|\\s)' + str[i] + ')'
+    }
+    str = str.join('|')
+
+    return new RegExp(str, 'gi')
+  }
+}
+
 spv.searchInArray = function(array, query, fields) {
   query = getStringPattern(query)
   let r
@@ -307,28 +329,7 @@ spv.searchInArray = function(array, query, fields) {
   }
   return r
 }
-const regexp_escaper = /([$\^*()+\[\]{}|.\/?\\])/g
-const escapeRegExp = function(str, clean) {
-  if (clean) {
-    str = str.replace(/\s+/g, ' ').replace(/(^\s)|(\s$)/g, '') //removing spaces
-  }
-  return str.replace(regexp_escaper, '\\$1') //escaping regexp symbols
-}
 
-spv.escapeRegExp = escapeRegExp
-
-getStringPattern = function(str) {
-  if (str.replace(/\s/g, '')) {
-
-    str = escapeRegExp(str, true).split(/\s/g)
-    for (let i = 0; i < str.length; i++) {
-      str[i] = '((^\|\\s)' + str[i] + ')'
-    }
-    str = str.join('|')
-
-    return new RegExp(str, 'gi')
-  }
-}
 spv.getStringPattern = getStringPattern
 
 spv.collapseAll = function() {
