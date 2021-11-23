@@ -36,6 +36,10 @@ const getProperDestValue = function(target, value, i) {
     return value
   }
 
+  if (i == null) {
+    throw new Error('i should be provied')
+  }
+
   return value[i]
 }
 
@@ -83,7 +87,7 @@ const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref,
     }
   } else {
     mut_result.push(
-      prepareAndHold(models, target, getProperDestValue(target, value, i), mut_refs_index, mut_wanted_ref, mut_result)
+      prepareAndHold(models, target, getProperDestValue(target, value, null), mut_refs_index, mut_wanted_ref, mut_result)
     )
   }
 
