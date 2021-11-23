@@ -31,7 +31,7 @@
       }
     ],
     "no-undef": 2,
-    "no-unused-vars": ["error", { "args": "all", "argsIgnorePattern": "^_" }],
+    "no-unused-vars": ["error", { "args": "all", "argsIgnorePattern": "^_", "ignoreRestSiblings": true }],
     "strict": [2, "function"],
     "dot-notation": 0,
     "quotes": [2, "single"],
