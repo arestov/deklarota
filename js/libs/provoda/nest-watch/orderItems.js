@@ -8,7 +8,7 @@ export default function orderItems(lnwatch) {
 
   reusable_array.length = 0
   for (const prop in lnwatch.model_groups) {
-    var cur = lnwatch.model_groups[prop]
+    const cur = lnwatch.model_groups[prop]
     reusable_array.push(cur)
   }
 
@@ -17,7 +17,7 @@ export default function orderItems(lnwatch) {
   const result = lnwatch.ordered_items || []
   result.length = 0
   for (let i = 0; i < reusable_array.length; i++) {
-    var cur = reusable_array[i]
+    const cur = reusable_array[i]
     if (cur.models_list) {
       push.apply(result, cur.models_list)
     }
