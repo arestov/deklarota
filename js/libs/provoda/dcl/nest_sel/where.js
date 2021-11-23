@@ -181,7 +181,7 @@ function useIndexableQuery(self, dcl) {
   }
 
   const checks = []
-  for (var i = 0; i < dcl.length; i++) {
+  for (let i = 0; i < dcl.length; i++) {
     const cur = dcl[i]
     mapState(cur.compare_from)
     if (cur.criteria.type == 'state') {
@@ -193,7 +193,7 @@ function useIndexableQuery(self, dcl) {
 
   let selectFn = checks[0]
 
-  for (var i = 1; i < checks.length; i++) {
+  for (let i = 1; i < checks.length; i++) {
     selectFn = bindAnd(selectFn, checks[i])
   }
 
@@ -208,7 +208,7 @@ function indexableQuery(query) {
   const items = []
   for (const prop in query) {
     const _cur = query[prop]
-    var cur
+    let cur
     if (typeof _cur == 'string') {
       cur = ['=', _cur]
     } else if (Array.isArray(_cur)) {

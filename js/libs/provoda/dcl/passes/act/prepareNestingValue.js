@@ -102,7 +102,7 @@ const replaceAt = function(old_value, value, index) {
   return result
 }
 
-var needsRefs = function(init_data) {
+const needsRefs = function(init_data) {
   const rels = getRelFromInitParams(init_data)
   for (const nesting_name in rels) {
     if (!rels.hasOwnProperty(nesting_name)) {
@@ -132,7 +132,7 @@ var needsRefs = function(init_data) {
 
 }
 
-var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
+const replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
   if (init_data.use_ref_id) {
     if (mut_refs_index[init_data.use_ref_id]) {
       return getModelById(md, mut_refs_index[init_data.use_ref_id])

@@ -10,7 +10,7 @@ const build = function(self, result) {
     if (!result.hasOwnProperty(name)) {
       continue
     }
-    var cur = result[name]
+    const cur = result[name]
     if (!cur) {
       continue
     }
@@ -18,7 +18,7 @@ const build = function(self, result) {
     const item = cur.subpages_names_list
     if (Array.isArray(item)) {
       for (let kk = 0; kk < item.length; kk++) {
-        var cur = item[kk]
+        const cur = item[kk]
         if (cur.type == 'constr') {
           self._chi_nest[item[kk].key] = structureChild(cur.name, cur.value, ['nest', 'nest'])
         }

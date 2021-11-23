@@ -29,7 +29,7 @@ export default function(self, props) {
       if (getUnprefixed(prop)) {
 
         real_name = getUnprefixed(prop)
-        var cur = self[prop]
+        const cur = self[prop]
 
         used_props[real_name] = true
         result[real_name] = cur ? new Item(real_name, cur) : null
@@ -42,7 +42,7 @@ export default function(self, props) {
       if (used_props[real_name]) {
         continue
       }
-      var cur = self.nest[real_name]
+      const cur = self.nest[real_name]
       used_props[real_name] = true
       result[real_name] = new Item(real_name, cur)
     }

@@ -93,7 +93,7 @@ const notEqual = function(one, two) {
     return one !== two
   }
 
-  for (var name in one) {
+  for (const name in one) {
     if (!one.hasOwnProperty(name)) {
       continue
     }
@@ -102,7 +102,7 @@ const notEqual = function(one, two) {
     }
   }
 
-  for (var name in two) {
+  for (const name in two) {
     if (!two.hasOwnProperty(name)) {
       continue
     }

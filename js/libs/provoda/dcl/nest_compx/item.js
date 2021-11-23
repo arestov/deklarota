@@ -37,15 +37,15 @@ const simpleAddrToUse = function(addr, string) {
 
 const getDeps = spv.memorize(function getEncodedState(string) {
 
-  var result = parseMultiPath(string)
+  const result = parseMultiPath(string)
   const simple_addr = simpleAddrToUse(result, string)
   if (simple_addr != null) {
     return simple_addr
   }
 
-  var result = cloneObj({}, splitComplexRel(result) || result)
-  result.nwatch = true
-  return result
+  const alt_result = cloneObj({}, splitComplexRel(result) || result)
+  alt_result.nwatch = true
+  return alt_result
 })
 
 const groupBySubscribing = function(list) {
