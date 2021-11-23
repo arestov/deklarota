@@ -269,7 +269,7 @@ export default {
     const apd_views = new Array(append_list.length / 2)
     for (i = 0; i < append_list.length; i += 2) {
       cur = append_list[ i ]
-      var complect = append_list[ i + 1 ]
+      const complect = append_list[ i + 1 ]
 
       const mpx = this.getStoredMpx(cur)
       if (mpxRemoved(mpx)) {continue}
@@ -303,7 +303,7 @@ export default {
     }
 
     for (i = 0; i < ordered_complects.length; i++) {
-      var complect = complects[ordered_complects[i]]
+      const complect = complects[ordered_complects[i]]
       if (complect.type == 'after') {
         after(complect.view.getT(), complect.fragt)
       } else if (complect.type == 'before') {
