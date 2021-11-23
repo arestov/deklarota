@@ -15,6 +15,7 @@ import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 import readMapSliceAnimationData from './readMapSliceAnimationData'
 import animateMapSlice, { getLevNum } from './animateMapSlice'
 import findMpxViewInChildren from './findMpxViewInChildren'
+import handleNavChange from './handleNavChange'
 
 const can_animate = css.transform && css.transition
 
@@ -285,7 +286,6 @@ export default spv.inh(View, {
   },
 
   'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
-    const mp_show_states = nesting_data.residents_struc.mp_show_states
     const transaction = nesting_data.transaction
     const bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
     const mds = nesting_data.residents_struc.items
@@ -336,9 +336,14 @@ export default spv.inh(View, {
     }
 
     this.markAnimationStart(models, -1)
-    for (let i = 0; i < models.length; i++) {
-      this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
+
+    for (let i = 0; i < diff.array.length; i++) {
+      const cur_batch = diff.array[i]
+      for (let jj = 0; jj < cur_batch.changes.length; jj++) {
+        handleNavChange(this, cur_batch.changes[jj])
+      }
     }
+
     _updateAttr(this, 'current_lev_num', current_lev_num)
     this.markAnimationEnd(models, -1)
     this.completely_rendered_once['map_slice'] = true
