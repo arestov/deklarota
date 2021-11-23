@@ -288,8 +288,6 @@ export default spv.inh(View, {
   'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
     const transaction = nesting_data.transaction
     const bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
-    const mds = nesting_data.residents_struc.items
-
 
     if (!transaction) {
       throw new Error('map_slice should have `transaction`')
@@ -309,8 +307,8 @@ export default spv.inh(View, {
     const animation_data = readMapSliceAnimationData(this, diff)
 
     for (let i = array.length - 1; i >= 0; i--) {
-      const cur_md = getModelFromR(this, mds[i])
       const cur = getModelFromR(this, array[i])
+      const cur_md = cur.getNesting('pioneer')
 
       const dclr = selecPoineertDeclr(
         this.dclrs_fpckgs,
