@@ -87,7 +87,7 @@ const initOneDeclaredNesting = function(md, el) {
     return
   }
 
-  var init_func = function(state) {
+  const init_func = function(state) {
     if (!state) {
       return
     }
