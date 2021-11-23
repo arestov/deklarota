@@ -1,8 +1,5 @@
-
-import spv from '../../spv'
 import ensurePublicAttrs from './ensurePublicAttrs'
 import isPublicRel from './rel/isPublicRel'
-const cloneObj = spv.cloneObj
 
 const checkModel = function(md, models_index, local_index, all_for_parse) {
   const cur_id = md._provoda_id
@@ -19,19 +16,6 @@ const handleNesting = function(cur, models_index, local_index, all_for_parse) {
   }
 
   if (!Array.isArray(cur)) {
-    if (cur.each_items) {
-      for (let i = 0; i < cur.each_items.length; i++) {
-        checkModel(cur.each_items[i], models_index, local_index, all_for_parse)
-      }
-
-      const copy = cloneObj({
-        $not_model: true,
-      }, cur)
-      delete copy.each_items
-
-      return copy
-    }
-
     if (!cur._provoda_id) {
       throw new Error('unknown data structure inside nesting')
     }

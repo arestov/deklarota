@@ -994,9 +994,7 @@ const View = spv.inh(StatesEmitter, {
     let real_length = 0
     for (let i = 0; i < array.length; i++) {
       const cur = array[i]
-      if (cur.$not_model) {
-        continue
-      }
+
       const view = self.getStoredMpx(cur).getView(location_id)
       if (!view) {
         continue
@@ -1010,9 +1008,7 @@ const View = spv.inh(StatesEmitter, {
     let counter = 0
     for (let i = 0; i < array.length; i++) {
       const cur = array[i]
-      if (cur.$not_model) {
-        continue
-      }
+
       const view = self.getStoredMpx(cur).getView(location_id)
       if (!view) {
         continue

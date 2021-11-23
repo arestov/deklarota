@@ -150,14 +150,7 @@ Proxies.prototype = {
           } else if (Array.isArray(value)) {
             raw_array = value
           } else {
-
-            const pos_array = spv.getTargetField(value, 'residents_struc.all_items')
-            if (pos_array) {
-              raw_array = pos_array
-            } else {
-              throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
-            }
-
+            throw new Error('incorrect rel value')
           }
         }
       }

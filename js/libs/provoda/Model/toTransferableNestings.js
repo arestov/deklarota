@@ -1,17 +1,6 @@
-import cloneObj from '../../spv/cloneObj'
-
 const toTransferableNestings = function(value) {
   if (!value) {
     return value
-  }
-
-  if (value && value.each_items) {
-      // creating value to pass
-    const copy = cloneObj({
-      $not_model: true,
-    }, value)
-    delete copy.each_items
-    return copy
   }
 
   if (value._provoda_id) {
