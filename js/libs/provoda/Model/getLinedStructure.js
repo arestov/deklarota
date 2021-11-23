@@ -1,5 +1,3 @@
-
-import spv from '../../spv'
 import isPublicRel from './rel/isPublicRel'
 
 const checkModel = function(original_models, md_or_mdreplacer, models_index, local_index, all_for_parse) {
@@ -52,10 +50,7 @@ const getLinedStructure = function(models_index_raw, local_index_raw) {
       if (Array.isArray(cur)) {
         array = cur
       } else {
-        array = spv.getTargetField(cur, 'residents_struc.all_items')
-        if (!array) {
-          throw new Error('you must provide parsable array in "residents_struc.all_items" prop')
-        }
+        throw new Error('incorrect rel value')
       }
 
       for (let i = 0; i < array.length; i++) {

@@ -2,15 +2,7 @@
 import spv from '../../../spv'
 import _updateRel from '../../_internal/_updateRel'
 import _updateAttr from '../../_internal/_updateAttr'
-import probeDiff from '../../probeDiff'
-
-
-const bindMMapStateChanges = function(store_md, md) {
-  if (store_md.binded_models[md._provoda_id]) {
-    return
-  }
-  store_md.binded_models[md._provoda_id] = true
-}
+import probeDiff, { getBwlevsTree } from '../../probeDiff'
 
 const complexBrowsing = function(bwlev, md, value) {
   // map levels. without knowing which map
@@ -22,11 +14,10 @@ const complexBrowsing = function(bwlev, md, value) {
 }
 
 const model_mapch = {
-  'move-view': function(change, spg) {
+  'move-view': function(change) {
     const md = change.target.getMD()
     const bwlev = change.bwlev.getMD()
 
-    bindMMapStateChanges(spg, md)
     // debugger;
 
     if (change.value) {
@@ -140,7 +131,11 @@ const asMDR = function(md) {
 }
 
 function animateMapChanges(fake_spyglass, bwlev) {
-  const diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
+
+  const next_tree = getBwlevsTree(fake_spyglass, bwlev)
+  const prev_tree = getBwlevsTree(fake_spyglass, fake_spyglass.current_mp_bwlev)
+  const diff = probeDiff(next_tree, prev_tree)
+
   if (!diff.array || !diff.array.length) {
     return
   }
@@ -214,12 +209,7 @@ function animateMapChanges(fake_spyglass, bwlev) {
   }
 
 
-  _updateRel(fake_spyglass, 'map_slice', {
-    residents_struc: mp_show_wrap,
-    $not_model: true,
-    each_items: all_items,
-    transaction: changes
-  })
+  _updateRel(fake_spyglass, 'map_slice', next_tree)
 
 }
 

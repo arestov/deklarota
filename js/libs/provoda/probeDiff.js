@@ -22,7 +22,7 @@ const getModelByR = function(highway_holder, mdr) {
   return getModelByIdUniversal(highway_holder, _provoda_id)
 }
 
-const getTree = function(highway_holder, mdrp) {
+export const getBwlevsTree = function(highway_holder, mdrp) {
   const result = []
   if (!mdrp) {
     return result
@@ -37,6 +37,8 @@ const getTree = function(highway_holder, mdrp) {
   }
   return result
 }
+
+export const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
 
 const pathAsSteps = function(path, value) {
   if (!path) {return}
@@ -70,12 +72,12 @@ const asMDR = function(md) {
   return md && md.getMDReplacer()
 }
 
-export default function probeDiff(highway_holder, value, oldvalue) {
-  const bwlev = value
-  const target = getNesting(getModelByR(highway_holder, bwlev), 'pioneer').getMDReplacer()
+const last = (list) => list && list[list.length - 1]
 
-  const value_full_path = getTree(highway_holder, value)
-  const oldvalue_full_path = getTree(highway_holder, oldvalue)
+export default function probeDiff(value_full_path, oldvalue_full_path) {
+
+  const bwlev = last(value_full_path)
+  const target = getNesting(bwlev, 'pioneer').getMDReplacer()
 
   const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
   const value_path_to = closest_step != null && value_full_path.slice(closest_step)
@@ -96,10 +98,11 @@ export default function probeDiff(highway_holder, value, oldvalue) {
     })
   }
 
+  const prev_bwlev = last(oldvalue_full_path)
 
   return {
-    bwlev: bwlev,
-    prev_bwlev: oldvalue,
+    bwlev: bwlev?.getMDReplacer(),
+    prev_bwlev: prev_bwlev?.getMDReplacer(),
     target: target,
     value_full_path: value_full_path.map(asMDR),
     oldvalue_full_path: oldvalue_full_path.map(asMDR),

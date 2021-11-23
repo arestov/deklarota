@@ -7,7 +7,7 @@ import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mpxUpdateAttr from '../../libs/provoda/provoda/v/mpxUpdateAttr'
 import selecPoineertDeclr from '../../libs/provoda/provoda/v/selecPoineertDeclr'
 import createTemplate from '../../libs/provoda/provoda/v/createTemplate'
-import probeDiff from '../../libs/provoda/provoda/probeDiff'
+import probeDiff, { isOneStepZoomIn } from '../../libs/provoda/probeDiff'
 import getNesting from '../../libs/provoda/provoda/getNesting'
 import $ from 'cash-dom'
 import wrapInputCall from '../../libs/provoda/provoda/wrapInputCall'
@@ -15,8 +15,11 @@ import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 import readMapSliceAnimationData from './readMapSliceAnimationData'
 import animateMapSlice, { getLevNum } from './animateMapSlice'
 import findMpxViewInChildren from './findMpxViewInChildren'
+import handleNavChange from './handleNavChange'
 
 const can_animate = css.transform && css.transition
+
+const last = (list) => list && list[list.length - 1]
 
 const LevContainer = function(con, scroll_con, material, tpl, context) {
   this.c = con
@@ -255,23 +258,6 @@ export default spv.inh(View, {
     mpxUpdateAttr(target_mpx, 'vmp_show', value)
   },
 
-  'model-mapch': {
-    'move-view': function(change) {
-      const parent = getModelFromR(this, change.bwlev).getParentMapModel()
-      if (parent) {
-      //	_updateAttr(parent, 'mp_has_focus', false);
-      }
-      this.setVMpshow(this.getStoredMpx(getModelFromR(this, change.bwlev)), change.value)
-    },
-    'zoom-out': function(change) {
-      this.setVMpshow(this.getStoredMpx(getModelFromR(this, change.bwlev)), false)
-    },
-    'destroy': function(change) {
-      const md = getModelFromR(this, change.bwlev)
-      this.setVMpshow(this.getStoredMpx(md), false)
-    }
-  },
-
   'collch-$spec_common-map_slice': {
     place: viewOnLevelP
   },
@@ -301,33 +287,21 @@ export default spv.inh(View, {
     return target_md
   },
 
-  'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
-    const mp_show_states = nesting_data.residents_struc.mp_show_states
-    const transaction = nesting_data.transaction
+  'collch-map_slice': function(nesname, next_tree, prev_tree) {
+    const diff = probeDiff(next_tree, prev_tree || [])
 
-    if (!transaction) {
-      throw new Error('map_slice should have `transaction`')
-    }
+    const array = this.getRendOrderedNesting(nesname, next_tree) || next_tree
 
-    if (!transaction.bwlev) {
-      throw new Error('map_slice transaction should have `bwlev`')
-    }
-
-    const old_transaction = old_nesting_data && old_nesting_data.transaction
-
-    const diff = probeDiff(this, transaction.bwlev, old_transaction && old_transaction.bwlev)
-
-    const bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
-    const mds = nesting_data.residents_struc.items
-
-
-    const array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
-
-    const animation_data = readMapSliceAnimationData(this, diff)
+    const animation_data = readMapSliceAnimationData(
+      this,
+      isOneStepZoomIn(diff.array),
+      last(next_tree),
+      last(prev_tree)
+    )
 
     for (let i = array.length - 1; i >= 0; i--) {
-      const cur_md = getModelFromR(this, mds[i])
       const cur = getModelFromR(this, array[i])
+      const cur_md = cur.getNesting('pioneer')
 
       const dclr = selecPoineertDeclr(
         this.dclrs_fpckgs,
@@ -341,11 +315,11 @@ export default spv.inh(View, {
 
     //avoid nextTick method!
     if (this.completely_rendered_once['map_slice']) {
-      animateMapSlice(this, transaction, animation_data)
+      animateMapSlice(this, diff.bwlev, diff.array, animation_data)
       return
     }
 
-    const current_lev_num = getLevNum(this, transaction)
+    const current_lev_num = getLevNum(this, diff.bwlev)
 
     const models = new Array(array.length)
     for (let i = 0; i < array.length; i++) {
@@ -353,9 +327,14 @@ export default spv.inh(View, {
     }
 
     this.markAnimationStart(models, -1)
-    for (let i = 0; i < models.length; i++) {
-      this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
+
+    for (let i = 0; i < diff.array.length; i++) {
+      const cur_batch = diff.array[i]
+      for (let jj = 0; jj < cur_batch.changes.length; jj++) {
+        handleNavChange(this, cur_batch.changes[jj])
+      }
     }
+
     _updateAttr(this, 'current_lev_num', current_lev_num)
     this.markAnimationEnd(models, -1)
     this.completely_rendered_once['map_slice'] = true

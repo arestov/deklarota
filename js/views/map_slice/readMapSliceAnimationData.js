@@ -2,6 +2,7 @@
 import css from './css'
 import getAttr from '../../libs/provoda/provoda/getAttr'
 import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
+import getBwlevContentFromR from './getBwlevContentFromR'
 import anyDeeplyIncludedViews from './anyDeeplyIncludedViews'
 import dom_helpers from '../../libs/provoda/utils/dom_helpers'
 
@@ -24,20 +25,19 @@ const getAMCOffset = function() {
   return dom_helpers.offset(this.getInterface('app_map_con'))
 }
 
-export default function readMapSliceAnimationData(view, transaction_data) {
-  if (!transaction_data || !transaction_data.bwlev) {return}
 
-  const target_md = getModelFromR(view, transaction_data.bwlev)
-  const current_mp_bwlev = target_md
+export default function readMapSliceAnimationData(view, one_zoom_in, current_bwlev_r, prev_bwlev_r) {
+  if (!current_bwlev_r) {return}
 
-  const current_lev_num = getAttr(target_md, 'map_level_num')
-  const one_zoom_in = transaction_data.array.length == 1 && transaction_data.array[0].name == 'zoom-in' && transaction_data.array[0].changes.length < 3
+  const bwlev = getModelFromR(view, current_bwlev_r)
+
+  const current_lev_num = getAttr(bwlev, 'map_level_num')
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return}
 
-  const best_matched_view = view.getMapSliceImmediateChildView(target_md, getModelFromR(view, transaction_data.target))
+  const best_matched_view = view.getMapSliceImmediateChildView(bwlev, getBwlevContentFromR(view, bwlev))
 
-  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, target_md)
+  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, prev_bwlev_r, bwlev)
   if (!target_in_parent) {return}
 
   const targt_con = target_in_parent.getC()
@@ -95,7 +95,7 @@ export default function readMapSliceAnimationData(view, transaction_data) {
   const shift_x = width / 2 - min_scale * con_width / 2
   const shift_y = height / 2 - min_scale * con_height / 2
 
-  const lc = view.getLevelContainer(current_mp_bwlev)
+  const lc = view.getLevelContainer(bwlev)
 
   const transform_values = {}
   const value = 'translate(' + (offset.left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')'

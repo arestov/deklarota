@@ -60,7 +60,6 @@ export default spv.inh(BasicRouter, {
     self.mainLevelResidents = null
     self.current_mp_bwlev = null
 
-    self.binded_models = {}
     // target.navigation = [];
     // target.map = ;
     self.current_mp_md = null
@@ -165,7 +164,7 @@ export default spv.inh(BasicRouter, {
     /* is_simple_router=false: current_mp_bwlev, current_mp_md  */
     current_mp_md: ['input', {any: true}],
     current_mp_bwlev: ['input', {any: true}],
-    map_slice: ['input', {any: true}], // many { each_items: all_items,} ???
+    map_slice: ['input', {any: true, many: true}],
     selected__bwlev: ['input', {any: true}],
     selected__md: ['input', {any: true}],
 

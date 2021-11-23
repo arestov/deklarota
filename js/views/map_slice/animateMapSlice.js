@@ -4,7 +4,7 @@ import css from './css'
 import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import getAttr from '../../libs/provoda/provoda/getAttr'
-
+import handleNavChange from './handleNavChange'
 /*
   ANIMATION IS BROKEN
 */
@@ -23,57 +23,18 @@ const concatArray = function(array_of_arrays) {
   return concat.apply(arrProtp, array_of_arrays)
 }
 
-const inCache = function(cache, key) {
-  return cache.hasOwnProperty(key) && cache[key] !== false
-}
-
-const needsDestroing = function(view, all_changhes) {
-  const destroy_insurance = {}
-  let i
-  let cur
-  let target
-  let pvid
-  const result = []
-
-  for (i = 0; i < all_changhes.length; i++) {
-    cur = all_changhes[i]
-    target = getModelFromR(view, cur.bwlev)
-    pvid = target._provoda_id
-    if (cur.type == 'destroy') {
-      destroy_insurance[pvid] = target
-    } else {
-      destroy_insurance[pvid] = false
-    }
+export const getLevNum = (view_with_highway, bwlev) => {
+  if (!bwlev) {
+    throw new Error('expecting bwlev')
   }
 
-  for (i = all_changhes.length - 1; i >= 0; i--) {
-    cur = all_changhes[i]
-    target = getModelFromR(view, cur.bwlev)
-    pvid = target._provoda_id
-    if (cur.type == 'destroy') {
-      if (inCache(destroy_insurance, pvid)) {
-        destroy_insurance[pvid] = false
-        result.unshift(target)
-      }
-    }
-  }
-
-  return result
-}
-
-export const getLevNum = (view_with_highway, transaction_data) => {
-  if (!transaction_data.bwlev) {
-    console.error('expecting bwlev in transaction_data: ', transaction_data)
-    throw new Error('expecting bwlev in transaction_data')
-  }
-
-  const target_md = getModelFromR(view_with_highway, transaction_data.bwlev)
+  const target_md = getModelFromR(view_with_highway, bwlev)
   return getAttr(target_md, 'map_level_num')
 }
 
 
-export default function(view, transaction_data, animation_data) {
-  let all_changhes = spv.filter(transaction_data.array, 'changes')
+export default function(view, bwlev, navigation_changes, animation_data) {
+  let all_changhes = spv.filter(navigation_changes, 'changes')
   all_changhes = concatArray(all_changhes)
   const models = spv.filter(all_changhes, 'target')
   let i
@@ -88,21 +49,19 @@ export default function(view, transaction_data, animation_data) {
 
   view.markAnimationStart(models, changes_number)
 
-  const doomed = needsDestroing(view, all_changhes)
-  for (i = doomed.length - 1; i >= 0; i--) {
-    view.removeChildViewsByMd(view.getStoredMpx(doomed[i]), 'map_slice')
+  // TODO: find way to not remove important things, but just hide (performance optimisation)
+  for (let i = 0; i < all_changhes.length; i++) {
+    const cur = all_changhes[i]
+    if (cur.value) {continue}
+    view.removeChildViewsByMd(view.getStoredMpx(getModelFromR(view, cur.bwlev)), 'map_slice')
   }
 
   for (i = 0; i < all_changhes.length; i++) {
-    const change = all_changhes[i]
-    const handler = view['model-mapch'][change.type]
-    if (handler) {
-      handler.call(view, change)
-    }
+    handleNavChange(view, all_changhes[i])
   }
 
-  if (transaction_data.bwlev) {
-    const current_lev_num = getLevNum(view, transaction_data)
+  if (bwlev) {
+    const current_lev_num = getLevNum(view, bwlev)
 
     if (animation_data) {
       _updateAttr(view, 'disallow_animation', true)
