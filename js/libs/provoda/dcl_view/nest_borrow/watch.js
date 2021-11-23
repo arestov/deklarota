@@ -6,7 +6,7 @@ export default function(self) {
       self._nest_borrow_watch = {}
     }
 
-    for (var nest_name in self._nest_borrow) {
+    for (const nest_name in self._nest_borrow) {
       self._nest_borrow_watch[nest_name] = self._nest_borrow_watch[nest_name] || []
       self._nest_borrow_watch[nest_name].push({
         nest_name: nest_name,
@@ -29,7 +29,7 @@ export default function(self) {
       self._nest_borrow_watch = {}
     }
 
-    for (var nest_name in _nest_borrow_watch) {
+    for (const nest_name in _nest_borrow_watch) {
       if (!_nest_borrow_watch.hasOwnProperty(nest_name)) {
         continue
       }
