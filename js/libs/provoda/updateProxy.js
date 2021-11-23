@@ -253,7 +253,7 @@ function createIterate1arg(cb) {
   }
 }
 
-function _setUndetailedState(etr, i, state_name, value) {
+function _setUndetailedState(etr, _i, state_name, value) {
   etr._lbr.undetailed_states[state_name] = value
 }
 
@@ -424,7 +424,7 @@ export function compoundComplexState(etr, temp_comx) {
   return callCompFn(etr, temp_comx)
 }
 
-function compressChangesList(result_changes, changes_list, i, prop_name, value, counter) {
+function compressChangesList(result_changes, changes_list, _i, prop_name, value, counter) {
   if (result_changes.has(prop_name)) {
     return
   }
@@ -464,7 +464,7 @@ function compressStatesChanges(changes_list) {
 
 
 
-function _triggerStChanges(etr, i, state_name, value, total_original_states) {
+function _triggerStChanges(etr, _i, state_name, value, total_original_states) {
 
   _passHandleState(etr, total_original_states, state_name, value)
 

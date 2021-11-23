@@ -6,7 +6,7 @@ import pathExecutor from './stringify'
 import followStringTemplate from './followStringTemplate'
 var getTargetField = spv.getTargetField
 
-var getPathBySimpleData = pathExecutor(function(chunkName, app, data) {
+var getPathBySimpleData = pathExecutor(function(chunkName, _app, data) {
   return data && getTargetField(data, chunkName)
 })
 

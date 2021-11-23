@@ -122,7 +122,7 @@ var simulateLegacyPath = {
   }
 }
 
-var fromMultiPath = function(multi_path, as_string, original) {
+var fromMultiPath = function(multi_path, _as_string, original) {
 
   if (multi_path.base_itself) {
     return selfRef

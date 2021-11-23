@@ -132,7 +132,7 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  insertDataAsSubitems: function(target, nesting_name, data_list, opts, source_name) {
+  insertDataAsSubitems: function(target, nesting_name, data_list, _opts, source_name) {
     var items_list = []
 
     if (!data_list || !data_list.length) {
@@ -414,7 +414,7 @@ function convertToNestings(params) {
 }
 
 var LoadableList = spv.inh(LoadableListBase, {
-  init: function(self, opts, data, params) {
+  init: function(self, _opts, data, params) {
     var init_v2 = data && data.init_version === 2
 
     if (init_v2) {

@@ -74,7 +74,7 @@ describe('asString', () => {
         'nesting_name << ^^',
         '<< nesting_name << ^^'
       ]]
-    ])('should work for %s', (title, [input, expected]) => {
+    ])('should work for %s', (_title, [input, expected]) => {
       expect(asString(parse(input))).toEqual(expected)
     })
   })

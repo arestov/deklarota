@@ -6,7 +6,6 @@ import initBWlev from '../bwlev/initBWlev'
 import toProperNavParent from '../bwlev/toProperNavParent'
 import showInterest from '../bwlev/showInterest'
 import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
-import get_constr from '../structure/get_constr'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import routePathByModels from '../routePathByModels'
 
@@ -62,7 +61,7 @@ BrowseMap.Model = spv.inh(HModel, {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function(self, opts, data) {
+  init: function(self, _opts, data) {
     var init_v2 = data && data.init_version === 2
 
     if (!self.skip_map_init) {
@@ -84,8 +83,6 @@ BrowseMap.Model = spv.inh(HModel, {
       2) состояния url_part и nav_title
 
     */
-
-    opts = opts || {}
 
     if (self.allow_data_init && !init_v2) {
       self.updateManyStates(data)

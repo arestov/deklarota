@@ -4,7 +4,7 @@ const bindRuntimeError = (runtime, emitOnError) => {
   let gotError
 
   const makePromiseToReject = () => {
-    const lastError = new Promise((resolve, reject) => {
+    const lastError = new Promise((_resolve, reject) => {
       gotError = reject
     })
 
