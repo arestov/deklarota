@@ -183,7 +183,10 @@ export default spv.inh(View, {
       return this.lev_containers.start_page
     }
 
-    var num = raw_num
+    if (deeper) {
+      throw new Error('wont use `deeper` here')
+    }
+
     if (this.lev_containers[num]) {
       return this.lev_containers[num]
     } else {
