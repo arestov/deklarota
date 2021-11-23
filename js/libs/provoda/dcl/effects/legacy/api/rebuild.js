@@ -14,7 +14,7 @@ const usualApis = function(obj) {
     if (!obj.hasOwnProperty(name)) {
       continue
     }
-    var cur = obj[name]
+    const cur = obj[name]
     if (cur.deps_name) {
       continue
     }
@@ -23,7 +23,7 @@ const usualApis = function(obj) {
   }
 
   for (const prop of Object.getOwnPropertySymbols(obj)) {
-    var cur = obj[prop]
+    const cur = obj[prop]
     if (cur.deps_name) {
       continue
     }
@@ -43,7 +43,7 @@ function checkApi(fn) {
       if (!apis_index.hasOwnProperty(api_name)) {
         continue
       }
-      var api = apis_index[api_name]
+      const api = apis_index[api_name]
       if (!api || !api.needed_apis) {
         continue
       }
@@ -53,7 +53,7 @@ function checkApi(fn) {
     }
 
     for (const prop of Object.getOwnPropertySymbols(apis_index)) {
-      var api = apis_index[prop]
+      const api = apis_index[prop]
       if (!api || !api.needed_apis) {
         continue
       }

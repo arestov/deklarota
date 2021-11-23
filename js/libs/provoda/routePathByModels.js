@@ -54,7 +54,7 @@ const routePathByModels = function routePathByModels(start_md, pth_string, need_
       continue
     }
 
-    var path_full_string
+    let path_full_string
     if (tree_parts_group) {
       const full = tree_parts_group.slice(0)
       full.push(pth[i])
@@ -196,7 +196,7 @@ function getterSPI() {
     const reuse = options && options.reuse
 
     if (self.__routes_matchers_defs != null) {
-      var item = getModernPage(self, sp_name)
+      const item = getModernPage(self, sp_name)
       if (item != null) {
         return item
       }
@@ -209,11 +209,11 @@ function getterSPI() {
     }
 
 
-    var item = selectRouteItem(self, sp_name)
+    const item = selectRouteItem(self, sp_name)
     if (item != null) {
       const can_be_reusable = item.can_be_reusable
       if (reuse && can_be_reusable && self._last_subpages[item.key]) {
-        var instance = self._last_subpages[item.key]
+        const instance = self._last_subpages[item.key]
         if (instance.state('$$reusable_url')) {
           return instance
         }
@@ -233,7 +233,7 @@ function getterSPI() {
         return null
       }
 
-      var instance = item && prepare(self, item, sp_name, slash(sp_name), extra_states)
+      const instance = item && prepare(self, item, sp_name, slash(sp_name), extra_states)
       if (instance) {
         watchModelDie(self, instance)
         watchSubPageKey(self, instance, key)
@@ -255,7 +255,7 @@ function getterSPI() {
       }
 
       const sub_page = self.subPager(decodeURIComponent(sp_name), sp_name)
-      var instance = Array.isArray(sub_page)
+      const instance = Array.isArray(sub_page)
         ? init(self, sub_page[0], sub_page[1])
         : sub_page
 

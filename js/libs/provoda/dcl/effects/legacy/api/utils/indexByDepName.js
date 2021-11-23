@@ -15,12 +15,12 @@ export default function indexByDepName(obj) {
     if (!obj.hasOwnProperty(name)) {
       continue
     }
-    var cur = obj[name]
+    const cur = obj[name]
     checkAndAdd(result, cur)
   }
 
   for (const prop of Object.getOwnPropertySymbols(obj)) {
-    var cur = obj[prop]
+    const cur = obj[prop]
     checkAndAdd(result, cur)
   }
 
