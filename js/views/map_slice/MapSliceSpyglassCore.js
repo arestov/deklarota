@@ -287,7 +287,7 @@ export default spv.inh(View, {
 
   'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
     const transaction = nesting_data.transaction
-    const bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
+    const bwlevs = nesting_data.residents_struc?.bwlevs
 
     if (!transaction) {
       throw new Error('map_slice should have `transaction`')
@@ -297,9 +297,9 @@ export default spv.inh(View, {
       throw new Error('map_slice transaction should have `bwlev`')
     }
 
-    const old_transaction = old_nesting_data && old_nesting_data.transaction
+    const old_transaction = old_nesting_data?.transaction
 
-    const diff = probeDiff(this, transaction.bwlev, old_transaction && old_transaction.bwlev)
+    const diff = probeDiff(this, transaction.bwlev, old_transaction?.bwlev)
 
 
     const array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs

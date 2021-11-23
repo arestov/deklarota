@@ -27,9 +27,10 @@ const getAMCOffset = function() {
 const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
 
 export default function readMapSliceAnimationData(view, transaction_data) {
-  if (!transaction_data || !transaction_data.bwlev) {return}
+  const current_bwlev = transaction_data?.bwlev
+  if (!current_bwlev) {return}
 
-  const target_md = getModelFromR(view, transaction_data.bwlev)
+  const target_md = getModelFromR(view, current_bwlev)
   const current_mp_bwlev = target_md
 
   const current_lev_num = getAttr(target_md, 'map_level_num')
