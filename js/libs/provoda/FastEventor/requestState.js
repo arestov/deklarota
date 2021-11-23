@@ -262,7 +262,8 @@ var requestState = function(state_name) {
     return used_compex
   }
 
-  var i, cur
+  var i
+  var cur
   var maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name]
   if (!maps_for_state) {
     console.warn('cant request state:', state_name, 'but tried. should not try without dcl')

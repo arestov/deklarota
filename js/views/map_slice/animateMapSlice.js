@@ -28,7 +28,11 @@ var inCache = function(cache, key) {
 }
 
 var needsDestroing = function(view, all_changhes) {
-  var destroy_insurance = {}, i, cur, target, pvid
+  var destroy_insurance = {}
+  var i
+  var cur
+  var target
+  var pvid
   var result = []
 
   for (i = 0; i < all_changhes.length; i++) {

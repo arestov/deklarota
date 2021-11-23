@@ -162,7 +162,11 @@ export default {
     if (!this.isAlive()) {
       return
     }
-    var cur = null, view = null, i = 0, prev_view = null, next_view = null
+    var cur = null
+    var view = null
+    var i = 0
+    var prev_view = null
+    var next_view = null
 
     var location_id = getViewLocationId(this, funcs.nesname, space || 'main')
     var detached = []

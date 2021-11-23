@@ -286,7 +286,8 @@ export default spv.inh(View, {
   },
 
   findBMapTarget: function(array) {
-    var target_md, i
+    var target_md
+    var i
     for (i = 0; i < array.length; i++) {
       if (this.getStoredMpx(array[i]).__getAttr('mp_has_focus')) {
         target_md = array[i]

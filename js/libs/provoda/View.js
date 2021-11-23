@@ -411,7 +411,11 @@ spv.cloneObj(props, {
     }
   },
   checkExpandableTree: function() {
-    var i, cur, cur_config, has_changes = true, append_list = []
+    var i
+    var cur
+    var cur_config
+    var has_changes = true
+    var append_list = []
     while (this.base_skeleton && has_changes) {
       has_changes = false
       for (i = 0; i < this.base_skeleton.length; i++) {

@@ -36,10 +36,10 @@ QueueFunc.prototype = {
 FuncsQueue = function(opts) {
   var _this = this
 
-  var time_opts = opts.time,
-    small_delay = time_opts[0],
-    big_delay = time_opts[1],
-    big_delay_interval = time_opts[2]
+  var time_opts = opts.time
+  var small_delay = time_opts[0]
+  var big_delay = time_opts[1]
+  var big_delay_interval = time_opts[2]
 
   if (opts.resortQueue) {
     this.resortQueue = opts.resortQueue
@@ -122,9 +122,9 @@ FuncsQueue.prototype = {
   },
   getInterval: function() {
     var
-      time,
-      last_num = this.using_stat.length - 1,
-      bigdelay_turn = (!this.nobigdelay && last_num > 1 && (last_num % this.big_delay_interval === 0))
+      time
+    var last_num = this.using_stat.length - 1
+    var bigdelay_turn = (!this.nobigdelay && last_num > 1 && (last_num % this.big_delay_interval === 0))
 
     if (bigdelay_turn) {
       var real_bdinterval = Date.now() - this.using_stat[last_num - (this.big_delay_interval + 1)]
@@ -155,8 +155,8 @@ FuncsQueue.prototype = {
   },
   add: function(func, not_init) {
     var
-      _this = this,
-      my_queue = this.fstack.getArr()
+      _this = this
+    var my_queue = this.fstack.getArr()
 
     not_init = not_init || my_queue.length !== 0
 
@@ -195,13 +195,13 @@ FuncsQueue.prototype = {
     }
 
     var
-      i,
-      atom,
-      q = this.fstack.getArr(),
-      clean_quene = [],
-      prior_num = 0,
-      prior_el = null,
-      preferred_by_default = null
+      i
+    var atom
+    var q = this.fstack.getArr()
+    var clean_quene = []
+    var prior_num = 0
+    var prior_el = null
+    var preferred_by_default = null
 
     for (i = 0; i < q.length; i++) {
       atom = q[i]

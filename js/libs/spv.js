@@ -8,9 +8,18 @@ import splitByDot from './spv/splitByDot'
 
 var spv = {}
 
-var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
-  getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,
-  debounce, throttle
+var addEvent
+var removeEvent
+var getFields
+var getStringPattern
+var toRealArray
+var getTargetField
+var sortByRules
+var makeIndexByField
+var $filter
+var getUnitBaseNum
+var debounce
+var throttle
 
 spv.getArrayNoDubs = function(array, clean_array) {
   clean_array = clean_array || []
@@ -166,7 +175,9 @@ spv.arrayExclude = function arrayExclude(arr, obj) {
 }
 
 spv.shuffleArray = function(obj) {
-  var shuffled = [], rand, value
+  var shuffled = []
+  var rand
+  var value
   for (var index = 0; index < obj.length; index++) {
     value = obj[index]
     rand = Math.floor(Math.random() * (index + 1))
@@ -219,9 +230,9 @@ getFields = function(obj, fields) {
 }
 spv.getDiffObj = function(one, two) {
   var
-    i,
-    diff = {},
-    all_props = {}
+    i
+  var diff = {}
+  var all_props = {}
 
   for (i in one) {
     all_props[i] = true
@@ -269,7 +280,9 @@ spv.matchWords = function(source, query) {
 
 spv.searchInArray = function(array, query, fields) {
   query = getStringPattern(query)
-  var r,i,cur
+  var r
+  var i
+  var cur
 
   if (query) {
     r = []
@@ -536,9 +549,9 @@ makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
   var r = {}
   if (array && array.length) {
     for (var i = 0; i < array.length; i++) {
-      var simple_name,
-        cur = array[i],
-        fv = getTargetField(cur, field)
+      var simple_name
+      var cur = array[i]
+      var fv = getTargetField(cur, field)
       if (fv || typeof fv == 'number') {
         if (fv instanceof Array) {
           for (var k = 0; k < fv.length; k++) {
@@ -582,7 +595,8 @@ makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
 
 
 $filter = function(array, field, value_or_testfunc) {
-  var i, r = []
+  var i
+  var r = []
   r.not = []
   if (!array) {return r}
 
@@ -712,8 +726,8 @@ debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
   return function() {
 
-    var args = arguments,
-      _this = this
+    var args = arguments
+    var _this = this
 
     invokeAsap && !timer && fn.apply(ctx || this, args)
 
@@ -730,7 +744,9 @@ debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
 throttle = function throttle(fn, timeout, ctx) {
 
-  var timer, args, needInvoke
+  var timer
+  var args
+  var needInvoke
 
   return function() {
 
@@ -796,9 +812,9 @@ spv.capitalize.fn = function(string) {
   }
   spv.createComlexText = function(text, not_make_dom) {
     var
-      vars = text.match(splitter),
-      parts = text.split(splitter),
-      result = []
+      vars = text.match(splitter)
+    var parts = text.split(splitter)
+    var result = []
 
     result.vars = {}
     result.setVar = setVar
@@ -856,7 +872,9 @@ var getPropsListByTree = function(obj) {
     prop_name: '',
     obj: obj
   }]
-  var cur, i, prop_name
+  var cur
+  var i
+  var prop_name
   var objects_list = []
   var result_list = []
 
@@ -914,7 +932,8 @@ var parseMap = function(map) {
 
   var all_targets = [map]
   var full_list = []
-  var cur, i
+  var cur
+  var i
 
   while (all_targets.length) {
     cur = all_targets.shift()
@@ -1065,7 +1084,8 @@ var executeMap = function(map, data, spec_data, converters) {
   }
 
 
-  var objects_list = [root_struc], result_item
+  var objects_list = [root_struc]
+  var result_item
 
   while (objects_list.length) {
     var cur = objects_list.shift()
@@ -1359,9 +1379,10 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
     //http://learn.javascript.ru/setimmediate
 
     var head = {
-        func: null,
-        next: null
-      }, tail = head // очередь вызовов, 1-связный список
+      func: null,
+      next: null
+    }
+    var tail = head // очередь вызовов, 1-связный список
 
     var ID = Math.random() // уникальный идентификатор
 

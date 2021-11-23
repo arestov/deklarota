@@ -374,10 +374,10 @@ spv.Class.extendTo(WPBox, {
     var curwp_dems = dems_storage[cur_wayp.wpid]
     //var tagwp_dems = dems_storage[cur_wayp.wpid];
 
-    var point_a = {},
-      point_t = {},
-      point_c = {},
-      shift_length
+    var point_a = {}
+    var point_t = {}
+    var point_c = {}
+    var shift_length
 
     point_t = this.getWPEndPoint(target_wp, nav_type, dems_storage)
 
@@ -509,7 +509,9 @@ spv.Class.extendTo(WPBox, {
   },
   getWPCorridor: function(cwp, nav_type, wayp_pack, dems_storage, angle) {
     var corridor = []
-    var i, cur, pret_dems
+    var i
+    var cur
+    var pret_dems
     var target_dems = dems_storage[cwp.wpid]
     if (this.wp_dirs.horizontal[nav_type]) {
 

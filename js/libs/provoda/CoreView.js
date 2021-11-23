@@ -496,10 +496,10 @@ var View = spv.inh(StatesEmitter, {
   getFreeChildView: function(address_opts, md, opts) {
     var mpx = this.getStoredMpx(md)
     var
-      child_name = address_opts.nesting_name,
-      view_space = address_opts.nesting_space || 'main',
-      location_id = getViewLocationId(this, address_opts.nesting_name, view_space),
-      view = mpx.getView(location_id)
+      child_name = address_opts.nesting_name
+    var view_space = address_opts.nesting_space || 'main'
+    var location_id = getViewLocationId(this, address_opts.nesting_name, view_space)
+    var view = mpx.getView(location_id)
 
     if (view) {
       return false
@@ -581,7 +581,8 @@ var View = spv.inh(StatesEmitter, {
     var all_views = []
     var all_requests = []
     var iterating = [this]
-    var i = 0, cur = null
+    var i = 0
+    var cur = null
     while (iterating.length) {
       cur = iterating.shift()
       for (i = 0; i < cur.children.length; i++) {
@@ -649,7 +650,8 @@ var View = spv.inh(StatesEmitter, {
   },
 
   checkDeadChildren: function() {
-    var i = 0, alive = []
+    var i = 0
+    var alive = []
     for (i = 0; i < this.children.length; i++) {
       if (this.children[i].dead) {
         //dead.push(this.children[i]);

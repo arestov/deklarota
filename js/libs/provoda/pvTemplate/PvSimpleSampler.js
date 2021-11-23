@@ -102,9 +102,9 @@ var PvSimpleSampler = (function() {
       var bind_data_list = parseEasy(node, !is_not_root && node, struc_store, getSample)
       for (var i = 0; i < bind_data_list.length; i += 3) {
         var
-          is_root_node = bind_data_list[ i ],
-          cur_node = bind_data_list[ i + 1 ],
-          bind_data = bind_data_list[ i + 2 ]
+          is_root_node = bind_data_list[ i ]
+        var cur_node = bind_data_list[ i + 1 ]
+        var bind_data = bind_data_list[ i + 2 ]
 
         if (is_root_node && bind_data.instructions['pv-nest']) {
           structure_data.controller_name = bind_data.instructions['pv-nest'].controller_name
@@ -116,7 +116,8 @@ var PvSimpleSampler = (function() {
 
 
       if (children_list.length) {
-        var usual = null, by_model_name = null
+        var usual = null
+        var by_model_name = null
 
         for (var i = 0; i < children_list.length; i++) {
           var cur = children_list[i]

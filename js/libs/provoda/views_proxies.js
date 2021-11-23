@@ -19,7 +19,9 @@ var createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
   if (!raw_array.length) {
     return
   }
-  var i, clean_array = [], local_index = {}
+  var i
+  var clean_array = []
+  var local_index = {}
   for (i = 0; i < raw_array.length; i++) {
     var cur_id = raw_array[i]._provoda_id
     if (!ids_index[cur_id] && !local_index[cur_id]) {

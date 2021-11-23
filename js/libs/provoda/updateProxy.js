@@ -360,7 +360,8 @@ function applyComplexStates(etr, total_original_states, start_from, input_and_ou
   // reuse set
   var uniq = getFreeSet()
 
-  var i, cur
+  var i
+  var cur
 
   var originalLength = input_and_output.length
 

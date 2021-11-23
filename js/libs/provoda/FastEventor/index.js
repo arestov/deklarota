@@ -459,7 +459,8 @@ FastEventor.prototype = spv.coe(function(add) {
       var _highway = this.sputnik._highway
 
       var space = (opts && opts.space) || this.default_requests_space
-      var i = 0, req = null
+      var i = 0
+      var req = null
 
       if (opts && opts.order) {
         for (i = 0; i < array.length; i++) {

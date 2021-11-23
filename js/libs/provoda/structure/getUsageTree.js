@@ -72,7 +72,8 @@ function mutateTreeStoreForChild(tree, store, path, struc) {
 
 var buildFreeChildren = function(tree, base_from_parent, base_root_constr_id) {
   var used_base = base_from_parent
-  var children_list_index = {}, children_list = []
+  var children_list_index = {}
+  var children_list = []
   if (used_base) {
     if (used_base.children) {
       iterateChildren(used_base.children, bCh, children_list_index, children_list)
@@ -268,7 +269,8 @@ function getBaseTree(cur_view, root_view) {
     controller_name: null
   }
 
-  var i, cur
+  var i
+  var cur
   var arr = []
 
   for (i = 0; i < cur_view.base_tree_list.length; i++) {
@@ -293,7 +295,10 @@ function getBaseTree(cur_view, root_view) {
 
   }
 
-  var nesting_name, nesting_space, field_path, model_name
+  var nesting_name
+  var nesting_space
+  var field_path
+  var model_name
 
   var tree_id = []
 

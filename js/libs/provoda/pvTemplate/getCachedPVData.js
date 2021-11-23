@@ -75,9 +75,12 @@ var getDirectivesData = (function() {
         new_scope_generator: null,
         instructions: {},
         replacing_data: null
-      },
-      i = 0, attr_name = '', directive_name = '', attributes = cur_node.attributes,
-      new_scope_generator = false// current_data = {node: cur_node};
+      }
+    var i = 0
+    var attr_name = ''
+    var directive_name = ''
+    var attributes = cur_node.attributes
+    var new_scope_generator = false// current_data = {node: cur_node};
 
     var attributes_list = []
     for (i = 0; i < attributes.length; i++) {

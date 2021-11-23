@@ -376,10 +376,10 @@ export default {
       }
 
       var parts = filter_parts[0].split(/\s+/gi)
-      var for_model,
-        coll_name,
-        controller_name,
-        space
+      var for_model
+      var coll_name
+      var controller_name
+      var space
 
       for (var i = 0; i < parts.length; i++) {
 
@@ -416,8 +416,11 @@ export default {
 
       //start of angular.js code
       var expression = full_declaration//attr.ngRepeat;
-      var match = expression.match(/^\s*(.+)\s+in\s+(.*)\s*$/),
-        lhs, rhs, valueIdent, keyIdent
+      var match = expression.match(/^\s*(.+)\s+in\s+(.*)\s*$/)
+      var lhs
+      var rhs
+      var valueIdent
+      var keyIdent
       if (!match) {
         throw new Error('Expected ngRepeat in form of \'_item_ in _collection_\' but got \'' +
         expression + '\'.')

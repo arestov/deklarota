@@ -10,9 +10,10 @@ var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
 export default function(self, props) {
   var
-    has_props = hasPrefixedProps(props),
-    has_pack = self.hasOwnProperty('nest'),
-    prop, real_name
+    has_props = hasPrefixedProps(props)
+  var has_pack = self.hasOwnProperty('nest')
+  var prop
+  var real_name
 
   if (!has_props && !has_pack) {
     return

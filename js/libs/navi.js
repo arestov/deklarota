@@ -130,9 +130,9 @@ function getNavi() {
       },
       getURLData: function(url) {
         var parts = url.match(tag_regexp)
-        var tag = parts && parts[0],
-          clear_url	= url.replace(tag_regexp, ''),
-          uniq_url	= url + (tag || (' $' + this.getUniqId()))
+        var tag = parts && parts[0]
+        var clear_url	= url.replace(tag_regexp, '')
+        var uniq_url	= url + (tag || (' $' + this.getUniqId()))
 
         return {
           clear_url: clear_url,

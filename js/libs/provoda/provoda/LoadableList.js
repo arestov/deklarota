@@ -145,8 +145,8 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
 
     for (var i = 0; i < data_list.length; i++) {
       var splited_data = splitItemData && splitItemData(data_list[i], target.getNestingSource(nesting_name, target.app))
-      var cur_data = splited_data ? splited_data[0] : data_list[i],
-        cur_params = splited_data && splited_data[1]
+      var cur_data = splited_data ? splited_data[0] : data_list[i]
+      var cur_params = splited_data && splited_data[1]
 
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
@@ -256,9 +256,9 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       this.loadable_lists[ nesting_name ] = []
     }
     var
-      item,
-      work_array = this.loadable_lists[ nesting_name ],
-      ml_ch_opts = !skip_changes && this.getMainListChangeOpts()
+      item
+    var work_array = this.loadable_lists[ nesting_name ]
+    var ml_ch_opts = !skip_changes && this.getMainListChangeOpts()
 
     var excess_items = this.excess_data_items && this.excess_data_items[ nesting_name ]
 
@@ -366,9 +366,9 @@ var LoadableListBase = spv.inh(BrowseMap.Model, {
       return
     }
     var
-      work_array = (this.loadable_lists && this.loadable_lists[ nesting_name ]) || [],
-      ml_ch_opts = this.getMainListChangeOpts(),
-      item = this.makeItemByData(obj, false, nesting_name)
+      work_array = (this.loadable_lists && this.loadable_lists[ nesting_name ]) || []
+    var ml_ch_opts = this.getMainListChangeOpts()
+    var item = this.makeItemByData(obj, false, nesting_name)
 
     if (!this.cant_find_dli_pos) {
       if (!this.excess_data_items) {

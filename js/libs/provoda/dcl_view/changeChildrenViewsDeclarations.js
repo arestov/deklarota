@@ -1,7 +1,8 @@
 
 
 export default function(self, props) {
-  var nesting_name, cur
+  var nesting_name
+  var cur
   if (props.children_views) {
     for (nesting_name in self.children_views) {
       cur = self.children_views[nesting_name]

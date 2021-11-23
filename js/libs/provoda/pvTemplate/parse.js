@@ -14,7 +14,8 @@ export default function parse(start_node, struc_store, getSample, _opts) {
 
   var result = []
 
-  var match_stack = [ start_node ], i = 0
+  var match_stack = [ start_node ]
+  var i = 0
   while (match_stack.length) {
     var cur_node = match_stack.shift()
     var node_type = cur_node.nodeType

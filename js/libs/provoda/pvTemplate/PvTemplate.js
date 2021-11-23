@@ -529,11 +529,11 @@ spv.Class.extendTo(PvTemplate, {
       }
 
       var
-        expression = data.expression,
-        valueIdent = data.valueIdent,
-        keyIdent = data.keyIdent,
-        calculator = data.calculator,
-        sfy_values = data.sfy_values
+        expression = data.expression
+      var valueIdent = data.valueIdent
+      var keyIdent = data.keyIdent
+      var calculator = data.calculator
+      var sfy_values = data.sfy_values
 
       var comment_anchor = window.document.createComment('pv-repeat anchor for: ' + expression)
       after(node, comment_anchor)
@@ -665,7 +665,8 @@ spv.Class.extendTo(PvTemplate, {
       return
     }
 
-    var matched = [], i = 0
+    var matched = []
+    var i = 0
     mutateStwat(this)
     for (i = 0; i < changes.length; i += CH_GR_LE) { //ищем подходящие директивы
       var name = changes[i]

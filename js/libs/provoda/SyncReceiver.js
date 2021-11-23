@@ -84,7 +84,9 @@ var SyncReceiver = function(stream) {
 SyncReceiver.prototype = {
 
   buildTree: function(array) {
-    var i, cur, cur_pvid
+    var i
+    var cur
+    var cur_pvid
 
     for (i = 0; i < array.length; i++) {
       cur = array[i]

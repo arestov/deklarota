@@ -378,7 +378,8 @@ function modelProps(add) {
       var all_models = []
       var groups = []
 
-      var i = 0, cur = null
+      var i = 0
+      var cur = null
       for (var collection_name in this.children_models) {
         cur = this.children_models[collection_name]
         if (!cur) {

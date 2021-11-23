@@ -195,7 +195,8 @@ Object.assign(MDProxy.prototype, {
 
     }
     if (this.views) {
-      var dead = [], alive = []
+      var dead = []
+      var alive = []
       for (i = 0; i < this.views.length; i++) {
         if (this.views[i].dead) {
           dead.push(this.views[i])

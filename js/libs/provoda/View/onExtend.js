@@ -17,7 +17,8 @@ import checkSpyglass from '../dcl_view/spyglass/check-dcl'
 var cloneObj = spv.cloneObj
 
 var getBaseTreeCheckList = function(start) {
-  var i, result = []
+  var i
+  var result = []
   var chunks_counter = 0
   var all_items = [null, start]
 

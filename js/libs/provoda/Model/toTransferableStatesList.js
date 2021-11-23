@@ -10,7 +10,8 @@ var hasId = function(value) {
 
 function toTransferableStatesList(states_raw) {
 
-  var needs_changes, fixed_values
+  var needs_changes
+  var fixed_values
   var states = states_raw
 
   for (var jj = 1; jj < states.length; jj += CH_GR_LE) {

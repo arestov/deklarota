@@ -52,7 +52,8 @@ export default function getPatchedTree(original_node, struc_store, getSample, op
 
   // var result = [];
 
-  var match_stack = [ node ], i = 0
+  var match_stack = [ node ]
+  var i = 0
   while (match_stack.length) {
     var cur_node = match_stack.shift()
     var is_start_node = node === cur_node

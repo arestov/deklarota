@@ -23,7 +23,10 @@ var makeWatchIndex = function(full_comlxs_list) {
     return emptyObject
   }
   var full_comlxs_index = {}
-  var i, jj, cur, state_name
+  var i
+  var jj
+  var cur
+  var state_name
   for (i = 0; i < full_comlxs_list.length; i++) {
     cur = full_comlxs_list[i]
     for (jj = 0; jj < cur.watch_list.length; jj++) {
