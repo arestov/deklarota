@@ -6,7 +6,7 @@ var sel_match_builders = [
   function(model_name) {
     return model_name
   },
-  function(model_name, parent_space_name) {
+  function(_model_name, parent_space_name) {
     return '/' + parent_space_name
   },
   function() {

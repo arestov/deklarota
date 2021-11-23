@@ -31,14 +31,14 @@ var getTreeSample = function(full_key, key) {
   }
 }
 
-var bCh = function(item, nesting_name, nesting_space, children_list_index, children_list) {
+var bCh = function(_item, nesting_name, nesting_space, children_list_index, children_list) {
   var field_path = ['children', nesting_name, nesting_space]
   if (!children_list_index[field_path.join('{}')]) {
     children_list.push(field_path)
   }
 }
 
-var bChByMN = function(item, nesting_name, model_name, nesting_space, children_list_index, children_list) {
+var bChByMN = function(_item, nesting_name, model_name, nesting_space, children_list_index, children_list) {
   var field_path = ['children_by_mn', nesting_name, model_name, nesting_space]
   if (!children_list_index[field_path.join('{}')]) {
     children_list.push(field_path)

@@ -37,7 +37,7 @@ function GlobalSkeleton() {
   Object.seal(this)
 }
 
-function handleCompRels(global_skeleton, model) {
+function handleCompRels(_global_skeleton, model) {
   var all_deps = getAllPossibleRelMentionsCandidates(model)
   if (all_deps == null) {
     return
