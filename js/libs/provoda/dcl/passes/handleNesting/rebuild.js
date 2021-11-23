@@ -1,5 +1,3 @@
-import spv from '../../../../spv'
-
 export default function rebuild(self, index) {
   var result = {}
 

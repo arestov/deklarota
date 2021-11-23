@@ -196,7 +196,7 @@ var callInit = function(md, nesting_name, value) {
   return created_model
 }
 
-var useRefIfNeeded = function(md, raw_value, mut_refs_index, mut_wanted_ref) {
+var useRefIfNeeded = function(md, raw_value, mut_refs_index, _mut_wanted_ref) {
   if (isOk(raw_value)) {
     return raw_value
   }

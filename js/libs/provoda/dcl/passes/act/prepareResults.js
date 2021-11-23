@@ -2,7 +2,6 @@
 import getTargetModels from './getTargetModels'
 import prepareNestingValue from './prepareNestingValue'
 import spv from '../../../../spv'
-import getModelById from '../../../utils/getModelById'
 import noopForPass from '../noop'
 var countKeys = spv.countKeys
 var initPassedValue = prepareNestingValue.initPassedValue
@@ -89,23 +88,6 @@ var unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref, m
   }
 
 }
-
-var needsReplace = function(item) {
-  return Boolean(item.use_ref_id)
-}
-
-var replaceItem = function(md, item, mut_refs_index) {
-  if (!item || !needsReplace(item)) {
-    return item
-  }
-
-  if (!mut_refs_index.hasOwnProperty(item.use_ref_id)) {
-    throw new Error('cant use ref_id: ' + item.use_ref_id)
-  }
-
-  return getModelById(md, mut_refs_index[item.use_ref_id])
-}
-
 
 var completeValues = function(list, mut_refs_index, mut_wanted_ref) {
   var lst_wanted = mut_wanted_ref

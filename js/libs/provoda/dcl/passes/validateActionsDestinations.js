@@ -48,7 +48,7 @@ const validateActionTarget = (self, target, action) => {
   // debugger
 }
 
-const validateActionsDestinations = (Root, self) => {
+const validateActionsDestinations = (_Root, self) => {
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
     return
   }
