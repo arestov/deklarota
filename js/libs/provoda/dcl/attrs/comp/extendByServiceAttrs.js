@@ -27,15 +27,15 @@ const extendByServiceAttrs = function(self, comps) {
     if (!comps.hasOwnProperty(prop)) {
       continue
     }
-    var cur = comps[prop]
+    const cur = comps[prop]
 
-    for (var i = 0; i < cur.addrs.length; i++) {
+    for (let i = 0; i < cur.addrs.length; i++) {
       makeAllGlueSources(result_list, cur)
     }
   }
 
-  for (var i = 0; i < result_list.length; i++) {
-    var cur = result_list[i]
+  for (let i = 0; i < result_list.length; i++) {
+    const cur = result_list[i]
     result[cur.name] = cur
   }
 
