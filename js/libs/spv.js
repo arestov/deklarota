@@ -758,7 +758,7 @@ throttle = function throttle(fn, timeout, ctx) {
 spv.capitalize = capitalize
 function capitalize(string, just_first) {
   var test = just_first ? (/(^|\s)(.)/) : (/(^|\s)(.)/g)
-  return string.replace(test, function(m, p1, p2) {
+  return string.replace(test, function(_m, p1, p2) {
     return p1 + p2.toUpperCase()
   })
 }
