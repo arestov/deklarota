@@ -28,21 +28,6 @@ var bhv = {
   }
 }
 
-function getDcl(cur) {
-  var parent_view = cur.parent_view
-  if (!parent_view || !parent_view.dclrs_fpckgs || !parent_view.dclrs_selectors) {
-    return
-  }
-
-  return selecPoineertDeclr(
-    parent_view.dclrs_fpckgs,
-    parent_view.dclrs_selectors,
-    cur.nesting_name,
-    cur.mpx.md.model_name,
-    parent_view.nesting_space,
-    true
-  )
-}
 
 function getKey(cur, by_model_name) {
   return by_model_name
