@@ -98,7 +98,6 @@ SyncSender.prototype = {
       var struc
 
       if (value) {
-        struc = []
         struc = parseNesting(this.sockets_m_index[cur.id], value, [])
       }
 
