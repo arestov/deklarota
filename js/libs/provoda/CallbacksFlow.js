@@ -366,7 +366,8 @@ function order(self, flow_step) {
   }
 
   let last_matched
-  for (var cur = self.flow_start; cur; cur = cur.next) {
+  let cur
+  for (cur = self.flow_start; cur; cur = cur.next) {
     const match_result = sortFlows(cur, flow_step)
     if (match_result == -1) {
       last_matched = cur
