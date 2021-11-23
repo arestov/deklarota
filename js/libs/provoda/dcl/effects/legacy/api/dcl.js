@@ -34,9 +34,9 @@ export default function ApiDeclr(name, data) {
   } else {
     switch (data.length) {
       case 2: {
-        var attr_deps = data[0]
+        const attr_deps = data[0]
 
-        var all_deps = wrapDeps(attr_deps)
+        const all_deps = wrapDeps(attr_deps)
         // var all_deps_name = '_api_all_needs_' + name
         this.deps_name = Symbol() // Symbol(all_deps_name)
 
@@ -46,14 +46,14 @@ export default function ApiDeclr(name, data) {
         break
       case 3:
       case 4: {
-        var attr_deps = data[0]
+        const attr_deps = data[0]
         const needed_apis = data[1]
 
         this.needed_apis = needed_apis
 
         const needed_apis_deps = wrapInterfaceAttrs(needed_apis)
 
-        var all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
+        const all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
         // var all_deps_name = '_api_all_needs_' + name
         this.deps_name = Symbol() // Symbol(all_deps_name)
         this.all_deps = all_deps
