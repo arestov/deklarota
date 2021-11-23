@@ -10,7 +10,7 @@ const provideGlueRels = cachedField(
   ['_nest_by_type_listed', '__temp_connect_glue'],
   true,
   function provideGlueRels(_nest_by_type_listed, __temp_connect_glue, model) {
-    var all_glue_sources = [
+    const all_glue_sources = [
       ...(getAllGlueSources(model) || []),
       ...(getAllGlueSourcesAttrs(model) || []),
     ]
@@ -20,7 +20,7 @@ const provideGlueRels = cachedField(
     }
 
     const uniq = new Map()
-    for (var i = 0; i < all_glue_sources.length; i++) {
+    for (let i = 0; i < all_glue_sources.length; i++) {
       const cur = all_glue_sources[i]
       uniq.set(cur.meta_relation, cur)
     }

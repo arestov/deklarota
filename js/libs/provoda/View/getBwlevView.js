@@ -1,9 +1,9 @@
 
 import spv from '../../spv'
-var nil = spv.nil
+const nil = spv.nil
 
 function getBwlevView(target) {
-  var cur = target
+  let cur = target
 
   while (!nil(cur)) {
     if (cur.mpx.md.model_name == 'bwlev') {

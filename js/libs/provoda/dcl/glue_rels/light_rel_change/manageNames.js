@@ -1,9 +1,9 @@
 import makeKey from '../../../internal_events/makeKey'
 
-var toName = {}
-var toValue = {}
+const toName = {}
+const toValue = {}
 
-var getValueByName = function(key) {
+const getValueByName = function(key) {
   if (toValue.hasOwnProperty(key)) {
     return toValue[key]
   }
@@ -11,12 +11,12 @@ var getValueByName = function(key) {
   return null
 }
 
-var getNameByValue = function(value) {
+const getNameByValue = function(value) {
   if (toName.hasOwnProperty(value)) {
     return toName[value]
   }
 
-  var key = makeKey(value)
+  const key = makeKey(value)
   toName[value] = key
   toValue[key] = value
   return key

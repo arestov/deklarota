@@ -8,10 +8,10 @@
   */
 // Inspired by base2 and Prototype
 
-var fnTest = /xyz/.test(function() {return 'xyz'}) ? /\b_super\b/ : /.*/
-var allowParentCall = function(name, fn, _super) {
+const fnTest = /xyz/.test(function() {return 'xyz'}) ? /\b_super\b/ : /.*/
+const allowParentCall = function(name, fn, _super) {
   return function() {
-    var tmp = this._super
+    const tmp = this._super
 
     // Add a new ._super() method that is the same method
     // but on the super-class
@@ -19,7 +19,7 @@ var allowParentCall = function(name, fn, _super) {
 
     // The method only need to be bound temporarily, so we
     // remove it when we're done executing
-    var ret = fn.apply(this, arguments)
+    const ret = fn.apply(this, arguments)
     if (typeof tmp != 'undefined') {
       this._super = tmp
     } else {
@@ -29,10 +29,10 @@ var allowParentCall = function(name, fn, _super) {
   }
 }
 
-var copyProps = function(prototype, props, _super) {
-  for (var prop_name in props) {
+const copyProps = function(prototype, props, _super) {
+  for (const prop_name in props) {
     // Check if we're overwriting an existing function
-    var needSuper = typeof props[prop_name] == 'function' &&
+    const needSuper = typeof props[prop_name] == 'function' &&
       typeof _super[prop_name] == 'function' && fnTest.test(props[prop_name])
     prototype[prop_name] = needSuper ?
       allowParentCall(prop_name, props[prop_name], _super) :

@@ -7,10 +7,10 @@ import bindRuntimeError from '../../bindRuntimeError'
 
 function AppRuntime(optionsRaw) {
 
-  var options = optionsRaw || {}
+  const options = optionsRaw || {}
 
-  var glo = typeof globalThis !== 'undefined' ? globalThis : window
-  var flow = new CallbacksFlow({
+  const glo = typeof globalThis !== 'undefined' ? globalThis : window
+  const flow = new CallbacksFlow({
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
@@ -25,7 +25,7 @@ function AppRuntime(optionsRaw) {
 
   initEffects(this)
 
-  var whenAllReady = function(fn) {
+  const whenAllReady = function(fn) {
     flow.pushToFlow(fn, null, null, null, null, null, null, true)
   }
 
@@ -34,7 +34,7 @@ function AppRuntime(optionsRaw) {
   this.sync_sender = options.sync_sender ? new SyncSender() : null
 
   const { __proxies_leaks_check, __proxies_leaks_check_interval, proxies: enable_proxies } = options
-  var proxies = enable_proxies
+  const proxies = enable_proxies
     ? new Proxies({ __proxies_leaks_check, __proxies_leaks_check_interval })
     : null
   this.views_proxies = proxies
@@ -50,10 +50,10 @@ function AppRuntime(optionsRaw) {
 }
 
 AppRuntime.prototype.start = function(options) {
-  var self = this
+  const self = this
   return new Promise(function(resolve) {
     self.calls_flow.input(function() {
-      var app_model = new options.App({
+      const app_model = new options.App({
         interfaces: options.interfaces,
         _highway: self,
       })

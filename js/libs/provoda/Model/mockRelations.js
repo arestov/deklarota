@@ -6,7 +6,7 @@ const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
 export const normalizeAddrsToValuesMap = (map) => {
   const result = {}
-  for (var attr in map) {
+  for (const attr in map) {
     if (!map.hasOwnProperty(attr)) {
       continue
     }
@@ -23,10 +23,10 @@ const mockRelations = (self) => {
 
   const normalized_map = normalizeAddrsToValuesMap(self._highway.relation_mocks)
 
-  for (var i = 0; i < self.full_comlxs_list.length; i++) {
-    var cur = self.full_comlxs_list[i]
-    for (var jj = 0; jj < cur.addrs.length; jj++) {
-      var addr = cur.addrs[jj]
+  for (let i = 0; i < self.full_comlxs_list.length; i++) {
+    const cur = self.full_comlxs_list[i]
+    for (let jj = 0; jj < cur.addrs.length; jj++) {
+      const addr = cur.addrs[jj]
       if (addr.base_itself || isJustAttrAddr(addr)) {
         continue
       }

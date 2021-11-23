@@ -11,7 +11,7 @@ import updateMetaAttrs from './rel/updateMetaAttrs'
 import emptyArray from '../emptyArray'
 import sameName from '../sameName'
 
-var checkNesting = nestWIndex.checkNesting
+const checkNesting = nestWIndex.checkNesting
 
 function getUniqReadonly(input) {
   // yes, make Object.freeze for input array!
@@ -22,7 +22,7 @@ function getUniqReadonly(input) {
   }
 
   // share same memory object of array when possible
-  var uniq = new Set(input)
+  const uniq = new Set(input)
   if (input.length == uniq.size) {
     return input
   }
@@ -43,9 +43,9 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
     self.children_models = {}
   }
 
-  var old_value = self.children_models[collection_name]
+  const old_value = self.children_models[collection_name]
 
-  var array = Array.isArray(input) ? getUniqReadonly(input) : input
+  const array = Array.isArray(input) ? getUniqReadonly(input) : input
 
   if (!isNestingChanged(old_value, array)) {
     return self
@@ -62,8 +62,8 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
   }
 
   if (old_value && array) {
-    var arr1 = Array.isArray(old_value)
-    var arr2 = Array.isArray(array)
+    const arr1 = Array.isArray(old_value)
+    const arr2 = Array.isArray(array)
     if (arr1 != arr2) {
       throw new Error('nest type must be stable')
     }
@@ -72,7 +72,7 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
 
   updateMetaAttrs(self, collection_name, array)
 
-  var removed = hp.getRemovedNestingItems(array, old_value)
+  const removed = hp.getRemovedNestingItems(array, old_value)
 
   _passHandleNesting(self, collection_name, old_value, array)
 

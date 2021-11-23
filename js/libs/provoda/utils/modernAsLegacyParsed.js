@@ -3,16 +3,16 @@ import getParsedState from './getParsedState'
 import asString from './multiPath/asString'
 import parseMultiPath from './multiPath/parse'
 
-var fromMultiPath = getParsedState.fromMultiPath
+const fromMultiPath = getParsedState.fromMultiPath
 
-var getMultiPath = function(full_name) {
+const getMultiPath = function(full_name) {
   if (full_name && full_name.charAt(0) == '<') {
     return parseMultiPath(full_name)
   }
 }
 
-var ensureResult = function(full_name) {
-  var multi_path = getMultiPath(full_name)
+const ensureResult = function(full_name) {
+  const multi_path = getMultiPath(full_name)
   if (!multi_path) {
     return null
   }

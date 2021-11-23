@@ -21,8 +21,8 @@ import getStart from './getStart'
 //   },
 // }
 
-var getModels = function(md, multi_path, data, all_nestings) {
-  var start_md = getStart(md, multi_path, false, data)
+const getModels = function(md, multi_path, data, all_nestings) {
+  const start_md = getStart(md, multi_path, false, data)
 
   const result = getDeepNesting(
     start_md,
@@ -43,7 +43,7 @@ var getModels = function(md, multi_path, data, all_nestings) {
 }
 
 function addExisting(result, from, nest_name) {
-  var subject = from && getNesting(from, nest_name)
+  const subject = from && getNesting(from, nest_name)
   if (!subject) {
     return
   }
@@ -65,16 +65,16 @@ function add(result, list, nest_name) {
     return
   }
 
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     addExisting(result, list[i], nest_name)
   }
 }
 
 function readRelPath(md, rel_path) {
-  var cur = [md]
-  for (var i = 0; i < rel_path.length; i++) {
-    var nested = []
-    var nest_name = rel_path[i]
+  let cur = [md]
+  for (let i = 0; i < rel_path.length; i++) {
+    const nested = []
+    const nest_name = rel_path[i]
     add(nested, cur, nest_name)
     cur = nested
   }
@@ -89,14 +89,14 @@ function getDeepNesting(md, multi_path, all_nestings) {
     zip_name: parts[0] || null,
   }
   */
-  var info = multi_path.nesting
-  var just_base = !all_nestings && multi_path.result_type === 'nesting'
+  const info = multi_path.nesting
+  const just_base = !all_nestings && multi_path.result_type === 'nesting'
 
   if (!info || !info.path) {
     return md
   }
 
-  var exec_path = just_base ? info.base : info.path
+  const exec_path = just_base ? info.base : info.path
 
   return readRelPath(md, exec_path)
 }

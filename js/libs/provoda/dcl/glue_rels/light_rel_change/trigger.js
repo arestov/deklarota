@@ -1,9 +1,9 @@
 import getNameByValue from './getNameByValue'
 
 function triggerLightRelChange(self, rel_key, value) {
-  var light_name = getNameByValue(rel_key)
+  const light_name = getNameByValue(rel_key)
 
-  var light_cb_cs = self.evcompanion.getMatchedCallbacks(light_name)
+  const light_cb_cs = self.evcompanion.getMatchedCallbacks(light_name)
 
   if (light_cb_cs == null || !light_cb_cs.length) {
     return

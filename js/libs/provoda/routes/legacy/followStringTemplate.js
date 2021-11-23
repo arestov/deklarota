@@ -1,6 +1,6 @@
 
 
-var followStringTemplate = function(app, md, obj, need_constr, full_path, strict, options, extra_states) {
+const followStringTemplate = function(app, md, obj, need_constr, full_path, strict, options, extra_states) {
   if (obj.from_root) {
     if (full_path === '') {
       // used just "#" as path
@@ -13,13 +13,13 @@ var followStringTemplate = function(app, md, obj, need_constr, full_path, strict
 
   if (obj.from_parent) {
     // "^page/ect"
-    var target_md_start = md
+    let target_md_start = md
     if (target_md_start.getInstanceKey()) {
-      for (var i = 0; i < obj.from_parent; i++) {
+      for (let i = 0; i < obj.from_parent; i++) {
         target_md_start = target_md_start.map_parent
       }
     } else {
-      for (var i = 0; i < obj.from_parent; i++) {
+      for (let i = 0; i < obj.from_parent; i++) {
         target_md_start = target_md_start._parent_constr && target_md_start._parent_constr.prototype
       }
     }

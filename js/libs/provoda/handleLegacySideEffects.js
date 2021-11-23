@@ -1,6 +1,6 @@
 
 
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
 function getStateChangeEffect(target, state_name) {
   if (target.__state_change_index == null) {
@@ -15,13 +15,13 @@ function getStateChangeEffect(target, state_name) {
 
 function proxyStch(target, state_name, value, old_value) {
 
-  var method = getStateChangeEffect(target, state_name)
+  const method = getStateChangeEffect(target, state_name)
 
   method(target, value, old_value)
 }
 
 function _handleStch(etr, state_name, value, old_value) {
-  var method = getStateChangeEffect(etr, state_name)
+  const method = getStateChangeEffect(etr, state_name)
   if (method == null) {
     return
   }
@@ -31,7 +31,7 @@ function _handleStch(etr, state_name, value, old_value) {
 
 export default function handleLegacySideEffects(etr, total_original_states, changes_list, start_from, inputLength) {
   if (etr.__syncStatesChanges != null || etr.__handleHookedSync != null) {
-    var to_send = changes_list.slice(start_from, inputLength)
+    const to_send = changes_list.slice(start_from, inputLength)
     if (etr.__syncStatesChanges != null) {
       etr.__syncStatesChanges.call(null, etr, to_send, etr.states)
     }
@@ -41,7 +41,7 @@ export default function handleLegacySideEffects(etr, total_original_states, chan
     }
   }
 
-  for (var i = start_from; i < inputLength; i += CH_GR_LE) {
+  for (let i = start_from; i < inputLength; i += CH_GR_LE) {
     _handleStch(etr, changes_list[i], changes_list[i + 1], total_original_states.get(changes_list[i]))
   }
 }

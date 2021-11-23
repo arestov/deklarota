@@ -5,11 +5,11 @@
 export default function(params) {
   // ({zip: 'all', attr: 'name', rel: '', route: '', anc: ''})
 
-  var zip_part = params.zip ? ('@' + params.zip + ':') : ''
+  const zip_part = params.zip ? ('@' + params.zip + ':') : ''
 
-  var attr = params.attr ? (zip_part + params.attr) : ''
-  var relZip = !attr ? zip_part : ''
-  var rel = params.rel ? (relZip + params.rel) : ''
+  const attr = params.attr ? (zip_part + params.attr) : ''
+  const relZip = !attr ? zip_part : ''
+  const rel = params.rel ? (relZip + params.rel) : ''
 
   if (!rel && !attr && zip_part) {
     throw new Error('zip not needed')

@@ -5,41 +5,41 @@ import angbo from '../StatementsAngularParser.min'
 import StandartChange from './StandartChange'
 import dom_helpers from '../utils/dom_helpers'
 
-var capitalize = spv.capitalize
-var startsWith = spv.startsWith
-var getTargetField = spv.getTargetField
-var setTargetField = spv.setTargetField
+const capitalize = spv.capitalize
+const startsWith = spv.startsWith
+const getTargetField = spv.getTargetField
+const setTargetField = spv.setTargetField
 
-var getText = dom_helpers.getText
-var setText = dom_helpers.setText
+const getText = dom_helpers.getText
+const setText = dom_helpers.setText
 
 
-var DOT = '.'
-var regxp_complex_spaces = /(^\s+)|(\s+$)|(\s{2,})/gi
-var regxp_spaces = /\s+/gi
+const DOT = '.'
+const regxp_complex_spaces = /(^\s+)|(\s+$)|(\s{2,})/gi
+const regxp_spaces = /\s+/gi
 
-var convertFieldname = function(prop_name) {
-  var parts = prop_name.replace(/^-/, '').split('-')
+const convertFieldname = function(prop_name) {
+  const parts = prop_name.replace(/^-/, '').split('-')
   if (parts.length > 1) {
-    for (var i = 1; i < parts.length; i++) {
+    for (let i = 1; i < parts.length; i++) {
       parts[i] = capitalize(parts[i])
     }
   }
   return parts.join('')
 }
-var createPropChange = (function() {
-  var getValue = function(node, prop) {
+const createPropChange = (function() {
+  const getValue = function(node, prop) {
     return getTargetField(node, prop)
   }
-  var setValue = function(node, value, old_value, wwtch) {
-    var prop = wwtch.data
-    var new_value = value || ''
+  const setValue = function(node, value, _old_value, wwtch) {
+    const prop = wwtch.data
+    const new_value = value || ''
 
     if (!wwtch.standch.needs_recheck) {
       return setTargetField(node, prop, new_value)
     }
 
-    var current_value = getTargetField(node, prop)
+    const current_value = getTargetField(node, prop)
     if (current_value == new_value) {
       return
     }
@@ -48,13 +48,13 @@ var createPropChange = (function() {
   }
 
   return function(node, prop, statement, directive_name) {
-    var parts = prop.split(DOT)
-    for (var i = 0; i < parts.length; i++) {
+    const parts = prop.split(DOT)
+    for (let i = 0; i < parts.length; i++) {
       parts[i] = convertFieldname(parts[i])
     }
     prop = parts.join(DOT)
 
-    var needs_recheck = prop == 'value'
+    const needs_recheck = prop == 'value'
     // we should avoid reading dom. it could be perfomance problem, but
     // we don't want to rewrite value for input since it will break cursor position
     // p.s. we could add more clever check for noteName === 'textarea' and other attrs
@@ -74,17 +74,17 @@ var createPropChange = (function() {
 
 
 
-var regxp_props_com = /\S[\S\s]*?\:[\s]*?\{\{[\S\s]+?\}\}/gi
-var regxp_props_com_soft = /\S[\S\s]*?\:[\s]*?(?:\{\{[\S\s]+?\}\})|(?:\S+?(\s|$))/gi
-var regxp_props_spaces = /^\s*|s*?$/
-var regxp_props_coms_part = /\s*\:\s*?(?=\{\{)/
-var regxp_props_statement = /(^\{\{)|(\}\}$)/gi
+const regxp_props_com = /\S[\S\s]*?\:[\s]*?\{\{[\S\s]+?\}\}/gi
+const regxp_props_com_soft = /\S[\S\s]*?\:[\s]*?(?:\{\{[\S\s]+?\}\})|(?:\S+?(\s|$))/gi
+const regxp_props_spaces = /^\s*|s*?$/
+const regxp_props_coms_part = /\s*\:\s*?(?=\{\{)/
+const regxp_props_statement = /(^\{\{)|(\}\}$)/gi
 
-var getFieldsTreesBases = StandartChange.getFieldsTreesBases
+const getFieldsTreesBases = StandartChange.getFieldsTreesBases
 
-var getIndexList = function(obj, arr) {
-  var result = arr || []
-  for (var prop in obj) {
+const getIndexList = function(obj, arr) {
+  const result = arr || []
+  for (const prop in obj) {
     result.push(prop)
   }
   return result
@@ -94,19 +94,19 @@ function multipleParts(createChange) {
   return function(node, full_declaration, directive_name) {
     // example:
     //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
-    var result = []
-    var complex_value = full_declaration
-    var complects = complex_value.match(regxp_props_com)
-    for (var i = 0; i < complects.length; i++) {
+    const result = []
+    const complex_value = full_declaration
+    const complects = complex_value.match(regxp_props_com)
+    for (let i = 0; i < complects.length; i++) {
       complects[i] = complects[i].replace(regxp_props_spaces,'').split(regxp_props_coms_part)
-      var prop = complects[i][0]
-      var statement = complects[i][1] && complects[i][1].replace(regxp_props_statement,'')
+      const prop = complects[i][0]
+      const statement = complects[i][1] && complects[i][1].replace(regxp_props_statement,'')
 
       if (!prop || !statement) {
         throw new Error('wrong declaration: ' + complex_value)
         //return;
       }
-      var item = createChange(node, prop, statement, prop + '$' + directive_name)
+      const item = createChange(node, prop, statement, prop + '$' + directive_name)
       if (item) {
         result.push(item)
       }
@@ -118,7 +118,7 @@ function multipleParts(createChange) {
 
 export default {
   config: (function() {
-    var config = {
+    const config = {
       one_parse: {
         'pv-import': true,
         'pv-when': true
@@ -181,17 +181,17 @@ export default {
   getIndexList: getIndexList,
   getFieldsTreesBases: getFieldsTreesBases,
   comment_directives_p: {
-    'pv-replace': function(node, full_declaration, directive_name, getSample) {
-      var index = {}
-      var complex_value = full_declaration
-      var complects = complex_value.match(regxp_props_com_soft)
+    'pv-replace': function(_node, full_declaration, _directive_name, _getSample) {
+      const index = {}
+      const complex_value = full_declaration
+      const complects = complex_value.match(regxp_props_com_soft)
 
-      for (var i = 0; i < complects.length; i++) {
+      for (let i = 0; i < complects.length; i++) {
         complects[i] = complects[i].replace(regxp_props_spaces, '')
-        var splitter_index = complects[i].indexOf(':')
+        const splitter_index = complects[i].indexOf(':')
 
-        var prop = complects[i].slice(0, splitter_index)
-        var statement = complects[i].slice(splitter_index + 1).replace(regxp_props_statement, '')
+        const prop = complects[i].slice(0, splitter_index)
+        const statement = complects[i].slice(splitter_index + 1).replace(regxp_props_statement, '')
 
         if (!prop || !statement) {
           throw new Error('wrong declaration: ' + complex_value)
@@ -204,10 +204,10 @@ export default {
   },
   directives_p: {
     'pv-text': (function() {
-      var getTextValue = function(node) {
+      const getTextValue = function(node) {
         return getText(node)
       }
-      var setTextValue = function(node, new_value) {
+      const setTextValue = function(node, new_value) {
         return setText(node, new_value)
       }
       return function(node, full_declaration, directive_name) {
@@ -219,11 +219,11 @@ export default {
       }
     })(),
     'pv-class': (function() {
-      var getClassName = function(node, class_name) {
+      const getClassName = function(node, class_name) {
         return node.classList.contains(class_name)
       }
-      var setClassName = function(node, new_value, old, wwtch) {
-        var class_name = wwtch.data
+      const setClassName = function(node, new_value, _old, wwtch) {
+        const class_name = wwtch.data
         if (new_value) {
           node.classList.add(class_name)
         } else {
@@ -232,17 +232,17 @@ export default {
 
       }
 
-      var exp = /\S+\s*\:\s*(\{\{.+?\}\}|\S+)/gi
-      var two_part = /(\S+)\s*\:\s*(?:\{\{(.+?)\}\}|(\S+))/
+      const exp = /\S+\s*\:\s*(\{\{.+?\}\}|\S+)/gi
+      const two_part = /(\S+)\s*\:\s*(?:\{\{(.+?)\}\}|(\S+))/
       return function(node, full_declaration, directive_name) {
-        var statements = full_declaration.match(exp)
+        const statements = full_declaration.match(exp)
         if (!statements.length) { return }
 
-        var result = []
-        for (var i = statements.length - 1; i >= 0; i--) {
-          var parts = statements[i].match(two_part)
-          var class_name = parts[1]
-          var condition = parts[2] || parts[3]
+        const result = []
+        for (let i = statements.length - 1; i >= 0; i--) {
+          const parts = statements[i].match(two_part)
+          const class_name = parts[1]
+          const condition = parts[2] || parts[3]
           if (!class_name || !condition) {
             throw new Error('wrong statement: ' + statements[i])
           }
@@ -261,21 +261,21 @@ export default {
       }
     })(),
     'pv-props': multipleParts(createPropChange),
-    'pv-when': function(node, full_declaration, directive_name) {
+    'pv-when': function(_node, full_declaration, _directive_name) {
       if (!full_declaration) {
         return
       }
       return full_declaration
     },
     'pv-type': (function() {
-      var getPVTypes = function() {
+      const getPVTypes = function() {
         return ''
       }
 
-      var setPVTypes = function(node, new_value, ov, wwtch) {
-        var types = new_value.split(regxp_spaces)
+      const setPVTypes = function(_node, new_value, _ov, wwtch) {
+        const types = new_value.split(regxp_spaces)
         wwtch.pv_type_data.marks = {}
-        for (var i = 0; i < types.length; i++) {
+        for (let i = 0; i < types.length; i++) {
           if (types[i]) {
             wwtch.pv_type_data.marks[types[i]] = true
           }
@@ -302,12 +302,12 @@ export default {
       }
     })(),
     'pv-events': (function() {
-        var createPVEventData = function(event_name, data, event_opts) {
+      const createPVEventData = function(event_name, data, event_opts) {
 
         event_opts = event_opts && event_opts.split(',')
-        var event_handling = {}
+        const event_handling = {}
         if (event_opts) {
-          for (var i = 0; i < event_opts.length; i++) {
+          for (let i = 0; i < event_opts.length; i++) {
             event_handling[event_opts[i]] = true
           }
         }
@@ -328,9 +328,9 @@ export default {
       }
 
 
-      var createEventParams = function(array) {
-        for (var i = 0; i < array.length; i++) {
-          var cur = array[i]
+      const createEventParams = function(array) {
+        for (let i = 0; i < array.length; i++) {
+          const cur = array[i]
           if (cur.indexOf('{{') != -1) {
             array[i] = angbo.interpolateExpressions(cur)
           }
@@ -338,17 +338,17 @@ export default {
         return array
       }
 
-      return function(node, full_declaration) {
+      return function(_node, full_declaration) {
         /*
         click:Callback
         mousemove|sp,pd:MovePoints
         */
-        var result = []
-        var declarations = full_declaration.split(regxp_spaces)
-        for (var i = 0; i < declarations.length; i++) {
-          var cur = declarations[i].split(':')
-          var dom_event = cur.shift()
-          var decr_parts = dom_event.split('|')
+        const result = []
+        const declarations = full_declaration.split(regxp_spaces)
+        for (let i = 0; i < declarations.length; i++) {
+          const cur = declarations[i].split(':')
+          const dom_event = cur.shift()
+          const decr_parts = dom_event.split('|')
 
 
 
@@ -357,33 +357,33 @@ export default {
         return result
       }
     })(),
-    'pv-log'(node, full_declaration) {
+    'pv-log'(_node, full_declaration) {
       return full_declaration
     }
   },
   scope_generators_p: {
-    'pv-nest': function(node, full_declaration) {
-      var attr_value = full_declaration
+    'pv-nest': function(_node, full_declaration) {
+      const attr_value = full_declaration
 
-      var filter_parts = attr_value.split('|')
+      const filter_parts = attr_value.split('|')
 
-      var filterFn
+      let filterFn
       if (filter_parts[1]) {
-        var calculator = angbo.parseExpression('obj |' + filter_parts[1])
+        const calculator = angbo.parseExpression('obj |' + filter_parts[1])
         filterFn = function(array) {
           return calculator({obj: array})
         }
       }
 
-      var parts = filter_parts[0].split(/\s+/gi)
-      var for_model,
-        coll_name,
-        controller_name,
-        space
+      const parts = filter_parts[0].split(/\s+/gi)
+      let for_model
+      let coll_name
+      let controller_name
+      let space
 
-      for (var i = 0; i < parts.length; i++) {
+      for (let i = 0; i < parts.length; i++) {
 
-        var cur_part = parts[i]
+        const cur_part = parts[i]
         if (!cur_part) {
           continue
         }
@@ -393,7 +393,7 @@ export default {
         } else if (startsWith(cur_part, 'controller:')) {
           controller_name = cur_part.slice('controller:'.length)
         } else {
-          var space_parts = cur_part.split(':')
+          const space_parts = cur_part.split(':')
           if (!coll_name) {
             coll_name = space_parts[0]
           }
@@ -412,30 +412,29 @@ export default {
         filterFn: filterFn
       }
     },
-    'pv-repeat': function(node, full_declaration) {
+    'pv-repeat': function(_node, full_declaration) {
 
       //start of angular.js code
-      var expression = full_declaration//attr.ngRepeat;
-      var match = expression.match(/^\s*(.+)\s+in\s+(.*)\s*$/),
-        lhs, rhs, valueIdent, keyIdent
+      const expression = full_declaration//attr.ngRepeat;
+      let match = expression.match(/^\s*(.+)\s+in\s+(.*)\s*$/)
       if (!match) {
         throw new Error('Expected ngRepeat in form of \'_item_ in _collection_\' but got \'' +
         expression + '\'.')
       }
-      lhs = match[1]
-      rhs = match[2]
+      const lhs = match[1]
+      const rhs = match[2]
       match = lhs.match(/^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/)
       if (!match) {
         throw new Error('\'item\' in \'item in collection\' should be identifier or (key, value) but got \'' +
         lhs + '\'.')
       }
-      valueIdent = match[3] || match[1]
-      keyIdent = match[2]
+      const valueIdent = match[3] || match[1]
+      const keyIdent = match[2]
       //end of angular.js code
 
-      var calculator = angbo.parseExpression(rhs)
-      var all_values = calculator.propsToWatch
-      var sfy_values = getFieldsTreesBases(all_values)
+      const calculator = angbo.parseExpression(rhs)
+      const all_values = calculator.propsToWatch
+      const sfy_values = getFieldsTreesBases(all_values)
 
       return {
         expression: expression,
@@ -449,7 +448,7 @@ export default {
 }
 
 
-function hlpFixStringSpaces(str, p1, p2, p3) {
+function hlpFixStringSpaces(_str, p1, p2, p3) {
   if (p1 || p2) {
     return ''
   }

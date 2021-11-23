@@ -1,23 +1,23 @@
 
 
-var doCopy = function(item, self, extended_comp_attrs) {
+const doCopy = function(item, _self, extended_comp_attrs) {
   if (!item.deps_name) {
     throw new Error('item should have deps_name')
   }
   extended_comp_attrs[item.deps_name] = item.all_deps
 }
 
-var empty = []
+const empty = []
 
 export default function getDepsToInsert(source, self, extended_comp_attrs) {
   if (!source) {return empty}
 
-  var result = []
+  const result = []
 
-  for (var name in source) {
+  for (const name in source) {
     if (!source.hasOwnProperty(name)) {continue}
 
-    var cur = source[name]
+    const cur = source[name]
     if (!cur.all_deps) {continue}
 
     result.push(name)
@@ -25,8 +25,8 @@ export default function getDepsToInsert(source, self, extended_comp_attrs) {
     doCopy(cur, self, extended_comp_attrs)
   }
 
-  for (var prop of Object.getOwnPropertySymbols(source)) {
-    let cur = source[prop]
+  for (const prop of Object.getOwnPropertySymbols(source)) {
+    const cur = source[prop]
     if (!cur.all_deps) {continue}
 
     result.push(prop)

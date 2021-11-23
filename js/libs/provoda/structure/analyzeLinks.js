@@ -8,7 +8,7 @@ const relink = (Constr, RootConstr) => {
 
   const all = self._all_chi
 
-  for (var prop in all) {
+  for (const prop in all) {
     if (!all.hasOwnProperty(prop)) {continue}
 
     if (!all[prop]) {continue}

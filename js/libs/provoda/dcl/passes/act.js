@@ -43,7 +43,7 @@ import now from './deps/now'
 */
 
 
-var getDep = function(md, dep, data) {
+const getDep = function(md, dep, data) {
   if (dep === noopForPass) {
     return noopForPass
   }
@@ -55,15 +55,15 @@ var getDep = function(md, dep, data) {
   return getDepValue(md, dep, data)
 }
 
-var getDepsValues = function(md, deps, data) {
+const getDepsValues = function(md, deps, data) {
   if (deps == null) {
     return null
   }
 
 
-  var args = new Array(deps.length)
-  for (var i = 0; i < deps.length; i++) {
-    var cur = deps[i]
+  const args = new Array(deps.length)
+  for (let i = 0; i < deps.length; i++) {
+    const cur = deps[i]
     args[i] = getDep(md, cur, data)
   }
 
@@ -71,24 +71,24 @@ var getDepsValues = function(md, deps, data) {
 }
 
 export default function pass(md, pass_name, data) {
-  var pass_handlers = md._extendable_passes_index
+  const pass_handlers = md._extendable_passes_index
   if (!pass_handlers.hasOwnProperty(pass_name)) {
     throw new Error('missing pass ' + pass_name)
   }
 
 
-  var dcl = pass_handlers[pass_name]
+  const dcl = pass_handlers[pass_name]
 
-  var fn = dcl.fn
-  var deps = dcl.deps
+  const fn = dcl.fn
+  const deps = dcl.deps
 
-  var deps_values = getDepsValues(md, deps, data)
-  var args = [data]
+  const deps_values = getDepsValues(md, deps, data)
+  const args = [data]
   if (deps_values) {
     Array.prototype.push.apply(args, deps_values)
   }
 
-  var result = fn.apply(null, args)
+  const result = fn.apply(null, args)
   if (result === noopForPass) {
     return
   }

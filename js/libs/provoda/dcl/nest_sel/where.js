@@ -1,6 +1,6 @@
 
 import spv from '../../../spv'
-var startsWith = spv.startsWith
+const startsWith = spv.startsWith
 
 export default function(self, where) {
   if (!where) {
@@ -15,7 +15,7 @@ export default function(self, where) {
     self.selectFn = where[1]
     self.where_states = where[0]
   } else if (typeof where == 'object') {
-    var dcl = indexableQuery(where)
+    const dcl = indexableQuery(where)
     useIndexableQuery(self, dcl)
   } else {
     throw new Error('unsupported type of where declaration')
@@ -27,10 +27,10 @@ function isForDeep(name) {
 }
 
 function getArgsSchema(list) {
-  var args_schema = []
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
-    var state_name = isForDeep(cur)
+  const args_schema = []
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
+    const state_name = isForDeep(cur)
     if (state_name) {
       args_schema.push({
         type: 'deep',
@@ -123,7 +123,7 @@ function getCompareFn(comparing) {
   }
   // convertor
   // operator
-  var convert = comparing.convertor
+  const convert = comparing.convertor
     ? getConvertor(comparing.convertor)
     : same
   return getOperatorFn(comparing.operator, convert)
@@ -136,28 +136,28 @@ function bindArg(num) {
 }
 
 function bindCheck(dcl, args_to_states) {
-  var getLeft = bindArg(args_to_states[dcl.compare_from])
-  var getRight
+  const getLeft = bindArg(args_to_states[dcl.compare_from])
+  let getRight
 
   switch (dcl.criteria.type) {
     case 'state': {
       getRight = bindArg(args_to_states[dcl.criteria.state])
     }
-    break
+      break
     case 'static_value': {
-      var value = dcl.criteria.value
+      const value = dcl.criteria.value
       getRight = function() {
         return value
       }
     }
-    break
+      break
   }
 
-  var compareFn = dcl.compareFn
+  const compareFn = dcl.compareFn
 
   return function() {
-    var left_value = getLeft.apply(null, arguments)
-    var right_value = getRight.apply(null, arguments)
+    const left_value = getLeft.apply(null, arguments)
+    const right_value = getRight.apply(null, arguments)
 
     return compareFn(left_value, right_value)
   }
@@ -170,8 +170,8 @@ function bindAnd(fn1, fn2) {
 }
 
 function useIndexableQuery(self, dcl) {
-  var list = []
-  var args_to_states = {}
+  const list = []
+  const args_to_states = {}
 
   function mapState(key) {
     if (args_to_states[key]) {return}
@@ -180,9 +180,9 @@ function useIndexableQuery(self, dcl) {
     args_to_states[key] = list.length - 1
   }
 
-  var checks = []
-  for (var i = 0; i < dcl.length; i++) {
-    var cur = dcl[i]
+  const checks = []
+  for (let i = 0; i < dcl.length; i++) {
+    const cur = dcl[i]
     mapState(cur.compare_from)
     if (cur.criteria.type == 'state') {
       mapState(cur.criteria.state)
@@ -191,9 +191,9 @@ function useIndexableQuery(self, dcl) {
   }
 
 
-  var selectFn = checks[0]
+  let selectFn = checks[0]
 
-  for (var i = 1; i < checks.length; i++) {
+  for (let i = 1; i < checks.length; i++) {
     selectFn = bindAnd(selectFn, checks[i])
   }
 
@@ -205,10 +205,10 @@ function useIndexableQuery(self, dcl) {
 }
 
 function indexableQuery(query) {
-  var items = []
-  for (var prop in query) {
-    var _cur = query[prop]
-    var cur
+  const items = []
+  for (const prop in query) {
+    const _cur = query[prop]
+    let cur
     if (typeof _cur == 'string') {
       cur = ['=', _cur]
     } else if (Array.isArray(_cur)) {
@@ -216,8 +216,8 @@ function indexableQuery(query) {
     } else {
       throw new Error('does not support this kind of decraration')
     }
-    var comparing = getComparing(cur[0])
-    var criteria = getCriteriaValue(cur[1])
+    const comparing = getComparing(cur[0])
+    const criteria = getCriteriaValue(cur[1])
     items.push({
       compare_from: prop,
       comparing: comparing,

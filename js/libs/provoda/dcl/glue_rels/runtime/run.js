@@ -33,8 +33,8 @@ const runGlueSources = function(self) {
     return
   }
 
-  for (var i = 0; i < self.__rel_all_glue_sources.length; i++) {
-    var cur = self.__rel_all_glue_sources[i]
+  for (let i = 0; i < self.__rel_all_glue_sources.length; i++) {
+    const cur = self.__rel_all_glue_sources[i]
 
     // prefill
     _updateRel(self, cur.meta_relation, getDepValue(self, cur.addr))
@@ -60,8 +60,8 @@ export const disposeGlueSources = function(self) {
     return
   }
 
-  for (var i = 0; i < self.__rel_all_glue_sources.length; i++) {
-    var cur = self.__rel_all_glue_sources[i]
+  for (let i = 0; i < self.__rel_all_glue_sources.length; i++) {
+    const cur = self.__rel_all_glue_sources[i]
 
     if (isGlueRoot(cur.addr)) {
       unsubscribe(self.app, self, getNameByValue(cur.final_rel_key), gotRelGlue(cur.meta_relation))

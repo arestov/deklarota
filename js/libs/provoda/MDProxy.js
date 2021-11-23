@@ -4,7 +4,7 @@ import sameObjectIfEmpty from './utils/sameObjectIfEmpty'
 import { init as initStores, methods as storesMethods } from './MDProxy/stores'
 const CH_GR_LE = 2
 
-var MDProxy = function(_provoda_id, mutable_children_models, md, space) {
+const MDProxy = function(_provoda_id, mutable_children_models, md, space) {
   this._provoda_id = _provoda_id
   this.key = _provoda_id
   this.views = null
@@ -44,7 +44,7 @@ Object.assign(MDProxy.prototype, {
       return null
     }
 
-    var list = this.nestings[rel_name]
+    const list = this.nestings[rel_name]
     if (list == null) {
       return null
     }
@@ -52,8 +52,8 @@ Object.assign(MDProxy.prototype, {
       return toMpx(this, list)
     }
 
-    let result = []
-    for (var i = 0; i < list.length; i++) {
+    const result = []
+    for (let i = 0; i < list.length; i++) {
       const item = list[i]
       const mpx = toMpx(this, item)
       if (!mpx) {continue}
@@ -81,8 +81,8 @@ Object.assign(MDProxy.prototype, {
     return this.nestings
   },
   RPCLegacy: function() {
-    var args = Array.prototype.slice.call(arguments)
-    var data = JSON.parse(JSON.stringify(args))
+    const args = Array.prototype.slice.call(arguments)
+    const data = JSON.parse(JSON.stringify(args))
 
     if (this.space == null || this.space.sendRPCLegacy == null) {
       this.md.RPCLegacy.apply(this.md, data)
@@ -98,8 +98,8 @@ Object.assign(MDProxy.prototype, {
     if (!this.vstates) {
       this.vstates = {}
     }
-    var changes_list = []
-    for (var name in obj) {
+    const changes_list = []
+    for (const name in obj) {
       this.vstates[sameName(name)] = obj[name]
       changes_list.push(name, obj[name])
     }
@@ -127,8 +127,8 @@ Object.assign(MDProxy.prototype, {
     if (!this.views) {
       return
     }
-    var views = []
-    for (var i = 0; i < this.views.length; i++) {
+    const views = []
+    for (let i = 0; i < this.views.length; i++) {
       if (views[i] !== view) {
         views.push(views[i])
       }
@@ -138,7 +138,7 @@ Object.assign(MDProxy.prototype, {
     }
   },
   sendCollectionChange: function(collection_name, array) {
-    var old_value = this.nestings[collection_name]
+    const old_value = this.nestings[collection_name]
 
     mutateRels(this)
     this.nestings[collection_name] = array
@@ -148,43 +148,43 @@ Object.assign(MDProxy.prototype, {
     if (!this.views) {
       return
     }
-    var removed = getRemovedNestingItems(array, old_value)
+    const removed = getRemovedNestingItems(array, old_value)
 
-    for (var i = 0; i < this.views.length; i++) {
+    for (let i = 0; i < this.views.length; i++) {
       this.views[i].stackCollectionChange(collection_name, array, old_value, removed)
     }
   },
 
   stackReceivedStates: function(states_list) {
     // should be scheduled using context's mircotasks
-    for (var i = 0; i < states_list.length; i += CH_GR_LE) {
+    for (let i = 0; i < states_list.length; i += CH_GR_LE) {
       this.__notifyAttrChangeWatchers(states_list[i], states_list[i + 1])
     }
 
     if (!this.views) {
       return
     }
-    for (var i = 0; i < this.views.length; i++) {
+    for (let i = 0; i < this.views.length; i++) {
       this.views[i].stackReceivedChanges(states_list)
     }
   },
   sendStatesToViews: function(states_list, opts) {
-    for (var i = 0; i < states_list.length; i += CH_GR_LE) {
+    for (let i = 0; i < states_list.length; i += CH_GR_LE) {
       this.__notifyAttrChangeWatchers(states_list[i], states_list[i + 1])
     }
 
     if (!this.views) {
       return
     }
-    for (var i = 0; i < this.views.length; i++) {
+    for (let i = 0; i < this.views.length; i++) {
       this.views[i].receiveStatesChanges(states_list, opts)
     }
   },
   removeDeadViews: function(hard_deads_check, complex_id) {
-    var i = 0
+    let i = 0
     if (hard_deads_check) {
-      var target_view = complex_id && this.views_index && this.views_index[complex_id]
-      var checklist = complex_id ? (target_view && [target_view]) : this.views
+      const target_view = complex_id && this.views_index && this.views_index[complex_id]
+      const checklist = complex_id ? (target_view && [target_view]) : this.views
       if (checklist) {
         for (i = 0; i < checklist.length; i++) {
           if (checklist[i].isAlive) {
@@ -195,7 +195,8 @@ Object.assign(MDProxy.prototype, {
 
     }
     if (this.views) {
-      var dead = [], alive = []
+      const dead = []
+      const alive = []
       for (i = 0; i < this.views.length; i++) {
         if (this.views[i].dead) {
           dead.push(this.views[i])
@@ -208,8 +209,8 @@ Object.assign(MDProxy.prototype, {
         this.views = alive
       }
       if (dead.length) {
-        for (var a in this.views_index) {
-          var cur = this.views_index[a]
+        for (const a in this.views_index) {
+          const cur = this.views_index[a]
           if (dead.indexOf(cur) != -1) {
             this.views_index[a] = null
           }
@@ -226,11 +227,11 @@ Object.assign(MDProxy.prototype, {
   },
   killViews: function() {
     //this.views[i] can be changed in proccess, so cache it!
-    var views = this.views
+    const views = this.views
     if (!views) {
       return
     }
-    for (var i = 0; i < views.length; i++) {
+    for (let i = 0; i < views.length; i++) {
       views[i].die({skip_md_call: true})
     }
     this.removeDeadViews()
@@ -240,7 +241,7 @@ Object.assign(MDProxy.prototype, {
     if (!this.views) {
       return
     }
-    for (var i = 0; i < this.views.length; i++) {
+    for (let i = 0; i < this.views.length; i++) {
       this.views[i].checkDeadChildren()
     }
   },

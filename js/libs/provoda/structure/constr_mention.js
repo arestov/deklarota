@@ -1,6 +1,6 @@
 
 
-var nestConstructor = function(name, item, raw_key) {
+const nestConstructor = function(name, item, raw_key) {
   if (typeof item == 'string') {
     return {
       name: name,
@@ -11,7 +11,7 @@ var nestConstructor = function(name, item, raw_key) {
     if (!raw_key) {
       throw new Error('key should be provided')
     }
-    var key = raw_key
+    const key = raw_key
 
     return {
       name: name,
@@ -22,10 +22,10 @@ var nestConstructor = function(name, item, raw_key) {
   }
 }
 
-var declarationConstructor = function(name, cur, key_prefix) {
+const declarationConstructor = function(name, cur, key_prefix) {
   if (Array.isArray(cur)) {
-    var result = []
-    for (var i = 0; i < cur.length; i++) {
+    const result = []
+    for (let i = 0; i < cur.length; i++) {
       result[i] = nestConstructor(name, cur[i], key_prefix + name + '-' + i)
     }
     return result

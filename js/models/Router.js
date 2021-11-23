@@ -17,12 +17,12 @@ import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 
 export const BasicRouter = spv.inh(Model, {
-  naming: function (fn) {
-		return function BasicRouter (opts, data, params, more, states) {
-			fn(this, opts, data, params, more, states)
-		}
-	},
-  init: function (self) {
+  naming: function(fn) {
+    return function BasicRouter(opts, data, params, more, states) {
+      fn(this, opts, data, params, more, states)
+    }
+  },
+  init: function(self) {
     self.bwlevs = {}
 
     if (!self.model_name) {
@@ -49,12 +49,12 @@ export const BasicRouter = spv.inh(Model, {
 })
 
 export default spv.inh(BasicRouter, {
-  naming: function (fn) {
-    return function Router (opts, data, params, more, states) {
+  naming: function(fn) {
+    return function Router(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function (self) {
+  init: function(self) {
     self.mainLevelResidents = null // BrowseLevel, showMOnMap
     self.bridge_bwlev = null
     self.mainLevelResidents = null
@@ -69,7 +69,7 @@ export default spv.inh(BasicRouter, {
       return
     }
 
-    var spyglass_name = 'navigation'
+    const spyglass_name = 'navigation'
 
     self.mainLevelResident = self.app.start_page
     self.start_bwlev = createLevel(
@@ -99,7 +99,7 @@ export default spv.inh(BasicRouter, {
     'full_url': [
       'comp',
       ['< @all:url_part < navigation.pioneer <<', '<< @all:navigation <<'],
-      function(nil, list) {
+      function(_updates, list) {
         return list && joinNavURL(list)
       }
     ],
@@ -110,8 +110,8 @@ export default spv.inh(BasicRouter, {
         if (!list) {
           return 'Seesu'
         }
-        var as_first = list[list.length - 1]
-        var as_second = list[list.length - 2]
+        const as_first = list[list.length - 1]
+        const as_second = list[list.length - 2]
         if (!as_second) {
           return as_first
         }
@@ -126,7 +126,7 @@ export default spv.inh(BasicRouter, {
           return null
         }
 
-        var modelId = req && index && index[req.id]
+        const modelId = req && index && index[req.id]
         if (!modelId) {
           return null
         }
@@ -187,11 +187,11 @@ export default spv.inh(BasicRouter, {
 
           _updateAttr(self, 'wantedReq', null)
 
-          var req = state.req
-          var id = state.id
-          var md = getModelById(self, id)
+          const req = state.req
+          const id = state.id
+          const md = getModelById(self, id)
 
-          var bwlev = showMOnMap(self.app.CBWL, self, md)
+          const bwlev = showMOnMap(self.app.CBWL, self, md)
           bwlev.showOnMap()
           _updateAttr(bwlev, 'currentReq', req)
         }
@@ -203,29 +203,29 @@ export default spv.inh(BasicRouter, {
       },
       fn: [
         ['<<<<'],
-        (data, self) => {
+        (_, self) => {
           const target = self
-          var map = target
+          const map = target
 
-          var list = getNesting(map, 'wanted_bwlev_chain')
+          const list = getNesting(map, 'wanted_bwlev_chain')
           if (!list) {
             return {}
           }
 
           // start_page/level/i===0 can't have `Boolean(has_no_access) === true`. so ok_bwlev = 0
-          var ok_bwlev = 0
+          let ok_bwlev = 0
 
-          for (var i = 0; i < list.length; i++) {
-            var cur_bwlev = list[i]
-            var md = getNesting(cur_bwlev, 'pioneer')
-            var has_no_access = pvState(md, 'has_no_access')
+          for (let i = 0; i < list.length; i++) {
+            const cur_bwlev = list[i]
+            const md = getNesting(cur_bwlev, 'pioneer')
+            const has_no_access = pvState(md, 'has_no_access')
             if (has_no_access) {
               break
             }
             ok_bwlev = i
           }
 
-          var bwlev = list[ok_bwlev]
+          const bwlev = list[ok_bwlev]
 
           animateMapChanges(target, bwlev)
 
@@ -257,10 +257,10 @@ export default spv.inh(BasicRouter, {
     'handleAttr:current_expected_rel': {
       to: {
         nothing: ['current_expected_rel']
-        },
-        fn: [
-          ['<<<<'],
-          (data, self) => {
+      },
+      fn: [
+        ['<<<<'],
+        (data, self) => {
 
           handleCurrentExpectedRel(self, data)
           return {}
@@ -293,7 +293,7 @@ export default spv.inh(BasicRouter, {
           if (url == null) {
             return
           }
-          var bwlev = self.getNesting('current_mp_bwlev')
+          const bwlev = self.getNesting('current_mp_bwlev')
           navi.update(url, bwlev)
           self.app.trackPage(bwlev.getNesting('pioneer').model_name)
         },
@@ -303,7 +303,7 @@ export default spv.inh(BasicRouter, {
     }
   },
   'stch-@current_mp_bwlev': function(self, _, __, c) {
-    var bwlev = c && c.items
+    const bwlev = c && c.items
     if (!bwlev) {
       return
     }
@@ -330,21 +330,21 @@ function initMapTree(target, start_page, needs_url_history, navi) {
 function initNav(map, navi, app) {
   if (map.needs_url_history) {
     navi.init(app.inputFn(function(e) {
-      var url = e.newURL
-      var state_from_history = navi.findHistory(e.newURL)
-      var handleQuery = map.handleQuery
+      const url = e.newURL
+      const state_from_history = navi.findHistory(e.newURL)
+      const handleQuery = map.handleQuery
       if (state_from_history) {
         changeBridge(state_from_history.data)
         handleQuery(map, state_from_history.data.getNesting('pioneer'))
       } else{
-        var interest = BrowseMap.getUserInterest(url.replace(/\ ?\$...$/, ''), app.start_page)
-        var bwlev = BrowseMap.showInterest(map, interest)
+        const interest = BrowseMap.getUserInterest(url.replace(/\ ?\$...$/, ''), app.start_page)
+        const bwlev = BrowseMap.showInterest(map, interest)
         BrowseMap.changeBridge(bwlev)
         handleQuery(map, bwlev.getNesting('pioneer'))
       }
     }));
     (function() {
-      var url = window.location && window.location.hash.replace(/^\#/,'')
+      const url = window.location && window.location.hash.replace(/^\#/,'')
       if (url) {
         app.on('handle-location', function() {
           navi.hashchangeHandler({
@@ -353,12 +353,12 @@ function initNav(map, navi, app) {
 
         })
       } else {
-        var bwlev = BrowseMap.showInterest(map, [])
+        const bwlev = BrowseMap.showInterest(map, [])
         BrowseMap.changeBridge(bwlev)
       }
     })()
   } else {
-    var bwlev = BrowseMap.showInterest(map, [])
+    const bwlev = BrowseMap.showInterest(map, [])
     BrowseMap.changeBridge(bwlev)
   }
 }

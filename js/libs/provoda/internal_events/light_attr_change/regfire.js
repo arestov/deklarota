@@ -3,7 +3,7 @@
 import hndMotivationWrappper from '../../helpers/hndMotivationWrappper'
 import getAttrByName from './getAttrByName'
 
-var LightEvOpts = function(ev_name, cb, context) {
+const LightEvOpts = function(ev_name, cb, context) {
   this.ev_name = ev_name
   this.cb = cb
   this.context = context

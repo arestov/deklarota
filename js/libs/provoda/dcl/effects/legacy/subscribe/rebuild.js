@@ -1,13 +1,13 @@
 
 import spv from '../../../../../spv'
-var rootApis = function(list) {
+const rootApis = function(list) {
 
-  var index = {}
-  for (var i = 0; i < list.length; i++) {
-    var apis = list[i].apis
+  const index = {}
+  for (let i = 0; i < list.length; i++) {
+    const apis = list[i].apis
 
-    for (var jj = 0; jj < apis.length; jj++) {
-      var cur = apis[jj]
+    for (let jj = 0; jj < apis.length; jj++) {
+      const cur = apis[jj]
       if (!spv.startsWith(cur, '#')) {continue}
       index[cur.slice(1)] = true
     }
@@ -21,16 +21,16 @@ export default function(self, list) {
 
   self._interfaces_to_states_index = {}
 
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i]
     self._build_cache_interfaces[item.key] = item
   }
 
-  var index = {}
-  for (var i = 0; i < list.length; i++) {
-    var apis = list[i].apis
-    for (var b = 0; b < apis.length; b++) {
-      var name = apis[b]
+  const index = {}
+  for (let i = 0; i < list.length; i++) {
+    const apis = list[i].apis
+    for (let b = 0; b < apis.length; b++) {
+      const name = apis[b]
       if (!index[name]) {
         index[name] = []
       }

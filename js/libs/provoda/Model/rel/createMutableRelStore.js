@@ -1,8 +1,8 @@
 import isPublicRel from './isPublicRel'
 
 const createMutableRelStore = (self) => {
-  var mpx_children_models_to_mutate = {}
-  for (var rel_name in self.children_models) {
+  const mpx_children_models_to_mutate = {}
+  for (const rel_name in self.children_models) {
     if (!self.children_models.hasOwnProperty(rel_name)) {
       continue
     }

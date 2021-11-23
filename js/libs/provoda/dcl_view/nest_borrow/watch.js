@@ -6,7 +6,7 @@ export default function(self) {
       self._nest_borrow_watch = {}
     }
 
-    for (var nest_name in self._nest_borrow) {
+    for (const nest_name in self._nest_borrow) {
       self._nest_borrow_watch[nest_name] = self._nest_borrow_watch[nest_name] || []
       self._nest_borrow_watch[nest_name].push({
         nest_name: nest_name,
@@ -16,11 +16,11 @@ export default function(self) {
     }
   }
 
-  for (var name in self.children_views) {
-    var cur = self.children_views[name] && self.children_views[name]['main']
+  for (const name in self.children_views) {
+    const cur = self.children_views[name] && self.children_views[name]['main']
     // TODO: handle not only `main` space
 
-    var _nest_borrow_watch = cur && cur.prototype._nest_borrow_watch
+    const _nest_borrow_watch = cur && cur.prototype._nest_borrow_watch
     if (!_nest_borrow_watch) {
       continue
     }
@@ -29,14 +29,14 @@ export default function(self) {
       self._nest_borrow_watch = {}
     }
 
-    for (var nest_name in _nest_borrow_watch) {
+    for (const nest_name in _nest_borrow_watch) {
       if (!_nest_borrow_watch.hasOwnProperty(nest_name)) {
         continue
       }
 
-      var list = _nest_borrow_watch[nest_name]
-      for (var i = 0; i < list.length; i++) {
-        var cc = list[i]
+      const list = _nest_borrow_watch[nest_name]
+      for (let i = 0; i < list.length; i++) {
+        const cc = list[i]
         self._nest_borrow_watch[nest_name] = self._nest_borrow_watch[nest_name] || []
         self._nest_borrow_watch[nest_name].push({
           nest_name: cc.nest_name,

@@ -4,9 +4,9 @@ import View from '../../libs/provoda/View'
 import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mergeBhv from '../../libs/provoda/provoda/_lmerge'
 import used_str from '../utils/used_struc'
-var used_struc_bhv = used_str.bhv
+const used_struc_bhv = used_str.bhv
 
-var BrowseLevView = spv.inh(View, {
+const BrowseLevView = spv.inh(View, {
   init(self) {
     self.updateAttr('$meta$view$nesting_space', self.nesting_space)
   },
@@ -53,10 +53,10 @@ var BrowseLevView = spv.inh(View, {
           return all
         }
 
-        var combined = all.slice()
+        const combined = all.slice()
         combined.unshift(one)
 
-        var byKey = spv.makeIndexByField(combined)
+        const byKey = spv.makeIndexByField(combined)
         return Object.keys(byKey)
       }
     ]

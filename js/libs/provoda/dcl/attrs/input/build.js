@@ -5,11 +5,11 @@ import shallowEqual from '../../../shallowEqual'
 const userInput = (self) => {
   if (!self.hasOwnProperty('__attrs_base_input')) {return}
 
-  var byName = self.__attrs_base_input
+  const byName = self.__attrs_base_input
 
-  var result = {}
-  for (var attr_name in byName) {
-    var cur = byName[attr_name]
+  const result = {}
+  for (const attr_name in byName) {
+    const cur = byName[attr_name]
     result[attr_name] = cur[0]
   }
 
@@ -19,7 +19,7 @@ const userInput = (self) => {
 const serviceInput = (self) => {
   if (!self.hasOwnProperty('_nest_reqs')) {return}
 
-  var has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name])
+  const has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name])
   if (!has_loader) { return}
 
   return {

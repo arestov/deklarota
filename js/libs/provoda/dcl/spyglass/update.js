@@ -8,23 +8,23 @@ import createLevel from '../../bwlev/createLevel'
 import pvState from '../../provoda/state'
 import _updateAttr from '../../_internal/_updateAttr'
 import getKey from './getKey'
-var switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
+const switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
 
-var getPioneer = function(lev) {
+const getPioneer = function(lev) {
   return lev && lev.getNesting('pioneer')
 }
 
-var changeCurrentLev = function(probe_md, next_lev, prev_lev) {
+const changeCurrentLev = function(probe_md, next_lev, prev_lev) {
   _updateRel(probe_md, 'current_md', getPioneer(next_lev) || null)
   switchCurrentBwlev(next_lev, prev_lev)
   _updateRel(probe_md, 'current_bwlev', next_lev || null)
 }
 
-var getBWlev = function(probe_md, md) {
+const getBWlev = function(probe_md, md) {
   return probe_md.bwlevs[md._provoda_id]
 }
 
-var ensureBwLev = function(BWL, probe_md, probe_name, md) {
+const ensureBwLev = function(BWL, probe_md, probe_name, md) {
   if (!probe_md.bwlevs.hasOwnProperty(md._provoda_id)) {
     probe_md.bwlevs[md._provoda_id] = createLevel(BWL, probe_name, -1, null, md, probe_md)
   }
@@ -32,43 +32,43 @@ var ensureBwLev = function(BWL, probe_md, probe_name, md) {
   return getBWlev(probe_md, md)
 }
 
-var getProbeChange = function(toggle) {
+const getProbeChange = function(toggle) {
   return function(BWL, bwlev, data) {
     // data.bwlev + data.context_md - optional
-    var target_id = data.target_id // required
-    var probe_name = data.probe_name // required
-    var value = data.value // optional
-    var probe_container_uri = data.probe_container_uri // optional
-    var req = data.req
+    const target_id = data.target_id // required
+    const probe_name = data.probe_name // required
+    const value = data.value // optional
+    const probe_container_uri = data.probe_container_uri // optional
+    const req = data.req
 
-    var app = bwlev.app
+    const app = bwlev.app
 
-    var target = getModelById(bwlev, target_id)
+    const target = getModelById(bwlev, target_id)
 
     // var probe_mds = bwlev.getNesting(transportName(probe_name));
-    var index = pvState(bwlev, 'spyglasses_index')
+    const index = pvState(bwlev, 'spyglasses_index')
     if (!index) {
       console.error(new Error('make router requqest before calling router'))
       return
     }
-    var probe_id = index[getKey({name: probe_name, bwlev: data.bwlev, context_md: data.context_md})]
-    var probe_md = probe_id && getModelById(bwlev, probe_id)
+    const probe_id = index[getKey({name: probe_name, bwlev: data.bwlev, context_md: data.context_md})]
+    const probe_md = probe_id && getModelById(bwlev, probe_id)
     // var probe_md = spv.set.get(set, key);
     if (!probe_md) {
       return // throw ?
     }
 
-    var subpage
+    let subpage
     if (!value && !probe_container_uri) {
       subpage = target
     } else {
-      var container = probe_container_uri ? getSPByPathTemplate(app, target, probe_container_uri) : target
+      const container = probe_container_uri ? getSPByPathTemplate(app, target, probe_container_uri) : target
       subpage = getSPByPathTemplate(app, container, value)
     }
 
-    var nested_bwlev = subpage && ensureBwLev(BWL, probe_md, probe_name, subpage)
-    var prev_subpage = probe_md.getNesting('current_md')
-    var prev_nested_bwlev = prev_subpage && getBWlev(probe_md, prev_subpage)
+    const nested_bwlev = subpage && ensureBwLev(BWL, probe_md, probe_name, subpage)
+    const prev_subpage = probe_md.getNesting('current_md')
+    const prev_nested_bwlev = prev_subpage && getBWlev(probe_md, prev_subpage)
 
     if (nested_bwlev && req) {
       _updateAttr(nested_bwlev, 'currentReq', req)
@@ -79,7 +79,7 @@ var getProbeChange = function(toggle) {
       return
     }
 
-    var cur = probe_md.getNesting('current_md')
+    const cur = probe_md.getNesting('current_md')
     if (cur === subpage) {
       changeCurrentLev(probe_md, null, prev_nested_bwlev)
     } else {
@@ -89,8 +89,8 @@ var getProbeChange = function(toggle) {
   }
 }
 
-var updateProbe = getProbeChange()
-var toggleProbe = getProbeChange(true)
+const updateProbe = getProbeChange()
+const toggleProbe = getProbeChange(true)
 updateProbe.toggle = toggleProbe
 
 export default updateProbe

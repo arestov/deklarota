@@ -4,17 +4,17 @@ import _updateRel from './_internal/_updateRel'
 import pathExecutor from './routes/legacy/stringify'
 import getSPByPathTemplate from './routes/legacy/getSPByPathTemplate'
 
-var preloadStart = function(md) {
+const preloadStart = function(md) {
   md.preloadStart()
 }
 
-var executePreload = function(md, nesting_name) {
-  var lists_list = md.getNesting(nesting_name)
+const executePreload = function(md, nesting_name) {
+  const lists_list = md.getNesting(nesting_name)
 
   if (!lists_list) {return}
   if (Array.isArray(lists_list)) {
-    for (var i = 0; i < lists_list.length; i++) {
-      var cur = lists_list[i]
+    for (let i = 0; i < lists_list.length; i++) {
+      const cur = lists_list[i]
       if (cur.preloadStart) {
         md.useMotivator(cur, preloadStart)
       }
@@ -31,7 +31,7 @@ var executePreload = function(md, nesting_name) {
 //если есть состояние для предзагрузки
 //если изменилось гнездование
 
-var bindPreload = function(md, preload_state_name, nesting_name) {
+const bindPreload = function(md, preload_state_name, nesting_name) {
   md.lwch(md, preload_state_name, function(state) {
     if (state) {
       executePreload(md, nesting_name)
@@ -39,21 +39,21 @@ var bindPreload = function(md, preload_state_name, nesting_name) {
   })
 }
 
-var getSubPByDeclr = function(md, cur) {
+const getSubPByDeclr = function(md, cur) {
   if (cur.type == 'route') {
     return getSPByPathTemplate(md.app, md, cur.value)
   } else {
-    var constr = md._all_chi[cur.key]
+    const constr = md._all_chi[cur.key]
     return md.initSi(constr)
   }
 }
 
-var getSubpages = function(md, el) {
-  var array = el.subpages_names_list
-  var result
+const getSubpages = function(md, el) {
+  const array = el.subpages_names_list
+  let result
   if (Array.isArray(array)) {
     result = new Array(array)
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       result[i] = getSubPByDeclr(md, array[i])
     }
   } else {
@@ -62,7 +62,7 @@ var getSubpages = function(md, el) {
   return result
 }
 
-var initOneDeclaredNesting = function(md, el) {
+const initOneDeclaredNesting = function(md, el) {
   /*
   nesting_name
   subpages_names_list
@@ -87,7 +87,7 @@ var initOneDeclaredNesting = function(md, el) {
     return
   }
 
-  var init_func = function(state) {
+  const init_func = function(state) {
     if (!state) {
       return
     }
@@ -107,8 +107,8 @@ var initOneDeclaredNesting = function(md, el) {
 
 }
 
-var initDeclaredNestings = function(md) {
-  for (var i = 0; i < md.nestings_declarations.length; i++) {
+const initDeclaredNestings = function(md) {
+  for (let i = 0; i < md.nestings_declarations.length; i++) {
     initOneDeclaredNesting(md, md.nestings_declarations[i])
   }
 }

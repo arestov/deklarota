@@ -5,9 +5,9 @@ export default function getAncestorByRooViCon(self, details, strict) {
   //находит родительскую вьюху соеденённую с корневой вьюхой
   //by root view connection
 
-  var view_space = details ? 'detailed' : 'main'
-  var cur_ancestor = self
-  var root_view = self.root_view
+  const view_space = details ? 'detailed' : 'main'
+  let cur_ancestor = self
+  const root_view = self.root_view
   if (strict) {
     cur_ancestor = cur_ancestor.parent_view
   }

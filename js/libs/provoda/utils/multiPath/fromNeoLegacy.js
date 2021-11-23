@@ -7,7 +7,7 @@ import getParsedPath from '../../routes/legacy/getParsedPath'
 // console.log('NestingSourceDr()', parts)
 // this.start_point = parts.length > 1 && parts[0];
 // this.selector = splitByDot(parts[parts.length - 1]);
-var toPath = function(string) {
+const toPath = function(string) {
   if (!string) {
     return {}
   }
@@ -18,7 +18,7 @@ var toPath = function(string) {
   }
 }
 
-var parseStartPoint = function(start_point) {
+const parseStartPoint = function(start_point) {
   if (!start_point) {
     return {
       resource: {},
@@ -26,7 +26,7 @@ var parseStartPoint = function(start_point) {
     }
   }
 
-  var parsed_path = getParsedPath(start_point)
+  const parsed_path = getParsedPath(start_point)
 
   // debugger
 
@@ -58,8 +58,8 @@ var parseStartPoint = function(start_point) {
 }
 
 export default function fromNestingSourceDr(nesting_source) {
-  var parts = nesting_source.selector
-  var parsed_start_point = parseStartPoint(nesting_source.start_point)
+  const parts = nesting_source.selector
+  const parsed_start_point = parseStartPoint(nesting_source.start_point)
 
   return {
     result_type: 'nesting',

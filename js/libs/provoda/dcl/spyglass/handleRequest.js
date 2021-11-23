@@ -8,18 +8,18 @@ import getKey from './getKey'
 import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 
 export default function(request) {
-  var self = this
-  var requests_index = spv.cloneObj({}, pvState(self, 'spyglasses_requests'))
+  const self = this
+  const requests_index = spv.cloneObj({}, pvState(self, 'spyglasses_requests'))
 
-  var spyglass_key = getKey(request, self)
-  var old_index = pvState(self, 'spyglasses_index') || {}
-  var index = ensureSpyglass(self, old_index, spyglass_key, request)
-  var spyglass = index[spyglass_key]
+  const spyglass_key = getKey(request, self)
+  const old_index = pvState(self, 'spyglasses_index') || {}
+  const index = ensureSpyglass(self, old_index, spyglass_key, request)
+  const spyglass = index[spyglass_key]
 
   requests_index[request.key] = spyglass
 
   if (old_index[spyglass_key] !== index[spyglass_key]) {
-    var list = (self.getNesting('spyglasses') || []).slice()
+    const list = (self.getNesting('spyglasses') || []).slice()
     list.push(getModelById(self, spyglass))
     _updateRel(self, 'spyglasses', list)
   }
@@ -33,11 +33,11 @@ function ensureSpyglass(self, index, key, request) {
     return index
   }
 
-  var path = request.name + ((key && key !== request.name) ? ('/' + key) : '')
+  const path = request.name + ((key && key !== request.name) ? ('/' + key) : '')
 
-  var spyglass = getSPByPathTemplate(self.app, self, 'router-' + path)
+  const spyglass = getSPByPathTemplate(self.app, self, 'router-' + path)
 
-  var new_index = spv.cloneObj({}, index)
+  const new_index = spv.cloneObj({}, index)
 
   new_index[key] = spyglass._provoda_id
 

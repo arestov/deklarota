@@ -15,7 +15,7 @@ const addHeavyRelQuery = (self, chain) => {
   }
   const storage = self._highway.live_heavy_rel_query_by_rel_name
   addChainToIndex(storage, chain)
-  for (var i = 0; i < chain.list.length; i++) {
+  for (let i = 0; i < chain.list.length; i++) {
     sortChainLinks(storage, chain.list[i].rel)
   }
 

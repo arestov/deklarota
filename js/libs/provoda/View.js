@@ -1,5 +1,6 @@
 
 import spv from '../spv'
+import cloneObj from '../spv/cloneObj'
 import CoreView from './CoreView'
 import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import PvTemplate from './pvTemplate/PvTemplate'
@@ -8,29 +9,29 @@ import getBwlevView from './View/getBwlevView'
 import createTemplate from './View/createTemplate'
 import dom_helpers from './utils/dom_helpers'
 
-var dFind = dom_helpers.find
-var dAppend = dom_helpers.append
-var dPrepend = dom_helpers.prepend
-var dAfter = dom_helpers.after
-var dDetach = dom_helpers.detach
-var dWrap = dom_helpers.wrap
-var dRemove = dom_helpers.remove
-var dUnwrap = dom_helpers.unwrap
-var dParent = dom_helpers.parent
+const dFind = dom_helpers.find
+const dAppend = dom_helpers.append
+const dPrepend = dom_helpers.prepend
+const dAfter = dom_helpers.after
+const dDetach = dom_helpers.detach
+const dWrap = dom_helpers.wrap
+const dRemove = dom_helpers.remove
+const dUnwrap = dom_helpers.unwrap
+const dParent = dom_helpers.parent
 
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
-var way_points_counter = 0
+let way_points_counter = 0
 
-var stackEmergency = function(fn, eventor, args) {
+const stackEmergency = function(fn, eventor, args) {
   return eventor._calls_flow.pushToFlow(fn, eventor, args)
 }
 
-var push = Array.prototype.push
+const push = Array.prototype.push
 
-var getBaseTreeSkeleton = function(array) {
-  var result = new Array(array.length)
-  for (var i = 0; i < array.length; i++) {
+const getBaseTreeSkeleton = function(array) {
+  const result = new Array(array.length)
+  for (let i = 0; i < array.length; i++) {
     result[i] = {
       handled: false,
       node: null,
@@ -42,13 +43,9 @@ var getBaseTreeSkeleton = function(array) {
 }
 
 
-var DomView
-var props = {}
-spv.cloneObj(props, appending)
-spv.cloneObj(props, {
-  DOMView: function() {
-    return DomView
-  },
+const props = {}
+cloneObj(props, appending)
+cloneObj(props, {
   createDetails: function() {
     if (this.pv_view_node) {
       this.useBase(this.pv_view_node)
@@ -79,7 +76,7 @@ spv.cloneObj(props, {
     }
 
     // legacy. when this.c is jquery wrapper
-    for (var i = 0; i < this.c.length; i++) {
+    for (let i = 0; i < this.c.length; i++) {
       this.c[i]._provoda_view = this
     }
   },
@@ -92,7 +89,7 @@ spv.cloneObj(props, {
     }
   },
   addWayPoint: function(point, opts) {
-    var obj = {
+    const obj = {
       node: point,
       canUse: opts && opts.canUse,
       simple_check: opts && opts.simple_check,
@@ -110,14 +107,14 @@ spv.cloneObj(props, {
   },
   hasWaypoint: function(point) {
     if (!this.way_points) {return}
-    var arr = spv.filter(this.way_points, 'node')
+    const arr = spv.filter(this.way_points, 'node')
     return arr.indexOf(point) != -1
   },
   removeWaypoint: function(point) {
     if (!this.way_points) {return}
-    var stay = []
-    for (var i = 0; i < this.way_points.length; i++) {
-      var cur = this.way_points[i]
+    const stay = []
+    for (let i = 0; i < this.way_points.length; i++) {
+      const cur = this.way_points[i]
       if (cur.node != point) {
         stay.push(cur)
       } else {
@@ -138,8 +135,8 @@ spv.cloneObj(props, {
   },
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {
-      var bwlev_view = getBwlevView(this)
-      var bwlev_id = bwlev_view && bwlev_view.mpx._provoda_id
+      const bwlev_view = getBwlevView(this)
+      const bwlev_id = bwlev_view && bwlev_view.mpx._provoda_id
       this.RPCLegacy(method, bwlev_id)
     } else {
       this.RPCLegacy.apply(this, arguments)
@@ -149,12 +146,12 @@ spv.cloneObj(props, {
     return this.root_view.pvtemplate(node, callCallbacks, pvTypesChange, false, pvTreeChange, anchorStateChange)
   },
   createTemplate: function(ext_node) {
-    var con = ext_node || this.c
+    const con = ext_node || this.c
     if (!con) {
       throw new Error('cant create template')
     }
 
-    var tpl = createTemplate(this, con)
+    const tpl = createTemplate(this, con)
 
     if (!ext_node) {
       this.tpl = tpl
@@ -169,7 +166,7 @@ spv.cloneObj(props, {
       //может быть баг! fixme!?
       //не учитывается возможность при которой wp изменил свой mark
       //он должен быть удалён и добавлен заново с новыми параметрами
-      var type
+      let type
       if (wp_wrap.marks['hard-way-point']) {
         type = 'hard-way-point'
       } else if (wp_wrap.marks['way-point']) {
@@ -215,8 +212,8 @@ spv.cloneObj(props, {
     }
     if (this.canUseWaypoints() && this.canUseDeepWaypoints()) {
       //var views = this.getDeepChildren(exept);
-      for (var i = 0; i < this.children.length; i++) {
-        var cur = this.children[i]
+      for (let i = 0; i < this.children.length; i++) {
+        const cur = this.children[i]
         cur.getAllWaypoints(result_array)
       }
     }
@@ -226,9 +223,9 @@ spv.cloneObj(props, {
     if (!this.isAlive()) {
       return
     }
-    var i = 0
+    let i = 0
     if (remove) {
-      var nodes_to_remove = spv.filter(remove, 'node')
+      const nodes_to_remove = spv.filter(remove, 'node')
       for (i = 0; i < nodes_to_remove.length; i++) {
         this.removeWaypoint(nodes_to_remove[i])
       }
@@ -245,8 +242,8 @@ spv.cloneObj(props, {
 
     this.__total_states_list.length = this._attrs_collector.all.length * CH_GR_LE
 
-    for (var i = 0; i < this._attrs_collector.all.length; i++) {
-      var state_name = this._attrs_collector.all[i]
+    for (let i = 0; i < this._attrs_collector.all.length; i++) {
+      const state_name = this._attrs_collector.all[i]
       this.__total_states_list[i * CH_GR_LE] = state_name
       this.__total_states_list[i * CH_GR_LE + 1] = states[state_name]
     }
@@ -267,7 +264,7 @@ spv.cloneObj(props, {
 
   },
   updateTemplatesStates: function(total_ch, sync_tpl) {
-    var i = 0
+    let i = 0
     //var states = this.states;
     if (this.tpl) {
       this.tpl.checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this.current_motivator)
@@ -299,7 +296,7 @@ spv.cloneObj(props, {
       return false
     } else {
       if (this.getC()) {
-        var c = this.getCNode()
+        const c = this.getCNode()
         if (!c || (dead_doc && dead_doc === c.ownerDocument) || !spv.getDefaultView(c.ownerDocument)) {
           this.markAsDead()
           return false
@@ -340,7 +337,7 @@ spv.cloneObj(props, {
       this.c._provoda_view = null
 
       // legacy. when this.c is jquery wrapper
-      for (var i = 0; i < this.c.length; i++) {
+      for (let i = 0; i < this.c.length; i++) {
         this.c[i]._provoda_view = null
       }
     }
@@ -349,7 +346,7 @@ spv.cloneObj(props, {
     this.c = null
 
     if (this.base_skeleton) {
-      for (var i = 0; i < this.base_skeleton.length; i++) {
+      for (let i = 0; i < this.base_skeleton.length; i++) {
         dWrap(this.base_skeleton[i].node) // remove?
       }
       this.base_skeleton = null
@@ -364,7 +361,7 @@ spv.cloneObj(props, {
     }
 
     if (this.tpls) {
-      for (var i = 0; i < this.tpls.length; i++) {
+      for (let i = 0; i < this.tpls.length; i++) {
         this.tpls[i].root_node_raw._provoda_view = null
         this.tpls[i].destroy()
       }
@@ -382,7 +379,7 @@ spv.cloneObj(props, {
 
 
     if (this.dom_related_props) {
-      for (i = 0; i < this.dom_related_props.length; i++) {
+      for (let i = 0; i < this.dom_related_props.length; i++) {
         this[this.dom_related_props[i]] = null
       }
     }
@@ -391,8 +388,8 @@ spv.cloneObj(props, {
     if (this.skip_anchor_appending) {
       return
     }
-    var con = this.getC()
-    var anchor = this._lbr._anchor
+    const con = this.getC()
+    const anchor = this._lbr._anchor
     if (con && anchor && anchor.parentNode) {
       dAfter(anchor, con)
       //anchor.parentNode.insertBefore(con[0], anchor.nextSibling);
@@ -411,7 +408,11 @@ spv.cloneObj(props, {
     }
   },
   checkExpandableTree: function() {
-    var i, cur, cur_config, has_changes = true, append_list = []
+    let i
+    let cur
+    let cur_config
+    let has_changes = true
+    const append_list = []
     while (this.base_skeleton && has_changes) {
       has_changes = false
       for (i = 0; i < this.base_skeleton.length; i++) {
@@ -444,7 +445,7 @@ spv.cloneObj(props, {
         cur = append_list.pop()
         if (cur.parent && cur.parent.node) {
           cur_config = this.base_tree_list[ cur.chunk_num ]
-          var target_node = cur_config.selector
+          const target_node = cur_config.selector
             ? dFind(cur.parent.node, cur_config.selector)
             : dWrap(cur.parent.node)
 
@@ -486,28 +487,32 @@ spv.cloneObj(props, {
   },
 
   checkTplTreeChange: function(current_motivator) {
-    var old_mt = this.current_motivator
+    const old_mt = this.current_motivator
     this.current_motivator = current_motivator
 
     this.ensureTotalChangesUpdates()
-    var total_ch = this.__total_states_list
+    const total_ch = this.__total_states_list
     this.updateTemplatesStates(total_ch)
 
-    var children_models = this.mpx.__getRels()
-    for (var nesname in children_models) {
+    const children_models = this.mpx.__getRels()
+    for (const nesname in children_models) {
       this.pvCollectionChange(nesname, children_models[nesname])
     }
 
     this.current_motivator = old_mt
   },
 })
-DomView = spv.inh(CoreView, {
+const DomView = spv.inh(CoreView, {
   init: function initDomView(target) {
     if (target.base_tree_list) {
       target.base_skeleton = getBaseTreeSkeleton(target.base_tree_list)
     }
   }
-}, props)
+}, cloneObj(props, {
+  DOMView: function() {
+    return DomView
+  },
+}))
 DomView._PvTemplate = PvTemplate
 
 export default DomView

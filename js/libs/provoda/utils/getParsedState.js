@@ -2,23 +2,23 @@
 import spv from '../../spv'
 import parse from './NestingSourceDr/parse'
 import asString from './multiPath/asString'
-var splitByDot = spv.splitByDot
+const splitByDot = spv.splitByDot
 
 function itself(item) {return item}
 
-var selfRef = {rel_type: 'self'}
+const selfRef = {rel_type: 'self'}
 
-var enc_states = {
+const enc_states = {
   '^': (function() {
     // parent
 
-    var parent_count_regexp = /^\^+/gi
+    const parent_count_regexp = /^\^+/gi
 
     return function parent(string, nil_allowed) {
       //example: '^visible'
 
-      var state_name = string.replace(parent_count_regexp, '')
-      var count = string.length - state_name.length
+      const state_name = string.replace(parent_count_regexp, '')
+      const count = string.length - state_name.length
       return {
         rel_type: 'parent',
         full_name: string,
@@ -34,14 +34,14 @@ var enc_states = {
     // nesting
 
     //example:  '@some:complete:list'
-    var nesting_and_state_name = string.slice(1)
-    var parts = nesting_and_state_name.split(':')
+    const nesting_and_state_name = string.slice(1)
+    const parts = nesting_and_state_name.split(':')
 
-    var nesting_name = parts.pop()
-    var state_name = parts.pop()
-    var zip_func = parts.pop()
+    const nesting_name = parts.pop()
+    const state_name = parts.pop()
+    const zip_func = parts.pop()
 
-    var nesting_source = parse(nesting_name)
+    const nesting_source = parse(nesting_name)
 
     return {
       rel_type: 'nesting',
@@ -63,7 +63,7 @@ var enc_states = {
     // root
 
     //example: '#vk_id'
-    var state_name = string.slice(1)
+    const state_name = string.slice(1)
     if (!state_name) {
       throw new Error('should be state_name')
     }
@@ -80,7 +80,7 @@ var enc_states = {
   }
 }
 
-var simulateLegacyPath = {
+const simulateLegacyPath = {
   '^': function(multi_path) {
     return {
       rel_type: 'parent',
@@ -122,7 +122,7 @@ var simulateLegacyPath = {
   }
 }
 
-var fromMultiPath = function(multi_path, as_string, original) {
+const fromMultiPath = function(multi_path, _as_string, original) {
 
   if (multi_path.base_itself) {
     return selfRef
@@ -155,11 +155,11 @@ var fromMultiPath = function(multi_path, as_string, original) {
   return null
 }
 
-var getParsedState = spv.memorize(function getParsedState(state_name) {
+const getParsedState = spv.memorize(function getParsedState(state_name) {
   // isSpecialState
-  var required = state_name.charAt(0) === '&'
-  var rest = required ? state_name.slice(1) : state_name
-  var start = rest.charAt(0)
+  const required = state_name.charAt(0) === '&'
+  const rest = required ? state_name.slice(1) : state_name
+  const start = rest.charAt(0)
   if (enc_states[start]) {
     return enc_states[start](rest, required)
   } else {

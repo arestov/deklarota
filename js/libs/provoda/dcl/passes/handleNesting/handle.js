@@ -6,9 +6,9 @@ export default function(self, state_name, old_value, value) {
     return
   }
 
-  var pass_name = self.__handleNesting[state_name].name
+  const pass_name = self.__handleNesting[state_name].name
 
-  var arg = {
+  const arg = {
     next_value: value,
     prev_value: old_value,
   }

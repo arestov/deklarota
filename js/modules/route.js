@@ -13,16 +13,16 @@ function encodeURLPart(part) {
     return encodeURIComponent(part)
   }
 
-  var spaced = part.split(' ')
-  for (var i = 0; i < spaced.length; i++) {
+  const spaced = part.split(' ')
+  for (let i = 0; i < spaced.length; i++) {
     spaced[i] = encodeURIComponent(spaced[i])
   }
   return spaced.join('+')
 }
 
 function decodeURLPart(part) {
-  var spaced = part.split('+')
-  for (var i = 0; i < spaced.length; i++) {
+  const spaced = part.split('+')
+  for (let i = 0; i < spaced.length; i++) {
     spaced[i] = decodeURIComponent(spaced[i])
   }
   return spaced.join(' ')
@@ -35,8 +35,8 @@ function joinCommaParts(array) {
 }
 
 function getCommaParts(string) {
-  var parts = string.split(',')
-  for (var i = 0; i < parts.length; i++) {
+  const parts = string.split(',')
+  for (let i = 0; i < parts.length; i++) {
     parts[i] = decodeURLPart(parts[i])
   }
   return parts

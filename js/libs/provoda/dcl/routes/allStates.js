@@ -1,6 +1,6 @@
 
 import spv from '../../../spv'
-var cloneObj = spv.cloneObj
+const cloneObj = spv.cloneObj
 
 function allStates(main_states, extra_states) {
   if (!main_states) {

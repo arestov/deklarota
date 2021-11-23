@@ -4,7 +4,7 @@ import Model from '../Model'
 import _updateAttr from '../_internal/_updateAttr'
 import getModelById from '../utils/getModelById'
 
-var HModel = spv.inh(Model, {
+const HModel = spv.inh(Model, {
   strict: true,
   naming: function(fn) {
     return function HModel(opts, data, params, more, states) {
@@ -42,22 +42,22 @@ var HModel = spv.inh(Model, {
   },
   'stch-vswitched': function(target, state, old_state) {
     if (state) {
-      var md = getModelById(target, state)
+      const md = getModelById(target, state)
       _updateAttr(md, 'pmd_vswitched', true)
     }
     if (old_state) {
-      var old_md = getModelById(target, old_state)
+      const old_md = getModelById(target, old_state)
       _updateAttr(old_md, 'pmd_vswitched', false)
     }
   },
   switchPmd: function(toggle) {
-    var new_state
+    let new_state
     if (typeof toggle == 'boolean')	{
       new_state = toggle
     } else {
       new_state = !this.state('pmd_vswitched')
     }
-    var pmd_switch = this.getNesting('pmd_switch')
+    const pmd_switch = this.getNesting('pmd_switch')
     if (!pmd_switch) {return}
 
     if (new_state) {

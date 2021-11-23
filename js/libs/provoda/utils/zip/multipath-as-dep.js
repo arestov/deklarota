@@ -1,6 +1,6 @@
 import emptyArray from '../../emptyArray'
 
-var useSharedEmpty = function(list) {
+const useSharedEmpty = function(list) {
   if (list != null && !list.length) {
     return emptyArray
   }
@@ -8,7 +8,7 @@ var useSharedEmpty = function(list) {
   return list
 }
 
-var zip_fns = {
+const zip_fns = {
   'one': function(list) {
     return list && list[0]
   },

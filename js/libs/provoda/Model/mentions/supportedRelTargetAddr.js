@@ -1,5 +1,5 @@
 
-var supportedRelTargetAddr = function(addr) {
+const supportedRelTargetAddr = function(addr) {
   if (addr.base_itself) {
     return false
   }

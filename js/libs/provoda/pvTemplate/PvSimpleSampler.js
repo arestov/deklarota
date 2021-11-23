@@ -8,16 +8,16 @@ import parse from './parse'
 import buildClone from './buildClone'
 import dom_helpers from '../utils/dom_helpers'
 
-var config = d_parsers.config
+const config = d_parsers.config
 
-var dWrap = dom_helpers.wrap
+const dWrap = dom_helpers.wrap
 
-var PvSimpleSampler = (function() {
-  var push = Array.prototype.push
+const PvSimpleSampler = (function() {
+  const push = Array.prototype.push
 
-  var samplers_counter = 0
+  let samplers_counter = 0
 
-  var PvSimpleSampler = function(node, struc_store, getSample) {
+  const PvSimpleSampler = function(node, struc_store, getSample) {
     node = dWrap(node)
     node = node[0]
     if (!node) {
@@ -38,10 +38,10 @@ var PvSimpleSampler = (function() {
     this.pstd_cache = null
   };
   (function() {
-    var likeAttrs = {
+    const likeAttrs = {
       'pv-props': true,
     }
-    var setStructureData = function(struc_store, is_root_node, cur_node, bind_data, states_list, children_list, getSample) {
+    const setStructureData = function(struc_store, is_root_node, cur_node, bind_data, states_list, children_list, getSample) {
       if (!is_root_node) {
         if (bind_data.instructions['pv-nest']) {
           children_list.push({
@@ -51,9 +51,9 @@ var PvSimpleSampler = (function() {
         }
 
 
-        var has_scope_gen = false
-        for (var i = 0; i < config.scope_g_list.length; i++) {
-          var directive_name = config.scope_g_list[i]
+        let has_scope_gen = false
+        for (let i = 0; i < config.scope_g_list.length; i++) {
+          const directive_name = config.scope_g_list[i]
           if (bind_data.instructions[directive_name]) {
             has_scope_gen = true
             if (config.states_using_directives[directive_name]) {
@@ -68,8 +68,8 @@ var PvSimpleSampler = (function() {
           return
         }
       }
-      for (var i = 0; i < config.sud_list.length; i++) {
-        var cur = config.sud_list[i]
+      for (let i = 0; i < config.sud_list.length; i++) {
+        const cur = config.sud_list[i]
         if (!bind_data.instructions[cur]) {
           continue
         }
@@ -80,8 +80,8 @@ var PvSimpleSampler = (function() {
           continue
         }
 
-        for (var iii = 0; iii < bind_data.instructions[cur].length; iii++) {
-          var sub_cur = bind_data.instructions[cur][iii].sfy_values
+        for (let iii = 0; iii < bind_data.instructions[cur].length; iii++) {
+          const sub_cur = bind_data.instructions[cur][iii].sfy_values
           push.apply(states_list, sub_cur)
         }
       }
@@ -89,26 +89,26 @@ var PvSimpleSampler = (function() {
 
 
     function parseStructureData(node, struc_store, is_not_root, getSample) {
-      var structure_data = {
+      const structure_data = {
         node_id: null,
         states: [],
         children: null,
         children_by_mn: null,
         controller_name: null
       }
-      var children_list = []
+      const children_list = []
 
 
-      var bind_data_list = parseEasy(node, !is_not_root && node, struc_store, getSample)
-      for (var i = 0; i < bind_data_list.length; i += 3) {
-        var
-          is_root_node = bind_data_list[ i ],
-          cur_node = bind_data_list[ i + 1 ],
-          bind_data = bind_data_list[ i + 2 ]
+      const bind_data_list = parseEasy(node, !is_not_root && node, struc_store, getSample)
+      for (let i = 0; i < bind_data_list.length; i += 3) {
+        const
+          is_root_node = bind_data_list[ i ]
+        const cur_node = bind_data_list[ i + 1 ]
+        const bind_data = bind_data_list[ i + 2 ]
 
-          if (is_root_node && bind_data.instructions['pv-nest']) {
-            structure_data.controller_name = bind_data.instructions['pv-nest'].controller_name
-          }
+        if (is_root_node && bind_data.instructions['pv-nest']) {
+          structure_data.controller_name = bind_data.instructions['pv-nest'].controller_name
+        }
 
         setStructureData(struc_store, is_root_node, cur_node, bind_data, structure_data.states, children_list, getSample)
       }
@@ -116,10 +116,11 @@ var PvSimpleSampler = (function() {
 
 
       if (children_list.length) {
-        var usual = null, by_model_name = null
+        let usual = null
+        let by_model_name = null
 
-        for (var i = 0; i < children_list.length; i++) {
-          var cur = children_list[i]
+        for (let i = 0; i < children_list.length; i++) {
+          const cur = children_list[i]
           if (cur.data.for_model) {
             if (!by_model_name) {
               by_model_name = {}
@@ -150,7 +151,7 @@ var PvSimpleSampler = (function() {
     }
 
     PvSimpleSampler.prototype.getStructure = function(is_not_root) {
-      var str_d_prop_name = 'structure_data' + (is_not_root ? '' : '_as_root')
+      const str_d_prop_name = 'structure_data' + (is_not_root ? '' : '_as_root')
 
       if (!this.pstd_cache) {this.pstd_cache = {}}
 

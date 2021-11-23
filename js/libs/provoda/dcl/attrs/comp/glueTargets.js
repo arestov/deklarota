@@ -1,6 +1,6 @@
-var count = 1
+let count = 1
 
-var sources = {
+const sources = {
   // {zip:'one',                       rel: 'rel.rel.rel', route: '', asc: ''}
   zip_of_rel: count++,
 

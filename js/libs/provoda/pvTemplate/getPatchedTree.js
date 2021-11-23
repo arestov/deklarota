@@ -4,10 +4,10 @@ import getCachedPVData from './getCachedPVData'
 import patchNode from './patchNode'
 import buildClone from './buildClone'
 import directives_parsers from './directives_parsers'
-var cloneObj = spv.cloneObj
-var unsetStrucKey = getCachedPVData.unsetStrucKey
-var setStrucKey = getCachedPVData.setStrucKey
-var scope_generators_p = directives_parsers.scope_generators_p
+const cloneObj = spv.cloneObj
+const unsetStrucKey = getCachedPVData.unsetStrucKey
+const setStrucKey = getCachedPVData.setStrucKey
+const scope_generators_p = directives_parsers.scope_generators_p
 
 
 function getCommentPVData(cur_node, struc_store, getSample) {
@@ -18,14 +18,14 @@ function getPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, false, getSample)
 }
 
-var createPvNest = scope_generators_p['pv-nest']
+const createPvNest = scope_generators_p['pv-nest']
 
-var getMarkedPvNest = function(node, pv_nest, struc_store, getSample) {
+const getMarkedPvNest = function(node, pv_nest, struc_store, getSample) {
   if (!pv_nest) {
     return node
   }
 
-  var directives_data = cloneObj({}, getPVData(node, struc_store, getSample))
+  const directives_data = cloneObj({}, getPVData(node, struc_store, getSample))
 
   if (directives_data.instructions['pv-nest']) {
     throw new Error('pv-import and sample itself could not be both marked as pv-nest')
@@ -36,14 +36,14 @@ var getMarkedPvNest = function(node, pv_nest, struc_store, getSample) {
   directives_data.instructions['pv-nest'] = createPvNest(node, pv_nest)
   directives_data.new_scope_generator = true
 
-  var result = unsetStrucKey(node)
+  const result = unsetStrucKey(node)
   setStrucKey(node, struc_store, directives_data)
 
   return result
 }
 
 export default function getPatchedTree(original_node, struc_store, getSample, opts, sample_id) {
-  var node = getMarkedPvNest(
+  const node = getMarkedPvNest(
     buildClone(original_node, struc_store, sample_id),
     opts && opts.pv_nest,
     struc_store,
@@ -52,12 +52,13 @@ export default function getPatchedTree(original_node, struc_store, getSample, op
 
   // var result = [];
 
-  var match_stack = [ node ], i = 0
+  const match_stack = [ node ]
+  let i = 0
   while (match_stack.length) {
-    var cur_node = match_stack.shift()
-    var is_start_node = node === cur_node
-    var node_type = cur_node.nodeType
-    var directives_data = null
+    const cur_node = match_stack.shift()
+    const is_start_node = node === cur_node
+    const node_type = cur_node.nodeType
+    let directives_data = null
     if (node_type == 1) {
       directives_data = getPVData(cur_node, struc_store, getSample)
       // result.push(cur_node, directives_data);
@@ -66,7 +67,7 @@ export default function getPatchedTree(original_node, struc_store, getSample, op
       // result.push(cur_node, directives_data);
     }
 
-    var patched = !is_start_node && patchNode(cur_node, struc_store, directives_data, getSample, opts)
+    const patched = !is_start_node && patchNode(cur_node, struc_store, directives_data, getSample, opts)
     if (patched) {
       match_stack.unshift(patched)
     }

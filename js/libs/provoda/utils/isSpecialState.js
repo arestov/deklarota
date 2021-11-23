@@ -1,9 +1,9 @@
 
 import spv from '../../spv'
 
-var spec_chars = { '^': true, '@': true, '#': true, '<': true }
-var isSpecialState = spv.memorize(function(state_name) {
-  var char = state_name.charAt(0)
+const spec_chars = { '^': true, '@': true, '#': true, '<': true }
+const isSpecialState = spv.memorize(function(state_name) {
+  const char = state_name.charAt(0)
   if (char === '&') {
     throw new Error('require marks should not be passed here. cut it earlier')
   }

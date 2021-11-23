@@ -1,14 +1,14 @@
 
 import parseMultiPath from '../../../utils/multiPath/parse'
 
-var targetData = function(to, result_name, dsl_options) {
+const targetData = function(to, result_name, dsl_options) {
   if (!Array.isArray(to)) {
     throw new Error('to: should be array ' + to)
   }
-  var target_path = to[0]
-  var options = to[1]
-  var parsed_path = parseMultiPath(target_path, true)
-  var isAction = Boolean(options && options.action)
+  const target_path = to[0]
+  const options = to[1]
+  const parsed_path = parseMultiPath(target_path, true)
+  const isAction = Boolean(options && options.action)
 
   if (parsed_path.result_type != 'nesting' && parsed_path.result_type != 'state' && !isAction) {
     throw new Error('we can put result to nesting or state only')
@@ -57,9 +57,9 @@ var targetData = function(to, result_name, dsl_options) {
   }
 }
 
-var targetsList = function(byName) {
-  var result = []
-  for (var name in byName) {
+const targetsList = function(byName) {
+  const result = []
+  for (const name in byName) {
     if (!byName.hasOwnProperty(name)) {
       continue
     }

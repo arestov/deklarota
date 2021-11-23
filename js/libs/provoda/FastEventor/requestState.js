@@ -5,16 +5,15 @@ import spv from '../../spv'
 import req_utils from './req-utils'
 import types from './stateReqTypes'
 
-var arrayExclude = spv.arrayExclude
+const arrayExclude = spv.arrayExclude
 
-var getRequestByDeclr = req_utils.getRequestByDeclr
-var findErrorByList = req_utils.findErrorByList
-var onPromiseFail = req_utils.onPromiseFail
-var getRequestByDeclr = req_utils.getRequestByDeclr
+const getRequestByDeclr = req_utils.getRequestByDeclr
+const findErrorByList = req_utils.findErrorByList
+const onPromiseFail = req_utils.onPromiseFail
 
 
-var withoutSelf = function(array, name) {
-  for (var i = 0; i < array.length; i++) {
+const withoutSelf = function(array, name) {
+  for (let i = 0; i < array.length; i++) {
     if (array[i] != name) {
       return arrayExclude(array, name)
     }
@@ -31,11 +30,11 @@ function failed(err) {
 }
 
 function bindRequest(request, selected_map, store, self) {
-  var network_api = getNetApiByDeclr(selected_map.send_declr, self.sputnik)
+  const network_api = getNetApiByDeclr(selected_map.send_declr, self.sputnik)
 
 
-  var states_list = selected_map.states_list
-  var parse = selected_map.parse
+  const states_list = selected_map.states_list
+  const parse = selected_map.parse
 
   function anyway() {
     store.process = false
@@ -43,7 +42,7 @@ function bindRequest(request, selected_map, store, self) {
   }
 
   function markAttemptComplete() {
-    var states = {}
+    const states = {}
 
     makeLoadingMarks(types.load_attempting, selected_map.states_list, false, states)
     makeLoadingMarks(types.load_attempted, selected_map.states_list, true, states)
@@ -57,7 +56,7 @@ function bindRequest(request, selected_map, store, self) {
   })
 
   function wasReset() {
-    var current_store = self.mapped_reqs && self.mapped_reqs[selected_map.num]
+    const current_store = self.mapped_reqs && self.mapped_reqs[selected_map.num]
     return current_store != store
   }
 
@@ -70,10 +69,10 @@ function bindRequest(request, selected_map, store, self) {
           return
         }
 
-        var has_error = network_api.errors_fields ? findErrorByList(r, network_api.errors_fields) : network_api.checkResponse(r)
+        const has_error = network_api.errors_fields ? findErrorByList(r, network_api.errors_fields) : network_api.checkResponse(r)
         if (!has_error) {
-          var morph_helpers = self.sputnik.morph_helpers
-          var result = parse.call(self.sputnik, r, null, morph_helpers)
+          const morph_helpers = self.sputnik.morph_helpers
+          const result = parse.call(self.sputnik, r, null, morph_helpers)
           if (result != null) {
             return resolve(result)
           }
@@ -104,8 +103,8 @@ function bindRequest(request, selected_map, store, self) {
 
   function handleStatesResponse(result) {
     // should be in data bus queue - use `.input` wrap
-    var i
-    var result_states = {}
+    let i
+    let result_states = {}
 
     if (Array.isArray(result)) {
       if (result.length != states_list.length) {
@@ -124,7 +123,7 @@ function bindRequest(request, selected_map, store, self) {
       result_states = result
     }
 
-    for (var i = 0; i < states_list.length; i++) {
+    for (i = 0; i < states_list.length; i++) {
       result_states['$meta$states$' + states_list[i] + '$complete'] = true
 
     }
@@ -138,7 +137,7 @@ function bindRequest(request, selected_map, store, self) {
 }
 
 function sendRequest(selected_map, store, self) {
-  var request = getRequestByDeclr(selected_map.send_declr, self.sputnik,
+  const request = getRequestByDeclr(selected_map.send_declr, self.sputnik,
     {has_error: store.error},
     {nocache: store.error})
 
@@ -152,8 +151,8 @@ function someValue(value) {
 }
 
 function checkDependencies(selected_map, store, self) {
-  var not_ok
-  for (var i = 0; i < selected_map.dependencies.length; i++) {
+  let not_ok
+  for (let i = 0; i < selected_map.dependencies.length; i++) {
     if (!someValue(self.sputnik.state(selected_map.dependencies[i]))) {
       not_ok = selected_map.dependencies[i]
       break
@@ -168,7 +167,7 @@ function checkDependencies(selected_map, store, self) {
 }
 
 function compxUsed(self, cur) {
-  var compx = self.sputnik.compx_check[cur]
+  const compx = self.sputnik.compx_check[cur]
   if (!compx) {
     return null
   }
@@ -177,34 +176,34 @@ function compxUsed(self, cur) {
     return self.sputnik.state(cur)
   }
 
-  var without_self_name = withoutSelf(compx.watch_list, compx.name)
+  const without_self_name = withoutSelf(compx.watch_list, compx.name)
   return requestDependencies(self, without_self_name, true)
 }
 
 function requestDependencies(self, dependencies, soft) {
-  var reqs_list = []
-  for (var i = 0; i < dependencies.length; i++) {
-    var cur = dependencies[i]
-    var used_compex = compxUsed(self, cur)
+  const reqs_list = []
+  for (let i = 0; i < dependencies.length; i++) {
+    const cur = dependencies[i]
+    const used_compex = compxUsed(self, cur)
     if (someValue(used_compex)) {
       reqs_list.push(used_compex)
       continue
     }
 
     if (soft) {
-      var maps_for_state = self.sputnik._states_reqs_index && self.sputnik._states_reqs_index[cur]
+      const maps_for_state = self.sputnik._states_reqs_index && self.sputnik._states_reqs_index[cur]
       if (!maps_for_state) {
         continue
       }
     }
 
-    var dep_req = self.requestState(dependencies[i])
+    const dep_req = self.requestState(dependencies[i])
     if (dep_req) {
       reqs_list.push(dep_req)
     }
   }
 
-  var req = !reqs_list.length
+  const req = !reqs_list.length
     ? Promise.resolve()
     : Promise.all(reqs_list)
 
@@ -212,8 +211,8 @@ function requestDependencies(self, dependencies, soft) {
 }
 
 function makeLoadingMarks(suffix, states_list, value, result) {
-  var loading_marks = result || {}
-  for (var i = 0; i < states_list.length; i++) {
+  const loading_marks = result || {}
+  for (let i = 0; i < states_list.length; i++) {
     loading_marks['$meta$states$' + states_list[i] + '$' + suffix] = value
 
   }
@@ -221,22 +220,22 @@ function makeLoadingMarks(suffix, states_list, value, result) {
 }
 
 function resetRequestedState(state_name) {
-  var maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name]
+  const maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name]
   if (!maps_for_state) {
     console.warn('cant reset requested state:', state_name, 'but tried. should not try without dcl')
   }
-  var selected_map = maps_for_state[0] //take first
-  var selected_map_num = selected_map.num
-  var store = this.mapped_reqs && this.mapped_reqs[selected_map_num]
+  const selected_map = maps_for_state[0] //take first
+  const selected_map_num = selected_map.num
+  const store = this.mapped_reqs && this.mapped_reqs[selected_map_num]
   if (!store) {
     return
   }
 
   this.mapped_reqs[selected_map_num] = null
-  var self = this
+  const self = this
   this.sputnik.input(function() {
-    var states = {}
-    var list = [state_name]
+    const states = {}
+    const list = [state_name]
 
 
     makeLoadingMarks(types.loading, list, null, states)
@@ -251,23 +250,24 @@ function resetRequestedState(state_name) {
 
 }
 
-var requestState = function(state_name) {
-  var current_value = this.sputnik.state(state_name)
+const requestState = function(state_name) {
+  const current_value = this.sputnik.state(state_name)
   if (someValue(current_value)) {
     return
   }
 
-  var used_compex = compxUsed(this, state_name)
+  const used_compex = compxUsed(this, state_name)
   if (someValue(used_compex)) {
     return used_compex
   }
 
-  var i, cur
-  var maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name]
+  let i
+  let cur
+  const maps_for_state = this.sputnik._states_reqs_index && this.sputnik._states_reqs_index[state_name]
   if (!maps_for_state) {
     console.warn('cant request state:', state_name, 'but tried. should not try without dcl')
   }
-  var cant_request
+  let cant_request
   if (this.mapped_reqs) {
     for (i = 0; i < maps_for_state.length; i++) {
       cur = this.mapped_reqs[maps_for_state[i].num]
@@ -282,14 +282,14 @@ var requestState = function(state_name) {
     return
   }
 
-  var selected_map = maps_for_state[0] //take first
+  const selected_map = maps_for_state[0] //take first
 
   if (!getNetApiByDeclr(selected_map.send_declr, this.sputnik)) {
     console.warn(new Error('api not ready yet'), selected_map.send_declr)
     return
   }
 
-  var selected_map_num = selected_map.num
+  const selected_map_num = selected_map.num
   if (!this.mapped_reqs) {
     this.mapped_reqs = {}
   }
@@ -303,17 +303,17 @@ var requestState = function(state_name) {
     }
   }
 
-  var store = this.mapped_reqs[selected_map_num]
+  const store = this.mapped_reqs[selected_map_num]
 
   store.process = true
 
-  var self = this
+  const self = this
 
   this.sputnik.input(function() {
     if (self.mapped_reqs[selected_map.num] != store) {
       return
     }
-    var states = {}
+    const states = {}
     makeLoadingMarks(types.loading, selected_map.states_list, true, states)
     makeLoadingMarks(types.load_attempting, selected_map.states_list, true, states)
     self.sputnik.updateManyStates(states)
@@ -325,7 +325,7 @@ var requestState = function(state_name) {
   }
 
 
-  var req = requestDependencies(self, selected_map.dependencies).then(function() {
+  const req = requestDependencies(self, selected_map.dependencies).then(function() {
     return checkDependencies(selected_map, store, self)
   })
 

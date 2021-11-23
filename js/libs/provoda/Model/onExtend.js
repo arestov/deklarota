@@ -21,9 +21,9 @@ import checkNest from '../dcl/nest/check'
 
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 
-var check = /initStates/gi
+const check = /initStates/gi
 
-var warnV2Bad = function() {
+const warnV2Bad = function() {
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
     return
   }
@@ -31,9 +31,9 @@ var warnV2Bad = function() {
   console.warn('handling_v2_init = false')
 }
 
-var checkSideeffects = function(self, props, params) {
+const checkSideeffects = function(self, props, params) {
 
-  var init = params && params.init || props.init
+  const init = params && params.init || props.init
   if (!init) {
     return
   }
@@ -57,7 +57,7 @@ var checkSideeffects = function(self, props, params) {
 }
 
 export const completeBuild = (self) => {
-  var typed_state_dcls = getTypedDcls(self.__dcls_attrs || {})
+  const typed_state_dcls = getTypedDcls(self.__dcls_attrs || {})
   parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
 
   assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
@@ -89,7 +89,7 @@ export const completeBuild = (self) => {
   self._attrs_collector = null
 }
 
-export default function(self, props, original, params) {
+export default function(self, props, _original, params) {
   /** LEGACY CHEKS **/
 
   if (props.hasOwnProperty('redirectBWLev')) { // legacy perspectivator redirects
@@ -112,7 +112,7 @@ export default function(self, props, original, params) {
   extendDclCache(self, '__dcls_routes', props['routes'])
   extendDclCache(self, '__dcls_actions', props['actions'])
 
-  var effects = props['effects']
+  const effects = props['effects']
 
   extendDclCache(self, '__dcls_effects_api', effects && effects['api'])
   extendDclCache(self, '__dcls_effects_consume', effects && effects['in'])

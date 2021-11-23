@@ -1,11 +1,11 @@
 
 import getNavGroups from './getNavGroups'
 
-var joinSubtree = function(array) {
-  var url = ''
-  for (var i = array.length - 1; i >= 0; i--) {
-    var md = 	array[i]
-    var url_part = md.state('url_part')
+const joinSubtree = function(array) {
+  let url = ''
+  for (let i = array.length - 1; i >= 0; i--) {
+    const md = 	array[i]
+    const url_part = md.state('url_part')
     // if (!url_part) {
     // 	throw new Error('must be url');
     // }
@@ -19,22 +19,22 @@ export default function(nav) {
     return null
   }
 
-  var url = ''
+  let url = ''
 
 
-  var groups = getNavGroups(nav[ nav.length - 1 ])
+  const groups = getNavGroups(nav[ nav.length - 1 ])
 
   /*
     /users/me/lfm:neighbours#3:/users/lfm:kolczyk0
   */
 
-  var last = groups.pop()
+  const last = groups.pop()
 
   url += joinSubtree(last)
 
 
-  for (var i = groups.length - 1; i >= 0; i--) {
-    var distance = groups[i].length
+  for (let i = groups.length - 1; i >= 0; i--) {
+    const distance = groups[i].length
     url += '#'
 
     if (distance > 1) {

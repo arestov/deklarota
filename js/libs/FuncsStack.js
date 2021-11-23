@@ -1,7 +1,7 @@
 
-var none = function() {}
+const none = function() {}
 
-var FstackAtom = function(stack, func, done, data) {
+const FstackAtom = function(stack, func, done, data) {
   this.stack = stack
   this.func = func
   this.func_result = null
@@ -29,50 +29,50 @@ FstackAtom.prototype.abort = function() {
   this.aborted = true
 }
 
-var FuncsStack = function(selectNext, initAtom) {
+const FuncsStack = function(selectNext, initAtom) {
   this.chained = null
   this.arr = []
 
 
-  var _this = this
+  const _this = this
   if (initAtom) {
     this.initAtom = initAtom
   }
   this.done =
     selectNext ?
-    function() {
-      if (this.stack === _this.arr) {
-        selectNext.call(_this, this, arguments)
-      }
-    } :
-    function() {
-      if (this.stack === _this.arr) {
-        if (this.atom_completed) {
-          throw new Error('executing second time!')
+      function() {
+        if (this.stack === _this.arr) {
+          selectNext.call(_this, this, arguments)
         }
-        if (_this.arr[0] === this) {
-          this.atom_completed = true
+      } :
+      function() {
+        if (this.stack === _this.arr) {
+          if (this.atom_completed) {
+            throw new Error('executing second time!')
+          }
+          if (_this.arr[0] === this) {
+            this.atom_completed = true
 
-          _this.arr.shift()
-          if (_this.arr[0]) {
-            _this.goAhead(_this.arr[0], arguments)
+            _this.arr.shift()
+            if (_this.arr[0]) {
+              _this.goAhead(_this.arr[0], arguments)
+            } else {
+              _this.waitNext(arguments)
+            }
           } else {
-            _this.waitNext(arguments)
+            throw new Error('wrong stack, func must be in [0]')
           }
         } else {
-          throw new Error('wrong stack, func must be in [0]')
-        }
-      } else {
         // was reseted - this.reset()
+        }
       }
-    }
 }
 
 FuncsStack.prototype = {
   constructor: FuncsStack,
   next: function(func, data) {
-    var _this = this
-    var atom = new FstackAtom(this.arr, func, this.done, data)
+    const _this = this
+    const atom = new FstackAtom(this.arr, func, this.done, data)
     if (this.initAtom) {
       this.initAtom(atom)
     }
@@ -116,8 +116,8 @@ FuncsStack.prototype = {
 
 
 FuncsStack.chain = function(arr) {
-  var fstack = new FuncsStack()
-  for (var i = 0; i < arr.length; i++) {
+  const fstack = new FuncsStack()
+  for (let i = 0; i < arr.length; i++) {
     fstack.next(arr[i])
   }
   fstack.start(function() {

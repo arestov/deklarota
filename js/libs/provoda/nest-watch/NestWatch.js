@@ -1,9 +1,9 @@
 
 import getShortStateName from '../utils/getShortStateName'
 
-var counter = 1
-var NestWatch = function(multi_path, state_name, handler, addHandler, removeHandler) {
-  var selector = multi_path.nesting.path
+let counter = 1
+const NestWatch = function(multi_path, state_name, handler, addHandler, removeHandler) {
+  const selector = multi_path.nesting.path
   if (!Array.isArray(selector)) {
     throw new Error('selector should be array')
   }

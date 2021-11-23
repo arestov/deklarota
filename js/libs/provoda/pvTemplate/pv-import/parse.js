@@ -2,11 +2,11 @@
 
 export default function parsePVImport(node, sample_name) {
 
-  var possible = node.nodeName === 'SCRIPT'
+  const possible = node.nodeName === 'SCRIPT'
     ? node
     : node.querySelector('script[type="pv-import-map"]')
 
-  var script
+  let script
   if (possible === node) {
     script = node
   }
@@ -15,8 +15,8 @@ export default function parsePVImport(node, sample_name) {
     script = node
     node.removeChild(script)
   }
-  var map_string = script && script.textContent
-  var map = map_string ? JSON.parse(map_string) : [{}]
+  const map_string = script && script.textContent
+  const map = map_string ? JSON.parse(map_string) : [{}]
 
   return {
     sample_name: sample_name,

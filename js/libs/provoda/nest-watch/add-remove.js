@@ -2,7 +2,7 @@
 import spv from '../../spv'
 import orderItems from './orderItems'
 
-var SublWtch = function SublWtch(nwatch, skip, md, parent) {
+const SublWtch = function SublWtch(nwatch, skip, md, parent) {
   /*
     SublWtch предназначен для наблюдения за вложенностями в модель,
     к которой будет прикреплен этот самый SublWtch
@@ -29,7 +29,7 @@ function handlePosition(subw) {
   subw.nwatch.ordered_items_changed = true
 
   if (subw.position == -1) {
-    var key = getKey(subw.md, subw.skip)
+    const key = getKey(subw.md, subw.skip)
     delete subw.nwatch.model_groups[key]
     subw.nwatch.handled_subl_wtchs[key] = false
   }
@@ -46,15 +46,15 @@ function handleNestingChange(subw, array) {
   subw.nwatch.ordered_items_changed = true
 }
 
-var checkOneItemMode = function(subl_wtch, one) {
+const checkOneItemMode = function(subl_wtch, one) {
   // return !!one;
   subl_wtch.one_item_mode = !!one
 
-  var one_item_mode = false
-  for (var key in subl_wtch.nwatch.model_groups) {
+  let one_item_mode = false
+  for (const key in subl_wtch.nwatch.model_groups) {
     if (!subl_wtch.nwatch.model_groups.hasOwnProperty(key)) {continue}
 
-    var cur = subl_wtch.nwatch.model_groups[key]
+    const cur = subl_wtch.nwatch.model_groups[key]
     one_item_mode = cur.one_item_mode
     if (!cur.one_item_mode) {
       one_item_mode = false
@@ -65,15 +65,15 @@ var checkOneItemMode = function(subl_wtch, one) {
 }
 
 
-var removeNestWatchs = function(item, array, one) {
-    for (var i = 0; i < array.length; i++) {
-      var cur = array[i]
-      cur.nwatch.one_item_mode = checkOneItemMode(cur, one)
+const removeNestWatchs = function(item, array, one) {
+  for (let i = 0; i < array.length; i++) {
+    const cur = array[i]
+    cur.nwatch.one_item_mode = checkOneItemMode(cur, one)
 
-      removeNestWatch(item, cur.nwatch, cur.skip + 1)
+    removeNestWatch(item, cur.nwatch, cur.skip + 1)
 
-      markPosition(cur.nwatch, cur.skip, item, -1)
-    }
+    markPosition(cur.nwatch, cur.skip, item, -1)
+  }
 }
 
 function noNesting(nwatch) {
@@ -88,15 +88,15 @@ function markPosition(nwatch, skip, md, num) {
   if (isDeepestLevel(nwatch, skip + 1)) {
     return
   }
-  var key = getKey(md, skip + 1)
-  var subw = nwatch.model_groups[key]
+  const key = getKey(md, skip + 1)
+  const subw = nwatch.model_groups[key]
   subw.position = num
 }
 
-var addNestWatchs = function(item, array, one, num) {
+const addNestWatchs = function(item, array, one, num) {
   // one item and many nwatches
-  for (var i = 0; i < array.length; i++) {
-    var cur = array[i]
+  for (let i = 0; i < array.length; i++) {
+    const cur = array[i]
     cur.nwatch.one_item_mode = checkOneItemMode(cur, one)
 
     addNestWatch(item, cur.nwatch, cur.skip + 1, cur)
@@ -109,10 +109,10 @@ function checkNestWatchs(md, collection_name, array, removed) {
   if (!md.nes_match_index || !md.nes_match_index[collection_name]) {return}
   // console.log('match!', collection_name);
   /* список subl_wtch (локальных элементов следящих за гнёздами) */
-  var subl_wtchs = md.nes_match_index[collection_name]
+  const subl_wtchs = md.nes_match_index[collection_name]
 
   if (Array.isArray(removed)) {
-    for (var i = 0; i < removed.length; i++) {
+    for (let i = 0; i < removed.length; i++) {
       if (!removed[i]) {continue}
       removeNestWatchs(removed[i], subl_wtchs, false)
     }
@@ -122,7 +122,7 @@ function checkNestWatchs(md, collection_name, array, removed) {
 
 
   if (Array.isArray(array)) {
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       if (!array[i]) {continue}
       addNestWatchs(array[i], subl_wtchs, false, i)
     }
@@ -130,10 +130,10 @@ function checkNestWatchs(md, collection_name, array, removed) {
     addNestWatchs(array, subl_wtchs, true, 0)
   }
 
-  for (var i = 0; i < subl_wtchs.length; i++) {
-    var cur = subl_wtchs[i]
-    for (var key in cur.nwatch.model_groups) {
-      var sub_cur = cur.nwatch.model_groups[key]
+  for (let i = 0; i < subl_wtchs.length; i++) {
+    const cur = subl_wtchs[i]
+    for (const key in cur.nwatch.model_groups) {
+      const sub_cur = cur.nwatch.model_groups[key]
       handlePosition(sub_cur)
     }
 
@@ -155,7 +155,7 @@ function addNestWatch(self, nwatch, skip, parent_subl_wtch) {
   if (!nwatch.handled_subl_wtchs) {
     nwatch.handled_subl_wtchs = {}
   }
-  var key = getKey(self, skip)
+  const key = getKey(self, skip)
   if (!nwatch.handled_subl_wtchs[key]) {
     nwatch.handled_subl_wtchs[key] = true
   } else {
@@ -176,12 +176,12 @@ function addNestWatch(self, nwatch, skip, parent_subl_wtch) {
       self.nes_match_index = {}
     }
 
-    var nesting_name = nwatch.selector[skip]
+    const nesting_name = nwatch.selector[skip]
     if (!self.nes_match_index[nesting_name]) {
       self.nes_match_index[nesting_name] = []
     }
 
-    var subl_wtch = new SublWtch(nwatch, skip, self, parent_subl_wtch)
+    const subl_wtch = new SublWtch(nwatch, skip, self, parent_subl_wtch)
     self.nes_match_index[nesting_name].push(subl_wtch)
 
     nwatch.model_groups = nwatch.model_groups || {}
@@ -194,7 +194,7 @@ function addNestWatch(self, nwatch, skip, parent_subl_wtch) {
     */
 
     if (self.children_models) {
-      for (var nesting_name in self.children_models) {
+      for (const nesting_name in self.children_models) {
         checkNestWatchs(self, nesting_name, self.children_models[nesting_name])
       }
     }
@@ -204,12 +204,12 @@ function addNestWatch(self, nwatch, skip, parent_subl_wtch) {
     */
     if (skip === 0 && subl_wtch.nwatch.handler) {
       // TODO if we don't have state_handler that we don't need order and preparations to keep order
-      var calls_flow = self._getCallsFlow()
+      const calls_flow = self._getCallsFlow()
       calls_flow.pushToFlow(null, subl_wtch.nwatch, null, null, handleEndItems, null, self.current_motivator)
     }
   }
 
-  var addHandler = nwatch.addHandler
+  const addHandler = nwatch.addHandler
   if (addHandler) {
     addHandler(self, nwatch, skip)
   }
@@ -223,7 +223,7 @@ function handleEndItems(motivator, _, lnwatch) {
 
 
 function removeNestWatch(self, nwatch, skip) {
-  var key = getKey(self, skip)
+  const key = getKey(self, skip)
   if (!nwatch.handled_subl_wtchs[key]) {
     console.warn('there is no handled_subl_wtchs for key. should it be!?')
   }
@@ -238,10 +238,10 @@ function removeNestWatch(self, nwatch, skip) {
       nwatch.ordered_items = null
     }
   } else {
-    var nesting_name = nwatch.selector[skip]
+    const nesting_name = nwatch.selector[skip]
     if (self.nes_match_index && self.nes_match_index[nesting_name]) {
       // nes_match_index содержит только subl_wtchs, поэтому удалять из nes_match_index нужно subl_wtch
-      var subl_wtch = nwatch.model_groups[key]
+      const subl_wtch = nwatch.model_groups[key]
       if (!subl_wtch) {
         console.warn('there is no subl_wtch. should it be!?')
       }
@@ -249,7 +249,7 @@ function removeNestWatch(self, nwatch, skip) {
     }
   }
 
-  var removeHandler = nwatch.removeHandler
+  const removeHandler = nwatch.removeHandler
   if (removeHandler) {
     removeHandler(self, nwatch, skip)
   }
@@ -269,7 +269,7 @@ function addNWatchToStatesIndex(states_links, nwatch) {
     return
   }
   if (Array.isArray(nwatch.short_state_name)) {
-    for (var i = 0; i < nwatch.short_state_name.length; i++) {
+    for (let i = 0; i < nwatch.short_state_name.length; i++) {
       addNWOne(states_links, nwatch.short_state_name[i], nwatch)
     }
   } else {
@@ -289,7 +289,7 @@ function removeNWatchFromSI(states_links, nwatch) {
     return
   }
   if (Array.isArray(nwatch.short_state_name)) {
-    for (var i = 0; i < nwatch.short_state_name.length; i++) {
+    for (let i = 0; i < nwatch.short_state_name.length; i++) {
       removeOne(states_links, nwatch.short_state_name[i], nwatch)
     }
   } else {

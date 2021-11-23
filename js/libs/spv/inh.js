@@ -5,54 +5,54 @@ import countConstr from './countConstr'
 import copyProps from './copyProps'
 import Class from './Class'
 
-var stPartWrapping = function(original, part) {
+const stPartWrapping = function(original, part) {
   return function builderWrap(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
     original(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
     part(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
   }
 }
 
-var stNaming = function(constructor) {
+const stNaming = function(constructor) {
   return function Class(arg1) {
     constructor(this, arg1)
   }
 }
 
-var stBuilding = function(parentBuilder) {
+const stBuilding = function(parentBuilder) {
   return function classBuilder(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
     parentBuilder(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10)
   }
 }
 
-var wrapExtend = function(original, fresh) {
+const wrapExtend = function(original, fresh) {
   return function(resultPrototype, props, originalPrototype, params) {
     original(resultPrototype, props, originalPrototype, params)
     fresh(resultPrototype, props, originalPrototype, params)
   }
 }
 
-var empty = function() {}
+const empty = function() {}
 
-var extendTo = Class.extendTo
+const extendTo = Class.extendTo
 
 function extend(Class, params, propsArg) {
   if (params == null) {
     params = {}
   }
 
-  var parentNaming = Class.naming || stNaming
-  var naming = params.naming || parentNaming
-  var building
+  const parentNaming = Class.naming || stNaming
+  const naming = params.naming || parentNaming
+  let building
 
-  var initLength = false
+  let initLength = false
   if (params.init) {
-    var init = params.init
+    const init = params.init
     building = function(parentBuilder) {
       return stPartWrapping(parentBuilder, init)
     }
     initLength = init.length
   } else if (params.preinit) {
-    var preinit = params.preinit
+    const preinit = params.preinit
     building = function(parentBuilder) {
       return stPartWrapping(preinit, parentBuilder)
     }
@@ -61,25 +61,25 @@ function extend(Class, params, propsArg) {
     building = stBuilding
   }
 
-  var passedProps = propsArg || params.props
-  var props = typeof passedProps == 'function' ?
+  const passedProps = propsArg || params.props
+  const props = typeof passedProps == 'function' ?
     coe(passedProps) :
     passedProps
 
-  var asParentExtend = Class.onExtend || empty
-  var firstExtend = params.onPreExtend
+  const asParentExtend = Class.onExtend || empty
+  const firstExtend = params.onPreExtend
     ? wrapExtend(params.onPreExtend, asParentExtend)
     : asParentExtend
-  var onExtend = params.onExtend
+  const onExtend = params.onExtend
     ? wrapExtend(firstExtend, params.onExtend)
     : firstExtend
 
-  var parentMainBuilder = Class.inh_main_constr
+  const parentMainBuilder = Class.inh_main_constr
   // building нужен что бы к родительской инициализации добавить какую-то конкретную новую
-  var mainConstructor = building(parentMainBuilder || empty)
+  const mainConstructor = building(parentMainBuilder || empty)
 
-  var parentPostbuilder = Class.inh_post_constr
-  var postConstructor = (function() {
+  const parentPostbuilder = Class.inh_post_constr
+  const postConstructor = (function() {
     if (!params.postInit) {
       return parentPostbuilder
     } else if (!parentPostbuilder) {
@@ -89,11 +89,11 @@ function extend(Class, params, propsArg) {
     return stPartWrapping(params.postInit, parentPostbuilder)
   })()
 
-  var finalConstructor = postConstructor
+  const finalConstructor = postConstructor
     ? stPartWrapping(mainConstructor, postConstructor)
     : mainConstructor
 
-  var result = naming(finalConstructor)
+  const result = naming(finalConstructor)
 
   if (initLength === false) {
     initLength =
@@ -121,7 +121,7 @@ function extend(Class, params, propsArg) {
   result.onExtend = onExtend
   result.initLength = Math.max(Class.initLength || initLength, initLength)
 
-  var PrototypeConstr = parentNaming(empty)
+  const PrototypeConstr = parentNaming(empty)
 
   PrototypeConstr.prototype = Class.prototype
   result.prototype = new PrototypeConstr()

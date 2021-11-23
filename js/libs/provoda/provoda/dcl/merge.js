@@ -1,11 +1,11 @@
 
 
-var softMerge = function(to, from, strict) {
+const softMerge = function(to, from, strict) {
   if (!from) {
     return to
   }
 
-  for (var prop in from) {
+  for (const prop in from) {
     if (!from.hasOwnProperty(prop)) {
       return
     }
@@ -45,21 +45,21 @@ function copyEffects(target_api, target_consume, target_produce, source) {
 }
 
 export default function() {
-  var args = Array.prototype.slice.call(arguments)
-  var result = {}
+  const args = Array.prototype.slice.call(arguments)
+  const result = {}
 
-  var attrs = {}
-  var rels = {}
-  var actions = {}
-  var routes = {}
-  var effects = {}
+  const attrs = {}
+  const rels = {}
+  const actions = {}
+  const routes = {}
+  const effects = {}
 
-  var effects_api = {}
-  var effects_consume = {}
-  var effects_produce = {}
+  const effects_api = {}
+  const effects_consume = {}
+  const effects_produce = {}
 
-  for (var i = 0; i < args.length; i++) {
-    var cur = args[i]
+  for (let i = 0; i < args.length; i++) {
+    const cur = args[i]
     softMerge(result, cur)
     delete result.attrs
     delete result.rels

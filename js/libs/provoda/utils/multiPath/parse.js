@@ -6,19 +6,19 @@ import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 import isJustAttrAddr from './isJustAttrAddr'
 
-var splitByDot = spv.splitByDot
-var empty = Object.freeze({})
-var root = Object.freeze({
+const splitByDot = spv.splitByDot
+const empty = Object.freeze({})
+const root = Object.freeze({
   type: 'root',
   steps: null,
 })
-var parents = spv.memorize(function(num) {
+const parents = spv.memorize(function(num) {
   return Object.freeze({
     type: 'parent',
     steps: num,
   })
 })
-var parent_count_regexp = /\^+/gi
+const parent_count_regexp = /\^+/gi
 
 /*
 
@@ -44,44 +44,44 @@ var parent_count_regexp = /\^+/gi
 
 "nesting_name < < ^^"
 */
-var checkSplit = /(?:^|\s+)?<(?:\s+)?/
-var end = /(<$)|(\^$)|(#$)/
-var start = /^</
+const checkSplit = /(?:^|\s+)?<(?:\s+)?/
+const end = /(<$)|(\^$)|(#$)/
+const start = /^</
 
-var parseFromStart = spv.memorize(function(string) {
-  var parts = string.split(checkSplit)
+const parseFromStart = spv.memorize(function(string) {
+  const parts = string.split(checkSplit)
   // parts[0] should be empty
-  var state = parts[1]
-  var nest = parts[2]
-  var resource = parts[3]
-  var base = parts[4]
+  const state = parts[1]
+  const nest = parts[2]
+  const resource = parts[3]
+  const base = parts[4]
 
   return parseParts(state, nest, resource, base)
 
 })
 
-var parseFromEnd = spv.memorize(function(string) {
-  var parts = string.split(checkSplit)
+const parseFromEnd = spv.memorize(function(string) {
+  const parts = string.split(checkSplit)
 
-  var length = parts.length
-  var base = parts[length - 1]
-  var resource = parts[length - 2]
-  var nest = parts[length - 3]
-  var state = parts[length - 4]
+  const length = parts.length
+  const base = parts[length - 1]
+  const resource = parts[length - 2]
+  const nest = parts[length - 3]
+  const state = parts[length - 4]
 
   return parseParts(state, nest, resource, base)
 })
 
 function canParseModern(string) {
-  var from_start = start.test(string)
-  var from_end = end.test(string)
+  const from_start = start.test(string)
+  const from_end = end.test(string)
   return (from_start || from_end)
     ? {from_start: from_start, from_end: from_end}
     : null
 }
 
-var parseModern = spv.memorize(function parseModern(string) {
-  var can_parse = canParseModern(string)
+const parseModern = spv.memorize(function parseModern(string) {
+  const can_parse = canParseModern(string)
   if (can_parse == null) {
     return null
   }
@@ -92,10 +92,10 @@ var parseModern = spv.memorize(function parseModern(string) {
   return parseFromEnd(string)
 })
 
-var matchNotStateSymbols = /(^\W)|\@|\:/
+const matchNotStateSymbols = /(^\W)|\@|\:/
 
 
-export var getStateInfo = spv.memorize(function getStateInfo(string) {
+export const getStateInfo = spv.memorize(function getStateInfo(string) {
   if (!string) {
     return empty
   }
@@ -106,7 +106,7 @@ export var getStateInfo = spv.memorize(function getStateInfo(string) {
   }
 })
 
-var SimpleStateAddr = function(string) {
+const SimpleStateAddr = function(string) {
   this.state = getStateInfo(string)
 }
 
@@ -120,11 +120,11 @@ SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
   as_string: null,
 })
 
-var simpleState = spv.memorize(function simpleState(string) {
+const simpleState = spv.memorize(function simpleState(string) {
   return new SimpleStateAddr(string)
 })
 
-var attemptSimpleStateName = function(string) {
+const attemptSimpleStateName = function(string) {
   if (!string || matchNotStateSymbols.test(string)) {
     return null
   }
@@ -132,7 +132,7 @@ var attemptSimpleStateName = function(string) {
   return simpleState(string)
 }
 
-var self = Object.freeze({
+const self = Object.freeze({
   as_string: '<<<<',
   base_itself: true,
 })
@@ -143,18 +143,18 @@ export const getNestInfo = spv.memorize(function getNestInfo(string) {
     return empty
   }
 
-  var parts = string.split(':')
-  var path = parts.pop()
+  const parts = string.split(':')
+  const path = parts.pop()
 
-  var full_path = splitByDot(path)
+  const full_path = splitByDot(path)
 
-  var zip_name = parts[0] || null
+  const zip_name = parts[0] || null
 
   if (zip_name) {
     throw new Error('dont use. use < @[zip_name] [statename] < [nestingname]')
   }
 
-  var target_nest_name = full_path[full_path.length - 1] // last one
+  const target_nest_name = full_path[full_path.length - 1] // last one
 
   if (!target_nest_name) {
     throw new Error('wrong nest path: ' + string)
@@ -167,15 +167,15 @@ export const getNestInfo = spv.memorize(function getNestInfo(string) {
   }
 })
 
-var parseMultiPath = function(string, allow_legacy) {
+const parseMultiPath = function(string, allow_legacy) {
   if (string == '<<<<') {
     return self
   }
 
 
-  var modern = parseModern(string)
+  const modern = parseModern(string)
   if (modern != null) {
-    var state_info = modern.state
+    const state_info = modern.state
     if (state_info && state_info.base && !isJustAttrAddr(modern) && state_info.base.startsWith('__')) {
       console.warn(new Error('private attr used'), string)
     }
@@ -188,13 +188,13 @@ var parseMultiPath = function(string, allow_legacy) {
   )
 
 }
-var matchZip = /(?:\@(.+?)\:)?(.+)?/
+const matchZip = /(?:\@(.+?)\:)?(.+)?/
 
-var parseLegacyCached = spv.memorize(parseMultiPath)
-var parseModernCached = spv.memorize(parseMultiPath)
+const parseLegacyCached = spv.memorize(parseMultiPath)
+const parseModernCached = spv.memorize(parseMultiPath)
 
 
-var parseWithCache = function(addr_str, legacy_ok) {
+const parseWithCache = function(addr_str, legacy_ok) {
   if (legacy_ok != true) {
     return parseModernCached(addr_str, false)
   }
@@ -208,13 +208,13 @@ parseWithCache.simpleState = simpleState
 export default parseWithCache
 
 function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
-  var state_part_splited = state_raw && state_raw.match(matchZip)
-  var zip_state_string = state_part_splited && state_part_splited[1]
-  var state_string = state_part_splited && state_part_splited[2]
+  const state_part_splited = state_raw && state_raw.match(matchZip)
+  const zip_state_string = state_part_splited && state_part_splited[1]
+  const state_string = state_part_splited && state_part_splited[2]
 
-  var nest_part_splited = nest_raw && nest_raw.match(matchZip)
-  var zip_nest_string = nest_part_splited && nest_part_splited[1]
-  var nest_string = nest_part_splited && nest_part_splited[2]
+  const nest_part_splited = nest_raw && nest_raw.match(matchZip)
+  const zip_nest_string = nest_part_splited && nest_part_splited[1]
+  const nest_string = nest_part_splited && nest_part_splited[2]
 
   if (zip_state_string && zip_nest_string) {
     throw new Error('both state and nesting cant have zip_name')
@@ -237,13 +237,13 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   }
 
 
-  var zip_name = zip_state_string || zip_nest_string || null
-  var state_info = getStateInfo(state_string)
-  var nest_info = getNestInfo(nest_string)
-  var resource_info = getResourceInfo(resource_raw)
-  var base_info = getBaseInfo(base_raw)
+  const zip_name = zip_state_string || zip_nest_string || null
+  const state_info = getStateInfo(state_string)
+  const nest_info = getNestInfo(nest_string)
+  const resource_info = getResourceInfo(resource_raw)
+  const base_info = getBaseInfo(base_raw)
 
-  var result_type = getResultType(state_info, nest_info, resource_info, base_info)
+  const result_type = getResultType(state_info, nest_info, resource_info, base_info)
 
   return Object.seal({
     result_type: result_type,
@@ -263,7 +263,7 @@ export function updateResultType(draft) {
 }
 
 export function createAddrByPart(source) {
-  var draft = Object.seal({
+  const draft = Object.seal({
     result_type: null,
     zip_name: null,
     state: source.state || empty ,
@@ -302,7 +302,7 @@ export function getBaseInfo(string) {
     return root
   }
 
-  var from_parent_num = string.match(parent_count_regexp)
+  const from_parent_num = string.match(parent_count_regexp)
   if (from_parent_num) {
     return parents(from_parent_num[0].length)
   }

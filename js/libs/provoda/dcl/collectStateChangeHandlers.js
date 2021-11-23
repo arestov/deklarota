@@ -2,8 +2,8 @@
 import spv from '../../spv'
 import { doCopy } from '../../spv/cloneObj'
 import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
-var getUnprefixed = spv.getDeprefixFunc('stch-')
-var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
+const getUnprefixed = spv.getDeprefixFunc('stch-')
+const hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
 
 function checkStchType(fn) {
@@ -19,15 +19,15 @@ export default function(self, props) {
     return
   }
 
-  var result_index = doCopy({}, self.__state_change_index || {})
+  const result_index = doCopy({}, self.__state_change_index || {})
 
-  for (var lprop in props.state_change) {
+  for (const lprop in props.state_change) {
     result_index[lprop] = checkStchType(props.state_change[lprop])
   }
 
-  for (var prop_name in props) {
+  for (const prop_name in props) {
     if (getUnprefixed(prop_name)) {
-      var string = getUnprefixed(prop_name)
+      const string = getUnprefixed(prop_name)
       if (props.state_change && props.state_change[string]) {
         throw new Error('stch dup for: ' + string)
       }

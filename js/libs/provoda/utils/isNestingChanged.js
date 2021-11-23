@@ -9,7 +9,7 @@ export default function isNestingChanged(old_value, new_value) {
     return true
   }
 
-  for (var i = 0; i < old_value.length; i++) {
+  for (let i = 0; i < old_value.length; i++) {
     if (old_value[i] != new_value[i]) {
       return true
     }

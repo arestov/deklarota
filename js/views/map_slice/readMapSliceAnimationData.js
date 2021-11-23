@@ -7,69 +7,69 @@ import dom_helpers from '../../libs/provoda/utils/dom_helpers'
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')
 
-var can_animate = css.transform && css.transition
-var css_transform = css.transform
-var transform_props = css_transform ? [css_transform] : []
+const can_animate = css.transform && css.transition
+const css_transform = css.transform
+const transform_props = css_transform ? [css_transform] : []
 
-var getNavOHeight = function() {
+const getNavOHeight = function() {
   if (!this.root_view.els.navs) {
     return 0
   }
   return this.root_view.els.navs.outerHeight()
 }
-var getAMCWidth = function() {
+const getAMCWidth = function() {
   return dom_helpers.width(this.getInterface('app_map_con'))
 }
-var getAMCOffset = function() {
+const getAMCOffset = function() {
   return dom_helpers.offset(this.getInterface('app_map_con'))
 }
 
 export default function readMapSliceAnimationData(view, transaction_data) {
   if (!transaction_data || !transaction_data.bwlev) {return}
 
-  var target_md = getModelFromR(view, transaction_data.bwlev)
-  var current_mp_bwlev = target_md
+  const target_md = getModelFromR(view, transaction_data.bwlev)
+  const current_mp_bwlev = target_md
 
-  var current_lev_num = getAttr(target_md, 'map_level_num')
-  var one_zoom_in = transaction_data.array.length == 1 && transaction_data.array[0].name == 'zoom-in' && transaction_data.array[0].changes.length < 3
+  const current_lev_num = getAttr(target_md, 'map_level_num')
+  const one_zoom_in = transaction_data.array.length == 1 && transaction_data.array[0].name == 'zoom-in' && transaction_data.array[0].changes.length < 3
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return}
 
-  var best_matched_view = view.getMapSliceImmediateChildView(target_md, getModelFromR(view, transaction_data.target))
+  const best_matched_view = view.getMapSliceImmediateChildView(target_md, getModelFromR(view, transaction_data.target))
 
-  var target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, target_md)
+  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, transaction_data.prev_bwlev, target_md)
   if (!target_in_parent) {return}
 
-  var targt_con = target_in_parent.getC()
+  const targt_con = target_in_parent.getC()
 
-  var disable_zoom_cache = view.disable_zoom_cache
+  const disable_zoom_cache = view.disable_zoom_cache
 
   // var offset_parent_node = targt_con.offsetParent();
-  var parent_offset = disable_zoom_cache
+  const parent_offset = disable_zoom_cache
     ? getAMCOffset.call(view)
     : view.getBoxDemension(getAMCOffset, 'screens_offset')
   // или ни о чего не зависит или зависит от позиции скрола, если шапка не скролится
 
   // var offset = targt_con.offset(); //domread
-  var targetOffset = function() {
+  const targetOffset = function() {
     // works only for best_matched_view
     return targt_con.offset()
   }
-  var offset = disable_zoom_cache
+  const offset = disable_zoom_cache
     ? targetOffset()
     : target_in_parent.getBoxDemension(targetOffset, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.state('window_height'), view.root_view.state('workarea_width'))
 
-  var getWidth = function() {
+  const getWidth = function() {
     return targt_con.outerWidth()
   }
-  var width = disable_zoom_cache
+  const width = disable_zoom_cache
     ? getWidth()
     : target_in_parent.getBoxDemension(getWidth, 'con_width', view.root_view.state('window_height'), view.root_view.state('workarea_width'))
 
-  var getHeight = function() {
+  const getHeight = function() {
     return targt_con.outerHeight()
   }
-  var height = disable_zoom_cache
+  const height = disable_zoom_cache
     ? getHeight()
     : target_in_parent.getBoxDemension(getHeight, 'con_height', view.root_view.state('window_height'), view.root_view.state('workarea_width'))
 
@@ -77,28 +77,28 @@ export default function readMapSliceAnimationData(view, transaction_data) {
   // var width = targt_con.outerWidth();  //domread
   // var height = targt_con.outerHeight(); //domread
 
-  var top = offset.top - parent_offset.top
+  const top = offset.top - parent_offset.top
 
-  var con_height_part = disable_zoom_cache
+  const con_height_part = disable_zoom_cache
     ? getNavOHeight.call(view)
     : view.getBoxDemension(getNavOHeight, 'navs_height')
-  var con_height = view.root_view.state('window_height') - con_height_part //domread, can_be_cached
+  const con_height = view.root_view.state('window_height') - con_height_part //domread, can_be_cached
 
-  var con_width = disable_zoom_cache
+  const con_width = disable_zoom_cache
     ? getAMCWidth.call(view)
     : view.getBoxDemension(getAMCWidth, 'screens_width', view.root_view.state('workarea_width'))
 
-  var scale_x = width / con_width
-  var scale_y = height / con_height
-  var min_scale = Math.min(scale_x, scale_y)
+  const scale_x = width / con_width
+  const scale_y = height / con_height
+  const min_scale = Math.min(scale_x, scale_y)
 
-  var shift_x = width / 2 - min_scale * con_width / 2
-  var shift_y = height / 2 - min_scale * con_height / 2
+  const shift_x = width / 2 - min_scale * con_width / 2
+  const shift_y = height / 2 - min_scale * con_height / 2
 
-  var lc = view.getLevelContainer(current_mp_bwlev)
+  const lc = view.getLevelContainer(current_mp_bwlev)
 
-  var transform_values = {}
-  var value = 'translate(' + (offset.left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')'
+  const transform_values = {}
+  const value = 'translate(' + (offset.left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')'
   transform_props.forEach(function(el) {
     transform_values[el] = value
   })

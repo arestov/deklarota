@@ -1,17 +1,17 @@
 
 
 import spv from '../../../../spv'
-var splitByDot = spv.splitByDot
+const splitByDot = spv.splitByDot
 
-var apiDeclr = spv.memorize(function(name) {
-  var parts = splitByDot(name)
+const apiDeclr = spv.memorize(function(name) {
+  const parts = splitByDot(name)
   return {
     name: parts[0],
     resource_path: parts.length > 1 ? parts.slice(1) : null
   }
 })
 
-var counter = 1
+let counter = 1
 
 function SendDeclaration(declr) {
   this.id = counter++
@@ -21,7 +21,7 @@ function SendDeclaration(declr) {
   if (typeof declr[0] == 'function') {
     this.api_name = declr[0]
   } else {
-    var api_declr = apiDeclr(declr[0])
+    const api_declr = apiDeclr(declr[0])
     this.api_name = api_declr.name
     this.api_resource_path = api_declr.resource_path
   }
@@ -33,7 +33,7 @@ function SendDeclaration(declr) {
   if (typeof declr[1] == 'string') {
     this.api_method_name = declr[1]
   } else if (Array.isArray(declr[1])) {
-    var manual = declr[1]
+    const manual = declr[1]
     this.manual = {
       dependencies: manual[0],
       fn: manual[1],

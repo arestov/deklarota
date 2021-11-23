@@ -2,8 +2,8 @@
 import cloneObj from './cloneObj'
 
 export default function(cb) {
-  var result = {}
-  var add = function(obj) {
+  const result = {}
+  const add = function(obj) {
     cloneObj(result, obj)
   }
   cb(add)

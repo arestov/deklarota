@@ -8,6 +8,7 @@
     "es2020": true
   },
   "globals": {
+    "NODE_ENV": "readonly",
     "window": false,
     "requirejs": false
   },
@@ -16,10 +17,11 @@
     "semi": [2, "never"],
     "semi-spacing": [2, { "before": false, "after": true }],
     "indent": [
-      0,
-      1,
+      2,
+      2,
       {
-        "SwitchCase": 1
+        "SwitchCase": 1,
+        "ignoreComments": true
       }
     ],
     "curly": 2,
@@ -30,7 +32,7 @@
       }
     ],
     "no-undef": 2,
-    "no-unused-vars": 1,
+    "no-unused-vars": ["error", { "args": "all", "argsIgnorePattern": "^_", "ignoreRestSiblings": true }],
     "strict": [2, "function"],
     "dot-notation": 0,
     "quotes": [2, "single"],
@@ -38,11 +40,15 @@
     "no-mixed-spaces-and-tabs": 2,
     "no-trailing-spaces": 2,
     "space-before-blocks": 2,
-    "space-before-function-paren": [2, "always"],
+    "space-before-function-paren": [2, "never"],
     "space-in-parens": [2, "never"],
     "space-infix-ops": [2, { "int32Hint": true }],
     "space-unary-ops": [2, { "words": true, "nonwords": false }],
     "func-call-spacing": [2, "never"],
     "import/first": 2,
+    "one-var-declaration-per-line": [2, "always"],
+    "one-var": [2, "never"],
+    "no-var": 2,
+    "prefer-const": 2,
   }
 }

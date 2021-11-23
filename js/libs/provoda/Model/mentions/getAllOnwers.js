@@ -1,7 +1,7 @@
 import matchChainFinalTarget from './matchChainFinalTarget'
 
 export default function getAllOnwers(mut_result_list, mention_owner, link) {
-  var cur_link = link
+  const cur_link = link
 
   if (cur_link.num == 0) {
     if (matchChainFinalTarget(cur_link.chain, mention_owner)) {
@@ -17,15 +17,15 @@ export default function getAllOnwers(mut_result_list, mention_owner, link) {
     return
   }
 
-  var next_link = cur_link.chain.list[cur_link.num - 1]
+  const next_link = cur_link.chain.list[cur_link.num - 1]
 
-  var owners = mention_owner.__mentions_as_rel[next_link.rel]
+  const owners = mention_owner.__mentions_as_rel[next_link.rel]
   if (owners == null) {
     return
   }
 
 
-  for (var cur_owner of owners) {
+  for (const cur_owner of owners) {
     getAllOnwers(mut_result_list, cur_owner, next_link)
   }
 

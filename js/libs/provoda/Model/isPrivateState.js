@@ -1,8 +1,8 @@
 
 import spv from '../../spv'
 import parse from '../utils/multiPath/parse'
-var memorize = spv.memorize
-var isPrivate = memorize(function(str) {
+const memorize = spv.memorize
+const isPrivate = memorize(function(str) {
   if (typeof str === 'symbol') {
     return true
   }
@@ -23,7 +23,7 @@ var isPrivate = memorize(function(str) {
     return true
   }
 
-  var parsed = parse(str, true)
+  const parsed = parse(str, true)
 
   if (parsed.result_type != 'state') {
     return true

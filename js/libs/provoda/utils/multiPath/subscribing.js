@@ -8,7 +8,7 @@ export default function subscribing(fn) {
       throw new Error('think about way to implement this')
     }
 
-    var start_md = getStart(md, multi_path)
+    const start_md = getStart(md, multi_path)
 
     fn(md, start_md, multi_path.state.path, multiPathAsString(multi_path), context)
   }

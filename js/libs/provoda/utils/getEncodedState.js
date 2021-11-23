@@ -12,17 +12,17 @@ const fake = {
   configurable: true
 }
 
-var getEncodedState = spv.memorize(function getEncodedState(state_name) {
+const getEncodedState = spv.memorize(function getEncodedState(state_name) {
 
 
-  var result1 = getParsedState(state_name)
+  const result1 = getParsedState(state_name)
   if (result1) { // uncomment to help migrate
-    var nice = fromLegacy(state_name)
-    var best = asString(nice)
+    const nice = fromLegacy(state_name)
+    const best = asString(nice)
     throw new Error('replace ' + state_name + ' by ' + best)
   }
 
-  var result = result1 || modernAsLegacyParsed(state_name)
+  const result = result1 || modernAsLegacyParsed(state_name)
 
   if (!result) {
     return null
@@ -32,7 +32,7 @@ var getEncodedState = spv.memorize(function getEncodedState(state_name) {
     return result
   }
 
-  var copy = spv.cloneObj({}, result)
+  const copy = spv.cloneObj({}, result)
   copy.addr = toMultiPath(result.nesting_source)
 
   Object.defineProperty(copy, 'nwatch', fake)

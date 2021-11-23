@@ -3,24 +3,24 @@
 import spv from '../../spv'
 import hp from '../helpers'
 
-var empty = function() {}
+const empty = function() {}
 
 export default function checkPrefix(prefix, Declr, result_prop, fn) {
-  var getUnprefixed = spv.getDeprefixFunc(prefix)
-  var hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
-  var merge = mergePrefixed(prefix)
+  const getUnprefixed = spv.getDeprefixFunc(prefix)
+  const hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
+  const merge = mergePrefixed(prefix)
 
-  var callback = fn || empty
+  const callback = fn || empty
 
   return function(self, props) {
     if (!hasPrefixedProps(props)) {
       return
     }
 
-    var fresh = {}
+    const fresh = {}
 
-    for (var prop_name in props) {
-      var item_name = getUnprefixed(prop_name)
+    for (const prop_name in props) {
+      const item_name = getUnprefixed(prop_name)
       if (!item_name) {continue}
 
       fresh[item_name] = props[prop_name]
@@ -35,12 +35,12 @@ export default function checkPrefix(prefix, Declr, result_prop, fn) {
 }
 
 function mergePrefixed(prefix) {
-  var getUnprefixed = spv.getDeprefixFunc(prefix)
+  const getUnprefixed = spv.getDeprefixFunc(prefix)
   return function(self, old, fresh) {
-    var result = {}
+    const result = {}
 
-    for (var prop_name in self) {
-      var item_name = getUnprefixed(prop_name)
+    for (const prop_name in self) {
+      const item_name = getUnprefixed(prop_name)
       if (!item_name) {continue}
 
       result[item_name] = fresh.hasOwnProperty(item_name)

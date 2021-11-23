@@ -7,7 +7,7 @@ const copyWithSymbols = (result, source) => {
     return result
   }
 
-  for (var prop of Object.getOwnPropertySymbols(source)) {
+  for (const prop of Object.getOwnPropertySymbols(source)) {
     result[prop] = source[prop]
   }
 

@@ -6,28 +6,28 @@ import StandartChange from './StandartChange'
 import getTemplateOptions from './pv-import/getTemplateOptions'
 import PvSimpleSampler from './PvSimpleSampler'
 // var patching_directives = d_parsers.patching_directives;
-var getIndexList = d_parsers.getIndexList
-var setStrucKey = getCachedPVData.setStrucKey
+const getIndexList = d_parsers.getIndexList
+const setStrucKey = getCachedPVData.setStrucKey
 
-var dRemove = dom_helpers.remove
-var dAfter = dom_helpers.after
+const dRemove = dom_helpers.remove
+const dAfter = dom_helpers.after
 
-var patching_directives = {
+const patching_directives = {
   'pv-import': (function() {
-    var counter = 1
+    let counter = 1
 
     function createKey() {
       return counter++
     }
 
-    return function(node, params, getSample, opts) {
-      var comment_anchor = window.document.createComment('anchor for pv-import ' + params.sample_name)
-      var parent_node = node.parentNode
+    return function(node, params, getSample, _opts) {
+      const comment_anchor = window.document.createComment('anchor for pv-import ' + params.sample_name)
+      const parent_node = node.parentNode
       parent_node.replaceChild(comment_anchor, node)
 
-      var template_options = getTemplateOptions(params, createKey)
+      const template_options = getTemplateOptions(params, createKey)
 
-      var directives_data = {
+      const directives_data = {
         new_scope_generator: true,
         instructions: {
           'pv-when-condition': makePvWhen(comment_anchor, '_provoda_id', function() {
@@ -39,13 +39,13 @@ var patching_directives = {
       return comment_anchor
     }
   })(),
-  'pv-when': function(node, params, getSample, opts) {
-    var parent_node = node.parentNode
-    var full_declaration = params
+  'pv-when': function(node, params, _getSample, _opts) {
+    const parent_node = node.parentNode
+    const full_declaration = params
 
-    var comment_anchor = window.document.createComment('anchor for pv-when')
+    const comment_anchor = window.document.createComment('anchor for pv-when')
     parent_node.replaceChild(comment_anchor, node)
-    var directives_data = {
+    const directives_data = {
       new_scope_generator: true,
       instructions: {
         'pv-when-condition': makePvWhen(comment_anchor, full_declaration, false, node)
@@ -56,19 +56,19 @@ var patching_directives = {
   },
   'pv-replace': function(node, params, getSample, opts) {
     params.done = true
-    var map = opts && opts.samples
+    const map = opts && opts.samples
 
-    var sample_name = (map && map[params.sample_name]) || params.sample_name
+    const sample_name = (map && map[params.sample_name]) || params.sample_name
 
-    var parent_node = node.parentNode
+    const parent_node = node.parentNode
     if (!params['pv-when']) {
-      var tnode = getSample(sample_name, true)
+      const tnode = getSample(sample_name, true)
       parent_node.replaceChild(tnode, node)
       return tnode
     } else {
-      var comment_anchor = window.document.createComment('anchor for pv-when')
+      const comment_anchor = window.document.createComment('anchor for pv-when')
       parent_node.replaceChild(comment_anchor, node)
-      var directives_data = {
+      const directives_data = {
         new_scope_generator: true,
         instructions: {
           'pv-when-condition': makePvWhen(comment_anchor, params['pv-when'], function() {
@@ -82,10 +82,10 @@ var patching_directives = {
   }
 }
 
-var patching_directives_list = getIndexList(patching_directives)
+const patching_directives_list = getIndexList(patching_directives)
 
-var patchNode = function(node, struc_store, directives_data, getSample, opts) {
-  var instructions = directives_data && directives_data.instructions
+const patchNode = function(node, struc_store, directives_data, getSample, opts) {
+  const instructions = directives_data && directives_data.instructions
 
   if (instructions) {
     if (instructions['pv-when'] && instructions['pv-nest']) {
@@ -101,14 +101,14 @@ var patchNode = function(node, struc_store, directives_data, getSample, opts) {
 
   }
 
-  for (var i = 0; i < patching_directives_list.length; i++) {
-    var cur = patching_directives_list[i]
+  for (let i = 0; i < patching_directives_list.length; i++) {
+    const cur = patching_directives_list[i]
     if (!directives_data || !instructions[cur]) {
       continue
     }
     // cur
     // node, params, getSample, opts
-    var result = patching_directives[cur].call(null, node, instructions[cur], getSample, opts)
+    const result = patching_directives[cur].call(null, node, instructions[cur], getSample, opts)
     if (!result) {
       return
     }
@@ -141,8 +141,8 @@ PvWhenState.prototype = {
     dRemove(this.root_node)
     this.root_node = null
 
-    for (var i = 0; i < this.all_chunks.length; i++) {
-      var cur = this.all_chunks[i] // BnddChunk
+    for (let i = 0; i < this.all_chunks.length; i++) {
+      const cur = this.all_chunks[i] // BnddChunk
       if (cur.destroyer) {
         cur.destroyer()
       }
@@ -155,7 +155,7 @@ PvWhenState.prototype = {
   }
 }
 
-var destroyerUsualWWtch = function destroyerUsualWWtch() {
+const destroyerUsualWWtch = function destroyerUsualWWtch() {
   this.local_state.destroyer()
 }
 
@@ -175,8 +175,8 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       // node is comment-anchor. we are not mutating it. so nothing to read
       return false
     },
-    setValue: function(node, new_value, old_value, wwtch) {
-      var real_value = wwtch.local_state.value
+    setValue: function(node, new_value, _old_value, wwtch) {
+      const real_value = wwtch.local_state.value
       if (!new_value && real_value) {
         wwtch.local_state.value = false
         wwtch.destroyer()
@@ -188,8 +188,8 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       }
 
       wwtch.local_state.value = true
-      var root_node
-      var tpl = wwtch.context
+      let root_node
+      const tpl = wwtch.context
       if (wwtch.data.getSample) {
         root_node = wwtch.data.getSample()
       } else {

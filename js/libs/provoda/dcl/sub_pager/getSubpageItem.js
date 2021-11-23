@@ -2,7 +2,7 @@
 import spv from '../../../spv'
 import structureChild from '../../structure/child'
 
-var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
+const subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
   if (!key) {
     throw new Error('should be key')
   }
@@ -21,7 +21,7 @@ var subPageHeaded = function(Constr, head, key, getKey, name, prefix) {
 }
 
 export default function getSubpageItem(cur, key, byType, name, prefix) {
-  var item
+  let item
   if (Array.isArray(cur)) {
     if (!cur[1] && !cur[2]) {
       /* EXAMPLE
@@ -44,9 +44,9 @@ export default function getSubpageItem(cur, key, byType, name, prefix) {
       ]
       */
 
-      var hasCompx = cur[1] && cur[1][0].length
+      const hasCompx = cur[1] && cur[1][0].length
 
-      var instance = hasCompx ? spv.inh(cur[0], {
+      const instance = hasCompx ? spv.inh(cur[0], {
         skip_code_path: true
       }, {
         attrs: {
@@ -72,7 +72,7 @@ export default function getSubpageItem(cur, key, byType, name, prefix) {
       throw new Error('keep code clean: use short `sub_page` declaration if you do not have special title')
     }
 
-    var extend = {}
+    const extend = {}
     if (cur.title && cur.title[0].length) {
       extend['nav_title'] = ['comp'].concat(cur.title)
     }

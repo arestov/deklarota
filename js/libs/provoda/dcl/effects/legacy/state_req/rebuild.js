@@ -3,11 +3,11 @@
 import assign from '../utils/assign'
 import changeSources from '../utils/changeSources'
 
-var doIndex = function(list, value) {
-  var result = []
+const doIndex = function(list, value) {
+  const result = []
 
-  for (var i = 0; i < list.length; i++) {
-    var states_list = list[i].states_list
+  for (let i = 0; i < list.length; i++) {
+    const states_list = list[i].states_list
     if (states_list.indexOf(value) != -1) {
       result.push(list[i])
     }
@@ -20,15 +20,15 @@ var doIndex = function(list, value) {
 export default function buildStateReqs(self, list, extended_comp_attrs) {
   self._states_reqs_index = {}
   self._states_reqs_list = list
-  var states_index = {}
+  const states_index = {}
 
-  for (var i = 0; i < list.length; i++) {
-    var states_list = list[i].states_list
-    for (var jj = 0; jj < states_list.length; jj++) {
+  for (let i = 0; i < list.length; i++) {
+    const states_list = list[i].states_list
+    for (let jj = 0; jj < states_list.length; jj++) {
       states_index[states_list[jj]] = true
     }
   }
-  for (var state_name in states_index) {
+  for (const state_name in states_index) {
     self._states_reqs_index[state_name] = doIndex(list, state_name)
   }
 
@@ -38,7 +38,7 @@ export default function buildStateReqs(self, list, extended_comp_attrs) {
     sources_names: []
   }
 
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     changeSources(self.netsources_of_states, list[i].send_declr)
 
     // copy dependencies to comp, so runtime will subscribe to nonlocal changes

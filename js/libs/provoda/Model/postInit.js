@@ -12,7 +12,7 @@ import getRelFromInitParams from '../utils/getRelFromInitParams'
 import _updateRel from '../_internal/_updateRel'
 
 import _updateAttr from '../_internal/_updateAttr'
-var initWatchList = nestWIndex.initList
+const initWatchList = nestWIndex.initList
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
@@ -20,7 +20,7 @@ const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 function assignInputRels(self, input_rels) {
   if (input_rels == null) {return}
 
-  for (var rel_name in input_rels) {
+  for (const rel_name in input_rels) {
     if (!input_rels.hasOwnProperty(rel_name)) {
       continue
     }
@@ -70,7 +70,7 @@ export default function postInitModel(self, opts, initing_params) {
   initWatchList(self, self.st_nest_matches)
   initRoutes(self)
 
-  var init_v2_data = self.init_v2_data
+  const init_v2_data = self.init_v2_data
   if (init_v2_data != null) {
     __handleInit(self, init_v2_data)
     self.init_v2_data = null

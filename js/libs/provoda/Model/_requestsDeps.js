@@ -4,14 +4,14 @@ import NestWatch from '../nest-watch/NestWatch'
 import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
 import getModelById from '../utils/getModelById'
 import spv from '../../spv'
-var addRootNestWatch = addRemoveN.addRootNestWatch
-var removeRootNestWatch = addRemoveN.removeRootNestWatch
+const addRootNestWatch = addRemoveN.addRootNestWatch
+const removeRootNestWatch = addRemoveN.removeRootNestWatch
 
-var watchDependence = changeDependence(true)
-var unwatchDependence = changeDependence(false)
+const watchDependence = changeDependence(true)
+const unwatchDependence = changeDependence(false)
 
-var count = 1
-var ReqDep = function(dep_key, dep, target, supervision, needy) {
+let count = 1
+const ReqDep = function(dep_key, dep, target, supervision, needy) {
   this.id = count++
   this.supervision = supervision
   this.dep_key = dep_key
@@ -21,13 +21,13 @@ var ReqDep = function(dep_key, dep, target, supervision, needy) {
   this.anchor = null
 }
 
-var sourceKey = function(req_dep, suffix) {
+const sourceKey = function(req_dep, suffix) {
   return req_dep.target._provoda_id + '-' + suffix
 }
 
 
 
-var noop = function() {}
+const noop = function() {}
 
 /*
 loading random tracks based on artists list
@@ -35,13 +35,14 @@ vs
 loading of soundcloud art songslist
 */
 
-var getLimit = function(dep, supervision) {
+const getLimit = function(dep, supervision) {
   if (supervision.greedy) {
     return Infinity
   }
 
-  for (var i = 0; i < dep.nesting_path.length; i++) {
-    var cur = dep.nesting_path[i]
+  let i
+  for (i = 0; i < dep.nesting_path.length; i++) {
+    let cur = dep.nesting_path[i]
     if (cur.type == 'countless') {
       break
     }
@@ -50,21 +51,21 @@ var getLimit = function(dep, supervision) {
   return i
 }
 
-var getNestWatch = spv.memorize(function(dep, supervision) {
-  var requesting_limit = getLimit(dep, supervision)
+const getNestWatch = spv.memorize(function(dep, supervision) {
+  const requesting_limit = getLimit(dep, supervision)
 
   if (!requesting_limit) {
     return
   }
 
-  var complete = dep.related ? function(target, req_dep) {
-    for (var i = 0; i < dep.related.length; i++) {
+  const complete = dep.related ? function(target, req_dep) {
+    for (let i = 0; i < dep.related.length; i++) {
       watchDependence(req_dep.supervision, target, dep.related[i], sourceKey(req_dep, 'end'))
     }
   } : noop
 
-  var addHandler = function addHandler(target, local_nest_watch, skip) {
-    var req_dep = local_nest_watch.data
+  const addHandler = function addHandler(target, local_nest_watch, skip) {
+    const req_dep = local_nest_watch.data
     if (local_nest_watch.nwatch.selector.length == skip) {
       complete(target, req_dep)
       return
@@ -74,29 +75,29 @@ var getNestWatch = spv.memorize(function(dep, supervision) {
       return
     }
 
-    var cur = dep.nesting_path[skip]
+    const cur = dep.nesting_path[skip]
 
     if (cur && cur.type == 'countless' && cur.related) {
       watchDependence(req_dep.supervision, target, cur.related, sourceKey(req_dep, skip))
     }
   }
 
-  var uncomplete = dep.related ? function(target, req_dep) {
-    for (var i = 0; i < dep.related.length; i++) {
+  const uncomplete = dep.related ? function(target, req_dep) {
+    for (let i = 0; i < dep.related.length; i++) {
       unwatchDependence(req_dep.supervision, target, dep.related[i], sourceKey(req_dep, 'end'))
     }
   } : noop
 
-  var removeHandler = function removeHandler(target, local_nest_watch, skip) {
+  const removeHandler = function removeHandler(target, local_nest_watch, skip) {
 
-    var req_dep = local_nest_watch.data
+    const req_dep = local_nest_watch.data
     if (local_nest_watch.nwatch.selector.length == skip) {
       uncomplete(target, req_dep)
     } else {
       if (skip > requesting_limit) {
         return
       }
-      var cur = dep.nesting_path[skip]
+      const cur = dep.nesting_path[skip]
 
       if (cur && cur.type == 'countless' && cur.related) {
         unwatchDependence(req_dep.supervision, target, cur.related, sourceKey(req_dep, skip))
@@ -109,19 +110,19 @@ var getNestWatch = spv.memorize(function(dep, supervision) {
   return dep.dep_id
 })
 
-var watchRelated = function(self, dep, req_dep) {
-  for (var i = 0; i < dep.related.length; i++) {
+const watchRelated = function(self, dep, req_dep) {
+  for (let i = 0; i < dep.related.length; i++) {
     watchDependence(req_dep.supervision, self, dep.related[i], sourceKey(req_dep, 'related'))
   }
 }
 
-var unwatchRelated = function(self, dep, req_dep) {
-  for (var i = 0; i < dep.related.length; i++) {
+const unwatchRelated = function(self, dep, req_dep) {
+  for (let i = 0; i < dep.related.length; i++) {
     unwatchDependence(req_dep.supervision, self, dep.related[i], sourceKey(req_dep, 'related'))
   }
 }
 
-var handleNesting = function(dep, req_dep, self) {
+const handleNesting = function(dep, req_dep, self) {
   if (!dep.value.length) {
     watchRelated(self, dep, req_dep)
     return
@@ -131,20 +132,20 @@ var handleNesting = function(dep, req_dep, self) {
     return
   }
 
-  var ne_wa = getNestWatch(dep, req_dep.supervision)
+  const ne_wa = getNestWatch(dep, req_dep.supervision)
   if (!ne_wa) {
     // see:
     // !requesting_limit
     return
   }
 
-  var lo_ne_wa = new LocalWatchRoot(self, ne_wa, req_dep)
+  const lo_ne_wa = new LocalWatchRoot(self, ne_wa, req_dep)
 
   addRootNestWatch(self, lo_ne_wa)
   req_dep.anchor = lo_ne_wa
 }
 
-var unhandleNesting = function(dep, req_dep, self) {
+const unhandleNesting = function(dep, req_dep, self) {
   if (!dep.value.length) {
     unwatchRelated(self, dep, req_dep)
     return
@@ -164,7 +165,7 @@ var unhandleNesting = function(dep, req_dep, self) {
   removeRootNestWatch(self, req_dep.anchor)
 }
 
-var handleState = function(dep, req_dep, self) {
+const handleState = function(dep, req_dep, self) {
   if (dep.can_request) {
     self.requestState(dep.value)
   }
@@ -174,7 +175,7 @@ var handleState = function(dep, req_dep, self) {
   }
 }
 
-var unhandleState = function(dep, req_dep, self) {
+const unhandleState = function(dep, req_dep, self) {
   if (dep.related) {
     unwatchRelated(self, dep, req_dep)
   }
@@ -184,8 +185,8 @@ function requestNesting(md, declr, dep) {
   md.requestNesting(declr, dep.value, dep.limit)
 }
 
-var handleCountlessNesting = function(dep, req_dep, self) {
-  var declr = self._nest_reqs && self._nest_reqs[dep.value]
+const handleCountlessNesting = function(dep, req_dep, self) {
+  const declr = self._nest_reqs && self._nest_reqs[dep.value]
   if (!dep.state) {
     requestNesting(self, declr, dep)
     return
@@ -201,7 +202,7 @@ var handleCountlessNesting = function(dep, req_dep, self) {
 
 }
 
-var unhandleCountlessNesting = function(dep, req_dep, self) {
+const unhandleCountlessNesting = function(dep, req_dep, self) {
   if (!dep.state) {
     return
   }
@@ -211,25 +212,25 @@ var unhandleCountlessNesting = function(dep, req_dep, self) {
 
 }
 
-var handleRoot = function(dep, req_dep, self) {
+const handleRoot = function(dep, req_dep, self) {
   watchRelated(self.getStrucRoot(), dep, req_dep)
 }
 
-var unhandleRoot = function(dep, req_dep, self) {
+const unhandleRoot = function(dep, req_dep, self) {
   unwatchRelated(self.getStrucRoot(), dep, req_dep)
 }
 
-var getParent = function(self, dep) {
-  var cur = self
-  for (var i = 0; i < dep.value; i++) {
+const getParent = function(self, dep) {
+  let cur = self
+  for (let i = 0; i < dep.value; i++) {
     // TODO do not require view-attached state from model (like vmp_show)
     cur = cur.getStrucParent(1, true)
   }
   return cur
 }
 
-var handleParent = function(dep, req_dep, self) {
-  var parent = getParent(self, dep)
+const handleParent = function(dep, req_dep, self) {
+  const parent = getParent(self, dep)
   if (!parent) {
     console.log('should be parent', dep)
     return
@@ -237,15 +238,15 @@ var handleParent = function(dep, req_dep, self) {
   watchRelated(parent, dep, req_dep)
 }
 
-var unhandleParent = function(dep, req_dep, self) {
-  var parent = getParent(self, dep)
+const unhandleParent = function(dep, req_dep, self) {
+  const parent = getParent(self, dep)
   if (!parent) {
     return
   }
   unwatchRelated(parent, dep, req_dep)
 }
 
-var unhandleDep = function(dep, req_dep, self) {
+const unhandleDep = function(dep, req_dep, self) {
   switch (dep.type) {
     case 'nesting': {
       unhandleNesting(dep, req_dep, self)
@@ -278,7 +279,7 @@ var unhandleDep = function(dep, req_dep, self) {
   }
 }
 
-var handleDep = function(dep, req_dep, self) {
+const handleDep = function(dep, req_dep, self) {
   switch (dep.type) {
     case 'nesting': {
       handleNesting(dep, req_dep, self)
@@ -311,20 +312,20 @@ var handleDep = function(dep, req_dep, self) {
   }
 }
 
-var reqKey = function(self, dep) {
+const reqKey = function(self, dep) {
   return self._provoda_id + '-' + dep.dep_id
 }
 
-var checkWhy = function(supervision, self, dep) {
-  var sub_path = [self._provoda_id, dep.dep_id]
-  var tree = supervision.store
-  var was_active = spv.getTargetField(supervision.is_active, sub_path)
+const checkWhy = function(supervision, self, dep) {
+  const sub_path = [self._provoda_id, dep.dep_id]
+  const tree = supervision.store
+  const was_active = spv.getTargetField(supervision.is_active, sub_path)
 
 
-  var keys = spv.getTargetField(tree, sub_path)
-  var keys_count = spv.countKeys(keys, true)
+  const keys = spv.getTargetField(tree, sub_path)
+  const keys_count = spv.countKeys(keys, true)
 
-  var is_active = !!keys_count
+  const is_active = !!keys_count
 
   spv.setTargetField(supervision.is_active, sub_path, is_active)
 
@@ -332,7 +333,7 @@ var checkWhy = function(supervision, self, dep) {
     return
   }
 
-  var req_dep = supervision.reqs[reqKey(self, dep)]
+  const req_dep = supervision.reqs[reqKey(self, dep)]
   if (is_active) {
     handleDep(dep, req_dep, self)
   } else {
@@ -351,13 +352,13 @@ function changeDependence(mark) {
       throw new Error('should be')
     }
 
-    var dep_key = dep.dep_id
+    const dep_key = dep.dep_id
 
-    var path = [self._provoda_id, dep.dep_id, why]
-    var tree = supervision.store
+    const path = [self._provoda_id, dep.dep_id, why]
+    const tree = supervision.store
 
-    var reqs = supervision.reqs
-    var kkkey = reqKey(self, dep)
+    const reqs = supervision.reqs
+    const kkkey = reqKey(self, dep)
     if (!reqs[ kkkey ]) {
       reqs[ kkkey ] = new ReqDep(dep_key, dep, self, supervision, getModelById(self, supervision.needy_id))
     }

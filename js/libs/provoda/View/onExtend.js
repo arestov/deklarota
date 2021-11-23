@@ -14,18 +14,19 @@ import collectStateChangeHandlers from '../dcl_view/v-collectStateChangeHandlers
 import checkNestBorrow from '../dcl_view/nest_borrow/check-dcl'
 import checkNestBorrowWatch from '../dcl_view/nest_borrow/watch'
 import checkSpyglass from '../dcl_view/spyglass/check-dcl'
-var cloneObj = spv.cloneObj
+const cloneObj = spv.cloneObj
 
-var getBaseTreeCheckList = function(start) {
-  var i, result = []
-  var chunks_counter = 0
-  var all_items = [null, start]
+const getBaseTreeCheckList = function(start) {
+  let i
+  const result = []
+  let chunks_counter = 0
+  const all_items = [null, start]
 
   while (all_items.length) {
 
 
-    var cur_parent = all_items.shift()
-    var cur = all_items.shift()
+    const cur_parent = all_items.shift()
+    const cur = all_items.shift()
 
     cur.parent = cur_parent
     cur.chunk_num = chunks_counter
@@ -54,7 +55,7 @@ var getBaseTreeCheckList = function(start) {
 
 const completeBuild = (self) => {
 
-  var typed_state_dcls = getTypedDcls(self.__dcls_attrs) || {}
+  const typed_state_dcls = getTypedDcls(self.__dcls_attrs) || {}
   parseCompItems(typed_state_dcls && typed_state_dcls['comp'])
 
   assignField(self, '__attrs_base_comp', typed_state_dcls['comp'] || {})
@@ -69,7 +70,7 @@ const completeBuild = (self) => {
 export default function(self, props, original) {
   extendDclCache(self, '__dcls_attrs', props['attrs'])
 
-  var effects = props['effects']
+  const effects = props['effects']
 
   if (effects) {
     if (effects.produce) {
@@ -96,7 +97,7 @@ export default function(self, props, original) {
   collectSelectorsOfCollchs(self, props)
 
 
-  var base_tree_mofified = props.hasOwnProperty('base_tree')
+  const base_tree_mofified = props.hasOwnProperty('base_tree')
   if (base_tree_mofified) {
     self.base_tree_list = props.base_tree && getBaseTreeCheckList(props.base_tree)
   }

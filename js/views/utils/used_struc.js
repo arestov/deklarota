@@ -1,8 +1,8 @@
 
 
-import selecPoineertDeclr from '../../libs/provoda/structure/selecPoineertDeclr'
+// import selecPoineertDeclr from '../../libs/provoda/structure/selecPoineertDeclr'
 
-var bhv = {
+const bhv = {
   'stch-used_struc': function(self, value) {
     self.RPCLegacy('updateState', 'used_struc', value)
   },
@@ -28,21 +28,6 @@ var bhv = {
   }
 }
 
-function getDcl(cur) {
-  var parent_view = cur.parent_view
-  if (!parent_view || !parent_view.dclrs_fpckgs || !parent_view.dclrs_selectors) {
-    return
-  }
-
-  return selecPoineertDeclr(
-    parent_view.dclrs_fpckgs,
-    parent_view.dclrs_selectors,
-    cur.nesting_name,
-    cur.mpx.md.model_name,
-    parent_view.nesting_space,
-    true
-  )
-}
 
 function getKey(cur, by_model_name) {
   return by_model_name
@@ -51,9 +36,9 @@ function getKey(cur, by_model_name) {
 }
 
 function getViewPath(view) {
-  var cur = view
+  let cur = view
 
-  var path = []
+  const path = []
 
   while (cur) {
     if (!cur.root_view || cur === cur.root_view) {
@@ -63,7 +48,7 @@ function getViewPath(view) {
     // var dcl = getDcl(cur);
     // console.log('dcl!!!', dcl)
 
-    var key = getKey(cur, cur.by_model_name)
+    const key = getKey(cur, cur.by_model_name)
     path.unshift.apply(path, key)
 
     cur = cur.parent_view

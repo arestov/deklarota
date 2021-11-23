@@ -9,16 +9,17 @@ function getPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, false, getSample)
 }
 
-export default function parse(start_node, struc_store, getSample, opts) {
+export default function parse(start_node, struc_store, getSample, _opts) {
   //полный парсинг, без байндинга
 
-  var result = []
+  const result = []
 
-  var match_stack = [ start_node ], i = 0
+  const match_stack = [ start_node ]
+  let i = 0
   while (match_stack.length) {
-    var cur_node = match_stack.shift()
-    var node_type = cur_node.nodeType
-    var directives_data = null
+    const cur_node = match_stack.shift()
+    const node_type = cur_node.nodeType
+    let directives_data = null
     if (node_type == 1) {
       directives_data = getPVData(cur_node, struc_store, getSample)
       result.push(cur_node, directives_data)

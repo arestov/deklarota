@@ -26,16 +26,16 @@ export default function checkSubpager(self) {
   self._chi_sub_pager = {}
 
   if (sub_pager.item) {
-    var item = getSubpageItem(sub_pager.item, 'sub-pager-item', false, 'one', 'spi')
+    const item = getSubpageItem(sub_pager.item, 'sub-pager-item', false, 'one', 'spi')
     self._sub_pager.item = item
     self._chi_sub_pager[item.key] = item.constr
     self._sub_pager.can_be_reusable = canBeReusable(item.constr)
   } else {
     self._sub_pager.type = sub_pager.type
     self._sub_pager.by_type = {}
-    var can_be_reusable = false
-    for (var type in sub_pager.by_type) {
-      var cur = self._sub_pager.by_type[type] = getSubpageItem(sub_pager.by_type[type], 'sub-pager-by_type-' + type, true, type, 'spbt')
+    let can_be_reusable = false
+    for (const type in sub_pager.by_type) {
+      const cur = self._sub_pager.by_type[type] = getSubpageItem(sub_pager.by_type[type], 'sub-pager-by_type-' + type, true, type, 'spbt')
       self._chi_sub_pager[cur.key] = cur.constr
       can_be_reusable = can_be_reusable || canBeReusable(cur.constr)
     }

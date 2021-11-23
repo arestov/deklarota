@@ -2,26 +2,26 @@
 
 import spv from '../../spv'
 import angbo from '../StatementsAngularParser.min'
-var splitByDot = spv.splitByDot
+const splitByDot = spv.splitByDot
 
-var abortFlowStep = function(tpl, w_cache_key) {
-  var flow_step = tpl.calls_flow_index[w_cache_key]
+const abortFlowStep = function(tpl, w_cache_key) {
+  const flow_step = tpl.calls_flow_index[w_cache_key]
   if (flow_step) {
     tpl.calls_flow_index[w_cache_key] = null
     flow_step.abort()
   }
 }
 
-var removeFlowStep = function(tpl, w_cache_key) {
+const removeFlowStep = function(tpl, w_cache_key) {
   tpl.calls_flow_index[w_cache_key] = null
 }
 
-var setMotive = function(context, fn, motivator, args, arg) {
+const setMotive = function(context, fn, motivator, args, arg) {
   //устанавливаем мотиватор конечному пользователю события
-  var ov_c = context.current_motivator
+  const ov_c = context.current_motivator
   context.current_motivator = motivator
 
-  var ov_t
+  let ov_t
 
   if (this != context) {
     //устанавливаем мотиватор реальному владельцу события, чтобы его могли взять вручную
@@ -49,30 +49,30 @@ var setMotive = function(context, fn, motivator, args, arg) {
   }
 }
 
-var wrapChange = function(motivator, fn, context, args, arg) {
+const wrapChange = function(motivator, fn, context, args, arg) {
 
   setMotive.call(context, context, fn, motivator, args, arg)
   // debugger;
 }
 
-var getFieldsTreesBases = function(all_vs) {
-  var sfy_values = new Array(all_vs.length)
-  for (var i = 0; i < all_vs.length; i++) {
-    var parts = splitByDot(all_vs[i])
-    var main_part = parts[0]
+const getFieldsTreesBases = function(all_vs) {
+  const sfy_values = new Array(all_vs.length)
+  for (let i = 0; i < all_vs.length; i++) {
+    const parts = splitByDot(all_vs[i])
+    const main_part = parts[0]
     sfy_values[i] = main_part
   }
   return sfy_values
 }
 
 
-var StandartChange = function(node, opts, w_cache_subkey) {
-  var calculator = opts.calculator
-  var all_vs
+const StandartChange = function(node, opts, w_cache_subkey) {
+  let calculator = opts.calculator
+  let all_vs
   if (!calculator) {
     if (opts.complex_statement) {
       calculator = angbo.interpolateExpressions(opts.complex_statement)
-      var all_values = spv.filter(calculator.parts,'propsToWatch')
+      const all_values = spv.filter(calculator.parts,'propsToWatch')
       all_vs = []
       all_vs = all_vs.concat.apply(all_vs, all_values)
     } else if (opts.statement) {
@@ -97,7 +97,7 @@ var StandartChange = function(node, opts, w_cache_subkey) {
   this.sfy_values = calculator ? getFieldsTreesBases(this.all_vs) : null
 
   if (calculator) {
-    var original_value = this.getValue(node, this.data)
+    let original_value = this.getValue(node, this.data)
     if (this.simplifyValue) {
       original_value = this.simplifyValue.call(this, original_value)
     }
@@ -116,7 +116,7 @@ var StandartChange = function(node, opts, w_cache_subkey) {
   //this.w_cache_key = node.pvprsd + '_' + node.pvprsd_inst + '*' + directive_name;
 
 }
-var calc = function(calculator, states) {
+const calc = function(calculator, states) {
   try { // FIXME
     return calculator(states)
   } catch (e) {}
@@ -129,14 +129,14 @@ StandartChange.prototype = {
     }
     removeFlowStep(wwtch.context, wwtch.w_cache_key)
     if (wwtch.current_value != new_value) {
-      var old_value = wwtch.current_value
+      const old_value = wwtch.current_value
       wwtch.current_value = new_value
       this.setValue(wwtch.node, new_value, old_value, wwtch)
     }
 
   },
   checkFunc: function(states, wwtch, async_changes, current_motivator) {
-    var new_value = calc(this.calculator, states)
+    let new_value = calc(this.calculator, states)
     if (this.simplifyValue) {
       new_value = this.simplifyValue(new_value)
     }
@@ -144,7 +144,7 @@ StandartChange.prototype = {
       abortFlowStep(wwtch.context, wwtch.w_cache_key)
       if (async_changes) {
         // fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup
-        var flow_step = wwtch.context.calls_flow.pushToFlow(this.changeValue, this, [new_value, wwtch], false, wrapChange, false, current_motivator)
+        const flow_step = wwtch.context.calls_flow.pushToFlow(this.changeValue, this, [new_value, wwtch], false, wrapChange, false, current_motivator)
         wwtch.context.calls_flow_index[wwtch.w_cache_key] = flow_step
         //).pushToFlow(cb, mo_context, reg_args, one_reg_arg, callbacks_wrapper, this.sputnik, this.sputnik.current_motivator);
       } else {
@@ -154,12 +154,12 @@ StandartChange.prototype = {
     }
   },
   createBinding: (function() {
-    var checkFuncPublic = function(states, async_changes, current_motivator) {
+    const checkFuncPublic = function(states, async_changes, current_motivator) {
       this.standch.checkFunc(states, this, async_changes, current_motivator)
     }
 
     function UsualWWtch(node, data, standch, context) {
-      var ExtraState = data && data.ExtraState
+      const ExtraState = data && data.ExtraState
 
       this.states_inited = false
       this.w_cache_key = node.pvprsd + '_' + node.pvprsd_inst + '*' + standch.w_cache_subkey

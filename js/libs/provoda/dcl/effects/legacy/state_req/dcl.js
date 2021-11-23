@@ -2,8 +2,8 @@
 import utils from '../utils'
 import getAttrsOfRequestStates from './getAttrsOfRequestStates'
 
-var SendDeclaration = utils.SendDeclaration
-var toSchemaFn = utils.toSchemaFn
+const SendDeclaration = utils.SendDeclaration
+const toSchemaFn = utils.toSchemaFn
 
 
 export default function StateReqMap(num, req_item) {
@@ -24,7 +24,7 @@ export default function StateReqMap(num, req_item) {
     return
   }
 
-  var relations = req_item[0]
+  const relations = req_item[0]
   if (Array.isArray(relations[0])) {
     throw new Error('wrong')
   } else {
@@ -34,7 +34,7 @@ export default function StateReqMap(num, req_item) {
   getAttrsOfRequestStates(this)
 
   this.parse = toSchemaFn(req_item[1])
-  var send_declr = req_item[2]
+  const send_declr = req_item[2]
 
   if (!Array.isArray(send_declr[0])) {
     this.send_declr = new SendDeclaration(send_declr)

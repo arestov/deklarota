@@ -9,21 +9,21 @@ import getNavGroups from './getNavGroups'
 import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
 
-var limits = {
-  same_model_matches: 1,
-  big_steps: 4
-}
+// var limits = {
+//   same_model_matches: 1,
+//   big_steps: 4
+// }
 
 export default function followFromTo(BWL, map, parent_bwlev, end_md) {
-  var cutted_parents = getLimitedParent(map, parent_bwlev, end_md)
+  const cutted_parents = getLimitedParent(map, parent_bwlev, end_md)
 
   if (cutted_parents) {
-    var last_cutted_parentbw = showInterest(map, cutted_parents)
+    const last_cutted_parentbw = showInterest(map, cutted_parents)
     return _goDeeper(BWL, map, end_md, last_cutted_parentbw)
   }
   // parent_bwlev.showOnMap();
 
-  var bwlev = getBwlevFromParentBwlev(parent_bwlev, end_md)
+  const bwlev = getBwlevFromParentBwlev(parent_bwlev, end_md)
 
   if (ba_canReuse(bwlev)) {
     return showMOnMap(BWL, map, end_md, bwlev)
@@ -36,9 +36,9 @@ export default function followFromTo(BWL, map, parent_bwlev, end_md) {
 
 
 function getLimitedParent(map, parent_bwlev, end_md) {
-  var pioneer = parent_bwlev.getNesting('pioneer')
+  const pioneer = parent_bwlev.getNesting('pioneer')
   // var pre_mn = pioneer.model_name == end_md.model_name;
-  var pre_group = pioneer != toProperNavParent(map, getRouteStepParent(map, end_md))
+  const pre_group = pioneer != toProperNavParent(map, getRouteStepParent(map, end_md))
 
 
   // var cur = parent_bwlev;
@@ -53,19 +53,19 @@ function getLimitedParent(map, parent_bwlev, end_md) {
   // var cut = false;
 
 
-  var groups_count = countGroups(parent_bwlev)
-  var all_groups_count = groups_count + (pre_group ? 1 : 0)
+  const groups_count = countGroups(parent_bwlev)
+  const all_groups_count = groups_count + (pre_group ? 1 : 0)
 
 
-  var similar_model_edge = getEdgeSimilarModelPos(parent_bwlev, end_md.model_name, 3)
+  const similar_model_edge = getEdgeSimilarModelPos(parent_bwlev, end_md.model_name, 3)
 
   if (all_groups_count > 3 || similar_model_edge != -1) {
 
-    var count_slice = 3 + (pre_group ? -1 : 0)
-    var sm_slice = similar_model_edge == -1 ? Infinity : similar_model_edge + 1
-    var slice = Math.min(count_slice, sm_slice)
-    var groups = getNavGroups(parent_bwlev)
-    var sliced = groups.slice(0, slice)
+    const count_slice = 3 + (pre_group ? -1 : 0)
+    const sm_slice = similar_model_edge == -1 ? Infinity : similar_model_edge + 1
+    const slice = Math.min(count_slice, sm_slice)
+    const groups = getNavGroups(parent_bwlev)
+    const sliced = groups.slice(0, slice)
 
     return sliced.map(interestPart).reverse()
   }
@@ -75,11 +75,11 @@ function getLimitedParent(map, parent_bwlev, end_md) {
 
 
 function getEdgeSimilarModelPos(bwlev, model_name, limit) {
-  var edge_group_num = -1
-  var groups_of_similar = 0
-  var groups_count = 0
-  var cur = bwlev
-  var cur_child = cur.getNesting('pioneer')
+  let edge_group_num = -1
+  let groups_of_similar = 0
+  let groups_count = 0
+  let cur = bwlev
+  let cur_child = cur.getNesting('pioneer')
   while (cur) {
     if (cur_child.model_name == model_name) {
       if (edge_group_num != groups_count) {
@@ -102,9 +102,9 @@ function getEdgeSimilarModelPos(bwlev, model_name, limit) {
 }
 
 function countGroups(bwlev) {
-  var groups_count = 1
-  var cur = bwlev
-  var cur_child = cur.getNesting('pioneer')
+  let groups_count = 1
+  let cur = bwlev
+  let cur_child = cur.getNesting('pioneer')
   while (cur) {
 
     if (isBigStep(cur, cur_child)) {

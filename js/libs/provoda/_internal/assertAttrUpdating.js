@@ -1,6 +1,6 @@
 
 const assertAttrUpdating = (self) => {
-  var motivator = self._currentMotivator()
+  const motivator = self._currentMotivator()
 
   if (!motivator) {
     throw new Error('wrap your call with `.input()`')

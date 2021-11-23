@@ -1,14 +1,14 @@
 
 import spv from '../../spv'
 import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
-var getUnprefixed = spv.getDeprefixFunc('sel-coll-')
-var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
+const getUnprefixed = spv.getDeprefixFunc('sel-coll-')
+const hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
-var parseCollchSel = spv.memorize(function(str) {
-  var parts = str.split('/')
-  var model_name = parts[1]
-  var parent_space_name = parts[2]
-  var prio = 0
+const parseCollchSel = spv.memorize(function(str) {
+  const parts = str.split('/')
+  const model_name = parts[1]
+  const parent_space_name = parts[2]
+  let prio = 0
   if (model_name) {
     prio += 2
   }
@@ -16,7 +16,7 @@ var parseCollchSel = spv.memorize(function(str) {
     prio += 1
   }
 
-  var key = ''
+  let key = ''
   if (model_name) {
     key += model_name
   }
@@ -35,21 +35,21 @@ var parseCollchSel = spv.memorize(function(str) {
 
 
 export default function(self, props) {
-  var need_recalc = hasPrefixedProps(props)
+  const need_recalc = hasPrefixedProps(props)
   if (!need_recalc) {
     return
   }
 
-  var prop
+  let prop
 
   self.dclrs_selectors = {}
 
   for (prop in self) {
     if (getUnprefixed(prop)) {
-      var collch = self[ prop ]
-      var selector_string = getUnprefixed(prop)
+      const collch = self[ prop ]
+      const selector_string = getUnprefixed(prop)
       //self.dclrs_selectors[selector_string] = collch;
-      var selector = parseCollchSel(selector_string)
+      const selector = parseCollchSel(selector_string)
       if (!self.dclrs_selectors.hasOwnProperty(selector.nesting_name)) {
         self.dclrs_selectors[selector.nesting_name] = {}
       }

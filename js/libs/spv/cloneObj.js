@@ -1,6 +1,6 @@
 
-var simpleClone = function simpleClone(_no, donor) {
-  for (var prop in donor) {
+const simpleClone = function simpleClone(_no, donor) {
+  for (const prop in donor) {
     if (!donor.hasOwnProperty(prop)) {
       continue
     }
@@ -15,11 +15,11 @@ export const doCopy = Object.assign ? function cloneObj(_no, donor) {
 
 export default function blockingCloneObj(acceptor, donor, black_list, white_list) {
   //not deep!
-  var _no = acceptor || {}
+  const _no = acceptor || {}
   if (black_list == null && white_list == null) {
     return doCopy(_no, donor)
   }
-  var prop
+  let prop
 
   for (prop in donor) {
     if (!donor.hasOwnProperty(prop)) {

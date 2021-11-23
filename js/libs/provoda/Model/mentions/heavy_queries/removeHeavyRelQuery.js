@@ -4,7 +4,7 @@ const removeHeavyRelQuery = (self, chain) => {
   }
   const storage = self._highway.live_heavy_rel_query_by_rel_name
 
-  for (var i = 0; i < chain.list.length; i++) {
+  for (let i = 0; i < chain.list.length; i++) {
     const cur = chain.list[i]
 
     const list_to_check = storage[cur.rel]

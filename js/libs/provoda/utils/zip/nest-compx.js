@@ -2,7 +2,7 @@
 import pvState from '../state'
 
 
-var getOneValue = function(dep, item) {
+const getOneValue = function(dep, item) {
   if (!item) {
     return item
   }
@@ -14,15 +14,15 @@ var getOneValue = function(dep, item) {
   return pvState(item, dep.state.path)
 }
 
-var mapList = function(dep, list) {
-  var result = new Array(list.length)
-  for (var i = 0; i < list.length; i++) {
+const mapList = function(dep, list) {
+  const result = new Array(list.length)
+  for (let i = 0; i < list.length; i++) {
     result[i] = getOneValue(dep, list[i])
   }
   return result
 }
 
-var zip_fns = {
+const zip_fns = {
   'one': function(list, dep) {
     return list && getOneValue(dep, list[0])
   },

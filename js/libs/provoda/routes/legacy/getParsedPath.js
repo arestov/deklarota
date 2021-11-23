@@ -3,8 +3,8 @@ import spv from '../../../spv'
 import parsePath from './parse.js'
 
 
-var isFromRoot = function(first_char, string_template) {
-  var from_root = first_char == '#'
+const isFromRoot = function(first_char, string_template) {
+  const from_root = first_char == '#'
   if (!from_root) {return}
 
   return {
@@ -12,30 +12,30 @@ var isFromRoot = function(first_char, string_template) {
   }
 }
 
-var parent_count_regexp = /^\^+/gi
-var isFromParent = function(first_char, string_template) {
+const parent_count_regexp = /^\^+/gi
+const isFromParent = function(first_char, string_template) {
   if (first_char != '^') {return}
 
-  var cutted = string_template.replace(parent_count_regexp, '')
+  const cutted = string_template.replace(parent_count_regexp, '')
   return {
     cutted: cutted,
     count: string_template.length - cutted.length
   }
 }
 
-var getParsedPath = spv.memorize(function(string_template) {
+const getParsedPath = spv.memorize(function(string_template) {
   //example "#tracks/[:artist],[:track]"
   //example "^^tracks/[:artist],[:track]"
   //example "^"
-  var first_char = string_template.charAt(0)
-  var from_root = isFromRoot(first_char, string_template)
-  var from_parent = !from_root && isFromParent(first_char, string_template)
+  const first_char = string_template.charAt(0)
+  const from_root = isFromRoot(first_char, string_template)
+  const from_parent = !from_root && isFromParent(first_char, string_template)
 
-  var full_usable_string = from_root
+  const full_usable_string = from_root
     ? from_root.cutted
     : (from_parent
-        ? from_parent.cutted
-        : string_template)
+      ? from_parent.cutted
+      : string_template)
 
 
 
@@ -43,7 +43,7 @@ var getParsedPath = spv.memorize(function(string_template) {
     throw new Error('path cannot be empty')
   }
 
-  var parsed = parsePath(full_usable_string)
+  const parsed = parsePath(full_usable_string)
 
   return {
     full_usable_string: full_usable_string,

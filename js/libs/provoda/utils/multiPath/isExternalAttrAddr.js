@@ -1,4 +1,4 @@
-var isExternalAttrAddr = function(addr) {
+const isExternalAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
     return false
   }

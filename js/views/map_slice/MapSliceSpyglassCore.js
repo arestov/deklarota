@@ -2,7 +2,6 @@
 import View from '../../libs/provoda/View'
 import spv from '../../libs/spv'
 import css from './css'
-import pvState from '../../libs/provoda/provoda/state'
 import updateAttr from '../../libs/provoda/provoda/updateAttr'
 import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mpxUpdateAttr from '../../libs/provoda/provoda/v/mpxUpdateAttr'
@@ -17,16 +16,16 @@ import readMapSliceAnimationData from './readMapSliceAnimationData'
 import animateMapSlice, { getLevNum } from './animateMapSlice'
 import findMpxViewInChildren from './findMpxViewInChildren'
 
-var can_animate = css.transform && css.transition
+const can_animate = css.transform && css.transition
 
-var LevContainer = function(con, scroll_con, material, tpl, context) {
+const LevContainer = function(con, scroll_con, material, tpl, context) {
   this.c = con
   this.scroll_con = scroll_con
   this.material = material
   this.tpl = tpl
   this.context = context
   this.callbacks = []
-  var _this = this
+  const _this = this
   if (can_animate) {
     spv.addEvent(this.c[0], can_animate, function() {
       //console.log(e);
@@ -35,8 +34,8 @@ var LevContainer = function(con, scroll_con, material, tpl, context) {
   }
 }
 
-var viewOnLevelP = function(md, view) {
-  var lev_conj = this.getLevelContainer(md, view.nesting_space == 'detailed')
+const viewOnLevelP = function(md, view) {
+  const lev_conj = this.getLevelContainer(md, view.nesting_space == 'detailed')
   view.wayp_scan_stop = true
   return lev_conj.material
 }
@@ -47,7 +46,7 @@ LevContainer.prototype = {
   },
   completeAnimation: function() {
     while (this.callbacks.length) {
-      var cb = this.callbacks.shift()
+      const cb = this.callbacks.shift()
       this.context.nextLocalTick(cb)
     }
   }
@@ -69,10 +68,10 @@ export default spv.inh(View, {
       updateAttr(this, 'nav_helper_full', true)
     },
   },
-  'collch-current_mp_md': function(name, value) {
+  'collch-current_mp_md': function(_name, value) {
     _updateAttr(this, 'current_mp_md', value._provoda_id)
   },
-  'collch-current_mp_bwlev': function(name, value) {
+  'collch-current_mp_bwlev': function(_name, value) {
     _updateAttr(this, 'current_mp_bwlev', value._provoda_id)
   },
   'collch-navigation': {
@@ -83,7 +82,7 @@ export default spv.inh(View, {
     target.root_view.els.screens.toggleClass('full_page_need', !!state)
   },
   handleSearchForm: function(form_node) {
-    var tpl = this.createTemplate(form_node)
+    const tpl = this.createTemplate(form_node)
     this.tpls.push(tpl)
   },
   buildNavHelper: function() {
@@ -92,8 +91,8 @@ export default spv.inh(View, {
     ))
   },
   buildNowPlayingButton: function() {
-    var _this = this
-    var np_button = this.nav.justhead.find('.np-button').detach()
+    const _this = this
+    const np_button = this.nav.justhead.find('.np-button').detach()
     _this.tpls.push(createTemplate(this, np_button))
     this.nav.daddy.append(np_button)
   },
@@ -104,8 +103,8 @@ export default spv.inh(View, {
   },
 
   buildNav: function() {
-    var justhead = this.root_view.els.navs
-    var daddy = justhead.find('.daddy')
+    const justhead = this.root_view.els.navs
+    const daddy = justhead.find('.daddy')
 
     this.nav = {
       justhead: justhead,
@@ -173,18 +172,22 @@ export default spv.inh(View, {
 
   },
   getLevelContainer: function(bwlev, deeper) {
-    var raw_num = bwlev.getAttr('map_level_num')
+    const raw_num = bwlev.getAttr('map_level_num')
     if (raw_num < -1) {
       throw new Error('wrong map_level_num')
     }
 
     const is_very_start = bwlev.getAttr('is_main_perspectivator_resident')
-    var num = raw_num + (deeper ? 1 : 0)
-    if (num == -1 && is_very_start) {
+    const num_erl = raw_num + (deeper ? 1 : 0)
+    if (num_erl == -1 && is_very_start) {
       return this.lev_containers.start_page
     }
 
-    var num = raw_num
+    if (deeper) {
+      throw new Error('wont use `deeper` here')
+    }
+
+    const num = raw_num
     if (this.lev_containers[num]) {
       return this.lev_containers[num]
     } else {
@@ -196,16 +199,16 @@ export default spv.inh(View, {
         throw new Error('start_screen must exist')
       }
 
-      var node = this.root_view.getSample('complex-page')
+      const node = this.root_view.getSample('complex-page')
 
-      var tpl = this.parent_view.pvtemplate(node, false, false, {
+      const tpl = this.parent_view.pvtemplate(node, false, false, {
         '$lev_num': num
       })
 
       this.addTpl(tpl)
 
-      var next_lev_con
-      for (var i = num; i <= this.max_level_num; i++) {
+      let next_lev_con
+      for (let i = num; i <= this.max_level_num; i++) {
         if (this.lev_containers[i]) {
           next_lev_con = this.lev_containers[i]
           break
@@ -217,12 +220,13 @@ export default spv.inh(View, {
         node.appendTo(this.getInterface('app_map_con'))
       }
 
-      var lev_con = new LevContainer
-          (node,
-          tpl.ancs['scroll_con'],
-          tpl.ancs['material'],
-          tpl,
-          this)
+      const lev_con = new LevContainer(
+        node,
+        tpl.ancs['scroll_con'],
+        tpl.ancs['material'],
+        tpl,
+        this
+      )
       this.lev_containers[num] = lev_con
 
       this.max_level_num = Math.max(this.max_level_num, num)
@@ -231,10 +235,10 @@ export default spv.inh(View, {
   },
   wrapStartScreen: function(start_screen_node) {
     const start_screen = $(start_screen_node)
-    var st_scr_scrl_con = start_screen.parent()
-    var start_page_wrap = st_scr_scrl_con.parent()
+    const st_scr_scrl_con = start_screen.parent()
+    const start_page_wrap = st_scr_scrl_con.parent()
 
-    var tpl = this.parent_view.pvtemplate(start_page_wrap, false, false, {
+    const tpl = this.parent_view.pvtemplate(start_page_wrap, false, false, {
       '$lev_num': -1
     })
 
@@ -253,7 +257,7 @@ export default spv.inh(View, {
 
   'model-mapch': {
     'move-view': function(change) {
-      var parent = getModelFromR(this, change.bwlev).getParentMapModel()
+      const parent = getModelFromR(this, change.bwlev).getParentMapModel()
       if (parent) {
       //	_updateAttr(parent, 'mp_has_focus', false);
       }
@@ -263,7 +267,7 @@ export default spv.inh(View, {
       this.setVMpshow(this.getStoredMpx(getModelFromR(this, change.bwlev)), false)
     },
     'destroy': function(change) {
-      var md = getModelFromR(this, change.bwlev)
+      const md = getModelFromR(this, change.bwlev)
       this.setVMpshow(this.getStoredMpx(md), false)
     }
   },
@@ -286,7 +290,8 @@ export default spv.inh(View, {
   },
 
   findBMapTarget: function(array) {
-    var target_md, i
+    let target_md
+    let i
     for (i = 0; i < array.length; i++) {
       if (this.getStoredMpx(array[i]).__getAttr('mp_has_focus')) {
         target_md = array[i]
@@ -297,8 +302,8 @@ export default spv.inh(View, {
   },
 
   'collch-map_slice': function(nesname, nesting_data, old_nesting_data) {
-    var mp_show_states = nesting_data.residents_struc.mp_show_states
-    var transaction = nesting_data.transaction
+    const mp_show_states = nesting_data.residents_struc.mp_show_states
+    const transaction = nesting_data.transaction
 
     if (!transaction) {
       throw new Error('map_slice should have `transaction`')
@@ -308,26 +313,28 @@ export default spv.inh(View, {
       throw new Error('map_slice transaction should have `bwlev`')
     }
 
-    var old_transaction = old_nesting_data && old_nesting_data.transaction
+    const old_transaction = old_nesting_data && old_nesting_data.transaction
 
-    var diff = probeDiff(this, transaction.bwlev, old_transaction && old_transaction.bwlev)
+    const diff = probeDiff(this, transaction.bwlev, old_transaction && old_transaction.bwlev)
 
-    var bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
-    var mds = nesting_data.residents_struc.items
-    var target_md
+    const bwlevs = nesting_data.residents_struc && nesting_data.residents_struc.bwlevs
+    const mds = nesting_data.residents_struc.items
 
 
-    var array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
-    var i, cur
+    const array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
 
-    var animation_data = readMapSliceAnimationData(this, diff)
+    const animation_data = readMapSliceAnimationData(this, diff)
 
-    for (i = array.length - 1; i >= 0; i--) {
-      var cur_md = getModelFromR(this, mds[i])
-      cur = getModelFromR(this, array[i])
+    for (let i = array.length - 1; i >= 0; i--) {
+      const cur_md = getModelFromR(this, mds[i])
+      const cur = getModelFromR(this, array[i])
 
-      var dclr = selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
-              nesname, cur_md.model_name, this.nesting_space)
+      const dclr = selecPoineertDeclr(
+        this.dclrs_fpckgs,
+        this.dclrs_selectors,
+        nesname, cur_md.model_name,
+        this.nesting_space
+      )
 
       this.callCollectionChangeDeclaration(dclr, nesname, cur)
     }
@@ -340,13 +347,13 @@ export default spv.inh(View, {
 
     const current_lev_num = getLevNum(this, transaction)
 
-    var models = new Array(array.length)
-    for (i = 0; i < array.length; i++) {
+    const models = new Array(array.length)
+    for (let i = 0; i < array.length; i++) {
       models[i] = getModelFromR(this, array[i])
     }
 
     this.markAnimationStart(models, -1)
-    for (i = 0; i < models.length; i++) {
+    for (let i = 0; i < models.length; i++) {
       this.setVMpshow(this.getStoredMpx(models[i]), mp_show_states[i])
     }
     _updateAttr(this, 'current_lev_num', current_lev_num)
@@ -390,13 +397,13 @@ export default spv.inh(View, {
 
     }*/
 
-    var bwlev = target.getNesting('current_mp_bwlev')
-    var parent_bwlev = bwlev.getParentMapModel()
-    var md = target.getNesting('current_mp_md')
+    const bwlev = target.getNesting('current_mp_bwlev')
+    const parent_bwlev = bwlev.getParentMapModel()
+    const md = target.getNesting('current_mp_md')
 
 
-    var scrollTop = function(wNode, value) {
-      var node = wNode.get(0)
+    const scrollTop = function(wNode, value) {
+      const node = wNode.get(0)
       if (value == null) {
         return node.scrollTop
       }
@@ -417,8 +424,8 @@ export default spv.inh(View, {
       }
 
       // var mplev_item_view = getRooConPresentation(target.getStoredMpx(md), target, false, false, true); // use getMapSliceImmediateChildView ?
-      var mplev_item_view = target.getMapSliceImmediateChildView(bwlev.getParentMapModel(), md)
-      var con = mplev_item_view && mplev_item_view.getC()
+      const mplev_item_view = target.getMapSliceImmediateChildView(bwlev.getParentMapModel(), md)
+      const con = mplev_item_view && mplev_item_view.getC()
       if (con && con.height()) {
         target.root_view.scrollTo(mplev_item_view.getC(), {
           node: target.getLevByBwlev(parent_bwlev).scroll_con
@@ -430,31 +437,31 @@ export default spv.inh(View, {
 
   },
   getMapSliceView: function(bwlev, md) {
-    var dclr = selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
+    const dclr = selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
       'map_slice', md.model_name, this.nesting_space)
-    var target_bwlev = dclr.is_wrapper_parent ? bwlev.map_parent : bwlev
+    const target_bwlev = dclr.is_wrapper_parent ? bwlev.map_parent : bwlev
     return findMpxViewInChildren(this, this.getStoredMpx(target_bwlev), dclr.space, 'map_slice')
   },
 
-  getMapSliceImmediateChildView: function(bwlev, md) {
+  getMapSliceImmediateChildView: function(bwlev) {
     // md of parent view could differ from md.map_parent
-    var md = getNesting(bwlev, 'pioneer')
+    const md = getNesting(bwlev, 'pioneer')
 
-    var bwlev_view = this.getMapSliceView(bwlev, md)
-    var view = bwlev_view && findMpxViewInChildren(bwlev_view, this.getStoredMpx(md))
+    const bwlev_view = this.getMapSliceView(bwlev, md)
+    const view = bwlev_view && findMpxViewInChildren(bwlev_view, this.getStoredMpx(md))
     if (!view) {
       return
     }
-    var target_in_parent = findMpxViewInChildren(view, this.getStoredMpx(md))
+    let target_in_parent = findMpxViewInChildren(view, this.getStoredMpx(md))
     if (!target_in_parent) {
-      var view = view.getChildViewsByMpx(this.getStoredMpx(md))
-      target_in_parent = view && view[0]
+      const view_in_view = view.getChildViewsByMpx(this.getStoredMpx(md))
+      target_in_parent = view_in_view && view_in_view[0]
     }
     return target_in_parent
   },
   markAnimationStart: function(models, changes_number) {
     _updateAttr(this, 'map_animation_num_started', changes_number)
-    for (var i = 0; i < models.length; i++) {
+    for (let i = 0; i < models.length; i++) {
       mpxUpdateAttr(this.getStoredMpx(getModelFromR(this, models[i])), 'animation_started', changes_number)
       ////MUST UPDATE VIEW, NOT MODEL!!!!!
     }
@@ -470,9 +477,9 @@ export default spv.inh(View, {
     }
 
 
-    for (var i = 0; i < models.length; i++) {
+    for (let i = 0; i < models.length; i++) {
       //
-      var mpx = this.getStoredMpx(getModelFromR(this, models[i]))
+      const mpx = this.getStoredMpx(getModelFromR(this, models[i]))
 
       if (mpx.state('animation_started') == changes_number) {
         mpxUpdateAttr(mpx, 'animation_completed', changes_number)

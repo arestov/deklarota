@@ -11,10 +11,10 @@ import sameName from './sameName'
 import shallowEqual from './shallowEqual'
 import legacySideEffects from './handleLegacySideEffects'
 
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
-var serv_counter = 1
-var ServStates = function() {
+let serv_counter = 1
+const ServStates = function() {
   this.num = ++serv_counter
   this.collecting_states_changing = false
 
@@ -25,48 +25,48 @@ var ServStates = function() {
   Object.seal(this)
 }
 
-var free_sets = [new Set()]
-var getFreeSet = function() {
+const free_sets = [new Set()]
+const getFreeSet = function() {
   return free_sets.length ? free_sets.pop() : new Set()
 }
 
-var releaseSet = function(set) {
+const releaseSet = function(set) {
   set.clear()
   free_sets.push(set)
 }
 
-var pool = {
+const pool = {
   free: [],
   busy: {}
 }
 
-var getFree = function(pool) {
+const getFree = function(pool) {
   if (pool.free.length) {
     return pool.free.pop()
   } else {
-    var item = new ServStates()
+    const item = new ServStates()
     pool.busy[item.num] = true
     return item
   }
 }
 
-var release = function(pool, item) {
+const release = function(pool, item) {
   pool.busy[item.num] = null
   pool.free.push(item)
 }
 
 
 function applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack) {
-  var currentChangesLength
+  let currentChangesLength
 
 
   while (states_changing_stack.length) {
 
     //spv.cloneObj(original_states, etr.states);
 
-    var cur_changes_list = states_changing_stack.shift()
+    let cur_changes_list = states_changing_stack.shift()
 
-    var lengthBeforeAnyChanges = total_ch.length
+    const lengthBeforeAnyChanges = total_ch.length
 
     currentChangesLength = lengthBeforeAnyChanges
     // remember current length before any changes in this iteration
@@ -80,7 +80,7 @@ function applyAllAttrComputations(etr, total_original_states, total_ch, states_c
     if (etr.full_comlxs_index != null) {
       //проверить комплексные состояния
       while (currentChangesLength != total_ch.length) {
-        var lengthToHandle = total_ch.length
+        const lengthToHandle = total_ch.length
         applyComplexStates(etr, total_original_states, currentChangesLength, total_ch)
         currentChangesLength = lengthToHandle
       }
@@ -94,9 +94,9 @@ function applyAllAttrComputations(etr, total_original_states, total_ch, states_c
   }
 }
 
-var iterateSetUndetailed = createIterate0arg(_setUndetailedState)
-var iterateStChanges = createIterate1arg(_triggerStChanges)
-var reversedCompressChanges = createReverseIterate0arg(compressChangesList)
+const iterateSetUndetailed = createIterate0arg(_setUndetailedState)
+const iterateStChanges = createIterate1arg(_triggerStChanges)
+const reversedCompressChanges = createReverseIterate0arg(compressChangesList)
 
 
 function propagateAttrChanges(etr, total_original_states, total_ch) {
@@ -124,9 +124,9 @@ function processStackedAttrChanges(etr, serv_st) {
   //etr.serv_st.collecting_states_changing - must be semi public;
 
 
-  var states_changing_stack = serv_st.states_changing_stack
-  var total_original_states = serv_st.total_original_states
-  var total_ch = serv_st.total_ch
+  const states_changing_stack = serv_st.states_changing_stack
+  const total_original_states = serv_st.total_original_states
+  const total_ch = serv_st.total_ch
 
   while (states_changing_stack.length) {
     applyAllAttrComputations(etr, total_original_states, total_ch, states_changing_stack)
@@ -165,7 +165,7 @@ function updateProxy(etr, changes_list, opts) {
   //порождать события изменившихся состояний (в передлах одного стэка/вызова)
   //для пользователя пока пользователь не перестанет изменять новые состояния
 
-  var serv_st = etr.serv_st || getFree(pool)
+  const serv_st = etr.serv_st || getFree(pool)
   etr.serv_st = serv_st
 
   serv_st.states_changing_stack.push(changes_list)
@@ -180,7 +180,7 @@ function updateProxy(etr, changes_list, opts) {
 }
 
 function createFakeEtr(etr, first_changes_list) {
-  var state = {}
+  const state = {}
 
   return {
     etr: {
@@ -213,15 +213,15 @@ function computeInitialAttrs(etr, total_original_states, total_ch, states_changi
 }
 
 function initAttrs(etr, fake, input_initial_changes) {
-  var serv_st = etr.serv_st || getFree(pool)
+  const serv_st = etr.serv_st || getFree(pool)
   etr.serv_st = serv_st
 
-  var total_original_states = serv_st.total_original_states
+  const total_original_states = serv_st.total_original_states
 
-  var original_values = fake.etr.original_values
+  const original_values = fake.etr.original_values
 
-  for (var i = 0; i < original_values.length; i++) {
-    var name = original_values[i]
+  for (let i = 0; i < original_values.length; i++) {
+    const name = original_values[i]
     total_original_states.set(name, undefined)
   }
 
@@ -239,7 +239,7 @@ function initAttrs(etr, fake, input_initial_changes) {
 // mirco optimisations for monomorphism of args
 function createIterate0arg(cb) {
   return function iterageChListWith0Args(changes_list, context) {
-    for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
       cb(context, i, changes_list[i], changes_list[i + 1])
     }
   }
@@ -247,13 +247,13 @@ function createIterate0arg(cb) {
 
 function createIterate1arg(cb) {
   return function iterageChListWith1Args(changes_list, context, arg1) {
-    for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
       cb(context, i, changes_list[i], changes_list[i + 1], arg1)
     }
   }
 }
 
-function _setUndetailedState(etr, i, state_name, value) {
+function _setUndetailedState(etr, _i, state_name, value) {
   etr._lbr.undetailed_states[state_name] = value
 }
 
@@ -261,16 +261,16 @@ function _setUndetailedState(etr, i, state_name, value) {
 
 
 function getChanges(etr, total_original_states, start_from, changes_list, result_arr) {
-  var changed_states = result_arr
-  var i
+  const changed_states = result_arr
+  let i
 
   // input array can be same as output array
   // we are going mutate output array
   // so we will mutate length of input during processing!
   // preventing infinit circle here
-  var inputLength = changes_list.length
+  const inputLength = changes_list.length
   for (i = start_from; i < inputLength; i += CH_GR_LE) {
-    var state_name = changes_list[i]
+    const state_name = changes_list[i]
     reportBadChange(etr, state_name)
     _replaceState(etr, total_original_states, sameName(state_name), changes_list[i + 1], changed_states)
   }
@@ -304,7 +304,7 @@ function setAttr(etr, attr_name, value) {
 }
 
 function _replaceState(etr, total_original_states, state_name, value, stack) {
-  var old_value = getAttr(etr, state_name)
+  const old_value = getAttr(etr, state_name)
   if (isSameValue(old_value, value)) {
     return
   }
@@ -326,12 +326,12 @@ function _replaceState(etr, total_original_states, state_name, value, stack) {
 
 function getComplexInitList(etr) {
   if (etr.full_comlxs_list == null) {return}
-  var result_array = []
+  const result_array = []
 
-  for (var i = 0; i < etr.full_comlxs_list.length; i++) {
-    var cur = etr.full_comlxs_list[i]
-    var cur_val = etr.state(cur.name)
-    var new_val = compoundComplexState(etr, cur)
+  for (let i = 0; i < etr.full_comlxs_list.length; i++) {
+    const cur = etr.full_comlxs_list[i]
+    const cur_val = etr.state(cur.name)
+    const new_val = compoundComplexState(etr, cur)
     if (isSameValue(cur_val, new_val)) {
       continue
     }
@@ -342,14 +342,14 @@ function getComplexInitList(etr) {
 }
 
 function applyOneComplexAttr(etr, total_original_states, input_and_output, subj, uniq) {
-  var name = subj.name
+  const name = subj.name
   if (uniq.has(name)) {
     return
   }
 
   uniq.add(name)
 
-  var value = compoundComplexState(etr, subj)
+  const value = compoundComplexState(etr, subj)
   _replaceState(
     etr, total_original_states,
     sameName(subj.name), value, input_and_output
@@ -358,11 +358,12 @@ function applyOneComplexAttr(etr, total_original_states, input_and_output, subj,
 
 function applyComplexStates(etr, total_original_states, start_from, input_and_output) {
   // reuse set
-  var uniq = getFreeSet()
+  const uniq = getFreeSet()
 
-  var i, cur
+  let i
+  let cur
 
-  var originalLength = input_and_output.length
+  const originalLength = input_and_output.length
 
   for (i = start_from; i < originalLength; i += CH_GR_LE) {
     cur = etr.full_comlxs_index[input_and_output[i]]
@@ -375,8 +376,8 @@ function applyComplexStates(etr, total_original_states, start_from, input_and_ou
       continue
     }
 
-    for (var jj = 0; jj < cur.length; jj++) {
-      var subj = cur[jj]
+    for (let jj = 0; jj < cur.length; jj++) {
+      const subj = cur[jj]
       applyOneComplexAttr(etr, total_original_states, input_and_output, subj, uniq)
     }
   }
@@ -403,8 +404,8 @@ function callCompFn(etr, dcl) {
     case 4:
       return fn(depValue(etr, dcl, 0), depValue(etr, dcl, 1), depValue(etr, dcl, 2), depValue(etr, dcl, 3))
     default: {
-      var values = new Array(dcl.depends_on.length)
-      for (var i = 0; i < dcl.depends_on.length; i++) {
+      const values = new Array(dcl.depends_on.length)
+      for (let i = 0; i < dcl.depends_on.length; i++) {
         values[i] = depValue(etr, dcl, i)
       }
       return fn.apply(null, values)
@@ -413,9 +414,9 @@ function callCompFn(etr, dcl) {
 }
 
 export function compoundComplexState(etr, temp_comx) {
-  for (var i = 0; i < temp_comx.require_marks.length; i++) {
-    var cur = temp_comx.require_marks[i]
-    var state_name = temp_comx.depends_on[cur]
+  for (let i = 0; i < temp_comx.require_marks.length; i++) {
+    const cur = temp_comx.require_marks[i]
+    const state_name = temp_comx.depends_on[cur]
     if (etr.state(state_name) == null) {
       return null
     }
@@ -424,14 +425,14 @@ export function compoundComplexState(etr, temp_comx) {
   return callCompFn(etr, temp_comx)
 }
 
-function compressChangesList(result_changes, changes_list, i, prop_name, value, counter) {
+function compressChangesList(result_changes, changes_list, _i, prop_name, value, counter) {
   if (result_changes.has(prop_name)) {
     return
   }
 
   result_changes.add(prop_name)
 
-  var num = (changes_list.length - 1) - counter * CH_GR_LE
+  const num = (changes_list.length - 1) - counter * CH_GR_LE
   changes_list[ num - 1 ] = prop_name
   changes_list[ num ] = value
 
@@ -440,8 +441,8 @@ function compressChangesList(result_changes, changes_list, i, prop_name, value, 
 
 function createReverseIterate0arg(cb) {
   return function reverseIterateChListWith0Args(changes_list, context) {
-    var counter = 0
-    for (var i = changes_list.length - 1; i >= 0; i -= CH_GR_LE) {
+    let counter = 0
+    for (let i = changes_list.length - 1; i >= 0; i -= CH_GR_LE) {
       if (cb(context, changes_list, i, changes_list[i - 1], changes_list[i], counter)) {
         counter++
       }
@@ -452,8 +453,8 @@ function createReverseIterate0arg(cb) {
 
 
 function compressStatesChanges(changes_list) {
-  var result_changes = getFreeSet()
-  var counter = reversedCompressChanges(changes_list, result_changes)
+  const result_changes = getFreeSet()
+  let counter = reversedCompressChanges(changes_list, result_changes)
   counter = counter * CH_GR_LE
   while (changes_list.length != counter) {
     changes_list.shift()
@@ -464,7 +465,7 @@ function compressStatesChanges(changes_list) {
 
 
 
-function _triggerStChanges(etr, i, state_name, value, total_original_states) {
+function _triggerStChanges(etr, _i, state_name, value, total_original_states) {
 
   _passHandleState(etr, total_original_states, state_name, value)
 
@@ -511,8 +512,8 @@ function reportBadChange(etr, state_name) {
 
 
   if (etr.__defined_attrs_bool) {
-    for (var i = 0; i < etr.__defined_attrs_bool.length; i++) {
-      var cur = etr.__defined_attrs_bool[i].name
+    for (let i = 0; i < etr.__defined_attrs_bool.length; i++) {
+      const cur = etr.__defined_attrs_bool[i].name
       if (cur == state_name) {
         return
       }

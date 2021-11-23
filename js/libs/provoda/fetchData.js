@@ -7,11 +7,13 @@ throw new Error('use runtime/app/start to init app')
 
 function fetchData(db, App, schema, url) {
   throw new Error('make proper init of proxies = views_proxies')
-  var globthis = typeof globalThis !== 'undefined' ? globalThis : window
+  const globthis = typeof globalThis !== 'undefined' ? globalThis : window
 
-  var calls_flow = new pv.CallbacksFlow(globthis)
+  const proxies = null
 
-  var highway = {
+  const calls_flow = new pv.CallbacksFlow(globthis)
+
+  const highway = {
     models_counters: 1,
     sync_sender: new pv.SyncSender(),
     views_proxies: proxies,
@@ -21,16 +23,16 @@ function fetchData(db, App, schema, url) {
     proxies: proxies
   }
 
-  var app = new App({
+  const app = new App({
     _highway: highway
   }, db)
 
-  var md = BrowseMap.routePathByModels(app.start_page, url, false, true)
+  const md = BrowseMap.routePathByModels(app.start_page, url, false, true)
   if (!md) {
     return Promise.reject([404])
   } else {
     if (schema) {
-      var to_load = {
+      const to_load = {
         list: flatStruc(md, schema),
         supervision: {
           greedy: true,
@@ -40,8 +42,8 @@ function fetchData(db, App, schema, url) {
           is_active: {}
         }
       }
-      for (var i = 0; i < to_load.list.length; i++) {
-        var cur = to_load.list[i]
+      for (let i = 0; i < to_load.list.length; i++) {
+        const cur = to_load.list[i]
         if (!cur) {continue}
         md.addReqDependence(to_load.supervision, cur)
       }
@@ -54,14 +56,14 @@ function fetchData(db, App, schema, url) {
 }
 
 function calcsReady(highway) {
-  var calls_flow = highway.calls_flow
-  var requests_promise = Promise.all(highway.requests)
+  const calls_flow = highway.calls_flow
+  const requests_promise = Promise.all(highway.requests)
 
-  var flow_promise = calls_flow.flow_end ? new Promise(function(resolve) {
-      calls_flow.pushToFlow(function() {
-        resolve()
-      }, false, false, false, false, false, { complex_order: [Infinity], inited_order: [Infinity] }, true)
-    }) : Promise.resolve()
+  const flow_promise = calls_flow.flow_end ? new Promise(function(resolve) {
+    calls_flow.pushToFlow(function() {
+      resolve()
+    }, false, false, false, false, false, { complex_order: [Infinity], inited_order: [Infinity] }, true)
+  }) : Promise.resolve()
 
   return new Promise(function(resolve, reject) {
     Promise.all([flow_promise, requests_promise]).then(check, reject)
@@ -95,8 +97,8 @@ function getWatchStruct(schema) {
   // struc.main.merged_states
   // struc.main.m_children.children
 
-  var nestings = {}
-  for (var nesting_name in schema.nestings) {
+  const nestings = {}
+  for (const nesting_name in schema.nestings) {
     nestings[nesting_name] = getWatchStruct(schema.nestings[nesting_name])
   }
 

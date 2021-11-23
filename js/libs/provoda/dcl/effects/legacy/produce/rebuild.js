@@ -4,13 +4,13 @@ import indexByDepName from '../api/utils/indexByDepName'
 import getDepsToInsert from '../api/utils/getDepsToInsert'
 
 
-var buildIndexFromListInProp = (result, cur, list_prop_name) => {
-  var list = cur[list_prop_name]
+const buildIndexFromListInProp = (result, cur, list_prop_name) => {
+  const list = cur[list_prop_name]
   if (!list) {
     return
   }
-  for (var i = 0; i < list.length; i++) {
-    var state_name = list[i]
+  for (let i = 0; i < list.length; i++) {
+    const state_name = list[i]
     if (!result[state_name]) {
       result[state_name] = []
     }
@@ -18,22 +18,22 @@ var buildIndexFromListInProp = (result, cur, list_prop_name) => {
   }
 }
 
-var indexByList = function(obj, list_name) {
+const indexByList = function(obj, list_name) {
   if (!obj) {
     return
   }
-  var result = {}
+  const result = {}
 
-  for (var name in obj) {
+  for (const name in obj) {
     if (!obj.hasOwnProperty(name)) {
       continue
     }
-    var cur = obj[name]
+    const cur = obj[name]
     buildIndexFromListInProp(result, cur, list_name)
   }
 
-  for (var prop of Object.getOwnPropertySymbols(obj)) {
-    var cur = obj[prop]
+  for (const prop of Object.getOwnPropertySymbols(obj)) {
+    const cur = obj[prop]
     buildIndexFromListInProp(result, cur, list_name)
   }
 
@@ -41,7 +41,7 @@ var indexByList = function(obj, list_name) {
 }
 
 function makeRequiredApiIndex(result, cur, checking_prefix) {
-  for (var i = 0; i < cur.apis.length; i++) {
+  for (let i = 0; i < cur.apis.length; i++) {
     if (!spv.startsWith(cur.apis[i], checking_prefix)) {continue}
     result[cur.apis[i].slice(1)] = true
   }
@@ -51,21 +51,21 @@ function makeRequiredApiIndex(result, cur, checking_prefix) {
 function rootApis(obj) {
   if (!obj) {return}
 
-  var index = {}
+  const index = {}
 
-  for (var name in obj) {
-    var cur = obj[name]
+  for (const name in obj) {
+    const cur = obj[name]
     if (!cur) {continue}
 
     makeRequiredApiIndex(index, cur, '#')
   }
 
-  for (var prop of Object.getOwnPropertySymbols(obj)) {
-    var cur = obj[prop]
+  for (const prop of Object.getOwnPropertySymbols(obj)) {
+    const cur = obj[prop]
     makeRequiredApiIndex(index, cur, '#')
   }
 
-  var result = Object.keys(index)
+  const result = Object.keys(index)
 
   return result.length ? result : null
 }

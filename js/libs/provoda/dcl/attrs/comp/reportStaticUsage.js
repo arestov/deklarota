@@ -4,7 +4,7 @@ import getPrtsByRelPath from '../../nests/getPrtsByRelPath'
 
 
 
-const getEdgeRels = (Root, self, addr) => {
+const getEdgeRels = (_Root, self, addr) => {
   if (addr.from_base.type) {
     console.log('noop')
     return
@@ -15,7 +15,8 @@ const getEdgeRels = (Root, self, addr) => {
     return
   }
 
-  const rel_path = getPrtsByRelPath(self, addr.nesting.path, true)
+  // will throw errors and warnings
+  getPrtsByRelPath(self, addr.nesting.path, true)
 
 
 }
@@ -26,14 +27,14 @@ const reportStaticUsage = (Root, self, attrs) => {
     return
   }
 
-  for (var comp_attr_name in attrs) {
+  for (const comp_attr_name in attrs) {
     if (!attrs.hasOwnProperty(comp_attr_name)) {
       continue
     }
 
     const comp_attr = attrs[comp_attr_name]
 
-    for (var i = 0; i < comp_attr.addrs.length; i++) {
+    for (let i = 0; i < comp_attr.addrs.length; i++) {
       const addr = comp_attr.addrs[i]
       if (!isExternalAttrAddr(addr)) {
         continue

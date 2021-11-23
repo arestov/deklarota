@@ -3,11 +3,11 @@ import spv from '../spv'
 import { doCopy } from '../spv/cloneObj'
 
 import MDProxy from './MDProxy'
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
-var slice = Array.prototype.slice
+const slice = Array.prototype.slice
 
-var FakeModel = function(model_skeleton, stream) {
+const FakeModel = function(model_skeleton, stream) {
   this.stream = stream
   this._provoda_id = model_skeleton._provoda_id
 
@@ -22,7 +22,7 @@ var FakeModel = function(model_skeleton, stream) {
   Object.seal(this)
 }
 
-var MDReplace = function(_provoda_id) {
+const MDReplace = function(_provoda_id) {
   this._provoda_id = _provoda_id
 }
 
@@ -48,18 +48,18 @@ FakeModel.prototype = {
   getNesting: function(rel_name) {
     return this.children_models[rel_name]
   },
-  getAttr: function (attr_name) {
+  getAttr: function(attr_name) {
     return this.states[attr_name]
   }
 }
 
 
-var idToModel = function(index, ids) {
+const idToModel = function(index, ids) {
   if (typeof ids == 'number') {
     return index[ids]
   } else if (Array.isArray(ids)) {
-    var result = new Array(ids.length)
-    for (var i = 0; i < ids.length; i++) {
+    const result = new Array(ids.length)
+    for (let i = 0; i < ids.length; i++) {
       result[i] = index[ids[i]]
 
     }
@@ -74,7 +74,7 @@ var idToModel = function(index, ids) {
 }
 
 
-var SyncReceiver = function(stream) {
+const SyncReceiver = function(stream) {
   this.stream = stream
   this.md_proxs_index = {}
   this.models_index = {}
@@ -84,7 +84,9 @@ var SyncReceiver = function(stream) {
 SyncReceiver.prototype = {
 
   buildTree: function(array) {
-    var i, cur, cur_pvid
+    let i
+    let cur
+    let cur_pvid
 
     for (i = 0; i < array.length; i++) {
       cur = array[i]
@@ -102,7 +104,7 @@ SyncReceiver.prototype = {
       cur_pvid = array[i]._provoda_id
       cur = this.models_index[cur_pvid]
       cur.map_parent = idToModel(this.models_index, cur.map_parent)
-      for (var nesting_name in cur.children_models) {
+      for (const nesting_name in cur.children_models) {
         cur.children_models[nesting_name] = idToModel(this.models_index, cur.children_models[nesting_name])
 
       }
@@ -127,9 +129,9 @@ SyncReceiver.prototype = {
       return this.buildTree(message.value)
     },
     update: function(list) {
-      for (var i = 0; i < list.length; i++) {
-        var cur = list[i]
-        var change_name = cur[0]
+      for (let i = 0; i < list.length; i++) {
+        const cur = list[i]
+        const change_name = cur[0]
         switch (change_name) {
           case 'state-ch': {
             this.updateStates(cur[1], cur[2])
@@ -149,11 +151,11 @@ SyncReceiver.prototype = {
     }
   },
   updateStates: function(_provoda_id, value) {
-    var target_model = this.models_index[_provoda_id]
+    const target_model = this.models_index[_provoda_id]
 
-    for (var i = 0; i < value.length; i += CH_GR_LE) {
-      var state_name = value[ i ]
-      var state_value = value[ i + 1]
+    for (let i = 0; i < value.length; i += CH_GR_LE) {
+      const state_name = value[ i ]
+      const state_value = value[ i + 1]
       target_model.states[state_name] = state_value
     }
 
@@ -166,10 +168,10 @@ SyncReceiver.prototype = {
       this.buildTree(struc)
     }
 
-    var target_model = this.models_index[_provoda_id]
-    var target_md_proxy = this.md_proxs_index[_provoda_id]
+    const target_model = this.models_index[_provoda_id]
+    const target_md_proxy = this.md_proxs_index[_provoda_id]
 
-    var fakes_models = idToModel(this.models_index, value)
+    const fakes_models = idToModel(this.models_index, value)
 
 
     target_model.children_models[name] = fakes_models

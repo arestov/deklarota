@@ -1,8 +1,8 @@
 
 import isPrivate from './isPrivateState'
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
-var hasId = function(value) {
+const hasId = function(value) {
   return value && value._provoda_id
 }
 
@@ -10,11 +10,12 @@ var hasId = function(value) {
 
 function toTransferableStatesList(states_raw) {
 
-  var needs_changes, fixed_values
-  var states = states_raw
+  let needs_changes
+  let fixed_values
+  const states = states_raw
 
-  for (var jj = 1; jj < states.length; jj += CH_GR_LE) {
-    var cur_value = states[jj]
+  for (let jj = 1; jj < states.length; jj += CH_GR_LE) {
+    const cur_value = states[jj]
 
     if (isPrivate(states[jj - 1])) {
 

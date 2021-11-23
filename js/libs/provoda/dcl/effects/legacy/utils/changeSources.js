@@ -1,11 +1,11 @@
 
 
 export default function changeSources(store, send_declr) {
-  var api_name = send_declr.api_name
+  const api_name = send_declr.api_name
   if (typeof api_name == 'string') {
     store.api_names.push(api_name)
   } else {
-    var network_api = api_name.call()
+    const network_api = api_name.call()
     if (!network_api.source_name) {
       throw new Error('no source_name')
     }

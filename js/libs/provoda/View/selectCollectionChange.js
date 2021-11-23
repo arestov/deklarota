@@ -9,7 +9,7 @@ export default function(target, nesname, items, removed, old_value) {
   }
 
 
-  var collch = target.dclrs_fpckgs && target.dclrs_fpckgs.hasOwnProperty(nesname) && target.dclrs_fpckgs[nesname]
+  const collch = target.dclrs_fpckgs && target.dclrs_fpckgs.hasOwnProperty(nesname) && target.dclrs_fpckgs[nesname]
   if (typeof collch == 'function') {
     target.callCollectionChangeDeclaration(collch, nesname, items, old_value, removed)
     return
@@ -25,7 +25,7 @@ export default function(target, nesname, items, removed, old_value) {
   }
 
   if (!Array.isArray(items)) {
-    var dclr = selecPoineertDeclr(
+    const dclr = selecPoineertDeclr(
       target.dclrs_fpckgs, target.dclrs_selectors,
       nesname, items.model_name, target.nesting_space
     ) || collch
@@ -34,9 +34,9 @@ export default function(target, nesname, items, removed, old_value) {
     return
   }
 
-  for (var i = 0; i < items.length; i++) {
-    var cur = items[i]
-    var dclr = selecPoineertDeclr(target.dclrs_fpckgs, target.dclrs_selectors,
+  for (let i = 0; i < items.length; i++) {
+    const cur = items[i]
+    const dclr = selecPoineertDeclr(target.dclrs_fpckgs, target.dclrs_selectors,
       nesname, cur.model_name, target.nesting_space)
 
     if (!dclr) {

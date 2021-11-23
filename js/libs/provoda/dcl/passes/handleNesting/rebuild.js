@@ -1,9 +1,7 @@
-import spv from '../../../../spv'
-
 export default function rebuild(self, index) {
-  var result = {}
+  const result = {}
 
-  for (var name in index) {
+  for (const name in index) {
     if (!index.hasOwnProperty(name)) {
       continue
     }

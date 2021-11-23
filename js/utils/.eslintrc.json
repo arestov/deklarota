@@ -8,6 +8,7 @@
     "fp"
   ],
   "rules": {
+    "camelcase": 0,
     "default-case": 0,
     "import/no-unresolved": 0,
     "import/extensions": 0,

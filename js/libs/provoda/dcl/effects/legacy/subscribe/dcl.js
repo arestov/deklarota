@@ -2,7 +2,7 @@
 import spv from '../../../../../spv'
 import targetedResult from '../../../passes/targetedResult/dcl.js'
 
-var warnStateUsing = function() {
+const warnStateUsing = function() {
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
     return
   }
@@ -10,7 +10,7 @@ var warnStateUsing = function() {
   console.warn('please use pass_name, not state_name')
 }
 
-var count = 0
+let count = 0
 
 export default function StateBindDeclr(key, data) {
   this.id = ++count

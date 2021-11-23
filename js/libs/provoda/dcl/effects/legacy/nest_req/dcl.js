@@ -3,9 +3,9 @@
 import spv from '../../../../../spv'
 import utils from '../utils'
 
-var SendDeclaration = utils.SendDeclaration
-var toSchemaFn = utils.toSchemaFn
-var stateName = utils.stateName
+const SendDeclaration = utils.SendDeclaration
+const toSchemaFn = utils.toSchemaFn
+const stateName = utils.stateName
 
 export default function NestReqMap(name, dclt) {
   this.original = this
@@ -19,7 +19,7 @@ export default function NestReqMap(name, dclt) {
 
 
   if (!Array.isArray(dclt)) {
-    var parse = dclt.parse
+    const parse = dclt.parse
     this.parse_items = toSchemaFn(parse[0])
     this.parse_serv = parse[1] === true
       ? true
@@ -36,7 +36,7 @@ export default function NestReqMap(name, dclt) {
       return
     }
 
-    var more = ['can_load_data']
+    const more = ['can_load_data']
     this.dependencies = !this.dependencies
       ? more
       : this.dependencies.concat(more)
@@ -52,10 +52,10 @@ export default function NestReqMap(name, dclt) {
   if (dclt[0][1] && dclt[0][1] !== true && typeof dclt[0][1] != 'function') {
     dclt[0][1] = toSchemaFn(dclt[0][1])
   }
-  var array = dclt[0][2]
+  const array = dclt[0][2]
   if (array) {
-    for (var i = 0; i < array.length; i++) {
-      var spec_cur = array[i]
+    for (let i = 0; i < array.length; i++) {
+      const spec_cur = array[i]
       if (typeof spec_cur[1] != 'function') {
         spec_cur[1] = spv.mmap(spec_cur[1])
       }
@@ -65,7 +65,7 @@ export default function NestReqMap(name, dclt) {
   this.parse_serv = dclt[0][1]
   this.side_data_parsers = dclt[0][2]
 
-  var send_declr = dclt[1]
+  const send_declr = dclt[1]
   if (!Array.isArray(send_declr[0])) {
     this.send_declr = new SendDeclaration(send_declr)
   } else {
@@ -78,7 +78,7 @@ export default function NestReqMap(name, dclt) {
     this.state_dep = stateName(this.nest_name)
   }
 
-  var more = ['can_load_data']
+  const more = ['can_load_data']
   this.dependencies = !this.dependencies
     ? more
     : this.dependencies.concat(more)

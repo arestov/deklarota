@@ -14,11 +14,11 @@ import relShape from '../nests/relShape'
 import { calcRelSelByDcl } from './NestSelector'
 import getParsedPath from '../../routes/legacy/getParsedPath'
 import where from './where'
-var push = Array.prototype.push
+const push = Array.prototype.push
 
-var startsWith = spv.startsWith
+const startsWith = spv.startsWith
 
-var types = ['sort', 'map', 'cond']
+const types = ['sort', 'map', 'cond']
 
 /*
 EXAMPLE
@@ -38,13 +38,13 @@ EXAMPLE
 
 */
 
-var getMap = function(map_chunk) {
+const getMap = function(map_chunk) {
   if (typeof map_chunk != 'string') {
     return map_chunk
   }
 
-  var from_distant_model = map_chunk.charAt(0) === '>'
-  var path = from_distant_model ? map_chunk.slice(1) : map_chunk
+  const from_distant_model = map_chunk.charAt(0) === '>'
+  const path = from_distant_model ? map_chunk.slice(1) : map_chunk
   return {
     from_distant_model: from_distant_model,
     template: getParsedPath(path)
@@ -52,7 +52,7 @@ var getMap = function(map_chunk) {
 }
 
 
-var SelectNestingDeclaration = function(dest_name, data) {
+const SelectNestingDeclaration = function(dest_name, data) {
   this.rel_shape = relShape(data.rel_shape)
 
   if (!this.rel_shape) {
@@ -67,7 +67,7 @@ var SelectNestingDeclaration = function(dest_name, data) {
   if (this.map && typeof this.map !== 'object') {
     throw new Error('unsupported map type')
   }
-  var multi_path = createUpdatedAddr(asMultiPath(data.from), {zip_name: 'all'})
+  const multi_path = createUpdatedAddr(asMultiPath(data.from), {zip_name: 'all'})
 
   this.dest_name = dest_name
   this.deps_dest = null
@@ -100,7 +100,7 @@ var SelectNestingDeclaration = function(dest_name, data) {
 
   const dcl = this
   const comp_attr_deps = ['<<<<', ...[multi_path, ...all_base_deps, ...all_deep_deps].map(asString)]
-  var rel_name = '__/internal/rels//_/' + this.dest_name
+  const rel_name = '__/internal/rels//_/' + this.dest_name
 
   this.comp_attr = new CompxAttrDecl(rel_name, [comp_attr_deps, function calcRelSel(self, list) {
     const result = calcRelSelByDcl(dcl, self, list)
@@ -118,11 +118,11 @@ var SelectNestingDeclaration = function(dest_name, data) {
 
 
 function combineStates(obj) {
-  var list = []
-  var shorts = []
+  const list = []
+  const shorts = []
 
-  for (var i = 0; i < types.length; i++) {
-    var cur = types[i]
+  for (let i = 0; i < types.length; i++) {
+    const cur = types[i]
     if (obj[cur]) {
       push.apply(list, obj[cur].list)
       push.apply(shorts, obj[cur].shorts)
@@ -137,8 +137,8 @@ function combineStates(obj) {
 
 
 function getDeps(data, map, where_states) {
-  var base = {all: null}
-  var deep = {all: null}
+  const base = {all: null}
+  const deep = {all: null}
 
   getConditinal(base, deep, where_states)
   getMap2(base, deep, map)
@@ -153,7 +153,7 @@ function getDeps(data, map, where_states) {
   }
 }
 
-function getMap2(base, deep, map) {
+function getMap2(_base, deep, map) {
   if (!map) {return}
 
   deep.map = {
@@ -165,7 +165,7 @@ function getMap2(base, deep, map) {
 function getSort(base, deep, sort) {
   if (!sort) {return}
 
-  var state_names = getStates(sort[0])
+  const state_names = getStates(sort[0])
   deep.sort = state_names.deep
   base.sort = state_names.base
 }
@@ -174,25 +174,25 @@ function getSort(base, deep, sort) {
 function getConditinal(base, deep, list) {
   if (!list) {return}
 
-  var state_names = getStates(list, true)
+  const state_names = getStates(list, true)
   deep.cond = state_names.deep
   base.cond = state_names.base
 }
 
 function getIndex(list) {
-  var index = {}
-  for (var i = 0; i < list.length; i++) {
+  const index = {}
+  for (let i = 0; i < list.length; i++) {
     index[list[i]] = true
   }
   return index
 }
 
 function getStates(list, with_index) {
-  var base = []
-  var deep = []
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
-    var state_name = isForDeep(cur)
+  const base = []
+  const deep = []
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
+    const state_name = isForDeep(cur)
     if (state_name) {
       deep.push(state_name)
     } else {
@@ -207,7 +207,7 @@ function getStates(list, with_index) {
 
 function getComplect(list, with_index) {
   if (!list.length) {return}
-  var shorts = list.map(getShortStateName)
+  const shorts = list.map(getShortStateName)
   return {
     list: list,
     shorts: shorts,

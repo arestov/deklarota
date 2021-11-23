@@ -7,18 +7,18 @@ import { emptyObject } from '../utils/sameObjectIfEmpty'
 import parser from './parser'
 import PvSimpleSampler from './PvSimpleSampler'
 import parseEasy from './parseEasy'
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
-var push = Array.prototype.push
-var addEvent = spv.addEvent
-var removeEvent = spv.removeEvent
+const push = Array.prototype.push
+const addEvent = spv.addEvent
+const removeEvent = spv.removeEvent
 
-var append = dom_helpers.append
-var after = dom_helpers.after
-var detach = dom_helpers.detach
-var before = dom_helpers.before
-var wrap = dom_helpers.wrap
-var unwrap = dom_helpers.unwrap
+const append = dom_helpers.append
+const after = dom_helpers.after
+const detach = dom_helpers.detach
+const before = dom_helpers.before
+const wrap = dom_helpers.wrap
+const unwrap = dom_helpers.unwrap
 
 /*
 
@@ -46,9 +46,9 @@ var unwrap = dom_helpers.unwrap
 -->
 */
 
-var makeSpecStatesList = function(states) {
-  var result = []
-  for (var state_name in states) {
+const makeSpecStatesList = function(states) {
+  const result = []
+  for (const state_name in states) {
     if (!states.hasOwnProperty(state_name)) {
       continue
     }
@@ -65,7 +65,7 @@ const mutateStwat = (target) => {
   return target.stwat_index
 }
 
-var PvTemplate = function(opts) {
+const PvTemplate = function(opts) {
   this.dead = false
   this.pv_types_collecting = false
   this.states_inited = false
@@ -152,47 +152,47 @@ var PvTemplate = function(opts) {
 }
 
 
-var appendSpace = function() {
+const appendSpace = function() {
   //fixme
   //$(target).append(document.createTextNode(' '));
 }
 
 
-var abortFlowStep = function(tpl, w_cache_key) {
-  var flow_step = tpl.calls_flow_index[w_cache_key]
+const abortFlowStep = function(tpl, w_cache_key) {
+  const flow_step = tpl.calls_flow_index[w_cache_key]
   if (flow_step) {
     tpl.calls_flow_index[w_cache_key] = null
     flow_step.abort()
   }
 }
 
-var removeFlowStep = function(tpl, w_cache_key) {
+const removeFlowStep = function(tpl, w_cache_key) {
   tpl.calls_flow_index[w_cache_key] = null
 }
 
-var hndPVRepeat = function(new_fv, states) {
-  var wwtch = this
+const hndPVRepeat = function(new_fv, states) {
+  const wwtch = this
   removeFlowStep(wwtch.context, wwtch.w_cache_key)
   //var new_fv = spv.getTargetField(states, wwtch.field_name);
 
 
   if (wwtch.original_fv != new_fv) {
-    var context = wwtch.context
+    const context = wwtch.context
     //var node = wwtch.node;
-    var old_nodes = wwtch.old_nodes
-    var repeat_data = wwtch.repeat_data
-    var field_name = wwtch.field_name
-    var valueIdent = wwtch.valueIdent
-    var keyIdent = wwtch.keyIdent
-    var comment_anchor = wwtch.comment_anchor
-    var sampler = wwtch.sampler
+    const old_nodes = wwtch.old_nodes
+    const repeat_data = wwtch.repeat_data
+    const field_name = wwtch.field_name
+    const valueIdent = wwtch.valueIdent
+    const keyIdent = wwtch.keyIdent
+    const comment_anchor = wwtch.comment_anchor
+    const sampler = wwtch.sampler
     /*var new_value = calculator(states);
     if (simplifyValue){
       new_value = simplifyValue.call(_this, new_value);
     }*/
 
 
-    var repeats_array = []
+    const repeats_array = []
     repeat_data.array = []
     context.pv_types_collecting = true
 
@@ -200,20 +200,19 @@ var hndPVRepeat = function(new_fv, states) {
     old_nodes.length = 0
 
     wwtch.original_fv = new_fv
-    var collection = wwtch.calculator(states)
+    const collection = wwtch.calculator(states)
 
-    var prev_node
 
-    var full_pv_context = ''
+    let full_pv_context = ''
     if (context.pv_repeat_context) {
       full_pv_context = context.pv_repeat_context + '.$.'
     }
     full_pv_context += field_name
 
-    var fragt = window.document.createDocumentFragment()
+    const fragt = window.document.createDocumentFragment()
 
-    for (var i = 0; collection != null && i < collection.length; i++) {
-      var scope = {}
+    for (let i = 0; collection != null && i < collection.length; i++) {
+      const scope = {}
       scope[valueIdent] = collection[i]
       if (keyIdent) {scope[keyIdent] = i}
       scope.$index = i
@@ -222,8 +221,8 @@ var hndPVRepeat = function(new_fv, states) {
       scope.$last = (i === (collection.length - 1))
       scope.$middle = !(scope.$first || scope.$last)
 
-      var cur_node = sampler.getClone()
-      var template = new PvTemplate({
+      const cur_node = sampler.getClone()
+      const template = new PvTemplate({
         node: cur_node,
         pv_repeat_context: full_pv_context,
         scope: scope,
@@ -235,7 +234,6 @@ var hndPVRepeat = function(new_fv, states) {
       old_nodes.push(cur_node)
       append(fragt, cur_node)
       appendSpace(fragt)
-      prev_node = cur_node
       repeats_array.push(template)
       repeat_data.array.push(template)
     }
@@ -253,17 +251,17 @@ var hndPVRepeat = function(new_fv, states) {
 }
 
 
-var checkPVRepeat = function(states, async_changes, current_motivator) {
-  var wwtch = this
+const checkPVRepeat = function(states, async_changes, current_motivator) {
+  const wwtch = this
   abortFlowStep(wwtch.context, wwtch.w_cache_key)
-  var new_fv = spv.getTargetField(states, wwtch.field_name)
+  const new_fv = spv.getTargetField(states, wwtch.field_name)
 
 
 
   if (wwtch.original_fv != new_fv) {
     if (async_changes) {
 
-      var flow_step = wwtch.context.calls_flow.pushToFlow(hndPVRepeat, this, [new_fv, states], false, false, false, current_motivator)
+      const flow_step = wwtch.context.calls_flow.pushToFlow(hndPVRepeat, this, [new_fv, states], false, false, false, current_motivator)
       wwtch.context.calls_flow_index[wwtch.w_cache_key] = flow_step
     } else {
       hndPVRepeat.call(this, new_fv, states)
@@ -272,12 +270,12 @@ var checkPVRepeat = function(states, async_changes, current_motivator) {
 }
 
 
-var removePvView = function(item, index) {
-  var real_name = item.coll_name
-  var space = item.space || 'main'
+const removePvView = function(item, index) {
+  const real_name = item.coll_name
+  const space = item.space || 'main'
   if (item.for_model) {
-    var field = [real_name, 'by_model_name', space]
-    var storage = spv.getTargetField(index, field)
+    const field = [real_name, 'by_model_name', space]
+    const storage = spv.getTargetField(index, field)
     if (storage) {
       storage.index[item.for_model] = null
     }
@@ -289,12 +287,12 @@ var removePvView = function(item, index) {
 }
 
 
-var indexPvView = function(item, index) {
-  var real_name = item.coll_name
-  var space = item.space || 'main'
+const indexPvView = function(item, index) {
+  const real_name = item.coll_name
+  const space = item.space || 'main'
   if (item.for_model) {
-    var field = [real_name, 'by_model_name', space]
-    var storage = spv.getTargetField(index, field)
+    const field = [real_name, 'by_model_name', space]
+    let storage = spv.getTargetField(index, field)
     if (!storage) {
       storage = {index: {}}
       spv.setTargetField(index, field, storage)
@@ -322,7 +320,7 @@ var indexPvView = function(item, index) {
   }
 }
 
-var BnddChunk = function(type, data) {
+const BnddChunk = function(type, data) {
   this.type = type
   this.data = data
   this.dead = false
@@ -332,14 +330,14 @@ var BnddChunk = function(type, data) {
 }
 
 
-var handleChunks = (function() {
-  var chunk_destroyers = {
+const handleChunks = (function() {
+  const chunk_destroyers = {
     'states_watcher': function(chunk, tpl) {
       tpl.states_watchers = spv.findAndRemoveItem(tpl.states_watchers, chunk.data)
     },
     'ancs': function(chunk, tpl) {
 
-      var anchor_name = chunk.data.anchor_name
+      const anchor_name = chunk.data.anchor_name
 
       if (tpl.anchorStateChange) {
         tpl.anchorStateChange(anchor_name, null)
@@ -363,7 +361,7 @@ var handleChunks = (function() {
       removePvView(chunk.data, tpl.children_templates)
       if (chunk.data.destroyers) {
         while (chunk.data.destroyers.length) {
-          var cur = chunk.data.destroyers.pop()
+          const cur = chunk.data.destroyers.pop()
           cur()
         }
       }
@@ -373,7 +371,7 @@ var handleChunks = (function() {
       tpl.pv_repeats_data = spv.findAndRemoveItem(tpl.pv_repeats_data, chunk.data)
     }
   }
-  var chunk_handlers = {
+  const chunk_handlers = {
     'states_watcher': function(chunk, tpl) {
       tpl.states_watchers.push(chunk.data)
     },
@@ -381,7 +379,7 @@ var handleChunks = (function() {
       if (!tpl.ancs) {
         tpl.ancs = {}
       }
-      var anchor_name = chunk.data.anchor_name
+      const anchor_name = chunk.data.anchor_name
       if (tpl.ancs[anchor_name]) {
         throw new Error('anchors exists')
       } else {
@@ -417,13 +415,13 @@ var handleChunks = (function() {
 
   return function handleChunks(items, tpl, need_clean) {
     if (!items) {return need_clean && []}
-    var result = need_clean && []
-    for (var i = 0; i < items.length; i++) {
-      var chunk = items[i]
+    const result = need_clean && []
+    for (let i = 0; i < items.length; i++) {
+      const chunk = items[i]
       if (!chunk.dead) {
         result.push(chunk)
       } else {
-        var destroyer = chunk_destroyers[chunk.type]
+        const destroyer = chunk_destroyers[chunk.type]
         if (destroyer) {
           destroyer(chunk, tpl)
         }
@@ -449,7 +447,7 @@ spv.Class.extendTo(PvTemplate, {
   },
   destroy: function() {
     this.dead = true
-    for (var i = 0; i < this.all_chunks.length; i++) {
+    for (let i = 0; i < this.all_chunks.length; i++) {
       this.all_chunks[i].dead = true
     }
     handleChunks(this.all_chunks, this, false)
@@ -460,12 +458,12 @@ spv.Class.extendTo(PvTemplate, {
 
 
       while (this.destroyers.length) {
-        var cur = this.destroyers.shift()
+        const cur = this.destroyers.shift()
         cur.call(this)
       }
     }
     if (this.calls_flow_index) {
-      for (var w_cache_key in this.calls_flow_index) {
+      for (const w_cache_key in this.calls_flow_index) {
         if (this.calls_flow_index.hasOwnProperty(w_cache_key) && typeof this.calls_flow_index[w_cache_key] == 'function') {
           this.calls_flow_index[w_cache_key].abort()
           this.calls_flow_index[w_cache_key] = null
@@ -477,10 +475,10 @@ spv.Class.extendTo(PvTemplate, {
     this.calls_flow_index = null
   },
   getTypedNodes: function() {
-    var result = []
-    var objs = [this]
+    const result = []
+    let objs = [this]
     while (objs.length) {
-      var cur = objs.shift()
+      const cur = objs.shift()
       if (cur.pv_types && cur.pv_types.length) {
         result.push(cur.pv_types)
       }
@@ -489,7 +487,7 @@ spv.Class.extendTo(PvTemplate, {
         continue
       }
 
-      for (var i = 0; i < cur.pv_repeats_data.length; i++) {
+      for (let i = 0; i < cur.pv_repeats_data.length; i++) {
         if (cur.pv_repeats_data[i].array) {
           objs = objs.concat(cur.pv_repeats_data[i].array)
         }
@@ -505,7 +503,7 @@ spv.Class.extendTo(PvTemplate, {
     'pv-nest': function(node, data) {
       //coll_name for_model filter
       if (typeof data.coll_name == 'string') {
-        var pv_view = {
+        const pv_view = {
           views: [],
           node: node,
           sampler: new PvSimpleSampler(node, this.struc_store, this.getSample),
@@ -530,21 +528,21 @@ spv.Class.extendTo(PvTemplate, {
         return
       }
 
-      var
-        expression = data.expression,
-        valueIdent = data.valueIdent,
-        keyIdent = data.keyIdent,
-        calculator = data.calculator,
-        sfy_values = data.sfy_values
+      const
+        expression = data.expression
+      const valueIdent = data.valueIdent
+      const keyIdent = data.keyIdent
+      const calculator = data.calculator
+      const sfy_values = data.sfy_values
 
-      var comment_anchor = window.document.createComment('pv-repeat anchor for: ' + expression)
+      const comment_anchor = window.document.createComment('pv-repeat anchor for: ' + expression)
       after(node, comment_anchor)
 
       detach(node)
-      var repeat_data = {
+      const repeat_data = {
         array: null
       }
-      var nothing
+      let nothing
 
       return [
         new BnddChunk('pv_repeat', repeat_data),
@@ -577,25 +575,25 @@ spv.Class.extendTo(PvTemplate, {
   empty_state_obj: {},
 
   bindPVEvent: (function() {
-    var getDestroer = function(node, event_name, callback) {
+    const getDestroer = function(node, event_name, callback) {
       return function destroyer() {
         removeEvent(node, event_name, callback)
       }
     }
 
     return function(node, evdata) {
-      var _this = this
+      const _this = this
 
-      var userCallback = evdata.fn
-      var event_name = evdata.event_name
+      const userCallback = evdata.fn
+      const event_name = evdata.event_name
 
       evdata = null
 
-      var callback = function(e) {
+      const callback = function(e) {
         userCallback.call(this, e, _this)
       }
 
-      var destroyer = getDestroer(node, event_name, callback)
+      const destroyer = getDestroer(node, event_name, callback)
 
       addEvent(node, event_name, callback)
 
@@ -621,11 +619,11 @@ spv.Class.extendTo(PvTemplate, {
   },
   initStates: function(async_changes, current_motivator) {
     // we should try render every states_watchers since states could not have every key
-    var states_summ = this.received_states || this.scope
-    var remainded_stwats = this.states_watchers
-    for (var i = 0; i < remainded_stwats.length; i++) { // UsualWWtch, BnddChunk, ...?
+    const states_summ = this.received_states || this.scope
+    const remainded_stwats = this.states_watchers
+    for (let i = 0; i < remainded_stwats.length; i++) { // UsualWWtch, BnddChunk, ...?
       if (this.dead) {return}
-      var cur = remainded_stwats[i]
+      const cur = remainded_stwats[i]
       if (cur.states_inited) {
         continue
       }
@@ -635,7 +633,7 @@ spv.Class.extendTo(PvTemplate, {
   },
   __rememberStates(full_states) {
     //вместо того что бы собирать новый хэш на основе массива изменений используются объект всеъ состояний
-    var states_summ = this.getStatesSumm(full_states)
+    const states_summ = this.getStatesSumm(full_states)
     this.received_states = states_summ
     return states_summ
   },
@@ -661,16 +659,17 @@ spv.Class.extendTo(PvTemplate, {
       // throw new Error('should be current_motivator');
     }
 
-    var states_summ = this.__rememberStates(full_states)
+    const states_summ = this.__rememberStates(full_states)
 
     if (this.__initIfNeeded()) {
       return
     }
 
-    var matched = [], i = 0
+    let matched = []
+    let i = 0
     mutateStwat(this)
     for (i = 0; i < changes.length; i += CH_GR_LE) { //ищем подходящие директивы
-      var name = changes[i]
+      const name = changes[i]
       if (this.stwat_index[name]) {
         push.apply(matched, this.stwat_index[name])
       }
@@ -689,11 +688,11 @@ spv.Class.extendTo(PvTemplate, {
       return states
     }
 
-    var states_summ = Object.create(states)
+    const states_summ = Object.create(states)
 
-    for (var i = 0; i < this.spec_states_props_list.length; i += 2) {
-      var state_name = this.spec_states_props_list[ i ]
-      var state_value = this.spec_states_props_list[ i + 1]
+    for (let i = 0; i < this.spec_states_props_list.length; i += 2) {
+      const state_name = this.spec_states_props_list[ i ]
+      const state_value = this.spec_states_props_list[ i + 1]
       states_summ[ state_name ] = state_value
     }
 
@@ -701,8 +700,8 @@ spv.Class.extendTo(PvTemplate, {
     return states_summ
   },
   setStates: function(states) {
-    var states_summ = this.getStatesSumm(states)
-    for (var i = 0; i < this.states_watchers.length; i++) {
+    const states_summ = this.getStatesSumm(states)
+    for (let i = 0; i < this.states_watchers.length; i++) {
       this.states_watchers[i].checkFunc(states_summ)
     }
 
@@ -716,19 +715,19 @@ spv.Class.extendTo(PvTemplate, {
     }
   },*/
   handleDirective: (function() {
-    var multipleStandChes = function(node, standches) {
+    const multipleStandChes = function(node, standches) {
       if (!standches) {
         return
       }
 
-      var result = []
-      for (var i = 0; i < standches.length; i++) {
-        var wwtch = standches[i].createBinding(node, this)
+      const result = []
+      for (let i = 0; i < standches.length; i++) {
+        const wwtch = standches[i].createBinding(node, this)
         result.push(new BnddChunk('states_watcher', wwtch))
       }
       return result
     }
-    var directives_h = {
+    const directives_h = {
       // 'pv-replace': function(node, index) {
       // 	if (index) {
       // 		if (index['pv-when']) {
@@ -747,13 +746,13 @@ spv.Class.extendTo(PvTemplate, {
           return
         }
 
-        var wwtch = standch.createBinding(node, this)
-        var destroyer = function() {
+        const wwtch = standch.createBinding(node, this)
+        const destroyer = function() {
           if (wwtch.destroyer) {
             wwtch.destroyer()
           }
         }
-        var chunk = new BnddChunk('states_watcher', wwtch)
+        const chunk = new BnddChunk('states_watcher', wwtch)
         chunk.destroyer = destroyer
         return chunk
 
@@ -763,13 +762,13 @@ spv.Class.extendTo(PvTemplate, {
           return
         }
 
-        var wwtch = standch.createBinding(node, this)
+        const wwtch = standch.createBinding(node, this)
         return new BnddChunk('states_watcher', wwtch)
       },
       'pv-class': multipleStandChes,
       'pv-props': multipleStandChes,
       'pv-anchor': function(node, full_declaration) {
-        var anchor_name = full_declaration
+        const anchor_name = full_declaration
         return new BnddChunk('ancs', {
           anchor_name: anchor_name,
           node: node
@@ -780,9 +779,9 @@ spv.Class.extendTo(PvTemplate, {
           return
         }
 
-        var pv_type_data = {node: node, marks: null}
+        const pv_type_data = {node: node, marks: null}
 
-        var wwtch = standch.createBinding(node, this)
+        const wwtch = standch.createBinding(node, this)
         wwtch.pv_type_data = pv_type_data
         wwtch.checkFunc(this.empty_state_obj)
 
@@ -800,10 +799,10 @@ spv.Class.extendTo(PvTemplate, {
         if (!this.sendCallback) {
           throw new Error('provide the events callback handler to the Template init func')
         }
-        var result = []
+        const result = []
 
-        for (var i = 0; i < pv_events_data.length; i++) {
-          var evdata = pv_events_data[i]
+        for (let i = 0; i < pv_events_data.length; i++) {
+          const evdata = pv_events_data[i]
           result.push(new BnddChunk('pv_event', {node: node, evdata: evdata}))
         }
         return result
@@ -814,7 +813,7 @@ spv.Class.extendTo(PvTemplate, {
     }
 
     return function(directive_name, node, full_declaration) {
-      var method = directives_h[directive_name]
+      const method = directives_h[directive_name]
       if (!method) {
         //window.dizi = [directive_name, node, full_declaration]
         //window.dizi2 = directives_h;
@@ -822,7 +821,7 @@ spv.Class.extendTo(PvTemplate, {
         console.log(directive_name, node, full_declaration)
         console.log(directives_h)
       }
-      var result = method.call(this, node, full_declaration)
+      const result = method.call(this, node, full_declaration)
       return result
 
 
@@ -830,8 +829,8 @@ spv.Class.extendTo(PvTemplate, {
   })(),
   indexPvViews: function(array, result) {
 
-    for (var i = 0; i < array.length; i++) {
-      var cur = array[i]
+    for (let i = 0; i < array.length; i++) {
+      const cur = array[i]
       indexPvView(cur, result)
 
     }
@@ -841,7 +840,7 @@ spv.Class.extendTo(PvTemplate, {
     return this.parsePvDirectives(node)
   },
   parseAppendedAndInit: function(node) {
-    var result = this.parsePvDirectives(node)
+    const result = this.parsePvDirectives(node)
     if (!result.length) {
       return result
     }
@@ -850,14 +849,14 @@ spv.Class.extendTo(PvTemplate, {
   },
   iterateBindingList: (function() {
 
-    var config = parser.config
+    const config = parser.config
 
-    var pseudo_list = config.pseudo_list
-    var scope_g_list = config.scope_g_list
-    var directives_names_list = config.directives_names_list
-    var comment_directives_names_list = config.comment_directives_names_list
+    const pseudo_list = config.pseudo_list
+    const scope_g_list = config.scope_g_list
+    const directives_names_list = config.directives_names_list
+    const comment_directives_names_list = config.comment_directives_names_list
 
-    var pushChunks = function(all_chunks, chunks) {
+    const pushChunks = function(all_chunks, chunks) {
       if (chunks) {
         if (Array.isArray(chunks)) {
           push.apply(all_chunks, chunks)
@@ -869,14 +868,14 @@ spv.Class.extendTo(PvTemplate, {
     }
 
     return function(is_root_node, cur_node, directives_data, all_chunks) {
-      var i = 0
-      var directive_name
+      let i = 0
+      let directive_name
       if (!is_root_node) {
         //используем директивы генерирующие scope только если это не корневой элемент шаблона
         for (i = 0; i < pseudo_list.length; i++) {
           directive_name = pseudo_list[i]
           if (directives_data.instructions[directive_name]) {
-            var chunks_o = this.handleDirective(directive_name, cur_node, directives_data.instructions[directive_name])
+            const chunks_o = this.handleDirective(directive_name, cur_node, directives_data.instructions[directive_name])
             pushChunks(all_chunks, chunks_o)
           }
         }
@@ -884,7 +883,7 @@ spv.Class.extendTo(PvTemplate, {
         for (i = 0; i < scope_g_list.length; i++) {
           directive_name = scope_g_list[i]
           if (directives_data.instructions[directive_name]) {
-            var chunks_s = this.scope_generators[directive_name]
+            const chunks_s = this.scope_generators[directive_name]
               .call(this, cur_node, directives_data.instructions[directive_name])
 
             pushChunks(all_chunks, chunks_s)
@@ -898,7 +897,7 @@ spv.Class.extendTo(PvTemplate, {
         for (i = 0; i < directives_names_list.length; i++) {
           directive_name = directives_names_list[i]
           if (directives_data.instructions[directive_name]) {
-            var chunks_d = this.handleDirective(directive_name, cur_node, directives_data.instructions[directive_name])
+            const chunks_d = this.handleDirective(directive_name, cur_node, directives_data.instructions[directive_name])
             pushChunks(all_chunks, chunks_d)
           }
         }
@@ -906,7 +905,7 @@ spv.Class.extendTo(PvTemplate, {
         for (i = 0; i < comment_directives_names_list.length; i++) {
           directive_name = comment_directives_names_list[i]
           if (directives_data.instructions[directive_name]) {
-            var chunks_c = this.handleDirective(directive_name, cur_node, directives_data.instructions[directive_name])
+            const chunks_c = this.handleDirective(directive_name, cur_node, directives_data.instructions[directive_name])
             pushChunks(all_chunks, chunks_c)
           }
         }
@@ -921,15 +920,15 @@ spv.Class.extendTo(PvTemplate, {
   },
   parsePvDirectives: function(start_node) {
     if (this.dead) {return}
-    var struc_store = this.struc_store
+    const struc_store = this.struc_store
     start_node = 'nodeType' in start_node ? start_node : start_node[0]
 
-    var vroot_node = this.root_node_raw
+    const vroot_node = this.root_node_raw
 
-    var list_for_binding = parseEasy(start_node, vroot_node, struc_store, this.getSample)
+    const list_for_binding = parseEasy(start_node, vroot_node, struc_store, this.getSample)
 
-    var all_chunks = []
-    for (var i = 0; i < list_for_binding.length; i += 3) {
+    const all_chunks = []
+    for (let i = 0; i < list_for_binding.length; i += 3) {
       this.iterateBindingList(
         list_for_binding[ i ],
         list_for_binding[ i + 1 ],

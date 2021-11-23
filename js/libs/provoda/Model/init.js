@@ -2,9 +2,9 @@ import initSubPager from '../dcl/sub_pager/init'
 import makeAttrsCollector from './makeAttrsCollector'
 
 function buildHead(self, data) {
-  var init_v2 = data && data.init_version === 2
+  const init_v2 = data && data.init_version === 2
 
-  var head = null
+  let head = null
 
   if (self.map_parent && self.map_parent.head) {
     if (!head) {head = {}}
@@ -23,8 +23,8 @@ function buildHead(self, data) {
   if (self.network_data_as_states && data && data.network_states) {
     if (self.net_head) {
       if (!head) {head = {}}
-      for (var i = 0; i < self.net_head.length; i++) {
-        var pk = self.net_head[i]
+      for (let i = 0; i < self.net_head.length; i++) {
+        const pk = self.net_head[i]
         head[pk] = data.network_states[pk]
       }
     }
@@ -33,11 +33,11 @@ function buildHead(self, data) {
   return head
 }
 
-export default function initModel(self, opts, data, params, more, states) {
-  var current_motivator = opts._motivator
-  var app = opts.app
-  var map_parent = opts.map_parent
-  var _highway = opts._highway
+export default function initModel(self, opts, data, _params, _more, states) {
+  const current_motivator = opts._motivator
+  const app = opts.app
+  const map_parent = opts.map_parent
+  const _highway = opts._highway
 
   self.current_motivator = self.current_motivator || (current_motivator)
   self.dead = false
@@ -93,7 +93,7 @@ export default function initModel(self, opts, data, params, more, states) {
   self.shared_nest_sel_hands = null
 
   self.init_v2_data = null
-  var init_v2 = data && data.init_version === 2
+  const init_v2 = data && data.init_version === 2
   if (init_v2) {
     self.init_v2_data = data
   }
@@ -112,9 +112,9 @@ function toServStates(iss, states) {
 }
 
 function createISS(self, data, states) {
-  var init_v2 = data && data.init_version === 2
+  const init_v2 = data && data.init_version === 2
 
-  var iss = null
+  let iss = null
 
   if (!init_v2) {
     iss = toServStates(iss, states)
@@ -132,7 +132,7 @@ function createISS(self, data, states) {
     return iss
   }
 
-  for (var state_name in iss) {
+  for (const state_name in iss) {
     if (self.hasComplexStateFn(state_name)) {
       delete iss[state_name]
     }
@@ -144,7 +144,7 @@ function createISS(self, data, states) {
 function prepareStates(self, data, states) {
   self.init_states = self.init_states || null
 
-  var iss = createISS(self, data, states)
+  const iss = createISS(self, data, states)
 
   if (!iss) {
     return

@@ -2,12 +2,12 @@
 import spv from '../../../../../spv'
 import _updateAttr from '../../../../_internal/_updateAttr'
 import wrapDeps from '../api/utils/wrapDeps'
-var toRealArray = spv.toRealArray
+const toRealArray = spv.toRealArray
 
 
-var getHandler = function(schema) {
-  var parse = typeof schema === 'object' && spv.mmap(schema)
-  var is_one_field = typeof schema === 'string'
+const getHandler = function(schema) {
+  const parse = typeof schema === 'object' && spv.mmap(schema)
+  const is_one_field = typeof schema === 'string'
 
   if (is_one_field) {
     return function(self, result) {
@@ -56,7 +56,7 @@ export default function ApiEffectDeclr(name, data) {
     return
   }
 
-  var execution = data[0]
+  const execution = data[0]
   this.apis = toRealArray(execution[0])
   this.triggering_states = toRealArray(execution[1])
   this.fn = execution[2]
@@ -65,14 +65,14 @@ export default function ApiEffectDeclr(name, data) {
 
   this.result_handler = this.result_schema && getHandler(this.is_async, this.result_schema)
 
-  var condition = data[1]
-  var deps = condition && condition[0]
+  const condition = data[1]
+  const deps = condition && condition[0]
   if (deps) {
     this.deps = wrapDeps(deps)
     // var desc = '_need_api_effect_' + name
     this.deps_name = Symbol() // || Symbol(desc)
     this.all_deps = this.deps
   }
-  var effects_deps = condition && condition[1]
+  const effects_deps = condition && condition[1]
   this.effects_deps = (effects_deps && toRealArray(effects_deps)) || null
 }

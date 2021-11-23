@@ -8,16 +8,16 @@ import prepareResults from '../act/prepareResults'
 import act from '../act'
 
 
-var saveToDestModel = function(current_motivator, exec_item) {
+const saveToDestModel = function(current_motivator, exec_item) {
   if (!current_motivator) {
     throw new Error('should be current_motivator')
   }
   // md, target, value
-  var target_md = exec_item.target_md
-  var value = exec_item.value
-  var target = exec_item.target
+  const target_md = exec_item.target_md
+  const value = exec_item.value
+  const target = exec_item.target
 
-  var multi_path = target.target_path
+  const multi_path = target.target_path
 
   if (target.options && target.options.action) {
     act(target_md, target.options.action, value)
@@ -39,28 +39,28 @@ var saveToDestModel = function(current_motivator, exec_item) {
   }
 }
 
-var saveByProvodaId = function(current_motivator, md, target, wrap) {
+const saveByProvodaId = function(current_motivator, md, _target, wrap) {
   if (!current_motivator) {
     throw new Error('should be current_motivator')
   }
 
-  for (var id in wrap) {
+  for (const id in wrap) {
     if (!wrap.hasOwnProperty(id)) {
       continue
     }
-    var data = wrap[id]
-    var model = getModelById(md, id)
-    var states = data.states
+    const data = wrap[id]
+    const model = getModelById(md, id)
+    const states = data.states
     const rels = getRelFromInitParams(data)
 
-    for (var state in states) {
+    for (const state in states) {
       if (!states.hasOwnProperty(state)) {
         continue
       }
       _updateAttr(model, state, states[state])
     }
 
-    for (var nesting in rels) {
+    for (const nesting in rels) {
       if (!rels.hasOwnProperty(nesting)) {
         continue
       }
@@ -72,8 +72,8 @@ var saveByProvodaId = function(current_motivator, md, target, wrap) {
 }
 
 
-var saveResultToTarget = function(current_motivator, exec_item) {
-  var target = exec_item.target
+const saveResultToTarget = function(current_motivator, exec_item) {
+  const target = exec_item.target
   if (target.path_type == 'by_provoda_id') {
     saveByProvodaId(current_motivator, exec_item.md, target, exec_item.value)
     return
@@ -82,12 +82,12 @@ var saveResultToTarget = function(current_motivator, exec_item) {
   saveToDestModel(current_motivator, exec_item)
 }
 
-var saveResult = function(md, dcl, value, data) {
-  var current_motivator = md._currentMotivator()
+const saveResult = function(md, dcl, value, data) {
+  const current_motivator = md._currentMotivator()
 
-  var semi_result = prepareResults(md, dcl, value, data)
+  const semi_result = prepareResults(md, dcl, value, data)
 
-  for (var i = 0; i < semi_result.length; i++) {
+  for (let i = 0; i < semi_result.length; i++) {
     saveResultToTarget(current_motivator, semi_result[i])
   }
 }

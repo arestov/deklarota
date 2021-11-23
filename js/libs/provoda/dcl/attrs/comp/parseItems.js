@@ -22,14 +22,14 @@ const parseItems = function(typed_state_dcls) {
     return
   }
 
-  for (var name in typed_state_dcls) {
+  for (const name in typed_state_dcls) {
     if (!typed_state_dcls.hasOwnProperty(name)) {
       continue
     }
     typed_state_dcls[name] = getItem(typed_state_dcls[name], name)
   }
 
-  for (var prop of Object.getOwnPropertySymbols(typed_state_dcls)) {
+  for (const prop of Object.getOwnPropertySymbols(typed_state_dcls)) {
     typed_state_dcls[prop] = getItem(typed_state_dcls[prop], prop)
   }
 }

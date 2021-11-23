@@ -6,15 +6,11 @@ import Class from './spv/Class'
 import inh from './spv/inh'
 import splitByDot from './spv/splitByDot'
 
-var spv = {}
-
-var addEvent, removeEvent, getFields, getStringPattern, toRealArray,
-getTargetField, sortByRules, makeIndexByField, $filter, getUnitBaseNum,
-  debounce, throttle
+const spv = {}
 
 spv.getArrayNoDubs = function(array, clean_array) {
   clean_array = clean_array || []
-  for (var i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     if (clean_array.indexOf(array[i]) == -1) {
       clean_array.push(array[i])
     }
@@ -23,10 +19,10 @@ spv.getArrayNoDubs = function(array, clean_array) {
 }
 
 spv.once = function(fn) {
-  var result
+  let result
   return function() {
     if (fn) {
-      var fnn = fn
+      const fnn = fn
       fn = null
       return (result = fnn.apply(this, arguments))
     } else {
@@ -38,21 +34,21 @@ spv.once = function(fn) {
 spv.mapfn = function(func) {
   return function(array) {
     if (!array) {return array}
-    var result = new Array(array.length)
-    for (var i = 0; i < array.length; i++) {
+    const result = new Array(array.length)
+    for (let i = 0; i < array.length; i++) {
       result[i] = func(array[i], i)
     }
     return result
   }
 }
 
-var hasArg = function(el) {return el}
+const hasArg = function(el) {return el}
 spv.hasEveryArgs = function() {
   return Array.prototype.every.call(arguments, hasArg)
 }
 spv.getExistingItems = function(arr) {
-  var result = []
-  for (var i = 0; i < arr.length; i++) {
+  const result = []
+  for (let i = 0; i < arr.length; i++) {
     if (arr[i]) {
       result.push(arr[i])
     }
@@ -60,16 +56,20 @@ spv.getExistingItems = function(arr) {
   return result
 }
 
-addEvent = spv.addEvent = function(elem, evType, fn) {
+const addEvent = (elem, evType, fn) => {
   elem.addEventListener(evType, fn, false)
   return fn
 }
-removeEvent = spv.removeEvent = function(elem, evType, fn) {
+
+const removeEvent = (elem, evType, fn) => {
   if (!elem.removeEventListener) {
     return
   }
   elem.removeEventListener(evType, fn, false)
 }
+
+spv.addEvent = addEvent
+spv.removeEvent = removeEvent
 
 spv.listenEvent = function(elem, evType, fn) {
   addEvent(elem, evType, fn)
@@ -83,15 +83,15 @@ spv.getDefaultView = function(d) {
 }
 
 spv.domReady = function(d, callback) {
-  var wndw = spv.getDefaultView(d)
+  const wndw = spv.getDefaultView(d)
   if (!wndw) {
     return
   }
   if (d.readyState == 'complete' || d.readyState == 'loaded' || d.readyState == 'interactive') {
     callback()
   } else{
-    var done
-    var f = function() {
+    let done
+    const f = function() {
       if (!done) {
         done = true
         spv.removeEvent(wndw, 'load', f)
@@ -105,9 +105,9 @@ spv.domReady = function(d, callback) {
 }
 
 spv.doesContain = function(target, valueOf) {
-  var cached_t_value = valueOf ? valueOf.call(target) : (target.valueOf())
+  const cached_t_value = valueOf ? valueOf.call(target) : (target.valueOf())
 
-  for (var i = 0; i < this.length; i++) {
+  for (let i = 0; i < this.length; i++) {
     if (valueOf) {
       if (valueOf.call(this[i]) == cached_t_value) {
         return i
@@ -126,7 +126,7 @@ spv.hasCommonItems = function(arr1, arr2) {
   if (!arr2) {
     return false
   }
-  for (var i = 0; i < arr1.length; i++) {
+  for (let i = 0; i < arr1.length; i++) {
     if (arr2.indexOf(arr1[i]) != -1) {
       return true
     }
@@ -135,16 +135,16 @@ spv.hasCommonItems = function(arr1, arr2) {
 }
 
 
-var arExclSimple = function(result, arr, obj) {
-  for (var i = 0; i < arr.length; i++) {
+const arExclSimple = function(result, arr, obj) {
+  for (let i = 0; i < arr.length; i++) {
     if (arr[i] !== obj) {
       result.push(arr[i])
     }
   }
   return result
 }
-var arExclComplex = function(result, arr, obj) {
-  for (var i = 0; i < arr.length; i++) {
+const arExclComplex = function(result, arr, obj) {
+  for (let i = 0; i < arr.length; i++) {
     if (obj.indexOf(arr[i]) == -1) {
       result.push(arr[i])
     }
@@ -153,7 +153,7 @@ var arExclComplex = function(result, arr, obj) {
 }
 
 spv.arrayExclude = function arrayExclude(arr, obj) {
-  var r = []
+  const r = []
   if (!arr) {
     return r
   }
@@ -166,8 +166,10 @@ spv.arrayExclude = function arrayExclude(arr, obj) {
 }
 
 spv.shuffleArray = function(obj) {
-  var shuffled = [], rand, value
-  for (var index = 0; index < obj.length; index++) {
+  const shuffled = []
+  let rand
+  let value
+  for (let index = 0; index < obj.length; index++) {
     value = obj[index]
     rand = Math.floor(Math.random() * (index + 1))
     shuffled[index] = shuffled[rand]
@@ -180,7 +182,7 @@ spv.memorize = memorize
 
 spv.splitByDot = splitByDot
 
-var getFieldsTree = function getFieldsTree(string) {
+const getFieldsTree = function getFieldsTree(string) {
   if (Array.isArray(string)) {
     return string
   } else {
@@ -189,13 +191,13 @@ var getFieldsTree = function getFieldsTree(string) {
 }
 spv.getFieldsTree = getFieldsTree
 
-getTargetField = function getTargetField(obj, path) {
+const getTargetField = (obj, path) => {
   if (path == null) {return obj}
   if (obj == null) {return obj}
 
-  var tree = getFieldsTree(path)
-  var target = obj
-  for (var i = 0; i < tree.length; i++) {
+  const tree = getFieldsTree(path)
+  let target = obj
+  for (let i = 0; i < tree.length; i++) {
     if (target[tree[i]] != null) {
       target = target[tree[i]]
     } else{
@@ -205,12 +207,12 @@ getTargetField = function getTargetField(obj, path) {
   return target
 }
 
-getFields = function(obj, fields) {
-  var r = []
-  for (var i = 0; i < fields.length; i++) {
-    var cur = fields[i]
+const getFields = function(obj, fields) {
+  const r = []
+  for (let i = 0; i < fields.length; i++) {
+    const cur = fields[i]
 
-    var value = (typeof cur == 'function') ? cur(obj) : getTargetField(obj, cur)
+    const value = (typeof cur == 'function') ? cur(obj) : getTargetField(obj, cur)
     if (value) {
       r.push(value)
     }
@@ -218,10 +220,10 @@ getFields = function(obj, fields) {
   return r
 }
 spv.getDiffObj = function(one, two) {
-  var
-    i,
-    diff = {},
-    all_props = {}
+  let
+    i
+  const diff = {}
+  const all_props = {}
 
   for (i in one) {
     all_props[i] = true
@@ -239,14 +241,14 @@ spv.getDiffObj = function(one, two) {
 }
 
 spv.matchWords = function(source, query) {
-  var words = query.split(/[\s\.\—\-\—\–\_\|\+\(\)\*\&\!\?\@\,\\\/\❤\♡\'\"\[\]]+/gi)
-  var r = {}
+  const words = query.split(/[\s\.\—\-\—\–\_\|\+\(\)\*\&\!\?\@\,\\\/\❤\♡\'\"\[\]]+/gi)
+  const r = {}
   if (words.length) {
     r.forward = true
-    var any_order = true
-    var source_sliced = source
-    for (var i = 0; i < words.length; i++) {
-      var index = source_sliced.indexOf(words[i])
+    let any_order = true
+    const source_sliced = source
+    for (let i = 0; i < words.length; i++) {
+      const index = source_sliced.indexOf(words[i])
       if (index != -1) {
         source_sliced.slice(index + words[i].length)
       } else {
@@ -255,7 +257,7 @@ spv.matchWords = function(source, query) {
       }
     }
     if (!r.forward) {
-      for (var i = 0; i < words.length; i++) {
+      for (let i = 0; i < words.length; i++) {
         if (source.indexOf(words[i]) == -1) {
           any_order = false
           break
@@ -267,9 +269,34 @@ spv.matchWords = function(source, query) {
   return r
 }
 
+const regexp_escaper = /([$\^*()+\[\]{}|.\/?\\])/g
+const escapeRegExp = function(str, clean) {
+  if (clean) {
+    str = str.replace(/\s+/g, ' ').replace(/(^\s)|(\s$)/g, '') //removing spaces
+  }
+  return str.replace(regexp_escaper, '\\$1') //escaping regexp symbols
+}
+
+spv.escapeRegExp = escapeRegExp
+
+const getStringPattern = function(str) {
+  if (str.replace(/\s/g, '')) {
+
+    str = escapeRegExp(str, true).split(/\s/g)
+    for (let i = 0; i < str.length; i++) {
+      str[i] = '((^\|\\s)' + str[i] + ')'
+    }
+    str = str.join('|')
+
+    return new RegExp(str, 'gi')
+  }
+}
+
 spv.searchInArray = function(array, query, fields) {
   query = getStringPattern(query)
-  var r,i,cur
+  let r
+  let i
+  let cur
 
   if (query) {
     r = []
@@ -277,7 +304,7 @@ spv.searchInArray = function(array, query, fields) {
     if (fields) {
       for (i = 0; i < array.length; i++) {
         cur = array[i]
-        var fields_values = getFields(cur, fields)
+        const fields_values = getFields(cur, fields)
         if (fields_values.join(' ').search(query) > -1) {
           r.push(cur)
         }
@@ -294,36 +321,15 @@ spv.searchInArray = function(array, query, fields) {
   }
   return r
 }
-var regexp_escaper = /([$\^*()+\[\]{}|.\/?\\])/g
-var escapeRegExp = function(str, clean) {
-  if (clean) {
-    str = str.replace(/\s+/g, ' ').replace(/(^\s)|(\s$)/g, '') //removing spaces
-  }
-  return str.replace(regexp_escaper, '\\$1') //escaping regexp symbols
-}
 
-spv.escapeRegExp = escapeRegExp
-
-getStringPattern = function(str) {
-  if (str.replace(/\s/g, '')) {
-
-    str = escapeRegExp(str, true).split(/\s/g)
-    for (var i = 0; i < str.length; i++) {
-      str[i] = '((^\|\\s)' + str[i] + ')'
-    }
-    str = str.join('|')
-
-    return new RegExp(str, 'gi')
-  }
-}
 spv.getStringPattern = getStringPattern
 
 spv.collapseAll = function() {
-  var r = []
-  for (var i = 0; i < arguments.length; i++) {
-    var c = arguments[i]
+  const r = []
+  for (let i = 0; i < arguments.length; i++) {
+    const c = arguments[i]
     if (Array.isArray(c)) {
-      for (var ii = 0; ii < c.length; ii++) {
+      for (let ii = 0; ii < c.length; ii++) {
         if (r.indexOf(c[ii]) == -1) {
           r.push(c[ii])
         }
@@ -338,7 +344,7 @@ spv.collapseAll = function() {
   return r
 }
 
-toRealArray = spv.toRealArray = function toRealArray(array, check_field) {
+const toRealArray = (array, check_field) => {
   if (Array.isArray(array)) {
     return array
   } else if (array && (typeof array == 'object') && array.length) {
@@ -350,18 +356,20 @@ toRealArray = spv.toRealArray = function toRealArray(array, check_field) {
   }
 }
 
+spv.toRealArray = toRealArray
+
 spv.f = {
   allOf: function() {
     // logical `and`, return last result of stop
-    var i = 0
-    var args = new Array(arguments.length - 1)
+    let i = 0
+    const args = new Array(arguments.length - 1)
     for (i = 1; i < arguments.length; i++) {
       args[ i - 1 ] = arguments[i]
     }
 
     return function() {
-      var result
-      for (var i = 0; i < args.length; i++) {
+      let result
+      for (let i = 0; i < args.length; i++) {
         result = args[i].apply(this, arguments)
         if (!result) {
           return result
@@ -372,15 +380,15 @@ spv.f = {
   },
   firstOf: function() {
     // logical `or`, return first result of stop
-    var i = 0
-    var args = new Array(arguments.length - 1)
+    let i = 0
+    const args = new Array(arguments.length - 1)
     for (i = 1; i < arguments.length; i++) {
       args[ i - 1 ] = arguments[i]
     }
 
     return function() {
-      var result
-      for (var i = 0; i < args.length; i++) {
+      let result
+      for (let i = 0; i < args.length; i++) {
         result = args[i].apply(this, arguments)
         if (result) {
           return result
@@ -390,13 +398,13 @@ spv.f = {
     }
   },
 }
-var setTargetField = function(obj, tree, value) {
+const setTargetField = function(obj, tree, value) {
   tree = getFieldsTree(tree)
-  var cur_obj = obj
-  for (var i = 0; i < tree.length; i++) {
-    var cur = tree[i]
+  let cur_obj = obj
+  for (let i = 0; i < tree.length; i++) {
+    const cur = tree[i]
     if (i != tree.length - 1) {
-      var target = cur_obj[cur]
+      let target = cur_obj[cur]
       if (!target) {
         target = cur_obj[cur] = {}
       }
@@ -411,7 +419,7 @@ var setTargetField = function(obj, tree, value) {
 
 spv.setTargetField = setTargetField
 
-var getFieldValueByRule = function(obj, rule) {
+const getFieldValueByRule = function(obj, rule) {
   if (rule instanceof Function) {
     return rule(obj)
   } else if (Array.isArray(rule)) {
@@ -443,10 +451,10 @@ spv.compareArray = function compareArray(one, two) {
       return -1
     }
   }
-  var max = Math.max(one.length, two.length)
-  for (var i = 0; i < max; i++) {
-    var value_one = one[i]
-    var value_two = two[i]
+  const max = Math.max(one.length, two.length)
+  for (let i = 0; i < max; i++) {
+    const value_one = one[i]
+    const value_two = two[i]
     if (value_one === value_two) {
       continue
     }
@@ -468,15 +476,15 @@ spv.compareArray = function compareArray(one, two) {
   }
 }
 
-sortByRules = spv.sortByRules = function sortByRules(a, b, rules) {
+const sortByRules = spv.sortByRules = function sortByRules(a, b, rules) {
   if (a instanceof Object && b instanceof Object) {
-    var shift = 0
+    let shift = 0
 
-    for (var i = 0; i < rules.length; i++) {
+    for (let i = 0; i < rules.length; i++) {
       if (!shift) {
-        var cr = rules[i]
-        var field_value_a = getFieldValueByRule(a, cr)
-        var field_value_b = getFieldValueByRule(b, cr)
+        const cr = rules[i]
+        let field_value_a = getFieldValueByRule(a, cr)
+        let field_value_b = getFieldValueByRule(b, cr)
         field_value_a = field_value_a || !!field_value_a //true > undefined == false, but true > false == true
         field_value_b = field_value_b || !!field_value_b //so convert every "", null and undefined to false
 
@@ -496,13 +504,13 @@ sortByRules = spv.sortByRules = function sortByRules(a, b, rules) {
 }
 
 spv.indexBy = function(array, field) {
-  var index = {}
+  const index = {}
   if (!array || !array.length) {
     return index
   }
 
-  for (var i = 0; i < array.length; i++) {
-    var value = getTargetField(array[i], field)
+  for (let i = 0; i < array.length; i++) {
+    const value = getTargetField(array[i], field)
     index[value] = array[i]
   }
 
@@ -510,13 +518,13 @@ spv.indexBy = function(array, field) {
 }
 
 spv.groupBy = function(array, field) {
-  var index = {}
+  const index = {}
   if (!array || !array.length) {
     return index
   }
 
-  for (var i = 0; i < array.length; i++) {
-    var value = getTargetField(array[i], field)
+  for (let i = 0; i < array.length; i++) {
+    const value = getTargetField(array[i], field)
     if (!index[value]) {
       index[value] = []
     }
@@ -532,16 +540,16 @@ spv.getSortFunc = function(rules) {
   }
 }
 
-makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
-  var r = {}
+const makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
+  const r = {}
   if (array && array.length) {
-    for (var i = 0; i < array.length; i++) {
-      var simple_name,
-        cur = array[i],
-        fv = getTargetField(cur, field)
+    for (let i = 0; i < array.length; i++) {
+      let simple_name
+      const cur = array[i]
+      const fv = getTargetField(cur, field)
       if (fv || typeof fv == 'number') {
         if (fv instanceof Array) {
-          for (var k = 0; k < fv.length; k++) {
+          for (let k = 0; k < fv.length; k++) {
             simple_name = (fv[k] + '')
             if (!keep_case) {
               simple_name = simple_name.toLowerCase()
@@ -581,8 +589,9 @@ makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
 }
 
 
-$filter = function(array, field, value_or_testfunc) {
-  var i, r = []
+const $filter = function(array, field, value_or_testfunc) {
+  let i
+  const r = []
   r.not = []
   if (!array) {return r}
 
@@ -610,7 +619,7 @@ $filter = function(array, field, value_or_testfunc) {
       if (!array[i]) {
         continue
       }
-      var field_value = getTargetField(array[i], field)
+      const field_value = getTargetField(array[i], field)
       if (field_value) {
         r.push(field_value)
       } else{
@@ -623,12 +632,12 @@ $filter = function(array, field, value_or_testfunc) {
 
 spv.cloneObj = cloneObj
 
-getUnitBaseNum = function(_c) {
+const getUnitBaseNum = function(_c) {
   if (_c > 0) {
     if (_c > 10 && _c < 20) {
       return 2
     } else {
-      var _cc = '0' + _c
+      let _cc = '0' + _c
       _cc = parseFloat(_cc.slice(_cc.length - 1))
 
       if (_cc === 0) {
@@ -653,8 +662,8 @@ spv.stringifyParams = function(params, ignore_params, splitter, joiner, opts) {
   if (typeof params == 'string') {
     return params
   }
-  var pv_signature_list = []
-  for (var p in params) {
+  const pv_signature_list = []
+  for (const p in params) {
     if (!ignore_params || ignore_params.indexOf(p) == -1) {
       pv_signature_list.push(p + splitter + params[p])
     }
@@ -673,8 +682,8 @@ spv.inh = inh
 spv.passingContext = function passingContext(func) {
   // for legacy
   return function(obj) {
-    var arr = new Array(arguments.length)
-    for (var i = 0; i < arguments.length; i++) {
+    const arr = new Array(arguments.length)
+    for (let i = 0; i < arguments.length; i++) {
       arr[i] = arguments[i]
     }
     arr.shift()
@@ -701,19 +710,19 @@ spv.precall = function precall(func1, func2) {
  * http://www.gnu.org/licenses/gpl.html
  *
  */
-debounce = function debounce(fn, timeout, invokeAsap, ctx) {
+const debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
   if(arguments.length == 3 && typeof invokeAsap != 'boolean') {
     ctx = invokeAsap
     invokeAsap = false
   }
 
-  var timer
+  let timer
 
   return function() {
 
-    var args = arguments,
-      _this = this
+    const args = arguments
+    const _this = this
 
     invokeAsap && !timer && fn.apply(ctx || this, args)
 
@@ -728,9 +737,11 @@ debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
 }
 
-throttle = function throttle(fn, timeout, ctx) {
+const throttle = function throttle(fn, timeout, ctx) {
 
-  var timer, args, needInvoke
+  let timer
+  let args
+  let needInvoke
 
   return function() {
 
@@ -739,7 +750,7 @@ throttle = function throttle(fn, timeout, ctx) {
     ctx = ctx || this
 
     if(!timer) {
-      var wrap_func = function() {
+      const wrap_func = function() {
         if(needInvoke) {
           fn.apply(ctx, args)
           needInvoke = false
@@ -757,8 +768,8 @@ throttle = function throttle(fn, timeout, ctx) {
 }
 spv.capitalize = capitalize
 function capitalize(string, just_first) {
-  var test = just_first ? (/(^|\s)(.)/) : (/(^|\s)(.)/g)
-  return string.replace(test, function(m, p1, p2) {
+  const test = just_first ? (/(^|\s)(.)/) : (/(^|\s)(.)/g)
+  return string.replace(test, function(_m, p1, p2) {
     return p1 + p2.toUpperCase()
   })
 }
@@ -768,46 +779,46 @@ spv.capitalize.fn = function(string) {
 };
 
 (function() {
-  var splitter = new RegExp('\\%[^\\s\\%]+?\\%', 'gi')
-  var var_name = new RegExp('\\%([^\\s\\%]+?)\\%')
+  const splitter = new RegExp('\\%[^\\s\\%]+?\\%', 'gi')
+  const var_name = new RegExp('\\%([^\\s\\%]+?)\\%')
 
-  var pushName = function(obj, name, i) {
+  const pushName = function(obj, name, i) {
     if (!obj[name]) {
       obj[name] = []
     }
     obj[name].push(i)
   }
-  var makeDom = function(d) {
+  const makeDom = function(d) {
     d = d || window.document
-    for (var i = 0; i < this.length; i++) {
+    for (let i = 0; i < this.length; i++) {
       if (this[i] && typeof this[i] == 'string') {
         this[i] = d.createTextNode(this[i])
       }
     }
     return this
   }
-  var setVar = function(name, value) {
+  const setVar = function(name, value) {
 
-    for (var i = 0; i < this.vars[name].length; i++) {
+    for (let i = 0; i < this.vars[name].length; i++) {
       this[this.vars[name][i]] = value
     }
 
     return this
   }
   spv.createComlexText = function(text, not_make_dom) {
-    var
-      vars = text.match(splitter),
-      parts = text.split(splitter),
-      result = []
+    const
+      vars = text.match(splitter)
+    const parts = text.split(splitter)
+    const result = []
 
     result.vars = {}
     result.setVar = setVar
     result.makeDom = makeDom
-    for (var i = 0; i < parts.length; i++) {
+    for (let i = 0; i < parts.length; i++) {
       result.push(parts[i])
 
       if (vars[i]) {
-        var name = vars[i].match(var_name)[1]
+        const name = vars[i].match(var_name)[1]
         pushName(result.vars, name, result.length)
         result.push(null)
       }
@@ -839,9 +850,9 @@ spv.zerofyString = function(string, length) {
 }
 
 
-var getFullFieldPath = function(last_part, data) {
-  var cur = data
-  var result = [last_part]
+const getFullFieldPath = function(last_part, data) {
+  let cur = data
+  const result = [last_part]
   while (cur && cur.prop_name) {
     result.unshift(cur.prop_name)
     cur = cur.parent
@@ -850,15 +861,17 @@ var getFullFieldPath = function(last_part, data) {
 }
 
 
-var getPropsListByTree = function(obj) {
-  var all_objects = [{
+const getPropsListByTree = function(obj) {
+  const all_objects = [{
     parent: null,
     prop_name: '',
     obj: obj
   }]
-  var cur, i, prop_name
-  var objects_list = []
-  var result_list = []
+  let cur
+  let i
+  let prop_name
+  const objects_list = []
+  const result_list = []
 
   while (all_objects.length) {
     cur = all_objects.shift()
@@ -900,30 +913,31 @@ var getPropsListByTree = function(obj) {
 }
 
 spv.mapProps = function mapProps(props_map, donor, acceptor) {
-  for (var name in props_map) {
-    var value = getTargetField(donor, props_map[name])
+  for (const name in props_map) {
+    const value = getTargetField(donor, props_map[name])
     if (typeof value != 'undefined') {
       setTargetField(acceptor, name, value)
     }
   }
   return acceptor
 }
-var parseMap = function(map) {
+const parseMap = function(map) {
 
   //var root = map;
 
-  var all_targets = [map]
-  var full_list = []
-  var cur, i
+  const all_targets = [map]
+  const full_list = []
+  let cur
+  let i
 
   while (all_targets.length) {
     cur = all_targets.shift()
     if (cur.parts_map) {
-      for (var prop_name in cur.parts_map) {
+      for (const prop_name in cur.parts_map) {
         if (!cur.parts_map.hasOwnProperty(prop_name)) {
           continue
         }
-        var child_part = cur.parts_map[prop_name]
+        const child_part = cur.parts_map[prop_name]
         if (typeof child_part.props_map == 'string' && child_part.parts_map) {
           console.log(['you can not have parts in', child_part, 'since it is simple string from field:' + child_part.props_map])
           throw new Error('you can not have parts in this place since it is simple string from field:' + child_part.props_map)
@@ -940,7 +954,7 @@ var parseMap = function(map) {
     //cur.props_map
 
     if (typeof cur.props_map == 'object' && !Array.isArray(cur.props_map)) {
-      var full_propslist = getPropsListByTree(cur.props_map)
+      const full_propslist = getPropsListByTree(cur.props_map)
     //	console.log(full_propslist);
       cur.props_map = full_propslist
     }
@@ -953,13 +967,13 @@ var parseMap = function(map) {
   //''
 }
 
-var getPropValueByField = function(fpv, iter, scope, spec_data) {
-  var source_data = scope
-  var state_name = fpv
-  var start_char = fpv.charAt(0)
+const getPropValueByField = function(fpv, iter, scope, spec_data) {
+  let source_data = scope
+  let state_name = fpv
+  const start_char = fpv.charAt(0)
   if (start_char == '^') {
     state_name = fpv.slice(1)
-    var count = fpv.length - state_name.length
+    let count = fpv.length - state_name.length
     while (count) {
       --count
       source_data = iter.parent_data
@@ -982,18 +996,18 @@ var getPropValueByField = function(fpv, iter, scope, spec_data) {
   return getTargetField(source_data, state_name)
 }
 
-var getComplexPropValueByField = function(fpv, scope, iter, spec_data, converters) {
+const getComplexPropValueByField = function(fpv, scope, iter, spec_data, converters) {
 
 
 
-  var cur_value
+  let cur_value
 
 
   if (typeof fpv == 'string') {
     cur_value = getPropValueByField(fpv, iter, scope, spec_data)
   } else if (Array.isArray(fpv)) {
     if (fpv.length > 1) {
-      var convert = fpv[0]
+      let convert = fpv[0]
 
       if (typeof convert == 'string') {
         convert = converters[convert]
@@ -1008,35 +1022,35 @@ var getComplexPropValueByField = function(fpv, scope, iter, spec_data, converter
   return cur_value
 }
 
-var getTargetProps = function(obj, scope, iter, spec_data, converters) {
-  for (var i = 0; i < iter.map_opts.props_map.length; i++) {
-    var cur = iter.map_opts.props_map[i]
+const getTargetProps = function(obj, scope, iter, spec_data, converters) {
+  for (let i = 0; i < iter.map_opts.props_map.length; i++) {
+    const cur = iter.map_opts.props_map[i]
 
-    var fpv = cur.field_path_value
+    let fpv = cur.field_path_value
     if (!fpv) {
       fpv = cur.field_path
     }
 
-    var cur_value = getComplexPropValueByField(fpv, scope, iter, spec_data, converters)
+    const cur_value = getComplexPropValueByField(fpv, scope, iter, spec_data, converters)
 
     setTargetField(obj, cur.field_path, cur_value)
   }
 
 }
 
-var handlePropsMapScope = function(spec_data, cur, objects_list, scope, converters) {
+const handlePropsMapScope = function(spec_data, cur, objects_list, scope, converters) {
   if (typeof cur.map_opts.props_map == 'string') {
     return getComplexPropValueByField(cur.map_opts.props_map, scope, cur, spec_data, converters)
   }
 
-  var result_value_item = {}
+  const result_value_item = {}
   getTargetProps(result_value_item, scope, cur, spec_data, converters)
 
-  for (var prop_name in cur.map_opts.parts_map) {
+  for (const prop_name in cur.map_opts.parts_map) {
     //cur.map_opts.parts_map[prop_name];
-    var map_opts = cur.map_opts.parts_map[prop_name]
+    const map_opts = cur.map_opts.parts_map[prop_name]
 
-    var result_value = map_opts.is_array ? [] : {} //объект используемый потомками создаётся в контексте родителя, что бы родитель знал о потомках
+    const result_value = map_opts.is_array ? [] : {} //объект используемый потомками создаётся в контексте родителя, что бы родитель знал о потомках
     setTargetField(result_value_item, prop_name, result_value)//здесь родитель записывает информацию о своих потомках
 
     objects_list.push({
@@ -1051,9 +1065,9 @@ var handlePropsMapScope = function(spec_data, cur, objects_list, scope, converte
   return result_value_item
 }
 
-var executeMap = function(map, data, spec_data, converters) {
+const executeMap = function(map, data, spec_data, converters) {
 
-  var root_struc = {
+  const root_struc = {
     map_opts: map,
     parent_data: data,
     parent_map: null,
@@ -1065,13 +1079,14 @@ var executeMap = function(map, data, spec_data, converters) {
   }
 
 
-  var objects_list = [root_struc], result_item
+  const objects_list = [root_struc]
+  let result_item
 
   while (objects_list.length) {
-    var cur = objects_list.shift()
+    const cur = objects_list.shift()
 
 
-    var cvalue
+    let cvalue
     if (cur.map_opts.source) {
       cvalue = getTargetField(cur.parent_data, cur.map_opts.source)
     } else {
@@ -1093,8 +1108,8 @@ var executeMap = function(map, data, spec_data, converters) {
       cur.data_scope = toRealArray(cvalue)
       cur.writeable_array.length = cur.data_scope.length
 
-      for (var i = 0; i < cur.data_scope.length; i++) {
-        var scope = cur.data_scope[i]
+      for (let i = 0; i < cur.data_scope.length; i++) {
+        const scope = cur.data_scope[i]
         cur.writeable_array[i] = handlePropsMapScope(spec_data, cur, objects_list, scope, converters)
 
 
@@ -1110,7 +1125,7 @@ var executeMap = function(map, data, spec_data, converters) {
 }
 
 
-var MorphMap = function(config, converters) {
+const MorphMap = function(config, converters) {
   if (config && typeof config != 'object') {
     throw new Error('map should be `object`')
   }
@@ -1118,7 +1133,7 @@ var MorphMap = function(config, converters) {
   this.converters = converters
   this.pconfig = null
 
-  var _this = this
+  const _this = this
   return function() {
     return _this.execute.apply(_this, arguments)
   }
@@ -1144,11 +1159,11 @@ spv.mmap = function(config, converters) {
 
 spv.coe = coe
 
-var letter_regexp = /[^\u00C0-\u1FFF\u2C00-\uD7FF\w]/gi
+const letter_regexp = /[^\u00C0-\u1FFF\u2C00-\uD7FF\w]/gi
 //http://stackoverflow.com/questions/150033/regular-expression-to-match-non-english-characters#comment22322603_150078
 
 
-var hardTrim = function(string) {
+const hardTrim = function(string) {
   return string.replace(letter_regexp, '').toLowerCase()
 }
 spv.hardTrim = hardTrim
@@ -1157,11 +1172,11 @@ spv.hardTrim = hardTrim
 
 
 spv.insertItem = function(array, item, index) {
-  var array_length = array.length
-  var next_value = item
-  var value_to_recover
+  const array_length = array.length
+  let next_value = item
+  let value_to_recover
 
-  for (var jj = index; jj < array_length + 1; jj++) {
+  for (let jj = index; jj < array_length + 1; jj++) {
     value_to_recover = array[jj]
     array[jj] = next_value
     next_value = value_to_recover
@@ -1169,9 +1184,9 @@ spv.insertItem = function(array, item, index) {
   return array
 }
 
-var removeItem = function(array, index) {
+const removeItem = function(array, index) {
   //var array_length = array.length;
-  for (var i = index + 1; i < array.length; i++) {
+  for (let i = index + 1; i < array.length; i++) {
     array[ i - 1 ] = array[ i ]
   }
   array.length = array.length - 1
@@ -1181,7 +1196,7 @@ var removeItem = function(array, index) {
 spv.removeItem = removeItem
 
 spv.findAndRemoveItem = function(array, item) {
-  var index = array.indexOf(item)
+  const index = array.indexOf(item)
   if (index === -1) {
     return array
   } else {
@@ -1189,7 +1204,7 @@ spv.findAndRemoveItem = function(array, item) {
   }
 }
 
-var startsWith
+let startsWith
 if (String.prototype.startsWith) {
   startsWith = function(str, substr, pos) {
     return str.startsWith(substr, pos)
@@ -1197,10 +1212,10 @@ if (String.prototype.startsWith) {
 } else {
   //http://jsperf.com/starts-with/14, without problems for GC
   startsWith = function(str, substr, pos) {
-    var len = substr.length
-    var shift = pos || 0
+    const len = substr.length
+    const shift = pos || 0
 
-    for (var i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
       if (str.charAt(i + shift) != substr.charAt(i)) {
         return false
       }
@@ -1211,17 +1226,17 @@ if (String.prototype.startsWith) {
 
 spv.startsWith = startsWith
 
-var endsWith
+let endsWith
 if (String.prototype.endsWith) {
   endsWith = function(str, substr, pos) {
     return str.endsWith(substr, pos)
   }
 } else {
   endsWith = function(str, substr, pos) {
-    var len = substr.length
-    var big_length_diff = (pos || str.length) - len
+    const len = substr.length
+    const big_length_diff = (pos || str.length) - len
 
-    for (var i = len; i > 0; i--) {
+    for (let i = len; i > 0; i--) {
       if (str.charAt(big_length_diff + i - 1) !== substr.charAt(i - 1)) {
         return false
       }
@@ -1233,7 +1248,7 @@ if (String.prototype.endsWith) {
 spv.endsWith = endsWith
 
 spv.getDeprefixFunc = function(prefix, simple) {
-  var cache = {}
+  const cache = {}
   return function(namespace) {
     if (!cache.hasOwnProperty(namespace)) {
       if (startsWith(namespace, prefix)) {
@@ -1248,7 +1263,7 @@ spv.getDeprefixFunc = function(prefix, simple) {
 }
 
 spv.getPrefixingFunc = function(prefix) {
-  var cache = {}
+  const cache = {}
   return function(state_name) {
     if (!cache.hasOwnProperty(state_name)) {
       cache[state_name] = prefix + state_name
@@ -1258,14 +1273,14 @@ spv.getPrefixingFunc = function(prefix) {
 }
 
 spv.forEachKey = function(obj, fn, arg1, arg2) {
-  for (var key in obj) {
+  for (const key in obj) {
     if (!obj.hasOwnProperty(key)) {continue}
     fn(obj[key], key, arg1, arg2)
   }
 }
 
 export const isObjectEmpty = (obj) => {
-  for (var prop in obj) {
+  for (const prop in obj) {
     if (!obj.hasOwnProperty(prop)) {
       continue
     }
@@ -1277,8 +1292,8 @@ export const isObjectEmpty = (obj) => {
 }
 
 export const countKeys = function(obj, truthy) {
-  var count = 0
-  for (var prop in obj) {
+  let count = 0
+  for (const prop in obj) {
     if (!obj.hasOwnProperty(prop)) {
       continue
     }
@@ -1304,7 +1319,7 @@ spv.nil = function(arg) {
 
 spv.set = (function() {
 
-  var Set = function() {
+  const Set = function() {
     this.list = []
     this.index = {}
   }
@@ -1340,7 +1355,7 @@ spv.set = (function() {
   }
 
   function RemoveFromSet(set, key) {
-    var item = set.index[key]
+    const item = set.index[key]
     if (!isInSet(set, key)) {return}
 
     delete set.index[key]
@@ -1358,19 +1373,20 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
   return win.setImmediate || (function() {
     //http://learn.javascript.ru/setimmediate
 
-    var head = {
+    let head = {
       func: null,
       next: null
-    }, tail = head // очередь вызовов, 1-связный список
+    }
+    let tail = head // очередь вызовов, 1-связный список
 
-    var ID = Math.random() // уникальный идентификатор
+    const ID = Math.random() // уникальный идентификатор
 
-    var onmessage = function(e) {
+    const onmessage = function(e) {
       if (e.data != ID) {
         return
       } // не наше сообщение
       head = head.next
-      var func = head.func
+      const func = head.func
       head.func = null
       func()
     }
@@ -1388,9 +1404,9 @@ spv.getBoxedSetImmFunc = function getBoxedSetImmFunc(win) {
       tail = tail.next = { func: func, next: null }
       win.postMessage(ID, '*')
     } :
-    function(func) { // IE<8
-      setTimeout(func, 0)
-    }
+      function(func) { // IE<8
+        setTimeout(func, 0)
+      }
   }())
 }
 

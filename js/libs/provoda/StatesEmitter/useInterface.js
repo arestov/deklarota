@@ -5,7 +5,7 @@ import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
 import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 
-var template = function() {
+const template = function() {
   return {
     indexes: {},
 
@@ -25,7 +25,7 @@ export function __reportInterfaceChange(interface_name, value) {
 
 
 export function __updateInteraceState(self, interface_name, value) {
-  var name_for_used_modern = '$meta$apis$' + interface_name + '$used'
+  const name_for_used_modern = '$meta$apis$' + interface_name + '$used'
 
   self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
 
@@ -34,18 +34,18 @@ export function __updateInteraceState(self, interface_name, value) {
   ])
 }
 
-var useInterface = function(self, interface_name, obj, destroy) {
-  var old_interface = self._interfaces_used[interface_name]
+const useInterface = function(self, interface_name, obj, destroy) {
+  const old_interface = self._interfaces_used[interface_name]
   if (obj === old_interface || (obj == null && old_interface == null)) {
     return
   }
 
-  var binders = self._interfaces_binders
+  let binders = self._interfaces_binders
   if (!binders) {
     binders = self._interfaces_binders = template()
   }
 
-  var values_original = spv.cloneObj({}, binders.values)
+  const values_original = spv.cloneObj({}, binders.values)
 
   if (self._interfaces_used[interface_name] != null) {
     self._interfaces_used[interface_name] = null
@@ -64,7 +64,7 @@ var useInterface = function(self, interface_name, obj, destroy) {
     return
   }
 
-  var values_original2 = spv.cloneObj({}, binders.values)
+  const values_original2 = spv.cloneObj({}, binders.values)
 
   if (Object.isFrozen(self._interfaces_used)) {
     self._interfaces_used = {}

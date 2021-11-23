@@ -1,5 +1,5 @@
 
-var filters = {
+const filters = {
   limitTo: function(input, limit) {
     if (Array.isArray(input)) {
       return input.slice(0, limit)

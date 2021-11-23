@@ -1,6 +1,6 @@
 
 import spv from '../spv'
-var memorize = spv.memorize
+const memorize = spv.memorize
 
 export default memorize(function sameName(str) {
   // just store same string

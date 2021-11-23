@@ -13,15 +13,15 @@ test('shallowEqual', () => {
   expect(shallowEqual({}, {coco: null})).toBeFalsy()
 
   expect(shallowEqual({
-     url_part: undefined,
-     nav_title: null,
-     bmp_show: undefined,
-     mp_has_focus: undefined,
-     mpl_attached: undefined,
-     bmpl_attached: undefined,
-     has_data_loader: null,
-     main_list_loading: false,
-     all_data_loaded: false
+    url_part: undefined,
+    nav_title: null,
+    bmp_show: undefined,
+    mp_has_focus: undefined,
+    mpl_attached: undefined,
+    bmpl_attached: undefined,
+    has_data_loader: null,
+    main_list_loading: false,
+    all_data_loaded: false
   },
   {
     url_part: undefined,

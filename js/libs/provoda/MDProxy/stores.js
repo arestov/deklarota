@@ -52,13 +52,6 @@ const ok = Object.freeze({
   configurable: true
 })
 
-const notOk = Object.freeze({
-  value: null,
-  writable: true,
-  enumerable: false,
-  configurable: false,
-})
-
 const AttrsWrap = function() {}
 
 AttrsWrap.prototype = {
@@ -94,7 +87,7 @@ AttrsWrap.prototype = {
     // __getPublicAttrs
     return states.hasOwnProperty(name)
   },
-  getOwnPropertyDescriptor: function(md_proxy, prop) {
+  getOwnPropertyDescriptor: function(_md_proxy, _prop) {
     // вызывается для каждого свойства
     return ok
   }
@@ -128,7 +121,7 @@ RelsWrap.prototype = {
   has: function(md_proxy, name) {
     return md_proxy.nestings.hasOwnProperty(name)
   },
-  getOwnPropertyDescriptor: function(md_proxy, prop) {
+  getOwnPropertyDescriptor: function(_md_proxy, _prop) {
     // вызывается для каждого свойства
     return ok
   }
@@ -161,7 +154,7 @@ export const methods = {
     const list = this.__attrs_change_watchers.get(attr_name)
     if (list == null) {return}
 
-    for (var i = 0; i < list.length; i++) {
+    for (let i = 0; i < list.length; i++) {
       const fn = list[i]
       fn(value)
     }
@@ -172,7 +165,7 @@ export const methods = {
     if (list == null) {return}
 
     const value = this.getRel(rel_name)
-    for (var i = 0; i < list.length; i++) {
+    for (let i = 0; i < list.length; i++) {
       const fn = list[i]
       fn(value)
     }

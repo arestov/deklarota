@@ -2,7 +2,7 @@
 
 import FlowStep from './FlowStep'
 
-var Group = function(num) {
+const Group = function(num) {
   this.num = 1 // just hint type for js engine
   this.num = num
   this.complex_order = [num]
@@ -10,12 +10,12 @@ var Group = function(num) {
   Object.freeze(this)
 }
 
-var compareComplexOrder = function(array_one, array_two) {
-  var max_length = Math.max(array_one.length, array_two.length)
+const compareComplexOrder = function(array_one, array_two) {
+  const max_length = Math.max(array_one.length, array_two.length)
 
-  for (var i = 0; i < max_length; i++) {
-    var item_one_step = array_one[i]
-    var item_two_step = array_two[i]
+  for (let i = 0; i < max_length; i++) {
+    const item_one_step = array_one[i]
+    const item_two_step = array_two[i]
 
     if (typeof item_one_step == 'undefined' && typeof item_two_step == 'undefined') {
       return
@@ -37,12 +37,12 @@ var compareComplexOrder = function(array_one, array_two) {
   }
 }
 
-var compareInitOrder = function(array_one, array_two, end_one, end_two) {
-  var max_length = Math.max(array_one.length, array_two.length)
+const compareInitOrder = function(array_one, array_two, end_one, end_two) {
+  const max_length = Math.max(array_one.length, array_two.length)
 
-  for (var i = 0; i < max_length; i++) {
-    var item_one_step = array_one[i]
-    var item_two_step = array_two[i]
+  for (let i = 0; i < max_length; i++) {
+    const item_one_step = array_one[i]
+    const item_two_step = array_two[i]
 
     if (typeof item_one_step == 'undefined' && typeof item_two_step == 'undefined') {
       return 0
@@ -94,9 +94,9 @@ var compareInitOrder = function(array_one, array_two, end_one, end_two) {
   }
 }
 
-var sortFlows = function(item_one, item_two) {
-  var none_one = !item_one || item_one.aborted
-  var none_two = !item_two || item_two.aborted
+const sortFlows = function(item_one, item_two) {
+  const none_one = !item_one || item_one.aborted
+  const none_two = !item_two || item_two.aborted
 
   if (none_one && none_two) {
     return 0
@@ -133,8 +133,8 @@ var sortFlows = function(item_one, item_two) {
 }
 
 
-var getBoxedSetImmFunc = function(win, onError) {
-  var prom = win.Promise.resolve()
+const getBoxedSetImmFunc = function(win, onError) {
+  const prom = win.Promise.resolve()
 
   const handle = function(err) {
     if (!onError) {
@@ -149,14 +149,14 @@ var getBoxedSetImmFunc = function(win, onError) {
   }
 }
 
-var getBoxedRAFFunc = function(win) {
-  var raf
+const getBoxedRAFFunc = function(win) {
+  let raf
 
   if (win.requestAnimationFrame) {
     raf = win.requestAnimationFrame
   } else {
-    var vendors = ['ms', 'moz', 'webkit', 'o']
-    for(var x = 0; x < vendors.length && !raf; ++x) {
+    const vendors = ['ms', 'moz', 'webkit', 'o']
+    for(let x = 0; x < vendors.length && !raf; ++x) {
       raf = win[vendors[x] + 'RequestAnimationFrame']
     }
   }
@@ -165,13 +165,13 @@ var getBoxedRAFFunc = function(win) {
   }
 }
 
-var MIN = 60 * 1000
+const MIN = 60 * 1000
 
-var CallbacksFlow = function(options) {
+const CallbacksFlow = function(options) {
   // glo is global/window
-  var glo = options.glo
-  var rendering_flow = options.rendering_flow
-  var iteration_time = options.iteration_time
+  const glo = options.glo
+  const rendering_flow = options.rendering_flow
+  const iteration_time = options.iteration_time
 
   this.flow = []
   this.flow_start = null
@@ -183,17 +183,17 @@ var CallbacksFlow = function(options) {
   this.bad_stops_strike_counter = 0
 
   // this.flow_steps_collating_invalidated = null;
-  var _this = this
+  const _this = this
   this.hndIterateCallbacksFlow = function() {
     _this.iterateCallbacksFlow()
   }
-  var raf = rendering_flow && getBoxedRAFFunc(glo)
+  const raf = rendering_flow && getBoxedRAFFunc(glo)
   if (raf) {
     this.pushIteration = function(fn) {
       return raf(fn)
     }
   } else {
-    var setImmediate = getBoxedSetImmFunc(glo, options.onError)
+    const setImmediate = getBoxedSetImmFunc(glo, options.onError)
     this.pushIteration = function(fn) {
       return setImmediate(fn)
     }
@@ -209,7 +209,7 @@ CallbacksFlow.prototype = {
     this.pushToFlow(fn)
   },
   startGroup: function() {
-    var step = new Group(++this.flow_steps_counter)
+    const step = new Group(++this.flow_steps_counter)
     this.callbacks_busy = true
     this.current_step = step
     return step
@@ -222,14 +222,14 @@ CallbacksFlow.prototype = {
     this.current_step = null
   },
   iterateCallbacksFlow: function() {
-    var started_at = Date.now()
-    var start = started_at + this.iteration_time
-    var last_call_at = started_at
+    const started_at = Date.now()
+    const start = started_at + this.iteration_time
+    let last_call_at = started_at
     this.iteration_delayed_check_time = 0
     this.callbacks_busy = true
 
-    var stopped
-    for (var cur = this.flow_start; cur;) {
+    let stopped
+    for (let cur = this.flow_start; cur;) {
       this.flow_start = cur
       if (!this.flow_start) {
         this.flow_end = null
@@ -252,7 +252,7 @@ CallbacksFlow.prototype = {
         this.current_step = null
       }
 
-      var completed_at = Date.now()
+      const completed_at = Date.now()
 
       if (this.reportLongTask != null) {
         this.reportLongTaskRaw(completed_at - last_call_at, cur)
@@ -261,7 +261,7 @@ CallbacksFlow.prototype = {
       last_call_at = completed_at
 
 
-      var toClean = cur
+      const toClean = cur
 
       if (this.flow_start == cur) {
         cur = cur.next
@@ -295,7 +295,7 @@ CallbacksFlow.prototype = {
       return
     }
 
-    var now = Math.round(Date.now())
+    const now = Math.round(Date.now())
 
     if (this.iteration_delayed_check_time) {
       if (this.iteration_delayed_check_time <= now) {
@@ -312,28 +312,28 @@ CallbacksFlow.prototype = {
     this.iteration_delayed_check_time = now + MIN
   },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
-    var flow_step_num = ++this.flow_steps_counter
+    const flow_step_num = ++this.flow_steps_counter
 
-    var complex_order = (motivator && motivator.complex_order.slice()) || []
+    const complex_order = (motivator && motivator.complex_order.slice()) || []
     complex_order.push(flow_step_num)
 
-    var inited_order = initedOrder(initiator, motivator)
+    const inited_order = initedOrder(initiator, motivator)
     inited_order.push(flow_step_num)
 
-    var is_transaction_end = motivator ? motivator.is_transaction_end : false
-    var flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
+    const is_transaction_end = motivator ? motivator.is_transaction_end : false
+    const flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
     order(this, flow_step)
     this.checkCallbacksFlow()
     return flow_step
 
   },
   scheduleTransactionEnd: function functionName(starter_id, context, args, fn, cb_wrapper) {
-    var flow_step_num = ++this.flow_steps_counter
-    var complex_order = [starter_id, Infinity, flow_step_num]
-    var inited_order = complex_order
+    const flow_step_num = ++this.flow_steps_counter
+    const complex_order = [starter_id, Infinity, flow_step_num]
+    const inited_order = complex_order
 
-    var is_transaction_end = true
-    var flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
+    const is_transaction_end = true
+    const flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
     order(this, flow_step)
     this.checkCallbacksFlow()
   },
@@ -341,7 +341,7 @@ CallbacksFlow.prototype = {
     if (taskTime < 500) {
       return
     }
-    var reportLongTask = this.reportLongTask
+    const reportLongTask = this.reportLongTask
     reportLongTask(task, taskTime)
   },
 
@@ -350,24 +350,25 @@ CallbacksFlow.prototype = {
       return
     }
 
-    var reportHugeQueue = this.reportHugeQueue
+    const reportHugeQueue = this.reportHugeQueue
     reportHugeQueue(task, duration)
   }
 }
 
 function order(self, flow_step) {
-  var last_item = self.flow_end
+  const last_item = self.flow_end
 
-  var result = last_item && sortFlows(flow_step, last_item)
+  const result = last_item && sortFlows(flow_step, last_item)
 
   if (result >= 0) {
     //очевидно, что новый элемент должен стать в конец
     return toEnd(self, flow_step)
   }
 
-  var last_matched
-  for (var cur = self.flow_start; cur; cur = cur.next) {
-    var match_result = sortFlows(cur, flow_step)
+  let last_matched
+  let cur
+  for (cur = self.flow_start; cur; cur = cur.next) {
+    const match_result = sortFlows(cur, flow_step)
     if (match_result == -1) {
       last_matched = cur
     } else {

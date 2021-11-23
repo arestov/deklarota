@@ -2,13 +2,13 @@
 import spv from '../../../spv'
 
 import RouteDcl from './dcl'
-var cloneObj = spv.cloneObj
+const cloneObj = spv.cloneObj
 
-var buildRoutes = function(self, index) {
+const buildRoutes = function(self, index) {
   // TODO: allow to control matching order
 
-  var result = []
-  for (var name in index) {
+  const result = []
+  for (const name in index) {
     result.push(
       index[name]
     )
@@ -25,28 +25,28 @@ var buildRoutes = function(self, index) {
 
 }
 
-var parse = function(name, data) {
+const parse = function(name, data) {
   return new RouteDcl(name, data)
 }
 
-var extend = function(index, more) {
-  var cur = cloneObj({}, index) || {}
+const extend = function(index, more) {
+  const cur = cloneObj({}, index) || {}
 
-  for (var name in more) {
-    var data = more[name]
+  for (const name in more) {
+    const data = more[name]
     if (!data) {
       console.warn('implement route erasing for: ', name)
       continue
     }
 
-    var dcl = parse(name, data)
+    const dcl = parse(name, data)
     cur[name] = dcl
   }
 
   return cur
 }
 
-var checkModern = function(self) {
+const checkModern = function(self) {
   const routes = self.hasOwnProperty('routes') && self.routes
   if (!routes) {
     return
@@ -61,7 +61,7 @@ var checkModern = function(self) {
 
 export default function checkRoutes(self) {
 
-  var currentIndex = self._extendable_routes_index
+  const currentIndex = self._extendable_routes_index
 
   checkModern(self)
 

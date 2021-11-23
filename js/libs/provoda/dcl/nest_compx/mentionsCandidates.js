@@ -7,18 +7,18 @@ const getAllPossibleRelMentionsCandidates = cachedField(
   ['_nest_by_type_listed'],
   true,
   function getAllPossibleRelMentionsCandidates(_nest_by_type_listed) {
-    var compx_list = _nest_by_type_listed.comp
+    const compx_list = _nest_by_type_listed.comp
     if (compx_list == null) {
       return null
     }
 
-    var result = []
+    const result = []
 
-    for (var i = 0; i < compx_list.length; i++) {
-      var cur = compx_list[i]
+    for (let i = 0; i < compx_list.length; i++) {
+      const cur = compx_list[i]
 
-      for (var jj = 0; jj < cur.parsed_deps.nest_watch.length; jj++) {
-        var addr = cur.parsed_deps.nest_watch[jj]
+      for (let jj = 0; jj < cur.parsed_deps.nest_watch.length; jj++) {
+        const addr = cur.parsed_deps.nest_watch[jj]
 
         result.push({
           addr: addr,
@@ -38,15 +38,15 @@ export const getAllGlueSources = cachedField(
   ['_nest_by_type_listed'],
   true,
   function getAllGlueSources(_nest_by_type_listed) {
-    var compx_list = _nest_by_type_listed.comp
+    const compx_list = _nest_by_type_listed.comp
     if (compx_list == null) {
       return null
     }
 
-    var result = []
+    const result = []
 
-    for (var i = 0; i < compx_list.length; i++) {
-      var cur = compx_list[i]
+    for (let i = 0; i < compx_list.length; i++) {
+      const cur = compx_list[i]
       result.push(...cur.glue_sources)
     }
 
@@ -60,12 +60,12 @@ export const getParentRelMentions = cachedField(
   [],
   true,
   function getParentRelMentions(model) {
-    var list = getAllGlueSources(model) || []
+    const list = getAllGlueSources(model) || []
 
-    var result = []
+    const result = []
 
-    for (var i = 0; i < list.length; i++) {
-      var cur = list[i]
+    for (let i = 0; i < list.length; i++) {
+      const cur = list[i]
       if (!isGlueParent(cur.source)) {
         continue
       }
@@ -84,12 +84,12 @@ export const getRootRelMentions = cachedField(
   [],
   true,
   function getRootRelMentions(model) {
-    var list = getAllGlueSources(model) || []
+    const list = getAllGlueSources(model) || []
 
-    var result = []
+    const result = []
 
-    for (var i = 0; i < list.length; i++) {
-      var cur = list[i]
+    for (let i = 0; i < list.length; i++) {
+      const cur = list[i]
       if (!isGlueRoot(cur.source)) {
         continue
       }

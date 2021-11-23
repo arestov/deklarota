@@ -1,18 +1,18 @@
 
 
 import spv from '../../../../spv'
-var getDeprefixFunc = spv.getDeprefixFunc
-var check = getDeprefixFunc('handleAttr:')
+const getDeprefixFunc = spv.getDeprefixFunc
+const check = getDeprefixFunc('handleAttr:')
 
 export default function rebuild(self, index) {
-  var result = {}
+  const result = {}
 
-  for (var name in index) {
+  for (const name in index) {
     if (!index.hasOwnProperty(name)) {
       continue
     }
 
-    var result_name = check(name)
+    const result_name = check(name)
 
     if (!result_name) {
       continue

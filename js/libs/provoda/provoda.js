@@ -18,9 +18,13 @@ import behavior from './provoda/bhv'
 import mergeBhv from './provoda/_lmerge'
 import mpxUpdateAttr from './provoda/v/mpxUpdateAttr'
 
+/* uncomment if you need it
+
 var DeathMarker = function() {
   //helper to find memory leaks; if there is memory leaking DeathMarker will be available in memory heap snapshot;
 }
+
+*/
 
 /*
 var hasPrefixedProps = function(props, prefix) {
@@ -33,7 +37,7 @@ var hasPrefixedProps = function(props, prefix) {
 };
 */
 
-var provoda = {
+const provoda = {
   hp: hp,
   $v: hp.$v,
   getRDep: hp.getRDep,

@@ -1,7 +1,6 @@
 
 import FuncsStack from './FuncsStack'
-var FuncsQueue
-var QueueFunc = function(queue, atom) {
+const QueueFunc = function(queue, atom) {
   this.q = queue
   this.atom = atom
   this.aborted = null
@@ -33,13 +32,13 @@ QueueFunc.prototype = {
 }
 
 
-FuncsQueue = function(opts) {
-  var _this = this
+const FuncsQueue = function(opts) {
+  const _this = this
 
-  var time_opts = opts.time,
-    small_delay = time_opts[0],
-    big_delay = time_opts[1],
-    big_delay_interval = time_opts[2]
+  const time_opts = opts.time
+  const small_delay = time_opts[0]
+  const big_delay = time_opts[1]
+  const big_delay_interval = time_opts[2]
 
   if (opts.resortQueue) {
     this.resortQueue = opts.resortQueue
@@ -48,10 +47,10 @@ FuncsQueue = function(opts) {
     this.reverse_default_prio = true
   }
 
-  var selectNext = function(prev) {
+  const selectNext = function(prev) {
     _this.goAhead(prev)
   }
-  var initAtom = function(atom) {
+  const initAtom = function(atom) {
     atom.qf = new QueueFunc(_this, atom)
   }
 
@@ -80,8 +79,8 @@ FuncsQueue = function(opts) {
 FuncsQueue.prototype = {
   constructor: FuncsQueue,
   removePrioMarks: function() {
-    var queue = this.fstack.getArr()
-    for (var i = 0; i < queue.length; i++) {
+    const queue = this.fstack.getArr()
+    for (let i = 0; i < queue.length; i++) {
       if (queue[i].aborted) {
         continue
       }
@@ -90,13 +89,13 @@ FuncsQueue.prototype = {
     this.valid_sort = false
   },
   getTopPrio: function() {
-    var nums = []
-    var queue = this.fstack.getArr()
-    for (var i = 0; i < queue.length; i++) {
+    const nums = []
+    const queue = this.fstack.getArr()
+    for (let i = 0; i < queue.length; i++) {
       if (queue[i].aborted) {
         continue
       }
-      var cur = queue[i].qf.pr
+      const cur = queue[i].qf.pr
       if (typeof cur == 'number') {
         nums.push(cur)
       }
@@ -109,9 +108,9 @@ FuncsQueue.prototype = {
     }
   },
   goAhead: function(prev) {
-    var _this = this
+    const _this = this
 
-    var time = _this.getInterval(prev)
+    const time = _this.getInterval(prev)
     if (time) {
       setTimeout(function() {
         _this.selectNext(prev)
@@ -121,26 +120,26 @@ FuncsQueue.prototype = {
     }
   },
   getInterval: function() {
-    var
-      time,
-      last_num = this.using_stat.length - 1,
-      bigdelay_turn = (!this.nobigdelay && last_num > 1 && (last_num % this.big_delay_interval === 0))
+    let
+      time
+    const last_num = this.using_stat.length - 1
+    const bigdelay_turn = (!this.nobigdelay && last_num > 1 && (last_num % this.big_delay_interval === 0))
 
     if (bigdelay_turn) {
-      var real_bdinterval = Date.now() - this.using_stat[last_num - (this.big_delay_interval + 1)]
-      var _unit = (this.small_delay * this.big_delay_interval + this.big_delay)
+      const real_bdinterval = Date.now() - this.using_stat[last_num - (this.big_delay_interval + 1)]
+      const _unit = (this.small_delay * this.big_delay_interval + this.big_delay)
       if (real_bdinterval && real_bdinterval > _unit) {
         time = Math.max(0, this.big_delay - (real_bdinterval - _unit))
       } else{
         time = this.big_delay
       }
     } else{
-      var last_usage = this.using_stat[last_num] || 0
+      const last_usage = this.using_stat[last_num] || 0
       if (!last_usage) {
         time = 0
       } else{
-        var time_difference = Date.now() - last_usage
-        var interval_diff = this.small_delay - time_difference
+        const time_difference = Date.now() - last_usage
+        const interval_diff = this.small_delay - time_difference
         if (interval_diff > 0) {
           time = interval_diff
         } else{
@@ -154,22 +153,22 @@ FuncsQueue.prototype = {
     return time
   },
   add: function(func, not_init) {
-    var
-      _this = this,
-      my_queue = this.fstack.getArr()
+    const
+      _this = this
+    const my_queue = this.fstack.getArr()
 
     not_init = not_init || my_queue.length !== 0
 
     this.fstack.next(function() {
       this.complete = true
-      var atom = this
+      const atom = this
       func()
       _this.using_stat.push(Date.now())
 
       atom.done(my_queue)
     })
 
-    var _ob = my_queue[my_queue.length - 1].qf
+    const _ob = my_queue[my_queue.length - 1].qf
 
     if (!not_init) {
       this.init()
@@ -194,14 +193,14 @@ FuncsQueue.prototype = {
       this.valid_sort = true
     }
 
-    var
-      i,
-      atom,
-      q = this.fstack.getArr(),
-      clean_quene = [],
-      prior_num = 0,
-      prior_el = null,
-      preferred_by_default = null
+    let
+      i
+    let atom
+    const q = this.fstack.getArr()
+    const clean_quene = []
+    let prior_num = 0
+    let prior_el = null
+    let preferred_by_default = null
 
     for (i = 0; i < q.length; i++) {
       atom = q[i]
@@ -226,7 +225,7 @@ FuncsQueue.prototype = {
       }
     }
 
-    var vip = prior_el || preferred_by_default
+    const vip = prior_el || preferred_by_default
 
     if (vip) {
       vip.func()

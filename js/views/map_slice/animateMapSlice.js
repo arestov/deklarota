@@ -9,27 +9,31 @@ import getAttr from '../../libs/provoda/provoda/getAttr'
   ANIMATION IS BROKEN
 */
 
-var css_transform = css.transform
-var transform_props = css_transform ? [css_transform] : []
+const css_transform = css.transform
+const transform_props = css_transform ? [css_transform] : []
 //['-webkit-transform', '-moz-transform', '-o-transform', 'transform'];
-var empty_transform_props = {}
+const empty_transform_props = {}
 transform_props.forEach(function(el) {
   empty_transform_props[el] = ''
 })
 
-var arrProtp = Array.prototype
-var concat = arrProtp.concat
-var concatArray = function(array_of_arrays) {
+const arrProtp = Array.prototype
+const concat = arrProtp.concat
+const concatArray = function(array_of_arrays) {
   return concat.apply(arrProtp, array_of_arrays)
 }
 
-var inCache = function(cache, key) {
+const inCache = function(cache, key) {
   return cache.hasOwnProperty(key) && cache[key] !== false
 }
 
-var needsDestroing = function(view, all_changhes) {
-  var destroy_insurance = {}, i, cur, target, pvid
-  var result = []
+const needsDestroing = function(view, all_changhes) {
+  const destroy_insurance = {}
+  let i
+  let cur
+  let target
+  let pvid
+  const result = []
 
   for (i = 0; i < all_changhes.length; i++) {
     cur = all_changhes[i]
@@ -69,10 +73,10 @@ export const getLevNum = (view_with_highway, transaction_data) => {
 
 
 export default function(view, transaction_data, animation_data) {
-  var all_changhes = spv.filter(transaction_data.array, 'changes')
-    all_changhes = concatArray(all_changhes)
-  var models = spv.filter(all_changhes, 'target')
-  var i
+  let all_changhes = spv.filter(transaction_data.array, 'changes')
+  all_changhes = concatArray(all_changhes)
+  const models = spv.filter(all_changhes, 'target')
+  let i
 
   if (!view.changes_number) {
     view.changes_number = 0
@@ -80,18 +84,18 @@ export default function(view, transaction_data, animation_data) {
 
   view.changes_number++
 
-  var changes_number = view.changes_number
+  const changes_number = view.changes_number
 
   view.markAnimationStart(models, changes_number)
 
-  var doomed = needsDestroing(view, all_changhes)
+  const doomed = needsDestroing(view, all_changhes)
   for (i = doomed.length - 1; i >= 0; i--) {
     view.removeChildViewsByMd(view.getStoredMpx(doomed[i]), 'map_slice')
   }
 
   for (i = 0; i < all_changhes.length; i++) {
-    var change = all_changhes[i]
-    var handler = view['model-mapch'][change.type]
+    const change = all_changhes[i]
+    const handler = view['model-mapch'][change.type]
     if (handler) {
       handler.call(view, change)
     }
@@ -123,7 +127,7 @@ export default function(view, transaction_data, animation_data) {
     }
 
   }
-  var completeAnimation = function() {
+  const completeAnimation = function() {
     view.markAnimationEnd(models, changes_number)
   }
   setTimeout(completeAnimation, 16 * 21 * 4)

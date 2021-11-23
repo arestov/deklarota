@@ -12,15 +12,15 @@ import glueTargets from './glueTargets'
 import isGlueTargetAttr from './isGlueTargetAttr'
 
 
-var zip_of_rel = glueTargets.zip_of_rel
-var zip_of_attr = glueTargets.zip_of_attr
-var long_attr_of_attr = glueTargets.long_attr_of_attr
-var long_attr_of_rel = glueTargets.long_attr_of_rel
-var rel_of_ascendor = glueTargets.rel_of_ascendor
+const zip_of_rel = glueTargets.zip_of_rel
+const zip_of_attr = glueTargets.zip_of_attr
+const long_attr_of_attr = glueTargets.long_attr_of_attr
+const long_attr_of_rel = glueTargets.long_attr_of_rel
+const rel_of_ascendor = glueTargets.rel_of_ascendor
 
 
-var getTreeGetter = function(val) {
-  var tree = spv.splitByDot(val).slice(1)
+const getTreeGetter = function(val) {
+  const tree = spv.splitByDot(val).slice(1)
   return function(val) {
     if (val == null) {
       return
@@ -30,44 +30,44 @@ var getTreeGetter = function(val) {
 }
 
 function makeGlueSource(addr) {
-  var glue_target_type = isGlueTargetAttr(addr)
+  const glue_target_type = isGlueTargetAttr(addr)
   if (glue_target_type == null) {
     return null
   }
 
-  var target_key = asString(addr)
+  const target_key = asString(addr)
 
   switch (glue_target_type) {
     case zip_of_rel: {
-      var source_addr = createUpdatedAddr(addr, {zip_name: 'all'})
+      const source_addr = createUpdatedAddr(addr, {zip_name: 'all'})
       return new CompxAttrDecl(target_key, [[asString(source_addr)], zip_fns[addr.zip_name]])
     }
     case zip_of_attr: {
-      var source_addr = createUpdatedAddr(addr, {zip_name: 'all'})
+      const source_addr = createUpdatedAddr(addr, {zip_name: 'all'})
       return new CompxAttrDecl(target_key, [[asString(source_addr)], zip_fns[addr.zip_name]])
     }
 
     case long_attr_of_rel: {
-      var source_addr = createUpdatedAddr(addr, {state: addr.state.base})
-      var getValue = getTreeGetter(addr.state.path)
-      var fn = function(list) {
+      const source_addr = createUpdatedAddr(addr, {state: addr.state.base})
+      const getValue = getTreeGetter(addr.state.path)
+      const fn = function(list) {
         return list && list.map(getValue)
       }
       return new CompxAttrDecl(target_key, [[asString(source_addr)], fn])
     }
     case long_attr_of_attr: {
-      var getValue = getTreeGetter(addr.state.path)
+      const getValue = getTreeGetter(addr.state.path)
       if (isJustAttrAddr(addr)) {
         return new CompxAttrDecl(addr.state.path, [[addr.state.base], getValue])
       }
 
-      var source_addr = createUpdatedAddr(addr, {state: addr.state.base})
+      const source_addr = createUpdatedAddr(addr, {state: addr.state.base})
       return new CompxAttrDecl(target_key, [[asString(source_addr)], getValue])
     }
 
     case rel_of_ascendor: {
       const splited = doRelSplit(addr)
-      var source_addr = splited.destination
+      const source_addr = splited.destination
       return new CompxAttrDecl(target_key, [[asString(source_addr)]])
     }
 

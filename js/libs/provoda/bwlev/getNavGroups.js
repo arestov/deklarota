@@ -2,11 +2,11 @@
 import isBigStep from './isBigStep'
 
 export default function getNavGroups(bwlev) {
-  var cur_group = []
-  var groups = [cur_group]
+  let cur_group = []
+  const groups = [cur_group]
 
-  var cur = bwlev
-  var cur_child = cur.getNesting('pioneer')
+  let cur = bwlev
+  let cur_child = cur.getNesting('pioneer')
   while (cur) {
     cur_group.push(cur_child)
 

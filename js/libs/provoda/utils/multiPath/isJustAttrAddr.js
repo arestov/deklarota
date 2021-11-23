@@ -1,4 +1,4 @@
-var isJustAttrAddr = function(addr) {
+const isJustAttrAddr = function(addr) {
   if (addr.result_type !== 'state') {
     return false
   }

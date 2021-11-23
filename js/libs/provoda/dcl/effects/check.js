@@ -26,7 +26,7 @@ import copyWithSymbols from '../copyWithSymbols'
 // var buildSel = require('../nest_sel/build');
 
 
-var parse = function(type, name, data) {
+const parse = function(type, name, data) {
   switch (type) {
     case 'consume-state_request': {
       return new StateReqMap(name, data)
@@ -48,14 +48,14 @@ var parse = function(type, name, data) {
   throw new Error('unsupported type ' + type)
 }
 
-var extend = function(prefix, index, more_effects) {
-  var cur = doCopy({}, index) || {}
-  var prefix_string = prefix ? (prefix + '-') : ''
+const extend = function(prefix, index, more_effects) {
+  const cur = doCopy({}, index) || {}
+  const prefix_string = prefix ? (prefix + '-') : ''
 
-  for (var name in more_effects) {
-    var data = more_effects[name]
-    var type = prefix_string + (data.type || '')
-    var dcl = parse(type, name, data)
+  for (const name in more_effects) {
+    const data = more_effects[name]
+    const type = prefix_string + (data.type || '')
+    const dcl = parse(type, name, data)
     cur[name] = {
       dcl: dcl,
       type: type,
@@ -65,15 +65,15 @@ var extend = function(prefix, index, more_effects) {
   return cur
 }
 
-var byType = function(index) {
-  var result = {}
-  for (var name in index) {
+const byType = function(index) {
+  const result = {}
+  for (const name in index) {
     if (!index.hasOwnProperty(name)) {
       continue
     }
 
-    var cur = index[name]
-    var type = cur.type
+    const cur = index[name]
+    const type = cur.type
 
     result[type] = result[type] || {}
     result[type][name] = cur.dcl
@@ -83,12 +83,12 @@ var byType = function(index) {
 }
 
 
-var notEqual = function(one, two) {
+const notEqual = function(one, two) {
   if (!one || !two) {
     return one !== two
   }
 
-  for (var name in one) {
+  for (const name in one) {
     if (!one.hasOwnProperty(name)) {
       continue
     }
@@ -97,7 +97,7 @@ var notEqual = function(one, two) {
     }
   }
 
-  for (var name in two) {
+  for (const name in two) {
     if (!two.hasOwnProperty(name)) {
       continue
     }
@@ -108,17 +108,17 @@ var notEqual = function(one, two) {
   }
 }
 
-var rebuildType = function(self, type, result, list) {
+const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
-      let extended_comp_attrs = {}
+      const extended_comp_attrs = {}
       buildStateReqs(self, list, extended_comp_attrs)
       parseCompItems(extended_comp_attrs)
       self.___dcl_eff_consume_req_st = extended_comp_attrs
       return
     }
     case 'consume-nest_request': {
-      let extended_comp_attrs = {}
+      const extended_comp_attrs = {}
       buildNestReqs(self, result, extended_comp_attrs)
       parseCompItems(extended_comp_attrs)
       self.___dcl_eff_consume_req_nest = extended_comp_attrs
@@ -129,14 +129,14 @@ var rebuildType = function(self, type, result, list) {
       return
     }
     case 'produce-': {
-      let extended_comp_attrs = {}
+      const extended_comp_attrs = {}
       buildProduce(self, result, extended_comp_attrs)
       parseCompItems(extended_comp_attrs)
       self.___dcl_eff_produce = extended_comp_attrs
       return
     }
     case 'api-': {
-      let extended_comp_attrs = {}
+      const extended_comp_attrs = {}
       buildApi(self, result, extended_comp_attrs)
       parseCompItems(extended_comp_attrs)
       self.___dcl_eff_api = extended_comp_attrs
@@ -144,8 +144,8 @@ var rebuildType = function(self, type, result, list) {
   }
 }
 
-var rebuild = function(self, newV, oldV, listByType) {
-  for (var type in newV) {
+const rebuild = function(self, newV, oldV, listByType) {
+  for (const type in newV) {
     if (!newV.hasOwnProperty(type)) {
       continue
     }
@@ -158,11 +158,11 @@ var rebuild = function(self, newV, oldV, listByType) {
   }
 }
 
-var checkModern = function(self) {
+const checkModern = function(self) {
   if (!self.hasOwnProperty('effects')) {
     return
   }
-  var effects = self.effects
+  const effects = self.effects
 
   self._extendable_effect_index = extend(
     'consume',
@@ -189,7 +189,7 @@ const fxAttrs = cachedField(
   ['___dcl_eff_consume_req_st', '___dcl_eff_consume_req_nest', '___dcl_eff_produce', '___dcl_eff_api'],
   false,
   function collectCheck(s1, s2, s3, s4) {
-    let result = {}
+    const result = {}
 
     doCopy(result, s1)
     doCopy(result, s2)
@@ -213,16 +213,16 @@ const checkNetworkSources = cachedField(
 )
 
 const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], false, (_effect_by_type) => {
-  var _effect_by_type_listed = {}
-  for (var type_name in _effect_by_type) {
+  const _effect_by_type_listed = {}
+  for (const type_name in _effect_by_type) {
     if (!_effect_by_type.hasOwnProperty(type_name)) {
       continue
     }
 
-    var result = []
+    const result = []
 
-    var cur = _effect_by_type[type_name]
-    for (var effect_name in cur) {
+    const cur = _effect_by_type[type_name]
+    for (const effect_name in cur) {
       if (!cur.hasOwnProperty(effect_name)) {
         continue
       }
@@ -236,7 +236,7 @@ const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], f
 })
 
 export default function checkEffects(self, props) {
-  var currentIndex = self._extendable_effect_index
+  const currentIndex = self._extendable_effect_index
 
   checkModern(self, props)
 
@@ -244,7 +244,7 @@ export default function checkEffects(self, props) {
     return
   }
 
-  var oldByType = self._effect_by_type || {}
+  const oldByType = self._effect_by_type || {}
   self._effect_by_type = byType(self._extendable_effect_index)
 
   checkListed(self)

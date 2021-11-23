@@ -5,9 +5,9 @@ import toTransferableStatesList from './Model/toTransferableStatesList'
 import toTransferableNestings from './Model/toTransferableNestings'
 import toSimpleStructure from './Model/toSimpleStructure'
 import isPublicRel from './Model/rel/isPublicRel'
-var parseNesting = toSimpleStructure.parseNesting
+const parseNesting = toSimpleStructure.parseNesting
 
-var SyncSender = function() {
+const SyncSender = function() {
   this.sockets = {}
   this.streams_list = []
   this.sockets_m_index = {}
@@ -18,7 +18,7 @@ var SyncSender = function() {
   this.schedule_timer = null
   this.has_nothing = true
 
-  var self = this
+  const self = this
 
   // 1 send operation cost is about 1ms-12ms. so 100 operations can take up to 100ms-1000ms
   // lets butch operations. 60fps is 16ms per frame. lets batch by 16ms.
@@ -26,9 +26,9 @@ var SyncSender = function() {
   this.flush = function() {
     self.has_nothing = true
 
-    for (var i = 0; i < self.streams_list.length; i++) {
-      var cur = self.streams_list[i]
-      var list = self.batched_by_id[cur.id]
+    for (let i = 0; i < self.streams_list.length; i++) {
+      const cur = self.streams_list[i]
+      const list = self.batched_by_id[cur.id]
       if (!list.length) {
         continue
       }
@@ -75,7 +75,7 @@ SyncSender.prototype = {
     this.sockets[stream.id] = stream
     this.streams_list.push(stream)
 
-    var struc = start_md.toSimpleStructure(this.sockets_m_index[stream.id])
+    const struc = start_md.toSimpleStructure(this.sockets_m_index[stream.id])
     stream.buildTree(struc)
 
   },
@@ -85,24 +85,19 @@ SyncSender.prototype = {
       return
     }
 
-    var parsed_value = toTransferableNestings(value)
+    const parsed_value = toTransferableNestings(value)
 
 
-    for (var i = 0; i < this.streams_list.length; i++) {
-      var cur = this.streams_list[i]
-      var index = this.sockets_m_index[cur.id]
+    for (let i = 0; i < this.streams_list.length; i++) {
+      const cur = this.streams_list[i]
+      const index = this.sockets_m_index[cur.id]
       if (!index[md._provoda_id]) {
         continue
       }
 
-      var struc
+      const struc = value ? parseNesting(this.sockets_m_index[cur.id], value, []) : undefined
 
-      if (value) {
-        struc = []
-        struc = parseNesting(this.sockets_m_index[cur.id], value, [])
-      }
-
-      var list = this.batched_by_id[cur.id]
+      const list = this.batched_by_id[cur.id]
       list.push(
         ['nest-ch', md._provoda_id, struc, nesname, parsed_value]
       )
@@ -112,16 +107,16 @@ SyncSender.prototype = {
   },
   pushStates: function(md, states_raw) {
   //	var struc;
-    var states = toTransferableStatesList(states_raw)
+    const states = toTransferableStatesList(states_raw)
 
-    for (var i = 0; i < this.streams_list.length; i++) {
-      var cur = this.streams_list[i]
-      var index = this.sockets_m_index[cur.id]
+    for (let i = 0; i < this.streams_list.length; i++) {
+      const cur = this.streams_list[i]
+      const index = this.sockets_m_index[cur.id]
       if (!index[md._provoda_id]) {
         continue
       }
 
-      var list = this.batched_by_id[cur.id]
+      const list = this.batched_by_id[cur.id]
       list.push(
         ['state-ch', md._provoda_id, states]
       )

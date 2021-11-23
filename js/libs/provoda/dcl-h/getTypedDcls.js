@@ -14,26 +14,26 @@ export default function getTypedDcls(props) {
     return
   }
 
-  var result = {}
+  const result = {}
 
-  for (var prop in props) {
+  for (const prop in props) {
     if (!props.hasOwnProperty(prop)) {
       continue
     }
-    var cur = props[prop]
+    const cur = props[prop]
 
     if (!cur) {
       console.warn('implement erasing')
       continue
     }
 
-    var dcl_type = toType(cur[0])
+    const dcl_type = toType(cur[0])
 
     if (!result[dcl_type]) {
       result[dcl_type] = {}
     }
 
-    var data = sameObjectIfEmpty(cur && cur.slice(1))
+    const data = sameObjectIfEmpty(cur && cur.slice(1))
 
     result[dcl_type][prop] = data
   }

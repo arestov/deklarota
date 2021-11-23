@@ -4,10 +4,10 @@ import spv from '../../spv'
 import pvState from '../utils/state'
 import getRelPath from './getRelPath'
 
-var getTargetField = spv.getTargetField
-var arrayExclude = spv.arrayExclude
+const getTargetField = spv.getTargetField
+const arrayExclude = spv.arrayExclude
 
-var parent_count_regexp = /^\^+/gi
+const parent_count_regexp = /^\^+/gi
 
 export default function(view, con) {
   if (!view._lbr.hndTriggerTPLevents) {
@@ -16,30 +16,30 @@ export default function(view, con) {
     }
 
     view._lbr.hndTriggerTPLevents = function(e) {
-      var cb_data = e.callback_data
+      const cb_data = e.callback_data
 
-      for (var i = 0; i < cb_data.length; i++) {
-        var cur = cb_data[i]
+      for (let i = 0; i < cb_data.length; i++) {
+        const cur = cb_data[i]
         if (typeof cur == 'function') {
           cb_data[i] = cur(e.scope || view.states)
         }
       }
 
-      var isLocal = Boolean(cb_data[0])
-      var fnNameRaw = cb_data[0] || cb_data[1]
-      var target_view
-      var fnName
+      const isLocal = Boolean(cb_data[0])
+      const fnNameRaw = cb_data[0] || cb_data[1]
+      let target_view
+      let fnName
 
-      var firstChar = fnNameRaw.charAt(0)
+      const firstChar = fnNameRaw.charAt(0)
 
       if (firstChar === '#') {
         target_view = view.root_view
         fnName = fnNameRaw.slice(1)
       } else if (firstChar === '^') {
-        var fnName = fnNameRaw.replace(parent_count_regexp, '')
-        var parent_count = fnNameRaw.length - fnName.length
+        const fnName = fnNameRaw.replace(parent_count_regexp, '')
+        const parent_count = fnNameRaw.length - fnName.length
         target_view = view
-        for (var i = 0; i < parent_count; i++) {
+        for (let i = 0; i < parent_count; i++) {
           target_view = target_view.parent_view
         }
       } else {
@@ -47,15 +47,15 @@ export default function(view, con) {
         target_view = view
       }
 
-      var args_list = cb_data.slice(isLocal ? 1 : 2).map(function(argumentRaw) {
-        var argument
-        var stringed_variable = argumentRaw && argumentRaw.match(/\%(.*?)\%(.*)/)
+      const args_list = cb_data.slice(isLocal ? 1 : 2).map(function(argumentRaw) {
+        let argument
+        const stringed_variable = argumentRaw && argumentRaw.match(/\%(.*?)\%(.*)/)
         if (!stringed_variable || !stringed_variable[2]) {
           argument = argumentRaw
         } else {
-          var rest_part = stringed_variable[2]
-          var inverted = rest_part.charAt(0) === '!'
-          var path = inverted ? rest_part.slice(1) : rest_part
+          const rest_part = stringed_variable[2]
+          const inverted = rest_part.charAt(0) === '!'
+          const path = inverted ? rest_part.slice(1) : rest_part
           switch (stringed_variable[1]) {
             case 'node': {
               argument = getTargetField(e.node, path)
@@ -89,17 +89,17 @@ export default function(view, con) {
       }
 
       if (!e.pv_repeat_context || args_list.length) {
-        var fn = target_view.tpl_events[fnName]
+        const fn = target_view.tpl_events[fnName]
         if (!fn) {
-          var error = new Error('cant find tpl_events item: ' + fnName)
+          const error = new Error('cant find tpl_events item: ' + fnName)
           showError(target_view, e.event, error)
           throw error
         }
         fn.apply(target_view, [e.event, e.node].concat(args_list))
       } else {
-        var fn = target_view.tpl_r_events[e.pv_repeat_context][fnName]
+        const fn = target_view.tpl_r_events[e.pv_repeat_context][fnName]
         if (!fn) {
-          var error = new Error('cant find tpl_r_events item: ' + fnName)
+          const error = new Error('cant find tpl_r_events item: ' + fnName)
           showError(target_view, e.event, error)
           throw error
         }
@@ -114,18 +114,18 @@ export default function(view, con) {
       //pvTypesChange
       //this == template
       //this != provoda.View
-      var old_waypoints = this.waypoints
-      var total = []
-      var i = 0
+      const old_waypoints = this.waypoints
+      const total = []
+      let i = 0
       for (i = 0; i < arr_arr.length; i++) {
         if (!arr_arr[i]) {
           continue
         }
         total.push.apply(total, arr_arr[i])
       }
-      var matched = []
+      const matched = []
       for (i = 0; i < total.length; i++) {
-        var cur = total[i]
+        const cur = total[i]
         if (!cur.marks) {
           continue
         }
@@ -133,7 +133,7 @@ export default function(view, con) {
           matched.push(cur)
         }
       }
-      var to_remove = old_waypoints && arrayExclude(old_waypoints, matched)
+      const to_remove = old_waypoints && arrayExclude(old_waypoints, matched)
       this.waypoints = matched
       view.updateTemplatedWaypoints(matched, to_remove)
     }
