@@ -18,7 +18,7 @@ export default function(view, con) {
     view._lbr.hndTriggerTPLevents = function(e) {
       const cb_data = e.callback_data
 
-      for (var i = 0; i < cb_data.length; i++) {
+      for (let i = 0; i < cb_data.length; i++) {
         const cur = cb_data[i]
         if (typeof cur == 'function') {
           cb_data[i] = cur(e.scope || view.states)
@@ -28,7 +28,7 @@ export default function(view, con) {
       const isLocal = Boolean(cb_data[0])
       const fnNameRaw = cb_data[0] || cb_data[1]
       let target_view
-      var fnName
+      let fnName
 
       const firstChar = fnNameRaw.charAt(0)
 
@@ -36,10 +36,10 @@ export default function(view, con) {
         target_view = view.root_view
         fnName = fnNameRaw.slice(1)
       } else if (firstChar === '^') {
-        var fnName = fnNameRaw.replace(parent_count_regexp, '')
+        const fnName = fnNameRaw.replace(parent_count_regexp, '')
         const parent_count = fnNameRaw.length - fnName.length
         target_view = view
-        for (var i = 0; i < parent_count; i++) {
+        for (let i = 0; i < parent_count; i++) {
           target_view = target_view.parent_view
         }
       } else {
@@ -89,17 +89,17 @@ export default function(view, con) {
       }
 
       if (!e.pv_repeat_context || args_list.length) {
-        var fn = target_view.tpl_events[fnName]
+        const fn = target_view.tpl_events[fnName]
         if (!fn) {
-          var error = new Error('cant find tpl_events item: ' + fnName)
+          const error = new Error('cant find tpl_events item: ' + fnName)
           showError(target_view, e.event, error)
           throw error
         }
         fn.apply(target_view, [e.event, e.node].concat(args_list))
       } else {
-        var fn = target_view.tpl_r_events[e.pv_repeat_context][fnName]
+        const fn = target_view.tpl_r_events[e.pv_repeat_context][fnName]
         if (!fn) {
-          var error = new Error('cant find tpl_r_events item: ' + fnName)
+          const error = new Error('cant find tpl_r_events item: ' + fnName)
           showError(target_view, e.event, error)
           throw error
         }
