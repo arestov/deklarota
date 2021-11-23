@@ -1,6 +1,5 @@
 
 import FuncsStack from './FuncsStack'
-let FuncsQueue
 const QueueFunc = function(queue, atom) {
   this.q = queue
   this.atom = atom
@@ -33,7 +32,7 @@ QueueFunc.prototype = {
 }
 
 
-FuncsQueue = function(opts) {
+const FuncsQueue = function(opts) {
   const _this = this
 
   const time_opts = opts.time
