@@ -112,7 +112,7 @@ function checkNestWatchs(md, collection_name, array, removed) {
   const subl_wtchs = md.nes_match_index[collection_name]
 
   if (Array.isArray(removed)) {
-    for (var i = 0; i < removed.length; i++) {
+    for (let i = 0; i < removed.length; i++) {
       if (!removed[i]) {continue}
       removeNestWatchs(removed[i], subl_wtchs, false)
     }
@@ -122,7 +122,7 @@ function checkNestWatchs(md, collection_name, array, removed) {
 
 
   if (Array.isArray(array)) {
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       if (!array[i]) {continue}
       addNestWatchs(array[i], subl_wtchs, false, i)
     }
@@ -130,7 +130,7 @@ function checkNestWatchs(md, collection_name, array, removed) {
     addNestWatchs(array, subl_wtchs, true, 0)
   }
 
-  for (var i = 0; i < subl_wtchs.length; i++) {
+  for (let i = 0; i < subl_wtchs.length; i++) {
     const cur = subl_wtchs[i]
     for (const key in cur.nwatch.model_groups) {
       const sub_cur = cur.nwatch.model_groups[key]
@@ -176,7 +176,7 @@ function addNestWatch(self, nwatch, skip, parent_subl_wtch) {
       self.nes_match_index = {}
     }
 
-    var nesting_name = nwatch.selector[skip]
+    const nesting_name = nwatch.selector[skip]
     if (!self.nes_match_index[nesting_name]) {
       self.nes_match_index[nesting_name] = []
     }
@@ -194,7 +194,7 @@ function addNestWatch(self, nwatch, skip, parent_subl_wtch) {
     */
 
     if (self.children_models) {
-      for (var nesting_name in self.children_models) {
+      for (const nesting_name in self.children_models) {
         checkNestWatchs(self, nesting_name, self.children_models[nesting_name])
       }
     }
