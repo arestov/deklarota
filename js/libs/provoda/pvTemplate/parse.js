@@ -9,7 +9,7 @@ function getPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, false, getSample)
 }
 
-export default function parse(start_node, struc_store, getSample, opts) {
+export default function parse(start_node, struc_store, getSample, _opts) {
   //полный парсинг, без байндинга
 
   var result = []

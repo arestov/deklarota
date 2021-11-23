@@ -20,7 +20,7 @@ var patching_directives = {
       return counter++
     }
 
-    return function(node, params, getSample, opts) {
+    return function(node, params, getSample, _opts) {
       var comment_anchor = window.document.createComment('anchor for pv-import ' + params.sample_name)
       var parent_node = node.parentNode
       parent_node.replaceChild(comment_anchor, node)
@@ -39,7 +39,7 @@ var patching_directives = {
       return comment_anchor
     }
   })(),
-  'pv-when': function(node, params, getSample, opts) {
+  'pv-when': function(node, params, _getSample, _opts) {
     var parent_node = node.parentNode
     var full_declaration = params
 
@@ -175,7 +175,7 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       // node is comment-anchor. we are not mutating it. so nothing to read
       return false
     },
-    setValue: function(node, new_value, old_value, wwtch) {
+    setValue: function(node, new_value, _old_value, wwtch) {
       var real_value = wwtch.local_state.value
       if (!new_value && real_value) {
         wwtch.local_state.value = false

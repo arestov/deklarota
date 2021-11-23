@@ -202,7 +202,6 @@ var hndPVRepeat = function(new_fv, states) {
     wwtch.original_fv = new_fv
     var collection = wwtch.calculator(states)
 
-    var prev_node
 
     var full_pv_context = ''
     if (context.pv_repeat_context) {
@@ -235,7 +234,6 @@ var hndPVRepeat = function(new_fv, states) {
       old_nodes.push(cur_node)
       append(fragt, cur_node)
       appendSpace(fragt)
-      prev_node = cur_node
       repeats_array.push(template)
       repeat_data.array.push(template)
     }

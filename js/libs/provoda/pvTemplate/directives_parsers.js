@@ -31,7 +31,7 @@ var createPropChange = (function() {
   var getValue = function(node, prop) {
     return getTargetField(node, prop)
   }
-  var setValue = function(node, value, old_value, wwtch) {
+  var setValue = function(node, value, _old_value, wwtch) {
     var prop = wwtch.data
     var new_value = value || ''
 
@@ -181,7 +181,7 @@ export default {
   getIndexList: getIndexList,
   getFieldsTreesBases: getFieldsTreesBases,
   comment_directives_p: {
-    'pv-replace': function(node, full_declaration, directive_name, getSample) {
+    'pv-replace': function(_node, full_declaration, _directive_name, _getSample) {
       var index = {}
       var complex_value = full_declaration
       var complects = complex_value.match(regxp_props_com_soft)
@@ -222,7 +222,7 @@ export default {
       var getClassName = function(node, class_name) {
         return node.classList.contains(class_name)
       }
-      var setClassName = function(node, new_value, old, wwtch) {
+      var setClassName = function(node, new_value, _old, wwtch) {
         var class_name = wwtch.data
         if (new_value) {
           node.classList.add(class_name)
@@ -261,7 +261,7 @@ export default {
       }
     })(),
     'pv-props': multipleParts(createPropChange),
-    'pv-when': function(node, full_declaration, directive_name) {
+    'pv-when': function(_node, full_declaration, _directive_name) {
       if (!full_declaration) {
         return
       }
@@ -272,7 +272,7 @@ export default {
         return ''
       }
 
-      var setPVTypes = function(node, new_value, ov, wwtch) {
+      var setPVTypes = function(_node, new_value, _ov, wwtch) {
         var types = new_value.split(regxp_spaces)
         wwtch.pv_type_data.marks = {}
         for (var i = 0; i < types.length; i++) {
@@ -338,7 +338,7 @@ export default {
         return array
       }
 
-      return function(node, full_declaration) {
+      return function(_node, full_declaration) {
         /*
         click:Callback
         mousemove|sp,pd:MovePoints
@@ -357,12 +357,12 @@ export default {
         return result
       }
     })(),
-    'pv-log'(node, full_declaration) {
+    'pv-log'(_node, full_declaration) {
       return full_declaration
     }
   },
   scope_generators_p: {
-    'pv-nest': function(node, full_declaration) {
+    'pv-nest': function(_node, full_declaration) {
       var attr_value = full_declaration
 
       var filter_parts = attr_value.split('|')
@@ -412,7 +412,7 @@ export default {
         filterFn: filterFn
       }
     },
-    'pv-repeat': function(node, full_declaration) {
+    'pv-repeat': function(_node, full_declaration) {
 
       //start of angular.js code
       var expression = full_declaration//attr.ngRepeat;
@@ -449,7 +449,7 @@ export default {
 }
 
 
-function hlpFixStringSpaces(str, p1, p2, p3) {
+function hlpFixStringSpaces(_str, p1, p2, p3) {
   if (p1 || p2) {
     return ''
   }
