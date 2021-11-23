@@ -21,8 +21,8 @@ export default function(self) {
 
   // Compx attrs
   if (self.full_comlxs_list) {
-    for (var i = 0; i < self.full_comlxs_list.length; i++) {
-      var cur = self.full_comlxs_list[i]
+    for (let i = 0; i < self.full_comlxs_list.length; i++) {
+      const cur = self.full_comlxs_list[i]
       const isFullBool = cur.fn === Boolean && !cur.require_marks.length
       result.push({name: cur.name, type: isFullBool ? 'bool' : null})
     }
@@ -31,8 +31,8 @@ export default function(self) {
 
   // Meta attrs of requests
   if (self._states_reqs_list) {
-    for (var i = 0; i < self._states_reqs_list.length; i++) {
-      var cur = self._states_reqs_list[i]
+    for (let i = 0; i < self._states_reqs_list.length; i++) {
+      const cur = self._states_reqs_list[i]
       push.apply(result, cur.boolean_attrs)
     }
   }
@@ -50,7 +50,7 @@ export default function(self) {
       }
       const list = definedMetaAttrs(rel_name)
       for (let kk = 0; kk < list.length; kk++) {
-        var cur = list[kk]
+        const cur = list[kk]
         const [attr_name, type] = cur
         result.push({name: attr_name, type: type || null})
       }
