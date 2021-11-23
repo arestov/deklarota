@@ -255,12 +255,6 @@ export default spv.inh(View, {
     mpxUpdateAttr(target_mpx, 'vmp_show', value)
   },
 
-  'model-mapch': {
-    'move-view': function(change) {
-      this.setVMpshow(this.getStoredMpx(getModelFromR(this, change.bwlev)), change.value)
-    },
-  },
-
   'collch-$spec_common-map_slice': {
     place: viewOnLevelP
   },

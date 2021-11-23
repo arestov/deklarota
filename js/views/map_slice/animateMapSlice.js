@@ -4,7 +4,7 @@ import css from './css'
 import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import getAttr from '../../libs/provoda/provoda/getAttr'
-
+import handleNavChange from './handleNavChange'
 /*
   ANIMATION IS BROKEN
 */
@@ -57,11 +57,7 @@ export default function(view, bwlev, navigation_changes, animation_data) {
   }
 
   for (i = 0; i < all_changhes.length; i++) {
-    const change = all_changhes[i]
-    const handler = view['model-mapch'][change.type]
-    if (handler) {
-      handler.call(view, change)
-    }
+    handleNavChange(view, all_changhes[i])
   }
 
   if (bwlev) {
