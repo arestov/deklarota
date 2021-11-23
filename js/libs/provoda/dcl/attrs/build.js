@@ -1,7 +1,6 @@
 import cachedField from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
 import { doCopy } from '../../../spv/cloneObj'
-import shallowEqual from '../../shallowEqual'
 
 import collectCompxs from './comp/build'
 import buildInputAttrs from './input/build'
@@ -11,7 +10,7 @@ const prepareToExtendByServicingAttrs = cachedField(
   '__attrs_comp_to_be_serviced',
   ['__attrs_comp_to_be_serviced', '__attrs_base_comp', '__dcls_comp_attrs_from_effects', '__dcls_comp_attrs_from_rels'],
   false,
-  (current, arg1, arg2, arg3) => {
+  (_current, arg1, arg2, arg3) => {
     const result = {}
 
     doCopy(result, arg1)
@@ -26,7 +25,7 @@ const collectAllComp = cachedField(
   '__attrs_all_comp',
   ['__attrs_all_comp', '__attrs_comp_to_be_serviced', '__dcls_comp_attrs_glue'],
   false,
-  (current, arg1, arg2, self) => {
+  (_current, arg1, arg2, self) => {
     const mock = Boolean(self.mock_relations)
     const glue = mock ? {} : arg2
 

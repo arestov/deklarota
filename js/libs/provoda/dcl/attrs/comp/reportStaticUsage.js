@@ -4,7 +4,7 @@ import getPrtsByRelPath from '../../nests/getPrtsByRelPath'
 
 
 
-const getEdgeRels = (Root, self, addr) => {
+const getEdgeRels = (_Root, self, addr) => {
   if (addr.from_base.type) {
     console.log('noop')
     return
@@ -15,7 +15,8 @@ const getEdgeRels = (Root, self, addr) => {
     return
   }
 
-  const rel_path = getPrtsByRelPath(self, addr.nesting.path, true)
+  // will throw errors and warnings
+  getPrtsByRelPath(self, addr.nesting.path, true)
 
 
 }

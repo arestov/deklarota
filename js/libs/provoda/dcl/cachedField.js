@@ -26,7 +26,7 @@ const getFinalResult = (result) => {
 
 }
 
-const cachedField = function(field, deps, final_compile, fn) {
+const cachedField = function(field, deps, _final_compile, fn) {
   return function checkCompiledField(model) {
     if (model.hasOwnProperty(field)) {
       return model[field]
