@@ -195,11 +195,12 @@ function animateMapChanges(fake_spyglass, bwlev) {
 
   }
 
+  let all_items
 
   let mp_show_wrap
   if (models) {
 
-    var all_items = models.concat(bwlevs)
+    all_items = models.concat(bwlevs)
 
     mp_show_wrap = {
       items: models.map(asMDR),
