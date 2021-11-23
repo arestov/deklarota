@@ -45,7 +45,7 @@ const getProperDestValue = function(target, value, i) {
 
 const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref, mut_result) {
   if (isRedirectAction(target)) {
-    var models = getTargetModels(md, target, data)
+    const models = getTargetModels(md, target, data)
     if (!Array.isArray(models)) {
       mut_result.push({
         target: target,
@@ -55,8 +55,8 @@ const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref,
       return
     }
 
-    for (var i = 0; i < models.length; i++) {
-      var cur = models[i]
+    for (let i = 0; i < models.length; i++) {
+      const cur = models[i]
       mut_result.push({
         target: target,
         target_md: cur,
@@ -70,7 +70,7 @@ const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref,
     return
   }
 
-  var models = getTargetModels(md, target, data)
+  const models = getTargetModels(md, target, data)
 
   if (value && target.options && target.options.map_values_list_to_target) {
     if (value.length !== models.length) {
@@ -79,8 +79,8 @@ const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref,
   }
 
   if (Array.isArray(models)) {
-    for (var i = 0; i < models.length; i++) {
-      var cur = models[i]
+    for (let i = 0; i < models.length; i++) {
+      const cur = models[i]
       mut_result.push(
         prepareAndHold(cur, target, getProperDestValue(target, value, i), mut_refs_index, mut_wanted_ref, mut_result)
       )
