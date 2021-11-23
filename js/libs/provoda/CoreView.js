@@ -992,12 +992,12 @@ const View = spv.inh(StatesEmitter, {
 
 
     let real_length = 0
-    for (var i = 0; i < array.length; i++) {
-      var cur = array[i]
+    for (let i = 0; i < array.length; i++) {
+      const cur = array[i]
       if (cur.$not_model) {
         continue
       }
-      var view = self.getStoredMpx(cur).getView(location_id)
+      const view = self.getStoredMpx(cur).getView(location_id)
       if (!view) {
         continue
       }
@@ -1008,12 +1008,12 @@ const View = spv.inh(StatesEmitter, {
     }
 
     let counter = 0
-    for (var i = 0; i < array.length; i++) {
-      var cur = array[i]
+    for (let i = 0; i < array.length; i++) {
+      const cur = array[i]
       if (cur.$not_model) {
         continue
       }
-      var view = self.getStoredMpx(cur).getView(location_id)
+      const view = self.getStoredMpx(cur).getView(location_id)
       if (!view) {
         continue
       }
@@ -1086,7 +1086,7 @@ const View = spv.inh(StatesEmitter, {
   simpleAppendNestingViews: function(declr, opts, nesname, array) {
     for (let bb = 0; bb < array.length; bb++) {
       let cur = array[bb]
-      var original_md
+      let original_md
       if (declr.is_wrapper_parent) {
         original_md = cur
         for (let i = 0; i < declr.is_wrapper_parent; i++) {
