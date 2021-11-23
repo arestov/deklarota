@@ -428,7 +428,7 @@ export default {
   })(),
 
   checkCollchItemAgainstPvView:(function() {
-    var getView = function(cur_md, space, preffered) {
+    var getView = function(cur_md, _space, preffered) {
       if (this.pv_view.node) {
         if (!preffered || preffered.indexOf(cur_md) != -1) {
           return this.getFreeView(cur_md, this.pv_view.node)

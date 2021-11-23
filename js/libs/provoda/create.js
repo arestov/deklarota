@@ -1,7 +1,6 @@
 
 import spv from '../spv'
 import Model from './Model'
-import _updateRel from './_internal/_updateRel'
 import getRelFromInitParams from './utils/getRelFromInitParams'
 
 export default function(Constr, states, params, map_parent, app) {

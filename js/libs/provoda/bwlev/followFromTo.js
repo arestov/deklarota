@@ -9,10 +9,10 @@ import getNavGroups from './getNavGroups'
 import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
 
-var limits = {
-  same_model_matches: 1,
-  big_steps: 4
-}
+// var limits = {
+//   same_model_matches: 1,
+//   big_steps: 4
+// }
 
 export default function followFromTo(BWL, map, parent_bwlev, end_md) {
   var cutted_parents = getLimitedParent(map, parent_bwlev, end_md)

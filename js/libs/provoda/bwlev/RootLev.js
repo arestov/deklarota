@@ -65,7 +65,7 @@ var RootLev = spv.inh(Model, {
       bwlev.showOnMap()
       return bwlev
     },
-    knowViewingDataStructure: function(constr_id, used_data_structure) {
+    knowViewingDataStructure: function(_constr_id, used_data_structure) {
       if (this.used_data_structure) {
         return
       }
@@ -104,7 +104,7 @@ var RootLev = spv.inh(Model, {
   toggleSpyglass: function(data) {
     updateSpyglass.toggle(this.app.CBWL, this, data)
   },
-  spyglassURL: function(name, pattern, data) {
+  spyglassURL: function(_name, _pattern, _data) {
     // navigation, "/tags/[:tag]" {tag: "tgbbb"}
   },
 })

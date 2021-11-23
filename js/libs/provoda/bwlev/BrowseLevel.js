@@ -257,7 +257,7 @@ var BrowseLevel = spv.inh(Model, {
       to: ['mp_show'],
       fn: [
         ['$noop', '<<<<'],
-        (data, noop, self) => {
+        (_data, noop, self) => {
           switchToAliveParent(self)
           return noop
         }
