@@ -25,16 +25,14 @@ const getAMCOffset = function() {
   return dom_helpers.offset(this.getInterface('app_map_con'))
 }
 
-const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
 
-export default function readMapSliceAnimationData(view, transaction_data) {
+export default function readMapSliceAnimationData(view, one_zoom_in, transaction_data) {
   const current_bwlev_r = transaction_data?.bwlev
   if (!current_bwlev_r) {return}
 
   const bwlev = getModelFromR(view, current_bwlev_r)
 
   const current_lev_num = getAttr(bwlev, 'map_level_num')
-  const one_zoom_in = isOneStepZoomIn(transaction_data.array)
 
   if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return}
 

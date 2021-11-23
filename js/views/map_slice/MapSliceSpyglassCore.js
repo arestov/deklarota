@@ -7,7 +7,7 @@ import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mpxUpdateAttr from '../../libs/provoda/provoda/v/mpxUpdateAttr'
 import selecPoineertDeclr from '../../libs/provoda/provoda/v/selecPoineertDeclr'
 import createTemplate from '../../libs/provoda/provoda/v/createTemplate'
-import probeDiff from '../../libs/provoda/provoda/probeDiff'
+import probeDiff, { isOneStepZoomIn } from '../../libs/provoda/probeDiff'
 import getNesting from '../../libs/provoda/provoda/getNesting'
 import $ from 'cash-dom'
 import wrapInputCall from '../../libs/provoda/provoda/wrapInputCall'
@@ -304,7 +304,7 @@ export default spv.inh(View, {
 
     const array = this.getRendOrderedNesting(nesname, bwlevs) || bwlevs
 
-    const animation_data = readMapSliceAnimationData(this, diff)
+    const animation_data = readMapSliceAnimationData(this, isOneStepZoomIn(diff.array), diff)
 
     for (let i = array.length - 1; i >= 0; i--) {
       const cur = getModelFromR(this, array[i])

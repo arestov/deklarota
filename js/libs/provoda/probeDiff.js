@@ -38,6 +38,8 @@ export const getBwlevsTree = function(highway_holder, mdrp) {
   return result
 }
 
+export const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
+
 const pathAsSteps = function(path, value) {
   if (!path) {return}
   const result = new Array(path.length)
