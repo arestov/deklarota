@@ -76,14 +76,14 @@ const getDirectivesData = (function() {
         instructions: {},
         replacing_data: null
       }
-    var i = 0
+
     let attr_name = ''
     let directive_name = ''
     const attributes = cur_node.attributes
     let new_scope_generator = false// current_data = {node: cur_node};
 
     const attributes_list = []
-    for (i = 0; i < attributes.length; i++) {
+    for (let i = 0; i < attributes.length; i++) {
       //создаём кэш, список "pv-*" атрибутов
       attr_name = attributes[i].name
 
@@ -99,7 +99,7 @@ const getDirectivesData = (function() {
     const attrs_by_names = spv.makeIndexByField(attributes_list, 'name')
     let value
 
-    for (i = 0; i < one_parse_list.length; i++) {
+    for (let i = 0; i < one_parse_list.length; i++) {
       //проверяем одноразовые директивы ноды
       directive_name = one_parse_list[i]
       if (attrs_by_names[directive_name] && attrs_by_names[directive_name].length) {
@@ -124,7 +124,7 @@ const getDirectivesData = (function() {
       }
     }
 
-    for (i = 0; i < scope_g_list.length; i++) {
+    for (let i = 0; i < scope_g_list.length; i++) {
       //проверяем есть ли среди атрибутов директивы создающие новую область видимости
       directive_name = scope_g_list[i]
       if (attrs_by_names[directive_name] && attrs_by_names[directive_name].length) {
@@ -145,7 +145,7 @@ const getDirectivesData = (function() {
 
       }
     }
-    for (i = 0; i < directives_names_list.length; i++) {
+    for (let i = 0; i < directives_names_list.length; i++) {
       //проверяем остальные директивы нода
       directive_name = directives_names_list[i]
       if (attrs_by_names[directive_name] && attrs_by_names[directive_name].length) {
@@ -163,7 +163,7 @@ const getDirectivesData = (function() {
       directives_data.instructions['pv-import'] = parsePVImport(cur_node, attrs_by_names['pv-import'][0].node.value)
     }
 
-    for (var i = 0; i < attributes_list.length; i++) {
+    for (let i = 0; i < attributes_list.length; i++) {
       cur_node.removeAttributeNode(attributes_list[i].node)
     }
 

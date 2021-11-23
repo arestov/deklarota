@@ -52,7 +52,7 @@ const PvSimpleSampler = (function() {
 
 
         let has_scope_gen = false
-        for (var i = 0; i < config.scope_g_list.length; i++) {
+        for (let i = 0; i < config.scope_g_list.length; i++) {
           const directive_name = config.scope_g_list[i]
           if (bind_data.instructions[directive_name]) {
             has_scope_gen = true
@@ -68,7 +68,7 @@ const PvSimpleSampler = (function() {
           return
         }
       }
-      for (var i = 0; i < config.sud_list.length; i++) {
+      for (let i = 0; i < config.sud_list.length; i++) {
         const cur = config.sud_list[i]
         if (!bind_data.instructions[cur]) {
           continue
@@ -100,7 +100,7 @@ const PvSimpleSampler = (function() {
 
 
       const bind_data_list = parseEasy(node, !is_not_root && node, struc_store, getSample)
-      for (var i = 0; i < bind_data_list.length; i += 3) {
+      for (let i = 0; i < bind_data_list.length; i += 3) {
         const
           is_root_node = bind_data_list[ i ]
         const cur_node = bind_data_list[ i + 1 ]
@@ -119,7 +119,7 @@ const PvSimpleSampler = (function() {
         let usual = null
         let by_model_name = null
 
-        for (var i = 0; i < children_list.length; i++) {
+        for (let i = 0; i < children_list.length; i++) {
           const cur = children_list[i]
           if (cur.data.for_model) {
             if (!by_model_name) {

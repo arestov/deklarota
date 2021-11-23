@@ -417,23 +417,19 @@ export default {
       //start of angular.js code
       const expression = full_declaration//attr.ngRepeat;
       let match = expression.match(/^\s*(.+)\s+in\s+(.*)\s*$/)
-      let lhs
-      let rhs
-      let valueIdent
-      let keyIdent
       if (!match) {
         throw new Error('Expected ngRepeat in form of \'_item_ in _collection_\' but got \'' +
         expression + '\'.')
       }
-      lhs = match[1]
-      rhs = match[2]
+      const lhs = match[1]
+      const rhs = match[2]
       match = lhs.match(/^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/)
       if (!match) {
         throw new Error('\'item\' in \'item in collection\' should be identifier or (key, value) but got \'' +
         lhs + '\'.')
       }
-      valueIdent = match[3] || match[1]
-      keyIdent = match[2]
+      const valueIdent = match[3] || match[1]
+      const keyIdent = match[2]
       //end of angular.js code
 
       const calculator = angbo.parseExpression(rhs)

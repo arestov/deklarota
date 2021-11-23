@@ -503,7 +503,7 @@ spv.Class.extendTo(PvTemplate, {
     'pv-nest': function(node, data) {
       //coll_name for_model filter
       if (typeof data.coll_name == 'string') {
-        var pv_view = {
+        const pv_view = {
           views: [],
           node: node,
           sampler: new PvSimpleSampler(node, this.struc_store, this.getSample),
