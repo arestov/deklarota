@@ -61,7 +61,7 @@ const changeSourcesByApiNames = function(md, store) {
     store.api_names_converted = true
     for (let i = 0; i < store.api_names.length; i++) {
       const api_name = store.api_names[i]
-      var network_api
+      let network_api
       if (typeof api_name == 'string') {
         network_api = spv.getTargetField(md.app, api_name)
       } else if (typeof api_name == 'function') {

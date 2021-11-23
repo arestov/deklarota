@@ -28,12 +28,12 @@ const indexByList = function(obj, list_name) {
     if (!obj.hasOwnProperty(name)) {
       continue
     }
-    var cur = obj[name]
+    const cur = obj[name]
     buildIndexFromListInProp(result, cur, list_name)
   }
 
   for (const prop of Object.getOwnPropertySymbols(obj)) {
-    var cur = obj[prop]
+    const cur = obj[prop]
     buildIndexFromListInProp(result, cur, list_name)
   }
 
@@ -54,14 +54,14 @@ function rootApis(obj) {
   const index = {}
 
   for (const name in obj) {
-    var cur = obj[name]
+    const cur = obj[name]
     if (!cur) {continue}
 
     makeRequiredApiIndex(index, cur, '#')
   }
 
   for (const prop of Object.getOwnPropertySymbols(obj)) {
-    var cur = obj[prop]
+    const cur = obj[prop]
     makeRequiredApiIndex(index, cur, '#')
   }
 

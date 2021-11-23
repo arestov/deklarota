@@ -21,13 +21,13 @@ export default function(self, list) {
 
   self._interfaces_to_states_index = {}
 
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     const item = list[i]
     self._build_cache_interfaces[item.key] = item
   }
 
   const index = {}
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     const apis = list[i].apis
     for (let b = 0; b < apis.length; b++) {
       const name = apis[b]

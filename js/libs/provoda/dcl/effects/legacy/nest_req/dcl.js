@@ -36,7 +36,7 @@ export default function NestReqMap(name, dclt) {
       return
     }
 
-    var more = ['can_load_data']
+    const more = ['can_load_data']
     this.dependencies = !this.dependencies
       ? more
       : this.dependencies.concat(more)
@@ -78,7 +78,7 @@ export default function NestReqMap(name, dclt) {
     this.state_dep = stateName(this.nest_name)
   }
 
-  var more = ['can_load_data']
+  const more = ['can_load_data']
   this.dependencies = !this.dependencies
     ? more
     : this.dependencies.concat(more)

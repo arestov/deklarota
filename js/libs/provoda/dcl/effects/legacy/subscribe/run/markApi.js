@@ -21,8 +21,8 @@ const markApi = function(index, binders, interface_name, mark) {
     return binders
   }
 
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
     if (!binders.indexes[cur.key]) {
       binders.indexes[cur.key] = {}
     }
@@ -30,8 +30,8 @@ const markApi = function(index, binders, interface_name, mark) {
   }
 
   let result = binders
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
     result = checkState(result, cur)
   }
   return result

@@ -56,7 +56,7 @@ const switchToAliveParent = (self) => {
     self.map)
 }
 
-var BrowseLevel = spv.inh(Model, {
+const BrowseLevel = spv.inh(Model, {
   naming: function(fn) {
     return function BrowseLevel(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)

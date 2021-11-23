@@ -22,7 +22,7 @@ export default function buildStateReqs(self, list, extended_comp_attrs) {
   self._states_reqs_list = list
   const states_index = {}
 
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     const states_list = list[i].states_list
     for (let jj = 0; jj < states_list.length; jj++) {
       states_index[states_list[jj]] = true
@@ -38,7 +38,7 @@ export default function buildStateReqs(self, list, extended_comp_attrs) {
     sources_names: []
   }
 
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     changeSources(self.netsources_of_states, list[i].send_declr)
 
     // copy dependencies to comp, so runtime will subscribe to nonlocal changes
