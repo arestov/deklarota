@@ -11,7 +11,6 @@ const spv = {}
 let addEvent
 let removeEvent
 let getFields
-let toRealArray
 let getTargetField
 let sortByRules
 let makeIndexByField
@@ -352,7 +351,7 @@ spv.collapseAll = function() {
   return r
 }
 
-toRealArray = spv.toRealArray = function toRealArray(array, check_field) {
+const toRealArray = (array, check_field) => {
   if (Array.isArray(array)) {
     return array
   } else if (array && (typeof array == 'object') && array.length) {
@@ -363,6 +362,8 @@ toRealArray = spv.toRealArray = function toRealArray(array, check_field) {
     return []
   }
 }
+
+spv.toRealArray = toRealArray
 
 spv.f = {
   allOf: function() {
