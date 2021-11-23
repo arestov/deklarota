@@ -95,11 +95,7 @@ SyncSender.prototype = {
         continue
       }
 
-      var struc
-
-      if (value) {
-        struc = parseNesting(this.sockets_m_index[cur.id], value, [])
-      }
+      const struc = value ? parseNesting(this.sockets_m_index[cur.id], value, []) : undefined
 
       const list = this.batched_by_id[cur.id]
       list.push(
