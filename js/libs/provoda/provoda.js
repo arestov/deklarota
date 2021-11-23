@@ -37,7 +37,7 @@ var hasPrefixedProps = function(props, prefix) {
 };
 */
 
-var provoda = {
+const provoda = {
   hp: hp,
   $v: hp.$v,
   getRDep: hp.getRDep,

@@ -4,10 +4,10 @@ import spv from '../../spv'
 import utils_simple from '../utils/simple'
 import requesting from './requesting'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
-var wipeObj = utils_simple.wipeObj
+const wipeObj = utils_simple.wipeObj
 const removeItem = spv.removeItem
 
-var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
+const EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
   this.ev_name = ev_name
   this.cb = cb
   this.once = once
@@ -17,12 +17,12 @@ var EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wra
   Object.freeze(this)
 }
 
-var iterateSubsCache = function(func) {
+const iterateSubsCache = function(func) {
   return function(bhv, listener_name, obj) {
     if (!bhv.subscribes_cache) {
       return
     }
-    var cache = bhv.subscribes_cache[listener_name]
+    const cache = bhv.subscribes_cache[listener_name]
     if (!cache) {
       return
     }
@@ -34,26 +34,26 @@ var iterateSubsCache = function(func) {
 }
 
 
-var addToSubscribesCache = iterateSubsCache(function(matched, obj) {
-  var result = matched
+const addToSubscribesCache = iterateSubsCache(function(matched, obj) {
+  const result = matched
   result.push(obj)
   return result
 })
 
-var removeFromSubscribesCache = iterateSubsCache(function(matched, obj) {
-  var pos = matched.indexOf(obj)
+const removeFromSubscribesCache = iterateSubsCache(function(matched, obj) {
+  const pos = matched.indexOf(obj)
   if (pos != -1) {
     return removeItem(matched, pos)
   }
 })
 
-var resetSubscribesCache = iterateSubsCache(function() {
+const resetSubscribesCache = iterateSubsCache(function() {
   //fixme - bug for "state_change-workarea_width.song_file_progress" ( "state_change-workarea_width" stays valid, but must be invalid)
   return null
 })
 
-var fireFire = function(context, sputnik, _matched_reg_fire, soft_reg, callbacks_wrapper, _ev_name, cb, one_reg_arg) {
-  var mo_context = context || sputnik
+const fireFire = function(context, sputnik, _matched_reg_fire, soft_reg, callbacks_wrapper, _ev_name, cb, one_reg_arg) {
+  const mo_context = context || sputnik
   if (soft_reg === false) {
     cb.call(mo_context, one_reg_arg)
     return
@@ -65,7 +65,7 @@ var fireFire = function(context, sputnik, _matched_reg_fire, soft_reg, callbacks
 }
 
 const withoutIndex = (array, index, length) => {
-  for (var i = index + 1; i < length; i++) {
+  for (let i = index + 1; i < length; i++) {
     array[ i - 1 ] = array[ i ]
   }
 }
@@ -104,7 +104,7 @@ const withoutOnce = withoutCriteria((cur) => {
   return Boolean(cur.cb)
 })
 
-var FastEventor = function(context) {
+const FastEventor = function(context) {
   this.sputnik = context
   this.subscribes = null
   this.subscribes_cache = null
@@ -142,8 +142,8 @@ FastEventor.prototype = spv.coe(function(add) {
         return this.reg_fires.cache[ev_name]
       }
 
-      var funcs = []
-      var i = 0
+      const funcs = []
+      let i = 0
       if (this.reg_fires.by_namespace) {
         if (this.reg_fires.by_namespace[ev_name]) {
           funcs.push(this.reg_fires.by_namespace[ev_name])
@@ -165,7 +165,7 @@ FastEventor.prototype = spv.coe(function(add) {
     },
 
     hndUsualEvCallbacksWrapper: function(motivator, fn, context, args, arg) {
-      var old_m = context.current_motivator
+      const old_m = context.current_motivator
       context.current_motivator = motivator
       if (args) {
         fn.apply(context, args)
@@ -178,7 +178,7 @@ FastEventor.prototype = spv.coe(function(add) {
     _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg, once, easy_bind_control) {
     //common opts allowed
 
-      var ev_name = ev_name_raw
+      const ev_name = ev_name_raw
 
       if (exlusive) {
         this.off(ev_name)
@@ -186,20 +186,20 @@ FastEventor.prototype = spv.coe(function(add) {
 
       var one_reg_arg = null
 
-      var reg_fires = this.getPossibleRegfires(ev_name)
-      var matched_reg_fire = (reg_fires && reg_fires.length && reg_fires[0]) || null
+      const reg_fires = this.getPossibleRegfires(ev_name)
+      const matched_reg_fire = (reg_fires && reg_fires.length && reg_fires[0]) || null
 
-      var callbacks_wrapper =
+      const callbacks_wrapper =
       (matched_reg_fire && matched_reg_fire.getWrapper && matched_reg_fire.getWrapper.call(this.sputnik)) ||
       this.hndUsualEvCallbacksWrapper
 
       var one_reg_arg = matched_reg_fire && matched_reg_fire.fn.call(this.sputnik, ev_name)
-      var fired = one_reg_arg != null
+      const fired = one_reg_arg != null
       if (fired && !skip_reg) {
         fireFire(context, this.sputnik, matched_reg_fire, soft_reg, callbacks_wrapper, ev_name, cb, one_reg_arg)
       }
 
-      var subscr_opts =
+      const subscr_opts =
       matched_reg_fire
         ? matched_reg_fire.createEventOpts(ev_name, cb, context)
         : new EventSubscribingOpts(ev_name, cb, once, context, immediately, callbacks_wrapper)
@@ -238,23 +238,23 @@ FastEventor.prototype = spv.coe(function(add) {
         opts && opts.easy_bind_control)
     },
     off: function(event_name, cb, obj, context) {
-      var ev_name = event_name
+      const ev_name = event_name
 
-      var items = this.subscribes && this.subscribes[ev_name]
+      const items = this.subscribes && this.subscribes[ev_name]
 
       if (items) {
         if (obj) {
-          var pos = items.indexOf(obj)
+          const pos = items.indexOf(obj)
           if (pos != -1) {
             this.subscribes[ev_name] = removeItem(items, pos)
             removeFromSubscribesCache(this, obj.ev_name, obj)
           // resetSubscribesCache(this, obj.ev_name);
           }
         } else {
-          var original_length = items.length
+          const original_length = items.length
 
 
-          var clean = withoutEvItem(items, ev_name, cb, context)
+          const clean = withoutEvItem(items, ev_name, cb, context)
         // losing `order by subscriging time` here
         // clean.push.apply(clean, queried.not_matched);
 
@@ -270,11 +270,11 @@ FastEventor.prototype = spv.coe(function(add) {
     },
     getMatchedCallbacks: (function() {
 
-      var _empty_callbacks_package = []
+      const _empty_callbacks_package = []
 
-      var find = function(ev_name, cb_cs) {
-        var matched = []
-        for (var i = 0; i < cb_cs.length; i++) {
+      const find = function(ev_name, cb_cs) {
+        const matched = []
+        for (let i = 0; i < cb_cs.length; i++) {
           if (cb_cs[i].ev_name == ev_name) {
             matched.push(cb_cs[i])
           }
@@ -282,7 +282,7 @@ FastEventor.prototype = spv.coe(function(add) {
         return matched
       }
 
-      var setCache = function(self, ev_name, value) {
+      const setCache = function(self, ev_name, value) {
         if (!self.subscribes_cache) {
           self.subscribes_cache = {}
         }
@@ -291,20 +291,20 @@ FastEventor.prototype = spv.coe(function(add) {
       }
 
       return function(ev_name_raw) {
-        var ev_name = ev_name_raw
+        const ev_name = ev_name_raw
 
-        var cb_cs = this.subscribes && this.subscribes[ev_name]
+        const cb_cs = this.subscribes && this.subscribes[ev_name]
 
         if (!cb_cs) {
           return _empty_callbacks_package
         }
 
-        var cached_r = this.subscribes_cache && this.subscribes_cache[ev_name]
+        const cached_r = this.subscribes_cache && this.subscribes_cache[ev_name]
         if (cached_r) {
           return cached_r
         }
 
-        var value = find(ev_name, cb_cs)
+        const value = find(ev_name, cb_cs)
 
         setCache(this, ev_name, value)
         return value
@@ -323,7 +323,7 @@ FastEventor.prototype = spv.coe(function(add) {
         return
       }
 
-      var callback_context = cur.context || this.sputnik
+      const callback_context = cur.context || this.sputnik
 
       return this.callCallback(callback_context, cur.cb, cur.wrapper, args, arg, (opts && opts.emergency))
     /*
@@ -332,21 +332,21 @@ FastEventor.prototype = spv.coe(function(add) {
     },1);*/
     },
     callCallback: function(callback_context, cb, wrapper, args, arg, emergency) {
-      var wrapper_context = this.sputnik
+      const wrapper_context = this.sputnik
 
-      var calls_flow = (emergency) ? this.sputnik._calls_flow : this.sputnik._getCallsFlow()
+      const calls_flow = (emergency) ? this.sputnik._calls_flow : this.sputnik._getCallsFlow()
       return calls_flow.pushToFlow(cb, callback_context, args, arg, wrapper, wrapper_context, this.sputnik.current_motivator)
 
     },
     cleanOnceEvents: function(event_name) {
     // this.off(ev_name, false, cur);
 
-      var ev_name = event_name
+      const ev_name = event_name
 
-      var items = this.subscribes && this.subscribes[ev_name]
+      const items = this.subscribes && this.subscribes[ev_name]
       if (items) {
-        var original_length = items.length
-        var clean = withoutOnce(items, null, null, null)
+        const original_length = items.length
+        const clean = withoutOnce(items, null, null, null)
 
         if (clean.length != original_length) {
           this.subscribes[ev_name] = clean
@@ -356,9 +356,9 @@ FastEventor.prototype = spv.coe(function(add) {
 
     },
     triggerCallbacks: function(cb_cs, args, opts, ev_name, arg) {
-      var need_cleanup = false
-      for (var i = 0; i < cb_cs.length; i++) {
-        var cur = cb_cs[i]
+      let need_cleanup = false
+      for (let i = 0; i < cb_cs.length; i++) {
+        const cur = cb_cs[i]
         if (!cur.cb) {
           continue
         }
@@ -375,17 +375,17 @@ FastEventor.prototype = spv.coe(function(add) {
       }
     },
     trigger: function(ev_name) {
-      var need_cleanup = false
-      var cb_cs = this.getMatchedCallbacks(ev_name)
+      let need_cleanup = false
+      const cb_cs = this.getMatchedCallbacks(ev_name)
       if (cb_cs) {
-        var i = 0
-        var args = new Array(arguments.length - 1)
+        let i = 0
+        const args = new Array(arguments.length - 1)
         for (i = 1; i < arguments.length; i++) {
           args[ i - 1 ] = arguments[i]
         }
 
         for (i = 0; i < cb_cs.length; i++) {
-          var cur = cb_cs[i]
+          const cur = cb_cs[i]
           if (!cur.cb) {
             continue
           }
@@ -403,7 +403,7 @@ FastEventor.prototype = spv.coe(function(add) {
     }
   })
 
-  var ReqExt = function() {
+  const ReqExt = function() {
     this.xhr = null
     this.deps = null
 
@@ -417,8 +417,8 @@ FastEventor.prototype = spv.coe(function(add) {
       req.pv_ext.deps = {}
     }
 
-    var store = req.pv_ext.deps
-    var key = md._provoda_id
+    const store = req.pv_ext.deps
+    const key = md._provoda_id
     store[key] = true
 
   }
@@ -428,8 +428,8 @@ FastEventor.prototype = spv.coe(function(add) {
       return null
     }
 
-    var store = req.pv_ext.deps
-    var key = md._provoda_id
+    const store = req.pv_ext.deps
+    const key = md._provoda_id
     store[key] = false
 
     if (!spv.countKeys(store, true)) {
@@ -446,7 +446,7 @@ FastEventor.prototype = spv.coe(function(add) {
     },
     getQueued: function(space) {
     //must return new array;
-      var requests = this.getRequests(space)
+      const requests = this.getRequests(space)
       return requests && spv.filter(requests, 'queued')
     },
     addRequest: function(rq, opts) {
@@ -456,11 +456,11 @@ FastEventor.prototype = spv.coe(function(add) {
     addRequests: function(array, opts) {
     //opts = opts || {};
     //space, depend
-      var _highway = this.sputnik._highway
+      const _highway = this.sputnik._highway
 
-      var space = (opts && opts.space) || this.default_requests_space
-      var i = 0
-      var req = null
+      const space = (opts && opts.space) || this.default_requests_space
+      let i = 0
+      let req = null
 
       if (opts && opts.order) {
         for (i = 0; i < array.length; i++) {
@@ -477,9 +477,9 @@ FastEventor.prototype = spv.coe(function(add) {
         this.requests[space] = []
       }
 
-      var target_arr = this.requests[space]
+      const target_arr = this.requests[space]
 
-      var bindRemove = function(_this, req) {
+      const bindRemove = function(_this, req) {
         req.then(anyway, anyway)
 
         function anyway() {
@@ -487,14 +487,14 @@ FastEventor.prototype = spv.coe(function(add) {
             _this.requests[space] = spv.findAndRemoveItem(_this.requests[space], req)
           }
 
-          var _highway = _this.sputnik._highway
+          const _highway = _this.sputnik._highway
           if (_highway.requests) {
             _highway.requests = spv.findAndRemoveItem(_highway.requests, req)
           }
 
         }
       }
-      var added = []
+      const added = []
       for (i = 0; i < array.length; i++) {
         req = array[i]
 
@@ -528,7 +528,7 @@ FastEventor.prototype = spv.coe(function(add) {
     _getRequestsSortFunc: function() {
     // used to sort localy, in model
       if (!this._requestsSortFunc) {
-        var field_name = this.sputnik.getReqsOrderField()
+        const field_name = this.sputnik.getReqsOrderField()
       // if it has view/model mark that it should be first in view/model
       // that sort by mark value
         this._requestsSortFunc = spv.getSortFunc([
@@ -547,18 +547,18 @@ FastEventor.prototype = spv.coe(function(add) {
     },
 
     sortRequests: function(space) {
-      var requests = this.requests && this.requests[space || this.default_requests_space]
+      const requests = this.requests && this.requests[space || this.default_requests_space]
       if (!this.requests || !this.requests.length) {
         return
       }
       return requests.sort(this._getRequestsSortFunc())
     },
     getAllRequests: function() {
-      var all_requests
+      let all_requests
       if (!this.requests) {
         return all_requests
       }
-      for (var space in this.requests) {
+      for (const space in this.requests) {
         if (this.requests[space].length) {
           if (!all_requests) {
             all_requests = []
@@ -570,10 +570,10 @@ FastEventor.prototype = spv.coe(function(add) {
     },
     stopRequests: function() {
 
-      var all_requests = this.getAllRequests()
+      const all_requests = this.getAllRequests()
 
       while (all_requests && all_requests.length) {
-        var rq = all_requests.pop()
+        const rq = all_requests.pop()
         if (rq && rq.abort) {
           if (softAbort(rq, this.sputnik) === null) {
             rq.abort(this.sputnik)
@@ -584,11 +584,11 @@ FastEventor.prototype = spv.coe(function(add) {
       return this
     },
     getModelImmediateRequests: function(space) {
-      var reqs = this.getRequests(space)
+      const reqs = this.getRequests(space)
       if (!reqs) {
         return []
       }
-      var queued = reqs.slice()
+      const queued = reqs.slice()
       if (queued) {
         queued.reverse()
       }
@@ -596,16 +596,16 @@ FastEventor.prototype = spv.coe(function(add) {
       return queued
     },
     setPrio: function(space) {
-      var groups = []
-      var immediate = this.getModelImmediateRequests(space)
+      const groups = []
+      const immediate = this.getModelImmediateRequests(space)
       if (immediate) {
         groups.push(immediate)
       }
-      var relative = this.sputnik.getRelativeRequestsGroups(space)
+      const relative = this.sputnik.getRelativeRequestsGroups(space)
       if (relative && relative.length) {
         groups.push.apply(groups, relative)
       }
-      var setPrio = function(el) {
+      const setPrio = function(el) {
         if (el.queued) {
           el.queued.setPrio()
           return
@@ -616,7 +616,7 @@ FastEventor.prototype = spv.coe(function(add) {
 
       }
       groups.reverse()
-      for (var i = 0; i < groups.length; i++) {
+      for (let i = 0; i < groups.length; i++) {
         groups[i].forEach(setPrio)
       }
       return this.sputnik

@@ -4,8 +4,8 @@ import {recurGetPrtByRelLinking} from './getRelConstr'
 
 const getPrtsByRelPath = (self, rel_path, soft_check) => {
 
-  var list_to_check = [self]
-  var next_check = []
+  let list_to_check = [self]
+  let next_check = []
 
   for (let i = 0; i < rel_path.length; i++) {
     const step = rel_path[i]

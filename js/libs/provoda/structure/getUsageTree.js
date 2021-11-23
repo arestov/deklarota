@@ -1,8 +1,8 @@
 
 import spv from '../../spv'
-var push = Array.prototype.push
+const push = Array.prototype.push
 
-var getTreeSample = function(full_key, key) {
+const getTreeSample = function(full_key, key) {
   if (!full_key || !key) {
     throw new Error('full_key and key should be provided')
   }
@@ -31,31 +31,31 @@ var getTreeSample = function(full_key, key) {
   }
 }
 
-var bCh = function(_item, nesting_name, nesting_space, children_list_index, children_list) {
-  var field_path = ['children', nesting_name, nesting_space]
+const bCh = function(_item, nesting_name, nesting_space, children_list_index, children_list) {
+  const field_path = ['children', nesting_name, nesting_space]
   if (!children_list_index[field_path.join('{}')]) {
     children_list.push(field_path)
   }
 }
 
-var bChByMN = function(_item, nesting_name, model_name, nesting_space, children_list_index, children_list) {
-  var field_path = ['children_by_mn', nesting_name, model_name, nesting_space]
+const bChByMN = function(_item, nesting_name, model_name, nesting_space, children_list_index, children_list) {
+  const field_path = ['children_by_mn', nesting_name, model_name, nesting_space]
   if (!children_list_index[field_path.join('{}')]) {
     children_list.push(field_path)
   }
 }
 
-var iterateChildren = function(children, cb, arg1, arg2) {
-  for (var nesting_name in children) {
-    for (var nesting_space in children[nesting_name]) {
+const iterateChildren = function(children, cb, arg1, arg2) {
+  for (const nesting_name in children) {
+    for (const nesting_space in children[nesting_name]) {
       cb(children[nesting_name][nesting_space], nesting_name, nesting_space, arg1, arg2)
     }
   }
 }
-var iterateChildrenByMN = function(children_by_mn, cb, arg1, arg2) {
-  for (var nesting_name in children_by_mn) {
-    for (var model_name in children_by_mn[nesting_name]) {
-      for (var nesting_space in children_by_mn[nesting_name][model_name]) {
+const iterateChildrenByMN = function(children_by_mn, cb, arg1, arg2) {
+  for (const nesting_name in children_by_mn) {
+    for (const model_name in children_by_mn[nesting_name]) {
+      for (const nesting_space in children_by_mn[nesting_name][model_name]) {
         cb(children_by_mn[nesting_name][model_name][nesting_space], nesting_name, model_name, nesting_space, arg1, arg2)
       }
     }
@@ -71,9 +71,9 @@ function mutateTreeStoreForChild(tree, store, path, struc) {
 }
 
 var buildFreeChildren = function(tree, base_from_parent, base_root_constr_id) {
-  var used_base = base_from_parent
-  var children_list_index = {}
-  var children_list = []
+  const used_base = base_from_parent
+  const children_list_index = {}
+  const children_list = []
   if (used_base) {
     if (used_base.children) {
       iterateChildren(used_base.children, bCh, children_list_index, children_list)
@@ -86,12 +86,12 @@ var buildFreeChildren = function(tree, base_from_parent, base_root_constr_id) {
   if (base_from_parent && base_from_parent.states) {
     tree.merged_states = spv.collapseAll(tree.merged_states, base_from_parent.states)
   }
-  for (var i = 0; i < children_list.length; i++) {
-    var cur = children_list[i]
+  for (let i = 0; i < children_list.length; i++) {
+    const cur = children_list[i]
 
-    var parent_basetree_chi = tree.basetree ? spv.getTargetField(tree.basetree, cur) : (base_from_parent && spv.getTargetField(base_from_parent, cur))
+    const parent_basetree_chi = tree.basetree ? spv.getTargetField(tree.basetree, cur) : (base_from_parent && spv.getTargetField(base_from_parent, cur))
 
-    var struc = getTreeSample(tree.full_key.concat(cur), cur)
+    const struc = getTreeSample(tree.full_key.concat(cur), cur)
 
     mutateTreeStoreForChild(tree, tree.tree_children, cur, struc)
     buildFreeChildren(struc, parent_basetree_chi, base_root_constr_id)
@@ -130,12 +130,12 @@ var getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent
   1) stch_hs
   2)  full_comlxs_list
   */
-  var tree = getTreeSample(full_key, key)
+  const tree = getTreeSample(full_key, key)
 
     // debugger;
 
-  for (var dclr_name in cur_view.dclrs_fpckgs) {
-    var dclrs = cur_view.dclrs_fpckgs[dclr_name]
+  for (const dclr_name in cur_view.dclrs_fpckgs) {
+    const dclrs = cur_view.dclrs_fpckgs[dclr_name]
     if (dclrs.solving) {
       tree.collch_dclrs[dclr_name] = dclrs.solving
     }
@@ -156,8 +156,8 @@ var getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent
   //могут быть и basetree и конструкторы для одного nest и space а может быть только basetree или только конструктор
   //нужно использовать всё
 
-  var children_list_index = {}
-  var children_list = []
+  const children_list_index = {}
+  const children_list = []
 
   if (cur_view.children_views) {
     iterateChildren(cur_view.children_views, bCh, children_list_index, children_list)
@@ -167,7 +167,7 @@ var getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent
     iterateChildrenByMN(cur_view.children_views_by_mn, bChByMN, children_list_index, children_list)
   }
 
-  var used_base = tree.basetree || base_from_parent
+  const used_base = tree.basetree || base_from_parent
 
   if (used_base) {
     if (used_base.children) {
@@ -182,19 +182,19 @@ var getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent
     //debugger;
   }
 
-  var own_children = {
+  const own_children = {
     children: cur_view.children_views,
     children_by_mn: cur_view.children_views_by_mn
   }
 
-  for (var i = 0; i < children_list.length; i++) {
-    var cur = children_list[i]
+  for (let i = 0; i < children_list.length; i++) {
+    const cur = children_list[i]
 
     //var basetree = tree.basetree &&  spv.getTargetField(tree.basetree, cur);
     var parent_basetree_chi
     var chi_constr_id
 
-    var base_tree_chi = tree.basetree && spv.getTargetField(tree.basetree, cur)
+    const base_tree_chi = tree.basetree && spv.getTargetField(tree.basetree, cur)
     if (tree.basetree) {
       parent_basetree_chi = base_tree_chi
       chi_constr_id = cur_view.constr_id
@@ -203,7 +203,7 @@ var getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent
       chi_constr_id = base_root_constr_id
     }
 
-    var constr = (parent_basetree_chi && parent_basetree_chi.controller_name)
+    const constr = (parent_basetree_chi && parent_basetree_chi.controller_name)
       ? root_view.controllers[parent_basetree_chi.controller_name]
       : spv.getTargetField(own_children, cur)
 
@@ -236,11 +236,11 @@ function getCompxDeps(cur_view) {
     return []
   }
 
-  var result = []
+  const result = []
 
-  var compxs_itself = []
+  const compxs_itself = []
 
-  for (var i = 0; i < cur_view.full_comlxs_list.length; i++) {
+  for (let i = 0; i < cur_view.full_comlxs_list.length; i++) {
     push.apply(result, cur_view.full_comlxs_list[i].depends_on)
     compxs_itself.push(cur_view.full_comlxs_list[i].name)
   }
@@ -249,8 +249,8 @@ function getCompxDeps(cur_view) {
 
 }
 
-var setUndefinedField = function(store, field_path, value) {
-  var current_value = spv.getTargetField(store, field_path)
+const setUndefinedField = function(store, field_path, value) {
+  const current_value = spv.getTargetField(store, field_path)
   if (!current_value) {
     spv.setTargetField(store, field_path, value)
   }
@@ -261,7 +261,7 @@ function getBaseTree(cur_view, root_view) {
     return null
   }
 
-  var merged_tree = {
+  const merged_tree = {
     node_id: null,
     children: null,
     children_by_mn: null,
@@ -269,22 +269,22 @@ function getBaseTree(cur_view, root_view) {
     controller_name: null
   }
 
-  var i
-  var cur
-  var arr = []
+  let i
+  let cur
+  const arr = []
 
   for (i = 0; i < cur_view.base_tree_list.length; i++) {
     cur = cur_view.base_tree_list[i]
 
 
-    var sample_name = cur.sample_name
+    const sample_name = cur.sample_name
 
     if (!sample_name) {
       throw new Error('can\'t get sampler')
     }
-    var sampler = root_view.getSampler(sample_name)
+    const sampler = root_view.getSampler(sample_name)
 
-    var structure_data = sampler.getStructure(cur.parse_as_tplpart)
+    const structure_data = sampler.getStructure(cur.parse_as_tplpart)
 
     if (!merged_tree.controller_name) {
       merged_tree.controller_name = structure_data.controller_name
@@ -295,12 +295,12 @@ function getBaseTree(cur_view, root_view) {
 
   }
 
-  var nesting_name
-  var nesting_space
-  var field_path
-  var model_name
+  let nesting_name
+  let nesting_space
+  let field_path
+  let model_name
 
-  var tree_id = []
+  const tree_id = []
 
   for (i = 0; i < arr.length; i++) {
     cur = arr[i]

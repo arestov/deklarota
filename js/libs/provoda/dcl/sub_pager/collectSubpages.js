@@ -4,26 +4,26 @@ import spv from '../../../spv'
 import hp from '../../helpers'
 import getSubpageItem from './getSubpageItem'
 
-var getUnprefixed = spv.getDeprefixFunc('sub_page-')
-var hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
+const getUnprefixed = spv.getDeprefixFunc('sub_page-')
+const hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
 
 
-var buildMany = function(self) {
+const buildMany = function(self) {
   self._build_cache_subpage_many = {}
-  for (var prop_name in self.sub_page) {
+  for (const prop_name in self.sub_page) {
     self._build_cache_subpage_many[prop_name] = getSubpageItem(self.sub_page[prop_name], 'sub-page-' + prop_name, false, prop_name, 'sp')
   }
 }
 
 export const depricateOldSubpages = (props) => {
-  var changed_singled = hasPrefixedProps(props)
+  const changed_singled = hasPrefixedProps(props)
   if (changed_singled) {
     throw new Error('use sub_page: {}, sub_page-*')
   }
 }
 
 export default function collectSubpages(self) {
-  var changed_pack = self.hasOwnProperty('sub_page')
+  const changed_pack = self.hasOwnProperty('sub_page')
   if (!changed_pack) {
     return
   }
@@ -32,9 +32,9 @@ export default function collectSubpages(self) {
     buildMany(self)
   }
 
-  var check = {}
+  const check = {}
 
-  for (var key_many in self._build_cache_subpage_many) {
+  for (const key_many in self._build_cache_subpage_many) {
     if (check[key_many]) {
       continue
     }
@@ -43,13 +43,13 @@ export default function collectSubpages(self) {
 
   self._chi_sub_pages = {}
 
-  for (var page_name in check) {
-    var cur = check[page_name]
+  for (const page_name in check) {
+    const cur = check[page_name]
     self._chi_sub_pages[cur.key] = cur.constr
   }
 
   if (self._build_cache_sub_pages_side) {
-    for (var side_name in self._build_cache_sub_pages_side) {
+    for (const side_name in self._build_cache_sub_pages_side) {
       check[side_name] = self._build_cache_sub_pages_side[side_name]
     }
   }

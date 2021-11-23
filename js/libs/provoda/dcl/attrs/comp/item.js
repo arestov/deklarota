@@ -8,7 +8,7 @@ import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
 // import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
 import sameName from '../../../sameName'
 
-var shortStringWhenPossible = function(addr) {
+const shortStringWhenPossible = function(addr) {
 
   if (!isJustAttrAddr(addr)) {
     return asString(addr)
@@ -17,37 +17,37 @@ var shortStringWhenPossible = function(addr) {
   return addr.state.path
 }
 
-var identical = function(state) {
+const identical = function(state) {
   return state
 }
 
 
 
-var toAddr = function(state_name) {
-  var result1 = getParsedState(state_name)
+const toAddr = function(state_name) {
+  const result1 = getParsedState(state_name)
   if (result1) {
-    var nice = fromLegacy(state_name)
-    var best = asString(nice)
+    const nice = fromLegacy(state_name)
+    const best = asString(nice)
     throw new Error('replace ' + state_name + ' by ' + best)
 
     return nice
   }
 
-  var addr = parse(state_name)
+  const addr = parse(state_name)
   if (addr) {
     return addr
   }
 
   // it could be $meta or __, or anything else
-  var last_result = parse.simpleState(state_name)
+  const last_result = parse.simpleState(state_name)
   return last_result
 }
 
-var toParsedDeps = function(array) {
-  var result = new Array(array.length)
-  var require_marks = []
-  for (var i = 0; i < array.length; i++) {
-    var cur = array[i]
+const toParsedDeps = function(array) {
+  const result = new Array(array.length)
+  const require_marks = []
+  for (let i = 0; i < array.length; i++) {
+    const cur = array[i]
 
     if (cur.charAt(0) != '&') {
       result[i] = toAddr(cur)
@@ -64,21 +64,21 @@ var toParsedDeps = function(array) {
   return Object.freeze({fixed_deps: result, require_marks: sameArrayIfEmpty(require_marks)})
 }
 
-var emptyList = []
+const emptyList = []
 
 const badAttrs = new Set(['main_list_loading', 'list_loading', 'all_data_loaded'])
 const ignoredLegacy = new Set(['$needs_load', 'list_loading', 'can_load_data', 'can_load_more', 'more_load_available'])
 
 
-var CompxAttrDecl = function(comlx_name_raw, cur) {
+const CompxAttrDecl = function(comlx_name_raw, cur) {
   const comlx_name = sameName(comlx_name_raw)
 
   if (!Array.isArray(cur)) {
     throw new Error('don\'t use object structure of dep')
   }
 
-  var deps_list = cur[0] || sameArrayIfEmpty(emptyList)
-  var fn = cur[1]
+  const deps_list = cur[0] || sameArrayIfEmpty(emptyList)
+  const fn = cur[1]
 
   if (!deps_list.length && typeof fn !== 'function') {
     throw new Error('use attr "input" to define default values')
@@ -93,7 +93,7 @@ var CompxAttrDecl = function(comlx_name_raw, cur) {
 
   Object.freeze(deps_list)
 
-  var parsed = toParsedDeps(deps_list)
+  const parsed = toParsedDeps(deps_list)
 
   this.addrs = parsed.fixed_deps
   Object.freeze(this.addrs)
@@ -120,9 +120,9 @@ var CompxAttrDecl = function(comlx_name_raw, cur) {
   }
 
 
-  for (var i = 0; i < this.addrs.length; i++) {
-    var addr = this.addrs[i]
-    var str = addr.state && addr.state.base
+  for (let i = 0; i < this.addrs.length; i++) {
+    const addr = this.addrs[i]
+    const str = addr.state && addr.state.base
 
     if (!str || str.startsWith('$meta$')) {
       continue

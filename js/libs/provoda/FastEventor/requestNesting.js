@@ -2,11 +2,11 @@ import req_utils from './req-utils'
 import types from './nestReqTypes'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 
-var getRequestByDeclr = req_utils.getRequestByDeclr
-var findErrorByList = req_utils.findErrorByList
+const getRequestByDeclr = req_utils.getRequestByDeclr
+const findErrorByList = req_utils.findErrorByList
 
 
-var clean_obj = {}
+const clean_obj = {}
 
 
 function nestingMark(nesting_name, name) {
@@ -28,7 +28,7 @@ function statesComplete(states, nesting_name) {
 
   states[nestingMark(nesting_name, types.load_attempted)] = true
 
-  var now = Date.now()
+  const now = Date.now()
   states[nestingMark(nesting_name, types.load_attempted_at)] = now
   return states
 }
@@ -79,18 +79,18 @@ function startFetching(self, nesting_name, paging_opts, has_error, network_api_o
     return
   }
 
-  var request = getRequestByDeclr(send_declr, self,
+  const request = getRequestByDeclr(send_declr, self,
     {has_error: has_error, paging: paging_opts},
     network_api_opts)
 
-  var network_api = request.network_api
-  var source_name = request.source_name
+  const network_api = request.network_api
+  const source_name = request.source_name
 
 
 
 
   function detectError(resp) {
-    var has_error = network_api.errors_fields
+    const has_error = network_api.errors_fields
       ? findErrorByList(resp, network_api.errors_fields)
       : network_api.checkResponse(resp)
 
@@ -99,7 +99,7 @@ function startFetching(self, nesting_name, paging_opts, has_error, network_api_o
 
 
   return request.then(function(response) {
-    var has_error = detectError(response)
+    const has_error = detectError(response)
     if (has_error) {
       return [has_error, response, source_name]
     }
@@ -139,34 +139,34 @@ export default function(dclt, nesting_name, limit) {
     }
   }
 
-  var store = this.nesting_requests[ nesting_name ]
+  const store = this.nesting_requests[ nesting_name ]
   if (store.process || store.has_all_items) {
     return
   }
-  var _this = this
+  const _this = this
 
-  var isValidRequest = function(req) {
-    var store = _this.nesting_requests[nesting_name]
+  const isValidRequest = function(req) {
+    const store = _this.nesting_requests[nesting_name]
     return store && store.req == req
   }
 
-  var is_main_list = nesting_name == this.sputnik.main_list_name
+  const is_main_list = nesting_name == this.sputnik.main_list_name
 
   this.sputnik.input(function() {
-    var states = {}
+    const states = {}
     statesStart(states, nesting_name, is_main_list)
     _this.sputnik.updateManyStates(states)
   })
 
-  var parse_items = dclt.parse_items
-  var parse_serv = dclt.parse_serv
-  var side_data_parsers = dclt.side_data_parsers
+  const parse_items = dclt.parse_items
+  const parse_serv = dclt.parse_serv
+  const side_data_parsers = dclt.side_data_parsers
 
-  var supports_paging = !!parse_serv
-  var limit_value = limit && (limit[1] - limit[0])
-  var paging_opts = this.sputnik.getPagingInfo(nesting_name, limit_value)
+  const supports_paging = !!parse_serv
+  const limit_value = limit && (limit[1] - limit[0])
+  const paging_opts = this.sputnik.getPagingInfo(nesting_name, limit_value)
 
-  var network_api_opts = {
+  const network_api_opts = {
     nocache: store.error
   }
 
@@ -175,7 +175,7 @@ export default function(dclt, nesting_name, limit) {
   }
 
 
-  var send_declr = dclt.send_declr
+  const send_declr = dclt.send_declr
 
   if (!getNetApiByDeclr(send_declr, this.sputnik)) {
     console.warn(new Error('api not ready yet'), send_declr)
@@ -190,7 +190,7 @@ export default function(dclt, nesting_name, limit) {
   store.req = request
 
   function markAttemptComplete() {
-    var states = {}
+    const states = {}
     statesComplete(states, nesting_name)
     _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
   }
@@ -201,14 +201,14 @@ export default function(dclt, nesting_name, limit) {
       store.req = null
     }
 
-    var states = {}
+    const states = {}
     statesAnyway(states, nesting_name, is_main_list)
     _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
   }
 
   function handleError() {
     store.error = true
-    var states = {}
+    const states = {}
     statesError(states, nesting_name)
     _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
 
@@ -229,7 +229,7 @@ export default function(dclt, nesting_name, limit) {
   */
 
   if (request.queued_promise) {
-    var changeWaitingState = (value) => () => {
+    const changeWaitingState = (value) => () => {
       if (!isValidRequest(request)) {
         return
       }
@@ -278,18 +278,18 @@ export default function(dclt, nesting_name, limit) {
 
   function handleNestResponse(r, source_name, markListIncomplete) {
     // should be in data bus queue - use `.input` wrap
-    var sputnik = _this.sputnik
+    const sputnik = _this.sputnik
 
-    var morph_helpers = sputnik.app.morph_helpers
-    var items = parse_items.call(sputnik, r, clean_obj, morph_helpers)
-    var serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers)
-    var can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
+    const morph_helpers = sputnik.app.morph_helpers
+    let items = parse_items.call(sputnik, r, clean_obj, morph_helpers)
+    const serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers)
+    const can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
 
     if (can_load_more) {
       markListIncomplete()
     }
 
-    var many_states = {}
+    const many_states = {}
     statesData(many_states, nesting_name, can_load_more, is_main_list)
 
     items = paging_opts.remainder ? items.slice(paging_opts.remainder) : items
@@ -305,7 +305,7 @@ export default function(dclt, nesting_name, limit) {
     if (!sputnik.loaded_nestings_items[nesting_name]) {
       sputnik.loaded_nestings_items[nesting_name] = 0
     }
-    var has_data_holes = serv_data === true || (serv_data && serv_data.has_data_holes === true)
+    const has_data_holes = serv_data === true || (serv_data && serv_data.has_data_holes === true)
 
     sputnik.loaded_nestings_items[nesting_name] +=
       has_data_holes ? paging_opts.page_limit : (items ? items.length : 0)
@@ -314,7 +314,7 @@ export default function(dclt, nesting_name, limit) {
 
     if (!side_data_parsers) {return}
 
-    for (var i = 0; i < side_data_parsers.length; i++) {
+    for (let i = 0; i < side_data_parsers.length; i++) {
       sputnik.nextTick(
         sputnik.handleNetworkSideData, [
           sputnik,

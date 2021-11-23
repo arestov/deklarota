@@ -32,8 +32,8 @@ const cachedField = function(field, deps, _final_compile, fn) {
       return model[field]
     }
 
-    var args = []
-    for (var i = 0; i < deps.length; i++) {
+    const args = []
+    for (let i = 0; i < deps.length; i++) {
       args[i] = model[deps[i]]
     }
 
@@ -43,7 +43,7 @@ const cachedField = function(field, deps, _final_compile, fn) {
       return model[field]
     }
 
-    var result = fn(...args, model)
+    const result = fn(...args, model)
     if (model[field] === result) {
       return model[field]
     }

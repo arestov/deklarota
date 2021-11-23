@@ -1,11 +1,11 @@
 
-var css = {}
+const css = {}
 
-var dom_style_obj = window.document.createElement('div').style
-var has_transform_prop
-var has_transition_prop
+const dom_style_obj = window.document.createElement('div').style
+let has_transform_prop
+let has_transition_prop
 
-var transition_props = {
+const transition_props = {
   //https://github.com/ai/transition-events/blob/master/lib/transition-events.js
   // Webkit must be on bottom, because Opera try to use webkit
   // prefix.
@@ -15,7 +15,7 @@ var transition_props = {
   'MozTransition':	'transitionend'
 }
 
-for (var prop in transition_props) {
+for (const prop in transition_props) {
   if (prop in dom_style_obj) {
     has_transition_prop = transition_props[prop]
     break

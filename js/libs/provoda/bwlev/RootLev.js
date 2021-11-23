@@ -11,7 +11,7 @@ import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import cloneObj from '../../spv/cloneObj'
 import handlers from './router_handlers'
 
-var RootLev = spv.inh(Model, {
+const RootLev = spv.inh(Model, {
   /*
     root lev manages routers
 
@@ -42,26 +42,26 @@ var RootLev = spv.inh(Model, {
     ...handlers,
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
-      var md = getModelById(this, id)
-      var bwlev = showMOnMap(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), md)
+      const md = getModelById(this, id)
+      const bwlev = showMOnMap(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), md)
       bwlev.showOnMap()
     },
     followURL: function(from_id, url) {
-      var from_bwlev = getModelById(this, from_id)
-      var md = from_bwlev.getNesting('pioneer')
+      const from_bwlev = getModelById(this, from_id)
+      const md = from_bwlev.getNesting('pioneer')
 
-      var target_md = getSPByPathTemplate(this.app, md, url)
+      const target_md = getSPByPathTemplate(this.app, md, url)
 
-      var bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, target_md)
+      const bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, target_md)
       bwlev.showOnMap()
       return bwlev
     },
     followTo: function(from_id, id) {
-      var md = getModelById(this, id)
+      const md = getModelById(this, id)
 
-      var from_bwlev = getModelById(this, from_id)
+      const from_bwlev = getModelById(this, from_id)
 
-      var bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, md)
+      const bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, md)
       bwlev.showOnMap()
       return bwlev
     },
@@ -75,21 +75,21 @@ var RootLev = spv.inh(Model, {
     },
     navShowByReq: function(req, router_name_arg) {
       // TODO: move to router_handlers
-      var router_name = router_name_arg
+      const router_name = router_name_arg
         ? ('router-' + router_name_arg)
         : 'router-navigation'
 
-      var remember_context = !req || req.remember_context !== false
+      const remember_context = !req || req.remember_context !== false
 
-      var map = getSPByPathTemplate(this.app, this, router_name)
+      const map = getSPByPathTemplate(this.app, this, router_name)
 
-      var current_mp_bwlev = map.getNesting('current_mp_bwlev')
+      const current_mp_bwlev = map.getNesting('current_mp_bwlev')
 
-      var current_bwlev_map = req.current_bwlev_map || (remember_context
+      const current_bwlev_map = req.current_bwlev_map || (remember_context
         ? current_mp_bwlev && current_mp_bwlev._provoda_id
         : null)
 
-      var fullReq = cloneObj(cloneObj({}, req), {
+      const fullReq = cloneObj(cloneObj({}, req), {
         current_bwlev_map: current_bwlev_map,
       })
 

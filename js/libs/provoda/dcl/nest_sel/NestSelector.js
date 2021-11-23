@@ -6,8 +6,8 @@ function checkCondition(declr, base_md, cur_md) {
   const args_schema = declr.args_schema
   const selectFn = declr.selectFn
 
-  var args = new Array(args_schema.length)
-  for (var i = 0; i < args_schema.length; i++) {
+  const args = new Array(args_schema.length)
+  for (let i = 0; i < args_schema.length; i++) {
     const cur = args_schema[i]
     switch (cur.type) {
       case 'deep':
@@ -41,10 +41,10 @@ function getFiltered(dcl, base_md, items_list) {
     return items_list
   }
 
-  var result = []
+  const result = []
 
-  for (var i = 0; i < items_list.length; i++) {
-    var cur = items_list[i]
+  for (let i = 0; i < items_list.length; i++) {
+    const cur = items_list[i]
     if (isFine(dcl, base_md, cur)) {
       result.push(cur)
     }
@@ -60,12 +60,12 @@ function getReadyItems(dcl, base_md, filtered) {
   }
 
   if (!filtered) {return}
-  var arr = new Array(filtered.length)
-  var distant = dcl.map.from_distant_model
-  for (var i = 0; i < filtered.length; i++) {
-    var cur = filtered[i]
-    var md_from = switchDistant(distant, base_md, cur)
-    var md_states_from = switchDistant(distant, cur, base_md)
+  const arr = new Array(filtered.length)
+  const distant = dcl.map.from_distant_model
+  for (let i = 0; i < filtered.length; i++) {
+    const cur = filtered[i]
+    const md_from = switchDistant(distant, base_md, cur)
+    const md_states_from = switchDistant(distant, cur, base_md)
 
     arr[i] = executeStringTemplate(
       base_md.app, md_from, dcl.map.template, false, md_states_from
@@ -92,8 +92,8 @@ function getCommonSorted(dcl, base_md, items_list) {
 }
 
 function getFilteredAndSorted(dcl, base_md, items_list) {
-  var filtered = getCommonFiltered(dcl, base_md, items_list)
-  var sorted = (filtered && dcl.sortFn)
+  const filtered = getCommonFiltered(dcl, base_md, items_list)
+  const sorted = (filtered && dcl.sortFn)
     ? getCommonSorted(dcl, base_md, filtered)
     : filtered
 
@@ -101,6 +101,6 @@ function getFilteredAndSorted(dcl, base_md, items_list) {
 }
 
 export function calcRelSelByDcl(dcl, base_md, list) {
-  var sorted = getFilteredAndSorted(dcl, base_md, list)
+  const sorted = getFilteredAndSorted(dcl, base_md, list)
   return getReadyItems(dcl, base_md, sorted)
 }

@@ -36,7 +36,7 @@ function extendPromise(promise, deferred) {
 }
 
 function toBigPromise(deferred) {
-  var promise = new Promise(function(resolve, reject) {
+  const promise = new Promise(function(resolve, reject) {
     deferred.then(resolve, reject)
   })
   return extendPromise(promise, deferred)

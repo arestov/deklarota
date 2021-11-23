@@ -9,8 +9,8 @@ import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import routePathByModels from '../routePathByModels'
 
-var getSPIConstr = routePathByModels.getSPIConstr
-var getSPI = routePathByModels.getSPI
+const getSPIConstr = routePathByModels.getSPIConstr
+const getSPI = routePathByModels.getSPI
 
 /*
 поправить навигацию
@@ -22,26 +22,26 @@ var getSPI = routePathByModels.getSPI
 */
 
 
-var BrowseMap = {}
+const BrowseMap = {}
 
 
 BrowseMap.getBwlevFromParentBwlev = getBwlevFromParentBwlev
 
 BrowseMap.showInterest = showInterest
 
-var interest_part = /(\#(?:\d*\:)?)/gi
+const interest_part = /(\#(?:\d*\:)?)/gi
 BrowseMap.getUserInterest = function(pth_string, start_md) {
   /*
     /users/me/lfm:neighbours#3:/users/lfm:kolczyk0
   */
-  var parts = pth_string.split(interest_part)
+  const parts = pth_string.split(interest_part)
 
-  var interest = []
+  const interest = []
 
   while (parts.length) {
-    var path = parts.pop()
-    var distance_part = parts.pop()
-    var distance = distance_part && distance_part.slice(1, distance_part.length - 1)
+    const path = parts.pop()
+    const distance_part = parts.pop()
+    const distance = distance_part && distance_part.slice(1, distance_part.length - 1)
     interest.push({
       md: BrowseMap.routePathByModels(start_md, path),
       // path: path,
@@ -62,7 +62,7 @@ BrowseMap.Model = spv.inh(HModel, {
     }
   },
   init: function(self, _opts, data) {
-    var init_v2 = data && data.init_version === 2
+    const init_v2 = data && data.init_version === 2
 
     if (!self.skip_map_init) {
       if (data && !init_v2) {
@@ -113,8 +113,8 @@ BrowseMap.Model = spv.inh(HModel, {
   },
   preloadNestings: function(array) {
     //var full_list = [];
-    for (var i = 0; i < array.length; i++) {
-      var md = this.getNesting(array[i])
+    for (let i = 0; i < array.length; i++) {
+      const md = this.getNesting(array[i])
       if (md) {
         md.preloadStart()
       }
@@ -143,8 +143,8 @@ BrowseMap.Model = spv.inh(HModel, {
 })
 
 function hookRoot(rootmd, start_page, states) {
-  var CurBrowseLevel = rootmd.__BWLev
-  var bwlev_root = initBWlev(CurBrowseLevel, rootmd, '', -2, null, null)
+  const CurBrowseLevel = rootmd.__BWLev
+  const bwlev_root = initBWlev(CurBrowseLevel, rootmd, '', -2, null, null)
   if (!start_page) {
     return bwlev_root
   }

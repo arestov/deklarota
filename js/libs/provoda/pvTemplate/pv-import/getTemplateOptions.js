@@ -1,5 +1,5 @@
 
-var templateOptions = function(params, key) {
+const templateOptions = function(params, key) {
   this.key = key
   this.samples = params.map[0]
   this.pv_nest = params.pv_nest

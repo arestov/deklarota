@@ -6,14 +6,14 @@ import get_constr from '../../../structure/get_constr'
 import getModelById from '../../../utils/getModelById'
 import pushToRoute from '../../../structure/pushToRoute'
 
-var cloneObj = spv.cloneObj
-var getNestingConstr = get_constr.getNestingConstr
+const cloneObj = spv.cloneObj
+const getNestingConstr = get_constr.getNestingConstr
 
-var push = Array.prototype.push
-var unshift = Array.prototype.unshift
-var splice = Array.prototype.splice
+const push = Array.prototype.push
+const unshift = Array.prototype.unshift
+const splice = Array.prototype.splice
 
-var toArray = function(value) {
+const toArray = function(value) {
   if (!value) {
     return null
   }
@@ -21,7 +21,7 @@ var toArray = function(value) {
   return Array.isArray(value) ? value : [value]
 }
 
-var without = function(old_value, value) {
+const without = function(old_value, value) {
   if (!old_value || (Array.isArray(old_value) && !old_value.length)) {
     // nothing to erase. keep that old "nothing" value
     return old_value
@@ -46,20 +46,20 @@ var without = function(old_value, value) {
   return spv.arrayExclude(old_value, value)
 }
 
-var toStart = function(old_value, value) {
-  var old_list = toArray(old_value)
-  var to_add = toArray(value)
-  var result = old_list ? old_list.slice(0) : []
+const toStart = function(old_value, value) {
+  const old_list = toArray(old_value)
+  const to_add = toArray(value)
+  const result = old_list ? old_list.slice(0) : []
   if (to_add) {
     unshift.apply(result, to_add)
   }
   return result
 }
 
-var toEnd = function(old_value, value) {
-  var old_list = toArray(old_value)
-  var to_add = toArray(value)
-  var result = old_list ? old_list.slice(0) : []
+const toEnd = function(old_value, value) {
+  const old_list = toArray(old_value)
+  const to_add = toArray(value)
+  const result = old_list ? old_list.slice(0) : []
 
   if (to_add) {
     push.apply(result, to_add)
@@ -67,16 +67,16 @@ var toEnd = function(old_value, value) {
   return result
 }
 
-var toIndex = function(old_value, value, index) {
+const toIndex = function(old_value, value, index) {
   if (typeof index != 'number') {
     throw 'index should be numer'
   }
-  var old_list = toArray(old_value)
-  var to_add = toArray(value)
-  var result = old_list ? old_list.slice(0) : []
+  const old_list = toArray(old_value)
+  const to_add = toArray(value)
+  const result = old_list ? old_list.slice(0) : []
 
   if (to_add) {
-    for (var i = 0; i < to_add.length; i++) {
+    for (let i = 0; i < to_add.length; i++) {
       splice.call(result, index + i, 0, to_add[i])
     }
   }
@@ -84,17 +84,17 @@ var toIndex = function(old_value, value, index) {
   return result
 }
 
-var replaceAt = function(old_value, value, index) {
+const replaceAt = function(old_value, value, index) {
   if (typeof index != 'number') {
     throw 'index should be numer'
   }
 
-  var old_list = toArray(old_value)
-  var to_add = toArray(value)
-  var result = old_list ? old_list.slice(0) : []
+  const old_list = toArray(old_value)
+  const to_add = toArray(value)
+  const result = old_list ? old_list.slice(0) : []
 
   if (to_add) {
-    for (var i = 0; i < to_add.length; i++) {
+    for (let i = 0; i < to_add.length; i++) {
       splice.call(result, index + i, 1, to_add[i])
     }
   }
@@ -104,11 +104,11 @@ var replaceAt = function(old_value, value, index) {
 
 var needsRefs = function(init_data) {
   const rels = getRelFromInitParams(init_data)
-  for (var nesting_name in rels) {
+  for (const nesting_name in rels) {
     if (!rels.hasOwnProperty(nesting_name)) {
       continue
     }
-    var cur = rels[nesting_name]
+    const cur = rels[nesting_name]
 
     if (cur == null) {
       continue
@@ -146,24 +146,24 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
   }
 
 
-  var result = cloneObj({}, init_data)
+  const result = cloneObj({}, init_data)
   const rels = getRelFromInitParams(init_data)
   if (rels) {
     result.rels = cloneObj({}, rels)
   }
 
-  for (var nesting_name in rels) {
+  for (const nesting_name in rels) {
     if (!rels.hasOwnProperty(nesting_name)) {
       continue
     }
-    var cur = rels[nesting_name]
+    const cur = rels[nesting_name]
     if (!Array.isArray(cur)) {
       result.rels[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
       continue
     }
 
-    var list = []
-    for (var i = 0; i < cur.length; i++) {
+    const list = []
+    for (let i = 0; i < cur.length; i++) {
       list.push(replaceRefs(md, cur[i], mut_wanted_ref, mut_refs_index))
     }
   }
@@ -171,13 +171,13 @@ var replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
   return result
 }
 
-var callInit = function(md, nesting_name, value) {
-  var created = pushToRoute(md, nesting_name, value.states)
+const callInit = function(md, nesting_name, value) {
+  const created = pushToRoute(md, nesting_name, value.states)
   if (created) {
     return created
   }
 
-  var Constr = getNestingConstr(md.app, md, nesting_name)
+  const Constr = getNestingConstr(md.app, md, nesting_name)
   if (!Constr) {
     throw new Error('cant find Constr for ' + nesting_name)
     // todo - move validation to dcl process
@@ -186,17 +186,17 @@ var callInit = function(md, nesting_name, value) {
 
 
   // expected `value` is : {states: {}, rels: {}}
-  var init_data = {}
+  const init_data = {}
 
   cloneObj(init_data, value)
   init_data.init_version = 2
   init_data.by = 'prepareNestingValue'
-  var created_model = md.initSi(Constr, init_data)
+  const created_model = md.initSi(Constr, init_data)
 
   return created_model
 }
 
-var useRefIfNeeded = function(md, raw_value, mut_refs_index, _mut_wanted_ref) {
+const useRefIfNeeded = function(md, raw_value, mut_refs_index, _mut_wanted_ref) {
   if (isOk(raw_value)) {
     return raw_value
   }
@@ -208,7 +208,7 @@ var useRefIfNeeded = function(md, raw_value, mut_refs_index, _mut_wanted_ref) {
   return replaceRefs(md, raw_value, {}, mut_refs_index)
 }
 
-var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
+const initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
   if (isOk(raw_value)) {
     return raw_value
   }
@@ -217,11 +217,11 @@ var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
     throw new Error('implement me')
   }
 
-  var value
+  let value
   if (!needsRefs(raw_value)) {
     value = raw_value
   } else {
-    var local_wanted = {}
+    const local_wanted = {}
     value = replaceRefs(md, raw_value, local_wanted, mut_refs_index)
 
     if (isOk(value)) {
@@ -234,10 +234,10 @@ var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
     }
   }
 
-  var multi_path = target.target_path
-  var nesting_name = multi_path.nesting.target_nest_name
+  const multi_path = target.target_path
+  const nesting_name = multi_path.nesting.target_nest_name
 
-  var created_model = callInit(md, nesting_name, value)
+  const created_model = callInit(md, nesting_name, value)
 
   if (value.hold_ref_id) {
     if (mut_refs_index[value.hold_ref_id]) {
@@ -249,25 +249,25 @@ var initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
   return created_model
 }
 
-var initItemsList = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const initItemsList = function(md, target, value, mut_refs_index, mut_wanted_ref) {
   if (!value) {
     return value
   }
 
-  var list = toArray(value)
+  const list = toArray(value)
   if (isOk(list)) {
     return list
   }
 
-  var result = new Array(list.length)
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
+  const result = new Array(list.length)
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
     result[i] = initItem(md, target, cur, mut_refs_index, mut_wanted_ref)
   }
   return result
 }
 
-var initValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const initValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
   if (Array.isArray(value)) {
     return initItemsList(md, target, value, mut_refs_index, mut_wanted_ref)
   }
@@ -275,7 +275,7 @@ var initValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
   return initItem(md, target, value, mut_refs_index, mut_wanted_ref)
 }
 
-var initPassedValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const initPassedValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
   switch (target.options.method) {
     case 'at_index':
     case 'replace': {
@@ -289,8 +289,8 @@ var initPassedValue = function(md, target, value, mut_refs_index, mut_wanted_ref
   return initValue(md, target, value, mut_refs_index, mut_wanted_ref)
 }
 
-var prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
-  var multi_path = target.target_path
+const prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+  const multi_path = target.target_path
 
   if (!target.options.method) {
     if (!isOk(value)) {
@@ -300,8 +300,8 @@ var prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted
     return value
   }
 
-  var nesting_name = multi_path.nesting.target_nest_name
-  var current_value = getNesting(md, nesting_name)
+  const nesting_name = multi_path.nesting.target_nest_name
+  const current_value = getNesting(md, nesting_name)
 
 
   switch (target.options.method) {

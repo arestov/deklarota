@@ -1,9 +1,9 @@
 
 
 function arrayToDcls(list) {
-  var result = {}
-  for (var i = 0; i < list.length; i++) {
-    var name = list[i]
+  const result = {}
+  for (let i = 0; i < list.length; i++) {
+    const name = list[i]
     if (typeof name != 'string') {
       throw new Error('attr name should be string')
     }
@@ -13,8 +13,8 @@ function arrayToDcls(list) {
 }
 
 function objToDcls(obj) {
-  var result = {}
-  for (var name in obj) {
+  const result = {}
+  for (const name in obj) {
     if (!obj.hasOwnProperty(name)) {
       continue
     }

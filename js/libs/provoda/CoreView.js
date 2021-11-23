@@ -23,12 +23,12 @@ import getBwlevView from './dcl_view/getBwlevView'
 import getViewLocationId from './View/getViewLocationId'
 import makeAttrsCollector from './View/makeAttrsCollector'
 import getRelPath from './View/getRelPath'
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
 
 // var spyglassDestroy = require('./dcl_view/spyglass/destroy');
 
-var ViewLabour = function() {
+const ViewLabour = function() {
   this.has_details = null
   this._detailed = null
   this.dettree_incomplete = null
@@ -69,7 +69,7 @@ const mutateChildren = (target) => {
   return target.children
 }
 
-var initView = function(target, view_otps, opts) {
+const initView = function(target, view_otps, opts) {
 
   target.used_data_structure = view_otps.used_data_structure || target.used_data_structure
 
@@ -134,14 +134,14 @@ var initView = function(target, view_otps, opts) {
 
   target.mpx._assignPublicAttrs(target._lbr.undetailed_states)
   Object.assign(target._lbr.undetailed_states, target.mpx.vstates)
-  var default_attrs = initInputAttrs(target)
+  const default_attrs = initInputAttrs(target)
   if (default_attrs) {
     Object.assign(target._lbr.undetailed_states, default_attrs)
   }
 
-  var changes_list = []
+  const changes_list = []
   prefillCompAttr(target, changes_list)
-  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+  for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
     target._lbr.undetailed_states[changes_list[i]] = changes_list[i + 1]
   }
 
@@ -159,9 +159,9 @@ var initView = function(target, view_otps, opts) {
 
   initApis(target, opts && opts.interfaces)
   if (target.isRootView) {
-    var parent_opts = target.parent_view && target.parent_view.opts
+    const parent_opts = target.parent_view && target.parent_view.opts
     if (parent_opts) {
-      for (var interface_name in parent_opts.interfaces) {
+      for (const interface_name in parent_opts.interfaces) {
         target.useInterface(interface_name, parent_opts.interfaces[interface_name])
       }
     }
@@ -172,10 +172,10 @@ var initView = function(target, view_otps, opts) {
 }
 
 
-var getSpyglassData = function(current_view, target_id, probe_name, value, req) {
-  var parent_bwlev_view = getBwlevView(current_view)
+const getSpyglassData = function(current_view, target_id, probe_name, value, req) {
+  const parent_bwlev_view = getBwlevView(current_view)
 
-  var data = {
+  const data = {
     context_md: parent_bwlev_view && parent_bwlev_view.getNesting('pioneer')._provoda_id,
     bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._provoda_id,
     target_id: target_id,
@@ -188,32 +188,32 @@ var getSpyglassData = function(current_view, target_id, probe_name, value, req) 
   return data
 }
 
-var changeSpyglassUniversal = function(method) {
+const changeSpyglassUniversal = function(method) {
   return function(_e, _node, probe_name, value, req) {
-    var data = getSpyglassData(this, this.mpx._provoda_id, probe_name, value, req)
+    const data = getSpyglassData(this, this.mpx._provoda_id, probe_name, value, req)
 
-    var bwlev_view = this.root_view.parent_view
+    const bwlev_view = this.root_view.parent_view
     bwlev_view.RPCLegacy(method, data)
   }
 }
 
-var changeSpyglassUniversalM = function(method) {
+const changeSpyglassUniversalM = function(method) {
   return function(probe_name, target_id, value, req) {
-    var data = getSpyglassData(this, target_id, probe_name, value, req)
+    const data = getSpyglassData(this, target_id, probe_name, value, req)
 
-    var bwlev_view = this.root_view.parent_view
+    const bwlev_view = this.root_view.parent_view
     bwlev_view.RPCLegacy(method, data)
   }
 }
 
-var selectParent = function(view) {
+const selectParent = function(view) {
   return view.parent_view
 }
 
-var getStrucParent = function(item, _count) {
-  var count = _count || 1
+const getStrucParent = function(item, _count) {
+  let count = _count || 1
 
-  var target = item
+  let target = item
   while (count) {
     count--
     target = selectParent(target)
@@ -225,16 +225,16 @@ var getStrucParent = function(item, _count) {
   return target
 }
 
-var emptyFakeList = {length:0}
+const emptyFakeList = {length:0}
 
 const getContextRouter = (self) => {
-  var bwlev_view = getBwlevView(self)
-  var current_bwlev_map = (bwlev_view && bwlev_view.getNesting('map'))
-  var context_router = current_bwlev_map || self.root_view.parent_view
+  const bwlev_view = getBwlevView(self)
+  const current_bwlev_map = (bwlev_view && bwlev_view.getNesting('map'))
+  const context_router = current_bwlev_map || self.root_view.parent_view
   return context_router
 }
 
-var View = spv.inh(StatesEmitter, {
+const View = spv.inh(StatesEmitter, {
   naming: function(fn) {
     return function View(view_otps, opts) {
       fn(this, view_otps, opts)
@@ -254,20 +254,20 @@ var View = spv.inh(StatesEmitter, {
     this.root_view.parent_view.RPCLegacy('requestPage', _provoda_id)
   },
   requestPage: function() {
-    var md_id = this.mpx._provoda_id
+    const md_id = this.mpx._provoda_id
 
     this.root_view.parent_view.RPCLegacy('requestPage', md_id)
   },
   navShowByReq: function(reqId, goal, options, data) {
-    var router_name = options && options.router
-    var remember_context = !options || options.remember_context !== false
+    const router_name = options && options.router
+    const remember_context = !options || options.remember_context !== false
 
-    var bwlev_view = getBwlevView(this)
+    const bwlev_view = getBwlevView(this)
 
-    var context_bwlev = remember_context
+    const context_bwlev = remember_context
       ? (bwlev_view && bwlev_view.mpx._provoda_id)
       : null
-    var current_bwlev_map = remember_context
+    const current_bwlev_map = remember_context
       ? (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._provoda_id)
       : null
 
@@ -281,11 +281,11 @@ var View = spv.inh(StatesEmitter, {
     }, router_name)
   },
   navCheckGoalToGetBack: function(goal) {
-    var bwlev_view = getBwlevView(this)
+    const bwlev_view = getBwlevView(this)
     bwlev_view.RPCLegacy('navCheckGoalToGetBack', goal)
   },
   navGetBack: function() {
-    var bwlev_view = getBwlevView(this)
+    const bwlev_view = getBwlevView(this)
     bwlev_view.RPCLegacy('navGetBack')
   },
   getBwlevView() {
@@ -300,19 +300,19 @@ var View = spv.inh(StatesEmitter, {
     },
 
     navigateToResource() {
-      var contextRouter = getContextRouter(this)
+      const contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateToResource', this.mpx._provoda_id)
     },
     navigateByLocator(_e, _node, locator) {
-      var contextRouter = getContextRouter(this)
+      const contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateByLocator', this.mpx._provoda_id, locator)
     },
     navigateRouterToResource(_e, _node, router) {
-      var contextRouter = getContextRouter(this)
+      const contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
     },
     navigateRouterByLocator(_e, _node, router, locator) {
-      var contextRouter = getContextRouter(this)
+      const contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
     },
     expectRelBeRevealedByRelPath(_e, _node, rel_path) {
@@ -325,19 +325,19 @@ var View = spv.inh(StatesEmitter, {
       this.requestPage()
     },
     navigateToNavParent() {
-      var bwlev_view = getBwlevView(this)
+      const bwlev_view = getBwlevView(this)
       bwlev_view.RPCLegacy('dispatch', 'navigateToNavParent')
     },
     requestPageById: function(_e, _node, _provoda_id) {
       this.requestPageById(_provoda_id)
     },
     followTo: function() {
-      var md_id = this.mpx._provoda_id
-      var bwlev_view = getBwlevView(this)
+      const md_id = this.mpx._provoda_id
+      const bwlev_view = getBwlevView(this)
       this.root_view.parent_view.RPCLegacy('followTo', bwlev_view.mpx._provoda_id, md_id)
     },
     followURL: function(_e, _node, url) {
-      var bwlev_view = getBwlevView(this)
+      const bwlev_view = getBwlevView(this)
       this.root_view.parent_view.RPCLegacy('followURL', bwlev_view.mpx._provoda_id, url)
     },
     toggleSpyglass: changeSpyglassUniversal('toggleSpyglass'),
@@ -371,8 +371,8 @@ var View = spv.inh(StatesEmitter, {
   demensions_cache: {},
   checkDemensionsKeyStart: function() {
     if (!this._lbr.demensions_key_start) {
-      var arr = []
-      var cur = this
+      const arr = []
+      let cur = this
       while (cur.parent_view) {
         arr.push(cur.location_name)
 
@@ -385,8 +385,8 @@ var View = spv.inh(StatesEmitter, {
     }
   },
   getBoxDemensionKey: function() {
-    var args = new Array(arguments.length) //optimization
-    for (var i = 0; i < arguments.length; i++) {
+    const args = new Array(arguments.length) //optimization
+    for (let i = 0; i < arguments.length; i++) {
       args[i] = arguments[i]
 
     }
@@ -401,13 +401,13 @@ var View = spv.inh(StatesEmitter, {
     return this.demensions_cache[key]
   },
   getBoxDemension: function(cb) {
-    var args = new Array(arguments.length - 1)
-    for (var i = 1; i < arguments.length; i++) {
+    const args = new Array(arguments.length - 1)
+    for (let i = 1; i < arguments.length; i++) {
       args[i - 1] = arguments[i]
     }
 
 
-    var key = this.getBoxDemensionKey.apply(this, args)
+    const key = this.getBoxDemensionKey.apply(this, args)
     return this.getBoxDemensionByKey(cb, key)
   },
   getReqsOrderField: function() {
@@ -421,7 +421,7 @@ var View = spv.inh(StatesEmitter, {
       return md.mpx
     } else {
       // getModel
-      var space = this.proxies_space || this.root_view.proxies_space
+      const space = this.proxies_space || this.root_view.proxies_space
       return this._highway.views_proxies.getMPX(space, md)
     }
     //
@@ -432,13 +432,13 @@ var View = spv.inh(StatesEmitter, {
   },
   children_views: {},
   connectChildrenModels: groupMotive(function() {
-    var udchm = this._lbr.undetailed_children_models
+    const udchm = this._lbr.undetailed_children_models
     this._lbr.undetailed_children_models = null
     this.setMdChildren(udchm)
 
   }),
   connectStates: function() {
-    var states = this._lbr.undetailed_states
+    const states = this._lbr.undetailed_states
     this._lbr.undetailed_states = null
     this._setStates(states)
 
@@ -469,9 +469,9 @@ var View = spv.inh(StatesEmitter, {
   },
 
   getFreeCV: function(child_name, view_space, opts) {
-    var md = this.getMdChild(child_name)
+    const md = this.getMdChild(child_name)
     if (md) {
-      var view = this.getFreeChildView({
+      const view = this.getFreeChildView({
         by_model_name: false,
         nesting_name: child_name,
         nesting_space: view_space
@@ -482,9 +482,9 @@ var View = spv.inh(StatesEmitter, {
     }
   },
   getAFreeCV: function(child_name, view_space, opts) {
-    var view = this.getFreeCV(child_name, view_space, opts)
+    const view = this.getFreeCV(child_name, view_space, opts)
     if (view) {
-      var anchor = view.getA()
+      const anchor = view.getA()
       if (anchor) {
         return anchor
       } else {
@@ -494,19 +494,19 @@ var View = spv.inh(StatesEmitter, {
 
   },
   getFreeChildView: function(address_opts, md, opts) {
-    var mpx = this.getStoredMpx(md)
-    var
+    const mpx = this.getStoredMpx(md)
+    const
       child_name = address_opts.nesting_name
-    var view_space = address_opts.nesting_space || 'main'
-    var location_id = getViewLocationId(this, address_opts.nesting_name, view_space)
-    var view = mpx.getView(location_id)
+    const view_space = address_opts.nesting_space || 'main'
+    const location_id = getViewLocationId(this, address_opts.nesting_name, view_space)
+    let view = mpx.getView(location_id)
 
     if (view) {
       return false
     } else {
 
-      var ConstrObj
-      var controller_name = address_opts.controller_name
+      let ConstrObj
+      const controller_name = address_opts.controller_name
       if (controller_name) {
         ConstrObj = this.root_view.controllers && this.root_view.controllers[controller_name]
         if (!ConstrObj) {
@@ -524,7 +524,7 @@ var View = spv.inh(StatesEmitter, {
       }
 
 
-      var Constr
+      let Constr
       if (typeof ConstrObj == 'function' && view_space == 'main') {
         Constr = ConstrObj
       } else if (ConstrObj) {
@@ -538,13 +538,13 @@ var View = spv.inh(StatesEmitter, {
         throw new Error('there is no View for ' + address_opts.nesting_name)
       }
 
-      var used_data_structure
+      let used_data_structure
 
       if (this.used_data_structure) {
 
-        var field_path = address_opts.by_model_name ? ['children_by_mn', child_name, md.model_name, view_space] : ['children', child_name, view_space]
+        const field_path = address_opts.by_model_name ? ['children_by_mn', child_name, md.model_name, view_space] : ['children', child_name, view_space]
         //$default must be used too
-        var sub_tree = this.used_data_structure.constr_children && spv.getTargetField(this.used_data_structure.constr_children, field_path)
+        let sub_tree = this.used_data_structure.constr_children && spv.getTargetField(this.used_data_structure.constr_children, field_path)
 
         if (!sub_tree) {
           sub_tree = this.used_data_structure.tree_children && spv.getTargetField(this.used_data_structure.tree_children, field_path)
@@ -556,7 +556,7 @@ var View = spv.inh(StatesEmitter, {
         used_data_structure = sub_tree
       }
 
-      var view_otps = {
+      const view_otps = {
         mpx: mpx,
         parent_view: this,
         root_view: this.root_view,
@@ -578,11 +578,11 @@ var View = spv.inh(StatesEmitter, {
     }
   },
   getRelativeRequestsGroups: function(space) {
-    var all_views = []
-    var all_requests = []
-    var iterating = [this]
-    var i = 0
-    var cur = null
+    const all_views = []
+    const all_requests = []
+    const iterating = [this]
+    let i = 0
+    let cur = null
     while (iterating.length) {
       cur = iterating.shift()
       for (i = 0; i < cur.children.length; i++) {
@@ -592,7 +592,7 @@ var View = spv.inh(StatesEmitter, {
     }
 
     for (i = 0; i < all_views.length; i++) {
-      var reqs = all_views[i].getModelImmediateRequests(space)
+      const reqs = all_views[i].getModelImmediateRequests(space)
       if (reqs && reqs.length) {
         all_requests.push(reqs)
       }
@@ -606,11 +606,11 @@ var View = spv.inh(StatesEmitter, {
     //fixme - possible memory leak when child is dead (this.children)
   },
   getChildViewsByMpx: function(mpx, nesting_name) {
-    var result = []
-    var views = mpx.getViews()
-    var i = 0
+    const result = []
+    const views = mpx.getViews()
+    let i = 0
     for (i = 0; i < this.children.length; i++) {
-      var cur = this.children[i]
+      const cur = this.children[i]
       if (views.indexOf(cur) != -1 && (!nesting_name || (cur.nesting_name == nesting_name))) {
         result.push(cur)
       }
@@ -619,8 +619,8 @@ var View = spv.inh(StatesEmitter, {
     return result
   },
   removeChildViewsByMd: function(mpx, nesting_name) {
-    var views_to_remove = this.getChildViewsByMpx(mpx, nesting_name)
-    var i = 0
+    const views_to_remove = this.getChildViewsByMpx(mpx, nesting_name)
+    let i = 0
     for (i = 0; i < views_to_remove.length; i++) {
       views_to_remove[i].die()
     }
@@ -628,17 +628,17 @@ var View = spv.inh(StatesEmitter, {
 
   },
   getDeepChildren: function(exept) {
-    var all = []
-    var big_tree = []
+    const all = []
+    const big_tree = []
     exept = spv.toRealArray(exept)
 
     big_tree.push(this)
     //var cursor = this;
     while (big_tree.length) {
-      var cursor = big_tree.shift()
+      const cursor = big_tree.shift()
 
-      for (var i = 0; i < cursor.children.length; i++) {
-        var cur = cursor.children[i]
+      for (let i = 0; i < cursor.children.length; i++) {
+        const cur = cursor.children[i]
         if (all.indexOf(cur) == -1 && exept.indexOf(cur) == -1) {
           big_tree.push(cur)
           all.push(cur)
@@ -650,8 +650,8 @@ var View = spv.inh(StatesEmitter, {
   },
 
   checkDeadChildren: function() {
-    var i = 0
-    var alive = []
+    let i = 0
+    const alive = []
     for (i = 0; i < this.children.length; i++) {
       if (this.children[i].dead) {
         //dead.push(this.children[i]);
@@ -675,7 +675,7 @@ var View = spv.inh(StatesEmitter, {
       this.__disconnectAdapter.call(null, this)
     }
 
-    var i = 0
+    let i = 0
     if (!this.parent_view && this.proxies_space) {
       this._highway.views_proxies.removeSpaceById(this.proxies_space)
     }
@@ -689,7 +689,7 @@ var View = spv.inh(StatesEmitter, {
 
     this.markDomDead()
 
-    var children = this.children
+    const children = this.children
     this.children = emptyFakeList
     for (i = 0; i < children.length; i++) {
       children[i].markAsDead()
@@ -766,14 +766,14 @@ var View = spv.inh(StatesEmitter, {
     this.requestChildrenDetLev(rel_depth)
   },
   requestChildrenDetLev: function(rel_depth) {
-    var incomplete = false
+    let incomplete = false
     if (this.children.length && rel_depth === 0) {
       return true
     } else {
-      for (var i = 0; i < this.children.length; i++) {
-        var cur = this.children[i]
+      for (let i = 0; i < this.children.length; i++) {
+        const cur = this.children[i]
         cur.current_motivator = this.current_motivator
-        var cur_incomplete = cur.requestDetalizationLevel(rel_depth)
+        const cur_incomplete = cur.requestDetalizationLevel(rel_depth)
         cur.current_motivator = null
         incomplete = incomplete || cur_incomplete
       }
@@ -803,9 +803,9 @@ var View = spv.inh(StatesEmitter, {
     //var complex_states = [];
 
 
-    var states_list = []
+    const states_list = []
 
-    for (var name in states) {
+    for (const name in states) {
       states_list.push(name, states[name])
     }
 
@@ -819,8 +819,8 @@ var View = spv.inh(StatesEmitter, {
         return
       }
 
-      var args = new Array(arguments.length)
-      for (var i = 0; i < arguments.length; i++) {
+      const args = new Array(arguments.length)
+      for (let i = 0; i < arguments.length; i++) {
         args[i] = arguments[i]
       }
       args.unshift(this)
@@ -845,8 +845,8 @@ var View = spv.inh(StatesEmitter, {
     this.__sync_hooks = spv.arrayExclude(this.__sync_hooks, fn)
   },
   __changesToObject: function(changes_list) {
-    var result = {}
-    for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
+    let result = {}
+    for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
       result[changes_list[i]] = changes_list[i + 1]
       result = result
     }
@@ -858,7 +858,7 @@ var View = spv.inh(StatesEmitter, {
       return
     }
 
-    for (var i = 0; i < self.__sync_hooks.length; i++) {
+    for (let i = 0; i < self.__sync_hooks.length; i++) {
       self.__sync_hooks[i].call(null, self, changes, all)
     }
   },
@@ -872,13 +872,13 @@ var View = spv.inh(StatesEmitter, {
     updateProxy(this, [name, value])
   },
   checkChildrenModelsRendering: function() {
-    var obj = Object.assign({}, this.mpx.nestings)
+    const obj = Object.assign({}, this.mpx.nestings)
     this.setMdChildren(obj)
   },
   setMdChildren: function(collections) {
     this._lbr._collections_set_processing = true
     //вью только что создана, присоединяем подчинённые views без деталей (детали создаются позже)
-    for (var i in collections) {
+    for (const i in collections) {
       this.collectionChange(this, i, collections[i])
     }
     this._lbr._collections_set_processing = null
@@ -903,8 +903,8 @@ var View = spv.inh(StatesEmitter, {
 
   },
   stackCollectionChange: function() {
-    var args = new Array(arguments.length)
-    for (var i = 0; i < arguments.length; i++) {
+    const args = new Array(arguments.length)
+    for (let i = 0; i < arguments.length; i++) {
       args[i] = arguments[i]
     }
     args.unshift(this)
@@ -935,13 +935,13 @@ var View = spv.inh(StatesEmitter, {
     if (!array) {
       return
     }
-    var location_id = getViewLocationId(this, nesname, space || 'main')
-    for (var i = 0; i < array.length; i++) {
+    const location_id = getViewLocationId(this, nesname, space || 'main')
+    for (let i = 0; i < array.length; i++) {
 
-      var mpx = this.getStoredMpx(array[i])
+      const mpx = this.getStoredMpx(array[i])
       // case when model was removed before nesting updated
       // TODO: consider to review order of state changes
-      var view = mpx && mpx.getView(location_id)
+      const view = mpx && mpx.getView(location_id)
       if (!view) {
         continue
       }
@@ -953,22 +953,22 @@ var View = spv.inh(StatesEmitter, {
       dclr_fpckg.call(this, nesname, array, old_value, removed)
     } else {
 
-      var real_array = spv.toRealArray(array)
-      var array_limit
+      const real_array = spv.toRealArray(array)
+      let array_limit
       if (dclr_fpckg.limit) {
         array_limit = Math.min(dclr_fpckg.limit, real_array.length)
       } else {
         array_limit = real_array.length
       }
-      var min_array = real_array.slice(0, array_limit)
-      var declr = dclr_fpckg
+      const min_array = real_array.slice(0, array_limit)
+      const declr = dclr_fpckg
       if (typeof declr.place == 'string') {
-        var place = spv.getTargetField(this, declr.place)
+        const place = spv.getTargetField(this, declr.place)
         if (!place) {
           throw new Error('wrong place declaration: "' + declr.place + '"')
         }
       }
-      var opts = declr.opts
+      const opts = declr.opts
       this.removeViewsByMds(removed, nesname, declr.space)
       if (typeof declr.place == 'function' || !declr.place) {
         this.simpleAppendNestingViews(declr, opts, nesname, min_array)
@@ -987,11 +987,11 @@ var View = spv.inh(StatesEmitter, {
 
   __injecViewMetaStates: function(self, nesting_name, _space, items) {
 
-    var location_id = getViewLocationId(self, nesting_name, 'main')
-    var array = spv.toRealArray(items)
+    const location_id = getViewLocationId(self, nesting_name, 'main')
+    const array = spv.toRealArray(items)
 
 
-    var real_length = 0
+    let real_length = 0
     for (var i = 0; i < array.length; i++) {
       var cur = array[i]
       if (cur.$not_model) {
@@ -1007,7 +1007,7 @@ var View = spv.inh(StatesEmitter, {
 
     }
 
-    var counter = 0
+    let counter = 0
     for (var i = 0; i < array.length; i++) {
       var cur = array[i]
       if (cur.$not_model) {
@@ -1018,9 +1018,9 @@ var View = spv.inh(StatesEmitter, {
         continue
       }
 
-      var $first = counter == 0
-      var $back = (real_length - 1) - counter
-      var $last = $back == 0
+      const $first = counter == 0
+      const $back = (real_length - 1) - counter
+      const $last = $back == 0
 
       // Should it be with as input, not internal state change?
       _updateAttrsByChanges(view, [
@@ -1046,17 +1046,17 @@ var View = spv.inh(StatesEmitter, {
       return
     }
 
-    var views = self.__mapListToViews(nesting_name, items)
+    const views = self.__mapListToViews(nesting_name, items)
 
-    for (var i = 0; i < self.__sync_nest_hooks[nesting_name].length; i++) {
+    for (let i = 0; i < self.__sync_nest_hooks[nesting_name].length; i++) {
       self.__sync_nest_hooks[nesting_name][i].call(null, views)
     }
   },
   __mapListToViews: function(nesting_name, items) {
-    var self = this
-    var location_id = getViewLocationId(this, nesting_name, 'main')
-    var array = spv.toRealArray(items)
-    var views = array
+    const self = this
+    const location_id = getViewLocationId(this, nesting_name, 'main')
+    const array = spv.toRealArray(items)
+    const views = array
       .map(function(cur) {
         return self.getStoredMpx(cur).getView(location_id)
       })
@@ -1084,12 +1084,12 @@ var View = spv.inh(StatesEmitter, {
   },
 
   simpleAppendNestingViews: function(declr, opts, nesname, array) {
-    for (var bb = 0; bb < array.length; bb++) {
-      var cur = array[bb]
+    for (let bb = 0; bb < array.length; bb++) {
+      let cur = array[bb]
       var original_md
       if (declr.is_wrapper_parent) {
         original_md = cur
-        for (var i = 0; i < declr.is_wrapper_parent; i++) {
+        for (let i = 0; i < declr.is_wrapper_parent; i++) {
           cur = cur.getParentMapModel()
         }
       }
@@ -1110,7 +1110,7 @@ var View = spv.inh(StatesEmitter, {
   },
   coll_r_prio_prefix: 'coll-prio-',
   getRendOrderedNesting: function(nesname, array) {
-    var getCollPriority = this[this.coll_r_prio_prefix + nesname]
+    const getCollPriority = this[this.coll_r_prio_prefix + nesname]
     return getCollPriority && getCollPriority.call(this, array)
   },
 })

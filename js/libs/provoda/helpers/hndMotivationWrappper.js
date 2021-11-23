@@ -6,10 +6,10 @@ export default function hndMotivationWrappper(motivator, fn, context, args, arg)
   }
 
   //устанавливаем мотиватор конечному пользователю события
-  var ov_c = context.current_motivator
+  const ov_c = context.current_motivator
   context.current_motivator = motivator
 
-  var ov_t
+  let ov_t
 
   if (this != context) {
     //устанавливаем мотиватор реальному владельцу события, чтобы его могли взять вручную

@@ -1,9 +1,9 @@
 
 
 import d_parsers from './directives_parsers'
-var config = d_parsers.config
+const config = d_parsers.config
 
-var parser = {
+const parser = {
   config: config,
   comment_directives_p: d_parsers.comment_directives_p,
   directives_p: d_parsers.directives_p,

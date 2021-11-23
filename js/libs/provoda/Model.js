@@ -33,34 +33,34 @@ import {normalizeAddrsToValuesMap} from './Model/mockRelations'
 import isPublicRel from './Model/rel/isPublicRel'
 import createMutableRelStore from './Model/rel/createMutableRelStore'
 
-var push = Array.prototype.push
+const push = Array.prototype.push
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
-var getMDOfReplace = function() {
+const getMDOfReplace = function() {
   return this.md
 }
 
-var si_opts_cache = {}
-var SIOpts = function(md) {
+const si_opts_cache = {}
+const SIOpts = function(md) {
   this.map_parent = md
   this.app = md.app
 }
 
 
-var getSiOpts = function(md) {
-  var provoda_id = md._provoda_id
+const getSiOpts = function(md) {
+  const provoda_id = md._provoda_id
   if (!si_opts_cache[provoda_id]) {
     si_opts_cache[provoda_id] = new SIOpts(md)
   }
   return si_opts_cache[provoda_id]
 }
 
-var changeSourcesByApiNames = function(md, store) {
+const changeSourcesByApiNames = function(md, store) {
   if (!store.api_names_converted) {
     store.api_names_converted = true
-    for (var i = 0; i < store.api_names.length; i++) {
-      var api_name = store.api_names[i]
+    for (let i = 0; i < store.api_names.length; i++) {
+      const api_name = store.api_names[i]
       var network_api
       if (typeof api_name == 'string') {
         network_api = spv.getTargetField(md.app, api_name)
@@ -82,7 +82,7 @@ function MODELLEAK() {}
 const leak = new MODELLEAK()
 
 
-var Model = spv.inh(StatesEmitter, {
+const Model = spv.inh(StatesEmitter, {
   naming: function(fn) {
     return function Model(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
@@ -94,14 +94,14 @@ var Model = spv.inh(StatesEmitter, {
   props: modelProps
 })
 
-var selectParent = function(md) {
+const selectParent = function(md) {
   return md.map_parent
 }
 
-var getStrucParent = function(item, _count, soft) {
-  var count = _count || 1
+const getStrucParent = function(item, _count, soft) {
+  let count = _count || 1
 
-  var target = item
+  let target = item
   while (count) {
     count--
     target = selectParent(target)
@@ -136,14 +136,14 @@ function modelProps(add) {
 
     getNonComplexStatesList: function(state_name) {
     // get source states
-      var short_name = state_name
+      const short_name = state_name
 
       if (!this.hasComplexStateFn(short_name)) {
         return short_name
       } else {
-        var result = []
-        for (var i = 0; i < this.compx_check[short_name].watch_list.length; i++) {
-          var cur = this.compx_check[short_name].watch_list[i]
+        const result = []
+        for (let i = 0; i < this.compx_check[short_name].watch_list.length; i++) {
+          const cur = this.compx_check[short_name].watch_list[i]
           if (cur == short_name) {
             continue
           } else {
@@ -158,21 +158,21 @@ function modelProps(add) {
     },
     getNestingSource: function(nesting_name, app) {
       nesting_name = hp.getRightNestingName(this, nesting_name)
-      var dclt = this._nest_reqs && this._nest_reqs[nesting_name]
-      var network_api = dclt && hp.getNetApiByDeclr(dclt.send_declr, this, app)
+      const dclt = this._nest_reqs && this._nest_reqs[nesting_name]
+      const network_api = dclt && hp.getNetApiByDeclr(dclt.send_declr, this, app)
       return network_api && network_api.source_name
     },
     getStateSources: function(state_name, app) {
-      var parsed_state = hp.getEncodedState(state_name)
+      const parsed_state = hp.getEncodedState(state_name)
       if (parsed_state && parsed_state.rel_type == 'nesting') {
         return this.getNestingSource(parsed_state.nesting_name, app)
       } else {
-        var maps_for_state = this._states_reqs_index && this._states_reqs_index[state_name]
+        const maps_for_state = this._states_reqs_index && this._states_reqs_index[state_name]
         if (maps_for_state) {
-          var result = new Array(maps_for_state.length)
-          for (var i = 0; i < maps_for_state.length; i++) {
-            var selected_map = maps_for_state[i]
-            var network_api = hp.getNetApiByDeclr(selected_map.send_declr, this, app)
+          const result = new Array(maps_for_state.length)
+          for (let i = 0; i < maps_for_state.length; i++) {
+            const selected_map = maps_for_state[i]
+            const network_api = hp.getNetApiByDeclr(selected_map.send_declr, this, app)
             result[i] = network_api.source_name
           }
           return result
@@ -213,7 +213,7 @@ function modelProps(add) {
       return getSiOpts(this)
     },
     initChi: function(name, data, params, more, states) {
-      var Constr = this._all_chi['chi-' + name]
+      const Constr = this._all_chi['chi-' + name]
       return initSi(Constr, this, data, params, more, states)
     },
     initSi: function(Constr, data, params, more, states) {
@@ -263,12 +263,12 @@ function modelProps(add) {
         throw new Error('states inited already, you can\'t init now')
       }
 
-      var changes_list = []
+      const changes_list = []
 
       changes_list.push('_provoda_id', this._provoda_id)
 
       if (this.init_states) {
-        for (var state_name in this.init_states) {
+        for (const state_name in this.init_states) {
           if (!this.init_states.hasOwnProperty(state_name)) {
             continue
           }
@@ -319,7 +319,7 @@ function modelProps(add) {
     },
     getMDReplacer: function() {
       if (!this.md_replacer) {
-        var MDReplace = function() {}
+        const MDReplace = function() {}
         MDReplace.prototype.md = this
         MDReplace.prototype.getMD = getMDOfReplace
 
@@ -329,10 +329,10 @@ function modelProps(add) {
       return this.md_replacer
     },
     RPCLegacy: wrapInputCall(function() {
-      var args = Array.prototype.slice.call(arguments)
-      var method_name = args.shift()
+      const args = Array.prototype.slice.call(arguments)
+      const method_name = args.shift()
       if (method_name == 'dispatch') {
-        var fn = this.__act
+        const fn = this.__act
         args.unshift(this)
         fn.apply(null, args)
         return
@@ -375,12 +375,12 @@ function modelProps(add) {
 
   add({
     getRelativeRequestsGroups: function(space, only_models) {
-      var all_models = []
-      var groups = []
+      const all_models = []
+      const groups = []
 
-      var i = 0
-      var cur = null
-      for (var collection_name in this.children_models) {
+      let i = 0
+      let cur = null
+      for (const collection_name in this.children_models) {
         cur = this.children_models[collection_name]
         if (!cur) {
           continue
@@ -391,13 +391,13 @@ function modelProps(add) {
           all_models.push(cur)
         }
       }
-      var clean_models = spv.getArrayNoDubs(all_models)
+      const clean_models = spv.getArrayNoDubs(all_models)
 
       if (only_models) {
         return clean_models
       } else {
         for (i = 0; i < clean_models.length; i++) {
-          var reqs = clean_models[i].getModelImmediateRequests(space)
+          const reqs = clean_models[i].getModelImmediateRequests(space)
           if (reqs && reqs.length) {
             groups.push(reqs)
           }
@@ -419,7 +419,7 @@ function modelProps(add) {
       if (is_public_rel) {
         logger.logNesting(this, collection_name, array, old_value, removed)
       }
-      var _highway = this._highway
+      const _highway = this._highway
       if (_highway.sync_sender != null) {
         _highway.sync_sender.pushNesting(this, collection_name, array, old_value, removed)
       }
@@ -433,11 +433,11 @@ function modelProps(add) {
 
     sendStatesToMPX: function(states_list) {
     //this.removeDeadViews();
-      var dubl = []
+      const dubl = []
 
-      for (var i = 0; i < states_list.length; i += 2) {
-        var state_name = states_list[i]
-        var value = states_list[i + 1]
+      for (let i = 0; i < states_list.length; i += 2) {
+        const state_name = states_list[i]
+        const value = states_list[i + 1]
         if (isPrivate(state_name)) {
           continue
         }
@@ -445,7 +445,7 @@ function modelProps(add) {
       }
 
       logger.logStates(this, dubl)
-      var _highway = this._highway
+      const _highway = this._highway
       if (_highway.sync_sender != null) {
         _highway.sync_sender.pushStates(this, dubl)
       }
@@ -463,7 +463,7 @@ function modelProps(add) {
     toSimpleStructure: toSimpleStructure
   })
 
-  var getParsedAddr = function(addr) {
+  const getParsedAddr = function(addr) {
     if (typeof addr == 'object') {
       return parseAddr(addrFromObj(addr))
     }
@@ -472,7 +472,7 @@ function modelProps(add) {
 
   add({
     readAddr: function(addr) {
-      var parsed = getParsedAddr(addr)
+      const parsed = getParsedAddr(addr)
       return getDepValue(this, parsed)
     },
   })

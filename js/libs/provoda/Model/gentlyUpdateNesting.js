@@ -1,6 +1,6 @@
 import updateNesting from './updateNesting'
 
-var hasDot = function(nesting_name) {
+const hasDot = function(nesting_name) {
   return nesting_name.indexOf('.') != -1
 }
 

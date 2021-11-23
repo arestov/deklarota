@@ -2,7 +2,7 @@
 import getSPByPathTemplateAndData from '../../routes/legacy/getSPByPathTemplateAndData'
 import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 
-var empty = {}
+const empty = {}
 
 export default function getStart(md, multi_path, use_state_from_initial_model, data) {
   return getResourse(
@@ -21,7 +21,7 @@ function getBase(md, multi_path) {
     steps: from_parent_num[0].length,
   },
   */
-  var info = multi_path.from_base
+  const info = multi_path.from_base
 
   if (!info || !info.type) {
     return md
@@ -44,7 +44,7 @@ function getResourse(md, multi_path, use_state_from_initial_model, data) {
   },
   */
 
-  var info = multi_path.resource
+  const info = multi_path.resource
 
   if (!info || !info.path) {
     return md

@@ -1,6 +1,6 @@
 
 import updateProxy from '../updateProxy'
-var updateAttr = updateProxy.update
+const updateAttr = updateProxy.update
 
 export default function gentlyUpdateAttr(self, name, value, opts) {
   if (self == null) {

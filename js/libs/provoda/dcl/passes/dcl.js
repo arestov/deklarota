@@ -57,15 +57,15 @@ import RelShape from '../nests/relShape'
 // },
 
 
-var empty = []
+const empty = []
 
-var getDeps = function(deps) {
+const getDeps = function(deps) {
   if (!deps || !deps.length) {
     return empty
   }
 
-  var result = new Array(deps.length)
-  for (var i = 0; i < deps.length; i++) {
+  const result = new Array(deps.length)
+  for (let i = 0; i < deps.length; i++) {
     if (deps[i] === '$noop') {
       result[i] = noop
       continue
@@ -76,7 +76,7 @@ var getDeps = function(deps) {
       continue
     }
 
-    var cur = parseMultiPath(deps[i], true)
+    const cur = parseMultiPath(deps[i], true)
     result[i] = cur
 
     if (cur.nesting && cur.nesting.path && !cur.zip_name) {
@@ -99,7 +99,7 @@ const actionOfRelChange = (name) => {
   return name.replace('handleRel:', '')
 }
 
-var PassDcl = function(name, data) {
+const PassDcl = function(name, data) {
   this.name = name
 
   targetedResult(this, data.to)

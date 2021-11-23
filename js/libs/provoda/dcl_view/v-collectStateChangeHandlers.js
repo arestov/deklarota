@@ -2,7 +2,7 @@
 import collectStateChangeHandlers from '../dcl/collectStateChangeHandlers'
 
 export default function(self, props) {
-  var index = collectStateChangeHandlers(self, props)
+  const index = collectStateChangeHandlers(self, props)
   if (!index) {return}
 
   self._has_stchs = true
@@ -10,7 +10,7 @@ export default function(self, props) {
   self.stch_hs = []
   self.stch_hs_list = []
 
-  for (var stname in index) {
+  for (const stname in index) {
     if (!index[stname]) {continue}
 
     self.stch_hs.push({

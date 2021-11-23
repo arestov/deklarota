@@ -30,22 +30,22 @@ const patchTillCanPatch = (node, struc_store, getSample) => {
 
 export default function parserEasy(start_node, vroot_node, struc_store, getSample) {
   //полный парсинг, байндинг одного scope (раньше и парсинг был только в пределах одного scope)
-  var list_for_binding = []
-  var match_stack = [ start_node, true ]
+  const list_for_binding = []
+  const match_stack = [ start_node, true ]
 
   while (match_stack.length) {
-    var cur_node = match_stack.shift()
-    var can_bind = match_stack.shift()
-    var node_type = cur_node.nodeType
-    var directives_data = null
-    var is_start_node = cur_node === start_node
+    const cur_node = match_stack.shift()
+    const can_bind = match_stack.shift()
+    const node_type = cur_node.nodeType
+    let directives_data = null
+    const is_start_node = cur_node === start_node
 
     if (node_type == 1) {
-      var i = 0
-      var is_root_node = vroot_node === cur_node
+      let i = 0
+      const is_root_node = vroot_node === cur_node
       directives_data = getPVData(cur_node, struc_store, getSample)
 
-      var can_bind_children = (!directives_data.new_scope_generator || is_root_node)
+      const can_bind_children = (!directives_data.new_scope_generator || is_root_node)
 
       // if (directives_data.replacer) {
       // 	match_stack.unshift(directives_data.node);
@@ -67,7 +67,7 @@ export default function parserEasy(start_node, vroot_node, struc_store, getSampl
         list_for_binding.push(false, cur_node, directives_data)
       }
     }
-    var patched = !is_start_node && patchTillCanPatch(cur_node, struc_store, getSample)
+    const patched = !is_start_node && patchTillCanPatch(cur_node, struc_store, getSample)
     if (patched) {
       match_stack.unshift(patched, can_bind)
     }

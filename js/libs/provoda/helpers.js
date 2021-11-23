@@ -17,7 +17,7 @@ import getNetApiByDeclr from './helpers/getNetApiByDeclr'
 import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 
 
-var memorize = spv.memorize
+const memorize = spv.memorize
 
 function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id
@@ -26,12 +26,12 @@ function getBwlevId(view) {
 export default {
   probeDiff: probeDiff,
   getRDep: (function() {
-    var getTargetName = memorize(function getTargetName(state_name) {
+    const getTargetName = memorize(function getTargetName(state_name) {
       return state_name.split(':')[ 1 ]
     })
 
     return function(state_name) {
-      var target_name = getTargetName(state_name)
+      const target_name = getTargetName(state_name)
       return function(target, state, oldstate) {
         if (oldstate) {
           oldstate.setStateDependence(target_name, target, false)
@@ -64,9 +64,9 @@ export default {
     getBwlevId: getBwlevId,
     getViewLocationId: getViewLocationId,
     matchByParent: function(views, parent_view) {
-      for (var i = 0; i < views.length; i++) {
-        var cur = views[i]
-        var item = cur
+      for (let i = 0; i < views.length; i++) {
+        const cur = views[i]
+        let item = cur
         while (item.parent_view && item.parent_bwlev != item.root_view) {
           if (item.parent_view == parent_view) {
             return cur

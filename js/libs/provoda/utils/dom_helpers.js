@@ -1,35 +1,35 @@
 
 import $ from 'cash-dom'
 
-var find = function(con, selector) {
+const find = function(con, selector) {
   return $(con).find(selector)
 }
 
-var append = function(place, target) {
+const append = function(place, target) {
   $(place).append(target)
 }
 
-var prepend = function(place, target) {
+const prepend = function(place, target) {
   return $(place).prepend(target)
 }
 
-var after = function(place, target) {
+const after = function(place, target) {
   $(place).after(target)
 }
 
-var detach = function(target) {
+const detach = function(target) {
   $(target).detach()
 }
 
-var before = function(place, comment_anchor) {
+const before = function(place, comment_anchor) {
   $(place).before(comment_anchor)
 }
 
-var wrap = function(node) {
+const wrap = function(node) {
   return $(node)
 }
 
-var unwrap = function(wrapped) {
+const unwrap = function(wrapped) {
   if (!wrapped) {
     return null
   }
@@ -45,36 +45,36 @@ var unwrap = function(wrapped) {
   return null
 }
 
-var parent = function(node) {
+const parent = function(node) {
   return $(node).parent()
 }
 
 
-var getText = function(node) {
+const getText = function(node) {
   return $(node).text()
 }
 
-var setText = function(node, value) {
+const setText = function(node, value) {
   return $(node).text(value)
 }
 
-var remove = function(node) {
+const remove = function(node) {
   return $(node).remove()
 }
 
-var prev = function(node) {
+const prev = function(node) {
   return $(node).prev()
 }
 
-var is = function(one, two) {
+const is = function(one, two) {
   return $(one).is(two)
 }
 
-var width = function(node) {
+const width = function(node) {
   return $(node).width()
 }
 
-var offset = function(node) {
+const offset = function(node) {
   return $(node).offset()
 }
 

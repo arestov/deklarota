@@ -1,5 +1,5 @@
 
-var type_counter = 0
+let type_counter = 0
 const TARGET_TYPE_ATTR = type_counter++
 const TARGET_TYPE_GLUE_REL = type_counter++
 const TARGET_TYPE_HEAVY_REQUESTER = type_counter++

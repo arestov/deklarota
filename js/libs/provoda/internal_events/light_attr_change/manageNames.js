@@ -2,14 +2,14 @@
 
 import makeKey from '../makeKey'
 
-var toName = new Map()
-var toAttr = new Map()
+const toName = new Map()
+const toAttr = new Map()
 
-var getAttrByName = function(key) {
+const getAttrByName = function(key) {
   return toAttr.get(key)
 }
 
-var getNameByAttr = function(attr) {
+const getNameByAttr = function(attr) {
   if (typeof attr == 'symbol') {
     return attr
   }
@@ -17,7 +17,7 @@ var getNameByAttr = function(attr) {
     return toName.get(attr)
   }
 
-  var key = makeKey(attr)
+  const key = makeKey(attr)
   toName.set(attr, key)
   toAttr.set(key, attr)
   return key

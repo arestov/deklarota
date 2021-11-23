@@ -1,9 +1,9 @@
 
 
 import hp from '../helpers'
-var getRightNestingName = hp.getRightNestingName
+const getRightNestingName = hp.getRightNestingName
 
-var getDeclrConstr = function(app, md, item) {
+const getDeclrConstr = function(app, md, item) {
   if (typeof item == 'function') {
     return item
   } else if (typeof item == 'string') {
@@ -13,7 +13,7 @@ var getDeclrConstr = function(app, md, item) {
   }
 }
 
-var nestConstrDeclaration = function(cur, md, app) {
+const nestConstrDeclaration = function(cur, md, app) {
   if (cur.type == 'route') {
     return md.getConstrByPathTemplate(app, cur.value)
   } else {
@@ -21,11 +21,11 @@ var nestConstrDeclaration = function(cur, md, app) {
   }
 }
 
-var specMap = function(func) {
+const specMap = function(func) {
   return function(list, arg1, arg2) {
     if (Array.isArray(list)) {
-      var result = new Array(list.length)
-      for (var i = 0; i < list.length; i++) {
+      const result = new Array(list.length)
+      for (let i = 0; i < list.length; i++) {
         result[i] = func(list[i], arg1, arg2)
       }
       return result
@@ -35,7 +35,7 @@ var specMap = function(func) {
   }
 }
 
-var nestList = specMap(nestConstrDeclaration)
+const nestList = specMap(nestConstrDeclaration)
 
 export const getNestingConstr = function(app, md, nesting_name_raw) {
   const nesting_name = getRightNestingName(md, nesting_name_raw)
@@ -57,8 +57,8 @@ export const getNestingConstr = function(app, md, nesting_name_raw) {
 
 function constrsList(app, md, items) {
   if (Array.isArray(items)) {
-    var result = []
-    for (var i = 0; i < items.length; i++) {
+    const result = []
+    for (let i = 0; i < items.length; i++) {
       result.push(getDeclrConstr(app, md, items[i]))
     }
     return result

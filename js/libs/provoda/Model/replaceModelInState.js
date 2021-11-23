@@ -1,11 +1,11 @@
 
 
-var hasId = function(value) {
+const hasId = function(value) {
   return value && value._provoda_id
 }
 
 
-var replaceItem = function(item) {
+const replaceItem = function(item) {
   if (!hasId(item)) {
     return item
   }
@@ -27,7 +27,7 @@ var replaceItem = function(item) {
   return item._highway.__model_replacers[item._provoda_id]
 }
 
-var replaceModelInState = function(value) {
+const replaceModelInState = function(value) {
   if (!value) {
     return value
   }

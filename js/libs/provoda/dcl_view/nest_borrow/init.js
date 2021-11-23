@@ -4,8 +4,8 @@ import spv from '../../../spv'
 import watcherKey from './watcherKey'
 import getParent from './getParent'
 import checkChange from './check-change'
-var nil = spv.nil
-var checkChildren = checkChange.checkChildren
+const nil = spv.nil
+const checkChildren = checkChange.checkChildren
 
 
 export default function(self) {
@@ -13,10 +13,10 @@ export default function(self) {
     return
   }
 
-  for (var key in self._nest_borrow) {
-    var cur = self._nest_borrow[key]
+  for (const key in self._nest_borrow) {
+    const cur = self._nest_borrow[key]
 
-    var upper_view = getParent(self, cur.parent_count)
+    const upper_view = getParent(self, cur.parent_count)
 
     if (nil(upper_view)) {
       throw new Error('cant find upper_view')
@@ -25,7 +25,7 @@ export default function(self) {
 
     upper_view.nest_borrow_watchers = upper_view.nest_borrow_watchers || spv.set.create()
 
-    var item = {
+    const item = {
       dcl: cur,
       view: self,
     }

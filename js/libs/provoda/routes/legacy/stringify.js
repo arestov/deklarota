@@ -1,6 +1,6 @@
 
 
-var getValue = function(app, value) {
+const getValue = function(app, value) {
   if (value) {
     return app.encodeURLPart(value)
   }
@@ -10,15 +10,15 @@ var getValue = function(app, value) {
   }
 }
 
-var pathExecutor = function(getChunk) {
+const pathExecutor = function(getChunk) {
   return function getPath(obj, app, arg1, arg2) {
     if (obj.parsed.states) {
-      var full_path = ''
-      for (var i = 0; i < obj.parsed.clean_string_parts.length; i++) {
+      let full_path = ''
+      for (let i = 0; i < obj.parsed.clean_string_parts.length; i++) {
         full_path += obj.parsed.clean_string_parts[i]
-        var cur_state = obj.parsed.states[i]
+        const cur_state = obj.parsed.states[i]
         if (cur_state) {
-          var chunk = getChunk(cur_state, app, arg1, arg2)
+          const chunk = getChunk(cur_state, app, arg1, arg2)
           full_path += getValue(app, chunk) || 'null'
         }
       }

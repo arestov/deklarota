@@ -4,22 +4,22 @@ import spv from '../../spv'
 import directives_parsers from './directives_parsers'
 import parsePVImport from './pv-import/parse'
 
-var comment_directives_p = directives_parsers.comment_directives_p
-var directives_p = directives_parsers.directives_p
-var scope_generators_p = directives_parsers.scope_generators_p
-var config = directives_parsers.config
+const comment_directives_p = directives_parsers.comment_directives_p
+const directives_p = directives_parsers.directives_p
+const scope_generators_p = directives_parsers.scope_generators_p
+const config = directives_parsers.config
 
-var comment_directives = config.comment_directives
+const comment_directives = config.comment_directives
 
-var template_struc_store = {}
-var comment_pvdiv_regexp = /(^.+?)\s/
-var getUnprefixedPV = spv.getDeprefixFunc('pv-', true)
+const template_struc_store = {}
+const comment_pvdiv_regexp = /(^.+?)\s/
+const getUnprefixedPV = spv.getDeprefixFunc('pv-', true)
 
-var getNodeInstanceCount = function(pvprsd, struc_store) {
+const getNodeInstanceCount = function(pvprsd, struc_store) {
   if (!struc_store.instances_ci) {
     struc_store.instances_ci = {}
   }
-  var instances_ci = struc_store.instances_ci
+  const instances_ci = struc_store.instances_ci
   if (!instances_ci.hasOwnProperty(pvprsd)) {
     instances_ci[pvprsd] = 0
   } else {
@@ -29,21 +29,21 @@ var getNodeInstanceCount = function(pvprsd, struc_store) {
   return instances_ci[pvprsd]
 }
 
-var getCommentDirectivesData = function(cur_node, getSample) {
+const getCommentDirectivesData = function(cur_node, getSample) {
   //возвращает объект с индексом одной инструкции, основанной на тексте коммента
-  var directives_data = {
+  const directives_data = {
     new_scope_generator: null,
     instructions: {},
     replacing_data: null
   }
 
-  var text_content = cur_node.textContent
-  var directive_name = text_content.match(comment_pvdiv_regexp)
+  const text_content = cur_node.textContent
+  let directive_name = text_content.match(comment_pvdiv_regexp)
   directive_name = directive_name && directive_name[1]
 
   if (comment_directives.hasOwnProperty(directive_name)) {
-    var full_declaration = text_content.replace(comment_pvdiv_regexp, '')
-    var chunk = comment_directives_p[directive_name].call(null, cur_node, full_declaration, directive_name, getSample)
+    const full_declaration = text_content.replace(comment_pvdiv_regexp, '')
+    const chunk = comment_directives_p[directive_name].call(null, cur_node, full_declaration, directive_name, getSample)
     // if (Array.isArray(chunk) && chunk[0] === 'replaced') {
     // 	if (directives_data.replacing_data) {
     // 		throw new Error('cant be 2 replacers');
@@ -61,28 +61,28 @@ var getCommentDirectivesData = function(cur_node, getSample) {
 
   return directives_data
 }
-var getDirectivesData = (function() {
-  var one_parse_list = config.one_parse_list
-  var scope_g_list = config.scope_g_list
-  var directives_names_list = config.directives_names_list
-  var one_parse = config.one_parse
+const getDirectivesData = (function() {
+  const one_parse_list = config.one_parse_list
+  const scope_g_list = config.scope_g_list
+  const directives_names_list = config.directives_names_list
+  const one_parse = config.one_parse
 
   return function(cur_node, getSample) {
 
     //возвращает объект с индексом инструкций нода, основанный на аттрибутах элемента
-    var
+    const
       directives_data = {
         new_scope_generator: null,
         instructions: {},
         replacing_data: null
       }
     var i = 0
-    var attr_name = ''
-    var directive_name = ''
-    var attributes = cur_node.attributes
-    var new_scope_generator = false// current_data = {node: cur_node};
+    let attr_name = ''
+    let directive_name = ''
+    const attributes = cur_node.attributes
+    let new_scope_generator = false// current_data = {node: cur_node};
 
-    var attributes_list = []
+    const attributes_list = []
     for (i = 0; i < attributes.length; i++) {
       //создаём кэш, список "pv-*" атрибутов
       attr_name = attributes[i].name
@@ -96,8 +96,8 @@ var getDirectivesData = (function() {
     }
 
     //создаём индекс по имени
-    var attrs_by_names = spv.makeIndexByField(attributes_list, 'name')
-    var value
+    const attrs_by_names = spv.makeIndexByField(attributes_list, 'name')
+    let value
 
     for (i = 0; i < one_parse_list.length; i++) {
       //проверяем одноразовые директивы ноды
@@ -173,31 +173,31 @@ var getDirectivesData = (function() {
   }
 })()
 
-var asignId = function(cur_node, _cache_index) {
-  var pvprsd = ++_cache_index.struc_counter
+const asignId = function(cur_node, _cache_index) {
+  const pvprsd = ++_cache_index.struc_counter
   cur_node.pvprsd = pvprsd
   cur_node.pvprsd_inst = getNodeInstanceCount(pvprsd, _cache_index)
   return pvprsd
 }
 
-var setStrucKey = function(cur_node, struc_store, directives_data) {
-  var _cache_index = struc_store || template_struc_store
+const setStrucKey = function(cur_node, struc_store, directives_data) {
+  const _cache_index = struc_store || template_struc_store
   _cache_index[asignId(cur_node, _cache_index)] = directives_data
 }
 
-var unsetStrucKey = function(cur_node) {
+const unsetStrucKey = function(cur_node) {
   cur_node.pvprsd = null
   cur_node.pvprsd_inst = null
   return cur_node
 }
 
-var result = (function() {
+const result = (function() {
 
   return function(cur_node, struc_store, is_comment, getSample) {
-    var directives_data = null
-    var replacer = null
-    var pvprsd = cur_node.pvprsd
-    var _cache_index = struc_store || template_struc_store
+    let directives_data = null
+    const replacer = null
+    const pvprsd = cur_node.pvprsd
+    const _cache_index = struc_store || template_struc_store
     if (pvprsd) {
       directives_data = _cache_index[pvprsd]
     } else {

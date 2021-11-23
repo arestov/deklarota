@@ -6,9 +6,9 @@ export default function(self, data) {
     return
   }
 
-  var pass_name = self.__handleInit.name
+  const pass_name = self.__handleInit.name
 
-  var arg = data
+  const arg = data
 
   self.nextLocalTick(self.__act, [self, pass_name, arg], true)
 };

@@ -1,15 +1,15 @@
 
-var CH_GR_LE = 2
+const CH_GR_LE = 2
 
-var selectModel = function(owner) {
-  var list = owner._highway.logger.selectModels
+const selectModel = function(owner) {
+  const list = owner._highway.logger.selectModels
   if (!list) {
     return true
   }
 
 
-  for (var i = 0; i < list.length; i++) {
-    var cur = list[i]
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
     if (cur === owner.hierarchy_path) {
       return true
     }
@@ -18,12 +18,12 @@ var selectModel = function(owner) {
   return false
 }
 
-var checkModel = function(owner) {
+const checkModel = function(owner) {
   if (owner.dx && owner.dx.logging === true) {
     return true
   }
 
-  var fine = selectModel(owner)
+  const fine = selectModel(owner)
   if (!fine) {
     return false
   }
@@ -35,7 +35,7 @@ var checkModel = function(owner) {
   return owner._highway.logger.checkModel(owner)
 }
 
-var checkState = function(owner, state_name) {
+const checkState = function(owner, state_name) {
   if (!owner._highway.logger.checkState) {
     return true
   }
@@ -47,7 +47,7 @@ var checkState = function(owner, state_name) {
   return owner._highway.logger.checkState(state_name, owner)
 }
 
-var logStates = function(owner, dubl) {
+const logStates = function(owner, dubl) {
   if (!owner._highway.logger) {
     return
   }
@@ -56,15 +56,15 @@ var logStates = function(owner, dubl) {
     return
   }
 
-  var list = dubl
-  var changes = []
-  for (var i = 0; i < list.length; i += CH_GR_LE) {
-    var name = list[i]
+  const list = dubl
+  const changes = []
+  for (let i = 0; i < list.length; i += CH_GR_LE) {
+    const name = list[i]
     if (!checkState(owner, name)) {
       continue
     }
 
-    var newValue = list[i + 1]
+    const newValue = list[i + 1]
 
     changes.push([name, newValue])
   }
@@ -76,7 +76,7 @@ var logStates = function(owner, dubl) {
   owner._highway.logger.pushStates(owner, changes)
 }
 
-var logNesting = function(owner, collection_name, array, old_value, removed) {
+const logNesting = function(owner, collection_name, array, old_value, removed) {
   if (!owner._highway.logger) {
     return
   }

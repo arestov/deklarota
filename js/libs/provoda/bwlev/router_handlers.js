@@ -12,7 +12,7 @@ const handlers = {
     const resource = context_md
     const context_router = this
     const router = context_router
-    var bwlev = showMOnMap(this.app.CBWL, router, resource)
+    const bwlev = showMOnMap(this.app.CBWL, router, resource)
     bwlev.showOnMap()
   },
   navigateByLocator(context_md_id, locator) {
@@ -23,7 +23,7 @@ const handlers = {
     const resource = getSPByPathTemplate(this.app, context_md, locator)
     const context_router = this
     const router = context_router
-    var bwlev = showMOnMap(this.app.CBWL, router, resource)
+    const bwlev = showMOnMap(this.app.CBWL, router, resource)
     bwlev.showOnMap()
   },
   navigateRouterToResource(context_md_id, router_name) {
@@ -34,7 +34,7 @@ const handlers = {
     const resource = context_md
     const context_router = this
     const router = getSPByPathTemplate(this.app, context_router, router_name)
-    var bwlev = showMOnMap(this.app.CBWL, router, resource)
+    const bwlev = showMOnMap(this.app.CBWL, router, resource)
     bwlev.showOnMap()
   },
   navigateRouterByLocator(context_md_id, router_name, locator) {
@@ -45,7 +45,7 @@ const handlers = {
     const resource = getSPByPathTemplate(this.app, context_md, locator)
     const context_router = this
     const router = getSPByPathTemplate(this.app, context_router, router_name)
-    var bwlev = showMOnMap(this.app.CBWL, router, resource)
+    const bwlev = showMOnMap(this.app.CBWL, router, resource)
     bwlev.showOnMap()
   },
 }

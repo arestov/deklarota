@@ -6,16 +6,16 @@ import createName from './createName'
 
 export const doRelSplit = function(addr) {
   // ONLY nesting + from_base + resource
-  var source = createAddrByPart({
+  const source = createAddrByPart({
     from_base: addr.from_base,
     nesting: addr.nesting,
     resource: addr.resource,
   })
 
-  var meta_relation = createName(source)
+  const meta_relation = createName(source)
 
   // COPY original addr, but replace nesting + from_base + resource
-  var destination = createUpdatedAddr(addr, {
+  const destination = createUpdatedAddr(addr, {
     nesting: meta_relation,
     from_base: null,
     resource: null,
@@ -23,7 +23,7 @@ export const doRelSplit = function(addr) {
 
 
   // ONLY nesting
-  var final_rel_addr = createAddrByPart({
+  const final_rel_addr = createAddrByPart({
     nesting: addr.nesting
   })
 
@@ -46,8 +46,8 @@ const splitComplexRel = function(addr) {
   }
 
 
-  var result = cloneObj({}, addr)
-  var splited = doRelSplit(addr)
+  const result = cloneObj({}, addr)
+  const splited = doRelSplit(addr)
 
   result.splited = splited
 

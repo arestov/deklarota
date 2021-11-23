@@ -1,8 +1,8 @@
 
 import getNesting from './provoda/getNesting'
 
-var getModelByIdUniversal = function(highway_holder, _provoda_id) {
-  var _highway = highway_holder._highway
+const getModelByIdUniversal = function(highway_holder, _provoda_id) {
+  const _highway = highway_holder._highway
   if (_highway.models) {
     return _highway.models[_provoda_id]
   }
@@ -11,23 +11,23 @@ var getModelByIdUniversal = function(highway_holder, _provoda_id) {
     return _highway.sync_r.models_index[_provoda_id]
   }
 
-  var view = highway_holder
-  var proxies_space = view.proxies_space || view.root_view.proxies_space
-  var mpx = _highway.views_proxies.spaces[proxies_space].mpxes_index[_provoda_id]
+  const view = highway_holder
+  const proxies_space = view.proxies_space || view.root_view.proxies_space
+  const mpx = _highway.views_proxies.spaces[proxies_space].mpxes_index[_provoda_id]
   return mpx.md
 }
 
-var getModelByR = function(highway_holder, mdr) {
-  var _provoda_id = mdr._provoda_id
+const getModelByR = function(highway_holder, mdr) {
+  const _provoda_id = mdr._provoda_id
   return getModelByIdUniversal(highway_holder, _provoda_id)
 }
 
-var getTree = function(highway_holder, mdrp) {
-  var result = []
+const getTree = function(highway_holder, mdrp) {
+  const result = []
   if (!mdrp) {
     return result
   }
-  var cur = getModelByR(highway_holder, mdrp)
+  let cur = getModelByR(highway_holder, mdrp)
   while (cur) {
     if (cur.model_name !== 'bwlev') {
       throw new Error('consider to use getRouteStepParent for none bwlev model')
@@ -38,11 +38,11 @@ var getTree = function(highway_holder, mdrp) {
   return result
 }
 
-var pathAsSteps = function(path, value) {
+const pathAsSteps = function(path, value) {
   if (!path) {return}
-  var result = new Array(path.length)
-  for (var i = 0; i < path.length; i++) {
-    var cur = path[i]
+  const result = new Array(path.length)
+  for (let i = 0; i < path.length; i++) {
+    const cur = path[i]
 
     result[i] = {
       type: 'move-view',
@@ -56,33 +56,33 @@ var pathAsSteps = function(path, value) {
 }
 
 function getClosestStep(value_full_path, oldvalue_full_path) {
-  var length = Math.max(value_full_path.length, oldvalue_full_path.length)
-  for (var i = 0; i < length; i++) {
-    var curA = value_full_path[i]
-    var curB = oldvalue_full_path[i]
+  const length = Math.max(value_full_path.length, oldvalue_full_path.length)
+  for (let i = 0; i < length; i++) {
+    const curA = value_full_path[i]
+    const curB = oldvalue_full_path[i]
     if (curA !== curB) {
       return i
     }
   }
 }
 
-var asMDR = function(md) {
+const asMDR = function(md) {
   return md && md.getMDReplacer()
 }
 
 export default function probeDiff(highway_holder, value, oldvalue) {
-  var bwlev = value
-  var target = getNesting(getModelByR(highway_holder, bwlev), 'pioneer').getMDReplacer()
+  const bwlev = value
+  const target = getNesting(getModelByR(highway_holder, bwlev), 'pioneer').getMDReplacer()
 
-  var value_full_path = getTree(highway_holder, value)
-  var oldvalue_full_path = getTree(highway_holder, oldvalue)
+  const value_full_path = getTree(highway_holder, value)
+  const oldvalue_full_path = getTree(highway_holder, oldvalue)
 
-  var closest_step = getClosestStep(value_full_path, oldvalue_full_path)
-  var value_path_to = closest_step != null && value_full_path.slice(closest_step)
-  var oldvalue_path_from = closest_step != null && oldvalue_full_path.slice(closest_step).reverse()
-  var common_step = closest_step != null && value_full_path[closest_step - 1]
+  const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
+  const value_path_to = closest_step != null && value_full_path.slice(closest_step)
+  const oldvalue_path_from = closest_step != null && oldvalue_full_path.slice(closest_step).reverse()
+  const common_step = closest_step != null && value_full_path[closest_step - 1]
 
-  var changes_wrap = []
+  const changes_wrap = []
   if (oldvalue_path_from && oldvalue_path_from.length) {
     changes_wrap.push({
       name: 'zoom-out',

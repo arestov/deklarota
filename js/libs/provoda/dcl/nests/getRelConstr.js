@@ -16,7 +16,7 @@ const recurGetPrtByRelLinking = (getAddrRelConstr) => {
       return prt
     }
 
-    var base = getBasePrtByAddr(prt, addr)
+    const base = getBasePrtByAddr(prt, addr)
 
     if (!addr.nesting.path) {
       return base
@@ -34,8 +34,8 @@ const recurGetPrtByRelLinking = (getAddrRelConstr) => {
       return oneItem(prt, constr_linking)
     }
 
-    let result = []
-    for (var i = 0; i < constr_linking.length; i++) {
+    const result = []
+    for (let i = 0; i < constr_linking.length; i++) {
       const one = oneItem(prt, constr_linking[i])
       if (!Array.isArray(one)) {
         result.push(one)

@@ -2,7 +2,7 @@ import relShape from '../nests/relShape'
 import nestContstuctorToRelLinkItem from '../nests/nestContstuctorToRelLinkItem'
 
 import constr_mention from '../../structure/constr_mention'
-var declarationConstructor = constr_mention.declarationConstructor
+const declarationConstructor = constr_mention.declarationConstructor
 
 const subPagesToRelShapeLinks = (list) => {
   if (!Array.isArray(list)) {
@@ -12,7 +12,7 @@ const subPagesToRelShapeLinks = (list) => {
   return list.map(nestContstuctorToRelLinkItem)
 }
 
-var NestDcl = function(name, data) {
+const NestDcl = function(name, data) {
   this.nesting_name = name
   this.subpages_names_list = declarationConstructor(name, data[0], 'nest-')
 
@@ -36,7 +36,7 @@ var NestDcl = function(name, data) {
     this.preload_on = data[1].preload_on || null
   } else {
     console.warn('fix legacy `nest-` dcl', data[1], data[2])
-    var preload = data[1]
+    const preload = data[1]
     this.preload_on = (preload === true ? 'mp_has_focus' : preload) || null
     this.idle_until = data[2] || null
   }

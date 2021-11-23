@@ -1,16 +1,16 @@
 
 import spv from '../../../spv'
 import getParsedState from '../../utils/getParsedState'
-var splitByDot = spv.splitByDot
+const splitByDot = spv.splitByDot
 
 
-var getPath = spv.memorize(function(full_name) {
-  var result = getParsedState(full_name)
+const getPath = spv.memorize(function(full_name) {
+  const result = getParsedState(full_name)
   if (result) {
     return result
   }
 
-  var base_state_name = splitByDot(full_name)[0]
+  const base_state_name = splitByDot(full_name)[0]
   return {
     rel_type: 'local_state',
     full_name: full_name,
@@ -20,7 +20,7 @@ var getPath = spv.memorize(function(full_name) {
   }
 })
 
-var createStateInfo = function(full_state_name, base_state_name) {
+const createStateInfo = function(full_state_name, base_state_name) {
   if (!full_state_name) {
     return {}
   }
@@ -41,8 +41,8 @@ var createStateInfo = function(full_state_name, base_state_name) {
   }
 }
 
-var getFullPathInfo = spv.memorize(function(full_path) {
-  var info = getPath(full_path)
+const getFullPathInfo = spv.memorize(function(full_path) {
+  const info = getPath(full_path)
 
   switch (info.rel_type) {
     case 'local_state': {
@@ -72,7 +72,7 @@ var getFullPathInfo = spv.memorize(function(full_path) {
       //   zip_func: zip_func || itself,
       // };
       //
-      var parts = info.nesting_source.selector
+      const parts = info.nesting_source.selector
 
       return {
         result_type: info.state_name ? 'state' : 'nesting',

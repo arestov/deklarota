@@ -5,35 +5,35 @@ import _updateAttr from '../../_internal/_updateAttr'
 import probeDiff from '../../probeDiff'
 
 
-var bindMMapStateChanges = function(store_md, md) {
+const bindMMapStateChanges = function(store_md, md) {
   if (store_md.binded_models[md._provoda_id]) {
     return
   }
   store_md.binded_models[md._provoda_id] = true
 }
 
-var complexBrowsing = function(bwlev, md, value) {
+const complexBrowsing = function(bwlev, md, value) {
   // map levels. without knowing which map
-  var obj = md.state('bmp_show')
+  let obj = md.state('bmp_show')
   obj = obj && spv.cloneObj({}, obj) || {}
-  var num = bwlev.state('map_level_num')
+  const num = bwlev.state('map_level_num')
   obj[num] = value
   _updateAttr(md, 'bmp_show', obj)
 }
 
-var model_mapch = {
+const model_mapch = {
   'move-view': function(change, spg) {
-    var md = change.target.getMD()
-    var bwlev = change.bwlev.getMD()
+    const md = change.target.getMD()
+    const bwlev = change.bwlev.getMD()
 
     bindMMapStateChanges(spg, md)
     // debugger;
 
     if (change.value) {
-      var possible_parent = change.target.getMD().getParentMapModel()
-      var parent = possible_parent && possible_parent.toProperNavParent()
+      const possible_parent = change.target.getMD().getParentMapModel()
+      const parent = possible_parent && possible_parent.toProperNavParent()
       if (parent) {
-        var bwlev_parent = change.bwlev.getMD().getParentMapModel()
+        const bwlev_parent = change.bwlev.getMD().getParentMapModel()
         _updateAttr(bwlev_parent, 'mp_has_focus', false)
         _updateAttr(parent, 'mp_has_focus', false)
       }
@@ -46,15 +46,15 @@ var model_mapch = {
   },
   'zoom-out': function(change) {
     // debugger;
-    var md = change.target.getMD()
-    var bwlev = change.bwlev.getMD()
+    const md = change.target.getMD()
+    const bwlev = change.bwlev.getMD()
     _updateAttr(bwlev, 'mp_show', false)
     _updateAttr(md, 'mp_show', false)
     complexBrowsing(bwlev, md, false)
   },
   'destroy': function(change) {
-    var md = change.target.getMD()
-    var bwlev = change.bwlev.getMD()
+    const md = change.target.getMD()
+    const bwlev = change.bwlev.getMD()
     _updateAttr(md, 'mp_show', false)
     _updateAttr(bwlev, 'mp_show', false)
     complexBrowsing(bwlev, md, false)
@@ -83,11 +83,11 @@ var model_mapch = {
 // 	return obj;
 // };
 
-var goUp = function(bwlev, cb) {
+const goUp = function(bwlev, cb) {
   if (!bwlev) {return}
-  var count = 1
-  var md = bwlev.getNesting('pioneer')
-  var cur = bwlev
+  let count = 1
+  let md = bwlev.getNesting('pioneer')
+  let cur = bwlev
   while (cur) {
     cb(cur, md, count)
     // it's ok to get map_parent (without using getRouteStepParent) from bwlev
@@ -97,9 +97,9 @@ var goUp = function(bwlev, cb) {
   }
 }
 
-var setDft = function(get_atom_value) {
+const setDft = function(get_atom_value) {
   return function(bwlev, _md, count) {
-    var atom_value = get_atom_value(count)
+    const atom_value = get_atom_value(count)
     // var value = depthValue(md.state('bmp_dft'), bwlev._provoda_id, atom_value);
     // _updateAttr(md, 'bmp_dft', value);
     // _updateAttr(md, 'mp_dft', minDistance(value));
@@ -107,27 +107,27 @@ var setDft = function(get_atom_value) {
   }
 }
 
-var dftCount = setDft(function(count) {
+const dftCount = setDft(function(count) {
   return count
 })
 
-var dftNull = setDft(function() {
+const dftNull = setDft(function() {
   return null
 })
 
-var depth = function(bwlev, old_bwlev) {
+const depth = function(bwlev, old_bwlev) {
   goUp(old_bwlev, dftNull)
   goUp(bwlev, dftCount)
   return bwlev
 }
 
-var getPioneer = function(bwlev) {
+const getPioneer = function(bwlev) {
   return bwlev.getNesting('pioneer')
 }
 
-var branch = function(bwlev) {
-  var list = []
-  var cur = bwlev
+const branch = function(bwlev) {
+  const list = []
+  let cur = bwlev
   while (cur) {
     list.unshift(cur)
     cur = cur.map_parent
@@ -135,32 +135,32 @@ var branch = function(bwlev) {
   return list
 }
 
-var asMDR = function(md) {
+const asMDR = function(md) {
   return md && md.getMDReplacer()
 }
 
 function animateMapChanges(fake_spyglass, bwlev) {
-  var diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
+  const diff = probeDiff(bwlev, bwlev.getMDReplacer(), fake_spyglass.current_mp_bwlev && fake_spyglass.current_mp_bwlev.getMDReplacer())
   if (!diff.array || !diff.array.length) {
     return
   }
 
-  var bwlevs = branch(bwlev)
-  var models = bwlevs.map(getPioneer)
+  const bwlevs = branch(bwlev)
+  const models = bwlevs.map(getPioneer)
 
   _updateRel(fake_spyglass, 'navigation', bwlevs)
 
-  var changes = diff
-  var i
-  var all_changhes = spv.filter(changes.array, 'changes')
+  const changes = diff
+  let i
+  let all_changhes = spv.filter(changes.array, 'changes')
 
 
   all_changhes = Array.prototype.concat.apply(Array.prototype, all_changhes)
  //var models = spv.filter(all_changhes, 'target');
 
   for (i = 0; i < all_changhes.length; i++) {
-    var change = all_changhes[i]
-    var handler = model_mapch[change.type]
+    const change = all_changhes[i]
+    const handler = model_mapch[change.type]
     if (handler) {
       handler.call(null, change, fake_spyglass)
     }
@@ -179,7 +179,7 @@ function animateMapChanges(fake_spyglass, bwlev) {
     if (fake_spyglass.current_mp_md) {
       _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
     }
-    var target_md = fake_spyglass.current_mp_md = diff.target.getMD()
+    const target_md = fake_spyglass.current_mp_md = diff.target.getMD()
 
     fake_spyglass.current_mp_bwlev = depth(diff.bwlev.getMD(), fake_spyglass.current_mp_bwlev)
 
@@ -196,7 +196,7 @@ function animateMapChanges(fake_spyglass, bwlev) {
   }
 
 
-  var mp_show_wrap
+  let mp_show_wrap
   if (models) {
 
     var all_items = models.concat(bwlevs)
@@ -223,9 +223,9 @@ function animateMapChanges(fake_spyglass, bwlev) {
 }
 
 function changeZoomSimple(bwlev, value_raw) {
-  var value = Boolean(value_raw)
+  const value = Boolean(value_raw)
   _updateAttr(bwlev, 'mp_show', value)
-  var md = bwlev.getNesting('pioneer')
+  const md = bwlev.getNesting('pioneer')
   complexBrowsing(bwlev, md, value)
 }
 

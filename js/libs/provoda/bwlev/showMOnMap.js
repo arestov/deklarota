@@ -8,7 +8,7 @@ import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
 import isStart from './isStart'
 
-var ba_inUse = ba_canReuse.ba_inUse
+const ba_inUse = ba_canReuse.ba_inUse
 
 
 function ensureStartBwlev(map, md) {
@@ -43,18 +43,18 @@ function ensureStartBwlev(map, md) {
 
 export default function showMOnMap(BWL, map, model, bwlev) {
 
-  var is_start = isStart(map, model)
+  const is_start = isStart(map, model)
 
   if (is_start) {
     bwlev = ensureStartBwlev(map, model)
   }
 
-  var bwlev_parent = false
+  let bwlev_parent = false
 
   if (!is_start && (!bwlev || !ba_inUse(bwlev))) {
     // если модель не прикреплена к карте,
     // то прежде чем что-то делать - находим и отображаем "родительску" модель
-    var parent_md
+    let parent_md
     if (bwlev) {
       parent_md = bwlev.map_parent.getNesting('pioneer')
     } else {
@@ -66,7 +66,7 @@ export default function showMOnMap(BWL, map, model, bwlev) {
     bwlev_parent = showMOnMap(BWL, map, parent_md, bwlev && bwlev.map_parent, true)
   }
 
-  var result = null
+  let result = null
 
   if (bwlev_parent || bwlev_parent === false) {
 

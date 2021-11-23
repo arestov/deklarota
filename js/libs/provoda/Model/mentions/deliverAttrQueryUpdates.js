@@ -4,7 +4,7 @@ import scheduleDelivering from './scheduleDelivering'
 
 export default function deliverAttrQueryUpdates(self, attr_name) {
 
-  var skeleton = self.__global_skeleton
+  const skeleton = self.__global_skeleton
   if (skeleton == null && self.view_id != null) {
     return
   }
@@ -13,22 +13,22 @@ export default function deliverAttrQueryUpdates(self, attr_name) {
     return
   }
 
-  var list = skeleton.chains_by_attr[attr_name]
+  const list = skeleton.chains_by_attr[attr_name]
 
   if (list == null) {
     return
   }
 
 
-  var result = []
+  const result = []
 
-  for (var i = 0; i < list.length; i++) {
-    var link = list[i]
-    var owners = self.__mentions_as_rel[link.rel]
+  for (let i = 0; i < list.length; i++) {
+    const link = list[i]
+    const owners = self.__mentions_as_rel[link.rel]
     if (owners == null) {
       continue
     }
-    for (var owner of owners) {
+    for (const owner of owners) {
       getAllOnwers(result, owner, link)
     }
   }

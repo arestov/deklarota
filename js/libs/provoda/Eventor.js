@@ -5,7 +5,7 @@ import FastEventor from './FastEventor/index'
 import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 
 
-var Eventor = spv.inh(function() {}, {
+const Eventor = spv.inh(function() {}, {
   naming: function(construct) {
     return function Eventor() {
       construct(this)
@@ -30,17 +30,17 @@ var Eventor = spv.inh(function() {}, {
       this._getCallsFlow().input(fn)
     },
     inputFn: function(fn) {
-      var self = this
+      const self = this
       return function() {
-        var args = Array.prototype.slice.call(arguments)
+        const args = Array.prototype.slice.call(arguments)
         self._calls_flow.pushToFlow(fn, self, args)
       }
     },
     useMotivator: function(item, fn) {
-      var old_value = item.current_motivator
-      var motivator = this.current_motivator
+      const old_value = item.current_motivator
+      const motivator = this.current_motivator
       item.current_motivator = motivator
-      var result = fn.call(this, item)
+      const result = fn.call(this, item)
       item.current_motivator = old_value
       return result
     },
@@ -97,7 +97,7 @@ var Eventor = spv.inh(function() {}, {
 })
 
 
-var PublicEventor = spv.inh(Eventor, {
+const PublicEventor = spv.inh(Eventor, {
   init: function(self, opts) {
     if (!opts || !opts._highway) {
       throw new Error('pass _highway option')

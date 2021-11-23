@@ -1,7 +1,7 @@
 
-var counter = 0
+let counter = 0
 
-var makeKey = typeof Symbol !== 'undefined'
+const makeKey = typeof Symbol !== 'undefined'
   ? function(key) {
     return Symbol(key)
   } : function() {

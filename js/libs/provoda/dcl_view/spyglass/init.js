@@ -2,21 +2,21 @@
 import spv from '../../../spv'
 import getBwlevView from '../getBwlevView'
 import getModel from '../../View/getModel'
-var nil = spv.nil
+const nil = spv.nil
 
 function watchAndRequest(root_bwlev_view, self, spyglass) {
-  var key = spyglass.nest_name + '---' + self.view_id
-  var current = null
+  const key = spyglass.nest_name + '---' + self.view_id
+  let current = null
 
   self.lwch(root_bwlev_view, 'spyglasses_requests', function handleChange(index) {
-    var value = index[key] || null
+    const value = index[key] || null
 
     self.collectionChange(self, spyglass.nest_name, value && getModel(self, value), current && getModel(self, current))
     current = value
     // TODO if (value) {unsubscribe()}
   })
 
-  var parent_bwlev_view = spyglass.bwlev === true && getBwlevView(self)
+  const parent_bwlev_view = spyglass.bwlev === true && getBwlevView(self)
   root_bwlev_view.RPCLegacy('requestSpyglass', {
     key: key,
     bwlev: spyglass.bwlev && parent_bwlev_view.mpx.md._provoda_id,
@@ -43,14 +43,14 @@ export default function(self) {
   if (nil(self._spyglass)) {
     return
   }
-  var root_view = self.root_view || (self.isRootView && self)
-  var root_bwlev_view = root_view.parent_view
+  const root_view = self.root_view || (self.isRootView && self)
+  const root_bwlev_view = root_view.parent_view
   if (nil(root_bwlev_view)) {
     throw new Error('cant find bwlev_view')
   }
 
-  for (var key in self._spyglass) {
-    var cur = self._spyglass[key]
+  for (const key in self._spyglass) {
+    const cur = self._spyglass[key]
     watchAndRequest(root_bwlev_view, self, cur)
   }
 }

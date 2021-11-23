@@ -1,6 +1,6 @@
 
 
-var arrayClone = function(array) {
+const arrayClone = function(array) {
   if (Array.isArray(array)) {
     return array.slice(0)
   } else {
@@ -8,14 +8,14 @@ var arrayClone = function(array) {
   }
 }
 
-var oneFromArray = function(array) {
+const oneFromArray = function(array) {
   if (Array.isArray(array)) {
     return array[0]
   }
   return array
 }
 
-var getLength = function(array) {
+const getLength = function(array) {
   if (Array.isArray(array)) {
     return array.length
   }
@@ -23,7 +23,7 @@ var getLength = function(array) {
   return array ? 1 : 0
 }
 
-var notEmpty = function(array) {
+const notEmpty = function(array) {
   return Boolean(getLength(array))
 }
 

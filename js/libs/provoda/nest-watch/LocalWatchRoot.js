@@ -1,6 +1,6 @@
 
 
-var lw_count = 0
+let lw_count = 0
 
 export default function LocalWatchRoot(md, nwatch, data) {
   this.num = ++lw_count

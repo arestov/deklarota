@@ -1,10 +1,10 @@
 
 import spv from '../../../spv'
-var nil = spv.nil
+const nil = spv.nil
 
 export default function getRootBwlevView(target) {
-  var cur = target.parent_view
-  var possible_root
+  let cur = target.parent_view
+  let possible_root
 
   while (!nil(cur)) {
     if (cur.mpx.md.model_name == 'bwlev') {

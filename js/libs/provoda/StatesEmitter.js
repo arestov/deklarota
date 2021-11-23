@@ -14,7 +14,7 @@ import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
 
-var getLightConnector = spv.memorize(function(state_name) {
+const getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
     _updateAttr(this, state_name, value)
   }
@@ -24,7 +24,7 @@ var getLightConnector = spv.memorize(function(state_name) {
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
 
-  var EvConxOpts = function(context, immediately) {
+  const EvConxOpts = function(context, immediately) {
     this.context = context
     this.immediately = immediately
     Object.freeze(this)
@@ -47,11 +47,11 @@ function props(add) {
       return this._interfaces_used[interface_name]
     },
     watchInterface: function(from, interface_name, fn) {
-      var meta_state_name = '$meta$apis$' + interface_name + '$used'
+      const meta_state_name = '$meta$apis$' + interface_name + '$used'
       this.lwch(from, meta_state_name, fn)
     },
     unwatchInterface: function(from, interface_name, fn) {
-      var meta_state_name = '$meta$apis$' + interface_name + '$used'
+      const meta_state_name = '$meta$apis$' + interface_name + '$used'
       this.removeLwch(from, meta_state_name, fn)
 
     },
@@ -79,13 +79,13 @@ function props(add) {
 
 
     wlch: function(donor, donor_state, acceptor_state_name) {
-      var cb = getLightConnector(acceptor_state_name, donor_state)
+      const cb = getLightConnector(acceptor_state_name, donor_state)
 
-      var event_name = utils_simple.getSTEVNameLight(donor_state)
+      const event_name = utils_simple.getSTEVNameLight(donor_state)
       donor.evcompanion._addEventHandler(event_name, cb, this, null, null, true)
     },
     unwlch: function(donor, donor_state, acceptor_state_name) {
-      var cb = getLightConnector(acceptor_state_name, donor_state)
+      const cb = getLightConnector(acceptor_state_name, donor_state)
       this.removeLwch(donor, donor_state, cb)
     },
     onExtend: function(props, original) {
@@ -108,13 +108,13 @@ function props(add) {
     }
   })
 
-  var updateAttr = function(state_name, value, opts) {
+  const updateAttr = function(state_name, value, opts) {
     gentlyUpdateAttr(this, state_name, value, opts)
   }
 
-  var updateManyAttrs = function(obj) {
-    var changes_list = []
-    for (var state_name in obj) {
+  const updateManyAttrs = function(obj) {
+    const changes_list = []
+    for (const state_name in obj) {
       if (obj.hasOwnProperty(state_name)) {
         if (this.hasComplexStateFn(state_name)) {
           throw new Error('you can\'t change complex state ' + state_name)
@@ -128,7 +128,7 @@ function props(add) {
       return
     }
 
-    var self = this
+    const self = this
     this.input(function() {
       self._updateProxy(changes_list)
     })
@@ -146,12 +146,12 @@ function props(add) {
       if (typeof source_id == 'object') {
         source_id = source_id._provoda_id
       }
-      var old_value = this.state(state_name) || {index: {}, count: 0}
+      const old_value = this.state(state_name) || {index: {}, count: 0}
       old_value.index[source_id] = value ? true : false
 
-      var count = 0
+      let count = 0
 
-      for (var prop in old_value.index) {
+      for (const prop in old_value.index) {
         if (!old_value.index.hasOwnProperty(prop)) {
           continue
         }
@@ -177,8 +177,8 @@ function props(add) {
       updateProxy(this, changes_list, opts)
     },
     __count_lightevent_subscriber: function(attr_name) {
-      var light_name = getNameByAttr(attr_name)
-      var light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name)
+      const light_name = getNameByAttr(attr_name)
+      const light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name)
 
       return light_cb_cs ? light_cb_cs.length : 0
     },
@@ -197,7 +197,7 @@ function props(add) {
   })
 }
 
-var StatesEmitter = spv.inh(Eventor, {
+const StatesEmitter = spv.inh(Eventor, {
   naming: function(construct) {
     return function StatesEmitter() {
       construct(this)

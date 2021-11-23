@@ -4,24 +4,24 @@ import extendPromise from '../../../modules/extendPromise'
 import spv from '../../spv'
 import getApiPart from './getApiPart'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
-var getTargetField = spv.getTargetField
-var toBigPromise = extendPromise.toBigPromise
+const getTargetField = spv.getTargetField
+const toBigPromise = extendPromise.toBigPromise
 
 
-var usualRequest = function(send_declr, sputnik, opts, network_api_opts) {
-  var api_name = send_declr.api_name
-  var allow_cache = send_declr.allow_cache === true
-  var api_method = send_declr.api_method_name
-  var api_args = send_declr.getArgs.call(sputnik, opts)
-  var manual_nocache = api_args[2] && api_args[2].nocache
+const usualRequest = function(send_declr, sputnik, opts, network_api_opts) {
+  const api_name = send_declr.api_name
+  const allow_cache = send_declr.allow_cache === true
+  const api_method = send_declr.api_method_name
+  const api_args = send_declr.getArgs.call(sputnik, opts)
+  const manual_nocache = api_args[2] && api_args[2].nocache
 
-  var non_standart_api_opts = send_declr.non_standart_api_opts
+  const non_standart_api_opts = send_declr.non_standart_api_opts
 
   if (!non_standart_api_opts) {
     api_args[2] = api_args[2] || network_api_opts
   }
 
-  var cache_key
+  let cache_key
   if (allow_cache && !non_standart_api_opts && !manual_nocache) {
     cache_key = [
       'usual', api_name, send_declr.api_resource_path, api_method, api_args
@@ -35,21 +35,21 @@ var usualRequest = function(send_declr, sputnik, opts, network_api_opts) {
   }
 }
 
-var manualRequest = function(send_declr, sputnik, opts) {
-  var declr = send_declr.manual
-  var api_name = send_declr.api_name
-  var allow_cache = send_declr.allow_cache === true
+const manualRequest = function(send_declr, sputnik, opts) {
+  const declr = send_declr.manual
+  const api_name = send_declr.api_name
+  const allow_cache = send_declr.allow_cache === true
 
-  var args = new Array(declr.dependencies + 2)
+  const args = new Array(declr.dependencies + 2)
 
   args[0] = null
   args[1] = opts
 
-  for (var i = 0; i < declr.dependencies.length; i++) {
+  for (let i = 0; i < declr.dependencies.length; i++) {
     args[i + 2] = sputnik.state(declr.dependencies[i])
   }
 
-  var cache_key = allow_cache && [
+  const cache_key = allow_cache && [
     'manual', api_name, send_declr.api_resource_path, opts, declr.fn_body, args
   ]
 
@@ -61,15 +61,15 @@ var manualRequest = function(send_declr, sputnik, opts) {
 
 
 
-var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
+const getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
   if (!sputnik._highway.requests_by_declarations) {
     sputnik._highway.requests_by_declarations = {}
   }
-  var requests_by_declarations = sputnik._highway.requests_by_declarations
+  const requests_by_declarations = sputnik._highway.requests_by_declarations
 
 
-  var network_api = getNetApiByDeclr(send_declr, sputnik)
-  var api_part = getApiPart(send_declr, sputnik)
+  const network_api = getNetApiByDeclr(send_declr, sputnik)
+  const api_part = getApiPart(send_declr, sputnik)
 
   if (!network_api) {
     const error = new Error('network_api must present!')
@@ -86,7 +86,7 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
     throw new Error('provide a way to detect errors!')
   }
 
-  var api_name = send_declr.api_name
+  let api_name = send_declr.api_name
   if (typeof api_name != 'string') {
     api_name = network_api.api_name
   }
@@ -95,20 +95,20 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
     throw new Error('network_api must have api_name!')
   }
 
-  var request_data
+  let request_data
   if (send_declr.api_method_name) {
     request_data = usualRequest(send_declr, sputnik, opts, network_api_opts)
   } else if (send_declr.manual) {
     request_data = manualRequest(send_declr, sputnik, opts)
   }
 
-  var cache_key = request_data.cache_key
+  const cache_key = request_data.cache_key
   if (cache_key && !opts.has_error && requests_by_declarations[cache_key]) {
     return requests_by_declarations[cache_key]
   }
 
 
-  var request
+  let request
   if (send_declr.api_method_name) {
     request = api_part[ send_declr.api_method_name ].apply(network_api, request_data.data)
   } else if (send_declr.manual) {
@@ -116,7 +116,7 @@ var getRequestByDeclr = function(send_declr, sputnik, opts, network_api_opts) {
     request = send_declr.manual.fn.apply(null, request_data.data)
   }
 
-  var result_request = checkRequest(request)
+  const result_request = checkRequest(request)
   result_request.network_api = network_api
   result_request.source_name = network_api.source_name
   if (cache_key) {
@@ -148,10 +148,10 @@ function checkRequest(request) {
 
 
 function findErrorByList(data, errors_selectors) {
-  var i
+  let i
   for (i = 0; i < errors_selectors.length; i++) {
-    var cur = errors_selectors[i]
-    var has_error = getTargetField(data, cur)
+    const cur = errors_selectors[i]
+    const has_error = getTargetField(data, cur)
     if (has_error) {
       return has_error
     }

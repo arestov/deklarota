@@ -1,13 +1,13 @@
-var bind = {
+const bind = {
   root: function(bind) {
     return function(md, instructions, context) {
-      var list = instructions.conndst_root
+      const list = instructions.conndst_root
       if (!list) {
         return
       }
-      for (var i = 0; i < list.length; i++) {
-        var cur = list[i]
-        var target = md.getStrucRoot()
+      for (let i = 0; i < list.length; i++) {
+        const cur = list[i]
+        const target = md.getStrucRoot()
         if (!target) {
           throw new Error()
         }
@@ -18,14 +18,14 @@ var bind = {
   },
   parent: function(bind) {
     return function(md, instructions, context) {
-      var list = instructions.conndst_parent
+      const list = instructions.conndst_parent
       if (!list) {
         return
       }
-      for (var i = 0; i < list.length; i++) {
-        var cur = list[i]
-        var count = cur.ancestors
-        var target = md
+      for (let i = 0; i < list.length; i++) {
+        const cur = list[i]
+        let count = cur.ancestors
+        let target = md
         while (count) {
           count--
           target = target.getStrucParent()
@@ -41,11 +41,11 @@ var bind = {
   }
 }
 
-var subscribe = function(md, target, state_name, full_name) {
+const subscribe = function(md, target, state_name, full_name) {
   md.wlch(target, state_name, full_name)
 }
 
-var unsubscribe = function(md, target, state_name, full_name) {
+const unsubscribe = function(md, target, state_name, full_name) {
   md.unwlch(target, state_name, full_name)
 }
 

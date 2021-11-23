@@ -1,14 +1,14 @@
 
 import spv from '../../spv'
 import getPropsPrefixChecker from '../utils/getPropsPrefixChecker'
-var getUnprefixed = spv.getDeprefixFunc('collch-')
-var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
+const getUnprefixed = spv.getDeprefixFunc('collch-')
+const hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
-var solvingOf = function(declr) {
-  var by_model_name = declr.by_model_name
-  var space = declr.space != 'main' && declr.space
-  var is_wrapper_parent = declr.is_wrapper_parent
-  var needs_expand_state = declr.needs_expand_state
+const solvingOf = function(declr) {
+  const by_model_name = declr.by_model_name
+  const space = declr.space != 'main' && declr.space
+  const is_wrapper_parent = declr.is_wrapper_parent
+  const needs_expand_state = declr.needs_expand_state
   if (by_model_name || space || is_wrapper_parent || needs_expand_state) {
     return {
       by_model_name: by_model_name,
@@ -18,20 +18,20 @@ var solvingOf = function(declr) {
     }
   }
 }
-var parseCollectionChangeDeclaration = function(collch) {
+const parseCollectionChangeDeclaration = function(collch) {
   if (typeof collch == 'string') {
     collch = {
       place: collch
     }
   }
-  var expand_state = collch.needs_expand_state
+  let expand_state = collch.needs_expand_state
   if (expand_state && typeof expand_state != 'string') {
     expand_state = 'can_expand'
   }
 
-  var is_wrapper_parent = collch.is_wrapper_parent && collch.is_wrapper_parent.match(/^\^+/gi)
+  const is_wrapper_parent = collch.is_wrapper_parent && collch.is_wrapper_parent.match(/^\^+/gi)
 
-  var declr = {
+  const declr = {
     place: collch.place,
     by_model_name: collch.by_model_name,
     space: collch.space || 'main',
@@ -43,7 +43,7 @@ var parseCollectionChangeDeclaration = function(collch) {
     limit: collch.limit,
     solving: null
   }
-  var solving = solvingOf(declr)
+  const solving = solvingOf(declr)
   if (solving) {
     declr.solving = solving
   }
@@ -51,23 +51,23 @@ var parseCollectionChangeDeclaration = function(collch) {
 }
 
 export default function(self, props) {
-  var need_recalc = hasPrefixedProps(props)
+  const need_recalc = hasPrefixedProps(props)
 
 
   if (!need_recalc) {
     return
   }
-  var prop
+  let prop
 
   self.dclrs_fpckgs = {}
 
   for (prop in self) {
     if (getUnprefixed(prop)) {
-      var collch = self[ prop ]
+      const collch = self[ prop ]
       if (!collch) {
         continue
       }
-      var nesting_name = getUnprefixed(prop)
+      const nesting_name = getUnprefixed(prop)
       if (typeof collch == 'function') {
         self.dclrs_fpckgs[ nesting_name ] = collch
       } else {

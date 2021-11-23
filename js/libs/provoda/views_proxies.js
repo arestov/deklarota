@@ -5,25 +5,25 @@ import MDProxy from './MDProxy'
 import isPublicRel from './Model/rel/isPublicRel'
 import createMutableRelStore from './Model/rel/createMutableRelStore'
 
-var push = Array.prototype.push
+const push = Array.prototype.push
 
 
-var createMPXes = function(array, store, space) {
-  for (var i = 0; i < array.length; i++) {
-    var cur = array[i]
+const createMPXes = function(array, store, space) {
+  for (let i = 0; i < array.length; i++) {
+    const cur = array[i]
     store[cur._provoda_id] = new MDProxy(cur._provoda_id, createMutableRelStore(cur), cur, space)
   }
 }
 
-var createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
+const createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
   if (!raw_array.length) {
     return
   }
-  var i
-  var clean_array = []
-  var local_index = {}
+  let i
+  const clean_array = []
+  const local_index = {}
   for (i = 0; i < raw_array.length; i++) {
-    var cur_id = raw_array[i]._provoda_id
+    const cur_id = raw_array[i]._provoda_id
     if (!ids_index[cur_id] && !local_index[cur_id]) {
       local_index[cur_id] = true
       clean_array.push(raw_array[i])
@@ -31,7 +31,7 @@ var createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
 
   }
   if (clean_array.length) {
-    var full_array = []
+    const full_array = []
     for (i = 0; i < clean_array.length; i++) {
       push.apply(full_array, clean_array[i].getLinedStructure(ids_index))
 
@@ -41,9 +41,9 @@ var createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) {
 
 }
 
-var noop = function() {}
+const noop = function() {}
 
-var Space = function(id, checkAlive, sendRPCLegacy) {
+const Space = function(id, checkAlive, sendRPCLegacy) {
   this.checkAlive = checkAlive || noop
   this.id = id
   this.mpxes_index = {}
@@ -53,7 +53,7 @@ var Space = function(id, checkAlive, sendRPCLegacy) {
 Space.prototype = {
   dispose: function() {
     this.ids_index = null
-    for (var id in this.mpxes_index) {
+    for (const id in this.mpxes_index) {
       if (this.mpxes_index[id] == null) {
         continue
       }
@@ -76,7 +76,7 @@ export const Proxies = function(_check_interval, options = {}) {
   //поддержка простанства в актуальном состоянии
   //очистка пространства
 
-  var self = this
+  const self = this
 
   this.leaksCheck = __proxies_leaks_check && setInterval(function() {
     self.checkAlive()
@@ -97,24 +97,24 @@ Proxies.prototype = {
     if (typeof space_id == 'object') {
       space_id = space_id.view_id
     }
-    var mpx = this.spaces[space_id].mpxes_index[md._provoda_id]
+    const mpx = this.spaces[space_id].mpxes_index[md._provoda_id]
 
     return mpx
   },
   addSpaceById: function(id, root_md, checkAlive, sendRPCLegacy) {
     if (!this.spaces[id]) {
-      var space = new Space(id, checkAlive, sendRPCLegacy)
+      const space = new Space(id, checkAlive, sendRPCLegacy)
       this.spaces[id] = space
       this.spaces_list.push(this.spaces[id])
 
-      var array = root_md.getLinedStructure(this.spaces[id].ids_index)
+      const array = root_md.getLinedStructure(this.spaces[id].ids_index)
       createMPXes(array, this.spaces[id].mpxes_index, space)
     } else {
       throw new Error()
     }
   },
   removeSpaceById: function(id) {
-    var space = this.spaces[id]
+    const space = this.spaces[id]
     if (!space) {
       throw new Error()
     }
@@ -129,10 +129,10 @@ Proxies.prototype = {
       return
     }
 
-    var collected
-    var raw_array = []
-    for (var i = 0; i < this.spaces_list.length; i++) {
-      var cur = this.spaces_list[i]
+    let collected
+    let raw_array = []
+    for (let i = 0; i < this.spaces_list.length; i++) {
+      const cur = this.spaces_list[i]
       if (!cur.ids_index[md._provoda_id]) {
         continue
       }
@@ -151,7 +151,7 @@ Proxies.prototype = {
             raw_array = value
           } else {
 
-            var pos_array = spv.getTargetField(value, 'residents_struc.all_items')
+            const pos_array = spv.getTargetField(value, 'residents_struc.all_items')
             if (pos_array) {
               raw_array = pos_array
             } else {
@@ -176,8 +176,8 @@ Proxies.prototype = {
 
   },
   pushStates: function(md, states_list) {
-    for (var i = 0; i < this.spaces_list.length; i++) {
-      var cur = this.spaces_list[i]
+    for (let i = 0; i < this.spaces_list.length; i++) {
+      const cur = this.spaces_list[i]
       if (!cur.ids_index[md._provoda_id] || cur.mpxes_index[md._provoda_id] == null) {
         continue
       }
@@ -186,8 +186,8 @@ Proxies.prototype = {
     }
   },
   killMD: function(md) {
-    for (var i = 0; i < this.spaces_list.length; i++) {
-      var cur = this.spaces_list[i]
+    for (let i = 0; i < this.spaces_list.length; i++) {
+      const cur = this.spaces_list[i]
       var mpx = cur.mpxes_index[md._provoda_id]
       if (cur.ids_index[md._provoda_id]) {
         var mpx = cur.mpxes_index[md._provoda_id]
@@ -198,9 +198,9 @@ Proxies.prototype = {
     }
   },
   checkAlive: function() {
-    for (var i = 0; i < this.spaces_list.length; i++) {
-      var cur = this.spaces_list[i]
-      var dead = cur.checkAlive()
+    for (let i = 0; i < this.spaces_list.length; i++) {
+      const cur = this.spaces_list[i]
+      const dead = cur.checkAlive()
       if (dead) {
         console.log('leak prevented')
       }

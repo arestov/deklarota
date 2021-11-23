@@ -26,7 +26,7 @@ const reportStructure = () => {
   // console.log('used_data_structure', this.used_data_structure)
 }
 
-var PvTemplate = View._PvTemplate
+const PvTemplate = View._PvTemplate
 
 export const AppBase = spv.inh(View, {}, {
   location_name: 'root_view',
@@ -35,24 +35,24 @@ export const AppBase = spv.inh(View, {}, {
   createDetails: function() {
     this.root_view = this
     this.root_view.root_app_view = this
-    var opts = this.opts || this.parent_view.opts
+    const opts = this.opts || this.parent_view.opts
     this.d = opts.d
     this.dom_related_props.push('calls_flow')
 
     this.samples = {}
     this.dom_related_props.push('samples')
 
-    var getSampleForTemplate = (function(_this) {
+    const getSampleForTemplate = (function(_this) {
       return function(sample_name, simple, opts) {
         return _this.getSample(sample_name, simple, opts)
       }
     })(this)
 
-    var templator = PvTemplate.templator(this._getCallsFlow(), getSampleForTemplate)
+    const templator = PvTemplate.templator(this._getCallsFlow(), getSampleForTemplate)
     this.pvtemplate = templator.template
     this.pvsampler = templator.sampler
 
-    var self = this
+    const self = this
 
     Promise.resolve().then(function() {
       spv.domReady(self.d, self.inputFn(function() {
@@ -65,15 +65,15 @@ export const AppBase = spv.inh(View, {}, {
   },
   manual_states_connect: true,
   getSampler: function(sample_name) {
-    var sampler = this.samples[sample_name]
+    const sampler = this.samples[sample_name]
     if (sampler) {
       return sampler
     }
 
     const ui_samples = this.getInterface('ui_samples')
 
-    var sample_node_raw = ui_samples.children('.' + sample_name)
-    var sample_node = sample_node_raw[0]
+    let sample_node_raw = ui_samples.children('.' + sample_name)
+    let sample_node = sample_node_raw[0]
 
     if (!sample_node) {
       sample_node_raw = $(this.requirePart(sample_name))
@@ -88,7 +88,7 @@ export const AppBase = spv.inh(View, {}, {
     return this.samples[sample_name]
   },
   getSample: function(sample_name, simple, options) {
-    var sampler = this.getSampler(sample_name)
+    const sampler = this.getSampler(sample_name)
 
     if (sampler.getClone) {
       if (simple) {
@@ -120,8 +120,8 @@ export const AppBase = spv.inh(View, {}, {
             return null
           }
 
-          var selector = self.ui_samples_csel || '#ui-samples'
-          var ui_samples = $(body).find(selector)
+          const selector = self.ui_samples_csel || '#ui-samples'
+          const ui_samples = $(body).find(selector)
           ui_samples.ui_samples.detach()
           return ui_samples
         }

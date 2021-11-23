@@ -16,8 +16,8 @@ export default function isBwConnectedView(target, view_space) {
     return
   }
 
-  var general = target.root_view.general_navigation_view
-  var parent_view = target.parent_view
+  const general = target.root_view.general_navigation_view
+  const parent_view = target.parent_view
   if (parent_view.parent_view === general &&
     parent_view.nesting_name === 'map_slice' &&
     parent_view.nesting_space === view_space) {

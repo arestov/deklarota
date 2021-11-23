@@ -7,7 +7,7 @@ import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 import isGlueTargetAttr from './isGlueTargetAttr'
 import cachedField from '../../cachedField'
 
-var makeGroups = groupDeps(getEncodedState)
+const makeGroups = groupDeps(getEncodedState)
 const emptyObject = Object.freeze({})
 
 const compressList = (result, prop) => {
@@ -18,15 +18,15 @@ const compressList = (result, prop) => {
   }
 }
 
-var makeWatchIndex = function(full_comlxs_list) {
+const makeWatchIndex = function(full_comlxs_list) {
   if (!full_comlxs_list.length) {
     return emptyObject
   }
-  var full_comlxs_index = {}
-  var i
-  var jj
-  var cur
-  var state_name
+  const full_comlxs_index = {}
+  let i
+  let jj
+  let cur
+  let state_name
   for (i = 0; i < full_comlxs_list.length; i++) {
     cur = full_comlxs_list[i]
     for (jj = 0; jj < cur.watch_list.length; jj++) {
@@ -39,7 +39,7 @@ var makeWatchIndex = function(full_comlxs_list) {
     }
   }
 
-  for (var attr_name in full_comlxs_index) {
+  for (const attr_name in full_comlxs_index) {
     if (!full_comlxs_index.hasOwnProperty(attr_name)) {
       continue
     }
@@ -47,7 +47,7 @@ var makeWatchIndex = function(full_comlxs_list) {
     compressList(full_comlxs_index, attr_name)
   }
 
-  for (var prop of Object.getOwnPropertySymbols(full_comlxs_index)) {
+  for (const prop of Object.getOwnPropertySymbols(full_comlxs_index)) {
     compressList(full_comlxs_index, prop)
   }
 
@@ -56,18 +56,18 @@ var makeWatchIndex = function(full_comlxs_list) {
   return full_comlxs_index
 }
 
-var collectCheck = cachedField(
+const collectCheck = cachedField(
   'compx_check',
   ['__attrs_all_comp'],
   false,
   function collectCheck(dcl_cache__compx) {
-    var compx_check = {}
+    const compx_check = {}
 
-    for (var key_name_one in dcl_cache__compx) {
+    for (const key_name_one in dcl_cache__compx) {
       compx_check[key_name_one] = dcl_cache__compx[key_name_one]
     }
 
-    for (var prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
+    for (const prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
       compx_check[prop] = dcl_cache__compx[prop]
     }
 
@@ -78,18 +78,18 @@ var collectCheck = cachedField(
   }
 )
 
-var collectList = cachedField(
+const collectList = cachedField(
   'full_comlxs_list',
   ['__attrs_all_comp'],
   false,
   function collectList(dcl_cache__compx) {
-    var full_comlxs_list = []
+    const full_comlxs_list = []
 
-    for (var key_name_one in dcl_cache__compx) {
+    for (const key_name_one in dcl_cache__compx) {
       full_comlxs_list.push(dcl_cache__compx[key_name_one])
     }
 
-    for (var prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
+    for (const prop of Object.getOwnPropertySymbols(dcl_cache__compx)) {
       full_comlxs_list.push(dcl_cache__compx[prop])
     }
 
@@ -110,12 +110,12 @@ export default function(self) {
 }
 
 function uniqExternalDeps(full_comlxs_list) {
-  var uniq = new Map()
+  const uniq = new Map()
 
-  for (var i = 0; i < full_comlxs_list.length; i++) {
-    var cur = full_comlxs_list[i]
-    for (var jj = 0; jj < cur.addrs.length; jj++) {
-      var addr = cur.addrs[jj]
+  for (let i = 0; i < full_comlxs_list.length; i++) {
+    const cur = full_comlxs_list[i]
+    for (let jj = 0; jj < cur.addrs.length; jj++) {
+      const addr = cur.addrs[jj]
       if (isJustAttrAddr(addr)) {
         continue
       }
@@ -152,10 +152,10 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   self.__attrs_full_comlxs_list = full_comlxs_list
   self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list)
 
-  var result = makeGroups(full_comlxs_list)
+  const result = makeGroups(full_comlxs_list)
 
-  for (var i = 0; i < result.conndst_nesting.length; i++) {
-    var addr = result.conndst_nesting[i].addr
+  for (let i = 0; i < result.conndst_nesting.length; i++) {
+    const addr = result.conndst_nesting[i].addr
     if (mentionsSupportedAddr(addr)) {
       continue
     }

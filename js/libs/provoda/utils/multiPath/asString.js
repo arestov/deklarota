@@ -56,7 +56,7 @@ function nestingString(zip_name, nesting) {
     return '<'
   }
 
-  var path = nesting.path.join('.')
+  const path = nesting.path.join('.')
 
   return '<' + wrapBySpace(zipPart(zip_name) + path)
 }
@@ -79,8 +79,8 @@ function baseStringMin(from_base) {
       return '#'
     }
     case 'parent': {
-      var repeated = ''
-      var counter = 1
+      let repeated = ''
+      let counter = 1
       while (counter <= from_base.steps) {
         repeated += '^'
         counter++
@@ -92,7 +92,7 @@ function baseStringMin(from_base) {
 }
 
 function baseString(from_base) {
-  var result = baseStringMin(from_base)
+  const result = baseStringMin(from_base)
   return result ? '< ' + result : '<'
 }
 

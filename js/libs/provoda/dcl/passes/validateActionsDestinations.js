@@ -39,7 +39,7 @@ const validateActionTarget = (self, target, action) => {
     return
   }
 
-  for (var i = 0; i < arg_nesting_base.length; i++) {
+  for (let i = 0; i < arg_nesting_base.length; i++) {
     oneBase(arg_nesting_base[i], target)
   }
 
@@ -67,7 +67,7 @@ const validateActionsDestinations = (_Root, self) => {
     const cur = actions[name]
 
     if (cur.targeted_results_list) {
-      for (var i = 0; i < cur.targeted_results_list.length; i++) {
+      for (let i = 0; i < cur.targeted_results_list.length; i++) {
         validateActionTarget(self, cur.targeted_results_list[i], cur)
       }
     }

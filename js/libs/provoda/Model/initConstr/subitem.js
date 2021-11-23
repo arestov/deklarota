@@ -8,8 +8,8 @@ export default function initSi(Constr, parent_md, data, params, more, states) {
   }
 
   if (Constr.prototype.init) {
-    var instance = new Constr()
-    var initsbi_opts = parent_md.getSiOpts()
+    const instance = new Constr()
+    const initsbi_opts = parent_md.getSiOpts()
 
     parent_md.useMotivator(instance, function(instance) {
       instance.init(initsbi_opts, data, params, more, states)
@@ -18,17 +18,17 @@ export default function initSi(Constr, parent_md, data, params, more, states) {
     return instance
   }
 
-  var motivator = parent_md.current_motivator
+  const motivator = parent_md.current_motivator
 
-  var parent_is_usable = ((parent_md && parent_md.zero_map_level) || parent_md != parent_md.app)
+  const parent_is_usable = ((parent_md && parent_md.zero_map_level) || parent_md != parent_md.app)
 
-  var opts = {
+  const opts = {
     _motivator: motivator || null,
     map_parent: parent_is_usable ? parent_md : null,
     app: parent_md.app
   }
 
-  var instancePure = new Constr(opts, data, params, more, states)
+  const instancePure = new Constr(opts, data, params, more, states)
 
   instancePure.current_motivator = null
 

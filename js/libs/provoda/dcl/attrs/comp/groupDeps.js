@@ -3,27 +3,27 @@ import isGlueTargetAttr from './isGlueTargetAttr'
 import glueTargets from './glueTargets'
 import { doRelSplit } from '../../glue_rels/splitComplexRel'
 
-var rel_of_ascendor = glueTargets.rel_of_ascendor
+const rel_of_ascendor = glueTargets.rel_of_ascendor
 
 function groupDeps(parse) {
   return function(list) {
-    var states_of_parent = {}
-    var states_of_nesting = {}
-    var states_of_root = {}
-    var connect_self = false
-    var connect_glue = new Map()
+    const states_of_parent = {}
+    const states_of_nesting = {}
+    const states_of_root = {}
+    let connect_self = false
+    const connect_glue = new Map()
 
-    for (var i = 0; i < list.length; i++) {
-      var cur = list[i]
-      var deps_list = cur.depends_on
-      var addrs = cur.addrs
+    for (let i = 0; i < list.length; i++) {
+      const cur = list[i]
+      const deps_list = cur.depends_on
+      const addrs = cur.addrs
 
-      for (var jj = 0; jj < deps_list.length; jj++) {
-        var addr = addrs[jj]
-        var glue_target = isGlueTargetAttr(addr)
+      for (let jj = 0; jj < deps_list.length; jj++) {
+        const addr = addrs[jj]
+        const glue_target = isGlueTargetAttr(addr)
 
         if (glue_target === rel_of_ascendor) {
-          var splited = doRelSplit(addr)
+          const splited = doRelSplit(addr)
           connect_glue.set(asString(splited.source), splited)
           continue
         }
@@ -36,8 +36,8 @@ function groupDeps(parse) {
           continue
         }
 
-        var state_name = deps_list[jj]
-        var parsing_result = parse(state_name)
+        const state_name = deps_list[jj]
+        const parsing_result = parse(state_name)
         if (!parsing_result) {
           continue
         }
@@ -80,8 +80,8 @@ function groupDeps(parse) {
 
 
 function toList(obj) {
-  var result = []
-  for (var p in obj) {
+  const result = []
+  for (const p in obj) {
     if (obj.hasOwnProperty(p)) {
       result.push(obj[p])
     }

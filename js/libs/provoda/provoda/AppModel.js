@@ -2,7 +2,7 @@
 import spv from '../../spv'
 import BrowseMap from './BrowseMap'
 
-var AppModelBase = spv.inh(BrowseMap.Model, {
+const AppModelBase = spv.inh(BrowseMap.Model, {
   naming: function(fn) {
     return function AppModelBase(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
@@ -62,11 +62,11 @@ var AppModelBase = spv.inh(BrowseMap.Model, {
     if (queue) {
       queue.removePrioMarks()
     } else {
-      for (var i = 0; i < this.all_queues.length; i++) {
+      for (let i = 0; i < this.all_queues.length; i++) {
         this.all_queues[i].removePrioMarks()
       }
     }
-    var md = this.important_model
+    const md = this.important_model
     if (md) {
       if (md.checkRequestsPriority) {
         md.checkRequestsPriority()

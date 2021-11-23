@@ -3,28 +3,28 @@
 import BitField from './BitField'
 import isPrivate from '../Model/isPrivateState'
 
-var reserved = 2
+const reserved = 2
 
-var ok = Object.freeze({
+const ok = Object.freeze({
   enumerable: true,
   configurable: true
 })
 
-var notOk = Object.freeze({
+const notOk = Object.freeze({
   value: null,
   writable: true,
   enumerable: false,
   configurable: false,
 })
 
-var Wrap = function() {}
+const Wrap = function() {}
 
 Wrap.prototype = {
   get: function(target, name) {
-    var collector = target[0]
+    const collector = target[0]
 
     if (collector.boolByName.has(name)) {
-      var bitfield = target[1]
+      const bitfield = target[1]
       if (!bitfield) {
         return false
       }
@@ -32,7 +32,7 @@ Wrap.prototype = {
     }
 
 
-    var num = collector.getAttrNum(name)
+    const num = collector.getAttrNum(name)
     if (num == null) {
       return
     }
@@ -44,24 +44,24 @@ Wrap.prototype = {
     return target[num]
   },
   set: function(target, name, value) {
-    var collector = target[0]
+    const collector = target[0]
 
     if (collector.boolByName.has(name)) {
       if (!target[1]) {
         target[1] = collector.makeBitField()
       }
-      var bitfield = target[1]
+      const bitfield = target[1]
 
       bitfield.set(collector.boolByName.get(name), Boolean(value))
       return true
     }
 
-    var num = collector.ensureAttrNum(name)
-    var length = target.length
+    const num = collector.ensureAttrNum(name)
+    const length = target.length
     if (num > length) {
       target.length = num + 1
     // we should grow array to no let it has holes
-      for (var i = length; i < num; i++) {
+      for (let i = length; i < num; i++) {
         target[i] = undefined
       }
     }
@@ -89,7 +89,7 @@ Wrap.prototype = {
   // ownKeys
 }
 
-var wrap = new Wrap()
+const wrap = new Wrap()
 
 if (wrap.__nothing) {
   // to fast props magic
@@ -113,15 +113,15 @@ function AttrsCollector(defined_attrs) {
   this.defineAttr('length')
   this.defineAttr('_provoda_id')
 
-  for (var i = 0; i < defined_attrs.length; i++) {
-    var cur = defined_attrs[i]
+  for (let i = 0; i < defined_attrs.length; i++) {
+    const cur = defined_attrs[i]
     this.defineAttr(cur.name, cur.type)
   }
 
   Object.seal(this)
 }
 
-var grow = Object.freeze({grow: Infinity})
+const grow = Object.freeze({grow: Infinity})
 
 AttrsCollector.prototype = {
   defineAttr: function(name, type) {
@@ -164,7 +164,7 @@ AttrsCollector.prototype = {
 
     // console.warn(new Error('define ' + name))
 
-    var num = this.counter++
+    const num = this.counter++
     this.indexByName.set(name, num)
 
     this.all.push(name)
@@ -183,7 +183,7 @@ AttrsCollector.prototype = {
   },
   makeAttrsValues: function() {
     // Create object that will store values in shape of our attrs
-    var array = [
+    const array = [
       this, // 0 - reserved for collector
       this.bools ? this.makeBitField() : null,// 1 - reserved for BitField
     ]

@@ -1,13 +1,13 @@
 import cloneObj from '../../spv/cloneObj'
 
-var toTransferableNestings = function(value) {
+const toTransferableNestings = function(value) {
   if (!value) {
     return value
   }
 
   if (value && value.each_items) {
       // creating value to pass
-    var copy = cloneObj({
+    const copy = cloneObj({
       $not_model: true,
     }, value)
     delete copy.each_items
@@ -18,8 +18,8 @@ var toTransferableNestings = function(value) {
     return value._provoda_id
   } else if (Array.isArray(value)) {
 
-    let parsed_value = new Array(value.length)
-    for (var jj = 0; jj < value.length; jj++) {
+    const parsed_value = new Array(value.length)
+    for (let jj = 0; jj < value.length; jj++) {
       parsed_value[jj] = value[jj]._provoda_id
     }
     return parsed_value

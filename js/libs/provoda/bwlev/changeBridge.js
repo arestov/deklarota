@@ -15,7 +15,7 @@ const getRedirectedCursor = (map, pioneer) => {
 }
 
 const redirected = function(map, pioneer) {
-  var BWL = map.app.CBWL
+  const BWL = map.app.CBWL
   const redirected_cursor = getRedirectedCursor(map, pioneer) || map.mainLevelResident
   if (redirected_cursor == pioneer) {
     return null
@@ -29,8 +29,8 @@ const resetNavigationRequests = (router, bwlev) => {
 }
 
 export default function changeBridge(bwlev_raw, map_raw) {
-  var bwlev = bwlev_raw && (redirected(bwlev_raw.map, bwlev_raw.getNesting('pioneer')) || bwlev_raw)
-  var map = map_raw || (bwlev && bwlev.map)
+  const bwlev = bwlev_raw && (redirected(bwlev_raw.map, bwlev_raw.getNesting('pioneer')) || bwlev_raw)
+  const map = map_raw || (bwlev && bwlev.map)
 
   if (!map) {
     console.warn('no bw map')
@@ -54,7 +54,7 @@ export default function changeBridge(bwlev_raw, map_raw) {
     return
   }
 
-  var copy = bwlev.ptree.slice()
+  const copy = bwlev.ptree.slice()
   copy.reverse()
 
   _updateRel(map, 'wanted_bwlev_chain', copy)

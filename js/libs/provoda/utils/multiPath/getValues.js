@@ -3,15 +3,15 @@ import pvState from '../../provoda/state'
 import getNesting from '../../provoda/getNesting'
 import zip_fns from '../zip/multipath-as-dep'
 
-var readState = function(md, multi_path) {
+const readState = function(md, multi_path) {
   return pvState(md, multi_path.state.path)
 }
 
-var readNesting = function(md, multi_path) {
+const readNesting = function(md, multi_path) {
   return getNesting(md, multi_path.nesting.target_nest_name)
 }
 
-var getOne = function(items) {
+const getOne = function(items) {
   if (!Array.isArray(items)) {
     return items
   }
@@ -30,7 +30,7 @@ export default function(models, multi_path) {
         return models[0] && readState(models[0], multi_path)
       }
 
-      var result = new Array(models.length)
+      const result = new Array(models.length)
       for (var i = 0; i < models.length; i++) {
         result[i] = readState(models[i], multi_path)
       }
@@ -50,16 +50,16 @@ export default function(models, multi_path) {
       }
 
       // results is always array here
-      var list_of_rels = []
+      const list_of_rels = []
       for (var i = 0; i < models.length; i++) {
-        var cur = readNesting(models[i], multi_path)
+        const cur = readNesting(models[i], multi_path)
         if (!cur) {continue}
 
         list_of_rels.push(cur)
       }
 
-      var flat = Array.prototype.concat.apply([], list_of_rels)
-      var uniq = Array.from(new Set(flat))
+      const flat = Array.prototype.concat.apply([], list_of_rels)
+      const uniq = Array.from(new Set(flat))
 
       var zipFn = zip_fns[multi_path.zip_name || 'all']
 

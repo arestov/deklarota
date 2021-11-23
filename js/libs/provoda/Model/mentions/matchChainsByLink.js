@@ -3,13 +3,13 @@ import scheduleDelivering from './scheduleDelivering'
 import getAllOnwers from './getAllOnwers'
 
 
-var matchChainsByLink = function(mention_owner, links) {
-  var result = []
-  for (var i = 0; i < links.length; i++) {
+const matchChainsByLink = function(mention_owner, links) {
+  const result = []
+  for (let i = 0; i < links.length; i++) {
     getAllOnwers(result, mention_owner, links[i])
   }
 
-  var motivation_model = mention_owner
+  const motivation_model = mention_owner
 
   scheduleDelivering(motivation_model, result)
 

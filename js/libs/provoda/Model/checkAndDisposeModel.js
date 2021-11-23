@@ -8,14 +8,14 @@ const checkAndDisposeModel = function(self, value) {
     return
   }
 
-  var result = new Set()
-  for (var prop in self.__mentions_as_rel) {
+  const result = new Set()
+  for (const prop in self.__mentions_as_rel) {
     if (!self.__mentions_as_rel.hasOwnProperty(prop)) {
       continue
     }
 
-    var owners_set = self.__mentions_as_rel[prop]
-    for (var owner of owners_set) {
+    const owners_set = self.__mentions_as_rel[prop]
+    for (const owner of owners_set) {
       result.add(owner)
     }
   }

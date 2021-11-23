@@ -7,20 +7,20 @@ import { createFakeEtr, computeInitialAttrs, getComplexInitList } from '../updat
 
 const fillExternalDeps = (self, first_changes_list) => {
   if (self._extendable_nest_index) {
-    var rels = self._extendable_nest_index
-    for (var rel_name in rels) {
+    const rels = self._extendable_nest_index
+    for (const rel_name in rels) {
       if (!rels.hasOwnProperty(rel_name)) {
         continue
       }
-      var list = defaultRelMetaAttrsValues(rel_name)
+      const list = defaultRelMetaAttrsValues(rel_name)
       first_changes_list.push(...list)
     }
   }
 
   if (self.__attrs_uniq_external_deps) {
-    var external_deps = self.__attrs_uniq_external_deps
-    for (var i = 0; i < external_deps.length; i++) {
-      var cur = external_deps[i]
+    const external_deps = self.__attrs_uniq_external_deps
+    for (let i = 0; i < external_deps.length; i++) {
+      const cur = external_deps[i]
       if (!cur.nesting || !cur.nesting.path) {
         continue
       }
@@ -38,10 +38,10 @@ export default function ensureInitialAttrs(self) {
     return
   }
 
-  var first_changes_list = []
+  const first_changes_list = []
 
-  for (var i = 0; i < self.__defined_attrs_bool.length; i++) {
-    var cur = self.__defined_attrs_bool[i]
+  for (let i = 0; i < self.__defined_attrs_bool.length; i++) {
+    const cur = self.__defined_attrs_bool[i]
     if (cur.type != 'bool') {
       continue
     }
@@ -51,16 +51,16 @@ export default function ensureInitialAttrs(self) {
 
   fillExternalDeps(self, first_changes_list)
 
-  var default_attrs = initInputAttrs(self)
-  for (var attr_name in default_attrs) {
+  const default_attrs = initInputAttrs(self)
+  for (const attr_name in default_attrs) {
     first_changes_list.push(attr_name, default_attrs[attr_name])
   }
 
-  var fake = createFakeEtr(self, first_changes_list)
+  const fake = createFakeEtr(self, first_changes_list)
 
   computeInitialAttrs(fake.etr, fake.total_original_states, fake.total_ch, fake.states_changing_stack)
 
-  var more_changes = getComplexInitList(fake.etr, fake.total_ch)
+  const more_changes = getComplexInitList(fake.etr, fake.total_ch)
   if (more_changes && more_changes.length) {
     fake.states_changing_stack.push(more_changes)
     computeInitialAttrs(fake.etr, fake.total_original_states, fake.total_ch, fake.states_changing_stack)

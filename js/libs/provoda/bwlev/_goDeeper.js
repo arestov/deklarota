@@ -13,9 +13,9 @@ export default function _goDeeper(BWL, map, md, parent_bwlev) {
     parent_bwlev = getBwlevInParentBwlev(toProperNavParent(map, getRouteStepParent(map, md)), map)
   }
 
-  var parent_md = toProperNavParent(map, getRouteStepParent(map, md))
+  const parent_md = toProperNavParent(map, getRouteStepParent(map, md))
 
-  var map_level_num
+  let map_level_num
   if (parent_bwlev) {
     map_level_num = parent_bwlev.state('map_level_num') + 1
   } else {
@@ -25,7 +25,7 @@ export default function _goDeeper(BWL, map, md, parent_bwlev) {
     map_level_num = -1
   }
   // нужно чтобы потом использовать все уровни-предки
-  var parent_lev = parent_bwlev
+  const parent_lev = parent_bwlev
   if (!parent_lev && parent_md) {
     throw new Error('`md.lev` prop dissalowed')
   }
@@ -46,6 +46,6 @@ function getBwlevInParentBwlev(md, map) {
     throw new Error('root map_parent must be `map.mainLevelResident`')
   }
 
-  var parent_bwlev = getBwlevInParentBwlev(toProperNavParent(map, getRouteStepParent(map, md)), map)
+  const parent_bwlev = getBwlevInParentBwlev(toProperNavParent(map, getRouteStepParent(map, md)), map)
   return getBwlevFromParentBwlev(parent_bwlev, md)
 }

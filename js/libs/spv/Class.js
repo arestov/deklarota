@@ -4,7 +4,7 @@ import copyProps from './copyProps'
 import countConstr from './countConstr'
 
 // The base Class implementation (does nothing)
-var Class = function() {}
+const Class = function() {}
 
 // Create a new Class that inherits from this class
 Class.extendTo = function(namedClass, props) {
@@ -13,11 +13,11 @@ Class.extendTo = function(namedClass, props) {
     props = coe(props)
   }
 
-  var _super = this.prototype
+  const _super = this.prototype
 
   // Instantiate a base class (but only create the instance,
   // don't run the init constructor)
-  var prototype = new this()
+  let prototype = new this()
   prototype.constr_id = countConstr()
 
   prototype = copyProps(prototype, props, _super)

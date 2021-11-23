@@ -1,13 +1,13 @@
 
 import looksLikeWrappedJSON from './utils/looksLikeWrappedJSON'
 
-var statePartAsString = function(state_dcl, data) {
+const statePartAsString = function(state_dcl, data) {
   if (!state_dcl) {
     return ''
   }
 
-  var source = state_dcl[1]
-  var value = data[source]
+  const source = state_dcl[1]
+  const value = data[source]
   if (value == null) {
     return ''
   }
@@ -24,15 +24,15 @@ var statePartAsString = function(state_dcl, data) {
 }
 
 
-var toString = function(parsed, data) {
+const toString = function(parsed, data) {
   // 'tracks/[:artist:next_value],[:track]' +  {next_value: 'Mike', track: 'Play With You'}
   // => 'tracks/Mike,Play%20With%20You'
 
-  var parts = parsed.parts
-  var toStrings = new Array(parts.length)
-  for (var i = 0; i < parts.length; i++) {
-    var cur = parts[i]
-    var result = (cur.prefix || '') + statePartAsString(cur.state, data)
+  const parts = parsed.parts
+  const toStrings = new Array(parts.length)
+  for (let i = 0; i < parts.length; i++) {
+    const cur = parts[i]
+    const result = (cur.prefix || '') + statePartAsString(cur.state, data)
     toStrings[i] = result
   }
   return toStrings.join('')

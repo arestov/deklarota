@@ -6,7 +6,7 @@ const attr_events = {
     subscribeToDie(this, cb)
   },
   _bindLight: function(donor, state_name, cb) {
-    var event_name = utils_simple.getSTEVNameLight(state_name)
+    const event_name = utils_simple.getSTEVNameLight(state_name)
     donor.evcompanion._addEventHandler(event_name, cb, this)
 
     this.onDie(function() {

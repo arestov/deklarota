@@ -1,10 +1,10 @@
 import target_types from './target_types'
 
 function addrToLinks(rel_path, chain) {
-  var list = []
+  const list = []
 
-  for (var i = 0; i < rel_path.length; i++) {
-    var rel = rel_path[i]
+  for (let i = 0; i < rel_path.length; i++) {
+    const rel = rel_path[i]
     list.push(new MentionChainLink(chain, i, rel))
   }
 

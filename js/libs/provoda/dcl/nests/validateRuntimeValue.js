@@ -7,7 +7,7 @@ const matchConstuctors = (prts, value_item) => {
     return value_item.constructor === prts.constructor
   }
 
-  for (var i = 0; i < prts.length; i++) {
+  for (let i = 0; i < prts.length; i++) {
     if (value_item.constructor === prts[i].constructor) {
       return true
     }
@@ -49,7 +49,7 @@ const validateConstr = (self, rel_name, rel_shape, value) => {
     return
   }
 
-  for (var i = 0; i < value.length; i++) {
+  for (let i = 0; i < value.length; i++) {
     validateValueConstr(self, rel_name, rel_shape, prts, value[i])
   }
 }

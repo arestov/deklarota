@@ -8,7 +8,7 @@ export default {
       return obj
     }
 
-    for (var p in obj) {
+    for (const p in obj) {
       if (obj.hasOwnProperty(p)) {
         delete obj[p]
       }
@@ -17,7 +17,7 @@ export default {
     return obj
   },
   nullObjValues: function(obj) {
-    for (var p in obj) {
+    for (const p in obj) {
       if (obj.hasOwnProperty(p)) {
         obj[p] = null
       }

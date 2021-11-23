@@ -1,7 +1,7 @@
 
-var none = function() {}
+const none = function() {}
 
-var FstackAtom = function(stack, func, done, data) {
+const FstackAtom = function(stack, func, done, data) {
   this.stack = stack
   this.func = func
   this.func_result = null
@@ -29,12 +29,12 @@ FstackAtom.prototype.abort = function() {
   this.aborted = true
 }
 
-var FuncsStack = function(selectNext, initAtom) {
+const FuncsStack = function(selectNext, initAtom) {
   this.chained = null
   this.arr = []
 
 
-  var _this = this
+  const _this = this
   if (initAtom) {
     this.initAtom = initAtom
   }
@@ -71,8 +71,8 @@ var FuncsStack = function(selectNext, initAtom) {
 FuncsStack.prototype = {
   constructor: FuncsStack,
   next: function(func, data) {
-    var _this = this
-    var atom = new FstackAtom(this.arr, func, this.done, data)
+    const _this = this
+    const atom = new FstackAtom(this.arr, func, this.done, data)
     if (this.initAtom) {
       this.initAtom(atom)
     }
@@ -116,8 +116,8 @@ FuncsStack.prototype = {
 
 
 FuncsStack.chain = function(arr) {
-  var fstack = new FuncsStack()
-  for (var i = 0; i < arr.length; i++) {
+  const fstack = new FuncsStack()
+  for (let i = 0; i < arr.length; i++) {
     fstack.next(arr[i])
   }
   fstack.start(function() {

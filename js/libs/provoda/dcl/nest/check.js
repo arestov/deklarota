@@ -5,23 +5,23 @@ import depricateItem from '../depricateItem'
 
 const Item = depricateItem('use rels.nest')
 
-var getUnprefixed = spv.getDeprefixFunc('nest-')
-var hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
+const getUnprefixed = spv.getDeprefixFunc('nest-')
+const hasPrefixedProps = getPropsPrefixChecker(getUnprefixed)
 
 export default function(self, props) {
-  var
+  const
     has_props = hasPrefixedProps(props)
-  var has_pack = self.hasOwnProperty('nest')
-  var prop
-  var real_name
+  const has_pack = self.hasOwnProperty('nest')
+  let prop
+  let real_name
 
   if (!has_props && !has_pack) {
     return
   }
 
-  var result = {}
+  const result = {}
 
-  var used_props = {}
+  const used_props = {}
 
   if (has_props) {
     for (prop in self) {

@@ -4,16 +4,16 @@ import dom_helpers from '../utils/dom_helpers'
 import getViewLocationId from './getViewLocationId'
 import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 
-var append = dom_helpers.append
-var after = dom_helpers.after
-var detach = dom_helpers.detach
-var before = dom_helpers.before
-var wrap = dom_helpers.wrap
-var dPrev = dom_helpers.prev
-var dIs = dom_helpers.is
-var dUnwrap = dom_helpers.unwrap
+const append = dom_helpers.append
+const after = dom_helpers.after
+const detach = dom_helpers.detach
+const before = dom_helpers.before
+const wrap = dom_helpers.wrap
+const dPrev = dom_helpers.prev
+const dIs = dom_helpers.is
+const dUnwrap = dom_helpers.unwrap
 
-var appendSpace = function() {
+const appendSpace = function() {
   //fixme
   //$(target).append(document.createTextNode(' '));
 }
@@ -34,19 +34,19 @@ export default {
     }
   },
   pvCollectionChange: function(nesname, items, removed) {
-    var pv_views_complex_index = spv.getTargetField(this, this.tpl_children_prefix + nesname)
+    let pv_views_complex_index = spv.getTargetField(this, this.tpl_children_prefix + nesname)
     if (!pv_views_complex_index && this.tpls) {
-      for (var i = 0; i < this.tpls.length; i++) {
+      for (let i = 0; i < this.tpls.length; i++) {
         pv_views_complex_index = spv.getTargetField(this.tpls[i], ['children_templates', nesname])
         if (pv_views_complex_index) {
           break
         }
       }
     }
-    var cur
+    let cur
     if (pv_views_complex_index) {
-      var space_name
-      var array = spv.toRealArray(items)
+      let space_name
+      const array = spv.toRealArray(items)
       if (removed && removed.length) {
         for (space_name in pv_views_complex_index.usual) {
           this.removeViewsByMds(removed, nesname, space_name)
@@ -78,7 +78,7 @@ export default {
     }
   },
   appendNestingViews: function(declr, view_opts, nesname, array, not_request) {
-    var place
+    let place
     if (typeof declr.place == 'string') {
       place = spv.getTargetField(this, declr.place)
     } else if (typeof declr.place == 'function') {
@@ -86,7 +86,7 @@ export default {
     }
 
     array = array && array.map(function(cur) {
-      for (var i = 0; i < declr.is_wrapper_parent; i++) {
+      for (let i = 0; i < declr.is_wrapper_parent; i++) {
         cur = cur.getParentMapModel()
       }
       return cur
@@ -105,11 +105,11 @@ export default {
 
   },
   appendCollection: function(space, funcs, view_opts, nesname, array, not_request) {
-    var location_id = getViewLocationId(this, nesname, space || 'main')
+    const location_id = getViewLocationId(this, nesname, space || 'main')
 
 
 
-    var ordered_rend_list = this.getRendOrderedNesting(nesname, array)
+    const ordered_rend_list = this.getRendOrderedNesting(nesname, array)
     if (ordered_rend_list) {
       this.appendOrderedCollection(space, funcs, view_opts, array, not_request, ordered_rend_list)
     } else {
@@ -119,16 +119,16 @@ export default {
 
 
     //исправляем порядковый номер вьюхи в нэстинге
-    var counter = 0
-    for (var i = 0; i < array.length; i++) {
+    let counter = 0
+    for (let i = 0; i < array.length; i++) {
       const mpx = this.getStoredMpx(array[i])
       if (mpxRemoved(mpx)) {continue}
-      var view = mpx.getView(location_id)
+      const view = mpx.getView(location_id)
       if (view) {
         view._lbr.innesting_pos_current = counter
 
-        var $first = counter === 0
-        var $last = counter === (array.length - 1)
+        const $first = counter === 0
+        const $last = counter === (array.length - 1)
 
         view.current_motivator = this.current_motivator
         _updateAttrsByChanges(view, [
@@ -146,9 +146,9 @@ export default {
     }
   },
   createDOMComplect: function(complects, ordered_complects, view, type) {
-    var comt_id = view.view_id + '_' + type
+    const comt_id = view.view_id + '_' + type
     if (!complects[comt_id]) {
-      var complect = {
+      const complect = {
         fragt: window.document.createDocumentFragment(),
         view: view,
         type: type
@@ -162,15 +162,15 @@ export default {
     if (!this.isAlive()) {
       return
     }
-    var cur = null
-    var view = null
-    var i = 0
-    var prev_view = null
-    var next_view = null
+    let cur = null
+    let view = null
+    let i = 0
+    let prev_view = null
+    let next_view = null
 
-    var location_id = getViewLocationId(this, funcs.nesname, space || 'main')
-    var detached = []
-    var ordered_part
+    const location_id = getViewLocationId(this, funcs.nesname, space || 'main')
+    const detached = []
+    let ordered_part
 
     while (!ordered_part && ordered_rend_list && ordered_rend_list.length) {
       ordered_part = ordered_rend_list && ordered_rend_list.shift()
@@ -179,7 +179,7 @@ export default {
       }
       if (ordered_part) {
         //если у всех приоритезированных моделей уже есть вьюхи, то не не используем преоритезацию
-        var has_any_nonviewed = false
+        let has_any_nonviewed = false
         for (i = 0; i < ordered_part.length; i++) {
           const mpx = this.getStoredMpx(ordered_part[i])
           if (mpxRemoved(mpx)) {continue}
@@ -207,10 +207,10 @@ export default {
       if (view) {
         prev_view = this.getPrevView(array, i, location_id, true)
         if (prev_view) {
-          var current_node = dUnwrap(view.getT())
-          var prev_node = prev_view.getT()
+          const current_node = dUnwrap(view.getT())
+          const prev_node = prev_view.getT()
           if (!dIs(dPrev(current_node), prev_node)) {
-            var parent_node = current_node && current_node.parentNode
+            const parent_node = current_node && current_node.parentNode
             if (parent_node) {
               parent_node.removeChild(current_node)
             }
@@ -226,9 +226,9 @@ export default {
         }
       }
     }
-    var append_list = []
-    var ordered_complects = []
-    var complects = {}
+    const append_list = []
+    const ordered_complects = []
+    const complects = {}
     //view_id + 'after'
 
     //создать контроллеры, которые уже имеют DOM в документе, но ещё не соединены с ним
@@ -266,7 +266,7 @@ export default {
       }
       //cur.append_list = append_list;
     }
-    var apd_views = new Array(append_list.length / 2)
+    const apd_views = new Array(append_list.length / 2)
     for (i = 0; i < append_list.length; i += 2) {
       cur = append_list[ i ]
       var complect = append_list[ i + 1 ]
@@ -346,12 +346,12 @@ export default {
     //присоединить новое
   },
   appendFVAncorByVN: function(opts) {
-    var view = this.getFreeChildView({
+    const view = this.getFreeChildView({
       by_model_name: opts.by_model_name,
       nesting_name: opts.name,
       nesting_space: opts.space
     }, opts.md, opts.opts)
-    var place = opts.place
+    let place = opts.place
     if (place && typeof opts.place == 'function') {
       if ((opts.strict || view) && place) {
         place = opts.place.call(this, opts.md, view, opts.original_md)
@@ -366,13 +366,13 @@ export default {
     }
   },
   checkCollchItemAgainstPvViewByModelName: (function() {
-    var getFreeView = function(cur_md, node_to_use) {
-      var pv_view = this.cur_pv_v_data
+    const getFreeView = function(cur_md, node_to_use) {
+      const pv_view = this.cur_pv_v_data
       if (!pv_view) {
         return
       }
 
-      var view = this.view.getFreeChildView({
+      const view = this.view.getFreeChildView({
         by_model_name: true,
         controller_name: pv_view.controller_name,
         nesting_name: this.nesname,
@@ -398,23 +398,23 @@ export default {
       }
     }
 
-    var appendDirectly = function(fragt) {
+    const appendDirectly = function(fragt) {
       after(this.cur_pv_v_data.comment_anchor, fragt)
     }
 
     return function(nesname, real_array, space_name, pv_v_data) {
 
-      var jobs_by_mn = {}
+      const jobs_by_mn = {}
 
-      for (var i = 0; i < real_array.length; i++) {
-        var cur = real_array[i]
+      for (let i = 0; i < real_array.length; i++) {
+        const cur = real_array[i]
         if (cur.model_name && pv_v_data.index[cur.model_name]) {
           jobs_by_mn[cur.model_name] = jobs_by_mn[cur.model_name] || []
           jobs_by_mn[cur.model_name].push(cur)
         }
       }
 
-      for (var model_name in jobs_by_mn) {
+      for (const model_name in jobs_by_mn) {
         if (jobs_by_mn.hasOwnProperty(model_name)) {
           this.appendCollection(space_name, {
             view: this,
@@ -432,7 +432,7 @@ export default {
   })(),
 
   checkCollchItemAgainstPvView:(function() {
-    var getView = function(cur_md, _space, preffered) {
+    const getView = function(cur_md, _space, preffered) {
       if (this.pv_view.node) {
         if (!preffered || preffered.indexOf(cur_md) != -1) {
           return this.getFreeView(cur_md, this.pv_view.node)
@@ -440,9 +440,9 @@ export default {
       }
     }
 
-    var getFreeView = function(cur_md, node_to_use) {
-      var pv_view = this.pv_view
-      var view = this.view.getFreeChildView({
+    const getFreeView = function(cur_md, node_to_use) {
+      const pv_view = this.pv_view
+      const view = this.view.getFreeChildView({
         by_model_name: false,
         controller_name: pv_view.controller_name,
         nesting_name: this.nesname,
@@ -468,7 +468,7 @@ export default {
       }
     }
 
-    var appendDirectly = function(fragt) {
+    const appendDirectly = function(fragt) {
       after(this.pv_view.comment_anchor, fragt)
     }
 
@@ -487,7 +487,7 @@ export default {
         pv_view.node = null
       }
 
-      var filtered = pv_view.filterFn ? pv_view.filterFn(real_array) : real_array
+      const filtered = pv_view.filterFn ? pv_view.filterFn(real_array) : real_array
 
       this.appendCollection(space_name, {
         view: this,
@@ -505,7 +505,7 @@ export default {
   getPrevView: function(array, start_index, location_id, view_itself) {
 
 
-    var i = start_index - 1
+    let i = start_index - 1
     if (i >= array.length || i < 0) {
       return
     }
@@ -513,8 +513,8 @@ export default {
       const mpx = this.getStoredMpx(array[i])
       if (mpxRemoved(mpx)) {continue}
 
-      var view = mpx.getView(location_id)
-      var dom_hook = view && !view._lbr.detached && view.getT()
+      const view = mpx.getView(location_id)
+      const dom_hook = view && !view._lbr.detached && view.getT()
       if (!dom_hook) {continue}
 
       if (view_itself) {
@@ -526,7 +526,7 @@ export default {
     }
   },
   getNextView: function(array, start_index, location_id, view_itself) {
-    var i = start_index + 1
+    let i = start_index + 1
     if (i >= array.length || i < 0) {
       return
     }
@@ -534,8 +534,8 @@ export default {
       const mpx = this.getStoredMpx(array[i])
       if (mpxRemoved(mpx)) {continue}
 
-      var view = mpx.getView(location_id)
-      var dom_hook = view && !view._lbr.detached && view.getT()
+      const view = mpx.getView(location_id)
+      const dom_hook = view && !view._lbr.detached && view.getT()
       if (!dom_hook) {continue}
 
       if (view_itself) {

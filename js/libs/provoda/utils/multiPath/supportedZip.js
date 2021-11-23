@@ -1,6 +1,6 @@
 
 
-var states = {
+const states = {
   'one': true,
   'all': true,
   'every': true,
@@ -9,7 +9,7 @@ var states = {
   'filter': true,
 }
 
-var nestings = {
+const nestings = {
   'one': true,
   'all': true,
   'notEmpty': true,

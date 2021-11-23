@@ -1,7 +1,7 @@
 import { getStateInfo, getNestInfo, getBaseInfo, updateResultType, getResourceInfo } from './parse'
 import { doCopy } from '../../../spv/cloneObj'
 
-var updatePart = function(addr, part, string) {
+const updatePart = function(addr, part, string) {
   switch (part) {
     case 'state': {
       addr.as_string = null
@@ -34,9 +34,9 @@ var updatePart = function(addr, part, string) {
   }
 }
 
-var createUpdatedAddr = function createUpdatedAddr(addr, updates) {
+const createUpdatedAddr = function createUpdatedAddr(addr, updates) {
   const result = doCopy({}, addr)
-  for (var prop in updates) {
+  for (const prop in updates) {
     if (!updates.hasOwnProperty(prop)) {
       continue
     }

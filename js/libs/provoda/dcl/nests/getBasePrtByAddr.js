@@ -26,7 +26,7 @@ const getAddrBasePrt = (prt, from_base) => {
 
 
 const getBasePrtByAddr = (prt, addr) => {
-  var base = getAddrBasePrt(prt, addr.from_base)
+  const base = getAddrBasePrt(prt, addr.from_base)
 
   if (!addr.resource.path) {
     return base

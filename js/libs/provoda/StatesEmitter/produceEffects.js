@@ -1,30 +1,30 @@
 import spv from '../../spv'
-var countKeys = spv.countKeys
-var CH_GR_LE = 2
+const countKeys = spv.countKeys
+const CH_GR_LE = 2
 
 function checkAndMutateCondReadyEffects(changes_list, self) {
-  var index = self.__api_effects_$_index
+  const index = self.__api_effects_$_index
 
-  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
-    var state_name = changes_list[i]
+  for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
+    const state_name = changes_list[i]
     if (!index[state_name]) {continue}
 
-    var value = changes_list[i + 1]
+    const value = changes_list[i + 1]
 
     self._effects_using.conditions_ready[index[state_name].name] = Boolean(value)
   }
 }
 
 function getCurrentTransactionId(self) {
-  var current_motivator = self._currentMotivator()
-  var id = current_motivator && current_motivator.complex_order[0]
+  const current_motivator = self._currentMotivator()
+  const id = current_motivator && current_motivator.complex_order[0]
   if (id) {
     return id
   }
 }
 
 function getCurrentTransactionKey(self) {
-  var id = getCurrentTransactionId(self)
+  const id = getCurrentTransactionId(self)
   if (id) {
     return id
   }
@@ -37,7 +37,7 @@ function agendaKey(self, initial_transaction_id) {
 }
 
 function ensureEffectStore(self, effect_name, initial_transaction_id) {
-  var key = agendaKey(self, initial_transaction_id)
+  const key = agendaKey(self, initial_transaction_id)
   if (!self._highway.__produce_side_effects_schedule.get(key)) {
     self._highway.__produce_side_effects_schedule.set(key, {})
   }
@@ -53,7 +53,7 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
 }
 
 function scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, new_value, skip_prev) {
-  var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
+  const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
   if (!skip_prev && !effectAgenda.prev_values.hasOwnProperty(state_name)) {
     effectAgenda.prev_values[state_name] = total_original_states.get(state_name)
   }
@@ -62,17 +62,17 @@ function scheduleEffect(self, initial_transaction_id, total_original_states, eff
 }
 
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
-  var index = self.__api_effects_$_index_by_triggering
-  var using = self._effects_using
+  const index = self.__api_effects_$_index_by_triggering
+  const using = self._effects_using
 
-  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
-    var state_name = changes_list[i]
+  for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
+    const state_name = changes_list[i]
     if (!index[state_name]) {
       continue
     }
-    var list = index[state_name]
-    for (var jj = 0; jj < list.length; jj++) {
-      var effect_name = list[jj].name
+    const list = index[state_name]
+    for (let jj = 0; jj < list.length; jj++) {
+      const effect_name = list[jj].name
       if (!using.conditions_ready[effect_name]) {
         continue
       }
@@ -87,16 +87,16 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
 }
 
 function prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect) {
-  for (var i = 0; i < effect.triggering_states.length; i++) {
-    var state_name = effect.triggering_states[i]
+  for (let i = 0; i < effect.triggering_states.length; i++) {
+    const state_name = effect.triggering_states[i]
     scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, self.getAttr(state_name), true)
 
   }
 }
 
 function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states) {
-  var using = self._effects_using
-  var effects = self.__api_effects
+  const using = self._effects_using
+  const effects = self.__api_effects
 
   // маркировать готовые
   /*
@@ -109,16 +109,16 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
   */
   using.dep_effects_ready_is_empty = true
 
-  var has_one = false
+  let has_one = false
 
-  for (var effect_name in using.invalidated) {
+  for (const effect_name in using.invalidated) {
     if (!using.invalidated[effect_name]) {
       continue
     }
 
-    var effect = effects[effect_name]
+    const effect = effects[effect_name]
 
-    var deps_ready = true
+    let deps_ready = true
 
     if (effect.deps && !using.conditions_ready[effect_name]) {
       deps_ready = false
@@ -129,8 +129,8 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
       continue
     }
 
-    for (var cc = 0; cc < effect.apis.length; cc++) {
-      var api = effect.apis[cc]
+    for (let cc = 0; cc < effect.apis.length; cc++) {
+      const api = effect.apis[cc]
 
       if (!self._interfaces_used[api]) {
         deps_ready = false
@@ -151,8 +151,8 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
     }
 
     has_one = true
-    for (var i = 0; i < effect.effects_deps.length; i++) {
-      var dep_effect_name = effect.effects_deps[i]
+    for (let i = 0; i < effect.effects_deps.length; i++) {
+      const dep_effect_name = effect.effects_deps[i]
       if (using.invalidated[dep_effect_name] || !using.once[dep_effect_name]) {
         deps_ready = false
         has_one = false
@@ -170,7 +170,7 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
 }
 
 function handleEffectResult(self, effect, result) {
-  var handle = effect.result_handler
+  const handle = effect.result_handler
   if (!effect.is_async) {
     if (!handle) {return}
     handle(self, result)
@@ -202,10 +202,10 @@ function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) 
 }
 
 function executeEffect(self, effect_name, transaction_id) {
-  var key = agendaKey(self, transaction_id)
-  var trans_store = self._highway.__produce_side_effects_schedule.get(key)
+  const key = agendaKey(self, transaction_id)
+  const trans_store = self._highway.__produce_side_effects_schedule.get(key)
 
-  var agenda = trans_store && trans_store[effect_name]
+  const agenda = trans_store && trans_store[effect_name]
 
   pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key)
 
@@ -215,29 +215,29 @@ function executeEffect(self, effect_name, transaction_id) {
 
 
 
-  var effect = self.__api_effects[effect_name]
+  const effect = self.__api_effects[effect_name]
 
-  var args = new Array(effect.apis.length + effect.triggering_states.length)
-  for (var i = 0; i < effect.apis.length; i++) {
-    var api = self._interfaces_used[effect.apis[i]]
+  const args = new Array(effect.apis.length + effect.triggering_states.length)
+  for (let i = 0; i < effect.apis.length; i++) {
+    const api = self._interfaces_used[effect.apis[i]]
     if (!api) {
       // do not call effect fn
       return
     }
     args[i] = api
   }
-  for (var jj = 0; jj < effect.triggering_states.length; jj++) {
+  for (let jj = 0; jj < effect.triggering_states.length; jj++) {
     args[effect.apis.length + jj] = getValue(self, agenda, effect.triggering_states[jj])
   }
 
-  var result = effect.fn.apply(null, args)
+  const result = effect.fn.apply(null, args)
   handleEffectResult(self, effect, result)
 }
 
 function checkExecuteMutateEffects(initial_transaction_id, self) {
-  var using = self._effects_using
+  const using = self._effects_using
 
-  for (var effect_name in using.dep_effects_ready) {
+  for (const effect_name in using.dep_effects_ready) {
     if (!using.dep_effects_ready[effect_name]) {
       continue
     }
@@ -245,7 +245,7 @@ function checkExecuteMutateEffects(initial_transaction_id, self) {
     // we can push anytimes we want
     // 1st handler will erase agenda, so effects will be called just 1 time
 
-    var effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
+    const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
     effectAgenda.schedule_confirmed = true
 
     using.invalidated[effect_name] = false
@@ -300,8 +300,8 @@ function checkApi(declr, value, self) {
     return
   }
 
-  var args = new Array(declr.needed_apis.length)
-  for (var i = 0; i < declr.needed_apis.length; i++) {
+  const args = new Array(declr.needed_apis.length)
+  for (let i = 0; i < declr.needed_apis.length; i++) {
     args[i] = self._interfaces_used[declr.needed_apis[i]]
   }
 
@@ -311,13 +311,13 @@ function checkApi(declr, value, self) {
 
 function iterateApis(changes_list, context) {
   //index by uniq
-  var index = context.__apis_$_index
+  const index = context.__apis_$_index
   if (!index) {
     return
   }
 
-  for (var i = 0; i < changes_list.length; i += CH_GR_LE) {
-    var state_name = changes_list[i]
+  for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
+    const state_name = changes_list[i]
     if (!index[state_name]) {
       continue
     }
@@ -340,10 +340,10 @@ function scheduleTransactionEnd(self, transaction_key) {
     return
   }
 
-  var calls_flow = self._getCallsFlow()
+  const calls_flow = self._getCallsFlow()
 
-  var tid = getCurrentTransactionId(self)
-  var key = agendaKey(self, transaction_key)
+  const tid = getCurrentTransactionId(self)
+  const key = agendaKey(self, transaction_key)
 
   if (!self._highway.__produce_side_effects_schedule.has(key)) {
     return
@@ -358,21 +358,21 @@ function scheduleTransactionEnd(self, transaction_key) {
 }
 
 function handleTransactionEnd(self, transaction_key) {
-  var key = agendaKey(self, transaction_key)
+  const key = agendaKey(self, transaction_key)
 
   if (!self._highway.__produce_side_effects_schedule.has(key)) {
     return
   }
 
-  var flow = self._getCallsFlow()
-  var tkey = transaction_key
+  const flow = self._getCallsFlow()
+  const tkey = transaction_key
 
-  var effects_schedule = self._highway.__produce_side_effects_schedule.get(key)
-  for (var effect_name in effects_schedule) {
+  const effects_schedule = self._highway.__produce_side_effects_schedule.get(key)
+  for (const effect_name in effects_schedule) {
     if (!effects_schedule.hasOwnProperty(effect_name)) {
       continue
     }
-    var cur = effects_schedule[effect_name]
+    const cur = effects_schedule[effect_name]
     if (!cur.schedule_confirmed) {
       continue
     }

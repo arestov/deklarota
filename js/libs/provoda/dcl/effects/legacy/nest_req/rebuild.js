@@ -11,8 +11,8 @@ export default function buildNestReqs(self, by_name, extended_comp_attrs) {
     sources_names: []
   }
 
-  for (var nest_name in self._nest_reqs) {
-    var cur_nest = self._nest_reqs[nest_name]
+  for (const nest_name in self._nest_reqs) {
+    const cur_nest = self._nest_reqs[nest_name]
     changeSources(self.netsources_of_nestings, cur_nest.send_declr)
 
     if (!cur_nest.state_dep) {

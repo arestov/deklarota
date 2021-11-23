@@ -1,22 +1,22 @@
 
-var push = Array.prototype.push
-var reusable_array = []
+const push = Array.prototype.push
+const reusable_array = []
 
 export default function orderItems(lnwatch) {
   if (!lnwatch.ordered_items_changed) {return}
   lnwatch.ordered_items_changed = false
 
   reusable_array.length = 0
-  for (var prop in lnwatch.model_groups) {
+  for (const prop in lnwatch.model_groups) {
     var cur = lnwatch.model_groups[prop]
     reusable_array.push(cur)
   }
 
   reusable_array.sort(compareComplexOrder)
 
-  var result = lnwatch.ordered_items || []
+  const result = lnwatch.ordered_items || []
   result.length = 0
-  for (var i = 0; i < reusable_array.length; i++) {
+  for (let i = 0; i < reusable_array.length; i++) {
     var cur = reusable_array[i]
     if (cur.models_list) {
       push.apply(result, cur.models_list)
@@ -28,12 +28,12 @@ export default function orderItems(lnwatch) {
 };
 
 function compareComplexOrder(item_one, item_two) {
-  var cur_one = item_one
-  var cur_two = item_two
+  let cur_one = item_one
+  let cur_two = item_two
 
   while (cur_one || cur_two) {
-    var num_one = cur_one && cur_one.position
-    var num_two = cur_two && cur_two.position
+    const num_one = cur_one && cur_one.position
+    const num_two = cur_two && cur_two.position
 
     if (typeof num_one == 'undefined' && typeof num_two == 'undefined') {
       // should not be possible

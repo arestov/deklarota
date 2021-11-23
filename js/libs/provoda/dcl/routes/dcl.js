@@ -6,7 +6,7 @@ import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
 import pvState from '../../utils/state'
 import run from './run'
 
-var getMatched = function(runner) {
+const getMatched = function(runner) {
   if (!runner.matched) {
     runner.matched = []
   }
@@ -14,10 +14,10 @@ var getMatched = function(runner) {
   return runner.matched
 }
 
-var areStatesValid = function(md, states) {
-  for (var jj = 0; jj < states.length; jj++) {
-    var cur = states[jj]
-    var value = pvState(md, cur)
+const areStatesValid = function(md, states) {
+  for (let jj = 0; jj < states.length; jj++) {
+    const cur = states[jj]
+    const value = pvState(md, cur)
     if (value == null) {
       return false
     }
@@ -26,11 +26,11 @@ var areStatesValid = function(md, states) {
   return true
 }
 
-var handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _n3, ordered_items) {
+const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _n3, ordered_items) {
 
-  var runner = lnwatch.data.route_runner
+  const runner = lnwatch.data.route_runner
 
-  var result = getMatched(runner)
+  const result = getMatched(runner)
   runner.matched = null
 
   // reusing
@@ -40,13 +40,13 @@ var handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _
   }
 
 
-  for (var i = 0; i < ordered_items.length; i++) {
-    var cur = ordered_items[i]
+  for (let i = 0; i < ordered_items.length; i++) {
+    const cur = ordered_items[i]
     if (!areStatesValid(cur, runner.dcl.states)) {
       continue
     }
 
-    var key = stringifyRoute(runner.dcl.route, cur.states)
+    const key = stringifyRoute(runner.dcl.route, cur.states)
     result.push(key, cur)
   }
 
@@ -56,7 +56,7 @@ var handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _
 
 }
 
-var handleChangedState = function(motivator, _n1, lnwatch, _changes) {
+const handleChangedState = function(motivator, _n1, lnwatch, _changes) {
   // PLACE TO IMPROVE PERFORMANCE
   // we dont need full run & index rebuilding
   // TODO:
@@ -66,15 +66,15 @@ var handleChangedState = function(motivator, _n1, lnwatch, _changes) {
 
 }
 
-var Route = function(name, data) {
+const Route = function(name, data) {
   this.source = Array.isArray(data) ? data[0] : data
   this.dest = Array.isArray(data) ? data[1] : data
   this.path = name
-  var route = parseRoute(name)
+  const route = parseRoute(name)
 
-  var states = []
-  for (var i = 0; i < route.parts.length; i++) {
-    var cur = route.parts[i]
+  const states = []
+  for (let i = 0; i < route.parts.length; i++) {
+    const cur = route.parts[i]
     if (!cur.state) {
       continue
     }
@@ -83,7 +83,7 @@ var Route = function(name, data) {
 
   this.route = route
 
-  var multi_path = asMultiPath(this.source)
+  const multi_path = asMultiPath(this.source)
   this.states = states
 
   this.nwbase = new NestWatch(multi_path, states, {

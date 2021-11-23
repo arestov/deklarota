@@ -1,13 +1,13 @@
 import { doCopy } from '../../spv/cloneObj'
 import shallowEqual from '../shallowEqual'
 
-var copyProps = function(original_props_raw, extending_values) {
+const copyProps = function(original_props_raw, extending_values) {
   if (!extending_values) {
     return original_props_raw
   }
 
-  var original_props = original_props_raw || {}
-  var result = {}
+  const original_props = original_props_raw || {}
+  const result = {}
   doCopy(result, original_props)
   doCopy(result, extending_values)
 

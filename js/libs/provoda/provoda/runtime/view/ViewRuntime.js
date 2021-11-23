@@ -5,10 +5,10 @@ import initEffects from '../../../StatesEmitter/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 
 function ViewRuntime(optionsRaw) {
-  var options = optionsRaw || {}
+  const options = optionsRaw || {}
 
-  var glo = typeof globalThis !== 'undefined' ? globalThis : window
-  var flow = new CallbacksFlow({
+  const glo = typeof globalThis !== 'undefined' ? globalThis : window
+  const flow = new CallbacksFlow({
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
@@ -21,7 +21,7 @@ function ViewRuntime(optionsRaw) {
 
   initEffects(this)
 
-  var whenAllReady = function(fn) {
+  const whenAllReady = function(fn) {
     flow.pushToFlow(fn, null, null, null, null, null, null, true)
   }
 
@@ -32,22 +32,22 @@ function ViewRuntime(optionsRaw) {
 }
 
 ViewRuntime.prototype.start = function(options) {
-  var self = this
-  var mpx = options.mpx
-  var interfaces = options.interfaces
-  var bwlev = options.bwlev
-  var RootView = options.RootView
+  const self = this
+  const mpx = options.mpx
+  const interfaces = options.interfaces
+  const bwlev = options.bwlev
+  const RootView = options.RootView
 
 
   return new Promise(function(resolve) {
     self.calls_flow.input(function() {
-      var win = interfaces.win
+      const win = interfaces.win
 
-      var all_interfaces = {}
+      const all_interfaces = {}
       cloneObj(all_interfaces, interfaces)
       all_interfaces.whenAllReady = self.whenAllReady
 
-      var view = new RootView({
+      const view = new RootView({
         mpx: mpx,
         whenAllReady: self.whenAllReady,
         proxies_space: options.proxies_space,

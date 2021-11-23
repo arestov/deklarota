@@ -4,10 +4,10 @@ import hp from '../helpers'
 import get_constr from './get_constr'
 
 
-var getEncodedState = hp.getEncodedState
-var getNestingConstr = get_constr.getNestingConstr
+const getEncodedState = hp.getEncodedState
+const getNestingConstr = get_constr.getNestingConstr
 
-var modelInfo = function(md) {
+const modelInfo = function(md) {
   if (typeof md == 'function') {
     return md.prototype
   }
@@ -16,14 +16,14 @@ var modelInfo = function(md) {
 }
 
 
-var getNestReq = function(md, nest_name) {
+const getNestReq = function(md, nest_name) {
   return modelInfo(md)._nest_reqs && modelInfo(md)._nest_reqs[nest_name]
 }
-var getNestConstr = function(md, nest_name) {
+const getNestConstr = function(md, nest_name) {
   return modelInfo(md)._nest_rqc && modelInfo(md)._nest_rqc[nest_name]
 }
 
-var dep_counter = 1
+let dep_counter = 1
 
 function NestingDep(path, needed, nesting_path, limit) {
   this.dep_id = dep_counter++
@@ -34,14 +34,14 @@ function NestingDep(path, needed, nesting_path, limit) {
   this.limit = limit
 }
 
-var preciseNesting = function(app, array, path, original_need) {
-  var index = {}
-  for (var i = 0; i < array.length; i++) {
-    var cur = array[i].prototype
+const preciseNesting = function(app, array, path, original_need) {
+  const index = {}
+  for (let i = 0; i < array.length; i++) {
+    const cur = array[i].prototype
 
-    var dep = new NestingDep(path, original_need)
+    const dep = new NestingDep(path, original_need)
 
-    var checked = checkNestingPath(app, cur, dep, path, original_need)
+    const checked = checkNestingPath(app, cur, dep, path, original_need)
     index[cur.constr_id] = chechTreeStructure(app, cur, checked)
   }
   return {
@@ -52,21 +52,21 @@ var preciseNesting = function(app, array, path, original_need) {
 }
 
 function checkNestingPath(app, md, dep, path, original_need) {
-  var result = []
-  var cur = md
+  const result = []
+  let cur = md
 
-  for (var i = 0; i < path.length; i++) {
-    var nesting_name = path[i]
+  for (let i = 0; i < path.length; i++) {
+    const nesting_name = path[i]
 
-    var constr = getNestingConstr(modelInfo(app), cur, nesting_name)
-    var right_nesting_name = hp.getRightNestingName(cur, nesting_name)
+    const constr = getNestingConstr(modelInfo(app), cur, nesting_name)
+    const right_nesting_name = hp.getRightNestingName(cur, nesting_name)
     if (!constr) {
       console.log('no const', nesting_name)
       break
     }
 
     var type
-    var declr = getNestReq(cur, right_nesting_name)
+    const declr = getNestReq(cur, right_nesting_name)
     if (declr || getNestConstr(cur, right_nesting_name)) {
       type = 'countless'
     } else if (Array.isArray(constr)) {
@@ -76,7 +76,7 @@ function checkNestingPath(app, md, dep, path, original_need) {
       type = 'single'
     }
 
-    var item = {
+    const item = {
       name: nesting_name,
       type: type,
       constr: constr,
@@ -84,7 +84,7 @@ function checkNestingPath(app, md, dep, path, original_need) {
     }
 
     if (type == 'countless') {
-      var countless_nesting_dep = {
+      const countless_nesting_dep = {
         dep_id: dep_counter++,
         type: 'countless_nesting',
         value: right_nesting_name,
@@ -95,7 +95,7 @@ function checkNestingPath(app, md, dep, path, original_need) {
 
       if (declr && declr.state_dep) {
 
-        var state_dep = chechTreeStructure(app, cur, {
+        const state_dep = chechTreeStructure(app, cur, {
           dep_id: dep_counter++,
           type: 'state',
           value: declr.state_dep
@@ -129,24 +129,24 @@ function checkNestingPath(app, md, dep, path, original_need) {
   return dep
 }
 
-var relatedDeps = function(app, md, state_name) {
-  var short_name = state_name
-  var is_compx_state = modelInfo(md).hasComplexStateFn(short_name)
+const relatedDeps = function(app, md, state_name) {
+  const short_name = state_name
+  const is_compx_state = modelInfo(md).hasComplexStateFn(short_name)
   if (!is_compx_state) {
     return null
   }
-  var dependence_list = modelInfo(md).compx_check[short_name].watch_list
+  const dependence_list = modelInfo(md).compx_check[short_name].watch_list
 
 
-  var related = []
+  const related = []
 
-  for (var i = 0; i < dependence_list.length; i++) {
-    var cur = dependence_list[i]
+  for (let i = 0; i < dependence_list.length; i++) {
+    const cur = dependence_list[i]
     if (state_name == cur) {
       continue
     }
 
-    var conv = chechTreeStructure(app, md, {
+    const conv = chechTreeStructure(app, md, {
       dep_id: dep_counter++,
       type: 'state',
       value: cur
@@ -161,8 +161,8 @@ var relatedDeps = function(app, md, state_name) {
   return related
 }
 
-var convertEncoded = function(enc) {
-  var needed = [{
+const convertEncoded = function(enc) {
+  const needed = [{
     dep_id: dep_counter++,
     type: 'state',
     value: enc.state_name
@@ -198,10 +198,10 @@ var convertEncoded = function(enc) {
   }
 }
 
-var getRelated = function(app, md, needed) {
-  var related = []
+const getRelated = function(app, md, needed) {
+  const related = []
 
-  for (var i = 0; i < needed.length; i++) {
+  for (let i = 0; i < needed.length; i++) {
     related.push(chechTreeStructure(app, md, needed[i]))
   }
 
@@ -210,13 +210,13 @@ var getRelated = function(app, md, needed) {
 
 function chechTreeStructure(app, md, dep) {
   if (dep.type == 'state') {
-    var enc = getEncodedState(dep.value)
+    const enc = getEncodedState(dep.value)
     if (!enc) {
       if (dep.needed) {
         console.log(new Error('should not be `needed` here'))
       }
-      var short_name = hp.getShortStateName(dep.value)
-      var can_request = modelInfo(md)._states_reqs_index && modelInfo(md)._states_reqs_index[short_name]
+      const short_name = hp.getShortStateName(dep.value)
+      const can_request = modelInfo(md)._states_reqs_index && modelInfo(md)._states_reqs_index[short_name]
       if (can_request) {
         dep.can_request = true
         return dep
@@ -228,8 +228,8 @@ function chechTreeStructure(app, md, dep) {
       return chechTreeStructure(app, md, convertEncoded(enc))
     }
   } else if (dep.type == 'nesting') {
-    var nesting_dep = dep
-    var last_constr_md = !dep.value.length && md
+    let nesting_dep = dep
+    let last_constr_md = !dep.value.length && md
 
     if (!last_constr_md) {
       nesting_dep = checkNestingPath(app, md, dep, dep.value, dep.needed)
@@ -247,8 +247,8 @@ function chechTreeStructure(app, md, dep) {
     return nesting_dep
   } else if (dep.type == 'parent') {
 
-    var parent_md
-    for (var i = 0; i < dep.value; i++) {
+    let parent_md
+    for (let i = 0; i < dep.value; i++) {
       parent_md = modelInfo(md)._parent_constr.prototype
     }
     dep.related = getRelated(app, parent_md, dep.needed)
@@ -263,17 +263,17 @@ function chechTreeStructure(app, md, dep) {
 }
 
 function flatStruc(md, struc, appArg) {
-  var result = []
+  const result = []
 
-  var app = appArg || md.app
+  const app = appArg || md.app
 
-  var list = flatSources(struc)
-  for (var i = 0; i < list.length; i++) {
+  const list = flatSources(struc)
+  for (let i = 0; i < list.length; i++) {
     if (!list[i]) {
       continue
     }
 
-    var item = chechTreeStructure(app, md, list[i])
+    const item = chechTreeStructure(app, md, list[i])
     if (item) {
       result.push(item)
     }
@@ -281,7 +281,7 @@ function flatStruc(md, struc, appArg) {
   console.log(result)
   return result
 }
-var result = spv.memorize(flatStruc, function(md) {
+const result = spv.memorize(flatStruc, function(md) {
   return modelInfo(md).constr_id
 })
 
@@ -292,14 +292,14 @@ export default result
 function flatSources(struc, parent_path) {
   if (!struc || !struc.main) {return}
 
-  var result_list = []
+  const result_list = []
 
-  var parent = parent_path || []
+  const parent = parent_path || []
 
-  var needed = []
+  const needed = []
 
-  for (var i = 0; i < struc.main.merged_states.length; i++) {
-    var state_name = struc.main.merged_states[i]
+  for (let i = 0; i < struc.main.merged_states.length; i++) {
+    const state_name = struc.main.merged_states[i]
     needed.push({
       dep_id: dep_counter++,
       type: 'state',
@@ -309,11 +309,11 @@ function flatSources(struc, parent_path) {
 
   result_list.push(new NestingDep(parent, needed, null, struc.main.limit))
 
-  var obj = struc.main.m_children.children
-  for (var name in obj) {
-    var copy = parent.slice()
+  const obj = struc.main.m_children.children
+  for (const name in obj) {
+    const copy = parent.slice()
     copy.push(name)
-    var path = copy
+    const path = copy
 
     result_list.push(new NestingDep(path, null, null, obj[name].main && obj[name].main.limit))
 

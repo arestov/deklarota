@@ -17,14 +17,14 @@ import getModelSources from '../structure/getModelSources'
 import showMOnMap from './showMOnMap'
 import getAliveNavPioneer from './getAliveNavPioneer'
 
-var countKeys = spv.countKeys
-var cloneObj = spv.cloneObj
+const countKeys = spv.countKeys
+const cloneObj = spv.cloneObj
 
-var transportName = function(spyglass_name) {
+const transportName = function(spyglass_name) {
   return 'router__' + spyglass_name.replace('/', '__')
 }
 
-var warnStruct = function() {
+const warnStruct = function() {
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
     return
   }
@@ -74,9 +74,9 @@ var BrowseLevel = spv.inh(Model, {
     // 	throw new Error('must have model name');
     // }
 
-    var states = self.init_v2_data.states
+    const states = self.init_v2_data.states
 
-    var pioneer = states['pioneer']
+    const pioneer = states['pioneer']
 
     self.ptree = [self]
     self.rtree = [pioneer]
@@ -183,14 +183,14 @@ var BrowseLevel = spv.inh(Model, {
           return
         }
 
-        var spyglass_view_name = transportName(probe_name)
+        const spyglass_view_name = transportName(probe_name)
 
         if (!struc.m_children.children[spyglass_view_name]) {
           warnStruct()
           return
         }
 
-        var sub_struc = struc.m_children.children[spyglass_view_name].main
+        const sub_struc = struc.m_children.children[spyglass_view_name].main
         return getUsageStruc(pioneer, 'map_slice', sub_struc, this.app)
       }
     ],
@@ -310,13 +310,13 @@ var BrowseLevel = spv.inh(Model, {
   },
 
   navCheckGoalToGetBack: function(goal) {
-    var selected_goal = goal || pvState(this, 'currentGoal')
+    const selected_goal = goal || pvState(this, 'currentGoal')
     if (!selected_goal) {
       // we have no goal. we are free
       this.navGetBack()
     }
 
-    var goals = pvState(this, 'completedGoals')
+    const goals = pvState(this, 'completedGoals')
     if (!goals || !goals[selected_goal]) {
       // goal is incomplete. cant go
       return
@@ -326,13 +326,13 @@ var BrowseLevel = spv.inh(Model, {
     this.navGetBack()
   },
   navGetBack: function() {
-    var req = pvState(this, 'currentReq')
+    const req = pvState(this, 'currentReq')
     if (req && req.current_bwlev_map) {
-      var bwlev = getModelById(this, req.current_bwlev_map)
+      const bwlev = getModelById(this, req.current_bwlev_map)
       changeBridge(bwlev)
       return
     }
-    var referrer = this.getNesting('focus_referrer_bwlev')
+    const referrer = this.getNesting('focus_referrer_bwlev')
     if (referrer) {
       changeBridge(referrer)
       return
@@ -345,10 +345,10 @@ var BrowseLevel = spv.inh(Model, {
 
   },
   followTo: function(id) {
-    var md = getModelById(this, id)
+    const md = getModelById(this, id)
 
     // md.requestPage();
-    var bwlev = followFromTo(BrowseLevel, this.map, this, md)
+    const bwlev = followFromTo(BrowseLevel, this.map, this, md)
     changeBridge(bwlev)
     return bwlev
   },
@@ -362,8 +362,8 @@ var BrowseLevel = spv.inh(Model, {
   },
 
   'stch-mpl_attached': function(target, state) {
-    var md = target.getNesting('pioneer')
-    var obj = pvState(md, 'bmpl_attached')
+    const md = target.getNesting('pioneer')
+    let obj = pvState(md, 'bmpl_attached')
     obj = obj ? cloneObj({}, obj) : {}
     obj[target._provoda_id] = state
     _updateAttr(md, 'bmpl_attached', obj)
@@ -403,8 +403,8 @@ var BrowseLevel = spv.inh(Model, {
 
 function getStrucSources(md, struc) {
   //console.log(struc);
-  var result = {}
-  for (var space_name in struc) {
+  const result = {}
+  for (const space_name in struc) {
     result[space_name] = getModelSources(md.app, md, struc[space_name])
     //var cur = struc[space_name];
   }

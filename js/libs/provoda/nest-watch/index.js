@@ -11,7 +11,7 @@ function initList(self, list) {
     return
   }
 
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     addFrom(self, new LocalWatchRoot(self, list[i]), 0)
   }
 }

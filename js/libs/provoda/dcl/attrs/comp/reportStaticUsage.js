@@ -27,14 +27,14 @@ const reportStaticUsage = (Root, self, attrs) => {
     return
   }
 
-  for (var comp_attr_name in attrs) {
+  for (const comp_attr_name in attrs) {
     if (!attrs.hasOwnProperty(comp_attr_name)) {
       continue
     }
 
     const comp_attr = attrs[comp_attr_name]
 
-    for (var i = 0; i < comp_attr.addrs.length; i++) {
+    for (let i = 0; i < comp_attr.addrs.length; i++) {
       const addr = comp_attr.addrs[i]
       if (!isExternalAttrAddr(addr)) {
         continue

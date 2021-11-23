@@ -18,12 +18,12 @@ const disposeOneMention = function(owner, target, name) {
 }
 
 const disposeMentions = function(self) {
-  for (var name in self.children_models) {
+  for (const name in self.children_models) {
     if (!self.children_models.hasOwnProperty(name)) {
       continue
     }
 
-    var cur = self.children_models[name]
+    const cur = self.children_models[name]
     if (cur == null) {
       continue
     }
@@ -31,7 +31,7 @@ const disposeMentions = function(self) {
     if (!Array.isArray(cur)) {
       disposeOneMention(self, cur, name)
     } else {
-      for (var i = 0; i < cur.length; i++) {
+      for (let i = 0; i < cur.length; i++) {
         disposeOneMention(self, cur[i], name)
       }
     }

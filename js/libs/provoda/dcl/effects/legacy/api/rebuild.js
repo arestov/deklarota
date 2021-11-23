@@ -3,14 +3,14 @@ import spv from '../../../../../spv'
 import indexByDepName from './utils/indexByDepName'
 import getDepsToInsert from './utils/getDepsToInsert'
 
-var usualApis = function(obj) {
+const usualApis = function(obj) {
   if (!obj) {
     return
   }
 
-  var result = []
+  const result = []
 
-  for (var name in obj) {
+  for (const name in obj) {
     if (!obj.hasOwnProperty(name)) {
       continue
     }
@@ -22,7 +22,7 @@ var usualApis = function(obj) {
     result.push(cur)
   }
 
-  for (var prop of Object.getOwnPropertySymbols(obj)) {
+  for (const prop of Object.getOwnPropertySymbols(obj)) {
     var cur = obj[prop]
     if (cur.deps_name) {
       continue
@@ -38,8 +38,8 @@ function checkApi(fn) {
   return function(apis_index, input_acc) {
     if (!apis_index) {return}
 
-    var acc = input_acc
-    for (var api_name in apis_index) {
+    let acc = input_acc
+    for (const api_name in apis_index) {
       if (!apis_index.hasOwnProperty(api_name)) {
         continue
       }
@@ -52,7 +52,7 @@ function checkApi(fn) {
 
     }
 
-    for (var prop of Object.getOwnPropertySymbols(apis_index)) {
+    for (const prop of Object.getOwnPropertySymbols(apis_index)) {
       var api = apis_index[prop]
       if (!api || !api.needed_apis) {
         continue
@@ -65,10 +65,10 @@ function checkApi(fn) {
   }
 }
 
-var rootApis = checkApi(function(acc, api) {
+const rootApis = checkApi(function(acc, api) {
 
-  for (var i = 0; i < api.needed_apis.length; i++) {
-    var cur = api.needed_apis[i]
+  for (let i = 0; i < api.needed_apis.length; i++) {
+    const cur = api.needed_apis[i]
     if (!spv.startsWith(cur, '#')) {
       continue
     }
@@ -78,7 +78,7 @@ var rootApis = checkApi(function(acc, api) {
   return acc
 })
 
-var notEmpty = function(input) {
+const notEmpty = function(input) {
   if (!input || !input.length) {
     return null
   }
@@ -86,7 +86,7 @@ var notEmpty = function(input) {
   return input
 }
 
-var needSelf = checkApi(function(acc, api) {
+const needSelf = checkApi(function(acc, api) {
   return acc || api.needed_apis.indexOf('self') != -1
 })
 
@@ -104,7 +104,7 @@ function wrapAttr(name) {
 
 
 export default function rebuild(self, apis, extended_comp_attrs) {
-  var inserted_names = getDepsToInsert(apis, self, extended_comp_attrs)
+  const inserted_names = getDepsToInsert(apis, self, extended_comp_attrs)
   self.__defined_api_attrs_bool = inserted_names.map(wrapAttr)
 
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index

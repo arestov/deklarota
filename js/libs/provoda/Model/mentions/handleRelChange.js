@@ -22,7 +22,7 @@ function handleRemoveMetion(mentioner, collection_name, target) {
     return
   }
 
-  for (var i = 0; i < target.length; i++) {
+  for (let i = 0; i < target.length; i++) {
     handleRemoveMetionItem(mentioner, collection_name, target[i])
   }
 }
@@ -33,7 +33,7 @@ function handleAddMention(mentioner, collection_name, target) {
     return
   }
 
-  for (var i = 0; i < target.length; i++) {
+  for (let i = 0; i < target.length; i++) {
     handleAddMetionItem(mentioner, collection_name, target[i])
   }
 }
@@ -43,7 +43,7 @@ function handleRemoveMetionItem(mentioner, collection_name, item) {
     return
   }
 
-  var valueOfSet = item.__mentions_as_rel[collection_name]
+  const valueOfSet = item.__mentions_as_rel[collection_name]
   // var old_length = valueOfSet.size
   valueOfSet.delete(mentioner)
 
@@ -66,8 +66,8 @@ function handleAddMetionItem(mentioner, collection_name, item) {
     item.__mentions_as_rel[collection_name] = new Set()
   }
 
-  var valueOfSet = item.__mentions_as_rel[collection_name]
-  var old_length = valueOfSet.size
+  const valueOfSet = item.__mentions_as_rel[collection_name]
+  const old_length = valueOfSet.size
   valueOfSet.add(mentioner)
 
   if (valueOfSet.size == old_length) {

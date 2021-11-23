@@ -1,23 +1,23 @@
 
 import spv from './spv'
 
-var navi = typeof window == 'undefined'
+const navi = typeof window == 'undefined'
   ? {}
   : getNavi()
 
 export default navi
 
 function getNavi() {
-  var history_api = !!(window.history && window.history.pushState)
-  var hash_start = /^\#/
+  const history_api = !!(window.history && window.history.pushState)
+  const hash_start = /^\#/
 
-  var bindLocationChange = function(hashchangeHandler) {
+  const bindLocationChange = function(hashchangeHandler) {
     if (history_api) {
 
       spv.addEvent(window, 'popstate', function(e) {
 
         if (!e.state) {
-          var newhash = decodeURI(window.location.hash).replace(hash_start, '')
+          const newhash = decodeURI(window.location.hash).replace(hash_start, '')
           if (typeof hashchangeHandler == 'function') {
             hashchangeHandler({
               newURL: newhash
@@ -34,9 +34,9 @@ function getNavi() {
       })
     } else if ('onhashchange' in window) {
       (function() {
-        var hash = decodeURI(window.location.hash).replace(hash_start, '')
+        let hash = decodeURI(window.location.hash).replace(hash_start, '')
         spv.addEvent(window, 'hashchange', function() {
-          var newhash = decodeURI(window.location.hash).replace(hash_start, '')
+          const newhash = decodeURI(window.location.hash).replace(hash_start, '')
           if (newhash != hash) {
 
             if (typeof hashchangeHandler == 'function') {
@@ -53,9 +53,9 @@ function getNavi() {
 
     } else{
       (function() {
-        var hash = decodeURI(window.location.hash).replace(hash_start, '')
+        let hash = decodeURI(window.location.hash).replace(hash_start, '')
         setInterval(function() {
-          var newhash = decodeURI(window.location.hash).replace(hash_start, '')
+          const newhash = decodeURI(window.location.hash).replace(hash_start, '')
           if (newhash != hash) {
 
             if (typeof hashchangeHandler == 'function') {
@@ -71,12 +71,12 @@ function getNavi() {
     }
   }
 
-  var navi;
+  let navi;
   (function() {
-    var url_base = null
-    var getURLBase = function() {
+    let url_base = null
+    const getURLBase = function() {
       if (url_base === null) {
-        var cbase
+        let cbase
         if (window.location.href.indexOf('#') > -1) {
           cbase = window.location.href.slice(0, window.location.href.indexOf('#'))
         } else{
@@ -87,7 +87,7 @@ function getNavi() {
 
       return url_base
     }
-    var zerofy = function(str, digits) {
+    const zerofy = function(str, digits) {
       str = '' + str
       if (digits) {
         while (str.length < digits) {
@@ -96,9 +96,9 @@ function getNavi() {
       }
       return str
     }
-    var tag_regexp = /\ ?\$...$/
-    var history_array = []
-    var current_histate = null
+    const tag_regexp = /\ ?\$...$/
+    const history_array = []
+    let current_histate = null
 
     navi = {
       disallow_native_history: false,
@@ -108,13 +108,13 @@ function getNavi() {
 
       init: function(hashChangeRecover) {
         this.hashChangeRecover = hashChangeRecover
-        var _this = this
+        const _this = this
         bindLocationChange(function() {
           _this.hashchangeHandler.apply(_this, arguments)
         })
       },
       getUniqId: function() {
-        var uniq_tag
+        let uniq_tag
         uniq_tag = (uniq_tag = (this.counter++).toString(36)) && zerofy(uniq_tag.substring(uniq_tag.length - 3, uniq_tag.length), 3)
         return uniq_tag
       },
@@ -129,10 +129,10 @@ function getNavi() {
         return this.fake_current_url
       },
       getURLData: function(url) {
-        var parts = url.match(tag_regexp)
-        var tag = parts && parts[0]
-        var clear_url	= url.replace(tag_regexp, '')
-        var uniq_url	= url + (tag || (' $' + this.getUniqId()))
+        const parts = url.match(tag_regexp)
+        const tag = parts && parts[0]
+        const clear_url	= url.replace(tag_regexp, '')
+        const uniq_url	= url + (tag || (' $' + this.getUniqId()))
 
         return {
           clear_url: clear_url,
@@ -141,10 +141,10 @@ function getNavi() {
       },
       _saveHistory: function(url, data, old_url) {
 
-        var fakeud = this.getURLData(this.fake_current_url)
-        var replace = old_url && fakeud.clear_url == this.getURLData(old_url).clear_url
+        const fakeud = this.getURLData(this.fake_current_url)
+        const replace = old_url && fakeud.clear_url == this.getURLData(old_url).clear_url
 
-        var ud = this.getURLData(url)
+        const ud = this.getURLData(url)
         if ((fakeud.clear_url == ud.clear_url) && !replace) {
           return
         }
@@ -154,7 +154,7 @@ function getNavi() {
         }
 
         this.setFakeURL(ud.uniq_url)
-        var history_obj = {
+        const history_obj = {
           url: ud.clear_url,
           data: data,
           num: 0
@@ -176,7 +176,7 @@ function getNavi() {
           return
         }
 
-        var num = (current_histate && current_histate.num)
+        let num = (current_histate && current_histate.num)
         if (typeof num != 'number') {
           num = history_array.length//must be zero
         //if (num !== 0){

@@ -1,10 +1,10 @@
 
 
-var inputs_names = {
+const inputs_names = {
   input: true,
 }
 
-var key_codes_map = {
+const key_codes_map = {
   '13':    'Enter',
   '37':    'Left',
   '39':    'Right',
@@ -15,8 +15,8 @@ var key_codes_map = {
 }
 
 export default function arrowsKeysNav(view, e) {
-  var key_name = key_codes_map[e.keyCode]
-  var allow_pd = !inputs_names.hasOwnProperty(e.target.nodeName.toLowerCase())
+  const key_name = key_codes_map[e.keyCode]
+  const allow_pd = !inputs_names.hasOwnProperty(e.target.nodeName.toLowerCase())
 
   if (key_name && allow_pd) {
     e.preventDefault()

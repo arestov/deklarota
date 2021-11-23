@@ -17,7 +17,7 @@ import {clearCache as clearCacheLegacyAddr} from '../utils/getParsedState.js'
 import splitByDot from '../../spv/splitByDot'
 
 function makePath(parent_path, current_name) {
-  var used_name = [current_name || 'unknown']
+  const used_name = [current_name || 'unknown']
   if (!parent_path) {
     return used_name
   }
@@ -26,10 +26,10 @@ function makePath(parent_path, current_name) {
 }
 
 function mark(Constr, RootConstr, ascent_level, parent_path) {
-  var next_ascent_level = ascent_level + 1
+  const next_ascent_level = ascent_level + 1
   RootConstr.hierarchy_counter = RootConstr.hierarchy_counter || 0
 
-  var self = Constr.prototype
+  const self = Constr.prototype
 
   if (Constr == RootConstr) {
     self.__all_constrs = {}
@@ -43,7 +43,7 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
   self._all_chi = {}
 
-  var all = {}
+  const all = {}
 
   doCopy(all, self._chi)
   doCopy(all, self._chi_sub_pager)
@@ -52,16 +52,16 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
   doCopy(all, self._chi_nest)
   doCopy(all, self._chi_nest_rqc)
 
-  for (var prop in all) {
-    var cur = all[prop]
+  for (const prop in all) {
+    const cur = all[prop]
     if (!cur) {
       self._all_chi[prop] = null
       continue
     }
 
-    var hierarchy_path = makePath(parent_path, cur.prototype.hierarchy_name)
+    const hierarchy_path = makePath(parent_path, cur.prototype.hierarchy_name)
 
-    var item = spv.inh(all[prop], {
+    const item = spv.inh(all[prop], {
       skip_code_path: true
     }, {
       pconstr_id: self.constr_id,
@@ -78,11 +78,11 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
     if (self.zero_map_level) {
       self.start_page = self
     } else {
-      var start_page = self._all_chi['chi-start__page']
+      const start_page = self._all_chi['chi-start__page']
       self.start_page = (start_page && start_page.prototype) || self
     }
 
-    var __BWLev = spv.inh(RootLev, { skip_code_path: true }, self.BWLev || {})
+    const __BWLev = spv.inh(RootLev, { skip_code_path: true }, self.BWLev || {})
     __BWLev.hierarchy_counter = RootConstr.hierarchy_counter++
 
     self.__BWLev = mark(__BWLev, RootConstr, next_ascent_level)

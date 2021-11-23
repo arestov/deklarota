@@ -6,7 +6,7 @@ const handleExpectedRelChange = (chain, current_md) => {
   let complete
   let link_step_value = current_md
 
-  for (var i = 0; i < chain.list.length; i++) {
+  for (let i = 0; i < chain.list.length; i++) {
     const rel_name = chain.list[i].rel
 
     const requesting_action = `requireRel:${rel_name}`
@@ -32,7 +32,7 @@ const handleExpectedRelChange = (chain, current_md) => {
 
   if (complete) {
     const router = getModelById(current_md, chain.handler_payload.data.router_id)
-    var bwlev = showMOnMap(current_md.app.CBWL, router, link_step_value)
+    const bwlev = showMOnMap(current_md.app.CBWL, router, link_step_value)
     bwlev.showOnMap()
   }
 }

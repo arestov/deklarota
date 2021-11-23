@@ -1,5 +1,5 @@
 
-var looksLikeWrappedJSON = function(string) {
+const looksLikeWrappedJSON = function(string) {
   if (typeof string != 'string') {
     return false
   }

@@ -9,9 +9,9 @@ export default function indexByDepName(obj) {
   if (!obj) {
     return
   }
-  var result = {}
+  const result = {}
 
-  for (var name in obj) {
+  for (const name in obj) {
     if (!obj.hasOwnProperty(name)) {
       continue
     }
@@ -19,7 +19,7 @@ export default function indexByDepName(obj) {
     checkAndAdd(result, cur)
   }
 
-  for (var prop of Object.getOwnPropertySymbols(obj)) {
+  for (const prop of Object.getOwnPropertySymbols(obj)) {
     var cur = obj[prop]
     checkAndAdd(result, cur)
   }

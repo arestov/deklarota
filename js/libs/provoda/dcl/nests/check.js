@@ -10,14 +10,14 @@ import NestInput from './input/item'
 
 import buildNest from '../nest/build'
 import buildModel from '../nest_model/build'
-var cloneObj = spv.cloneObj
+const cloneObj = spv.cloneObj
 
-var parse = function(name, data) {
+const parse = function(name, data) {
   if (!data) {
     // allow to erase item
     return null
   }
-  var type = data[0]
+  const type = data[0]
   switch (type) {
     case 'nest': {
       if (!data[1]) {
@@ -50,17 +50,17 @@ var parse = function(name, data) {
   throw new Error('unsupported type ' + type)
 }
 
-var extend = function(index, more_nests) {
-  var cur = cloneObj({}, index) || {}
+const extend = function(index, more_nests) {
+  const cur = cloneObj({}, index) || {}
 
-  for (var name in more_nests) {
-    var data = more_nests[name]
+  for (const name in more_nests) {
+    const data = more_nests[name]
     if (!data) {
       console.warn('implement nest erasing for: ', name)
       continue
     }
 
-    var dcl = parse(name, data)
+    const dcl = parse(name, data)
     cur[name] = {
       dcl: dcl,
       type: data[0],
@@ -70,15 +70,15 @@ var extend = function(index, more_nests) {
   return cur
 }
 
-var byType = function(index) {
-  var result = {}
-  for (var name in index) {
+const byType = function(index) {
+  const result = {}
+  for (const name in index) {
     if (!index.hasOwnProperty(name)) {
       continue
     }
 
-    var cur = index[name]
-    var type = cur.type
+    const cur = index[name]
+    const type = cur.type
 
     result[type] = result[type] || {}
     result[type][name] = cur.dcl
@@ -88,7 +88,7 @@ var byType = function(index) {
 }
 
 
-var notEqual = function(one, two) {
+const notEqual = function(one, two) {
   if (!one || !two) {
     return one !== two
   }
@@ -113,7 +113,7 @@ var notEqual = function(one, two) {
   }
 }
 
-var rebuildType = function(self, type, result) {
+const rebuildType = function(self, type, result) {
   switch (type) {
     case 'nest': {
       buildNest(self, result)
@@ -126,8 +126,8 @@ var rebuildType = function(self, type, result) {
   }
 }
 
-var rebuild = function(self, newV, oldV) {
-  for (var type in newV) {
+const rebuild = function(self, newV, oldV) {
+  for (const type in newV) {
     if (!newV.hasOwnProperty(type)) {
       continue
     }
@@ -140,7 +140,7 @@ var rebuild = function(self, newV, oldV) {
   }
 }
 
-var checkModern = function(self) {
+const checkModern = function(self) {
   const rels = self.hasOwnProperty('rels') && self.rels
   if (!rels) {
     return
@@ -152,18 +152,18 @@ var checkModern = function(self) {
   )
 }
 
-var handleLegacy = function(self, prop, type) {
+const handleLegacy = function(self, prop, type) {
   if (!self.hasOwnProperty(prop)) {
     return
   }
 
-  var result = cloneObj({}, self._extendable_nest_index) || {}
+  const result = cloneObj({}, self._extendable_nest_index) || {}
 
-  for (var name in self[prop]) {
+  for (const name in self[prop]) {
     if (!self[prop].hasOwnProperty(name)) {
       continue
     }
-    var cur = self[prop][name]
+    const cur = self[prop][name]
     result[name] = {
       dcl: cur,
       type: type,
@@ -173,7 +173,7 @@ var handleLegacy = function(self, prop, type) {
   self._extendable_nest_index = result
 }
 
-var checkLegacy = function(self) {
+const checkLegacy = function(self) {
   handleLegacy(self, '_legacy_nest_dcl', 'nest')
   handleLegacy(self, '_chi_nest_conj', 'conj')
   handleLegacy(self, '_chi_nest_sel', 'sel')
@@ -185,8 +185,8 @@ const relToCompAttr = function relToCompAttr(result, comp_rels_list) {
     return
   }
 
-  for (var i = 0; i < comp_rels_list.length; i++) {
-    var cur = comp_rels_list[i]
+  for (let i = 0; i < comp_rels_list.length; i++) {
+    const cur = comp_rels_list[i]
     result[cur.comp_attr.name] = cur.comp_attr
   }
 }
@@ -196,7 +196,7 @@ const checkCompAttrsFromRels = cachedField(
   ['_nest_by_type_listed'],
   false,
   function collectCheck(nest_by_type_listed) {
-    let result = {}
+    const result = {}
 
     relToCompAttr(result, nest_by_type_listed.comp)
     relToCompAttr(result, nest_by_type_listed.conj)
@@ -213,8 +213,8 @@ const attrToRelValue = function relToCompAttr(attr_to_rel_name, comp_rels_list) 
     return
   }
 
-  for (var i = 0; i < comp_rels_list.length; i++) {
-    var cur = comp_rels_list[i]
+  for (let i = 0; i < comp_rels_list.length; i++) {
+    const cur = comp_rels_list[i]
     attr_to_rel_name.set(cur.comp_attr.name, cur.dest_name)
   }
 }
@@ -230,7 +230,7 @@ const checkAttrsToRelValues = cachedField('__attr_to_rel_name', ['_nest_by_type_
 })
 
 export default function checkRels(self) {
-  var currentIndex = self._extendable_nest_index
+  const currentIndex = self._extendable_nest_index
 
   checkLegacy(self)
   checkModern(self)
@@ -240,21 +240,21 @@ export default function checkRels(self) {
   }
 
 
-  var oldByType = self._nest_by_type || {}
+  const oldByType = self._nest_by_type || {}
   self._nest_by_type = byType(self._extendable_nest_index)
 
   rebuild(self, self._nest_by_type, oldByType)
 
   self._nest_by_type_listed = {}
-  for (var type_name in self._nest_by_type) {
+  for (const type_name in self._nest_by_type) {
     if (!self._nest_by_type.hasOwnProperty(type_name)) {
       continue
     }
 
-    var result = []
+    const result = []
 
-    var cur = self._nest_by_type[type_name]
-    for (var nest_name in cur) {
+    const cur = self._nest_by_type[type_name]
+    for (const nest_name in cur) {
       if (!cur.hasOwnProperty(nest_name)) {
         continue
       }

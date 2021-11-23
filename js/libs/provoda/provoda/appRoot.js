@@ -11,13 +11,13 @@ export default function(props, init) {
     return prepare(props)
   }
 
-  var all = {}
+  const all = {}
   if (init) {
     all.init = init
   }
   all.skip_code_path = true
 
-  var App = spv.inh(AppModel, all, props)
+  const App = spv.inh(AppModel, all, props)
   return prepare(App)
 
 }

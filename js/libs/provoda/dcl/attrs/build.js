@@ -33,7 +33,7 @@ const collectAllComp = cachedField(
 
     doCopy(result, glue)
 
-    for (var name in arg1) {
+    for (const name in arg1) {
       if (!arg1.hasOwnProperty(name)) {
         continue
       }
@@ -44,7 +44,7 @@ const collectAllComp = cachedField(
       result[name] = arg1[name]
     }
 
-    for (var prop of Object.getOwnPropertySymbols(arg1)) {
+    for (const prop of Object.getOwnPropertySymbols(arg1)) {
       result[prop] = arg1[prop]
     }
 

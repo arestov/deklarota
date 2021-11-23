@@ -2,19 +2,19 @@
 import getModels from '../../../utils/multiPath/getModels'
 
 
-var getModelsFromBase = function(base, target, passed_data) {
-  var multi_path = target.target_path
+const getModelsFromBase = function(base, target, passed_data) {
+  const multi_path = target.target_path
   return getModels(base, multi_path, passed_data, Boolean(target.options && target.options.action))
 }
 
-var getModelsFromManyBases = function(bases, target, passed_data) {
+const getModelsFromManyBases = function(bases, target, passed_data) {
   if (!Array.isArray(bases)) {
     return getModelsFromBase(bases, target, passed_data)
   }
 
-  var result = []
-  for (var i = 0; i < bases.length; i++) {
-    var mds = getModelsFromBase(bases[i], target, passed_data)
+  const result = []
+  for (let i = 0; i < bases.length; i++) {
+    const mds = getModelsFromBase(bases[i], target, passed_data)
     if (Array.isArray(mds)) {
       Array.prototype.push.apply(result, mds)
     } else {
@@ -27,7 +27,7 @@ var getModelsFromManyBases = function(bases, target, passed_data) {
   return result
 }
 
-var getTargetModels = function(md, target, passed_data) {
+const getTargetModels = function(md, target, passed_data) {
   switch (target.options && target.options.base) {
     case 'arg_nesting_next': {
       return getModelsFromManyBases(passed_data.next_value, target, passed_data)

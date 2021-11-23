@@ -3,14 +3,14 @@ import spv from '../spv'
 import allStates from './dcl/routes/allStates'
 import getModernPage from './dcl/routes/getByName'
 import createModern from './dcl/routes/createModern'
-var selectModern = createModern.selectModern
+const selectModern = createModern.selectModern
 
-var cloneObj = spv.cloneObj
-var getSPI = getterSPI()
-var getSPIConstr = getterSPIConstr()
+const cloneObj = spv.cloneObj
+const getSPI = getterSPI()
+const getSPIConstr = getterSPIConstr()
 const MARKED_REMOVED = Symbol()
 
-var routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options, extra_states) {
+const routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options, extra_states) {
 
   if (!pth_string) {
     throw new Error('Empty path can\'t be used. Use / to get start page')
@@ -35,17 +35,17 @@ var routePathByModels = function routePathByModels(start_md, pth_string, need_co
   #/ds/vk/25325_2344446
   http://www.lastfm.ru/music/65daysofstatic/+similar
   */
-  var cleanPath = pth_string.replace(/^\//, '').replace(/([^\/])\+/g, '$1 ')/*.replace(/^\//,'')*/
+  const cleanPath = pth_string.replace(/^\//, '').replace(/([^\/])\+/g, '$1 ')/*.replace(/^\//,'')*/
   if (!cleanPath) {
     return start_md
   }
-  var pth = cleanPath.split('/')
+  const pth = cleanPath.split('/')
 
-  var cur_md = start_md
-  var result = null
-  var tree_parts_group = null
-  for (var i = 0; i < pth.length; i++) {
-    var types = spv.getTargetField(cur_md, '_sub_pager.type')
+  let cur_md = start_md
+  let result = null
+  let tree_parts_group = null
+  for (let i = 0; i < pth.length; i++) {
+    const types = spv.getTargetField(cur_md, '_sub_pager.type')
     if (types && types[pth[i]]) {
       if (!tree_parts_group) {
         tree_parts_group = []
@@ -56,7 +56,7 @@ var routePathByModels = function routePathByModels(start_md, pth_string, need_co
 
     var path_full_string
     if (tree_parts_group) {
-      var full = tree_parts_group.slice(0)
+      const full = tree_parts_group.slice(0)
       full.push(pth[i])
       path_full_string = full.join('/')
     } else {
@@ -65,7 +65,7 @@ var routePathByModels = function routePathByModels(start_md, pth_string, need_co
     tree_parts_group = null
 
     if (need_constr) {
-      var Constr = getSPIConstr(cur_md, path_full_string)
+      const Constr = getSPIConstr(cur_md, path_full_string)
       if (!Constr) {
         throw new Error('you must use supported path')
       } else {
@@ -75,7 +75,7 @@ var routePathByModels = function routePathByModels(start_md, pth_string, need_co
       continue
     }
 
-    var md = getSPI(cur_md, path_full_string, options, extra_states)
+    const md = getSPI(cur_md, path_full_string, options, extra_states)
     if (md) {
       cur_md = md
       result = md
@@ -94,7 +94,7 @@ function slash(str) {
 }
 
 function subPageType(type_obj, parts) {
-  var target = type_obj[decodeURIComponent(parts[0])]
+  const target = type_obj[decodeURIComponent(parts[0])]
   if (typeof target !== 'function') {
     return target || null
   }
@@ -107,13 +107,13 @@ function selectRouteItem(self, sp_name) {
     return self._sub_pages[sp_name]
   }
 
-  var sub_pager = self._sub_pager
+  const sub_pager = self._sub_pager
   if (sub_pager) {
     if (sub_pager.item) {
       return sub_pager.item
     } else {
-      var types = sub_pager.by_type
-      var type = subPageType(sub_pager.type, slash(sp_name))
+      const types = sub_pager.by_type
+      const type = subPageType(sub_pager.type, slash(sp_name))
       if (type && !types[type]) {
         throw new Error('unexpected type: ' + type + ', expecting: ' + Object.keys(type))
       }
@@ -129,7 +129,7 @@ function selectRouteItem(self, sp_name) {
 }
 
 function getterSPI() {
-  var init = function(parent, target, data) {
+  const init = function(parent, target, data) {
     if (target.hasOwnProperty('_provoda_id')) {
       return target
     }
@@ -139,8 +139,8 @@ function getterSPI() {
     return target
   }
 
-  var prepare = function(self, item, sp_name, slashed, extra_states) {
-    var Constr = self._all_chi[item.key]
+  const prepare = function(self, item, sp_name, slashed, extra_states) {
+    const Constr = self._all_chi[item.key]
     /*
 
     берем данные из родителя
@@ -148,18 +148,18 @@ function getterSPI() {
     накладываем данные из урла
     */
 
-    var byType = item.byType
+    const byType = item.byType
 
-    var normal_part = byType ? slashed.slice(1) : slashed
-    var by_colon = normal_part[0].split(':').map(decodeURIComponent)
-    var by_comma = normal_part[0].split(',').map(decodeURIComponent)
-    var by_slash = normal_part.map(decodeURIComponent)
+    const normal_part = byType ? slashed.slice(1) : slashed
+    const by_colon = normal_part[0].split(':').map(decodeURIComponent)
+    const by_comma = normal_part[0].split(',').map(decodeURIComponent)
+    const by_slash = normal_part.map(decodeURIComponent)
 
-    var states = {
+    const states = {
       url_part: '/' + sp_name
     }
 
-    var hbu_data = {
+    const hbu_data = {
       simple_name: sp_name,
       decoded_name: decodeURIComponent(sp_name),
       name_spaced: by_colon[1],
@@ -168,10 +168,10 @@ function getterSPI() {
       by_slash: by_slash,
     }
 
-    var hbu_declr = item.getHead
-    var morph_helpers = self.app.morph_helpers
+    const hbu_declr = item.getHead
+    const morph_helpers = self.app.morph_helpers
 
-    var head_by_urlname = hbu_declr && hbu_declr(hbu_data, null, morph_helpers)
+    const head_by_urlname = hbu_declr && hbu_declr(hbu_data, null, morph_helpers)
 
     if (Constr.prototype.handling_v2_init) {
       return self.initSi(Constr, {
@@ -183,7 +183,7 @@ function getterSPI() {
       })
     }
 
-    var instance_data = {}
+    const instance_data = {}
     cloneObj(instance_data, states)
     instance_data.head = head_by_urlname
 
@@ -192,8 +192,8 @@ function getterSPI() {
 
 
   return function getSPI(self, sp_name, options, extra_states) {
-    var autocreate = !options || options.autocreate !== false
-    var reuse = options && options.reuse
+    const autocreate = !options || options.autocreate !== false
+    const reuse = options && options.reuse
 
     if (self.__routes_matchers_defs != null) {
       var item = getModernPage(self, sp_name)
@@ -201,7 +201,7 @@ function getterSPI() {
         return item
       }
 
-      var created = autocreate && createModern(self, sp_name)
+      const created = autocreate && createModern(self, sp_name)
       if (created) {
         watchModelDie(self, created)
         return created
@@ -211,7 +211,7 @@ function getterSPI() {
 
     var item = selectRouteItem(self, sp_name)
     if (item != null) {
-      var can_be_reusable = item.can_be_reusable
+      const can_be_reusable = item.can_be_reusable
       if (reuse && can_be_reusable && self._last_subpages[item.key]) {
         var instance = self._last_subpages[item.key]
         if (instance.state('$$reusable_url')) {
@@ -219,8 +219,8 @@ function getterSPI() {
         }
       }
 
-      var getKey = item.getKey
-      var key = getKey ? getKey(decodeURIComponent(sp_name), sp_name) : sp_name
+      const getKey = item.getKey
+      const key = getKey ? getKey(decodeURIComponent(sp_name), sp_name) : sp_name
 
       if (self.sub_pages && self.sub_pages[key]) {
         if (self.sub_pages[key] === MARKED_REMOVED) {
@@ -254,7 +254,7 @@ function getterSPI() {
         return null
       }
 
-      var sub_page = self.subPager(decodeURIComponent(sp_name), sp_name)
+      const sub_page = self.subPager(decodeURIComponent(sp_name), sp_name)
       var instance = Array.isArray(sub_page)
         ? init(self, sub_page[0], sub_page[1])
         : sub_page
@@ -270,18 +270,18 @@ function getterSPI() {
 
 function getterSPIConstr() {
   return function(self, sp_name) {
-    var modern = selectModern(self, sp_name)
+    const modern = selectModern(self, sp_name)
     if (modern) {
       return modern.Constr
     }
 
-    var item = selectRouteItem(self, sp_name)
+    const item = selectRouteItem(self, sp_name)
     if (item) {
       return self._all_chi[item.key]
     }
 
     if (self.subPager) {
-      var result = self.getSPC(decodeURIComponent(sp_name), sp_name)
+      const result = self.getSPC(decodeURIComponent(sp_name), sp_name)
       if (Array.isArray(result)) {
         return result[0]
       } else {
@@ -292,18 +292,18 @@ function getterSPIConstr() {
 }
 
 function watchModelDie(self, instance) {
-  var sub_pages = self.sub_pages
+  let sub_pages = self.sub_pages
   instance.onDie(function() {
     if (sub_pages == null) {
       return
     }
 
-    for (var key in sub_pages) {
+    for (const key in sub_pages) {
       if (!sub_pages.hasOwnProperty(key)) {
         continue
       }
 
-      var cur = sub_pages[key]
+      const cur = sub_pages[key]
       if (cur !== instance) {
         continue
       }
@@ -320,7 +320,7 @@ function watchSubPageKey(self, instance, key) {
     return
   }
 
-  var cur_key = key
+  let cur_key = key
 
   self.lwch(instance, 'url_part', function(value) {
     if (self.sub_pages[cur_key] === instance) {

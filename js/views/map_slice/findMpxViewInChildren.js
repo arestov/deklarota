@@ -2,14 +2,14 @@
 
 export default function findMpxViewInChildren(self, mpx, nesting_space, nesting_name) {
   nesting_space = nesting_space || 'main'
-  var i
-  var views = mpx.getViews()
+  let i
+  const views = mpx.getViews()
 
 
-  var children = []
+  const children = []
 
   for (i = 0; i < self.children.length; i++) {
-    var cur = self.children[i]
+    const cur = self.children[i]
     if (cur.nesting_space != nesting_space) {
       continue
     }

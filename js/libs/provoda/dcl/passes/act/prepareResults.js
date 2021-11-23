@@ -3,15 +3,15 @@ import getTargetModels from './getTargetModels'
 import prepareNestingValue from './prepareNestingValue'
 import spv from '../../../../spv'
 import noopForPass from '../noop'
-var countKeys = spv.countKeys
-var initPassedValue = prepareNestingValue.initPassedValue
+const countKeys = spv.countKeys
+const initPassedValue = prepareNestingValue.initPassedValue
 
-var isRedirectAction = function(target) {
+const isRedirectAction = function(target) {
   return Boolean(target.options && target.options.action)
 }
 
-var prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref) {
-  var multi_path = target.target_path
+const prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+  const multi_path = target.target_path
 
   switch (multi_path.result_type) {
     case 'nesting': {
@@ -28,7 +28,7 @@ var prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref)
   }
 }
 
-var getProperDestValue = function(target, value, i) {
+const getProperDestValue = function(target, value, i) {
   // when `pass` option map_values_list_to_target === true
   // map value from values list to model from targets list
 
@@ -39,7 +39,7 @@ var getProperDestValue = function(target, value, i) {
   return value[i]
 }
 
-var unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref, mut_result) {
+const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref, mut_result) {
   if (isRedirectAction(target)) {
     var models = getTargetModels(md, target, data)
     if (!Array.isArray(models)) {
@@ -89,19 +89,19 @@ var unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref, m
 
 }
 
-var completeValues = function(list, mut_refs_index, mut_wanted_ref) {
-  var lst_wanted = mut_wanted_ref
+const completeValues = function(list, mut_refs_index, mut_wanted_ref) {
+  let lst_wanted = mut_wanted_ref
 
   while (true) {
-    var local_wanted = {}
+    const local_wanted = {}
 
-    for (var i = 0; i < list.length; i++) {
-      var cur = list[i]
-      var target = cur.target
+    for (let i = 0; i < list.length; i++) {
+      const cur = list[i]
+      const target = cur.target
       if (isRedirectAction(target)) {
         continue
       }
-      var multi_path = target.target_path
+      const multi_path = target.target_path
       if (multi_path.result_type !== 'nesting') {
         continue
       }
@@ -130,9 +130,9 @@ var completeValues = function(list, mut_refs_index, mut_wanted_ref) {
 
 export default function(md, dcl, value, data) {
 
-  var mut_result = []
-  var mut_refs_index = {}
-  var mut_wanted_ref = {}
+  const mut_result = []
+  const mut_refs_index = {}
+  const mut_wanted_ref = {}
 
   if (!dcl.targeted_results_list) {
     unwrap(md, dcl.targeted_single_result, value, data, mut_refs_index, mut_wanted_ref, mut_result)
@@ -144,12 +144,12 @@ export default function(md, dcl, value, data) {
     throw new Error('return object from handler')
   }
 
-  for (var i = 0; i < dcl.targeted_results_list.length; i++) {
-    var cur = dcl.targeted_results_list[i]
+  for (let i = 0; i < dcl.targeted_results_list.length; i++) {
+    const cur = dcl.targeted_results_list[i]
     if (!value.hasOwnProperty(cur.result_name)) {
       continue
     }
-    var cur_value = value[cur.result_name]
+    const cur_value = value[cur.result_name]
     if (cur_value === noopForPass) {
       continue
     }
