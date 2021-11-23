@@ -15,8 +15,8 @@ export default function(self) {
   const list = new Array(self.__routes_matchers_defs.length)
 
   for (let i = 0; i < self.__routes_matchers_defs.length; i++) {
-    var cur = self.__routes_matchers_defs[i]
-    var cur = new RouteRunner(self, cur)
+    const cur1 = self.__routes_matchers_defs[i]
+    const cur = new RouteRunner(self, cur1)
     list[i] = cur
     addFrom(self, cur.lnwatch)
   }
