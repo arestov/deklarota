@@ -48,7 +48,7 @@ const getLinedStructure = function(models_index_raw, local_index_raw) {
         continue
       }
 
-      var array
+      let array
       if (Array.isArray(cur)) {
         array = cur
       } else {
