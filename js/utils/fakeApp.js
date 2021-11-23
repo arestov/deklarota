@@ -4,7 +4,7 @@ import prepare from '../libs/provoda/structure/prepare'
 
 
 export default function fakeApp(props, init) {
-  const initSelf = init || function () {}
+  const initSelf = init || function noop() {}
   const all = {
     init: initSelf,
   }
