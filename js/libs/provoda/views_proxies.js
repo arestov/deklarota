@@ -188,9 +188,8 @@ Proxies.prototype = {
   killMD: function(md) {
     for (let i = 0; i < this.spaces_list.length; i++) {
       const cur = this.spaces_list[i]
-      var mpx = cur.mpxes_index[md._provoda_id]
       if (cur.ids_index[md._provoda_id]) {
-        var mpx = cur.mpxes_index[md._provoda_id]
+        const mpx = cur.mpxes_index[md._provoda_id]
         mpx.die()
         mpx.dispose()
         cur.mpxes_index[md._provoda_id] = null

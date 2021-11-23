@@ -443,19 +443,19 @@ export default spv.inh(View, {
     return findMpxViewInChildren(this, this.getStoredMpx(target_bwlev), dclr.space, 'map_slice')
   },
 
-  getMapSliceImmediateChildView: function(bwlev, md) {
+  getMapSliceImmediateChildView: function(bwlev) {
     // md of parent view could differ from md.map_parent
-    var md = getNesting(bwlev, 'pioneer')
+    const md = getNesting(bwlev, 'pioneer')
 
     const bwlev_view = this.getMapSliceView(bwlev, md)
-    var view = bwlev_view && findMpxViewInChildren(bwlev_view, this.getStoredMpx(md))
+    const view = bwlev_view && findMpxViewInChildren(bwlev_view, this.getStoredMpx(md))
     if (!view) {
       return
     }
     let target_in_parent = findMpxViewInChildren(view, this.getStoredMpx(md))
     if (!target_in_parent) {
-      var view = view.getChildViewsByMpx(this.getStoredMpx(md))
-      target_in_parent = view && view[0]
+      const view_in_view = view.getChildViewsByMpx(this.getStoredMpx(md))
+      target_in_parent = view_in_view && view_in_view[0]
     }
     return target_in_parent
   },
