@@ -340,7 +340,7 @@ spv.cloneObj(props, {
       this.c._provoda_view = null
 
       // legacy. when this.c is jquery wrapper
-      for (var i = 0; i < this.c.length; i++) {
+      for (let i = 0; i < this.c.length; i++) {
         this.c[i]._provoda_view = null
       }
     }
@@ -349,7 +349,7 @@ spv.cloneObj(props, {
     this.c = null
 
     if (this.base_skeleton) {
-      for (var i = 0; i < this.base_skeleton.length; i++) {
+      for (let i = 0; i < this.base_skeleton.length; i++) {
         dWrap(this.base_skeleton[i].node) // remove?
       }
       this.base_skeleton = null
@@ -364,7 +364,7 @@ spv.cloneObj(props, {
     }
 
     if (this.tpls) {
-      for (var i = 0; i < this.tpls.length; i++) {
+      for (let i = 0; i < this.tpls.length; i++) {
         this.tpls[i].root_node_raw._provoda_view = null
         this.tpls[i].destroy()
       }
@@ -382,7 +382,7 @@ spv.cloneObj(props, {
 
 
     if (this.dom_related_props) {
-      for (i = 0; i < this.dom_related_props.length; i++) {
+      for (let i = 0; i < this.dom_related_props.length; i++) {
         this[this.dom_related_props[i]] = null
       }
     }

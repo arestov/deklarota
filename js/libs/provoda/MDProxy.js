@@ -157,26 +157,26 @@ Object.assign(MDProxy.prototype, {
 
   stackReceivedStates: function(states_list) {
     // should be scheduled using context's mircotasks
-    for (var i = 0; i < states_list.length; i += CH_GR_LE) {
+    for (let i = 0; i < states_list.length; i += CH_GR_LE) {
       this.__notifyAttrChangeWatchers(states_list[i], states_list[i + 1])
     }
 
     if (!this.views) {
       return
     }
-    for (var i = 0; i < this.views.length; i++) {
+    for (let i = 0; i < this.views.length; i++) {
       this.views[i].stackReceivedChanges(states_list)
     }
   },
   sendStatesToViews: function(states_list, opts) {
-    for (var i = 0; i < states_list.length; i += CH_GR_LE) {
+    for (let i = 0; i < states_list.length; i += CH_GR_LE) {
       this.__notifyAttrChangeWatchers(states_list[i], states_list[i + 1])
     }
 
     if (!this.views) {
       return
     }
-    for (var i = 0; i < this.views.length; i++) {
+    for (let i = 0; i < this.views.length; i++) {
       this.views[i].receiveStatesChanges(states_list, opts)
     }
   },

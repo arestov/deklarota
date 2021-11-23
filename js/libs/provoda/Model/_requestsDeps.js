@@ -40,7 +40,8 @@ const getLimit = function(dep, supervision) {
     return Infinity
   }
 
-  for (var i = 0; i < dep.nesting_path.length; i++) {
+  let i
+  for (i = 0; i < dep.nesting_path.length; i++) {
     let cur = dep.nesting_path[i]
     if (cur.type == 'countless') {
       break
