@@ -20,7 +20,7 @@ const handleNesting = function(cur, models_index, local_index, all_for_parse) {
 
   if (!Array.isArray(cur)) {
     if (cur.each_items) {
-      for (var i = 0; i < cur.each_items.length; i++) {
+      for (let i = 0; i < cur.each_items.length; i++) {
         checkModel(cur.each_items[i], models_index, local_index, all_for_parse)
       }
 
@@ -40,7 +40,7 @@ const handleNesting = function(cur, models_index, local_index, all_for_parse) {
   }
 
   const array = new Array(cur.length)
-  for (var i = 0; i < cur.length; i++) {
+  for (let i = 0; i < cur.length; i++) {
     array[i] = checkModel(cur[i], models_index, local_index, all_for_parse)
   }
   return array
