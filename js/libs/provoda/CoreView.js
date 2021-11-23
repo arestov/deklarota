@@ -303,15 +303,15 @@ var View = spv.inh(StatesEmitter, {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateToResource', this.mpx._provoda_id)
     },
-    navigateByLocator (e, node, locator) {
+    navigateByLocator(e, node, locator) {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateByLocator', this.mpx._provoda_id, locator)
     },
-    navigateRouterToResource (e, node, router) {
+    navigateRouterToResource(e, node, router) {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
     },
-    navigateRouterByLocator (e, node, router, locator) {
+    navigateRouterByLocator(e, node, router, locator) {
       var contextRouter = getContextRouter(this)
       contextRouter.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
     },

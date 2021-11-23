@@ -17,12 +17,12 @@ import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 
 export const BasicRouter = spv.inh(Model, {
-  naming: function (fn) {
-		return function BasicRouter (opts, data, params, more, states) {
+  naming: function(fn) {
+		return function BasicRouter(opts, data, params, more, states) {
 			fn(this, opts, data, params, more, states)
 		}
 	},
-  init: function (self) {
+  init: function(self) {
     self.bwlevs = {}
 
     if (!self.model_name) {
@@ -49,12 +49,12 @@ export const BasicRouter = spv.inh(Model, {
 })
 
 export default spv.inh(BasicRouter, {
-  naming: function (fn) {
-    return function Router (opts, data, params, more, states) {
+  naming: function(fn) {
+    return function Router(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function (self) {
+  init: function(self) {
     self.mainLevelResidents = null // BrowseLevel, showMOnMap
     self.bridge_bwlev = null
     self.mainLevelResidents = null

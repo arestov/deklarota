@@ -48,7 +48,7 @@ FakeModel.prototype = {
   getNesting: function(rel_name) {
     return this.children_models[rel_name]
   },
-  getAttr: function (attr_name) {
+  getAttr: function(attr_name) {
     return this.states[attr_name]
   }
 }

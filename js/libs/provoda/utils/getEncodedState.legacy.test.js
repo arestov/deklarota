@@ -7,7 +7,7 @@ import modernAsLegacyParsed from './modernAsLegacyParsed'
 
 describe('modern addr used as legacy addr', () => {
   beforeEach(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
   })
   it.each([
     ['^auth_token'],
