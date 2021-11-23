@@ -8,16 +8,6 @@ import splitByDot from './spv/splitByDot'
 
 const spv = {}
 
-
-let getFields
-let getTargetField
-let sortByRules
-let makeIndexByField
-let $filter
-let getUnitBaseNum
-let debounce
-let throttle
-
 spv.getArrayNoDubs = function(array, clean_array) {
   clean_array = clean_array || []
   for (let i = 0; i < array.length; i++) {
@@ -101,7 +91,7 @@ spv.domReady = function(d, callback) {
     callback()
   } else{
     let done
-    var f = function() {
+    const f = function() {
       if (!done) {
         done = true
         spv.removeEvent(wndw, 'load', f)
@@ -201,7 +191,7 @@ const getFieldsTree = function getFieldsTree(string) {
 }
 spv.getFieldsTree = getFieldsTree
 
-getTargetField = function getTargetField(obj, path) {
+const getTargetField = (obj, path) => {
   if (path == null) {return obj}
   if (obj == null) {return obj}
 
@@ -217,7 +207,7 @@ getTargetField = function getTargetField(obj, path) {
   return target
 }
 
-getFields = function(obj, fields) {
+const getFields = function(obj, fields) {
   const r = []
   for (let i = 0; i < fields.length; i++) {
     const cur = fields[i]
@@ -257,7 +247,7 @@ spv.matchWords = function(source, query) {
     r.forward = true
     let any_order = true
     const source_sliced = source
-    for (var i = 0; i < words.length; i++) {
+    for (let i = 0; i < words.length; i++) {
       const index = source_sliced.indexOf(words[i])
       if (index != -1) {
         source_sliced.slice(index + words[i].length)
@@ -267,7 +257,7 @@ spv.matchWords = function(source, query) {
       }
     }
     if (!r.forward) {
-      for (var i = 0; i < words.length; i++) {
+      for (let i = 0; i < words.length; i++) {
         if (source.indexOf(words[i]) == -1) {
           any_order = false
           break
@@ -486,7 +476,7 @@ spv.compareArray = function compareArray(one, two) {
   }
 }
 
-sortByRules = spv.sortByRules = function sortByRules(a, b, rules) {
+const sortByRules = spv.sortByRules = function sortByRules(a, b, rules) {
   if (a instanceof Object && b instanceof Object) {
     let shift = 0
 
@@ -550,11 +540,11 @@ spv.getSortFunc = function(rules) {
   }
 }
 
-makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
+const makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
   const r = {}
   if (array && array.length) {
     for (let i = 0; i < array.length; i++) {
-      var simple_name
+      let simple_name
       const cur = array[i]
       const fv = getTargetField(cur, field)
       if (fv || typeof fv == 'number') {
@@ -599,7 +589,7 @@ makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
 }
 
 
-$filter = function(array, field, value_or_testfunc) {
+const $filter = function(array, field, value_or_testfunc) {
   let i
   const r = []
   r.not = []
@@ -642,7 +632,7 @@ $filter = function(array, field, value_or_testfunc) {
 
 spv.cloneObj = cloneObj
 
-getUnitBaseNum = function(_c) {
+const getUnitBaseNum = function(_c) {
   if (_c > 0) {
     if (_c > 10 && _c < 20) {
       return 2
@@ -720,7 +710,7 @@ spv.precall = function precall(func1, func2) {
  * http://www.gnu.org/licenses/gpl.html
  *
  */
-debounce = function debounce(fn, timeout, invokeAsap, ctx) {
+const debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
   if(arguments.length == 3 && typeof invokeAsap != 'boolean') {
     ctx = invokeAsap
@@ -747,7 +737,7 @@ debounce = function debounce(fn, timeout, invokeAsap, ctx) {
 
 }
 
-throttle = function throttle(fn, timeout, ctx) {
+const throttle = function throttle(fn, timeout, ctx) {
 
   let timer
   let args
@@ -760,7 +750,7 @@ throttle = function throttle(fn, timeout, ctx) {
     ctx = ctx || this
 
     if(!timer) {
-      var wrap_func = function() {
+      const wrap_func = function() {
         if(needInvoke) {
           fn.apply(ctx, args)
           needInvoke = false
@@ -1096,7 +1086,7 @@ const executeMap = function(map, data, spec_data, converters) {
     const cur = objects_list.shift()
 
 
-    var cvalue
+    let cvalue
     if (cur.map_opts.source) {
       cvalue = getTargetField(cur.parent_data, cur.map_opts.source)
     } else {
