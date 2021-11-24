@@ -1,14 +1,13 @@
 
 import _updateRel from '../../_internal/_updateRel'
 
-import animateMapChanges from '../probe/animateMapChanges'
+import { switchCurrentBwlev } from '../probe/animateMapChanges'
 import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 import getModelById from '../../utils/getModelById'
 import createLevel from '../../bwlev/createLevel'
 import pvState from '../../provoda/state'
 import _updateAttr from '../../_internal/_updateAttr'
 import getKey from './getKey'
-const switchCurrentBwlev = animateMapChanges.switchCurrentBwlev
 
 const getPioneer = function(lev) {
   return lev && lev.getNesting('pioneer')

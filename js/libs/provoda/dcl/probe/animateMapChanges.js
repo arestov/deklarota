@@ -221,9 +221,7 @@ function changeZoomSimple(bwlev, value_raw) {
   complexBrowsing(bwlev, md, value)
 }
 
-animateMapChanges.switchCurrentBwlev = switchCurrentBwlev
-
-function switchCurrentBwlev(bwlev, prev) {
+export const switchCurrentBwlev = (bwlev, prev) => {
   if (prev) {
     changeZoomSimple(prev, false)
   }
