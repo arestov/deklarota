@@ -1,6 +1,6 @@
 
 import getNesting from './provoda/getNesting'
-import getBwlevParent from './bwlev/getBwlevParent'
+import getParentsBranch from './bwlev/getParentsBranch'
 
 const getModelByIdUniversal = function(highway_holder, _provoda_id) {
   const _highway = highway_holder._highway
@@ -24,19 +24,7 @@ const getModelByR = function(highway_holder, mdr) {
 }
 
 export const getBwlevsTree = function(highway_holder, mdrp) {
-  const result = []
-  if (!mdrp) {
-    return result
-  }
-  let cur = getModelByR(highway_holder, mdrp)
-  while (cur) {
-    if (cur.model_name !== 'bwlev') {
-      throw new Error('consider to use getRouteStepParent for none bwlev model')
-    }
-    result.unshift(cur)
-    cur = getBwlevParent(cur)
-  }
-  return result
+  return getParentsBranch(mdrp && getModelByR(highway_holder, mdrp))
 }
 
 export const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
