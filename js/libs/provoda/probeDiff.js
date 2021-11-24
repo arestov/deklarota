@@ -91,7 +91,6 @@ export default function probeDiff(value_full_path, oldvalue_full_path) {
   const target = getNesting(bwlev, 'pioneer').getMDReplacer()
 
   const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
-  const common_step = closest_step != null && value_full_path[closest_step - 1]
 
   const prev_bwlev = last(oldvalue_full_path)
 
@@ -103,7 +102,6 @@ export default function probeDiff(value_full_path, oldvalue_full_path) {
     target: target,
     value_full_path: value_full_path.map(asMDR),
     oldvalue_full_path: oldvalue_full_path.map(asMDR),
-    common_step: asMDR(common_step),
     array: changes_list,
   }
 }
