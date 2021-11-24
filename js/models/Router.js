@@ -228,9 +228,11 @@ export default spv.inh(BasicRouter, {
 
           animateMapChanges(target, bwlev)
 
+          const md = bwlev.getNesting('pioneer')
+
           _updateRel(map, 'selected__bwlev', bwlev)
-          _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'))
-          _updateAttr(map, 'selected__name', bwlev.model_name)
+          _updateRel(map, 'selected__md', md)
+          _updateAttr(map, 'selected__name', md.model_name)
 
           askAuth(list[ok_bwlev + 1])
           return {}
