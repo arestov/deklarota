@@ -3,6 +3,7 @@ import showMOnMap from './showMOnMap'
 import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import getAliveNavPioneer from './getAliveNavPioneer'
+import getBwlevParent from './getBwlevParent'
 
 const getRedirectedCursor = (map, pioneer) => {
 
@@ -37,7 +38,7 @@ const getParentsBranch = (bwlev) => {
     result.unshift(cur)
     /* so, first cur be last in array */
 
-    cur = cur.map_parent
+    cur = getBwlevParent(cur)
   }
 
   return result

@@ -1,6 +1,7 @@
 
 import spv from '../spv'
 import { doCopy } from '../spv/cloneObj'
+import getBwlevParent from './bwlev/getBwlevParent'
 
 import MDProxy from './MDProxy'
 const CH_GR_LE = 2
@@ -31,7 +32,11 @@ FakeModel.prototype = {
     return spv.cloneObj(target, this.states)
   },
   getParentMapModel: function() {
-    return this.map_parent
+    if (this.model_name != 'bwlev') {
+      return this.map_parent
+    }
+
+    return getBwlevParent(this)
   },
   RealRemoteCall: function(arguments_obj) {
     this.stream.RPCLegacy(this._provoda_id, slice.call(arguments_obj))

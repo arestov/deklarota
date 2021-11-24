@@ -7,6 +7,7 @@ import createLevel from './createLevel'
 import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
 import isStart from './isStart'
+import getBwlevParent from './getBwlevParent'
 
 const ba_inUse = ba_canReuse.ba_inUse
 
@@ -56,14 +57,14 @@ export default function showMOnMap(BWL, map, model, bwlev) {
     // то прежде чем что-то делать - находим и отображаем "родительску" модель
     let parent_md
     if (bwlev) {
-      parent_md = bwlev.map_parent.getNesting('pioneer')
+      parent_md = getBwlevParent(bwlev).getNesting('pioneer')
     } else {
       parent_md = getRouteStepParent(map, model)
     }
 
     parent_md = toProperNavParent(map, parent_md)
 
-    bwlev_parent = showMOnMap(BWL, map, parent_md, bwlev && bwlev.map_parent, true)
+    bwlev_parent = showMOnMap(BWL, map, parent_md, getBwlevParent(bwlev), true)
   }
 
   let result = null
@@ -83,7 +84,7 @@ export default function showMOnMap(BWL, map, model, bwlev) {
         throw new Error('model must have model_name prop')
       }
       // this.bindMMapStateChanges(model, model.model_name);
-      result = _goDeeper(BWL, map, model, bwlev && bwlev.map_parent)
+      result = _goDeeper(BWL, map, model, getBwlevParent(bwlev))
     }
   }
 

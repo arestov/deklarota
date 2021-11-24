@@ -16,6 +16,7 @@ import loadAllByStruc from '../structure/reactions/loadAllByStruc'
 import getModelSources from '../structure/getModelSources'
 import showMOnMap from './showMOnMap'
 import getAliveNavPioneer from './getAliveNavPioneer'
+import getBwlevParent from './getBwlevParent'
 
 const countKeys = spv.countKeys
 const cloneObj = spv.cloneObj
@@ -45,15 +46,16 @@ const selectParentToGo = (map, pioneer, another_candidate) => {
   return showMOnMap(pioneer.app.CBWL, map, alive_pioneer)
 }
 
-const switchToAliveParent = (self) => {
+const switchToAliveParent = (bwlev) => {
+  const bwlev_parent = getBwlevParent(bwlev)
   changeBridge(
     selectParentToGo(
-      self.map,
-      self.getNesting('pioneer'),
-      self.map_parent && self.map_parent.getNesting('pioneer')) ||
-    self.map_parent ||
-    self.map.start_bwlev,
-    self.map)
+      bwlev.map,
+      bwlev.getNesting('pioneer'),
+      bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
+    bwlev_parent ||
+    bwlev.map.start_bwlev,
+    bwlev.map)
 }
 
 const BrowseLevel = spv.inh(Model, {
@@ -280,7 +282,7 @@ const BrowseLevel = spv.inh(Model, {
   },
 
   getParentMapModel: function() {
-    return this.map_parent
+    return getBwlevParent(this)
   },
 
   showOnMap: function() {
@@ -327,11 +329,7 @@ const BrowseLevel = spv.inh(Model, {
       return
     }
 
-    if (this.map_parent) {
-      this.map_parent.showOnMap()
-    }
-
-
+    getBwlevParent(this)?.showOnMap()
   },
   followTo: function(id) {
     const md = getModelById(this, id)

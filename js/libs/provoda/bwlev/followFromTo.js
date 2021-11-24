@@ -8,6 +8,7 @@ import isBigStep from './isBigStep'
 import getNavGroups from './getNavGroups'
 import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
+import getBwlevParent from './getBwlevParent'
 
 // var limits = {
 //   same_model_matches: 1,
@@ -95,7 +96,7 @@ function getEdgeSimilarModelPos(bwlev, model_name, limit) {
       groups_count++
     }
 
-    cur = cur.map_parent // it's ok to do `bwlev.map_parent`
+    cur = getBwlevParent(cur)
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups_of_similar == limit ? edge_group_num : -1
@@ -111,7 +112,7 @@ function countGroups(bwlev) {
       groups_count++
     }
 
-    cur = cur.map_parent // it's ok to do `bwlev.map_parent`
+    cur = getBwlevParent(cur)
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups_count

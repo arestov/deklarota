@@ -1,5 +1,6 @@
 
 import getNesting from './provoda/getNesting'
+import getBwlevParent from './bwlev/getBwlevParent'
 
 const getModelByIdUniversal = function(highway_holder, _provoda_id) {
   const _highway = highway_holder._highway
@@ -33,7 +34,7 @@ export const getBwlevsTree = function(highway_holder, mdrp) {
       throw new Error('consider to use getRouteStepParent for none bwlev model')
     }
     result.unshift(cur)
-    cur = cur.map_parent
+    cur = getBwlevParent(cur)
   }
   return result
 }

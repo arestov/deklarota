@@ -3,6 +3,7 @@ import spv from '../../../spv'
 import _updateRel from '../../_internal/_updateRel'
 import _updateAttr from '../../_internal/_updateAttr'
 import probeDiff, { getBwlevsTree } from '../../probeDiff'
+import getBwlevParent from '../../bwlev/getBwlevParent'
 
 const complexBrowsing = function(bwlev, md, value) {
   // map levels. without knowing which map
@@ -81,8 +82,8 @@ const goUp = function(bwlev, cb) {
   let cur = bwlev
   while (cur) {
     cb(cur, md, count)
-    // it's ok to get map_parent (without using getRouteStepParent) from bwlev
-    cur = cur.map_parent
+    // it's ok to get parent (without using getRouteStepParent) from bwlev
+    cur = getBwlevParent(cur)
     md = cur && cur.getNesting('pioneer')
     count++
   }
@@ -121,7 +122,7 @@ const branch = function(bwlev) {
   let cur = bwlev
   while (cur) {
     list.unshift(cur)
-    cur = cur.map_parent
+    cur = getBwlevParent(cur)
   }
   return list
 }
