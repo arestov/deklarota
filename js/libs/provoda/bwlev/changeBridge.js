@@ -28,6 +28,21 @@ const resetNavigationRequests = (router, bwlev) => {
   _updateAttr(bwlev, 'currentReq', null)
 }
 
+const getParentsBranch = (bwlev) => {
+  let result = []
+
+  let cur = bwlev
+  while (cur) {
+    result = result // mark as non const
+    result.unshift(cur)
+    /* so, first cur be last in array */
+
+    cur = cur.map_parent
+  }
+
+  return result
+}
+
 export default function changeBridge(bwlev_raw, map_raw) {
   const bwlev = bwlev_raw && (redirected(bwlev_raw.map, bwlev_raw.getNesting('pioneer')) || bwlev_raw)
   const map = map_raw || (bwlev && bwlev.map)
@@ -54,8 +69,7 @@ export default function changeBridge(bwlev_raw, map_raw) {
     return
   }
 
-  const copy = bwlev.ptree.slice()
-  copy.reverse()
+  const copy = getParentsBranch(bwlev)
 
   _updateRel(map, 'wanted_bwlev_chain', copy)
   _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))

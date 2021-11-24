@@ -74,11 +74,6 @@ const BrowseLevel = spv.inh(Model, {
     // 	throw new Error('must have model name');
     // }
 
-    self.ptree = [self]
-
-    if (self.map_parent) {
-      self.ptree = self.ptree.concat(self.map_parent.ptree)
-    }
   }
 }, {
   model_name: 'bwlev',
