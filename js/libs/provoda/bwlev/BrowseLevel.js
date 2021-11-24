@@ -74,16 +74,10 @@ const BrowseLevel = spv.inh(Model, {
     // 	throw new Error('must have model name');
     // }
 
-    const states = self.init_v2_data.states
-
-    const pioneer = states['pioneer']
-
     self.ptree = [self]
-    self.rtree = [pioneer]
 
     if (self.map_parent) {
       self.ptree = self.ptree.concat(self.map_parent.ptree)
-      self.rtree = self.rtree.concat(self.map_parent.rtree)
     }
   }
 }, {
