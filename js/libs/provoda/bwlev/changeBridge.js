@@ -3,7 +3,7 @@ import showMOnMap from './showMOnMap'
 import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import getAliveNavPioneer from './getAliveNavPioneer'
-import getBwlevParent from './getBwlevParent'
+import getParentsBranch from './getParentsBranch'
 
 const getRedirectedCursor = (map, pioneer) => {
 
@@ -27,21 +27,6 @@ const redirected = function(map, pioneer) {
 const resetNavigationRequests = (router, bwlev) => {
   _updateAttr(router, 'current_expected_rel', undefined)
   _updateAttr(bwlev, 'currentReq', null)
-}
-
-const getParentsBranch = (bwlev) => {
-  let result = []
-
-  let cur = bwlev
-  while (cur) {
-    result = result // mark as non const
-    result.unshift(cur)
-    /* so, first cur be last in array */
-
-    cur = getBwlevParent(cur)
-  }
-
-  return result
 }
 
 export default function changeBridge(bwlev_raw, map_raw) {

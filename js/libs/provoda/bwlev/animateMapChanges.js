@@ -4,6 +4,7 @@ import _updateRel from '../_internal/_updateRel'
 import _updateAttr from '../_internal/_updateAttr'
 import probeDiff, { getBwlevsTree } from '../probeDiff'
 import getBwlevParent from './getBwlevParent'
+import getParentsBranch from './getParentsBranch'
 
 const complexBrowsing = function(bwlev, md, value) {
   // map levels. without knowing which map
@@ -117,16 +118,6 @@ const getPioneer = function(bwlev) {
   return bwlev.getNesting('pioneer')
 }
 
-const branch = function(bwlev) {
-  const list = []
-  let cur = bwlev
-  while (cur) {
-    list.unshift(cur)
-    cur = getBwlevParent(cur)
-  }
-  return list
-}
-
 const asMDR = function(md) {
   return md && md.getMDReplacer()
 }
@@ -141,7 +132,7 @@ function animateMapChanges(fake_spyglass, bwlev) {
     return
   }
 
-  const bwlevs = branch(bwlev)
+  const bwlevs = getParentsBranch(bwlev)
   const models = bwlevs.map(getPioneer)
 
   _updateRel(fake_spyglass, 'navigation', bwlevs)
