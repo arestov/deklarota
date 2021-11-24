@@ -37,7 +37,7 @@ export default function getUsageStruc(md, switch_nesting_name, used_data_structu
   const bwlev_dclrs_fpckgs = bwlev_struc.collch_dclrs
   const bwlev_dclrs_selectors = bwlev_struc.collch_selectors
 
-  const pioneer_model_name = bwlev_dclr.is_wrapper_parent ? md.map_parent.model_name : model_name
+  const pioneer_model_name = bwlev_dclr.is_wrapper_parent ? md.getParentMapModel().model_name : model_name
   const md_dclr = selecPoineertDeclr(bwlev_dclrs_fpckgs, bwlev_dclrs_selectors, 'pioneer', pioneer_model_name, (bwlev_dclr.space || 'main'), true)
 
   const children = spv.getTargetField(bwlev_struc, children_path)
@@ -51,7 +51,7 @@ export default function getUsageStruc(md, switch_nesting_name, used_data_structu
   const nestings = struc.m_children.children
   const Constr = md.constructor
   for (const nesting_name in nestings) {
-    const items = getNestingConstr(app, md.map_parent, nesting_name)
+    const items = getNestingConstr(app, md.getParentMapModel(), nesting_name)
     if (items) {
       if (Array.isArray(items)) {
         if (items.indexOf(Constr) != -1) {

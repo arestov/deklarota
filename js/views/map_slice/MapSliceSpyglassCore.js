@@ -418,7 +418,7 @@ export default spv.inh(View, {
   getMapSliceView: function(bwlev, md) {
     const dclr = selecPoineertDeclr(this.dclrs_fpckgs, this.dclrs_selectors,
       'map_slice', md.model_name, this.nesting_space)
-    const target_bwlev = dclr.is_wrapper_parent ? bwlev.map_parent : bwlev
+    const target_bwlev = dclr.is_wrapper_parent ? bwlev.getParentMapModel() : bwlev
     return findMpxViewInChildren(this, this.getStoredMpx(target_bwlev), dclr.space, 'map_slice')
   },
 
