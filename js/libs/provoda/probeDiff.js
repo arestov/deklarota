@@ -63,15 +63,10 @@ const asMDR = function(md) {
 
 const last = (list) => list && list[list.length - 1]
 
-export default function probeDiff(value_full_path, oldvalue_full_path) {
 
-  const bwlev = last(value_full_path)
-  const target = getNesting(bwlev, 'pioneer').getMDReplacer()
-
-  const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
+const zooming = (closest_step, value_full_path, oldvalue_full_path) => {
   const value_path_to = closest_step != null && value_full_path.slice(closest_step)
   const oldvalue_path_from = closest_step != null && oldvalue_full_path.slice(closest_step).reverse()
-  const common_step = closest_step != null && value_full_path[closest_step - 1]
 
   const changes_wrap = []
   if (oldvalue_path_from && oldvalue_path_from.length) {
@@ -87,7 +82,20 @@ export default function probeDiff(value_full_path, oldvalue_full_path) {
     })
   }
 
+  return changes_wrap
+}
+
+export default function probeDiff(value_full_path, oldvalue_full_path) {
+
+  const bwlev = last(value_full_path)
+  const target = getNesting(bwlev, 'pioneer').getMDReplacer()
+
+  const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
+  const common_step = closest_step != null && value_full_path[closest_step - 1]
+
   const prev_bwlev = last(oldvalue_full_path)
+
+  const changes_list = zooming(closest_step, value_full_path, oldvalue_full_path)
 
   return {
     bwlev: bwlev?.getMDReplacer(),
@@ -96,6 +104,6 @@ export default function probeDiff(value_full_path, oldvalue_full_path) {
     value_full_path: value_full_path.map(asMDR),
     oldvalue_full_path: oldvalue_full_path.map(asMDR),
     common_step: asMDR(common_step),
-    array: changes_wrap,
+    array: changes_list,
   }
 }
