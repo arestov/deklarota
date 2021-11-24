@@ -1,7 +1,7 @@
 
 import _updateRel from '../../_internal/_updateRel'
 
-import { switchCurrentBwlev } from '../probe/animateMapChanges'
+import { switchCurrentBwlev } from '../../bwlev/animateMapChanges'
 import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 import getModelById from '../../utils/getModelById'
 import createLevel from '../../bwlev/createLevel'

@@ -1,9 +1,9 @@
 
-import spv from '../../../spv'
-import _updateRel from '../../_internal/_updateRel'
-import _updateAttr from '../../_internal/_updateAttr'
-import probeDiff, { getBwlevsTree } from '../../probeDiff'
-import getBwlevParent from '../../bwlev/getBwlevParent'
+import spv from '../../spv'
+import _updateRel from '../_internal/_updateRel'
+import _updateAttr from '../_internal/_updateAttr'
+import probeDiff, { getBwlevsTree } from '../probeDiff'
+import getBwlevParent from './getBwlevParent'
 
 const complexBrowsing = function(bwlev, md, value) {
   // map levels. without knowing which map

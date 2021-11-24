@@ -12,7 +12,7 @@ import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
 import getModelById from '../libs/provoda/utils/getModelById'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import BrowseMap from '../libs/BrowseMap'
-import animateMapChanges from '../libs/provoda/dcl/probe/animateMapChanges'
+import animateMapChanges from '../libs/provoda/bwlev/animateMapChanges'
 import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 
