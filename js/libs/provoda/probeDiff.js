@@ -90,17 +90,13 @@ const zooming = (value_full_path, oldvalue_full_path) => {
 export default function probeDiff(value_full_path, oldvalue_full_path) {
 
   const bwlev = last(value_full_path)
-  const target = getNesting(bwlev, 'pioneer').getMDReplacer()
-
-
-  const prev_bwlev = last(oldvalue_full_path)
 
   const changes_list = zooming(value_full_path, oldvalue_full_path)
 
   return {
     bwlev: bwlev?.getMDReplacer(),
-    prev_bwlev: prev_bwlev?.getMDReplacer(),
-    target: target,
+    prev_bwlev: last(oldvalue_full_path)?.getMDReplacer(),
+    target: getNesting(bwlev, 'pioneer').getMDReplacer(),
     value_full_path: value_full_path.map(asMDR),
     oldvalue_full_path: oldvalue_full_path.map(asMDR),
     array: changes_list,
