@@ -33,6 +33,7 @@ const RootLev = spv.inh(Model, {
     is_main_perspectivator_resident: ['input'],
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
+    freeze_parent_bwlev: ['input'],
   },
   rels: {
     pioneer: ['input', {linking: '<<<< #'}],

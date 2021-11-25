@@ -20,7 +20,7 @@ export default function followFromTo(BWL, map, parent_bwlev, end_md) {
 
   if (cutted_parents) {
     const last_cutted_parentbw = showInterest(map, cutted_parents)
-    return _goDeeper(BWL, map, end_md, last_cutted_parentbw)
+    return _goDeeper(BWL, map, end_md, last_cutted_parentbw, true)
   }
   // parent_bwlev.showOnMap();
 
@@ -30,7 +30,7 @@ export default function followFromTo(BWL, map, parent_bwlev, end_md) {
     return showMOnMap(BWL, map, end_md, bwlev)
   }
   // !!!!showMOnMap(BWL, map, parent_bwlev.getNesting('pioneer'), parent_bwlev);
-  return _goDeeper(BWL, map, end_md, parent_bwlev)
+  return _goDeeper(BWL, map, end_md, parent_bwlev, true)
 }
 
 

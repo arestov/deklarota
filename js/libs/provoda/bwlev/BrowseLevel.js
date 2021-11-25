@@ -90,6 +90,7 @@ const BrowseLevel = spv.inh(Model, {
     mp_dft: ['input'],
     mp_show: ['input'],
     mp_has_focus: ['input'],
+    freeze_parent_bwlev: ['input'],
     // bmpl_attached: ['input'],
     mpl_attached: ['input'],
     'check_focus_leave': [

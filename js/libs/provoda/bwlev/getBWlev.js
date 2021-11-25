@@ -8,7 +8,7 @@ const getConstr = function(map, model_name) {
   } catch (e) {}
 }
 
-export default function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_num, map) {
+export default function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_level_num, map, freeze_parent_bwlev) {
   const cache = parent_bwlev && parent_bwlev.children_bwlevs
   const key = md._provoda_id
   if (cache && cache[key]) {
@@ -20,7 +20,7 @@ export default function getBWlev(BrowseLevel, md, probe_name, parent_bwlev, map_
   }
 
   const Constr = map && getConstr(map, md.model_name)
-  const bwlev = initBWlev(Constr || map.app.CBWL, md, probe_name, map_level_num, map, parent_bwlev)
+  const bwlev = initBWlev(Constr || map.app.CBWL, md, probe_name, map_level_num, map, parent_bwlev, freeze_parent_bwlev)
 
   if (cache) {
     cache[key] = bwlev
