@@ -87,11 +87,15 @@ const zooming = (value_full_path, oldvalue_full_path) => {
   return changes_wrap
 }
 
+const calcChanges = (next_list, prev_list) => {
+  return zooming(next_list, prev_list)
+}
+
 export default function probeDiff(value_full_path, oldvalue_full_path) {
 
   const bwlev = last(value_full_path)
 
-  const changes_list = zooming(value_full_path, oldvalue_full_path)
+  const changes_list = calcChanges(value_full_path, oldvalue_full_path)
 
   return {
     bwlev: bwlev?.getMDReplacer(),
