@@ -155,7 +155,13 @@ export default spv.inh(BasicRouter, {
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
-    wanted_bwlev_branch: ['input', {any: true, many: true}],
+
+    wanted_bwlev: ['input', {any: true}],
+    wanted_bwlev_branch: [
+      'comp',
+      ['<< @all:wanted_bwlev.bwlev_parents_branch'],
+      {any: true, many: true}
+    ],
 
     /* is_simple_router=true: current_bwlev, current_md */
     current_md: ['input', {any: true}],
@@ -207,7 +213,7 @@ export default spv.inh(BasicRouter, {
           const map = target
 
           const list = getNesting(map, 'wanted_bwlev_branch')
-          if (!list) {
+          if (!list || !list.length) {
             return {}
           }
 

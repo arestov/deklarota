@@ -3,7 +3,6 @@ import showMOnMap from './showMOnMap'
 import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import getAliveNavPioneer from './getAliveNavPioneer'
-import getParentsBranch from './getParentsBranch'
 
 const getRedirectedCursor = (map, pioneer) => {
 
@@ -55,11 +54,9 @@ export default function changeBridge(bwlev_raw, map_raw) {
     return
   }
 
-  const copy = getParentsBranch(bwlev)
-
   _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
   resetNavigationRequests(map, bwlev)
-  _updateRel(map, 'wanted_bwlev_branch', copy)
+  _updateRel(map, 'wanted_bwlev', bwlev)
 
   return bwlev
 }
