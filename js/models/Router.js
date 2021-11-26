@@ -143,7 +143,7 @@ export default spv.inh(BasicRouter, {
     ],
     __access_list: [
       'comp',
-      ['< @all:has_no_access < wanted_bwlev_chain.pioneer', '< @all:_provoda_id < wanted_bwlev_chain'],
+      ['< @all:has_no_access < wanted_bwlev_branch.pioneer', '< @all:_provoda_id < wanted_bwlev_branch'],
       (arg1, arg2) => ([...arg1, ...arg2])
     ],
     current_model_id: [
@@ -155,7 +155,7 @@ export default spv.inh(BasicRouter, {
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
-    wanted_bwlev_chain: ['input', {any: true, many: true}],
+    wanted_bwlev_branch: ['input', {any: true, many: true}],
 
     /* is_simple_router=true: current_bwlev, current_md */
     current_md: ['input', {any: true}],
@@ -206,7 +206,7 @@ export default spv.inh(BasicRouter, {
           const target = self
           const map = target
 
-          const list = getNesting(map, 'wanted_bwlev_chain')
+          const list = getNesting(map, 'wanted_bwlev_branch')
           if (!list) {
             return {}
           }
