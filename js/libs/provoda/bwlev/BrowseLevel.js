@@ -243,6 +243,7 @@ const BrowseLevel = spv.inh(Model, {
     pioneer: ['input', {any: true}],
     map: ['input', {any: true}], // how to make ref to Router?
     focus_referrer_bwlev: ['input', {any: true}],
+    parent_bwlev: ['input', {any: true}],
   },
   actions: {
     navigateToNavParent: {

@@ -1,3 +1,3 @@
-const getBwlevParent = (bwlev) => bwlev?.map_parent
+const getBwlevParent = (bwlev) => bwlev?.getNesting('parent_bwlev')
 
 export default getBwlevParent

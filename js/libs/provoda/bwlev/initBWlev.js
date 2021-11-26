@@ -13,9 +13,10 @@ export default function initBWlev(BrowseLevel, md, probe_name, map_level_num, ma
   }, {
     rels: Object.fromEntries([
       ['pioneer', md],
-      map && ['map', map]
+      map && ['map', map],
+      parent_bwlev && ['parent_bwlev', parent_bwlev],
     ].filter(Boolean))
-  }, parent_bwlev, md.app)
+  }, null, md.app)
 
   return bwlev
 }
