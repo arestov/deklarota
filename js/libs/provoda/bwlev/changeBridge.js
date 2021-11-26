@@ -57,8 +57,9 @@ export default function changeBridge(bwlev_raw, map_raw) {
 
   const copy = getParentsBranch(bwlev)
 
-  _updateRel(map, 'wanted_bwlev_chain', copy)
   _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
   resetNavigationRequests(map, bwlev)
+  _updateRel(map, 'wanted_bwlev_chain', copy)
+
   return bwlev
 }
