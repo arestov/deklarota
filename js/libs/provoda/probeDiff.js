@@ -77,8 +77,34 @@ const zooming = (value_full_path, oldvalue_full_path) => {
   return changes_wrap
 }
 
+const isEqualArrays = (arr_a, arr_b) => {
+  if (arr_a.length != arr_b.length) {
+    return false
+  }
+
+  for (let i = 0; i < arr_a.length; i++) {
+    if (arr_a[i] !== arr_b[i]) {
+      return false
+    }
+  }
+
+  return true
+}
+
+const isEqual = (next, prev) => {
+  if (next && !prev) {return false}
+  if (!next && prev) {return false}
+  return isEqualArrays(next, prev)
+}
+
 const calcChanges = (next_list, prev_list) => {
   return zooming(next_list, prev_list)
+  switch (true) {
+    case isEqual(next_list, prev_list):
+      return []
+    default:
+      return zooming(next_list, prev_list)
+  }
 }
 
 export default function probeDiff(value_full_path, oldvalue_full_path) {
