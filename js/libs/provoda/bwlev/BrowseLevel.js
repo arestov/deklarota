@@ -280,7 +280,52 @@ const BrowseLevel = spv.inh(Model, {
           return true
         }
       ]
-    }
+    },
+    'handleRel:nav_parent': {
+      to: {
+        map_level_num: ['map_level_num'],
+        parent_bwlev: ['<< parent_bwlev', {method: 'set_one'}],
+      },
+      fn: [
+        ['$noop', '<<<<', '$meta$inited', 'freeze_parent_bwlev', '<< @one:parent_bwlev'],
+        (data, noop, self, inited, freeze_parent_bwlev, current_parent_bwlev) => {
+          if (!inited || freeze_parent_bwlev) {
+            return noop
+          }
+
+          const deleteCacheValue = (prev, item) => {
+            if (!prev) {return}
+
+            const key = item._provoda_id
+            delete prev.children_bwlevs[key]
+          }
+
+          const setCacheValue = (next, item) => {
+            if (!next) {return}
+
+            const key = item._provoda_id
+            next.children_bwlevs[key] = item
+          }
+
+          deleteCacheValue(current_parent_bwlev, self)
+
+          if (!data.next_value) {
+            return {
+              map_level_num: -1,
+              parent_bwlev: null
+            }
+          }
+
+          const new_parent_bwlev = showMOnMap(self.app.CBWL, self.map, data.next_value)
+
+          setCacheValue(new_parent_bwlev, self)
+          return {
+            map_level_num: new_parent_bwlev.getAttr('map_level_num') + 1,
+            parent_bwlev: new_parent_bwlev
+          }
+        }
+      ]
+    },
   },
 
   getParentMapModel: function() {
