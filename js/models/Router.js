@@ -162,6 +162,7 @@ export default spv.inh(BasicRouter, {
       ['<< @all:wanted_bwlev.bwlev_parents_branch'],
       {any: true, many: true}
     ],
+    bwlev_branch_with_access: ['input', {any: true, many: true}],
 
     /* is_simple_router=true: current_bwlev, current_md */
     current_md: ['input', {any: true}],
@@ -204,7 +205,7 @@ export default spv.inh(BasicRouter, {
     },
     'handleAttr:__access_list': {
       to: {
-        'selected__name': ['selected__name']
+        bwlev_branch_with_access: ['<< bwlev_branch_with_access', { method: 'set_many' }]
       },
       fn: [
         ['<<<<'],
@@ -229,21 +230,33 @@ export default spv.inh(BasicRouter, {
             }
             ok_bwlev = i
           }
+          askAuth(list[ok_bwlev + 1])
 
-          const bwlev = list[ok_bwlev]
+          return { bwlev_branch_with_access: list.slice(0, ok_bwlev + 1) }
+        },
+      ],
+    },
+    'handleRel:bwlev_branch_with_access': {
+      to: {
+        'selected__name': ['selected__name']
+      },
+      fn: [
+        ['<<<<'],
+        (data, self) => {
+          animateMapChanges(self, data.next_value || [], data.prev_value || [])
 
-          animateMapChanges(target, bwlev)
+          const list = data.next_value
+          const bwlev = list && list[list.length - 1]
 
           const md = bwlev.getNesting('pioneer')
 
-          _updateRel(map, 'selected__bwlev', bwlev)
-          _updateRel(map, 'selected__md', md)
-          _updateAttr(map, 'selected__name', md.model_name)
+          _updateRel(self, 'selected__bwlev', bwlev)
+          _updateRel(self, 'selected__md', md)
+          _updateAttr(self, 'selected__name', md.model_name)
 
-          askAuth(list[ok_bwlev + 1])
           return {}
-        }
-      ]
+        },
+      ],
     },
     expectRelBeRevealedByRelPath: {
       to: ['current_expected_rel'],
@@ -258,8 +271,8 @@ export default spv.inh(BasicRouter, {
             // model from data will be used as "base" to start rel_path requesting
             current_md_id,
           }
-        }
-      ]
+        },
+      ],
     },
     'handleAttr:current_expected_rel': {
       to: {
