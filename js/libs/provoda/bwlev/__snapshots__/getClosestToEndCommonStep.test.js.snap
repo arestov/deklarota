@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getClosestStep 1`] = `3`;
+
+exports[`getClosestStep 2`] = `1`;
+
+exports[`getClosestStep 3`] = `0`;
+
+exports[`getClosestStep 4`] = `2`;

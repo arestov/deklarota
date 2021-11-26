@@ -1,6 +1,7 @@
 
 import getNesting from './provoda/getNesting'
 import getParentsBranch from './bwlev/getParentsBranch'
+import getClosestToEndCommonStep from './bwlev/getClosestToEndCommonStep'
 
 const getModelByIdUniversal = function(highway_holder, _provoda_id) {
   const _highway = highway_holder._highway
@@ -46,17 +47,6 @@ const pathAsSteps = function(path, value) {
   return result
 }
 
-function getClosestStep(value_full_path, oldvalue_full_path) {
-  const length = Math.max(value_full_path.length, oldvalue_full_path.length)
-  for (let i = 0; i < length; i++) {
-    const curA = value_full_path[i]
-    const curB = oldvalue_full_path[i]
-    if (curA !== curB) {
-      return i
-    }
-  }
-}
-
 const asMDR = function(md) {
   return md && md.getMDReplacer()
 }
@@ -65,7 +55,7 @@ const last = (list) => list && list[list.length - 1]
 
 
 const zooming = (value_full_path, oldvalue_full_path) => {
-  const closest_step = getClosestStep(value_full_path, oldvalue_full_path)
+  const closest_step = getClosestToEndCommonStep(value_full_path, oldvalue_full_path)
 
   const value_path_to = closest_step != null && value_full_path.slice(closest_step)
   const oldvalue_path_from = closest_step != null && oldvalue_full_path.slice(closest_step).reverse()
