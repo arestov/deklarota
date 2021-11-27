@@ -14,28 +14,41 @@ const complexBrowsing = function(bwlev, md, value) {
   _updateAttr(md, 'bmp_show', obj)
 }
 
+const handleMoveView = (change) => {
+  const md = change.target
+  const bwlev = change.bwlev
+
+  // debugger;
+
+  if (change.value) {
+    const possible_parent = change.target.getParentMapModel()
+    const parent = possible_parent && possible_parent.toProperNavParent()
+    if (parent) {
+      const bwlev_parent = change.bwlev.getParentMapModel()
+      _updateAttr(bwlev_parent, 'mp_has_focus', false)
+      _updateAttr(parent, 'mp_has_focus', false)
+    }
+  }
+
+  _updateAttr(bwlev, 'mpl_attached', !change.value)
+  _updateAttr(md, 'mp_show', change.value)
+  _updateAttr(bwlev, 'mp_show', change.value)
+  complexBrowsing(bwlev, md, change.value)
+}
+
 const model_mapch = {
   'move-view': function(change) {
-    const md = change.target
-    const bwlev = change.bwlev
-
-    // debugger;
-
-    if (change.value) {
-      const possible_parent = change.target.getParentMapModel()
-      const parent = possible_parent && possible_parent.toProperNavParent()
-      if (parent) {
-        const bwlev_parent = change.bwlev.getParentMapModel()
-        _updateAttr(bwlev_parent, 'mp_has_focus', false)
-        _updateAttr(parent, 'mp_has_focus', false)
-      }
-    }
-
-    _updateAttr(bwlev, 'mpl_attached', !change.value)
-    _updateAttr(md, 'mp_show', change.value)
-    _updateAttr(bwlev, 'mp_show', change.value)
-    complexBrowsing(bwlev, md, change.value)
+    handleMoveView(change)
   },
+}
+
+const handleChange = (perspectivator, change) => {
+  const handler = model_mapch[change.type]
+  if (handler == null) {
+    throw new Error('unknown change type: ' + change.type)
+  }
+
+  handler(change, perspectivator)
 }
 
 // var minDistance = function(obj) {
@@ -128,14 +141,7 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
 
   for (i = 0; i < all_changhes.length; i++) {
     const change = all_changhes[i]
-    const handler = model_mapch[change.type]
-    if (handler) {
-      handler.call(null, change, fake_spyglass)
-    }
-
-    if (!handler) {
-      throw new Error('unknown change type: ' + change.type)
-    }
+    handleChange(fake_spyglass, change)
   }
 
  /*
