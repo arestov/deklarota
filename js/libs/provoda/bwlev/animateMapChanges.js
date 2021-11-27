@@ -16,16 +16,16 @@ const complexBrowsing = function(bwlev, md, value) {
 
 const model_mapch = {
   'move-view': function(change) {
-    const md = change.target.getMD()
-    const bwlev = change.bwlev.getMD()
+    const md = change.target
+    const bwlev = change.bwlev
 
     // debugger;
 
     if (change.value) {
-      const possible_parent = change.target.getMD().getParentMapModel()
+      const possible_parent = change.target.getParentMapModel()
       const parent = possible_parent && possible_parent.toProperNavParent()
       if (parent) {
-        const bwlev_parent = change.bwlev.getMD().getParentMapModel()
+        const bwlev_parent = change.bwlev.getParentMapModel()
         _updateAttr(bwlev_parent, 'mp_has_focus', false)
         _updateAttr(parent, 'mp_has_focus', false)
       }
@@ -38,15 +38,15 @@ const model_mapch = {
   },
   'zoom-out': function(change) {
     // debugger;
-    const md = change.target.getMD()
-    const bwlev = change.bwlev.getMD()
+    const md = change.target
+    const bwlev = change.bwlev
     _updateAttr(bwlev, 'mp_show', false)
     _updateAttr(md, 'mp_show', false)
     complexBrowsing(bwlev, md, false)
   },
   'destroy': function(change) {
-    const md = change.target.getMD()
-    const bwlev = change.bwlev.getMD()
+    const md = change.target
+    const bwlev = change.bwlev
     _updateAttr(md, 'mp_show', false)
     _updateAttr(bwlev, 'mp_show', false)
     complexBrowsing(bwlev, md, false)
@@ -162,17 +162,17 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
     if (fake_spyglass.current_mp_md) {
       _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
     }
-    const target_md = fake_spyglass.current_mp_md = diff.target.getMD()
+    const target_md = fake_spyglass.current_mp_md = diff.target
 
-    fake_spyglass.current_mp_bwlev = depth(diff.bwlev.getMD(), fake_spyglass.current_mp_bwlev)
+    fake_spyglass.current_mp_bwlev = depth(diff.bwlev, fake_spyglass.current_mp_bwlev)
 
     _updateAttr(target_md, 'mp_has_focus', true)
-    _updateAttr(diff.bwlev.getMD(), 'mp_has_focus', true)
+    _updateAttr(diff.bwlev, 'mp_has_focus', true)
 
    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
     _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
     _updateRel(fake_spyglass, 'current_mp_md', target_md)
-    _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev.getMD())
+    _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev)
    //_updateAttr(target_md, 'mp-highlight', false);
 
 

@@ -12,16 +12,12 @@ const pathAsSteps = function(path, value) {
     result[i] = {
       type: 'move-view',
       value: value,
-      bwlev: cur.getMDReplacer(),
-      target: getNesting(cur, 'pioneer').getMDReplacer()
+      bwlev: cur,
+      target: getNesting(cur, 'pioneer')
     }
   }
 
   return result
-}
-
-const asMDR = function(md) {
-  return md && md.getMDReplacer()
 }
 
 const last = (list) => list && list[list.length - 1]
@@ -89,11 +85,11 @@ export default function probeDiff(value_full_path, oldvalue_full_path) {
   const changes_list = calcChanges(value_full_path, oldvalue_full_path)
 
   return {
-    bwlev: bwlev?.getMDReplacer(),
-    prev_bwlev: last(oldvalue_full_path)?.getMDReplacer(),
-    target: getNesting(bwlev, 'pioneer').getMDReplacer(),
-    value_full_path: value_full_path.map(asMDR),
-    oldvalue_full_path: oldvalue_full_path.map(asMDR),
+    bwlev: bwlev,
+    prev_bwlev: last(oldvalue_full_path),
+    target: getNesting(bwlev, 'pioneer'),
+    value_full_path: value_full_path,
+    oldvalue_full_path: oldvalue_full_path,
     array: changes_list,
   }
 }
