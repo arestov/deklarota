@@ -7,3 +7,5 @@ exports[`getClosestStep 2`] = `1`;
 exports[`getClosestStep 3`] = `0`;
 
 exports[`getClosestStep 4`] = `2`;
+
+exports[`getClosestStep 5`] = `3`;
