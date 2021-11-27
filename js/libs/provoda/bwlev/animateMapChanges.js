@@ -36,21 +36,6 @@ const model_mapch = {
     _updateAttr(bwlev, 'mp_show', change.value)
     complexBrowsing(bwlev, md, change.value)
   },
-  'zoom-out': function(change) {
-    // debugger;
-    const md = change.target
-    const bwlev = change.bwlev
-    _updateAttr(bwlev, 'mp_show', false)
-    _updateAttr(md, 'mp_show', false)
-    complexBrowsing(bwlev, md, false)
-  },
-  'destroy': function(change) {
-    const md = change.target
-    const bwlev = change.bwlev
-    _updateAttr(md, 'mp_show', false)
-    _updateAttr(bwlev, 'mp_show', false)
-    complexBrowsing(bwlev, md, false)
-  }
 }
 
 // var minDistance = function(obj) {
