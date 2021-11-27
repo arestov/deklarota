@@ -57,17 +57,17 @@ const last = (list) => list && list[list.length - 1]
 export const zoomingAndConverting = (converting) => (value_full_path, oldvalue_full_path) => {
   const max_common_from_start_step = getMaxCommonFromStart(value_full_path, oldvalue_full_path)
 
-  const value_path_to = max_common_from_start_step != null && value_full_path.slice(max_common_from_start_step)
-  const oldvalue_path_from = max_common_from_start_step != null && oldvalue_full_path.slice(max_common_from_start_step).reverse()
+  const value_path_to = value_full_path.slice(max_common_from_start_step)
+  const oldvalue_path_from = oldvalue_full_path.slice(max_common_from_start_step).reverse()
 
   const changes_wrap = []
-  if (oldvalue_path_from && oldvalue_path_from.length) {
+  if (oldvalue_path_from?.length) {
     changes_wrap.push({
       name: 'zoom-out',
       changes: converting(oldvalue_path_from, false)
     })
   }
-  if (value_path_to && value_path_to.length) {
+  if (value_path_to?.length) {
     changes_wrap.push({
       name: 'zoom-in',
       changes: converting(value_path_to, true)
