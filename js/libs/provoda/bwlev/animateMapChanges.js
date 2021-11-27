@@ -147,6 +147,10 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
     if (handler) {
       handler.call(null, change, fake_spyglass)
     }
+
+    if (!handler) {
+      throw new Error('unknown change type: ' + change.type)
+    }
   }
 
  /*

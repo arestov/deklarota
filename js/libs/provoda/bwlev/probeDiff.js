@@ -1,5 +1,5 @@
 import getNesting from '../provoda/getNesting'
-import { getMaxCommonFromStart } from './getMaxCommonFromStart'
+import { getMaxCommonFromStart, getMaxCommonFromEnd } from './getMaxCommonFromStart'
 
 export const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
 
@@ -24,6 +24,11 @@ const last = (list) => list && list[list.length - 1]
 
 
 export const zoomingAndConverting = (converting) => (value_full_path, oldvalue_full_path) => {
+  /*
+    zooming:
+    [1, 2, 3, 4, 5, 6] -> [1, 2, 3, 4, 7, 8, 11]
+  */
+
   const max_common_from_start_step = getMaxCommonFromStart(value_full_path, oldvalue_full_path)
 
   const value_path_to = value_full_path.slice(max_common_from_start_step)
@@ -48,6 +53,56 @@ export const zoomingAndConverting = (converting) => (value_full_path, oldvalue_f
 
 const zooming = zoomingAndConverting(pathAsSteps)
 
+export const traveling = (next_list, prev_list) => {
+  /*
+    traveling of base: same final destination (prev/next), but changes in base
+    [1, 2, 3, 4, 5, 6] -> [1, 8, 5, 6]
+
+    remove-base - batch
+      remove-lev - chunk
+    add-base
+      add-lev
+  */
+  const common_from_start = getMaxCommonFromStart(next_list, prev_list)
+  const common_from_end = getMaxCommonFromEnd(next_list, prev_list)
+
+  const to_remove = prev_list.slice(common_from_start, -common_from_end)
+  const to_update = next_list.slice(-common_from_end)
+  const to_add = next_list.slice(common_from_start, -common_from_end).reverse()
+
+  /*
+    clean (prepare) from start to end of list
+    update common end () from start to end of list
+    add(readd) new items from end to start of list
+  */
+
+  return [
+    {
+      name: 'travebasing-remove',
+      changes: to_remove.map(cur => ({
+        type: 'travebasing-remove',
+        bwlev: cur,
+      }))
+    },
+    {
+      name: 'travebasing-update',
+      changes: to_update.map(cur => ({
+        type: 'travebasing-update',
+        bwlev: cur,
+      }))
+    },
+    {
+      name: 'travebasing-add',
+      changes: to_add.map(cur => ({
+        type: 'travebasing-add',
+        bwlev: cur,
+      }))
+    },
+  ]
+
+  return [to_remove, to_update, to_add.reverse()]
+}
+
 const isEqualArrays = (arr_a, arr_b) => {
   if (arr_a.length != arr_b.length) {
     return false
@@ -68,13 +123,22 @@ const isEqual = (next, prev) => {
   return isEqualArrays(next, prev)
 }
 
+const isZooming = (next_list, prev_list) => {
+  const next = last(next_list)
+  const prev = last(prev_list)
+
+  // it's ok to zoom-out and zoom-in when final destination is different from prev destination
+  return next !== prev
+}
+
 const calcChanges = (next_list, prev_list) => {
-  return zooming(next_list, prev_list)
   switch (true) {
     case isEqual(next_list, prev_list):
       return []
-    default:
+    case isZooming(next_list, prev_list):
       return zooming(next_list, prev_list)
+    default:
+      return traveling(next_list, prev_list)
   }
 }
 
