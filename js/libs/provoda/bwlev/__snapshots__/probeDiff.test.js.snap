@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getClosestStep 1`] = `Array []`;
+
+exports[`getClosestStep 2`] = `
+Array [
+  Object {
+    "changes": Array [
+      3,
+      2,
+    ],
+    "name": "zoom-out",
+  },
+  Object {
+    "changes": Array [
+      77,
+      89,
+    ],
+    "name": "zoom-in",
+  },
+]
+`;
+
+exports[`getClosestStep 3`] = `
+Array [
+  Object {
+    "changes": Array [
+      3,
+      2,
+      1,
+    ],
+    "name": "zoom-out",
+  },
+  Object {
+    "changes": Array [
+      9,
+      77,
+      89,
+    ],
+    "name": "zoom-in",
+  },
+]
+`;
+
+exports[`getClosestStep 4`] = `
+Array [
+  Object {
+    "changes": Array [
+      4,
+    ],
+    "name": "zoom-out",
+  },
+  Object {
+    "changes": Array [
+      3,
+    ],
+    "name": "zoom-in",
+  },
+]
+`;

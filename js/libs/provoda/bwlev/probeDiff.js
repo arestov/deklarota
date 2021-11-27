@@ -54,7 +54,7 @@ const asMDR = function(md) {
 const last = (list) => list && list[list.length - 1]
 
 
-const zooming = (value_full_path, oldvalue_full_path) => {
+export const zoomingAndConverting = (converting) => (value_full_path, oldvalue_full_path) => {
   const max_common_from_start_step = getMaxCommonFromStart(value_full_path, oldvalue_full_path)
 
   const value_path_to = max_common_from_start_step != null && value_full_path.slice(max_common_from_start_step)
@@ -64,18 +64,20 @@ const zooming = (value_full_path, oldvalue_full_path) => {
   if (oldvalue_path_from && oldvalue_path_from.length) {
     changes_wrap.push({
       name: 'zoom-out',
-      changes: pathAsSteps(oldvalue_path_from, false)
+      changes: converting(oldvalue_path_from, false)
     })
   }
   if (value_path_to && value_path_to.length) {
     changes_wrap.push({
       name: 'zoom-in',
-      changes: pathAsSteps(value_path_to, true)
+      changes: converting(value_path_to, true)
     })
   }
 
   return changes_wrap
 }
+
+const zooming = zoomingAndConverting(pathAsSteps)
 
 const isEqualArrays = (arr_a, arr_b) => {
   if (arr_a.length != arr_b.length) {
