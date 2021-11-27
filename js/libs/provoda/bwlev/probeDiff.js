@@ -1,32 +1,5 @@
-
 import getNesting from '../provoda/getNesting'
-import getParentsBranch from './getParentsBranch'
 import getMaxCommonFromStart from './getMaxCommonFromStart'
-
-const getModelByIdUniversal = function(highway_holder, _provoda_id) {
-  const _highway = highway_holder._highway
-  if (_highway.models) {
-    return _highway.models[_provoda_id]
-  }
-
-  if (!_highway.views_proxies) {
-    return _highway.sync_r.models_index[_provoda_id]
-  }
-
-  const view = highway_holder
-  const proxies_space = view.proxies_space || view.root_view.proxies_space
-  const mpx = _highway.views_proxies.spaces[proxies_space].mpxes_index[_provoda_id]
-  return mpx.md
-}
-
-const getModelByR = function(highway_holder, mdr) {
-  const _provoda_id = mdr._provoda_id
-  return getModelByIdUniversal(highway_holder, _provoda_id)
-}
-
-export const getBwlevsTree = function(highway_holder, mdrp) {
-  return getParentsBranch(mdrp && getModelByR(highway_holder, mdrp))
-}
 
 export const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
 
