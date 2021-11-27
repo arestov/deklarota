@@ -1,5 +1,5 @@
 import getNesting from '../provoda/getNesting'
-import getMaxCommonFromStart from './getMaxCommonFromStart'
+import { getMaxCommonFromStart } from './getMaxCommonFromStart'
 
 export const isOneStepZoomIn = (list) => list.length == 1 && list[0].name == 'zoom-in' && list[0].changes.length < 3
 

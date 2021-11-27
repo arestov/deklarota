@@ -1,4 +1,4 @@
-const getMaxCommonFromStart = (arrA, arrB) => {
+export const getMaxCommonFromStart = (arrA, arrB) => {
   const length = Math.min(arrA.length, arrB.length)
   for (let i = 0; i < length; i++) {
     const curA = arrA[i]
@@ -10,5 +10,3 @@ const getMaxCommonFromStart = (arrA, arrB) => {
 
   return length
 }
-
-export default getMaxCommonFromStart

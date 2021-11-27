@@ -1,6 +1,6 @@
 import {it, expect} from '@jest/globals'
 
-import getMaxCommonFromStart from './getMaxCommonFromStart'
+import { getMaxCommonFromStart } from './getMaxCommonFromStart'
 
 it('getClosestStep', () => {
   expect(getMaxCommonFromStart([1, 2, 3], [1, 2, 3])).toMatchSnapshot()
