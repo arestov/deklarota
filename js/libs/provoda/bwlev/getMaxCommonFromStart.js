@@ -1,4 +1,4 @@
-const getClosestToEndCommonStep = (arrA, arrB) => {
+const getMaxCommonFromStart = (arrA, arrB) => {
   const length = Math.max(arrA.length, arrB.length)
   for (let i = 0; i < length; i++) {
     const curA = arrA[i]
@@ -11,4 +11,4 @@ const getClosestToEndCommonStep = (arrA, arrB) => {
   return length
 }
 
-export default getClosestToEndCommonStep
+export default getMaxCommonFromStart

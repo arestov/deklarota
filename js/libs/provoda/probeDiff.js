@@ -1,7 +1,7 @@
 
 import getNesting from './provoda/getNesting'
 import getParentsBranch from './bwlev/getParentsBranch'
-import getClosestToEndCommonStep from './bwlev/getClosestToEndCommonStep'
+import getMaxCommonFromStart from './bwlev/getMaxCommonFromStart'
 
 const getModelByIdUniversal = function(highway_holder, _provoda_id) {
   const _highway = highway_holder._highway
@@ -55,10 +55,10 @@ const last = (list) => list && list[list.length - 1]
 
 
 const zooming = (value_full_path, oldvalue_full_path) => {
-  const closest_step = getClosestToEndCommonStep(value_full_path, oldvalue_full_path)
+  const max_common_from_start_step = getMaxCommonFromStart(value_full_path, oldvalue_full_path)
 
-  const value_path_to = closest_step != null && value_full_path.slice(closest_step)
-  const oldvalue_path_from = closest_step != null && oldvalue_full_path.slice(closest_step).reverse()
+  const value_path_to = max_common_from_start_step != null && value_full_path.slice(max_common_from_start_step)
+  const oldvalue_path_from = max_common_from_start_step != null && oldvalue_full_path.slice(max_common_from_start_step).reverse()
 
   const changes_wrap = []
   if (oldvalue_path_from && oldvalue_path_from.length) {
