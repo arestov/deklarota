@@ -1,7 +1,7 @@
 
-import getNesting from './provoda/getNesting'
-import getParentsBranch from './bwlev/getParentsBranch'
-import getMaxCommonFromStart from './bwlev/getMaxCommonFromStart'
+import getNesting from '../provoda/getNesting'
+import getParentsBranch from './getParentsBranch'
+import getMaxCommonFromStart from './getMaxCommonFromStart'
 
 const getModelByIdUniversal = function(highway_holder, _provoda_id) {
   const _highway = highway_holder._highway

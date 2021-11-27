@@ -2,7 +2,7 @@
 import spv from '../../spv'
 import _updateRel from '../_internal/_updateRel'
 import _updateAttr from '../_internal/_updateAttr'
-import probeDiff from '../probeDiff'
+import probeDiff from './probeDiff'
 import getBwlevParent from './getBwlevParent'
 
 const complexBrowsing = function(bwlev, md, value) {
