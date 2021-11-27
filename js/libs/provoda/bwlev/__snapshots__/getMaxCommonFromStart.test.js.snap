@@ -1,11 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getClosestStep 1`] = `3`;
+exports[`getMaxCommonFromEnd 1`] = `3`;
 
-exports[`getClosestStep 2`] = `1`;
+exports[`getMaxCommonFromEnd 2`] = `1`;
 
-exports[`getClosestStep 3`] = `0`;
+exports[`getMaxCommonFromEnd 3`] = `0`;
 
-exports[`getClosestStep 4`] = `2`;
+exports[`getMaxCommonFromEnd 4`] = `2`;
 
-exports[`getClosestStep 5`] = `3`;
+exports[`getMaxCommonFromEnd 5`] = `3`;
+
+exports[`getMaxCommonFromEnd 6`] = `1`;
+
+exports[`getMaxCommonFromStart 1`] = `3`;
+
+exports[`getMaxCommonFromStart 2`] = `1`;
+
+exports[`getMaxCommonFromStart 3`] = `0`;
+
+exports[`getMaxCommonFromStart 4`] = `2`;
+
+exports[`getMaxCommonFromStart 5`] = `3`;
