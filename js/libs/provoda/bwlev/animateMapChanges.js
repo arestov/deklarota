@@ -1,17 +1,28 @@
 
-import spv from '../../spv'
+import spv, { countKeys } from '../../spv'
 import _updateRel from '../_internal/_updateRel'
 import _updateAttr from '../_internal/_updateAttr'
 import probeDiff from './probeDiff'
 import getBwlevParent from './getBwlevParent'
 
 const complexBrowsing = function(bwlev, md, value) {
-  // map levels. without knowing which map
-  let obj = md.state('bmp_show')
-  obj = obj && spv.cloneObj({}, obj) || {}
-  const num = bwlev.state('map_level_num')
-  obj[num] = value
-  _updateAttr(md, 'bmp_show', obj)
+  let obj = {...md.state('$meta$perspective$eachshow')}
+
+  const key = bwlev._provoda_id
+
+  if (value) {
+    obj[key] = value
+    obj = obj
+  } else {
+    delete obj[key]
+    obj = obj
+  }
+
+  Object.freeze(obj)
+
+  _updateAttr(bwlev, 'mp_show', value)
+  _updateAttr(md, '$meta$perspective$eachshow', obj)
+  _updateAttr(md, 'mp_show', Boolean(countKeys(obj)))
 }
 
 const handleMoveView = (change) => {
@@ -30,8 +41,6 @@ const handleMoveView = (change) => {
     }
   }
 
-  _updateAttr(md, 'mp_show', change.value)
-  _updateAttr(bwlev, 'mp_show', change.value)
   complexBrowsing(bwlev, md, change.value)
 }
 
