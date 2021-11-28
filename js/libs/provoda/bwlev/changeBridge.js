@@ -15,12 +15,11 @@ const getRedirectedCursor = (map, pioneer) => {
 }
 
 const redirected = function(map, pioneer) {
-  const BWL = map.app.CBWL
   const redirected_cursor = getRedirectedCursor(map, pioneer) || map.mainLevelResident
   if (redirected_cursor == pioneer) {
     return null
   }
-  return showMOnMap(BWL, map, redirected_cursor)
+  return showMOnMap(map, redirected_cursor)
 }
 
 const resetNavigationRequests = (router, bwlev) => {

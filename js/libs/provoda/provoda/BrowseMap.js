@@ -125,7 +125,7 @@ BrowseMap.Model = spv.inh(HModel, {
     // var showMOnMap = require('../bwlev/showMOnMap'); // todo: remove
 
     // console.warn('_getMySimpleBwlev is depricated. md should not have tied connection to one `map` object')
-    // return showMOnMap(BrowseLevel, this.app.map, this);
+    // return showMOnMap( this.app.map, this);
   },
   toProperNavParent: function() {
     return toProperNavParent(this)

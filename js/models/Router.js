@@ -15,6 +15,7 @@ import BrowseMap from '../libs/BrowseMap'
 import animateMapChanges from '../libs/provoda/bwlev/animateMapChanges'
 import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
+import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 
 export const BasicRouter = spv.inh(Model, {
   naming: function(fn) {
@@ -72,7 +73,6 @@ export default spv.inh(BasicRouter, {
 
     self.mainLevelResident = self.app.start_page
     self.start_bwlev = createLevel(
-      self.app.CBWL,
       spyglass_name,
       -1,
       false,
@@ -203,7 +203,7 @@ export default spv.inh(BasicRouter, {
           const id = state.id
           const md = getModelById(self, id)
 
-          const bwlev = showMOnMap(self.app.CBWL, self, md)
+          const bwlev = showMOnMap(self, md)
           bwlev.showOnMap()
           _updateAttr(bwlev, 'currentReq', req)
         }

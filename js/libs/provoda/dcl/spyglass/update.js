@@ -19,9 +19,9 @@ const changeCurrentLev = function(probe_md, next_lev, prev_lev) {
   _updateRel(probe_md, 'current_bwlev', next_lev || null)
 }
 
-const ensureBwLev = function(BWL, probe_md, probe_name, md) {
+const ensureBwLev = function(probe_md, probe_name, md) {
   if (!probe_md.bwlevs.hasOwnProperty(md._provoda_id)) {
-    probe_md.bwlevs[md._provoda_id] = createLevel(BWL, probe_name, -1, null, md, probe_md)
+    probe_md.bwlevs[md._provoda_id] = createLevel(probe_name, -1, null, md, probe_md)
   }
 
   return probe_md.bwlevs[md._provoda_id]
@@ -32,7 +32,7 @@ const ensureBwLev = function(BWL, probe_md, probe_name, md) {
 */
 
 const getProbeChange = function(toggle) {
-  return function(BWL, bwlev, data) {
+  return function(bwlev, data) {
     // data.bwlev + data.context_md - optional
     const target_id = data.target_id // required
     const probe_name = data.probe_name // required
@@ -65,7 +65,7 @@ const getProbeChange = function(toggle) {
       subpage = getSPByPathTemplate(app, container, value)
     }
 
-    const nested_bwlev = subpage && ensureBwLev(BWL, probe_md, probe_name, subpage)
+    const nested_bwlev = subpage && ensureBwLev(probe_md, probe_name, subpage)
     const prev_subpage = probe_md.getNesting('current_md')
     const prev_nested_bwlev = prev_subpage && getBWlev(probe_md, prev_subpage)
 

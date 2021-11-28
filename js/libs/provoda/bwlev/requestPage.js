@@ -5,7 +5,7 @@ import changeBridge from './changeBridge'
 import showMOnMap from './showMOnMap'
 import getRouteStepParent from './getRouteStepParent'
 
-export default function requestPage(BWL, self, id) {
+export default function requestPage(self, id) {
   const md = getModelById(self, id)
   const pioneer = self.getNesting('pioneer')
 
@@ -29,14 +29,14 @@ export default function requestPage(BWL, self, id) {
 
   if (!target_is_deep_child) {
 
-    const bwlev = showMOnMap(BWL, map, md)
+    const bwlev = showMOnMap(map, md)
     changeBridge(bwlev)
     return
   }
 
   bwlev_children = bwlev_children.reverse()
 
-  // !!!!showMOnMap(BWL, map, pioneer, self);
+  // !!!!showMOnMap( map, pioneer, self);
 
   let last_called = null
   let parent_bwlev = self
@@ -46,7 +46,7 @@ export default function requestPage(BWL, self, id) {
     }
     const cur_md = bwlev_children[i]
 
-    parent_bwlev = _goDeeper(BWL, map, cur_md, parent_bwlev)
+    parent_bwlev = _goDeeper(map, cur_md, parent_bwlev)
     last_called = parent_bwlev
   }
 

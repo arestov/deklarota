@@ -40,7 +40,7 @@ const selectParentToGo = (map, pioneer, another_candidate) => {
     return null
   }
 
-  return showMOnMap(pioneer.app.CBWL, map, alive_pioneer)
+  return showMOnMap(map, alive_pioneer)
 }
 
 const switchToAliveParent = (bwlev) => {
@@ -320,7 +320,7 @@ const BrowseLevel = spv.inh(Model, {
             }
           }
 
-          const new_parent_bwlev = showMOnMap(self.app.CBWL, self.map, data.next_value)
+          const new_parent_bwlev = showMOnMap(self.map, data.next_value)
 
           setCacheValue(new_parent_bwlev, self)
           return {
@@ -337,12 +337,12 @@ const BrowseLevel = spv.inh(Model, {
   },
 
   showOnMap: function() {
-    // !!!!showMOnMap(BrowseLevel, this.map, this.getNesting('pioneer'), this);
+    // !!!!showMOnMap(this.map, this.getNesting('pioneer'), this);
     changeBridge(this)
   },
 
   requestPage: function(id) {
-    return requestPage(BrowseLevel, this, id)
+    return requestPage(this, id)
   },
 
   zoomOut: function() {
@@ -386,7 +386,7 @@ const BrowseLevel = spv.inh(Model, {
     const md = getModelById(this, id)
 
     // md.requestPage();
-    const bwlev = followFromTo(BrowseLevel, this.map, this, md)
+    const bwlev = followFromTo(this.map, this, md)
     changeBridge(bwlev)
     return bwlev
   },

@@ -5,7 +5,6 @@ import { doCopy } from '../../spv/cloneObj'
 import definedAttrs from '../Model/definedAttrs'
 import AttrsCollector from '../StatesEmitter/AttrsCollector'
 import RootLev from '../bwlev/RootLev'
-import BrowseLevel from '../bwlev/BrowseLevel'
 import globalSkeleton from './globalSkeleton'
 import analyzeLinks from './analyzeLinks'
 
@@ -87,9 +86,6 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
     self.__BWLev = mark(__BWLev, RootConstr, next_ascent_level)
     self._all_chi.__BWLev = self.__BWLev
-
-    self.CBWL = mark(BrowseLevel, RootConstr, next_ascent_level)
-    self._all_chi.CBWL = self.CBWL
   }
 
   self._attrs_collector = new AttrsCollector(definedAttrs(self))

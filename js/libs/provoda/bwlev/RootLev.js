@@ -44,7 +44,7 @@ const RootLev = spv.inh(Model, {
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
       const md = getModelById(this, id)
-      const bwlev = showMOnMap(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), md)
+      const bwlev = showMOnMap(getSPByPathTemplate(this.app, this, 'router-navigation'), md)
       bwlev.showOnMap()
     },
     followURL: function(from_id, url) {
@@ -53,7 +53,7 @@ const RootLev = spv.inh(Model, {
 
       const target_md = getSPByPathTemplate(this.app, md, url)
 
-      const bwlev = followFromTo(this.app.CBWL, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, target_md)
+      const bwlev = followFromTo(getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, target_md)
       bwlev.showOnMap()
       return bwlev
     },
@@ -62,7 +62,7 @@ const RootLev = spv.inh(Model, {
 
       const from_bwlev = getModelById(this, from_id)
 
-      const bwlev = followFromTo(this.app.CBWL, this, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, md)
+      const bwlev = followFromTo(this, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, md)
       bwlev.showOnMap()
       return bwlev
     },
@@ -100,10 +100,10 @@ const RootLev = spv.inh(Model, {
     }
   },
   updateSpyglass: function(data) {
-    updateSpyglass(this.app.CBWL, this, data)
+    updateSpyglass(this, data)
   },
   toggleSpyglass: function(data) {
-    updateSpyglass.toggle(this.app.CBWL, this, data)
+    updateSpyglass.toggle(this, data)
   },
   spyglassURL: function(_name, _pattern, _data) {
     // navigation, "/tags/[:tag]" {tag: "tgbbb"}

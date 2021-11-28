@@ -29,7 +29,6 @@ function ensureStartBwlev(map, md) {
 
   if (!map.mainLevelResidents[md._provoda_id]) {
     map.mainLevelResidents[md._provoda_id] = createLevel(
-      map.app.CBWL,
       map.spyglass_name,
       -1,
       false,
@@ -42,7 +41,7 @@ function ensureStartBwlev(map, md) {
 
 }
 
-export default function showMOnMap(BWL, map, model, bwlev) {
+export default function showMOnMap(map, model, bwlev) {
 
   const is_start = isStart(map, model)
 
@@ -64,7 +63,7 @@ export default function showMOnMap(BWL, map, model, bwlev) {
 
     parent_md = toProperNavParent(map, parent_md)
 
-    bwlev_parent = showMOnMap(BWL, map, parent_md, getBwlevParent(bwlev), true)
+    bwlev_parent = showMOnMap(map, parent_md, getBwlevParent(bwlev), true)
   }
 
   let result = null
@@ -84,7 +83,7 @@ export default function showMOnMap(BWL, map, model, bwlev) {
         throw new Error('model must have model_name prop')
       }
       // this.bindMMapStateChanges(model, model.model_name);
-      result = _goDeeper(BWL, map, model, getBwlevParent(bwlev))
+      result = _goDeeper(map, model, getBwlevParent(bwlev))
     }
   }
 

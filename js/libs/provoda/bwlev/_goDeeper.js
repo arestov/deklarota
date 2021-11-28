@@ -6,7 +6,7 @@ import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
 import isStart from './isStart'
 
-export default function _goDeeper(BWL, map, md, parent_bwlev, freeze_parent_bwlev) {
+export default function _goDeeper(map, md, parent_bwlev, freeze_parent_bwlev) {
   /*
     freeze_parent_bwlev in combination with specific parent_bwlev
     used to show some content in unusual context, in context different from
@@ -36,7 +36,7 @@ export default function _goDeeper(BWL, map, md, parent_bwlev, freeze_parent_bwle
     throw new Error('`md.lev` prop dissalowed')
   }
 
-  return createLevel(BWL, pvState(parent_lev, 'probe_name'), map_level_num, parent_lev, md, map, Boolean(freeze_parent_bwlev))
+  return createLevel(pvState(parent_lev, 'probe_name'), map_level_num, parent_lev, md, map, Boolean(freeze_parent_bwlev))
 }
 
 function getBwlevInParentBwlev(md, map) {
