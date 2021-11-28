@@ -16,6 +16,7 @@ import getModelSources from '../structure/getModelSources'
 import showMOnMap from './showMOnMap'
 import getAliveNavPioneer from './getAliveNavPioneer'
 import getBwlevParent from './getBwlevParent'
+import { hasRelDcl } from '../dcl/nests/getRelShape'
 
 
 const transportName = function(spyglass_name) {
@@ -66,6 +67,10 @@ const BrowseLevel = spv.inh(Model, {
 
     self.children_bwlevs = {}
     self.map = null
+
+    if (!hasRelDcl(self, 'nav_parent')) {
+      throw new Error('bwlev should have nav_parent rel defined')
+    }
 
     // self.model_name = states['model_name'];
     //
