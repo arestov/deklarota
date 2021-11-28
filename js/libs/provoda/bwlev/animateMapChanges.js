@@ -5,7 +5,9 @@ import _updateAttr from '../_internal/_updateAttr'
 import probeDiff from './probeDiff'
 import getBwlevParent from './getBwlevParent'
 
-const complexBrowsing = function(bwlev, md, value) {
+const complexBrowsing = function(bwlev, value) {
+  const md = bwlev.getNesting('pioneer')
+
   let obj = {...md.state('$meta$perspective$eachshow')}
 
   const key = bwlev._provoda_id
@@ -41,7 +43,7 @@ const handleMoveView = (change) => {
     }
   }
 
-  complexBrowsing(bwlev, md, change.value)
+  complexBrowsing(bwlev, change.value)
 }
 
 const handleChange = (_perspectivator, change) => {
@@ -176,8 +178,7 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
 function changeZoomSimple(bwlev, value_raw) {
   const value = Boolean(value_raw)
   _updateAttr(bwlev, 'mp_show', value)
-  const md = bwlev.getNesting('pioneer')
-  complexBrowsing(bwlev, md, value)
+  complexBrowsing(bwlev, value)
 }
 
 export const switchCurrentBwlev = (bwlev, prev) => {
