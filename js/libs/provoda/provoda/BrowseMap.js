@@ -93,6 +93,7 @@ BrowseMap.Model = spv.inh(HModel, {
     'url_part': ['input', null],
     'nav_title': ['input', null],
     '$meta$perspective$each_show': ['input'],
+    '$meta$perspective$each_focus': ['input'],
     url_part: ['input'],
     mp_has_focus: ['input'],
     mp_show: ['input'],

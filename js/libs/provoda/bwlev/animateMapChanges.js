@@ -38,6 +38,8 @@ const multiBwlevAttr = (multi_attr, final_attr) => (bwlev, value) => {
 }
 
 const multiShow = multiBwlevAttr('$meta$perspective$each_show', 'mp_show')
+const multiFocus = multiBwlevAttr('$meta$perspective$each_focus', 'mp_has_focus')
+
 
 const handleMoveView = (change) => {
   const bwlev = change.bwlev
@@ -47,8 +49,7 @@ const handleMoveView = (change) => {
   if (change.value) {
     const bwlev_parent = change.bwlev.getParentMapModel()
     if (bwlev_parent) {
-      _updateAttr(bwlev_parent, 'mp_has_focus', false)
-      _updateAttr(bwlev_parent.getNesting('pioneer'), 'mp_has_focus', false)
+      multiFocus(bwlev_parent, false)
     }
   }
 
@@ -161,15 +162,11 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
 
   const model = diff.bwlev?.getNesting('pioneer')
   if (model) {
-    if (fake_spyglass.current_mp_md) {
-      _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
-    }
     const target_md = fake_spyglass.current_mp_md = model
 
     fake_spyglass.current_mp_bwlev = depth(diff.bwlev, fake_spyglass.current_mp_bwlev)
 
-    _updateAttr(target_md, 'mp_has_focus', true)
-    _updateAttr(diff.bwlev, 'mp_has_focus', true)
+    multiFocus(diff.bwlev, true)
 
    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
     _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
