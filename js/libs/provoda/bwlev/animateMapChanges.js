@@ -30,9 +30,11 @@ const multiBwlevAttr = (multi_attr, final_attr) => (bwlev, value) => {
 
   Object.freeze(obj)
 
+  const final_value = Boolean(countKeys(obj))
+
   _updateAttr(bwlev, final_attr, value)
-  _updateAttr(md, multi_attr, obj)
-  _updateAttr(md, final_attr, Boolean(countKeys(obj)))
+  _updateAttr(md, multi_attr, final_value ? obj : undefined)
+  _updateAttr(md, final_attr, final_value)
 }
 
 const multiShow = multiBwlevAttr('$meta$perspective$each_show', 'mp_show')
