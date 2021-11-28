@@ -30,7 +30,6 @@ const handleMoveView = (change) => {
     }
   }
 
-  _updateAttr(bwlev, 'mpl_attached', !change.value)
   _updateAttr(md, 'mp_show', change.value)
   _updateAttr(bwlev, 'mp_show', change.value)
   complexBrowsing(bwlev, md, change.value)

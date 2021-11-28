@@ -5,7 +5,6 @@ import changeBridge from './changeBridge'
 import requestPage from './requestPage'
 import followFromTo from './followFromTo'
 import getModelById from '../utils/getModelById'
-import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import pvState from '../utils/state'
 import flatStruc from '../structure/flatStruc'
@@ -18,8 +17,6 @@ import showMOnMap from './showMOnMap'
 import getAliveNavPioneer from './getAliveNavPioneer'
 import getBwlevParent from './getBwlevParent'
 
-const countKeys = spv.countKeys
-const cloneObj = spv.cloneObj
 
 const transportName = function(spyglass_name) {
   return 'router__' + spyglass_name.replace('/', '__')
@@ -86,13 +83,10 @@ const BrowseLevel = spv.inh(Model, {
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
     currentReq: ['input'],
-    mpl_attached: ['input'],
     mp_dft: ['input'],
     mp_show: ['input'],
     mp_has_focus: ['input'],
     freeze_parent_bwlev: ['input'],
-    // bmpl_attached: ['input'],
-    mpl_attached: ['input'],
     'check_focus_leave': [
       'comp',
       ['mp_has_focus'],
@@ -405,14 +399,6 @@ const BrowseLevel = spv.inh(Model, {
     _updateRel(target, 'focus_referrer_bwlev', null)
   },
 
-  'stch-mpl_attached': function(target, state) {
-    const md = target.getNesting('pioneer')
-    let obj = pvState(md, 'bmpl_attached')
-    obj = obj ? cloneObj({}, obj) : {}
-    obj[target._provoda_id] = state
-    _updateAttr(md, 'bmpl_attached', obj)
-    _updateAttr(md, 'mpl_attached', countKeys(obj, true))
-  },
 
   'stch-to_init': function(target, struc) {
     if (!struc) {return}
