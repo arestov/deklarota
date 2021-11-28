@@ -1,21 +1,22 @@
 import getModelFromR from '../../libs/provoda/provoda/v/getModelFromR'
 
 const handleNavChange = (self, change) => {
+  const mpx = self.getStoredMpx(getModelFromR(self, change.bwlev))
   switch (change.type) {
     case 'move-view': {
-      self.setVMpshow(self.getStoredMpx(getModelFromR(self, change.bwlev)), change.value)
+      self.setVMpshow(mpx, change.value)
       return
     }
     case 'travebasing-remove': {
-      self.setVMpshow(self.getStoredMpx(getModelFromR(self, change.bwlev)), false)
+      self.setVMpshow(mpx, false)
       return
     }
     case 'travebasing-update': {
-      self.setVMpshow(self.getStoredMpx(getModelFromR(self, change.bwlev)), true)
+      self.setVMpshow(mpx, true)
       return
     }
     case 'travebasing-add': {
-      self.setVMpshow(self.getStoredMpx(getModelFromR(self, change.bwlev)), true)
+      self.setVMpshow(mpx, true)
       return
     }
   }
