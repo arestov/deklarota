@@ -83,7 +83,7 @@ const BrowseLevel = spv.inh(Model, {
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
     currentReq: ['input'],
-    mp_dft: ['input'],
+    distance_from_destination: ['input'],
     mp_show: ['input'],
     mp_has_focus: ['input'],
     freeze_parent_bwlev: ['input'],
@@ -183,18 +183,18 @@ const BrowseLevel = spv.inh(Model, {
 
     'to_init': [
       'comp',
-      ['mp_dft', 'struc'],
-      function(mp_dft, struc) {
-        if (!mp_dft || mp_dft > 2 || !struc) {return}
+      ['distance_from_destination', 'struc'],
+      function(distance, struc) {
+        if (!distance || distance > 2 || !struc) {return}
         return struc
       }
     ],
 
     'to_load': [
       'comp',
-      ['mp_dft', 'struc'],
-      function(mp_dft, struc) {
-        if (!mp_dft || mp_dft > 1 || !struc) {return}
+      ['distance_from_destination', 'struc'],
+      function(distance, struc) {
+        if (!distance || distance > 1 || !struc) {return}
         return struc
       }
     ],
@@ -223,10 +223,10 @@ const BrowseLevel = spv.inh(Model, {
 
     '__to_load_all': [
       'comp',
-      ['mp_dft', '__struc_list', '__supervision'],
-      function(mp_dft, struc, supervision) {
+      ['distance_from_destination', '__struc_list', '__supervision'],
+      function(distance, struc, supervision) {
         return {
-          inactive: !mp_dft || mp_dft > 1 || !struc,
+          inactive: !distance || distance > 1 || !struc,
           list: struc,
           supervision: supervision
         }

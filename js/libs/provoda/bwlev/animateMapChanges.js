@@ -97,10 +97,10 @@ const goUp = function(bwlev, cb) {
 const setDft = function(get_atom_value) {
   return function(bwlev, _md, count) {
     const atom_value = get_atom_value(count)
-    // var value = depthValue(md.state('bmp_dft'), bwlev._provoda_id, atom_value);
-    // _updateAttr(md, 'bmp_dft', value);
-    // _updateAttr(md, 'mp_dft', minDistance(value));
-    _updateAttr(bwlev, 'mp_dft', atom_value)
+    // var value = depthValue(md.state('bdistance_from_destination'), bwlev._provoda_id, atom_value);
+    // _updateAttr(md, 'bdistance_from_destination', value);
+    // _updateAttr(md, 'distance_from_destination', minDistance(value));
+    _updateAttr(bwlev, 'distance_from_destination', atom_value)
   }
 }
 
