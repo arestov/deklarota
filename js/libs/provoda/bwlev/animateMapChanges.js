@@ -39,17 +39,14 @@ const multiShow = multiBwlevAttr('$meta$perspective$each_show', 'mp_show')
 
 const handleMoveView = (change) => {
   const bwlev = change.bwlev
-  const md = bwlev.getNesting('pioneer')
 
   // debugger;
 
   if (change.value) {
-    const possible_parent = md.getParentMapModel()
-    const parent = possible_parent && possible_parent.toProperNavParent()
-    if (parent) {
-      const bwlev_parent = change.bwlev.getParentMapModel()
+    const bwlev_parent = change.bwlev.getParentMapModel()
+    if (bwlev_parent) {
       _updateAttr(bwlev_parent, 'mp_has_focus', false)
-      _updateAttr(parent, 'mp_has_focus', false)
+      _updateAttr(bwlev_parent.getNesting('pioneer'), 'mp_has_focus', false)
     }
   }
 
