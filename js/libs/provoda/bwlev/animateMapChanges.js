@@ -35,7 +35,7 @@ const multiBwlevAttr = (multi_attr, final_attr) => (bwlev, value) => {
   _updateAttr(md, final_attr, Boolean(countKeys(obj)))
 }
 
-const multiShow = multiBwlevAttr('$meta$perspective$eachshow', 'mp_show')
+const multiShow = multiBwlevAttr('$meta$perspective$each_show', 'mp_show')
 
 const handleMoveView = (change) => {
   const bwlev = change.bwlev
