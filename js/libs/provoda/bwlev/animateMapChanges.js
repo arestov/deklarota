@@ -116,14 +116,6 @@ const depth = function(bwlev, old_bwlev) {
   return bwlev
 }
 
-const getPioneer = function(bwlev) {
-  return bwlev.getNesting('pioneer')
-}
-
-const asMDR = function(md) {
-  return md && md.getMDReplacer()
-}
-
 function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
   const diff = probeDiff(next_tree, prev_tree)
 
@@ -132,7 +124,6 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
   }
 
   const bwlevs = next_tree
-  const models = bwlevs.map(getPioneer)
 
   _updateRel(fake_spyglass, 'navigation', bwlevs)
 
@@ -177,25 +168,6 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
 
 
   }
-
-  let all_items
-
-  let mp_show_wrap
-  if (models) {
-
-    all_items = models.concat(bwlevs)
-
-    mp_show_wrap = {
-      items: models.map(asMDR),
-      bwlevs: bwlevs.map(asMDR),
-      all_items: all_items.map(asMDR),
-      mp_show_states: []
-    }
-    for (i = 0; i < models.length; i++) {
-      mp_show_wrap.mp_show_states.push(models[i].state('mp_show'))
-    }
-  }
-
 
   _updateRel(fake_spyglass, 'map_slice', next_tree)
 
