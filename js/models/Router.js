@@ -74,7 +74,12 @@ export const BasicRouter = spv.inh(Model, {
         }
         const cur = props.bwlevs_for[model_name]
         const sub_page_name = `bwlev-${model_name}`
-        sub_page[sub_page_name] = cur
+
+        if (typeof cur != 'object') {
+          throw new Error('bwlevs_for item should object {attrs, rels, ...}')
+        }
+
+        sub_page[sub_page_name] = spv.inh(self.$default_bwlev_constr, {}, cur)
       }
     }
   }
