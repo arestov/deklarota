@@ -43,16 +43,6 @@ const multiFocus = multiBwlevAttr('$meta$perspective$each_focus', 'mp_has_focus'
 
 const handleMoveView = (change) => {
   const bwlev = change.bwlev
-
-  // debugger;
-
-  if (change.value) {
-    const bwlev_parent = change.bwlev.getParentMapModel()
-    if (bwlev_parent) {
-      multiFocus(bwlev_parent, false)
-    }
-  }
-
   multiShow(bwlev, change.value)
 }
 
@@ -128,6 +118,27 @@ const depth = function(bwlev, old_bwlev) {
   return bwlev
 }
 
+const updateFocus = (next_tree, prev_tree) => {
+  const destination = next_tree && next_tree[next_tree.length - 1]
+
+  const everything = new Set([
+    ...(next_tree || []),
+    ...(prev_tree || [])
+  ])
+
+  // everything except destination
+  everything.delete(destination)
+
+  // everything except destination should not have focus
+  for (const item of everything) {
+    multiFocus(item, false)
+  }
+
+  if (destination) {
+    multiFocus(destination, true)
+  }
+}
+
 function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
   const diff = probeDiff(next_tree, prev_tree)
 
@@ -166,7 +177,7 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
 
     fake_spyglass.current_mp_bwlev = depth(diff.bwlev, fake_spyglass.current_mp_bwlev)
 
-    multiFocus(diff.bwlev, true)
+    updateFocus(next_tree, prev_tree)
 
    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
     _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
