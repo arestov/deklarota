@@ -185,7 +185,7 @@ const BrowseLevel = spv.inh(Model, {
       'comp',
       ['distance_from_destination', 'struc'],
       function(distance, struc) {
-        if (!distance || distance > 2 || !struc) {return}
+        if (distance == null || distance > 1 || !struc) {return}
         return struc
       }
     ],
@@ -194,7 +194,7 @@ const BrowseLevel = spv.inh(Model, {
       'comp',
       ['distance_from_destination', 'struc'],
       function(distance, struc) {
-        if (!distance || distance > 1 || !struc) {return}
+        if (distance == null || distance > 0 || !struc) {return}
         return struc
       }
     ],
@@ -226,7 +226,7 @@ const BrowseLevel = spv.inh(Model, {
       ['distance_from_destination', '__struc_list', '__supervision'],
       function(distance, struc, supervision) {
         return {
-          inactive: !distance || distance > 1 || !struc,
+          inactive: distance == null || distance > 1 || !struc,
           list: struc,
           supervision: supervision
         }

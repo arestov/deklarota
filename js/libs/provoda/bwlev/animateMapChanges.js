@@ -82,7 +82,7 @@ const handleChange = (_perspectivator, change) => {
 
 const goUp = function(bwlev, cb) {
   if (!bwlev) {return}
-  let count = 1
+  let count = 0
   let md = bwlev.getNesting('pioneer')
   let cur = bwlev
   while (cur) {
