@@ -17,6 +17,13 @@ import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 
+const ensureSubPage = (self) => {
+  if (!self.hasOwnProperty('sub_page')) {
+    self.sub_page = {}
+  }
+  return self.sub_page
+}
+
 export const BasicRouter = spv.inh(Model, {
   naming: function(fn) {
     return function BasicRouter(opts, data, params, more, states) {
@@ -30,6 +37,47 @@ export const BasicRouter = spv.inh(Model, {
       throw self._throwError('model_name is required for perspectivator')
     }
   },
+  onPreExtend(self, props, _original, _params) {
+
+    if (props.sub_page) {
+      for (const sub_page_name in props.sub_page) {
+        if (!props.sub_page.hasOwnProperty(sub_page_name)) {
+          continue
+        }
+        if (sub_page_name.startsWith('bwlev-')) {
+          throw new Error('use bwlevs_for instead of bwlev-')
+        }
+      }
+    }
+
+    if (props.model_name) {
+      const rel_name = `nav_parent_at_perspectivator_${props.model_name}`
+
+      self.$default_bwlev_constr = spv.inh(BrowseLevel, {}, {
+        rels: {
+          nav_parent: ['comp', [`<< @one:pioneer.${rel_name}`], { any: true }],
+        },
+      })
+
+      ensureSubPage(self)['bwlev-$default'] = {
+        constr: self.$default_bwlev_constr,
+        title: [[]],
+      }
+    }
+
+    if (props.bwlevs_for) {
+      const sub_page = ensureSubPage(self)
+
+      for (const model_name in props.bwlevs_for) {
+        if (!props.bwlevs_for.hasOwnProperty(model_name)) {
+          continue
+        }
+        const cur = props.bwlevs_for[model_name]
+        const sub_page_name = `bwlev-${model_name}`
+        sub_page[sub_page_name] = cur
+      }
+    }
+  }
 }, {
   rpc_legacy: {
     ...handlers,
@@ -151,12 +199,6 @@ export default spv.inh(BasicRouter, {
       ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md'],
       (arg1, arg2) => arg1 || arg2,
     ]
-  },
-  sub_page: {
-    'bwlev-$default': {
-      constr: BrowseLevel,
-      title: [[]],
-    },
   },
   rels: {
     navigation: ['input', {any: true, many: true}],
