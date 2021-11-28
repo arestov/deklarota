@@ -37,8 +37,8 @@ const LevContainer = function(con, scroll_con, material, tpl, context) {
   }
 }
 
-const viewOnLevelP = function(md, view) {
-  const lev_conj = this.getLevelContainer(md, view.nesting_space == 'detailed')
+const viewOnLevelP = function(bwlev, view) {
+  const lev_conj = this.getLevByBwlev(bwlev, view.nesting_space == 'detailed')
   view.wayp_scan_stop = true
   return lev_conj.material
 }

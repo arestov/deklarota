@@ -95,7 +95,7 @@ export default function readMapSliceAnimationData(view, one_zoom_in, current_bwl
   const shift_x = width / 2 - min_scale * con_width / 2
   const shift_y = height / 2 - min_scale * con_height / 2
 
-  const lc = view.getLevelContainer(bwlev)
+  const lc = view.getLevByBwlev(bwlev)
 
   const transform_values = {}
   const value = 'translate(' + (offset.left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')'
