@@ -51,48 +51,47 @@ const getLevelContainer = (perspectivator_view, bwlev, deeper) => {
   const num = raw_num
   if (self.lev_containers[num]) {
     return self.lev_containers[num]
-  } else {
-    /*
-    if (!view){
-      throw new Error('give me "view"');
-    }*/
-    if (num == -1 && !self.lev_containers.start_page) {
-      throw new Error('start_screen must exist')
-    }
-
-    const node = self.root_view.getSample('complex-page')
-
-    const tpl = self.parent_view.pvtemplate(node, false, false, {
-      '$lev_num': num
-    })
-
-    self.addTpl(tpl)
-
-    let next_lev_con
-    for (let i = num; i <= self.max_level_num; i++) {
-      if (self.lev_containers[i]) {
-        next_lev_con = self.lev_containers[i]
-        break
-      }
-    }
-    if (next_lev_con) {
-      node.insertBefore(next_lev_con.c)
-    } else {
-      node.appendTo(self.getInterface('app_map_con'))
-    }
-
-    const lev_con = new LevContainer(
-      node,
-      tpl.ancs['scroll_con'],
-      tpl.ancs['material'],
-      tpl,
-      this
-    )
-    self.lev_containers[num] = lev_con
-
-    self.max_level_num = Math.max(self.max_level_num, num)
-    return lev_con
   }
+  /*
+  if (!view){
+    throw new Error('give me "view"');
+  }*/
+  if (num == -1 && !self.lev_containers.start_page) {
+    throw new Error('start_screen must exist')
+  }
+
+  const node = self.root_view.getSample('complex-page')
+
+  const tpl = self.parent_view.pvtemplate(node, false, false, {
+    '$lev_num': num
+  })
+
+  self.addTpl(tpl)
+
+  let next_lev_con
+  for (let i = num; i <= self.max_level_num; i++) {
+    if (self.lev_containers[i]) {
+      next_lev_con = self.lev_containers[i]
+      break
+    }
+  }
+  if (next_lev_con) {
+    node.insertBefore(next_lev_con.c)
+  } else {
+    node.appendTo(self.getInterface('app_map_con'))
+  }
+
+  const lev_con = new LevContainer(
+    node,
+    tpl.ancs['scroll_con'],
+    tpl.ancs['material'],
+    tpl,
+    this
+  )
+  self.lev_containers[num] = lev_con
+
+  self.max_level_num = Math.max(self.max_level_num, num)
+  return lev_con
 }
 
 export default getLevelContainer
