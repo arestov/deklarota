@@ -16,12 +16,12 @@ import readMapSliceAnimationData from './readMapSliceAnimationData'
 import animateMapSlice, { getLevNum } from './animateMapSlice'
 import findMpxViewInChildren from './findMpxViewInChildren'
 import handleNavChange from './handleNavChange'
-import getLevelContainer from './getLevelContainer'
+import getLevByBwlev from './getLevelContainer'
 
 const last = (list) => list && list[list.length - 1]
 
 const viewOnLevelP = function(bwlev, view) {
-  const lev_conj = this.getLevByBwlev(bwlev, view.nesting_space == 'detailed')
+  const lev_conj = getLevByBwlev(this, bwlev, view.nesting_space == 'detailed')
   view.wayp_scan_stop = true
   return lev_conj.material
 }
@@ -139,10 +139,6 @@ export default spv.inh(View, {
         }
       ]
     }
-  },
-  getLevByBwlev: function(bwlev, deeper) {
-    return getLevelContainer(this, bwlev, deeper)
-
   },
   wrapStartScreen: function(start_screen_node) {
     const start_screen = $(start_screen_node)
@@ -315,10 +311,10 @@ export default spv.inh(View, {
       const con = mplev_item_view && mplev_item_view.getC()
       if (con && con.height()) {
         target.root_view.scrollTo(mplev_item_view.getC(), {
-          node: target.getLevByBwlev(parent_bwlev).scroll_con
+          node: getLevByBwlev(target, parent_bwlev).scroll_con
         }, {vp_limit: 0.4, animate: 117})
       } else {
-        scrollTop(target.getLevByBwlev(parent_bwlev).scroll_con, 0)
+        scrollTop(getLevByBwlev(target, parent_bwlev).scroll_con, 0)
       }
     }, 150)
 
