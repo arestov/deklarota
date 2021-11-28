@@ -41,8 +41,7 @@ const multiFocus = multiBwlevAttr('$meta$perspective$each_focus', 'mp_has_focus'
 
 
 const handleMoveView = (change) => {
-  const bwlev = change.bwlev
-  multiShow(bwlev, change.value)
+  multiShow(change.bwlev, change.value)
 }
 
 const handleChange = (_perspectivator, change) => {
