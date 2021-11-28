@@ -5,10 +5,18 @@ import _updateAttr from '../_internal/_updateAttr'
 import probeDiff from './probeDiff'
 import getBwlevParent from './getBwlevParent'
 
-const complexBrowsing = function(bwlev, value) {
+const multiBwlevAttr = (multi_attr, final_attr) => (bwlev, value) => {
+  /*
+    1. update attr (final_attr) in bwlev
+    md can be pioneer in multiple bwlevs, so
+    2. track multiple bwlevs of md (multi_attr)
+    3. update attr (final_attr) in model
+
+    bwlev:final_attr -> md:multi_attr -> md:final_attr
+  */
   const md = bwlev.getNesting('pioneer')
 
-  let obj = {...md.state('$meta$perspective$eachshow')}
+  let obj = {...md.state(multi_attr)}
 
   const key = bwlev._provoda_id
 
@@ -22,10 +30,12 @@ const complexBrowsing = function(bwlev, value) {
 
   Object.freeze(obj)
 
-  _updateAttr(bwlev, 'mp_show', value)
-  _updateAttr(md, '$meta$perspective$eachshow', obj)
-  _updateAttr(md, 'mp_show', Boolean(countKeys(obj)))
+  _updateAttr(bwlev, final_attr, value)
+  _updateAttr(md, multi_attr, obj)
+  _updateAttr(md, final_attr, Boolean(countKeys(obj)))
 }
+
+const multiShow = multiBwlevAttr('$meta$perspective$eachshow', 'mp_show')
 
 const handleMoveView = (change) => {
   const bwlev = change.bwlev
@@ -43,7 +53,7 @@ const handleMoveView = (change) => {
     }
   }
 
-  complexBrowsing(bwlev, change.value)
+  multiShow(bwlev, change.value)
 }
 
 const handleChange = (_perspectivator, change) => {
@@ -178,7 +188,7 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
 function changeZoomSimple(bwlev, value_raw) {
   const value = Boolean(value_raw)
   _updateAttr(bwlev, 'mp_show', value)
-  complexBrowsing(bwlev, value)
+  multiShow(bwlev, value)
 }
 
 export const switchCurrentBwlev = (bwlev, prev) => {
