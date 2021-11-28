@@ -36,19 +36,16 @@ const handleMoveView = (change) => {
   complexBrowsing(bwlev, md, change.value)
 }
 
-const model_mapch = {
-  'move-view': function(change) {
-    handleMoveView(change)
-  },
-}
-
-const handleChange = (perspectivator, change) => {
-  const handler = model_mapch[change.type]
-  if (handler == null) {
-    throw new Error('unknown change type: ' + change.type)
+const handleChange = (_perspectivator, change) => {
+  switch (change.type) {
+    case 'move-view': {
+      handleMoveView(change)
+      return
+    }
+    default: {
+      throw new Error('unknown change type: ' + change.type)
+    }
   }
-
-  handler(change, perspectivator)
 }
 
 // var minDistance = function(obj) {
