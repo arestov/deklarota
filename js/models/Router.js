@@ -152,6 +152,12 @@ export default spv.inh(BasicRouter, {
       (arg1, arg2) => arg1 || arg2,
     ]
   },
+  sub_page: {
+    'bwlev-$default': {
+      constr: BrowseLevel,
+      title: [[]],
+    },
+  },
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
