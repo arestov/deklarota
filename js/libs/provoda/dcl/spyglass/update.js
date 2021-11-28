@@ -19,16 +19,12 @@ const changeCurrentLev = function(probe_md, next_lev, prev_lev) {
   _updateRel(probe_md, 'current_bwlev', next_lev || null)
 }
 
-const getBWlev = function(probe_md, md) {
-  return probe_md.bwlevs[md._provoda_id]
-}
-
 const ensureBwLev = function(BWL, probe_md, probe_name, md) {
   if (!probe_md.bwlevs.hasOwnProperty(md._provoda_id)) {
     probe_md.bwlevs[md._provoda_id] = createLevel(BWL, probe_name, -1, null, md, probe_md)
   }
 
-  return getBWlev(probe_md, md)
+  return probe_md.bwlevs[md._provoda_id]
 }
 
 /*
