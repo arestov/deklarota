@@ -15,13 +15,13 @@ const complexBrowsing = function(bwlev, md, value) {
 }
 
 const handleMoveView = (change) => {
-  const md = change.target
   const bwlev = change.bwlev
+  const md = bwlev.getNesting('pioneer')
 
   // debugger;
 
   if (change.value) {
-    const possible_parent = change.target.getParentMapModel()
+    const possible_parent = md.getParentMapModel()
     const parent = possible_parent && possible_parent.toProperNavParent()
     if (parent) {
       const bwlev_parent = change.bwlev.getParentMapModel()
@@ -149,12 +149,12 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
 
  // var bwlevs = residents && spv.filter(residents, 'lev.bwlev');
 
-
-  if (diff.target) {
+  const model = diff.bwlev?.getNesting('pioneer')
+  if (model) {
     if (fake_spyglass.current_mp_md) {
       _updateAttr(fake_spyglass.current_mp_md, 'mp_has_focus', false)
     }
-    const target_md = fake_spyglass.current_mp_md = diff.target
+    const target_md = fake_spyglass.current_mp_md = model
 
     fake_spyglass.current_mp_bwlev = depth(diff.bwlev, fake_spyglass.current_mp_bwlev)
 

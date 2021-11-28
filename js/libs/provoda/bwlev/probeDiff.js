@@ -151,7 +151,6 @@ export default function probeDiff(value_full_path, oldvalue_full_path) {
   return {
     bwlev: bwlev,
     prev_bwlev: last(oldvalue_full_path),
-    target: getNesting(bwlev, 'pioneer'),
     value_full_path: value_full_path,
     oldvalue_full_path: oldvalue_full_path,
     array: changes_list,
