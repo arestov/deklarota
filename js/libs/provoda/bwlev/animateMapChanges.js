@@ -3,7 +3,6 @@ import spv, { countKeys } from '../../spv'
 import _updateRel from '../_internal/_updateRel'
 import _updateAttr from '../_internal/_updateAttr'
 import probeDiff from './probeDiff'
-import getBwlevParent from './getBwlevParent'
 
 const multiBwlevAttr = (multi_attr, final_attr) => (bwlev, value) => {
   /*
@@ -58,64 +57,20 @@ const handleChange = (_perspectivator, change) => {
   }
 }
 
-// var minDistance = function(obj) {
-// 	if (!obj) {return;}
-// 	var values = [];
-// 	for (var key in obj) {
-// 		if (!obj[key]) {
-// 			continue;
-// 		}
-// 		values.push(obj[key]);
-// 	}
-
-// 	if (!values.length) {return;}
-
-// 	return Math.min.apply(null, values);
-// };
-
-
-// var depthValue = function(obj_raw, key, value) {
-// 	var obj = obj_raw && spv.cloneObj({}, obj_raw) || {};
-// 	obj[key] = value;
-// 	return obj;
-// };
-
-const goUp = function(bwlev, cb) {
-  if (!bwlev) {return}
-  let count = 0
-  let md = bwlev.getNesting('pioneer')
-  let cur = bwlev
-  while (cur) {
-    cb(cur, md, count)
-    // it's ok to get parent (without using getRouteStepParent) from bwlev
-    cur = getBwlevParent(cur)
-    md = cur && cur.getNesting('pioneer')
-    count++
+const updateDistance = (next_tree, prev_tree) => {
+  const prev = new Set(prev_tree)
+  for (let i = 0; i < next_tree.length; i++) {
+    prev.delete(next_tree[i])
   }
-}
 
-const setDft = function(get_atom_value) {
-  return function(bwlev, _md, count) {
-    const atom_value = get_atom_value(count)
-    // var value = depthValue(md.state('bdistance_from_destination'), bwlev._provoda_id, atom_value);
-    // _updateAttr(md, 'bdistance_from_destination', value);
-    // _updateAttr(md, 'distance_from_destination', minDistance(value));
-    _updateAttr(bwlev, 'distance_from_destination', atom_value)
+  for (const cur of prev) {
+    _updateAttr(cur, 'distance_from_destination', null)
   }
-}
 
-const dftCount = setDft(function(count) {
-  return count
-})
-
-const dftNull = setDft(function() {
-  return null
-})
-
-const depth = function(bwlev, old_bwlev) {
-  goUp(old_bwlev, dftNull)
-  goUp(bwlev, dftCount)
-  return bwlev
+  for (let i = next_tree.length - 1; i >= 0; i--) {
+    const cur = next_tree[i]
+    _updateAttr(cur, 'distance_from_destination', i - (next_tree.length - 1))
+  }
 }
 
 const updateFocus = (next_tree, prev_tree) => {
@@ -175,8 +130,9 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
   if (model) {
     const target_md = fake_spyglass.current_mp_md = model
 
-    fake_spyglass.current_mp_bwlev = depth(diff.bwlev, fake_spyglass.current_mp_bwlev)
+    fake_spyglass.current_mp_bwlev = diff.bwlev
 
+    updateDistance(next_tree, prev_tree)
     updateFocus(next_tree, prev_tree)
 
    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
@@ -206,7 +162,7 @@ export const switchCurrentBwlev = (bwlev, prev) => {
     changeZoomSimple(bwlev, true)
   }
 
-  depth(bwlev, prev)
+  updateDistance([bwlev], [prev])
 }
 
 export default animateMapChanges
