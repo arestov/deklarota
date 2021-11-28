@@ -44,10 +44,34 @@ const handleMoveView = (change) => {
   multiShow(change.bwlev, change.value)
 }
 
+const travebasingRemove = (change) => {
+  multiShow(change.bwlev, false)
+}
+
+const travebasingUpdate = (change) => {
+  multiShow(change.bwlev, true)
+}
+
+const travebasingAdd = (change) => {
+  multiShow(change.bwlev, true)
+}
+
 const handleChange = (_perspectivator, change) => {
   switch (change.type) {
     case 'move-view': {
       handleMoveView(change)
+      return
+    }
+    case 'travebasing-remove': {
+      travebasingRemove(change)
+      return
+    }
+    case 'travebasing-update': {
+      travebasingUpdate(change)
+      return
+    }
+    case 'travebasing-add': {
+      travebasingAdd(change)
       return
     }
     default: {

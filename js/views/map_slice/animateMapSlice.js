@@ -52,7 +52,16 @@ export default function(view, bwlev, navigation_changes, animation_data) {
   // TODO: find way to not remove important things, but just hide (performance optimisation)
   for (let i = 0; i < all_changhes.length; i++) {
     const cur = all_changhes[i]
-    if (cur.value) {continue}
+    switch (cur.type) {
+      case 'move-view': {
+        if (cur.value) { continue }
+        break
+      }
+      case 'travebasing-remove': {
+        break
+      }
+      default: { continue }
+    }
     view.removeChildViewsByMd(view.getStoredMpx(getModelFromR(view, cur.bwlev)), 'map_slice')
   }
 
