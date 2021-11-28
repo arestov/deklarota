@@ -17,14 +17,11 @@ import animateMapSlice, { getLevNum } from './animateMapSlice'
 import findMpxViewInChildren from './findMpxViewInChildren'
 import handleNavChange from './handleNavChange'
 import getLevByBwlev from './getLevelContainer'
+import getBwlevContainer from './getBwlevContainer'
 
 const last = (list) => list && list[list.length - 1]
 
-const viewOnLevelP = function(bwlev, view) {
-  const lev_conj = getLevByBwlev(this, bwlev, view.nesting_space == 'detailed')
-  view.wayp_scan_stop = true
-  return lev_conj.material
-}
+
 
 export default spv.inh(View, {
   init: function(self) {
@@ -163,7 +160,9 @@ export default spv.inh(View, {
   },
 
   'collch-$spec_common-map_slice': {
-    place: viewOnLevelP
+    place: function(bwlev, view) {
+      return getBwlevContainer(this, bwlev, view)
+    }
   },
 
   'sel-coll-map_slice': '$spec_common-map_slice',
