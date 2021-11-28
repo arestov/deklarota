@@ -12,9 +12,17 @@ import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
 import getModelById from '../libs/provoda/utils/getModelById'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import BrowseMap from '../libs/BrowseMap'
-import animateMapChanges from '../libs/provoda/dcl/probe/animateMapChanges'
+import animateMapChanges from '../libs/provoda/bwlev/animateMapChanges'
 import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
+import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
+
+const ensureSubPage = (self) => {
+  if (!self.hasOwnProperty('sub_page')) {
+    self.sub_page = {}
+  }
+  return self.sub_page
+}
 
 export const BasicRouter = spv.inh(Model, {
   naming: function(fn) {
@@ -29,6 +37,52 @@ export const BasicRouter = spv.inh(Model, {
       throw self._throwError('model_name is required for perspectivator')
     }
   },
+  onPreExtend(self, props, _original, _params) {
+
+    if (props.sub_page) {
+      for (const sub_page_name in props.sub_page) {
+        if (!props.sub_page.hasOwnProperty(sub_page_name)) {
+          continue
+        }
+        if (sub_page_name.startsWith('bwlev-')) {
+          throw new Error('use bwlevs_for instead of bwlev-')
+        }
+      }
+    }
+
+    if (props.model_name) {
+      const rel_name = `nav_parent_at_perspectivator_${props.model_name}`
+
+      self.$default_bwlev_constr = spv.inh(BrowseLevel, {}, {
+        rels: {
+          nav_parent: ['comp', [`<< @one:pioneer.${rel_name}`], { any: true }],
+        },
+      })
+
+      ensureSubPage(self)['bwlev-$default'] = {
+        constr: self.$default_bwlev_constr,
+        title: [[]],
+      }
+    }
+
+    if (props.bwlevs_for) {
+      const sub_page = ensureSubPage(self)
+
+      for (const model_name in props.bwlevs_for) {
+        if (!props.bwlevs_for.hasOwnProperty(model_name)) {
+          continue
+        }
+        const cur = props.bwlevs_for[model_name]
+        const sub_page_name = `bwlev-${model_name}`
+
+        if (typeof cur != 'object') {
+          throw new Error('bwlevs_for item should object {attrs, rels, ...}')
+        }
+
+        sub_page[sub_page_name] = spv.inh(self.$default_bwlev_constr, {}, cur)
+      }
+    }
+  }
 }, {
   rpc_legacy: {
     ...handlers,
@@ -72,7 +126,6 @@ export default spv.inh(BasicRouter, {
 
     self.mainLevelResident = self.app.start_page
     self.start_bwlev = createLevel(
-      self.app.CBWL,
       spyglass_name,
       -1,
       false,
@@ -143,7 +196,7 @@ export default spv.inh(BasicRouter, {
     ],
     __access_list: [
       'comp',
-      ['< @all:has_no_access < wanted_bwlev_chain.pioneer', '< @all:_provoda_id < wanted_bwlev_chain'],
+      ['< @all:has_no_access < wanted_bwlev_branch.pioneer', '< @all:_provoda_id < wanted_bwlev_branch'],
       (arg1, arg2) => ([...arg1, ...arg2])
     ],
     current_model_id: [
@@ -155,7 +208,14 @@ export default spv.inh(BasicRouter, {
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
-    wanted_bwlev_chain: ['input', {any: true, many: true}],
+
+    wanted_bwlev: ['input', {any: true}],
+    wanted_bwlev_branch: [
+      'comp',
+      ['<< @all:wanted_bwlev.bwlev_parents_branch'],
+      {any: true, many: true}
+    ],
+    bwlev_branch_with_access: ['input', {any: true, many: true}],
 
     /* is_simple_router=true: current_bwlev, current_md */
     current_md: ['input', {any: true}],
@@ -190,7 +250,7 @@ export default spv.inh(BasicRouter, {
           const id = state.id
           const md = getModelById(self, id)
 
-          const bwlev = showMOnMap(self.app.CBWL, self, md)
+          const bwlev = showMOnMap(self, md)
           bwlev.showOnMap()
           _updateAttr(bwlev, 'currentReq', req)
         }
@@ -198,7 +258,7 @@ export default spv.inh(BasicRouter, {
     },
     'handleAttr:__access_list': {
       to: {
-        'selected__name': ['selected__name']
+        bwlev_branch_with_access: ['<< bwlev_branch_with_access', { method: 'set_many' }]
       },
       fn: [
         ['<<<<'],
@@ -206,8 +266,8 @@ export default spv.inh(BasicRouter, {
           const target = self
           const map = target
 
-          const list = getNesting(map, 'wanted_bwlev_chain')
-          if (!list) {
+          const list = getNesting(map, 'wanted_bwlev_branch')
+          if (!list || !list.length) {
             return {}
           }
 
@@ -223,19 +283,33 @@ export default spv.inh(BasicRouter, {
             }
             ok_bwlev = i
           }
-
-          const bwlev = list[ok_bwlev]
-
-          animateMapChanges(target, bwlev)
-
-          _updateRel(map, 'selected__bwlev', bwlev)
-          _updateRel(map, 'selected__md', bwlev.getNesting('pioneer'))
-          _updateAttr(map, 'selected__name', bwlev.model_name)
-
           askAuth(list[ok_bwlev + 1])
+
+          return { bwlev_branch_with_access: list.slice(0, ok_bwlev + 1) }
+        },
+      ],
+    },
+    'handleRel:bwlev_branch_with_access': {
+      to: {
+        'selected__name': ['selected__name']
+      },
+      fn: [
+        ['<<<<'],
+        (data, self) => {
+          animateMapChanges(self, data.next_value || [], data.prev_value || [])
+
+          const list = data.next_value
+          const bwlev = list && list[list.length - 1]
+
+          const md = bwlev.getNesting('pioneer')
+
+          _updateRel(self, 'selected__bwlev', bwlev)
+          _updateRel(self, 'selected__md', md)
+          _updateAttr(self, 'selected__name', md.model_name)
+
           return {}
-        }
-      ]
+        },
+      ],
     },
     expectRelBeRevealedByRelPath: {
       to: ['current_expected_rel'],
@@ -250,8 +324,8 @@ export default spv.inh(BasicRouter, {
             // model from data will be used as "base" to start rel_path requesting
             current_md_id,
           }
-        }
-      ]
+        },
+      ],
     },
     'handleAttr:current_expected_rel': {
       to: {

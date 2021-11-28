@@ -15,12 +15,11 @@ const getRedirectedCursor = (map, pioneer) => {
 }
 
 const redirected = function(map, pioneer) {
-  const BWL = map.app.CBWL
   const redirected_cursor = getRedirectedCursor(map, pioneer) || map.mainLevelResident
   if (redirected_cursor == pioneer) {
     return null
   }
-  return showMOnMap(BWL, map, redirected_cursor)
+  return showMOnMap(map, redirected_cursor)
 }
 
 const resetNavigationRequests = (router, bwlev) => {
@@ -54,11 +53,9 @@ export default function changeBridge(bwlev_raw, map_raw) {
     return
   }
 
-  const copy = bwlev.ptree.slice()
-  copy.reverse()
-
-  _updateRel(map, 'wanted_bwlev_chain', copy)
   _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
   resetNavigationRequests(map, bwlev)
+  _updateRel(map, 'wanted_bwlev', bwlev)
+
   return bwlev
 }

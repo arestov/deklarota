@@ -9,9 +9,17 @@ const hasPrefixedProps = hp.getPropsPrefixChecker(getUnprefixed)
 
 
 const buildMany = function(self) {
-  self._build_cache_subpage_many = {}
+  self._build_cache_subpage_many = { // make copy to change
+    ...self._build_cache_subpage_many,
+  }
+
   for (const prop_name in self.sub_page) {
-    self._build_cache_subpage_many[prop_name] = getSubpageItem(self.sub_page[prop_name], 'sub-page-' + prop_name, false, prop_name, 'sp')
+    const cur = self.sub_page[prop_name]
+    if (cur == null) {
+      self._build_cache_subpage_many[prop_name] = null
+    }
+
+    self._build_cache_subpage_many[prop_name] = getSubpageItem(cur, 'sub-page-' + prop_name, false, prop_name, 'sp')
   }
 }
 
@@ -28,6 +36,8 @@ export default function collectSubpages(self) {
     return
   }
 
+  // merge build with changed_pack
+
   if (changed_pack) {
     buildMany(self)
   }
@@ -35,10 +45,14 @@ export default function collectSubpages(self) {
   const check = {}
 
   for (const key_many in self._build_cache_subpage_many) {
+    const cur = self._build_cache_subpage_many[key_many]
+    if (cur == null) {
+      continue
+    }
     if (check[key_many]) {
       continue
     }
-    check[key_many] = self._build_cache_subpage_many[key_many]
+    check[key_many] = cur
   }
 
   self._chi_sub_pages = {}

@@ -150,7 +150,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
 
     await inited.computed()
 
-    expect(mainNavigationRouter.readAddr('<< @all:wanted_bwlev_chain.pioneer').map(item => item.model_name)).toMatchSnapshot()
+    expect(mainNavigationRouter.readAddr('<< @all:wanted_bwlev_branch.pioneer').map(item => item.model_name)).toMatchSnapshot()
     expect(mainNavigationRouter.readAddr('<< @one:current_mp_md').model_name).toMatchSnapshot()
 
     expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot()

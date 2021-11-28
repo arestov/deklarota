@@ -1,3 +1,3 @@
 
-import probeDiff from '../probeDiff'
+import probeDiff from '../bwlev/probeDiff'
 export default probeDiff

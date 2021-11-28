@@ -8,4 +8,8 @@ const getRelShape = (self, rel_name) => {
   return dcl && dcl.rel_shape
 }
 
+export const hasRelDcl = (self, rel_name) => {
+  return Boolean(getRelDcl(self, rel_name))
+}
+
 export default getRelShape

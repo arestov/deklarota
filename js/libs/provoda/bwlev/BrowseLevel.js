@@ -5,7 +5,6 @@ import changeBridge from './changeBridge'
 import requestPage from './requestPage'
 import followFromTo from './followFromTo'
 import getModelById from '../utils/getModelById'
-import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import pvState from '../utils/state'
 import flatStruc from '../structure/flatStruc'
@@ -16,9 +15,9 @@ import loadAllByStruc from '../structure/reactions/loadAllByStruc'
 import getModelSources from '../structure/getModelSources'
 import showMOnMap from './showMOnMap'
 import getAliveNavPioneer from './getAliveNavPioneer'
+import getBwlevParent from './getBwlevParent'
+import { hasRelDcl } from '../dcl/nests/getRelShape'
 
-const countKeys = spv.countKeys
-const cloneObj = spv.cloneObj
 
 const transportName = function(spyglass_name) {
   return 'router__' + spyglass_name.replace('/', '__')
@@ -42,18 +41,19 @@ const selectParentToGo = (map, pioneer, another_candidate) => {
     return null
   }
 
-  return showMOnMap(pioneer.app.CBWL, map, alive_pioneer)
+  return showMOnMap(map, alive_pioneer)
 }
 
-const switchToAliveParent = (self) => {
+const switchToAliveParent = (bwlev) => {
+  const bwlev_parent = getBwlevParent(bwlev)
   changeBridge(
     selectParentToGo(
-      self.map,
-      self.getNesting('pioneer'),
-      self.map_parent && self.map_parent.getNesting('pioneer')) ||
-    self.map_parent ||
-    self.map.start_bwlev,
-    self.map)
+      bwlev.map,
+      bwlev.getNesting('pioneer'),
+      bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
+    bwlev_parent ||
+    bwlev.map.start_bwlev,
+    bwlev.map)
 }
 
 const BrowseLevel = spv.inh(Model, {
@@ -68,23 +68,16 @@ const BrowseLevel = spv.inh(Model, {
     self.children_bwlevs = {}
     self.map = null
 
+    if (!hasRelDcl(self, 'nav_parent')) {
+      throw new Error('bwlev should have nav_parent rel defined')
+    }
+
     // self.model_name = states['model_name'];
     //
     // if (!self.model_name) {
     // 	throw new Error('must have model name');
     // }
 
-    const states = self.init_v2_data.states
-
-    const pioneer = states['pioneer']
-
-    self.ptree = [self]
-    self.rtree = [pioneer]
-
-    if (self.map_parent) {
-      self.ptree = self.ptree.concat(self.map_parent.ptree)
-      self.rtree = self.rtree.concat(self.map_parent.rtree)
-    }
   }
 }, {
   model_name: 'bwlev',
@@ -95,12 +88,10 @@ const BrowseLevel = spv.inh(Model, {
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
     currentReq: ['input'],
-    mpl_attached: ['input'],
-    mp_dft: ['input'],
+    distance_from_destination: ['input'],
     mp_show: ['input'],
     mp_has_focus: ['input'],
-    // bmpl_attached: ['input'],
-    mpl_attached: ['input'],
+    freeze_parent_bwlev: ['input'],
     'check_focus_leave': [
       'comp',
       ['mp_has_focus'],
@@ -197,18 +188,18 @@ const BrowseLevel = spv.inh(Model, {
 
     'to_init': [
       'comp',
-      ['mp_dft', 'struc'],
-      function(mp_dft, struc) {
-        if (!mp_dft || mp_dft > 2 || !struc) {return}
+      ['distance_from_destination', 'struc'],
+      function(distance, struc) {
+        if (distance == null || distance > 1 || !struc) {return}
         return struc
       }
     ],
 
     'to_load': [
       'comp',
-      ['mp_dft', 'struc'],
-      function(mp_dft, struc) {
-        if (!mp_dft || mp_dft > 1 || !struc) {return}
+      ['distance_from_destination', 'struc'],
+      function(distance, struc) {
+        if (distance == null || distance > 0 || !struc) {return}
         return struc
       }
     ],
@@ -237,10 +228,10 @@ const BrowseLevel = spv.inh(Model, {
 
     '__to_load_all': [
       'comp',
-      ['mp_dft', '__struc_list', '__supervision'],
-      function(mp_dft, struc, supervision) {
+      ['distance_from_destination', '__struc_list', '__supervision'],
+      function(distance, struc, supervision) {
         return {
-          inactive: !mp_dft || mp_dft > 1 || !struc,
+          inactive: distance == null || distance > 1 || !struc,
           list: struc,
           supervision: supervision
         }
@@ -251,6 +242,17 @@ const BrowseLevel = spv.inh(Model, {
     pioneer: ['input', {any: true}],
     map: ['input', {any: true}], // how to make ref to Router?
     focus_referrer_bwlev: ['input', {any: true}],
+    parent_bwlev: ['input', {any: true}],
+    bwlev_parents_branch: [
+      'comp',
+      ['<<<<', '<< @all:parent_bwlev.bwlev_parents_branch'],
+      (one, list) => ([...list, one].filter(Boolean)),
+      {
+        many: true,
+        any: true,
+        // linking: ['<< parent_bwlev', '<< parent_bwlev.bwlev_parents_branch']
+      }
+    ],
   },
   actions: {
     navigateToNavParent: {
@@ -287,20 +289,65 @@ const BrowseLevel = spv.inh(Model, {
           return true
         }
       ]
-    }
+    },
+    'handleRel:nav_parent': {
+      to: {
+        map_level_num: ['map_level_num'],
+        parent_bwlev: ['<< parent_bwlev', {method: 'set_one'}],
+      },
+      fn: [
+        ['$noop', '<<<<', '$meta$inited', 'freeze_parent_bwlev', '<< @one:parent_bwlev'],
+        (data, noop, self, inited, freeze_parent_bwlev, current_parent_bwlev) => {
+          if (!inited || freeze_parent_bwlev) {
+            return noop
+          }
+
+          const deleteCacheValue = (prev, item) => {
+            if (!prev) {return}
+
+            const key = item._provoda_id
+            delete prev.children_bwlevs[key]
+          }
+
+          const setCacheValue = (next, item) => {
+            if (!next) {return}
+
+            const key = item._provoda_id
+            next.children_bwlevs[key] = item
+          }
+
+          deleteCacheValue(current_parent_bwlev, self)
+
+          if (!data.next_value) {
+            return {
+              map_level_num: -1,
+              parent_bwlev: null
+            }
+          }
+
+          const new_parent_bwlev = showMOnMap(self.map, data.next_value)
+
+          setCacheValue(new_parent_bwlev, self)
+          return {
+            map_level_num: new_parent_bwlev.getAttr('map_level_num') + 1,
+            parent_bwlev: new_parent_bwlev
+          }
+        }
+      ]
+    },
   },
 
   getParentMapModel: function() {
-    return this.map_parent
+    return getBwlevParent(this)
   },
 
   showOnMap: function() {
-    // !!!!showMOnMap(BrowseLevel, this.map, this.getNesting('pioneer'), this);
+    // !!!!showMOnMap(this.map, this.getNesting('pioneer'), this);
     changeBridge(this)
   },
 
   requestPage: function(id) {
-    return requestPage(BrowseLevel, this, id)
+    return requestPage(this, id)
   },
 
   zoomOut: function() {
@@ -338,17 +385,13 @@ const BrowseLevel = spv.inh(Model, {
       return
     }
 
-    if (this.map_parent) {
-      this.map_parent.showOnMap()
-    }
-
-
+    getBwlevParent(this)?.showOnMap()
   },
   followTo: function(id) {
     const md = getModelById(this, id)
 
     // md.requestPage();
-    const bwlev = followFromTo(BrowseLevel, this.map, this, md)
+    const bwlev = followFromTo(this.map, this, md)
     changeBridge(bwlev)
     return bwlev
   },
@@ -361,14 +404,6 @@ const BrowseLevel = spv.inh(Model, {
     _updateRel(target, 'focus_referrer_bwlev', null)
   },
 
-  'stch-mpl_attached': function(target, state) {
-    const md = target.getNesting('pioneer')
-    let obj = pvState(md, 'bmpl_attached')
-    obj = obj ? cloneObj({}, obj) : {}
-    obj[target._provoda_id] = state
-    _updateAttr(md, 'bmpl_attached', obj)
-    _updateAttr(md, 'mpl_attached', countKeys(obj, true))
-  },
 
   'stch-to_init': function(target, struc) {
     if (!struc) {return}

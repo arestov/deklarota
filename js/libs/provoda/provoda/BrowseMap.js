@@ -92,12 +92,11 @@ BrowseMap.Model = spv.inh(HModel, {
   attrs: {
     'url_part': ['input', null],
     'nav_title': ['input', null],
-    'bmp_show': ['input'],
+    '$meta$perspective$each_show': ['input'],
+    '$meta$perspective$each_focus': ['input'],
     url_part: ['input'],
     mp_has_focus: ['input'],
     mp_show: ['input'],
-    mpl_attached: ['input'],
-    bmpl_attached: ['input'],
   },
   handling_v2_init: true,
   network_data_as_states: true,
@@ -126,7 +125,7 @@ BrowseMap.Model = spv.inh(HModel, {
     // var showMOnMap = require('../bwlev/showMOnMap'); // todo: remove
 
     // console.warn('_getMySimpleBwlev is depricated. md should not have tied connection to one `map` object')
-    // return showMOnMap(BrowseLevel, this.app.map, this);
+    // return showMOnMap( this.app.map, this);
   },
   toProperNavParent: function() {
     return toProperNavParent(this)

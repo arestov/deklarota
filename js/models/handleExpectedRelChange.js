@@ -32,7 +32,7 @@ const handleExpectedRelChange = (chain, current_md) => {
 
   if (complete) {
     const router = getModelById(current_md, chain.handler_payload.data.router_id)
-    const bwlev = showMOnMap(current_md.app.CBWL, router, link_step_value)
+    const bwlev = showMOnMap(router, link_step_value)
     bwlev.showOnMap()
   }
 }

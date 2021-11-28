@@ -1,5 +1,6 @@
 
 import isBigStep from './isBigStep'
+import getBwlevParent from './getBwlevParent'
 
 export default function getNavGroups(bwlev) {
   let cur_group = []
@@ -15,7 +16,7 @@ export default function getNavGroups(bwlev) {
       groups.push(cur_group)
     }
 
-    cur = cur.map_parent // it's ok to do `bwlev.map_parent`
+    cur = getBwlevParent(cur)
     cur_child = cur && cur.getNesting('pioneer')
   }
   return groups
