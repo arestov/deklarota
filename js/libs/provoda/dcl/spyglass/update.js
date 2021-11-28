@@ -31,6 +31,10 @@ const ensureBwLev = function(BWL, probe_md, probe_name, md) {
   return getBWlev(probe_md, md)
 }
 
+/*
+  probe is perspectivator (router/map)
+*/
+
 const getProbeChange = function(toggle) {
   return function(BWL, bwlev, data) {
     // data.bwlev + data.context_md - optional
