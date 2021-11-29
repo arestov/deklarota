@@ -48,6 +48,11 @@ const handlers = {
     const bwlev = showMOnMap(router, resource)
     bwlev.showOnMap()
   },
+  expectRouterRevealRel(current_md_id, router_name, rel_path) {
+    const context_router = this
+    const router = getSPByPathTemplate(this.app, context_router, router_name)
+    router.dispatch('expectRelBeRevealedByRelPath', {rel_path, current_md_id})
+  }
 }
 
 export default handlers
