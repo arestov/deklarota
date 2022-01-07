@@ -263,11 +263,11 @@ CallbacksFlow.prototype = {
 
       const toClean = cur
 
-      if (this.flow_start == cur) {
-        cur = cur.next
-      } else {
-        cur = this.flow_start
-      }
+      const next_step = this.flow_start == cur
+        ? cur.next
+        : this.flow_start
+
+      cur = next_step
 
       // clean
       toClean.next = null
