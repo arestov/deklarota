@@ -33,16 +33,6 @@ function props(add) {
   add(attr_events)
 
   add({
-    __act: act,
-    dispatch: function(action_name, data) {
-      this._calls_flow.pushToFlow(act, this, [this, action_name, data])
-    },
-  // init: function(){
-  // 	this._super();
-
-
-  // 	return this;
-  // },
     getInterface: function(interface_name) {
       return this._interfaces_used[interface_name]
     },
@@ -60,6 +50,19 @@ function props(add) {
     useInterface: function(interface_name, obj, destroy) {
       useInterface(this, interface_name, obj, destroy)
     },
+  })
+
+  add({
+    __act: act,
+    dispatch: function(action_name, data) {
+      this._calls_flow.pushToFlow(act, this, [this, action_name, data])
+    },
+  // init: function(){
+  // 	this._super();
+
+
+  // 	return this;
+  // },
     'regfr-lightstev': regfr_lightstev,
     getContextOptsI: function() {
       if (!this.conx_optsi) {
