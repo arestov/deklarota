@@ -17,7 +17,7 @@ export default function StateBindDeclr(key, data) {
   this.key = key
   this.apis = null
   this.fn = null
-  this.remote = this.remote === true ? true : false
+  this.remote = data.remote === true ? true : false
 
   this.state_name = null
   this.pass_name = null
