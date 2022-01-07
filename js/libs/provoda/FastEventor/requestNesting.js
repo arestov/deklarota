@@ -124,6 +124,15 @@ export default function(dclt, nesting_name, limit) {
   if (!dclt) {
     return
   }
+
+  const send_declr = dclt.send_declr
+  const api = getNetApiByDeclr(send_declr, this.sputnik)
+  if (!api) {
+    console.warn(new Error('api not ready yet'), send_declr)
+    return
+  }
+
+
   if (!this.nesting_requests) {
     this.nesting_requests = {}
   }
@@ -172,14 +181,6 @@ export default function(dclt, nesting_name, limit) {
 
   if (supports_paging) {
     network_api_opts.paging = paging_opts
-  }
-
-
-  const send_declr = dclt.send_declr
-
-  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
-    console.warn(new Error('api not ready yet'), send_declr)
-    return
   }
 
 
