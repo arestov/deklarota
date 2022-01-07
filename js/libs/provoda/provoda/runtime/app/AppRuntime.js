@@ -4,6 +4,7 @@ import SyncSender from '../../../sync_sender'
 import { Proxies } from '../../../views_proxies'
 import initEffects from '../../../StatesEmitter/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
+import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 
 function AppRuntime(optionsRaw) {
 
@@ -15,6 +16,7 @@ function AppRuntime(optionsRaw) {
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
     onError: bindRuntimeError(this, options.onError),
+    onFinalTransactionStep: onFinalTransactionStep(this),
   })
 
   this.models_counters = 1

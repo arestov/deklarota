@@ -202,6 +202,7 @@ const CallbacksFlow = function(options) {
   this.reportLongTask = options.reportLongTask || null
   this.reportHugeQueue = options.reportHugeQueue || null
 
+  this.onFinalTransactionStep = options.onFinalTransactionStep
 }
 
 CallbacksFlow.prototype = {
@@ -266,6 +267,10 @@ CallbacksFlow.prototype = {
       const next_step = this.flow_start == cur
         ? cur.next
         : this.flow_start
+
+      if (next_step == null || cur.complex_order[0] != next_step.complex_order[0]) {
+        this.handleFinalTrasactionEnd(cur)
+      }
 
       cur = next_step
 
@@ -336,6 +341,9 @@ CallbacksFlow.prototype = {
     const flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
     order(this, flow_step)
     this.checkCallbacksFlow()
+  },
+  handleFinalTrasactionEnd: function(step) {
+    this.onFinalTransactionStep(step)
   },
   reportLongTaskRaw: function(taskTime, task) {
     if (taskTime < 500) {
