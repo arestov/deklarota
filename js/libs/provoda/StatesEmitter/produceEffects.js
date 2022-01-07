@@ -28,8 +28,7 @@ function getCurrentTransactionKey(self) {
   if (id) {
     return id
   }
-  console.warn('no id for transaction. using shared')
-  return 'temp'
+  throw new Error('no id for transaction')
 }
 
 function agendaKey(self, initial_transaction_id) {
