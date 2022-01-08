@@ -13,6 +13,7 @@ import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
+import useInterfaceAsSource from './dcl/effects/transaction/start'
 
 const getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
@@ -49,6 +50,15 @@ function props(add) {
     __reportInterfaceChange: __reportInterfaceChange,
     useInterface: function(interface_name, obj, destroy) {
       useInterface(this, interface_name, obj, destroy)
+    },
+
+    inputFromInterface: function(interface_instance, fn) {
+      if (interface_instance == null) {
+        throw new Error('api instance should be provided')
+      }
+
+      // expecting new transaction will be started
+      this._getCallsFlow().pushToFlow(fn, this, null, interface_instance, useInterfaceAsSource)
     },
   })
 
