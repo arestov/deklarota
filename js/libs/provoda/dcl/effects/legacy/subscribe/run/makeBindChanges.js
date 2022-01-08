@@ -1,6 +1,7 @@
 
 import _updateAttr from '../../../../../_internal/_updateAttr'
 import saveResult from '../../../../passes/targetedResult/save.js'
+import getDclInputApis from '../../utils/getDclInputApis'
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
@@ -30,17 +31,34 @@ const ensureHandler = function(fn, use_input) {
     const value = getCacheValue(em, dcl)
     if (value) {return value}
 
-    const newValue = use_input !== false ?
-      em.inputFn(function(value) {
-        fn(this, exactPart, value)
-      })
-      : function(value) {
+    if (use_input === false) {
+      const result = function(value) {
         fn(em, exactPart, value)
       }
 
-    setCacheValue(em, dcl, newValue)
+      setCacheValue(em, dcl, result)
+      return result
+    }
 
-    return newValue
+    if (dcl.apis_as_input === false) {
+      const result = em.inputFn(function(value) {
+        fn(this, exactPart, value)
+      })
+
+      setCacheValue(em, dcl, result)
+      return result
+    }
+
+    const result = function(value) {
+      const apis_list = getDclInputApis(em, dcl)
+
+      em.inputFromInterface(apis_list, function() {
+        fn(em, exactPart, value)
+      })
+    }
+
+    setCacheValue(em, dcl, result)
+    return result
   }
 }
 

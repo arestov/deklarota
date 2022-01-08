@@ -29,7 +29,7 @@ function failed(err) {
   return Promise.reject(err)
 }
 
-function bindRequest(request, selected_map, store, self) {
+function bindRequest(api, request, selected_map, store, self) {
   const network_api = getNetApiByDeclr(selected_map.send_declr, self.sputnik)
 
 
@@ -86,17 +86,19 @@ function bindRequest(request, selected_map, store, self) {
         resolve(failed(new Error(NO_RESULT)))
       })
     })
-  }).then(self.sputnik.inputFn(function(response) {
+  }).then((response) => {
+    self.sputnik.inputFromInterface(api, () => {
+      if (wasReset()) {return}
+
+      anyway()
+      handleStatesResponse(response)
+      markAttemptComplete()
+    })
+  }, function(err) {
     if (wasReset()) {return}
 
-    anyway()
-    handleStatesResponse(response)
-    markAttemptComplete()
-  }), function(err) {
-    if (wasReset()) {return}
-
-    self.sputnik.input(anyway)
-    self.sputnik.input(markAttemptComplete)
+    self.sputnik.inputFromInterface(api, anyway)
+    self.sputnik.inputFromInterface(api, markAttemptComplete)
     console.error(err, self.sputnik.hierarchy_path_string, self.sputnik.__code_path)
   })
 
@@ -284,7 +286,8 @@ const requestState = function(state_name) {
 
   const selected_map = maps_for_state[0] //take first
 
-  if (!getNetApiByDeclr(selected_map.send_declr, this.sputnik)) {
+  const api = getNetApiByDeclr(selected_map.send_declr, this.sputnik)
+  if (!api) {
     console.warn(new Error('api not ready yet'), selected_map.send_declr)
     return
   }
@@ -309,7 +312,7 @@ const requestState = function(state_name) {
 
   const self = this
 
-  this.sputnik.input(function() {
+  this.sputnik.inputFromInterface(api, function() {
     if (self.mapped_reqs[selected_map.num] != store) {
       return
     }
@@ -321,7 +324,7 @@ const requestState = function(state_name) {
 
 
   if (!selected_map.dependencies) {
-    return bindRequest(sendRequest(selected_map, store, this), selected_map, store, this)
+    return bindRequest(api, sendRequest(selected_map, store, this), selected_map, store, this)
   }
 
 
@@ -329,7 +332,7 @@ const requestState = function(state_name) {
     return checkDependencies(selected_map, store, self)
   })
 
-  return bindRequest(req, selected_map, store, self)
+  return bindRequest(api, req, selected_map, store, self)
 
 }
 

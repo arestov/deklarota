@@ -2,7 +2,22 @@
 import spv from '../../../../../spv'
 import _updateAttr from '../../../../_internal/_updateAttr'
 import wrapDeps from '../api/utils/wrapDeps'
+import getDclInputApis from '../utils/getDclInputApis'
 const toRealArray = spv.toRealArray
+
+const wrapByInput = (dcl, fn) => {
+  if (dcl.apis_as_input === false) {
+    return (self, result) => {
+      self.nextTick(fn, [self, result])
+    }
+  }
+
+  return (self, result) => {
+    self.inputFromInterface(getDclInputApis(self, dcl), () => {
+      fn(self, result)
+    })
+  }
+}
 
 
 const getHandler = function(schema) {
@@ -10,19 +25,21 @@ const getHandler = function(schema) {
   const is_one_field = typeof schema === 'string'
 
   if (is_one_field) {
-    return function(self, result) {
+    return wrapByInput(function(self, result) {
       _updateAttr(self, schema, result)
-    }
+    })
   }
-  return function(self, result) {
+  return wrapByInput(function(self, result) {
     self.updateManyStates(parse(result))
-  }
+  })
 }
 
 export default function ApiEffectDeclr(name, data) {
 
   this.name = name
   this.apis = null
+  this.apis_as_input = null
+
   this.triggering_states = null
   this.deps = null
   this.deps_name = null
@@ -34,8 +51,12 @@ export default function ApiEffectDeclr(name, data) {
 
   this.all_deps = null
 
+
+
   if (!Array.isArray(data)) {
     this.apis = toRealArray(data.api)
+    this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
+
     this.triggering_states = toRealArray(data.trigger)
     this.fn = data.fn
     this.is_async = data.is_async

@@ -45,5 +45,8 @@ export default function StateBindDeclr(key, data) {
   }
 
   this.apis = spv.toRealArray(data.api)
+
+  // TODO: validate that presented apis_as_input is subset of this.apis
+  this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
   this.fn = data.fn
 }

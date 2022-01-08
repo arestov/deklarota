@@ -1,4 +1,5 @@
 import spv from '../../spv'
+import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
 const countKeys = spv.countKeys
 const CH_GR_LE = 2
 
@@ -60,6 +61,10 @@ function scheduleEffect(self, initial_transaction_id, total_original_states, eff
   effectAgenda.next_values[state_name] = new_value
 }
 
+function disallowedByLoopBreaker(self, effect) {
+  return doesTransactionDisallowEffect(self._highway.current_transaction, self, effect)
+}
+
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
   const index = self.__api_effects_$_index_by_triggering
   const using = self._effects_using
@@ -73,6 +78,10 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
     for (let jj = 0; jj < list.length; jj++) {
       const effect_name = list[jj].name
       if (!using.conditions_ready[effect_name]) {
+        continue
+      }
+
+      if (disallowedByLoopBreaker(self, list[jj])) {
         continue
       }
 
