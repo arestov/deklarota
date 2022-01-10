@@ -143,13 +143,12 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
     const effect = effects[effect_name]
 
     const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
+    using.dep_effects_ready[effect_name] = deps_ready
 
     if (!deps_ready) {
-      using.dep_effects_ready[effect_name] = false
       continue
     }
 
-    using.dep_effects_ready[effect_name] = true
     prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
     has_one_became_ready = true
 
