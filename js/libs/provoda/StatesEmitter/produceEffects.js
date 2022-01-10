@@ -102,6 +102,22 @@ function prefillAgenda(self, initial_transaction_id, total_original_states, effe
   }
 }
 
+function apiAndConditionsReady(self, using, effect, effect_name) {
+  if (effect.deps && !using.conditions_ready[effect_name]) {
+    return false
+  }
+
+  for (let cc = 0; cc < effect.apis.length; cc++) {
+    const api = effect.apis[cc]
+
+    if (!self._interfaces_used[api]) {
+      return false
+    }
+  }
+
+  return true
+}
+
 function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states) {
   const using = self._effects_using
   const effects = self.__api_effects
@@ -126,25 +142,7 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
 
     const effect = effects[effect_name]
 
-    let deps_ready = true
-
-    if (effect.deps && !using.conditions_ready[effect_name]) {
-      deps_ready = false
-    }
-
-    if (!deps_ready) {
-      using.dep_effects_ready[effect_name] = false
-      continue
-    }
-
-    for (let cc = 0; cc < effect.apis.length; cc++) {
-      const api = effect.apis[cc]
-
-      if (!self._interfaces_used[api]) {
-        deps_ready = false
-        break
-      }
-    }
+    const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
 
     if (!deps_ready) {
       using.dep_effects_ready[effect_name] = false
