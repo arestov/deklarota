@@ -51,29 +51,27 @@ export default function ApiEffectDeclr(name, data) {
 
   this.all_deps = null
 
-  if (!Array.isArray(data)) {
-    this.apis = toRealArray(data.api)
-    this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
-
-    this.triggering_states = toRealArray(data.trigger)
-    this.fn = data.fn
-    this.is_async = data.is_async
-    this.result_handler = data.parse && getHandler(this.is_async, data.parse)
-
-    if (data.require) {
-      this.deps = wrapDeps(data.require)
-      // var desc = '_need_api_effect_' + name
-      this.deps_name = Symbol() // || Symbol(desc)
-
-      this.all_deps = this.deps
-    }
-
-    if (data.effects) {
-      this.effects_deps = (data.effects && toRealArray(data.effects)) || null
-    }
-
-    return
+  if (Array.isArray(data)) {
+    throw new Error('use object for effect')
   }
 
-  throw new Error('use object for effect')
+  this.apis = toRealArray(data.api)
+  this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
+
+  this.triggering_states = toRealArray(data.trigger)
+  this.fn = data.fn
+  this.is_async = data.is_async
+  this.result_handler = data.parse && getHandler(this.is_async, data.parse)
+
+  if (data.require) {
+    this.deps = wrapDeps(data.require)
+    // var desc = '_need_api_effect_' + name
+    this.deps_name = Symbol() // || Symbol(desc)
+
+    this.all_deps = this.deps
+  }
+
+  if (data.effects) {
+    this.effects_deps = (data.effects && toRealArray(data.effects)) || null
+  }
 }
