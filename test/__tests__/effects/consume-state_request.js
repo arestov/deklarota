@@ -6,6 +6,10 @@ import waitFlow from '../../waitFlow'
 import fakeInterface from '../../fakeInterface'
 
 test('state loaded', async () => {
+
+  let check1 = false
+  let check2 = false
+
   const StartPage = model({
     zero_map_level: true,
     effects: {
@@ -27,6 +31,24 @@ test('state loaded', async () => {
             },
           ],
         },
+      },
+      out: {
+        check1: {
+          api: ['self'],
+          trigger: ['bio'],
+          require: ['bio'],
+          fn: () => {
+            check1 = true
+          },
+        },
+        check2: {
+          api: ['#fake'],
+          trigger: ['bio'],
+          require: ['bio'],
+          fn: () => {
+            check2 = true
+          },
+        }
       },
     },
 
@@ -64,5 +86,9 @@ test('state loaded', async () => {
 
   return waitFlow(app).then(app => app.start_page.requestState('bio').then(() => waitFlow(app))).then(app => {
     expect('was born').toBe(pvState(app.start_page, 'bio'))
+
+    // check loops breakers: transaction/inspect
+    expect(check1).toBe(true)
+    expect(check2).toBe(false)
   })
 })
