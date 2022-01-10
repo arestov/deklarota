@@ -151,28 +151,10 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
       continue
     }
 
-    if (!effect.effects_deps) {
-      using.dep_effects_ready[effect_name] = true
-      prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
-      has_one = true
-      continue
-    }
-
+    using.dep_effects_ready[effect_name] = true
+    prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
     has_one = true
-    for (let i = 0; i < effect.effects_deps.length; i++) {
-      const dep_effect_name = effect.effects_deps[i]
-      if (using.invalidated[dep_effect_name] || !using.once[dep_effect_name]) {
-        deps_ready = false
-        has_one = false
-        break
-      }
-    }
 
-
-    using.dep_effects_ready[effect_name] = deps_ready
-    if (using.dep_effects_ready[effect_name]) {
-      prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
-    }
   }
   using.dep_effects_ready_is_empty = using.dep_effects_ready_is_empty && !has_one
 }

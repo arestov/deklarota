@@ -129,3 +129,5 @@
 - deprecate `_x_skip_navigation` for perspectivator residents
 
 - remove mpl_attached attr
+
+- deprecate effects inside effects.out.effect

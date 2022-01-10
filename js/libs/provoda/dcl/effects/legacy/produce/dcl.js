@@ -43,7 +43,6 @@ export default function ApiEffectDeclr(name, data) {
   this.triggering_states = null
   this.deps = null
   this.deps_name = null
-  this.effects_deps = null
   this.fn = null
   this.result_schema = null
   this.is_async = null
@@ -72,6 +71,6 @@ export default function ApiEffectDeclr(name, data) {
   }
 
   if (data.effects) {
-    this.effects_deps = (data.effects && toRealArray(data.effects)) || null
+    throw new Error('effects as dep of out.effect is deprecated')
   }
 }
