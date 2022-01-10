@@ -3,6 +3,7 @@ import cloneObj from '../../../../spv/cloneObj'
 import CallbacksFlow from '../../../CallbacksFlow'
 import initEffects from '../../../StatesEmitter/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
+import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 
 function ViewRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -13,6 +14,7 @@ function ViewRuntime(optionsRaw) {
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
     onError: bindRuntimeError(this, options.onError),
+    onFinalTransactionStep: onFinalTransactionStep(this),
   })
 
   this.views_counter = 1

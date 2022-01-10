@@ -13,6 +13,7 @@ import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
+import useInterfaceAsSource from './dcl/effects/transaction/start'
 
 const getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
@@ -33,16 +34,6 @@ function props(add) {
   add(attr_events)
 
   add({
-    __act: act,
-    dispatch: function(action_name, data) {
-      this._calls_flow.pushToFlow(act, this, [this, action_name, data])
-    },
-  // init: function(){
-  // 	this._super();
-
-
-  // 	return this;
-  // },
     getInterface: function(interface_name) {
       return this._interfaces_used[interface_name]
     },
@@ -60,6 +51,28 @@ function props(add) {
     useInterface: function(interface_name, obj, destroy) {
       useInterface(this, interface_name, obj, destroy)
     },
+
+    inputFromInterface: function(interface_instance, fn) {
+      if (interface_instance == null) {
+        throw new Error('api instance should be provided')
+      }
+
+      // expecting new transaction will be started
+      this._getCallsFlow().pushToFlow(fn, this, null, interface_instance, useInterfaceAsSource)
+    },
+  })
+
+  add({
+    __act: act,
+    dispatch: function(action_name, data) {
+      this._calls_flow.pushToFlow(act, this, [this, action_name, data])
+    },
+  // init: function(){
+  // 	this._super();
+
+
+  // 	return this;
+  // },
     'regfr-lightstev': regfr_lightstev,
     getContextOptsI: function() {
       if (!this.conx_optsi) {

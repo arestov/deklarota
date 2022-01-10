@@ -124,6 +124,15 @@ export default function(dclt, nesting_name, limit) {
   if (!dclt) {
     return
   }
+
+  const send_declr = dclt.send_declr
+  const api = getNetApiByDeclr(send_declr, this.sputnik)
+  if (!api) {
+    console.warn(new Error('api not ready yet'), send_declr)
+    return
+  }
+
+
   if (!this.nesting_requests) {
     this.nesting_requests = {}
   }
@@ -152,7 +161,7 @@ export default function(dclt, nesting_name, limit) {
 
   const is_main_list = nesting_name == this.sputnik.main_list_name
 
-  this.sputnik.input(function() {
+  this.sputnik.inputFromInterface(api, function() {
     const states = {}
     statesStart(states, nesting_name, is_main_list)
     _this.sputnik.updateManyStates(states)
@@ -172,14 +181,6 @@ export default function(dclt, nesting_name, limit) {
 
   if (supports_paging) {
     network_api_opts.paging = paging_opts
-  }
-
-
-  const send_declr = dclt.send_declr
-
-  if (!getNetApiByDeclr(send_declr, this.sputnik)) {
-    console.warn(new Error('api not ready yet'), send_declr)
-    return
   }
 
 
@@ -237,7 +238,7 @@ export default function(dclt, nesting_name, limit) {
     }
 
     const startWaiting = changeWaitingState(true)
-    this.sputnik.input(startWaiting)
+    this.sputnik.inputFromInterface(api, startWaiting)
 
     const stopWaiting = changeWaitingState(false)
     request.queued_promise.then(stopWaiting, stopWaiting)
@@ -252,11 +253,11 @@ export default function(dclt, nesting_name, limit) {
       }
 
       if (has_error) {
-        _this.sputnik.input(handleError)
+        _this.sputnik.inputFromInterface(api, handleError)
         return
       }
 
-      _this.sputnik.input(function() {
+      _this.sputnik.inputFromInterface(api, function() {
         store.error = false
         store.has_all_items = true
         handleNestResponse(response, source_name, function() {
@@ -271,7 +272,7 @@ export default function(dclt, nesting_name, limit) {
         return
       }
 
-      _this.sputnik.input(handleError)
+      _this.sputnik.inputFromInterface(api, handleError)
 
 
     })
