@@ -51,8 +51,6 @@ export default function ApiEffectDeclr(name, data) {
 
   this.all_deps = null
 
-
-
   if (!Array.isArray(data)) {
     this.apis = toRealArray(data.api)
     this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
@@ -77,23 +75,5 @@ export default function ApiEffectDeclr(name, data) {
     return
   }
 
-  const execution = data[0]
-  this.apis = toRealArray(execution[0])
-  this.triggering_states = toRealArray(execution[1])
-  this.fn = execution[2]
-  this.result_schema = execution[3]
-  this.is_async = !!execution[4]
-
-  this.result_handler = this.result_schema && getHandler(this.is_async, this.result_schema)
-
-  const condition = data[1]
-  const deps = condition && condition[0]
-  if (deps) {
-    this.deps = wrapDeps(deps)
-    // var desc = '_need_api_effect_' + name
-    this.deps_name = Symbol() // || Symbol(desc)
-    this.all_deps = this.deps
-  }
-  const effects_deps = condition && condition[1]
-  this.effects_deps = (effects_deps && toRealArray(effects_deps)) || null
+  throw new Error('use object for effect')
 }
