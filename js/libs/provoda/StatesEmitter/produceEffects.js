@@ -135,6 +135,7 @@ function confirmReady(self, initial_transaction_id, effect_name) {
 
 function onReady(self, initial_transaction_id, total_original_states, effect_name, effect) {
   prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
+  confirmReady(self, initial_transaction_id, effect_name)
 }
 
 function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states) {
@@ -240,20 +241,6 @@ function executeEffect(self, effect_name, transaction_id) {
   handleEffectResult(self, effect, result)
 }
 
-function checkExecuteMutateEffects(initial_transaction_id, self) {
-  const using = self._effects_using
-
-  for (const effect_name in using.dep_effects_ready) {
-    if (!using.dep_effects_ready[effect_name]) {
-      continue
-    }
-
-    confirmReady(self, initial_transaction_id, effect_name)
-  }
-
-  using.dep_effects_ready_is_empty = true
-}
-
 function iterateEffects(initial_transaction_id, changes_list, total_original_states, self) {
   if (!self.__api_effects_$_index) {
     return
@@ -279,11 +266,9 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
   // changes_list -> invalidated = true
   checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self)
 
-  // invalidated -> dep_effects_ready, prefill; dep_effects_ready_is_empty
+  // invalidated -> confirm, invalidated = false
   checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
 
-  // dep_effects_ready -> confirm, invalidated = false
-  checkExecuteMutateEffects(initial_transaction_id, self)
   self._effects_using.processing = false
 }
 
