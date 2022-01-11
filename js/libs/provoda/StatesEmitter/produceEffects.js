@@ -129,7 +129,6 @@ function confirmReady(self, initial_transaction_id, effect_name) {
   effectAgenda.schedule_confirmed = true
 
   using.invalidated[effect_name] = false
-  using.once[effect_name] = true
 }
 
 function onReady(self, initial_transaction_id, total_original_states, effect_name, effect) {
@@ -245,7 +244,6 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
       processing: false,
       conditions_ready: {},
       invalidated: {},
-      once: {},
     }
   }
 
