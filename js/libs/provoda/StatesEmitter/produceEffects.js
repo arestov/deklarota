@@ -68,6 +68,7 @@ function disallowedByLoopBreaker(self, effect) {
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
   const index = self.__api_effects_$_index_by_triggering
   const using = self._effects_using
+  const effects = self.__api_effects
 
   for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
     const state_name = changes_list[i]
@@ -87,8 +88,18 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
 
       // mark state
       scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
-      self._effects_using.invalidated[list[jj].name] = true
       // mark to recheck
+      self._effects_using.invalidated[list[jj].name] = true
+
+      // invalidated -> confirm, invalidated = false
+      const effect = effects[effect_name]
+      const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
+
+      if (!deps_ready) {
+        continue
+      }
+
+      onReady(self, initial_transaction_id, total_original_states, effect_name, effect)
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
     // self._effects_using.invalidated[index[state_name].name] = true;
@@ -136,27 +147,6 @@ function onReady(self, initial_transaction_id, total_original_states, effect_nam
   confirmReady(self, initial_transaction_id, effect_name)
 }
 
-function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states) {
-  const using = self._effects_using
-  const effects = self.__api_effects
-
-  for (const effect_name in using.invalidated) {
-    if (!using.invalidated[effect_name]) {
-      continue
-    }
-
-    const effect = effects[effect_name]
-
-    const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
-
-    if (!deps_ready) {
-      continue
-    }
-
-    onReady(self, initial_transaction_id, total_original_states, effect_name, effect)
-
-  }
-}
 
 function handleEffectResult(self, effect, result) {
   const handle = effect.result_handler
@@ -244,9 +234,6 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
   checkAndMutateCondReadyEffects(changes_list, self)
   // changes_list -> invalidated = true
   checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self)
-
-  // invalidated -> confirm, invalidated = false
-  checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
 
   self._effects_using.processing = false
 }
