@@ -151,9 +151,7 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
     повторять до упора
 
   */
-  using.dep_effects_ready_is_empty = true
 
-  let has_one_became_ready = false
 
   for (const effect_name in using.invalidated) {
     if (!using.invalidated[effect_name]) {
@@ -170,10 +168,8 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
     }
 
     onReady(self, initial_transaction_id, total_original_states, effect_name, effect)
-    has_one_became_ready = true
 
   }
-  using.dep_effects_ready_is_empty = using.dep_effects_ready_is_empty && !has_one_became_ready
 }
 
 function handleEffectResult(self, effect, result) {
@@ -253,7 +249,6 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
       invalidated: {},
       once: {},
       dep_effects_ready: {},
-      dep_effects_ready_is_empty: true
     }
   }
 
