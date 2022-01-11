@@ -88,6 +88,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
       // mark state
       scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
       self._effects_using.invalidated[list[jj].name] = true
+      // mark to recheck
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
     // self._effects_using.invalidated[index[state_name].name] = true;
@@ -265,12 +266,17 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
   self._effects_using.processing = true
 
   checkAndMutateCondReadyEffects(changes_list, self)
+  // changes_list -> invalidated = true
   checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self)
 
+  // invalidated -> dep_effects_ready, prefill; dep_effects_ready_is_empty
   checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
 
   while (!self._effects_using.dep_effects_ready_is_empty) {
+    // dep_effects_ready -> confirm, invalidated = false
     checkExecuteMutateEffects(initial_transaction_id, self)
+
+    // invalidated -> dep_effects_ready, prefill; dep_effects_ready_is_empty
     checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
   }
   self._effects_using.processing = false
