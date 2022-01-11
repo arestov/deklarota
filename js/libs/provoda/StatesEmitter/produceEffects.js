@@ -89,9 +89,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
       // mark state
       scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
       // mark to recheck
-      self._effects_using.invalidated[list[jj].name] = true
 
-      // invalidated -> confirm, invalidated = false
       const effect = effects[effect_name]
       const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
 
@@ -131,15 +129,11 @@ function apiAndConditionsReady(self, using, effect, effect_name) {
 }
 
 function confirmReady(self, initial_transaction_id, effect_name) {
-  const using = self._effects_using
-
   // we can push anytimes we want
   // 1st handler will erase agenda, so effects will be called just 1 time
 
   const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
   effectAgenda.schedule_confirmed = true
-
-  using.invalidated[effect_name] = false
 }
 
 function onReady(self, initial_transaction_id, total_original_states, effect_name, effect) {
@@ -222,7 +216,6 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
     self._effects_using = {
       processing: false,
       conditions_ready: {},
-      invalidated: {},
     }
   }
 
