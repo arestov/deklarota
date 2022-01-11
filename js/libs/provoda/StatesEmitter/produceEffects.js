@@ -129,7 +129,6 @@ function confirmReady(self, initial_transaction_id, effect_name) {
   effectAgenda.schedule_confirmed = true
 
   using.invalidated[effect_name] = false
-  using.dep_effects_ready[effect_name] = false
   using.once[effect_name] = true
 }
 
@@ -161,7 +160,6 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
     const effect = effects[effect_name]
 
     const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
-    using.dep_effects_ready[effect_name] = deps_ready
 
     if (!deps_ready) {
       continue
@@ -248,7 +246,6 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
       conditions_ready: {},
       invalidated: {},
       once: {},
-      dep_effects_ready: {},
     }
   }
 
