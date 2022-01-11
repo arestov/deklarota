@@ -119,6 +119,20 @@ function apiAndConditionsReady(self, using, effect, effect_name) {
   return true
 }
 
+function confirmReady(self, initial_transaction_id, effect_name) {
+  const using = self._effects_using
+
+  // we can push anytimes we want
+  // 1st handler will erase agenda, so effects will be called just 1 time
+
+  const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
+  effectAgenda.schedule_confirmed = true
+
+  using.invalidated[effect_name] = false
+  using.dep_effects_ready[effect_name] = false
+  using.once[effect_name] = true
+}
+
 function onReady(self, initial_transaction_id, total_original_states, effect_name, effect) {
   prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
 }
@@ -234,15 +248,7 @@ function checkExecuteMutateEffects(initial_transaction_id, self) {
       continue
     }
 
-    // we can push anytimes we want
-    // 1st handler will erase agenda, so effects will be called just 1 time
-
-    const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
-    effectAgenda.schedule_confirmed = true
-
-    using.invalidated[effect_name] = false
-    using.dep_effects_ready[effect_name] = false
-    using.once[effect_name] = true
+    confirmReady(self, initial_transaction_id, effect_name)
   }
 
   using.dep_effects_ready_is_empty = true
