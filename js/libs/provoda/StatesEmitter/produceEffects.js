@@ -140,17 +140,6 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
   const using = self._effects_using
   const effects = self.__api_effects
 
-  // маркировать готовые
-  /*
-    у которых не готовы зависимости - те не готовы
-    выполнять готовых
-    повторить проверку
-    повторить выполнение
-    повторять до упора
-
-  */
-
-
   for (const effect_name in using.invalidated) {
     if (!using.invalidated[effect_name]) {
       continue
