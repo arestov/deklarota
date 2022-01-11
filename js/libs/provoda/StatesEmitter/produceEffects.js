@@ -119,6 +119,10 @@ function apiAndConditionsReady(self, using, effect, effect_name) {
   return true
 }
 
+function onReady(self, initial_transaction_id, total_original_states, effect_name, effect) {
+  prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
+}
+
 function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states) {
   const using = self._effects_using
   const effects = self.__api_effects
@@ -150,7 +154,7 @@ function checkAndMutateDepReadyEffects(self, initial_transaction_id, total_origi
       continue
     }
 
-    prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
+    onReady(self, initial_transaction_id, total_original_states, effect_name, effect)
     has_one_became_ready = true
 
   }
