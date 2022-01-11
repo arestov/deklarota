@@ -272,13 +272,8 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
   // invalidated -> dep_effects_ready, prefill; dep_effects_ready_is_empty
   checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
 
-  while (!self._effects_using.dep_effects_ready_is_empty) {
-    // dep_effects_ready -> confirm, invalidated = false
-    checkExecuteMutateEffects(initial_transaction_id, self)
-
-    // invalidated -> dep_effects_ready, prefill; dep_effects_ready_is_empty
-    checkAndMutateDepReadyEffects(self, initial_transaction_id, total_original_states)
-  }
+  // dep_effects_ready -> confirm, invalidated = false
+  checkExecuteMutateEffects(initial_transaction_id, self)
   self._effects_using.processing = false
 }
 
