@@ -362,7 +362,7 @@ export default spv.inh(BasicRouter, {
         api: ['navi', 'self'],
         trigger: 'full_url',
 
-        fn: function(navi, self, url) {
+        fn: function(navi, self, { value: url }) {
           if (url == null) {
             return
           }

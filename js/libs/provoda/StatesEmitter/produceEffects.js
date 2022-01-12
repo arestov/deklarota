@@ -48,6 +48,8 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
       schedule_confirmed: false,
       prev_values: null,
       next_values: null,
+      values: null,
+      value: null,
     }
   }
 
@@ -154,18 +156,37 @@ function handleEffectResult(self, effect, result) {
 
 }
 
-function getValue(self, agenda, state_name) {
-  if (agenda.next_values?.hasOwnProperty(state_name)) {
-    return agenda.next_values[state_name]
-  }
-
-  return self.getAttr(state_name)
-}
-
 function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) {
   delete trans_store[effect_name]
   if (!countKeys(trans_store)) {
     self._highway.__produce_side_effects_schedule.delete(key)
+  }
+}
+
+function justOneAttr(effect) {
+  return effect.triggering_states.length == 1
+}
+
+function ensureTaskValues(self, effect, task) {
+  const just_one_attr = justOneAttr(effect)
+  if (just_one_attr) {
+    task.value = self.getAttr(effect.triggering_states[0])
+  }
+
+  if (task.next_values != null) {
+    task.values = task.next_values
+    return
+  }
+
+  if (just_one_attr) {
+    // don't create `values` object for just_one_attr api use case
+    return
+  }
+
+  task.values = {}
+  for (let jj = 0; jj < effect.triggering_states.length; jj++) {
+    const attr_name = effect.triggering_states[jj]
+    task.values[attr_name] = self.getAttr(attr_name)
   }
 }
 
@@ -194,9 +215,10 @@ function executeEffect(self, effect_name, transaction_id) {
     }
     args[i] = api
   }
-  for (let jj = 0; jj < effect.triggering_states.length; jj++) {
-    args[effect.apis.length + jj] = getValue(self, task, effect.triggering_states[jj])
-  }
+
+  ensureTaskValues(self, effect, task)
+
+  args[effect.apis.length] = task
 
   const result = effect.fn.apply(null, args)
   handleEffectResult(self, effect, result)
