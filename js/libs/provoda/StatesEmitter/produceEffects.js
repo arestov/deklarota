@@ -23,7 +23,8 @@ function agendaKey(self, initial_transaction_id) {
   return initial_transaction_id + '-' + self.getInstanceKey()
 }
 
-function ensureEffectStore(self, effect_name, initial_transaction_id) {
+function ensureEffectStore(self, effect, initial_transaction_id) {
+  const effect_name = effect.name
   const key = agendaKey(self, initial_transaction_id)
   const schedule = self._highway.__produce_side_effects_schedule
   if (!schedule.get(key)) {
@@ -41,8 +42,8 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
   return schedule.get(key)[effect_name]
 }
 
-function scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, new_value) {
-  const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
+function scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, new_value) {
+  const effectAgenda = ensureEffectStore(self, effect, initial_transaction_id)
   if (!effectAgenda.prev_values?.hasOwnProperty(state_name)) {
     effectAgenda.prev_values ??= {}
     effectAgenda.prev_values[state_name] = total_original_states.get(state_name)
@@ -68,7 +69,6 @@ function isConditionsReady(self, effect) {
 
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
   const index = self.__api_effects_$_index_by_triggering
-  const effects = self.__api_effects
 
   for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
     const state_name = changes_list[i]
@@ -77,8 +77,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
     }
     const list = index[state_name]
     for (let jj = 0; jj < list.length; jj++) {
-      const effect_name = list[jj].name
-      const effect = effects[effect_name]
+      const effect = list[jj]
       if (!isConditionsReady(self, effect)) {
         continue
       }
@@ -88,7 +87,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
       }
 
       // mark state
-      const task = scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
+      const task = scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, changes_list[i + 1], false)
       task.schedule_confirmed = apiAndConditionsReady(self, effect)
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
