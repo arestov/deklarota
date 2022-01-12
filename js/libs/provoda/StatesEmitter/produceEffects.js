@@ -52,6 +52,8 @@ function scheduleEffect(self, initial_transaction_id, total_original_states, eff
 
   effectAgenda.next_values ??= {}
   effectAgenda.next_values[state_name] = new_value
+
+  return effectAgenda
 }
 
 function disallowedByLoopBreaker(self, effect) {
@@ -88,16 +90,8 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
       }
 
       // mark state
-      scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
-      // mark to recheck
-
-      const deps_ready = apiAndConditionsReady(self, effect)
-
-      if (!deps_ready) {
-        continue
-      }
-
-      onReady(self, initial_transaction_id, total_original_states, effect_name, effect)
+      const task = scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
+      task.schedule_confirmed = apiAndConditionsReady(self, effect)
     }
     // self.__api_effects_$_index_by_triggering[index[state_name].name] = true;
     // self._effects_using.invalidated[index[state_name].name] = true;
@@ -119,19 +113,6 @@ function apiAndConditionsReady(self, effect) {
 
   return true
 }
-
-function confirmReady(self, initial_transaction_id, effect_name) {
-  // we can push anytimes we want
-  // 1st handler will erase agenda, so effects will be called just 1 time
-
-  const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
-  effectAgenda.schedule_confirmed = true
-}
-
-function onReady(self, initial_transaction_id, _total_original_states, effect_name, _effect) {
-  confirmReady(self, initial_transaction_id, effect_name)
-}
-
 
 function handleEffectResult(self, effect, result) {
   const handle = effect.result_handler
