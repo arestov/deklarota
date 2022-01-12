@@ -12,7 +12,9 @@ function checkAndMutateCondReadyEffects(changes_list, self) {
 
     const value = changes_list[i + 1]
 
-    self._effects_using.conditions_ready[index[state_name].name] = Boolean(value)
+    self._effects_using_conditions_ready ??= {}
+
+    self._effects_using_conditions_ready[index[state_name].name] = Boolean(value)
   }
 }
 
@@ -75,14 +77,12 @@ function isConditionsReady(self, effect, effect_name) {
   if (!effect.deps) {
     return true
   }
-  const using = self._effects_using
 
-  return Boolean(using.conditions_ready?.[effect_name])
+  return Boolean(self._effects_using_conditions_ready?.[effect_name])
 }
 
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
   const index = self.__api_effects_$_index_by_triggering
-  const using = self._effects_using
   const effects = self.__api_effects
 
   for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
@@ -106,7 +106,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
       scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
       // mark to recheck
 
-      const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
+      const deps_ready = apiAndConditionsReady(self, effect, effect_name)
 
       if (!deps_ready) {
         continue
@@ -119,7 +119,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
   }
 }
 
-function apiAndConditionsReady(self, _using, effect, effect_name) {
+function apiAndConditionsReady(self, effect, effect_name) {
   if (!isConditionsReady(self, effect, effect_name)) {
     return false
   }
@@ -238,23 +238,21 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
     return
   }
 
-  if (!self._effects_using) {
-    self._effects_using = {
-      processing: false,
-      conditions_ready: {},
-    }
+  if (self._effects_using_processing == null) {
+    self._effects_using_processing = false
+    self._effects_using_conditions_ready = null
   }
 
-  if (self._effects_using.processing) {
+  if (self._effects_using_processing) {
     return
   }
-  self._effects_using.processing = true
+  self._effects_using_processing = true
 
   checkAndMutateCondReadyEffects(changes_list, self)
   // changes_list -> invalidated = true
   checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self)
 
-  self._effects_using.processing = false
+  self._effects_using_processing = false
 }
 
 function checkApi(declr, value, self) {
