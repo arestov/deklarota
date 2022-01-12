@@ -45,8 +45,8 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
 
   if (!schedule.get(key)[effect_name]) {
     schedule.get(key)[effect_name] = {
-      prev_values: {},
-      next_values: {},
+      prev_values: null,
+      next_values: null,
     }
   }
 
@@ -55,10 +55,12 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
 
 function scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, new_value) {
   const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
-  if (!effectAgenda.prev_values.hasOwnProperty(state_name)) {
+  if (!effectAgenda.prev_values?.hasOwnProperty(state_name)) {
+    effectAgenda.prev_values ??= {}
     effectAgenda.prev_values[state_name] = total_original_states.get(state_name)
   }
 
+  effectAgenda.next_values ??= {}
   effectAgenda.next_values[state_name] = new_value
 }
 
@@ -152,7 +154,7 @@ function handleEffectResult(self, effect, result) {
 }
 
 function getValue(self, agenda, state_name) {
-  if (agenda.next_values.hasOwnProperty(state_name)) {
+  if (agenda.next_values?.hasOwnProperty(state_name)) {
     return agenda.next_values[state_name]
   }
 
