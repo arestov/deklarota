@@ -38,18 +38,19 @@ function agendaKey(self, initial_transaction_id) {
 
 function ensureEffectStore(self, effect_name, initial_transaction_id) {
   const key = agendaKey(self, initial_transaction_id)
-  if (!self._highway.__produce_side_effects_schedule.get(key)) {
-    self._highway.__produce_side_effects_schedule.set(key, {})
+  const schedule = self._highway.__produce_side_effects_schedule
+  if (!schedule.get(key)) {
+    schedule.set(key, {})
   }
 
-  if (!self._highway.__produce_side_effects_schedule.get(key)[effect_name]) {
-    self._highway.__produce_side_effects_schedule.get(key)[effect_name] = {
+  if (!schedule.get(key)[effect_name]) {
+    schedule.get(key)[effect_name] = {
       prev_values: {},
       next_values: {},
     }
   }
 
-  return self._highway.__produce_side_effects_schedule.get(key)[effect_name]
+  return schedule.get(key)[effect_name]
 }
 
 function scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, new_value, skip_prev) {
