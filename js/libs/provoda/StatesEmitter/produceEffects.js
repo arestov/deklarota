@@ -158,7 +158,7 @@ function getValue(self, agenda, state_name) {
     return agenda.next_values[state_name]
   }
 
-  return self.getAttr(self, state_name)
+  return self.getAttr(state_name)
 }
 
 function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) {
