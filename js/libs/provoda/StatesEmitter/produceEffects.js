@@ -23,6 +23,26 @@ function agendaKey(self, initial_transaction_id) {
   return initial_transaction_id + '-' + self.getInstanceKey()
 }
 
+function createTask(effect) {
+  if (justOneAttr(effect)) {
+    return {
+      schedule_confirmed: false,
+      just_one_attr: true, // to help api user understand difference of structure
+      prev: null,
+      next: null,
+      value: null,
+    }
+  }
+
+  return {
+    schedule_confirmed: false,
+    just_one_attr: false,
+    prev_values: null,
+    next_values: null,
+    values: null,
+  }
+}
+
 function ensureEffectStore(self, effect, initial_transaction_id) {
   const effect_name = effect.name
   const key = agendaKey(self, initial_transaction_id)
@@ -31,22 +51,24 @@ function ensureEffectStore(self, effect, initial_transaction_id) {
     schedule.set(key, {})
   }
 
-  schedule.get(key)[effect_name] ??= {
-    schedule_confirmed: false,
-    prev_values: null,
-    next_values: null,
-    values: null,
-    value: null,
-  }
+  schedule.get(key)[effect_name] ??= createTask(effect)
 
   return schedule.get(key)[effect_name]
 }
 
 function scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, new_value) {
   const effectAgenda = ensureEffectStore(self, effect, initial_transaction_id)
+  const prev = total_original_states.get(state_name)
+
+  if (justOneAttr(effect)) {
+    effectAgenda.prev = prev
+    effectAgenda.next = new_value
+    return effectAgenda
+  }
+
   if (!effectAgenda.prev_values?.hasOwnProperty(state_name)) {
     effectAgenda.prev_values ??= {}
-    effectAgenda.prev_values[state_name] = total_original_states.get(state_name)
+    effectAgenda.prev_values[state_name] = prev
   }
 
   effectAgenda.next_values ??= {}
@@ -143,15 +165,11 @@ function ensureTaskValues(self, effect, task) {
   const just_one_attr = justOneAttr(effect)
   if (just_one_attr) {
     task.value = self.getAttr(effect.triggering_states[0])
+    return
   }
 
   if (task.next_values != null) {
     task.values = task.next_values
-    return
-  }
-
-  if (just_one_attr) {
-    // don't create `values` object for just_one_attr api use case
     return
   }
 
