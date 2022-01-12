@@ -30,14 +30,12 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
     schedule.set(key, {})
   }
 
-  if (!schedule.get(key)[effect_name]) {
-    schedule.get(key)[effect_name] = {
-      schedule_confirmed: false,
-      prev_values: null,
-      next_values: null,
-      values: null,
-      value: null,
-    }
+  schedule.get(key)[effect_name] ??= {
+    schedule_confirmed: false,
+    prev_values: null,
+    next_values: null,
+    values: null,
+    value: null,
   }
 
   return schedule.get(key)[effect_name]
