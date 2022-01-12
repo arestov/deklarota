@@ -172,11 +172,11 @@ function executeEffect(self, effect_name, transaction_id) {
   const key = agendaKey(self, transaction_id)
   const trans_store = self._highway.__produce_side_effects_schedule.get(key)
 
-  const agenda = trans_store && trans_store[effect_name]
+  const task = trans_store && trans_store[effect_name]
 
   pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key)
 
-  if (!agenda) {
+  if (!task) {
     return
   }
 
@@ -194,7 +194,7 @@ function executeEffect(self, effect_name, transaction_id) {
     args[i] = api
   }
   for (let jj = 0; jj < effect.triggering_states.length; jj++) {
-    args[effect.apis.length + jj] = getValue(self, agenda, effect.triggering_states[jj])
+    args[effect.apis.length + jj] = getValue(self, task, effect.triggering_states[jj])
   }
 
   const result = effect.fn.apply(null, args)
