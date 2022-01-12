@@ -71,6 +71,15 @@ function disallowedByLoopBreaker(self, effect) {
   return doesTransactionDisallowEffect(self._highway.current_transaction, self, effect)
 }
 
+function isConditionsReady(self, effect, effect_name) {
+  if (!effect.deps) {
+    return true
+  }
+  const using = self._effects_using
+
+  return Boolean(using.conditions_ready?.[effect_name])
+}
+
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
   const index = self.__api_effects_$_index_by_triggering
   const using = self._effects_using
@@ -84,7 +93,8 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
     const list = index[state_name]
     for (let jj = 0; jj < list.length; jj++) {
       const effect_name = list[jj].name
-      if (!using.conditions_ready[effect_name]) {
+      const effect = effects[effect_name]
+      if (!isConditionsReady(self, effect, effect_name)) {
         continue
       }
 
@@ -96,7 +106,6 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
       scheduleEffect(self, initial_transaction_id, total_original_states, list[jj].name, state_name, changes_list[i + 1], false)
       // mark to recheck
 
-      const effect = effects[effect_name]
       const deps_ready = apiAndConditionsReady(self, using, effect, effect_name)
 
       if (!deps_ready) {
@@ -110,8 +119,8 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
   }
 }
 
-function apiAndConditionsReady(self, using, effect, effect_name) {
-  if (effect.deps && !using.conditions_ready[effect_name]) {
+function apiAndConditionsReady(self, _using, effect, effect_name) {
+  if (!isConditionsReady(self, effect, effect_name)) {
     return false
   }
 
