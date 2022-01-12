@@ -53,9 +53,9 @@ function ensureEffectStore(self, effect_name, initial_transaction_id) {
   return schedule.get(key)[effect_name]
 }
 
-function scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, new_value, skip_prev) {
+function scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, new_value) {
   const effectAgenda = ensureEffectStore(self, effect_name, initial_transaction_id)
-  if (!skip_prev && !effectAgenda.prev_values.hasOwnProperty(state_name)) {
+  if (!effectAgenda.prev_values.hasOwnProperty(state_name)) {
     effectAgenda.prev_values[state_name] = total_original_states.get(state_name)
   }
 
@@ -105,14 +105,6 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
   }
 }
 
-function prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect) {
-  for (let i = 0; i < effect.triggering_states.length; i++) {
-    const state_name = effect.triggering_states[i]
-    scheduleEffect(self, initial_transaction_id, total_original_states, effect_name, state_name, self.getAttr(state_name), true)
-
-  }
-}
-
 function apiAndConditionsReady(self, using, effect, effect_name) {
   if (effect.deps && !using.conditions_ready[effect_name]) {
     return false
@@ -137,8 +129,7 @@ function confirmReady(self, initial_transaction_id, effect_name) {
   effectAgenda.schedule_confirmed = true
 }
 
-function onReady(self, initial_transaction_id, total_original_states, effect_name, effect) {
-  prefillAgenda(self, initial_transaction_id, total_original_states, effect_name, effect)
+function onReady(self, initial_transaction_id, _total_original_states, effect_name, _effect) {
   confirmReady(self, initial_transaction_id, effect_name)
 }
 
