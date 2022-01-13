@@ -3,6 +3,7 @@ import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspec
 import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
 import { isEffectApiReady, isEffectConditionReady } from '../dcl/effects/legacy/produce/isReady'
 import getCurrentTransactionKey, { agendaKey } from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
+import justOneAttr from '../dcl/effects/legacy/produce/justOneAttr'
 const countKeys = spv.countKeys
 const CH_GR_LE = 2
 
@@ -128,10 +129,6 @@ function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) 
   if (!countKeys(trans_store)) {
     self._highway.__produce_side_effects_schedule.delete(key)
   }
-}
-
-function justOneAttr(effect) {
-  return effect.triggering_states.length == 1
 }
 
 function ensureTaskValues(self, effect, task) {
