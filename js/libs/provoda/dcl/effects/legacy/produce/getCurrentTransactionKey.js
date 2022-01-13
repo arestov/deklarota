@@ -6,4 +6,9 @@ function getCurrentTransactionKey(self) {
   throw new Error('no id for transaction')
 }
 
+
+export function agendaKey(self, initial_transaction_id) {
+  return initial_transaction_id + '-' + self.getInstanceKey()
+}
+
 export default getCurrentTransactionKey

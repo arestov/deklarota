@@ -2,13 +2,9 @@ import spv from '../../spv'
 import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
 import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
 import { isEffectApiReady, isEffectConditionReady } from '../dcl/effects/legacy/produce/isReady'
-import getCurrentTransactionKey from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
+import getCurrentTransactionKey, { agendaKey } from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
 const countKeys = spv.countKeys
 const CH_GR_LE = 2
-
-function agendaKey(self, initial_transaction_id) {
-  return initial_transaction_id + '-' + self.getInstanceKey()
-}
 
 function createTask(effect) {
   if (justOneAttr(effect)) {
