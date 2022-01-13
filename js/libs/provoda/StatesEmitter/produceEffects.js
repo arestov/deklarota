@@ -2,16 +2,9 @@ import spv from '../../spv'
 import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
 import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
 import { isEffectApiReady, isEffectConditionReady } from '../dcl/effects/legacy/produce/isReady'
+import getCurrentTransactionKey from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
 const countKeys = spv.countKeys
 const CH_GR_LE = 2
-
-function getCurrentTransactionKey(self) {
-  const id = self._currentMotivator()?.complex_order[0]
-  if (id) {
-    return id
-  }
-  throw new Error('no id for transaction')
-}
 
 function agendaKey(self, initial_transaction_id) {
   return initial_transaction_id + '-' + self.getInstanceKey()
