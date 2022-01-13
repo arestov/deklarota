@@ -1,6 +1,7 @@
 import spv from '../../spv'
 import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
 import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
+import { isEffectApiReady, isEffectConditionReady } from '../dcl/effects/legacy/produce/isReady'
 const countKeys = spv.countKeys
 const CH_GR_LE = 2
 
@@ -74,13 +75,6 @@ function disallowedByLoopBreaker(self, effect) {
   return doesTransactionDisallowEffect(self._highway.current_transaction, self, effect)
 }
 
-function isEffectConditionReady(self, effect) {
-  if (!effect.deps) {
-    return true
-  }
-
-  return self.getAttr(effect.deps_name)
-}
 
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
   const index = self.__api_effects_$_index_by_triggering
@@ -110,17 +104,6 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
   }
 }
 
-function isEffectApiReady(self, effect) {
-  for (let cc = 0; cc < effect.apis.length; cc++) {
-    const api = effect.apis[cc]
-
-    if (!self._interfaces_used[api]) {
-      return false
-    }
-  }
-
-  return true
-}
 
 function apiAndConditionsReady(self, effect) {
   if (!isEffectConditionReady(self, effect)) {
