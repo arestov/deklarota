@@ -1,10 +1,10 @@
-import { countKeys } from '../../spv'
 import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
 import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
 import { apiAndConditionsReady } from '../dcl/effects/legacy/produce/isReady'
-import getCurrentTransactionKey, { agendaKey } from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
+import getCurrentTransactionKey from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
 import justOneAttr from '../dcl/effects/legacy/produce/justOneAttr'
 import ensureEffectTask from '../dcl/effects/legacy/produce/ensureEffectTask'
+import scheduleTransactionEnd from '../dcl/effects/legacy/produce/scheduleTransactionEnd'
 const CH_GR_LE = 2
 
 
@@ -59,82 +59,6 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
   }
 }
 
-function handleEffectResult(self, effect, result) {
-  const handle = effect.result_handler
-  if (!effect.is_async) {
-    if (!handle) {return}
-    handle(self, result)
-    return
-  }
-
-  self.addRequest(result)
-
-  if (!handle) {return}
-  result.then(function(result) {
-    handle(self, result)
-  })
-
-}
-
-function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) {
-  delete trans_store[effect_name]
-  if (!countKeys(trans_store)) {
-    self._highway.__produce_side_effects_schedule.delete(key)
-  }
-}
-
-function ensureTaskValues(self, effect, task) {
-  const just_one_attr = justOneAttr(effect)
-  if (just_one_attr) {
-    task.value = self.getAttr(effect.triggering_states[0])
-    return
-  }
-
-  if (task.next_values != null) {
-    task.values = task.next_values
-    return
-  }
-
-  task.values = {}
-  for (let jj = 0; jj < effect.triggering_states.length; jj++) {
-    const attr_name = effect.triggering_states[jj]
-    task.values[attr_name] = self.getAttr(attr_name)
-  }
-}
-
-function executeEffect(self, effect_name, transaction_id) {
-  const key = agendaKey(self, transaction_id)
-  const trans_store = self._highway.__produce_side_effects_schedule.get(key)
-
-  const task = trans_store && trans_store[effect_name]
-
-  pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key)
-
-  if (!task) {
-    return
-  }
-
-
-
-  const effect = self.__api_effects[effect_name]
-
-  const args = new Array(effect.apis.length + effect.triggering_states.length)
-  for (let i = 0; i < effect.apis.length; i++) {
-    const api = self._interfaces_used[effect.apis[i]]
-    if (!api) {
-      // do not call effect fn
-      return
-    }
-    args[i] = api
-  }
-
-  ensureTaskValues(self, effect, task)
-
-  args[effect.apis.length] = task
-
-  const result = effect.fn.apply(null, args)
-  handleEffectResult(self, effect, result)
-}
 
 function iterateEffects(initial_transaction_id, changes_list, total_original_states, self) {
   if (!self.__api_effects_$_index) {
@@ -162,78 +86,4 @@ export default function(total_ch, total_original_states, self) {
 
   iterateEffects(initial_transaction_id, total_ch, total_original_states, self)
   scheduleTransactionEnd(self, initial_transaction_id)
-}
-
-function scheduleTransactionEnd(self, transaction_key) {
-  if (self._highway.__produce_side_effects_schedule == null) {
-    return
-  }
-
-  const calls_flow = self._getCallsFlow()
-
-  const tid = getCurrentTransactionKey(self)
-  const key = agendaKey(self, transaction_key)
-
-  if (!self._highway.__produce_side_effects_schedule.has(key)) {
-    return
-  }
-
-  calls_flow.scheduleTransactionEnd(
-    tid ? tid : Infinity,
-    null,
-    [self, transaction_key],
-    handleTransactionEnd
-  )
-}
-
-function handleTransactionEnd(self, transaction_key) {
-  const key = agendaKey(self, transaction_key)
-
-  if (!self._highway.__produce_side_effects_schedule.has(key)) {
-    return
-  }
-
-  const flow = self._getCallsFlow()
-  const tkey = transaction_key
-
-  const effects_schedule = self._highway.__produce_side_effects_schedule.get(key)
-  for (const effect_name in effects_schedule) {
-    if (!effects_schedule.hasOwnProperty(effect_name)) {
-      continue
-    }
-    const effect = self.__api_effects[effect_name]
-
-    // TODO: check that attrs inside effects_schedule[effect_name].prev_values  realy changed
-    if (!apiAndConditionsReady(self, effect)) {
-      continue
-    }
-
-
-    flow.pushToFlow(
-      executeEffect,
-      self,
-      [self, effect_name, tkey],
-      null,
-      null,
-      null,
-      self._currentMotivator()
-    )
-
-  }
-
-  flow.pushToFlow(
-    eraseTransactionEffectsData,
-    null,
-    [self, key],
-    null,
-    null,
-    null,
-    self._currentMotivator()
-  )
-
-
-}
-
-function eraseTransactionEffectsData(self, key) {
-  self._highway.__produce_side_effects_schedule.delete(key)
 }
