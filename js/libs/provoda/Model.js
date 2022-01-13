@@ -122,7 +122,10 @@ function modelProps(add) {
           api: ['self'],
           trigger: ['$meta$removed'],
           require: ['$meta$removed'],
-          fn: function(self, value) {
+          create_when: {
+            api_inits: true,
+          },
+          fn: function(self, { value }) {
             checkAndDisposeModel(self, value)
           }
         }

@@ -35,6 +35,9 @@ test('state loaded', async () => {
       out: {
         check1: {
           api: ['self'],
+          create_when: {
+            api_inits: true,
+          },
           trigger: ['bio'],
           require: ['bio'],
           fn: () => {
@@ -43,6 +46,9 @@ test('state loaded', async () => {
         },
         check2: {
           api: ['#fake'],
+          create_when: {
+            api_inits: true,
+          },
           trigger: ['bio'],
           require: ['bio'],
           fn: () => {

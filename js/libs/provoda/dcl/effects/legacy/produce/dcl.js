@@ -43,7 +43,6 @@ export default function ApiEffectDeclr(name, data) {
   this.triggering_states = null
   this.deps = null
   this.deps_name = null
-  this.effects_deps = null
   this.fn = null
   this.result_schema = null
   this.is_async = null
@@ -51,49 +50,30 @@ export default function ApiEffectDeclr(name, data) {
 
   this.all_deps = null
 
-
-
-  if (!Array.isArray(data)) {
-    this.apis = toRealArray(data.api)
-    this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
-
-    this.triggering_states = toRealArray(data.trigger)
-    this.fn = data.fn
-    this.is_async = data.is_async
-    this.result_handler = data.parse && getHandler(this.is_async, data.parse)
-
-    if (data.require) {
-      this.deps = wrapDeps(data.require)
-      // var desc = '_need_api_effect_' + name
-      this.deps_name = Symbol() // || Symbol(desc)
-
-      this.all_deps = this.deps
-    }
-
-    if (data.effects) {
-      this.effects_deps = (data.effects && toRealArray(data.effects)) || null
-    }
-
-    return
+  if (Array.isArray(data)) {
+    throw new Error('use object for effect')
   }
 
-  const execution = data[0]
-  this.apis = toRealArray(execution[0])
-  this.triggering_states = toRealArray(execution[1])
-  this.fn = execution[2]
-  this.result_schema = execution[3]
-  this.is_async = !!execution[4]
+  this.apis = toRealArray(data.api)
+  this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
 
-  this.result_handler = this.result_schema && getHandler(this.is_async, this.result_schema)
+  this.triggering_states = toRealArray(data.trigger)
+  this.create_when_api_inits = data.create_when?.api_inits
+  this.create_when_becomes_ready = data.create_when?.becomes_ready ?? true
 
-  const condition = data[1]
-  const deps = condition && condition[0]
-  if (deps) {
-    this.deps = wrapDeps(deps)
+  this.fn = data.fn
+  this.is_async = data.is_async
+  this.result_handler = data.parse && getHandler(this.is_async, data.parse)
+
+  if (data.require) {
+    this.deps = wrapDeps(data.require)
     // var desc = '_need_api_effect_' + name
     this.deps_name = Symbol() // || Symbol(desc)
+
     this.all_deps = this.deps
   }
-  const effects_deps = condition && condition[1]
-  this.effects_deps = (effects_deps && toRealArray(effects_deps)) || null
+
+  if (data.effects) {
+    throw new Error('effects as dep of out.effect is deprecated')
+  }
 }

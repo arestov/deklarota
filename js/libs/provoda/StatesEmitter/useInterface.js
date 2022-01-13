@@ -4,6 +4,7 @@ import spv from '../../spv'
 import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
 import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
+import checkInitedApi from '../dcl/effects/legacy/produce/checkInitedApi'
 
 const template = function() {
   return {
@@ -76,6 +77,7 @@ const useInterface = function(self, interface_name, obj, destroy) {
 
   self.__reportInterfaceChange(interface_name, Date.now())
 
+  checkInitedApi(self, interface_name)
 }
 
 useInterface.skipAliveCheck = true
