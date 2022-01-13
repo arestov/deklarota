@@ -19,3 +19,7 @@ export function isEffectConditionReady(self, effect) {
 
   return self.getAttr(effect.deps_name)
 }
+
+export function apiAndConditionsReady(self, effect) {
+  return Boolean(isEffectConditionReady(self, effect) && isEffectApiReady(self, effect))
+}

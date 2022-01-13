@@ -1,7 +1,7 @@
 import { countKeys } from '../../spv'
 import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
 import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
-import { isEffectApiReady, isEffectConditionReady } from '../dcl/effects/legacy/produce/isReady'
+import { apiAndConditionsReady } from '../dcl/effects/legacy/produce/isReady'
 import getCurrentTransactionKey, { agendaKey } from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
 import justOneAttr from '../dcl/effects/legacy/produce/justOneAttr'
 import ensureEffectTask from '../dcl/effects/legacy/produce/ensureEffectTask'
@@ -59,19 +59,6 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
       task.schedule_confirmed = true
     }
   }
-}
-
-
-function apiAndConditionsReady(self, effect) {
-  if (!isEffectConditionReady(self, effect)) {
-    return false
-  }
-
-  if (!isEffectApiReady(self, effect)) {
-    return false
-  }
-
-  return true
 }
 
 function handleEffectResult(self, effect, result) {
