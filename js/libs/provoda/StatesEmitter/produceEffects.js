@@ -110,17 +110,25 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
   }
 }
 
-function apiAndConditionsReady(self, effect) {
-  if (!isConditionsReady(self, effect)) {
-    return false
-  }
-
+function isEffectApiReady(self, effect) {
   for (let cc = 0; cc < effect.apis.length; cc++) {
     const api = effect.apis[cc]
 
     if (!self._interfaces_used[api]) {
       return false
     }
+  }
+
+  return true
+}
+
+function apiAndConditionsReady(self, effect) {
+  if (!isConditionsReady(self, effect)) {
+    return false
+  }
+
+  if (!isEffectApiReady(self, effect)) {
+    return false
   }
 
   return true
