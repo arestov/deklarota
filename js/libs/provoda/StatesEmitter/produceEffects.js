@@ -74,7 +74,7 @@ function disallowedByLoopBreaker(self, effect) {
   return doesTransactionDisallowEffect(self._highway.current_transaction, self, effect)
 }
 
-function isConditionsReady(self, effect) {
+function isEffectConditionReady(self, effect) {
   if (!effect.deps) {
     return true
   }
@@ -93,7 +93,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
     const list = index[state_name]
     for (let jj = 0; jj < list.length; jj++) {
       const effect = list[jj]
-      if (!isConditionsReady(self, effect)) {
+      if (!isEffectConditionReady(self, effect)) {
         continue
       }
 
@@ -123,7 +123,7 @@ function isEffectApiReady(self, effect) {
 }
 
 function apiAndConditionsReady(self, effect) {
-  if (!isConditionsReady(self, effect)) {
+  if (!isEffectConditionReady(self, effect)) {
     return false
   }
 
