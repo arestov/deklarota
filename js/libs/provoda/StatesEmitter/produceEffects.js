@@ -4,40 +4,9 @@ import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsC
 import { isEffectApiReady, isEffectConditionReady } from '../dcl/effects/legacy/produce/isReady'
 import getCurrentTransactionKey, { agendaKey } from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
 import justOneAttr from '../dcl/effects/legacy/produce/justOneAttr'
+import ensureEffectTask from '../dcl/effects/legacy/produce/ensureEffectTask'
 const CH_GR_LE = 2
 
-function createTask(effect) {
-  if (justOneAttr(effect)) {
-    return {
-      schedule_confirmed: false,
-      just_one_attr: true, // to help api user understand difference of structure
-      prev: null,
-      next: null,
-      value: null,
-    }
-  }
-
-  return {
-    schedule_confirmed: false,
-    just_one_attr: false,
-    prev_values: null,
-    next_values: null,
-    values: null,
-  }
-}
-
-function ensureEffectTask(self, effect, initial_transaction_id) {
-  const effect_name = effect.name
-  const key = agendaKey(self, initial_transaction_id)
-  const schedule = self._highway.__produce_side_effects_schedule
-  if (!schedule.get(key)) {
-    schedule.set(key, {})
-  }
-
-  schedule.get(key)[effect_name] ??= createTask(effect)
-
-  return schedule.get(key)[effect_name]
-}
 
 function scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, new_value) {
   const effectAgenda = ensureEffectTask(self, effect, initial_transaction_id)
