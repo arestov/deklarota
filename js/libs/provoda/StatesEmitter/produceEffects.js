@@ -1,10 +1,9 @@
-import spv from '../../spv'
+import { countKeys } from '../../spv'
 import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
 import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
 import { isEffectApiReady, isEffectConditionReady } from '../dcl/effects/legacy/produce/isReady'
 import getCurrentTransactionKey, { agendaKey } from '../dcl/effects/legacy/produce/getCurrentTransactionKey'
 import justOneAttr from '../dcl/effects/legacy/produce/justOneAttr'
-const countKeys = spv.countKeys
 const CH_GR_LE = 2
 
 function createTask(effect) {
