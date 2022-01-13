@@ -4,16 +4,8 @@ import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsC
 const countKeys = spv.countKeys
 const CH_GR_LE = 2
 
-function getCurrentTransactionId(self) {
-  const current_motivator = self._currentMotivator()
-  const id = current_motivator && current_motivator.complex_order[0]
-  if (id) {
-    return id
-  }
-}
-
 function getCurrentTransactionKey(self) {
-  const id = getCurrentTransactionId(self)
+  const id = self._currentMotivator()?.complex_order[0]
   if (id) {
     return id
   }
@@ -250,7 +242,7 @@ function scheduleTransactionEnd(self, transaction_key) {
 
   const calls_flow = self._getCallsFlow()
 
-  const tid = getCurrentTransactionId(self)
+  const tid = getCurrentTransactionKey(self)
   const key = agendaKey(self, transaction_key)
 
   if (!self._highway.__produce_side_effects_schedule.has(key)) {
