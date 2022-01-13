@@ -45,7 +45,8 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
     const list = index[state_name]
     for (let jj = 0; jj < list.length; jj++) {
       const effect = list[jj]
-      if (!isEffectConditionReady(self, effect)) {
+      const ready = apiAndConditionsReady(self, effect)
+      if (!ready) {
         continue
       }
 
@@ -55,7 +56,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
 
       // mark state
       const task = scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, changes_list[i + 1])
-      task.schedule_confirmed = apiAndConditionsReady(self, effect)
+      task.schedule_confirmed = true
     }
   }
 }
