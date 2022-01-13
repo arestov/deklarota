@@ -37,7 +37,7 @@ function createTask(effect) {
   }
 }
 
-function ensureEffectStore(self, effect, initial_transaction_id) {
+function ensureEffectTask(self, effect, initial_transaction_id) {
   const effect_name = effect.name
   const key = agendaKey(self, initial_transaction_id)
   const schedule = self._highway.__produce_side_effects_schedule
@@ -51,7 +51,7 @@ function ensureEffectStore(self, effect, initial_transaction_id) {
 }
 
 function scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, new_value) {
-  const effectAgenda = ensureEffectStore(self, effect, initial_transaction_id)
+  const effectAgenda = ensureEffectTask(self, effect, initial_transaction_id)
   const prev = total_original_states.get(state_name)
 
   if (justOneAttr(effect)) {
