@@ -1,5 +1,6 @@
 import spv from '../../spv'
 import { doesTransactionDisallowEffect } from '../dcl/effects/transaction/inspect'
+import checkApisByAttrsChanges from '../dcl/effects/legacy/api/checkApisByAttrsChanges'
 const countKeys = spv.countKeys
 const CH_GR_LE = 2
 
@@ -234,46 +235,8 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
   self._effects_using_processing = false
 }
 
-function checkApi(declr, value, self) {
-  if (!value) {
-    self.useInterface(declr.name, null, declr.destroy)
-    return
-  }
-
-  if (!declr.needed_apis) {
-    self.useInterface(declr.name, declr.fn())
-    return
-  }
-
-  const args = new Array(declr.needed_apis.length)
-  for (let i = 0; i < declr.needed_apis.length; i++) {
-    args[i] = self._interfaces_used[declr.needed_apis[i]]
-  }
-
-  self.useInterface(declr.name, declr.fn.apply(null, args))
-
-}
-
-function iterateApis(changes_list, context) {
-  //index by uniq
-  const index = context.__apis_$_index
-  if (!index) {
-    return
-  }
-
-  for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
-    const state_name = changes_list[i]
-    if (!index[state_name]) {
-      continue
-    }
-
-    checkApi(index[state_name], changes_list[i + 1], context)
-  }
-}
-
-
 export default function(total_ch, total_original_states, self) {
-  iterateApis(total_ch, self)
+  checkApisByAttrsChanges(total_ch, self)
   const initial_transaction_id = getCurrentTransactionKey(self)
 
   iterateEffects(initial_transaction_id, total_ch, total_original_states, self)
