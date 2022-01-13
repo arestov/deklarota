@@ -59,6 +59,7 @@ export default function ApiEffectDeclr(name, data) {
 
   this.triggering_states = toRealArray(data.trigger)
   this.create_when_api_inits = data.create_when?.api_inits
+  this.create_when_becomes_ready = data.create_when?.becomes_ready ?? true
 
   this.fn = data.fn
   this.is_async = data.is_async

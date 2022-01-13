@@ -6,6 +6,7 @@ function createTask(effect) {
     return {
       just_one_attr: true, // to help api user understand difference of structure
       created_by_inited_api: false,
+      created_by_ready_conditions: false,
       prev: null,
       next: null,
       value: null,
@@ -15,6 +16,7 @@ function createTask(effect) {
   return {
     just_one_attr: false,
     created_by_inited_api: false,
+    created_by_ready_conditions: false,
     prev_values: null,
     next_values: null,
     values: null,
