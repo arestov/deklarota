@@ -4,7 +4,6 @@ import justOneAttr from './justOneAttr'
 function createTask(effect) {
   if (justOneAttr(effect)) {
     return {
-      schedule_confirmed: false,
       just_one_attr: true, // to help api user understand difference of structure
       prev: null,
       next: null,
@@ -13,7 +12,6 @@ function createTask(effect) {
   }
 
   return {
-    schedule_confirmed: false,
     just_one_attr: false,
     prev_values: null,
     next_values: null,

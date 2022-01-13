@@ -54,9 +54,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
         continue
       }
 
-      // mark state
-      const task = scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, changes_list[i + 1])
-      task.schedule_confirmed = true
+      scheduleEffect(self, initial_transaction_id, total_original_states, effect, state_name, changes_list[i + 1])
     }
   }
 }
@@ -203,10 +201,13 @@ function handleTransactionEnd(self, transaction_key) {
     if (!effects_schedule.hasOwnProperty(effect_name)) {
       continue
     }
-    const cur = effects_schedule[effect_name]
-    if (!cur.schedule_confirmed) {
+    const effect = self.__api_effects[effect_name]
+
+    // TODO: check that attrs inside effects_schedule[effect_name].prev_values  realy changed
+    if (!apiAndConditionsReady(self, effect)) {
       continue
     }
+
 
     flow.pushToFlow(
       executeEffect,
