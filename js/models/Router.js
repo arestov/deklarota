@@ -361,7 +361,9 @@ export default spv.inh(BasicRouter, {
       'browser-location': {
         api: ['navi', 'self'],
         trigger: 'full_url',
-
+        create_when: {
+          api_inits: false,
+        },
         fn: function(navi, self, { value: url }) {
           if (url == null) {
             return

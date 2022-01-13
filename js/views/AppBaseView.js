@@ -130,6 +130,9 @@ export const AppBase = spv.inh(View, {}, {
     out: {
       __build_children: {
         api: ['self', 'ui_samples'],
+        create_when: {
+          api_inits: true,
+        },
         trigger: ['domAndInterfacesReady', '$meta$apis$con$appended'],
         require: ['domAndInterfacesReady', '$meta$apis$con$appended'],
         fn: function(self) {

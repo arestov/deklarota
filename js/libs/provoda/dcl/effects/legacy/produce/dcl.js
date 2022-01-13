@@ -58,6 +58,8 @@ export default function ApiEffectDeclr(name, data) {
   this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
 
   this.triggering_states = toRealArray(data.trigger)
+  this.create_when_api_inits = data.create_when?.api_inits
+
   this.fn = data.fn
   this.is_async = data.is_async
   this.result_handler = data.parse && getHandler(this.is_async, data.parse)

@@ -16,7 +16,7 @@ function ensureTaskValues(self, effect, task) {
     return
   }
 
-  if (task.next_values != null) {
+  if (!task.created_by_inited_api && task.next_values != null) {
     task.values = task.next_values
     return
   }
