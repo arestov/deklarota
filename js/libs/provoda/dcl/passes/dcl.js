@@ -2,7 +2,7 @@
 import noop from './noop'
 import targetedResult from './targetedResult/dcl'
 import RelShape from '../nests/relShape'
-import { readingDeps } from './readingDeps'
+import { readingDeps } from '../../utils/multiPath/readingDeps/readingDeps'
 
 
 // var utils = require('../../utils/index.js');

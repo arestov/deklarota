@@ -1,6 +1,6 @@
-import parseMultiPath from '../../utils/multiPath/parse'
-import now from './deps/now'
-import emptyArray from '../../emptyArray'
+import parseMultiPath from '../parse'
+import now from './now'
+import emptyArray from '../../../emptyArray'
 
 export const readingDeps = function getDeps(optionalNames) {
   return (deps) => {

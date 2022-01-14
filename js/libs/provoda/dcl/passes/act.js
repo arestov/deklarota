@@ -2,7 +2,7 @@
 import getDepValue from '../../utils/multiPath/getDepValue'
 import saveResult from './targetedResult/save'
 import noopForPass from './noop'
-import now from './deps/now'
+import now from '../../utils/multiPath/readingDeps/now'
 
 /* EXEC
 
