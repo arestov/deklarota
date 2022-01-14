@@ -55,7 +55,7 @@ export default function pass(md, pass_name, data) {
 
   const deps_values = getDepsValues(md, deps, data)
   const args = [data]
-  if (deps_values) {
+  if (deps_values != null) {
     Array.prototype.push.apply(args, deps_values)
   }
 
