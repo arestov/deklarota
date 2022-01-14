@@ -65,7 +65,7 @@ function executeEffect(self, effect_name, transaction_id) {
 
   const effect = self.__api_effects[effect_name]
 
-  const args = new Array(effect.apis.length + effect.triggering_states.length)
+  const args = new Array(effect.apis.length + 1) // + effect.fn_deps?
   for (let i = 0; i < effect.apis.length; i++) {
     const api = self._interfaces_used[effect.apis[i]]
     if (!api) {
