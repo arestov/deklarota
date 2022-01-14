@@ -73,6 +73,10 @@ function createWhenBecomesReady(self, total_original_states, changes_list, initi
     }
 
     const effect = index[attr_name]
+    if (!effect.create_when_becomes_ready) {
+      continue
+    }
+
     if (!apiAndConditionsReady(self, effect)) {
       continue
     }
