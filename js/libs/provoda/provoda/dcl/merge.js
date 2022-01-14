@@ -77,8 +77,8 @@ export default function() {
 
 
   addNotEmptyProp(effects, 'api', effects_api)
-  addNotEmptyProp(effects, 'consume', effects_consume)
-  addNotEmptyProp(effects, 'produce', effects_produce)
+  addNotEmptyProp(effects, 'in', effects_consume)
+  addNotEmptyProp(effects, 'out', effects_produce)
 
 
   addNotEmptyProp(result, 'attrs', attrs)
