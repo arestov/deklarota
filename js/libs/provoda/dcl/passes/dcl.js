@@ -4,6 +4,7 @@ import noop from './noop'
 import now from './deps/now'
 import targetedResult from './targetedResult/dcl'
 import RelShape from '../nests/relShape'
+import emptyArray from '../../emptyArray'
 // var utils = require('../../utils/index.js');
 // var getParsedState = utils.getParsedState
 
@@ -56,12 +57,9 @@ import RelShape from '../nests/relShape'
 //     }
 // },
 
-
-const empty = []
-
 const getDeps = function(deps) {
   if (!deps || !deps.length) {
-    return empty
+    return emptyArray
   }
 
   const result = new Array(deps.length)
