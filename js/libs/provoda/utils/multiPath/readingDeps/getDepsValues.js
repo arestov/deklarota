@@ -1,6 +1,6 @@
-import getDepValue from '../../utils/multiPath/getDepValue'
-import noopForPass from './noop'
-import now from '../../utils/multiPath/readingDeps/now'
+import getDepValue from '../getDepValue'
+import noopForPass from '../../../dcl/passes/noop'
+import now from './now'
 
 const getDep = function(md, dep, data) {
   if (dep === noopForPass) {

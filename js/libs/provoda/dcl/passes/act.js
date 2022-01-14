@@ -1,7 +1,7 @@
 
 import saveResult from './targetedResult/save'
 import noopForPass from './noop'
-import { getDepsValues } from './getDepsValues'
+import { getDepsValues } from '../../utils/multiPath/readingDeps/getDepsValues'
 
 /* EXEC
 
