@@ -1,5 +1,6 @@
 
 import spv from '../../../../../spv'
+import { readingDeps } from '../../../../utils/multiPath/readingDeps/readingDeps'
 import _updateAttr from '../../../../_internal/_updateAttr'
 import wrapDeps from '../api/utils/wrapDeps'
 import getDclInputApis from '../utils/getDclInputApis'
@@ -34,6 +35,8 @@ const getHandler = function(schema) {
   })
 }
 
+const getDeps = readingDeps()
+
 export default function ApiEffectDeclr(name, data) {
 
   this.name = name
@@ -43,7 +46,6 @@ export default function ApiEffectDeclr(name, data) {
   this.triggering_states = null
   this.deps = null
   this.deps_name = null
-  this.fn = null
   this.result_schema = null
   this.is_async = null
   this.result_handler = null
@@ -61,7 +63,15 @@ export default function ApiEffectDeclr(name, data) {
   this.create_when_api_inits = data.create_when?.api_inits
   this.create_when_becomes_ready = data.create_when?.becomes_ready ?? true
 
-  this.fn = data.fn
+  if (Array.isArray(data.fn)) {
+    const [fn_deps, fn] = data.fn
+    this.fn_deps = getDeps(fn_deps)
+    this.fn = fn
+  } else {
+    this.fn_deps = null
+    this.fn = data.fn
+  }
+
   this.is_async = data.is_async
   this.result_handler = data.parse && getHandler(this.is_async, data.parse)
 

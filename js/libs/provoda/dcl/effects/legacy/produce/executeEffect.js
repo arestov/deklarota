@@ -1,4 +1,5 @@
 import { countKeys } from '../../../../../spv'
+import { getDepsValues } from '../../../../utils/multiPath/readingDeps/getDepsValues'
 import { agendaKey } from './getCurrentTransactionKey'
 import justOneAttr from './justOneAttr'
 
@@ -77,6 +78,12 @@ function executeEffect(self, effect_name, transaction_id) {
   ensureTaskValues(self, effect, task)
 
   args[effect.apis.length] = task
+
+  const deps_values = getDepsValues(self, effect.fn_deps)
+
+  if (deps_values != null) {
+    Array.prototype.push.apply(args, deps_values)
+  }
 
   const result = effect.fn.apply(null, args)
   handleEffectResult(self, effect, result)

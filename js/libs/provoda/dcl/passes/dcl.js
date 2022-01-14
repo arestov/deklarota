@@ -1,9 +1,10 @@
 
-import parseMultiPath from '../../utils/multiPath/parse'
 import noop from './noop'
-import now from './deps/now'
 import targetedResult from './targetedResult/dcl'
 import RelShape from '../nests/relShape'
+import { readingDeps } from '../../utils/multiPath/readingDeps/readingDeps'
+
+
 // var utils = require('../../utils/index.js');
 // var getParsedState = utils.getParsedState
 
@@ -56,36 +57,7 @@ import RelShape from '../nests/relShape'
 //     }
 // },
 
-
-const empty = []
-
-const getDeps = function(deps) {
-  if (!deps || !deps.length) {
-    return empty
-  }
-
-  const result = new Array(deps.length)
-  for (let i = 0; i < deps.length; i++) {
-    if (deps[i] === '$noop') {
-      result[i] = noop
-      continue
-    }
-
-    if (deps[i] === '$now') {
-      result[i] = now
-      continue
-    }
-
-    const cur = parseMultiPath(deps[i], true)
-    result[i] = cur
-
-    if (cur.nesting && cur.nesting.path && !cur.zip_name) {
-      throw new Error('zip name `@one:` or `@all:` should be provided for: ' + deps[i])
-    }
-
-  }
-  return result
-}
+const getDeps = readingDeps({'$noop': noop})
 
 function same(arg) {
   return arg

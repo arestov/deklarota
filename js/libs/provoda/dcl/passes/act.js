@@ -1,8 +1,7 @@
 
-import getDepValue from '../../utils/multiPath/getDepValue'
 import saveResult from './targetedResult/save'
 import noopForPass from './noop'
-import now from './deps/now'
+import { getDepsValues } from '../../utils/multiPath/readingDeps/getDepsValues'
 
 /* EXEC
 
@@ -42,34 +41,6 @@ import now from './deps/now'
     динамические пути в resource part
 */
 
-
-const getDep = function(md, dep, data) {
-  if (dep === noopForPass) {
-    return noopForPass
-  }
-
-  if (dep === now) {
-    return now()
-  }
-
-  return getDepValue(md, dep, data)
-}
-
-const getDepsValues = function(md, deps, data) {
-  if (deps == null) {
-    return null
-  }
-
-
-  const args = new Array(deps.length)
-  for (let i = 0; i < deps.length; i++) {
-    const cur = deps[i]
-    args[i] = getDep(md, cur, data)
-  }
-
-  return args
-}
-
 export default function pass(md, pass_name, data) {
   const pass_handlers = md._extendable_passes_index
   if (!pass_handlers.hasOwnProperty(pass_name)) {
@@ -84,7 +55,7 @@ export default function pass(md, pass_name, data) {
 
   const deps_values = getDepsValues(md, deps, data)
   const args = [data]
-  if (deps_values) {
+  if (deps_values != null) {
     Array.prototype.push.apply(args, deps_values)
   }
 
