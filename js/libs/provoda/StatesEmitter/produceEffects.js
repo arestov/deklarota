@@ -61,6 +61,9 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
 
 function createWhenBecomesReady(self, total_original_states, changes_list, initial_transaction_id) {
   const index = self.__api_effects_$_index
+  if (index == null) {
+    return
+  }
   for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
     const attr_name = changes_list[i]
     const value = changes_list[i + 1]
