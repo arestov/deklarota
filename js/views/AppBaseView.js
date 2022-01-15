@@ -145,6 +145,7 @@ export const AppBase = spv.inh(View, {}, {
       },
       __build_template: {
         api: ['self', 'con', 'ui_samples'],
+        create_when: { api_inits: false },
         trigger: ['$meta$apis$con$used'],
         require: ['$meta$apis$con$used'],
         fn: (self, con) => {
