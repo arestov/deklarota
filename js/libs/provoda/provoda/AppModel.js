@@ -1,8 +1,9 @@
 
 import spv from '../../spv'
+import LoadableList from './LoadableList'
 import BrowseMap from './BrowseMap'
 
-const AppModelBase = spv.inh(BrowseMap.Model, {
+const AppModelBase = spv.inh(LoadableList, {
   naming: function(fn) {
     return function AppModelBase(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
