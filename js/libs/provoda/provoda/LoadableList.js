@@ -1,11 +1,10 @@
 
 import BrowseMap from './BrowseMap'
-import spv from '../../spv'
 import _updateRel from '../_internal/_updateRel'
 
 import pushToRoute from '../structure/pushToRoute'
-
-const cloneObj = spv.cloneObj
+import cloneObj from '../../spv/cloneObj'
+import spv from '../../spv'
 
 const getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 
