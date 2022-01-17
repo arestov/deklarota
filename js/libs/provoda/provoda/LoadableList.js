@@ -301,16 +301,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     return makeItemByData(this, nesting_name, data, item_params)
   },
 
-  findMustBePresentDataItem: function(obj, nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    const list = this.getNesting(nesting_name)
-    const matched = list && this.compareItemsWithObj(this.getNesting(nesting_name), obj)
-    return matched || this.injectExcessDataItem(obj, nesting_name)
-  },
-
   injectExcessDataItem: function(obj, nesting_name) {
     if (!nesting_name) {
       throw new Error('rel name should be provided')

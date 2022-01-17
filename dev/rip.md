@@ -139,3 +139,5 @@
 - remove getMainListChangeOpts, ignore skip_report option for rel updates
 
 - remove rel beforeReportChange method
+
+- remove findMustBePresentDataItem
