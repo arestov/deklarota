@@ -173,6 +173,10 @@ function getterSPI() {
 
     const head_by_urlname = hbu_declr && hbu_declr(hbu_data, null, morph_helpers)
 
+    if (!Constr.prototype.handling_v2_init) {
+      throw new Error('handling_v2_init = false')
+    }
+
     if (Constr.prototype.handling_v2_init) {
       return self.initSi(Constr, {
         by: 'routePathByModels',
