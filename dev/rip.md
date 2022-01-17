@@ -141,3 +141,5 @@
 - remove rel beforeReportChange method
 
 - remove findMustBePresentDataItem
+
+- remove injectExcessDataItem

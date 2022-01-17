@@ -15,7 +15,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
   init: function initLoadableListBase(self) {
-    self.excess_data_items = null
     self.loaded_nestings_items = null
     self.loadable_lists = null
   },
@@ -243,41 +242,11 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     if (!this.loadable_lists[ nesting_name ]) {
       this.loadable_lists[ nesting_name ] = []
     }
-    let
-      item
-    let work_array = this.loadable_lists[ nesting_name ]
+    let item
+    const work_array = this.loadable_lists[ nesting_name ]
 
-    let excess_items = this.excess_data_items && this.excess_data_items[ nesting_name ]
+    work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
 
-    if (excess_items && excess_items.length) {
-      const matched = this.compareItemsWithObj(excess_items, obj)
-      /*
-      задача этого кода - сделать так, что бы при вставке новых данных всё что лежит в массиве
-      "излишек" должно оставаться в конце массива
-      */
-      //excess_items = this.excess_data_items[ nesting_name ];
-      if (matched) {
-        item = matched
-        /*если совпадает с предполагаемыми объектом, то ставим наш элемент в конец рабочего массива
-        и удаляем из массива "излишков", а сами излишки в самый конец */
-        work_array = spv.arrayExclude(work_array, excess_items)
-        excess_items = spv.arrayExclude(excess_items, matched)
-        work_array.push(matched)
-        work_array = work_array.concat(excess_items)
-
-      } else {
-        /* если объект не совпадает ни с одним элементом, то извлекаем все излишки,
-        вставляем объект, вставляем элементы обратно */
-        work_array = spv.arrayExclude(work_array, excess_items)
-        work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
-        work_array = work_array.concat(excess_items)
-
-
-      }
-      this.excess_data_items[ nesting_name ] = excess_items
-    } else {
-      work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
-    }
     this.loadable_lists[ nesting_name ] = work_array
     if (!skip_changes) {
       _updateRel(this, nesting_name, work_array)
@@ -299,41 +268,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
 
   makeItemByData: function(data, item_params, nesting_name) {
     return makeItemByData(this, nesting_name, data, item_params)
-  },
-
-  injectExcessDataItem: function(obj, nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    if (this.isDataInjValid && !this.isDataInjValid(obj)) {
-      return
-    }
-    const
-      work_array = (this.loadable_lists && this.loadable_lists[ nesting_name ]) || []
-
-    const item = this.makeItemByData(obj, false, nesting_name)
-
-    if (!this.cant_find_dli_pos) {
-      if (!this.excess_data_items) {
-        this.excess_data_items = {}
-      }
-      if (!this.excess_data_items[ nesting_name ]) {
-        this.excess_data_items[ nesting_name ] = []
-      }
-      this.excess_data_items[ nesting_name ].push(item)
-      work_array.push(item)
-    } else {
-      work_array.unshift(item)
-    }
-
-    if (!this.loadable_lists) {
-      this.loadable_lists = {}
-    }
-    this.loadable_lists[ nesting_name ] = work_array
-
-    _updateRel(this, nesting_name, work_array)
-    return item
   },
 })
 
