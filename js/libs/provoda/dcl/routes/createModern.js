@@ -45,7 +45,7 @@ function createModern(self, sp_name, extra_states) {
   const created = self.initSi(Constr, {
     by: 'routePathByModels',
     init_version: 2,
-    states: createStates(Constr, sp_name, extra_states),
+    attrs: createStates(Constr, sp_name, extra_states),
     head: selected.matched,
   })
 

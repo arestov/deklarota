@@ -330,7 +330,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     const v2_data = cloneObj({
       by: 'LoadableList',
       init_version: 2,
-      states: data,
+      attrs: data,
     }, convertToNestings(item_params))
     return this.initSi(best_constr, v2_data)
   },

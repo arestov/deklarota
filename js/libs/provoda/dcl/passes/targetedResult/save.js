@@ -50,14 +50,14 @@ const saveByProvodaId = function(current_motivator, md, _target, wrap) {
     }
     const data = wrap[id]
     const model = getModelById(md, id)
-    const states = data.states
+    const attrs = data.attrs
     const rels = getRelFromInitParams(data)
 
-    for (const state in states) {
-      if (!states.hasOwnProperty(state)) {
+    for (const state in attrs) {
+      if (!attrs.hasOwnProperty(state)) {
         continue
       }
-      _updateAttr(model, state, states[state])
+      _updateAttr(model, state, attrs[state])
     }
 
     for (const nesting in rels) {

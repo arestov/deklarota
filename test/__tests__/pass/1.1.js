@@ -4,7 +4,7 @@
 
   a - передача state
   b - передача nestings
-  return { 589592873598724: { nestings: {}, states: {} } }
+  return { 589592873598724: { nestings: {}, attrs: {} } }
 
   setup:
     model + nested_model
@@ -27,7 +27,7 @@ const action = {
   fn: [
     ['my_friend_id'],
     (data, my_friend_id) => ({
-      [my_friend_id]: { states: { balance: data.value } },
+      [my_friend_id]: { attrs: { balance: data.value } },
     }),
   ],
 }

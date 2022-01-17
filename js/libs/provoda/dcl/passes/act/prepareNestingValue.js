@@ -172,7 +172,7 @@ const replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
 }
 
 const callInit = function(md, nesting_name, value) {
-  const created = pushToRoute(md, nesting_name, value.states)
+  const created = pushToRoute(md, nesting_name, value.attrs)
   if (created) {
     return created
   }
@@ -185,7 +185,7 @@ const callInit = function(md, nesting_name, value) {
 
 
 
-  // expected `value` is : {states: {}, rels: {}}
+  // expected `value` is : {attrs: {}, rels: {}}
   const init_data = {}
 
   cloneObj(init_data, value)

@@ -53,7 +53,7 @@ test('auto dispatch and handle `handleInit` pass', async () => {
     },
     () => {
       pvPass(app.start_page, 'addToEnd', {
-        states: {
+        attrs: {
           crazy_state: 'new york value',
           artist: 'Cloudy beasts',
           title: 'added to end',
@@ -77,7 +77,7 @@ test('auto dispatch and handle `handleInit` pass', async () => {
           to: ['< special_prop'],
           fn: [
             [],
-            ({ states }) => states.crazy_state,
+            ({ attrs }) => attrs.crazy_state,
           ],
         },
       },

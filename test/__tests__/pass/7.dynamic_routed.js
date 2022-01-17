@@ -17,7 +17,7 @@ test('change for dynamic routed resource calculated', async () => {
         head: {
           name: 'nice_resource',
         },
-        states: {
+        attrs: {
           title: 'hey!',
         },
       })
@@ -61,7 +61,7 @@ test('change for dynamic routed resource calculated', async () => {
           fn: [
             ['< default_title << [:head.name]'],
             (data, default_title) => ({
-              title: data.states.title,
+              title: data.attrs.title,
               copy: `dup ${default_title}`,
             }),
           ],

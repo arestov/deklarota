@@ -180,7 +180,7 @@ function getterSPI() {
     return self.initSi(Constr, {
       by: 'routePathByModels',
       init_version: 2,
-      states: allStates(states, extra_states),
+      attrs: allStates(states, extra_states),
       head: head_by_urlname,
       url_params: hbu_data,
     })

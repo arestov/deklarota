@@ -52,7 +52,7 @@ import { readingDeps } from '../../utils/multiPath/readingDeps/readingDeps'
 //         return {
 //             next: true, // Исполнитель должен проверить hasOwnProperty()
 //             prev: false,
-//             '*': {589592873598724: {rels: {}, states: {}}}
+//             '*': {589592873598724: {rels: {}, attrs: {}}}
 //         }
 //     }
 // },

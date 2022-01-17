@@ -117,7 +117,7 @@ function createISS(self, data) {
   let iss = null
 
 
-  iss = toServStates(iss, data && data.states)
+  iss = toServStates(iss, data && data.attrs)
 
   if (!init_v2 && self.network_data_as_states && data && data.network_states) {
     iss = toServStates(iss, data.network_states)

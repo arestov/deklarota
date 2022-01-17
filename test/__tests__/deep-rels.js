@@ -43,7 +43,7 @@ test('attr based on deep list', async () => {
         stage1CreateLevel1v1: {
           to: ['<< level1', { method: 'at_end' }],
           fn: () => ({
-            states: {
+            attrs: {
               title: 'level1Gold',
             },
           }),
@@ -53,7 +53,7 @@ test('attr based on deep list', async () => {
         stage1CreateLevel2v1: {
           to: ['<< level1.level2', { method: 'at_end' }],
           fn: () => ({
-            states: {
+            attrs: {
               title: 'level2Silver',
             },
           }),
@@ -63,7 +63,7 @@ test('attr based on deep list', async () => {
         stage1CreateLevel3v1: {
           to: ['<< level1.level2.level3', { method: 'at_end' }],
           fn: () => ({
-            states: {
+            attrs: {
               title: 'level3Bronze',
             },
           }),
