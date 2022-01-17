@@ -1,7 +1,7 @@
 import { doCopy } from '../../spv/cloneObj'
 import pushToRoute from '../structure/pushToRoute'
 
-function makeItemByData(self, nesting_name, data, item_params) {
+function makeItemByData(self, nesting_name, data) {
   const mentioned = self._nest_rqc[nesting_name]
   const md = self
   if (!mentioned) {
@@ -19,27 +19,8 @@ function makeItemByData(self, nesting_name, data, item_params) {
     by: 'LoadableList',
     init_version: 2,
     attrs: data,
-  }, convertToNestings(item_params))
+  })
   return self.initSi(best_constr, v2_data)
 }
-
-
-function convertToNestings(params) {
-  if (params == null) {return}
-
-  if (params.subitems) {
-    throw new Error('`subitems` prop of initingParams is depricated. use `rels`')
-  }
-
-  if (params.subitems_source_name) {
-    throw new Error('`subitems_source_name` prop of initingParams is depricated. use `nestings_sources`')
-  }
-
-  return {
-    rels: params.rels,
-    nestings_sources: params.nestings_sources,
-  }
-}
-
 
 export default makeItemByData

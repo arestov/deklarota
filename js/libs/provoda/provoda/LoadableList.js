@@ -137,16 +137,17 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
 
 
     const splitItemData = target['nest_rq_split-' + nesting_name]
+    if (splitItemData) {
+      throw new Error('nest_rq_split derecated')
+    }
 
     for (let i = 0; i < data_list.length; i++) {
-      const splited_data = splitItemData && splitItemData(data_list[i], target.getNestingSource(nesting_name, target.app))
-      const cur_data = splited_data ? splited_data[0] : data_list[i]
-      const cur_params = splited_data && splited_data[1]
+      const cur_data = data_list[i]
 
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
       }
-      const item = target.addItemToDatalist(cur_data, true, cur_params, nesting_name)
+      const item = target.addItemToDatalist(cur_data, true, nesting_name)
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name
       }
@@ -227,11 +228,11 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  addItemToDatalist: function(obj, silent, item_params, nesting_name) {
-    return this.addDataItem(obj, silent, nesting_name, item_params)
+  addItemToDatalist: function(obj, silent, nesting_name) {
+    return this.addDataItem(obj, silent, nesting_name)
   },
 
-  addDataItem: function(obj, skip_changes, nesting_name, item_params) {
+  addDataItem: function(obj, skip_changes, nesting_name) {
     if (!nesting_name) {
       throw new Error('rel name should be provided')
     }
@@ -245,7 +246,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     let item
     const work_array = this.loadable_lists[ nesting_name ]
 
-    work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
+    work_array.push(item = this.makeItemByData(obj, nesting_name))
 
     this.loadable_lists[ nesting_name ] = work_array
     if (!skip_changes) {
@@ -266,8 +267,8 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     return this.loadable_lists[ this.main_list_name ]
   },
 
-  makeItemByData: function(data, item_params, nesting_name) {
-    return makeItemByData(this, nesting_name, data, item_params)
+  makeItemByData: function(data, nesting_name) {
+    return makeItemByData(this, nesting_name, data)
   },
 })
 

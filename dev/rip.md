@@ -143,3 +143,5 @@
 - remove findMustBePresentDataItem
 
 - remove injectExcessDataItem
+
+- deprecate nest_rq_split
