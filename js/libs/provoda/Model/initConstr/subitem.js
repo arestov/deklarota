@@ -8,6 +8,7 @@ export default function initSi(Constr, parent_md, data, params, more, states) {
   }
 
   if (Constr.prototype.init) {
+    throw new Error('bad initing way')
     const instance = new Constr()
     const initsbi_opts = parent_md.getSiOpts()
 

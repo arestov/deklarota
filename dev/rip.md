@@ -133,3 +133,5 @@
 - deprecate effects inside effects.out.effect
 
 - deprecate handling_v2_init = false
+
+- deprecate init method on models
