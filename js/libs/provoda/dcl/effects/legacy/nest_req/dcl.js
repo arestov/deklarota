@@ -7,6 +7,12 @@ const SendDeclaration = utils.SendDeclaration
 const toSchemaFn = utils.toSchemaFn
 const stateName = utils.stateName
 
+const validate = (dcl) => {
+  if (dcl.parse_serv) {
+    throw new Error('parse_serv depricated')
+  }
+}
+
 export default function NestReqMap(name, dclt) {
   this.original = this
   this.nest_name = name
@@ -33,6 +39,7 @@ export default function NestReqMap(name, dclt) {
     }
 
     if (dclt.granular_access) {
+      validate(this)
       return
     }
 
@@ -42,7 +49,7 @@ export default function NestReqMap(name, dclt) {
       : this.dependencies.concat(more)
 
     this.state_dep = stateName(this.nest_name)
-
+    validate(this)
     return
   }
 
@@ -84,5 +91,6 @@ export default function NestReqMap(name, dclt) {
     : this.dependencies.concat(more)
 
   this.state_dep = stateName(this.nest_name)
+  validate(this)
 
 }
