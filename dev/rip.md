@@ -137,3 +137,5 @@
 - deprecate init method on models
 
 - remove getMainListChangeOpts, ignore skip_report option for rel updates
+
+- remove rel beforeReportChange method

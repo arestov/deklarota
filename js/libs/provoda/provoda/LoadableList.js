@@ -197,20 +197,12 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  dataListChange: function(items, rel_name) {
+  dataListChange: function(_tems, rel_name) {
     if (!rel_name) {
       throw new Error('rel name should be provided')
     }
 
-    let array = this.loadable_lists && this.loadable_lists[rel_name]
-    if (this.beforeReportChange) {
-
-      array = this.beforeReportChange(array, items)
-      if (!this.loadable_lists) {
-        this.loadable_lists = {}
-      }
-      this.loadable_lists[rel_name] = array
-    }
+    const array = this.loadable_lists && this.loadable_lists[rel_name]
     _updateRel(this, rel_name, array)
   },
 
@@ -289,10 +281,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
     this.loadable_lists[ nesting_name ] = work_array
     if (!skip_changes) {
-      if (this.beforeReportChange) {
-        work_array = this.beforeReportChange(work_array, [item])
-        this.loadable_lists[ nesting_name ] = work_array
-      }
       _updateRel(this, nesting_name, work_array)
     }
     return item
@@ -350,7 +338,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     if (this.isDataInjValid && !this.isDataInjValid(obj)) {
       return
     }
-    let
+    const
       work_array = (this.loadable_lists && this.loadable_lists[ nesting_name ]) || []
 
     const item = this.makeItemByData(obj, false, nesting_name)
@@ -367,10 +355,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     } else {
       work_array.unshift(item)
     }
-    if (this.beforeReportChange) {
-      work_array = this.beforeReportChange(work_array, [item])
 
-    }
     if (!this.loadable_lists) {
       this.loadable_lists = {}
     }
