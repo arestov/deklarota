@@ -10,7 +10,7 @@ const clean_obj = {}
 
 
 function nestingMark(nesting_name, name) {
-  return '$meta$nests$' + nesting_name + '$' + name
+  return '$meta$rels$' + nesting_name + '$' + name
 }
 
 function statesAnyway(states, nesting_name, is_main_list) {
