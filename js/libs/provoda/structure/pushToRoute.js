@@ -2,7 +2,7 @@
 
 import getSPByPathTemplateAndData from '../routes/legacy/getSPByPathTemplateAndData'
 
-export default function(md, nesting_name, data) {
+export default function pushToRoute(md, nesting_name, data) {
   const mentioned = md._nest_rqc[nesting_name]
 
   if (mentioned.type == 'route') {
