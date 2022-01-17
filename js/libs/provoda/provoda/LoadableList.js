@@ -401,30 +401,6 @@ function convertToNestings(params) {
   }
 }
 
-const LoadableList = spv.inh(LoadableListBase, {
-  init: function(self, _opts, data, params) {
-    const init_v2 = data && data.init_version === 2
+LoadableListBase.LoadableListBase = LoadableListBase
 
-    if (init_v2) {
-      return
-    }
-
-    if (!params || !params.subitems || !params.subitems[self.main_list_name]) {
-      return
-    }
-
-    self.nextTick(self.insertDataAsSubitems, [
-      self,
-      self.main_list_name,
-      params.subitems[self.main_list_name],
-      null,
-      params.subitems_source_name && params.subitems_source_name[self.main_list_name]], true
-    )
-  }
-}, {
-  handling_v2_init: true,
-})
-
-LoadableList.LoadableListBase = LoadableListBase
-
-export default LoadableList
+export default LoadableListBase
