@@ -2,9 +2,8 @@
 import BrowseMap from './BrowseMap'
 import _updateRel from '../_internal/_updateRel'
 
-import pushToRoute from '../structure/pushToRoute'
-import cloneObj from '../../spv/cloneObj'
 import spv from '../../spv'
+import makeItemByData from '../Model/makeItemByData'
 
 const getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 
@@ -299,25 +298,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   makeItemByData: function(data, item_params, nesting_name) {
-    const mentioned = this._nest_rqc[nesting_name]
-    const md = this
-    if (!mentioned) {
-      throw new Error('cant make item')
-    }
-
-    const created = pushToRoute(md, nesting_name, data)
-    if (created) {
-      return created
-    }
-
-    const best_constr = this._all_chi[mentioned.key]
-
-    const v2_data = cloneObj({
-      by: 'LoadableList',
-      init_version: 2,
-      attrs: data,
-    }, convertToNestings(item_params))
-    return this.initSi(best_constr, v2_data)
+    return makeItemByData(this, nesting_name, data, item_params)
   },
 
   findMustBePresentDataItem: function(obj, nesting_name) {
@@ -365,23 +346,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     return item
   },
 })
-
-function convertToNestings(params) {
-  if (params == null) {return}
-
-  if (params.subitems) {
-    throw new Error('`subitems` prop of initingParams is depricated. use `rels`')
-  }
-
-  if (params.subitems_source_name) {
-    throw new Error('`subitems_source_name` prop of initingParams is depricated. use `nestings_sources`')
-  }
-
-  return {
-    rels: params.rels,
-    nestings_sources: params.nestings_sources,
-  }
-}
 
 LoadableListBase.LoadableListBase = LoadableListBase
 
