@@ -135,3 +135,5 @@
 - deprecate handling_v2_init = false
 
 - deprecate init method on models
+
+- remove getMainListChangeOpts, ignore skip_report option for rel updates

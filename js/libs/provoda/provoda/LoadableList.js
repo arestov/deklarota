@@ -81,7 +81,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   main_list_name: 'lists_list',
-  getMainListChangeOpts: function() {},
   page_limit: 30,
 
   getPagingInfo: function(nesting_name, limit) {
@@ -138,7 +137,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       return items_list
     }
 
-    const mlc_opts = target.getMainListChangeOpts()
 
     const splitItemData = target['nest_rq_split-' + nesting_name]
 
@@ -157,7 +155,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       items_list.push(item)
     }
 
-    target.dataListChange(mlc_opts, items_list, nesting_name)
+    target.dataListChange(items_list, nesting_name)
     return items_list
   },
   __getLoadableRel: function() {
@@ -199,7 +197,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  dataListChange: function(mlc_opts, items, rel_name) {
+  dataListChange: function(items, rel_name) {
     if (!rel_name) {
       throw new Error('rel name should be provided')
     }
@@ -213,7 +211,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       }
       this.loadable_lists[rel_name] = array
     }
-    _updateRel(this, rel_name, array, mlc_opts)
+    _updateRel(this, rel_name, array)
   },
 
   compareItemWithObj: function(item, data) {
@@ -257,7 +255,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     let
       item
     let work_array = this.loadable_lists[ nesting_name ]
-    const ml_ch_opts = !skip_changes && this.getMainListChangeOpts()
 
     let excess_items = this.excess_data_items && this.excess_data_items[ nesting_name ]
 
@@ -296,7 +293,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
         work_array = this.beforeReportChange(work_array, [item])
         this.loadable_lists[ nesting_name ] = work_array
       }
-      _updateRel(this, nesting_name, work_array, ml_ch_opts)
+      _updateRel(this, nesting_name, work_array)
     }
     return item
   },
@@ -355,7 +352,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
     let
       work_array = (this.loadable_lists && this.loadable_lists[ nesting_name ]) || []
-    const ml_ch_opts = this.getMainListChangeOpts()
+
     const item = this.makeItemByData(obj, false, nesting_name)
 
     if (!this.cant_find_dli_pos) {
@@ -379,7 +376,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
     this.loadable_lists[ nesting_name ] = work_array
 
-    _updateRel(this, nesting_name, work_array, ml_ch_opts)
+    _updateRel(this, nesting_name, work_array)
     return item
   },
 })
