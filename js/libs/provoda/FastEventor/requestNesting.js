@@ -295,7 +295,7 @@ export default function(dclt, nesting_name, limit) {
 
     items = paging_opts.remainder ? items.slice(paging_opts.remainder) : items
 
-    sputnik.insertDataAsSubitems(sputnik, nesting_name, items, serv_data, source_name)
+    sputnik.insertDataAsSubitems(sputnik, nesting_name, items, source_name)
 
     sputnik.nextTick(sputnik.updateManyStates, [many_states], true)
 

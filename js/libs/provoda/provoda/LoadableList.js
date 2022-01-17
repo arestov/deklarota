@@ -128,7 +128,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  insertDataAsSubitems: function(target, nesting_name, data_list, _opts, source_name) {
+  insertDataAsSubitems: function(target, nesting_name, data_list, source_name) {
     const items_list = []
 
     if (!data_list || !data_list.length) {
