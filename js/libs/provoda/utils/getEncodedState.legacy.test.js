@@ -68,7 +68,7 @@ describe('modern addr used as legacy addr', () => {
     ['^parentRemoteId'],
     ['@one:uuid:current_team'],
     ['#appSettings'],
-    ['@one:$meta$states$uuid$load_attempted:current_team'],
+    ['@one:$meta$attrs$uuid$load_attempted:current_team'],
     ['@one:selectionData:partitions'],
     ['@updateUnrequested:runtimeRecipes'],
     ['@one:items-list$has_any:workspaces'],

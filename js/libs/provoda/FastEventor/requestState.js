@@ -126,7 +126,7 @@ function bindRequest(api, request, selected_map, store, self) {
     }
 
     for (i = 0; i < states_list.length; i++) {
-      result_states['$meta$states$' + states_list[i] + '$complete'] = true
+      result_states['$meta$attrs$' + states_list[i] + '$complete'] = true
 
     }
 
@@ -215,7 +215,7 @@ function requestDependencies(self, dependencies, soft) {
 function makeLoadingMarks(suffix, states_list, value, result) {
   const loading_marks = result || {}
   for (let i = 0; i < states_list.length; i++) {
-    loading_marks['$meta$states$' + states_list[i] + '$' + suffix] = value
+    loading_marks['$meta$attrs$' + states_list[i] + '$' + suffix] = value
 
   }
   return loading_marks
