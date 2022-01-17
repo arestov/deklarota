@@ -327,23 +327,12 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
 
     const best_constr = this._all_chi[mentioned.key]
 
-
-    const network_data_as_states = best_constr.prototype.network_data_as_states
-
-    if (best_constr.prototype.handling_v2_init) {
-      const v2_data = cloneObj({
-        by: 'LoadableList',
-        init_version: 2,
-        states: data,
-      }, convertToNestings(item_params))
-      return this.initSi(best_constr, v2_data)
-    }
-
-    if (network_data_as_states) {
-      return this.initSi(best_constr, {network_states: data}, item_params)
-    } else {
-      return this.initSi(best_constr, data, item_params)
-    }
+    const v2_data = cloneObj({
+      by: 'LoadableList',
+      init_version: 2,
+      states: data,
+    }, convertToNestings(item_params))
+    return this.initSi(best_constr, v2_data)
   },
 
   findMustBePresentDataItem: function(obj, nesting_name) {

@@ -177,21 +177,13 @@ function getterSPI() {
       throw new Error('handling_v2_init = false')
     }
 
-    if (Constr.prototype.handling_v2_init) {
-      return self.initSi(Constr, {
-        by: 'routePathByModels',
-        init_version: 2,
-        states: allStates(states, extra_states),
-        head: head_by_urlname,
-        url_params: hbu_data,
-      })
-    }
-
-    const instance_data = {}
-    cloneObj(instance_data, states)
-    instance_data.head = head_by_urlname
-
-    return self.initSi(Constr, allStates(instance_data, extra_states), null, null, states)
+    return self.initSi(Constr, {
+      by: 'routePathByModels',
+      init_version: 2,
+      states: allStates(states, extra_states),
+      head: head_by_urlname,
+      url_params: hbu_data,
+    })
   }
 
 
