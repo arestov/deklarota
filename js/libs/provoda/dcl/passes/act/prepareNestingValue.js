@@ -66,10 +66,12 @@ const toEnd = function(old_value, value) {
   return result
 }
 
-const toIndex = function(old_value, value, index) {
+
+const spliceList = (old_value, value, index, amountToRemove) => {
   if (typeof index != 'number') {
     throw 'index should be numer'
   }
+
   const old_list = toArray(old_value)
   const to_add = toArray(value)
   const result = old_list ? old_list.slice(0) : []
@@ -78,27 +80,18 @@ const toIndex = function(old_value, value, index) {
     return result
   }
 
-  result.splice(index, 0, ...to_add)
+  result.splice(index, amountToRemove, ...to_add)
 
   return result
 }
 
+const toIndex = function(old_value, value, index) {
+  return spliceList(old_value, value, index, 0)
+}
+
+
 const replaceAt = function(old_value, value, index) {
-  if (typeof index != 'number') {
-    throw 'index should be numer'
-  }
-
-  const old_list = toArray(old_value)
-  const to_add = toArray(value)
-  const result = old_list ? old_list.slice(0) : []
-
-  if (to_add == null) {
-    return result
-  }
-
-  result.splice(index, 1, ...to_add)
-
-  return result
+  return spliceList(old_value, value, index, 1)
 }
 
 const needsRefs = function(init_data) {
