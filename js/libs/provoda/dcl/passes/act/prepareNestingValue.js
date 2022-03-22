@@ -232,6 +232,11 @@ const initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref)
   const created_model = callInit(md, nesting_name, value)
 
   if (value.hold_ref_id) {
+    if (!target.options.can_hold_refs) {
+      // we want to know if action is using hold_ref_id without executing it
+      // to avoid checing hold_ref_id for every action
+      throw new Error('to use `hold_ref_id` declare `can_hold_refs` as option')
+    }
     if (mut_refs_index[value.hold_ref_id]) {
       throw new Error('ref id holded already ' + value.hold_ref_id)
     }
