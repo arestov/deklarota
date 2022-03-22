@@ -93,10 +93,12 @@ const replaceAt = function(old_value, value, index) {
   const to_add = toArray(value)
   const result = old_list ? old_list.slice(0) : []
 
-  if (to_add) {
-    for (let i = 0; i < to_add.length; i++) {
-      splice.call(result, index + i, 1, to_add[i])
-    }
+  if (to_add == null) {
+    return result
+  }
+
+  for (let i = 0; i < to_add.length; i++) {
+    splice.call(result, index + i, 1, to_add[i])
   }
 
   return result
