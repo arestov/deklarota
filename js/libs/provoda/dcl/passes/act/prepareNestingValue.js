@@ -99,8 +99,10 @@ const replaceAt = function(old_value, value, index) {
     return result
   }
 
+  result.splice(index, 1)
+
   for (let i = 0; i < to_add.length; i++) {
-    splice.call(result, index + i, 1, to_add[i])
+    splice.call(result, index + i, 0, to_add[i])
   }
 
   return result
