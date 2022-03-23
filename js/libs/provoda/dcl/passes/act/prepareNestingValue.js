@@ -188,13 +188,17 @@ const callInit = function(md, nesting_name, value) {
   return created_model
 }
 
-const useRefIfNeeded = function(md, raw_value, mut_refs_index, _mut_wanted_ref) {
+const useRefIfNeeded = function(target, md, raw_value, mut_refs_index, _mut_wanted_ref) {
   if (isOk(raw_value)) {
     return raw_value
   }
 
   if (!needsRefs(raw_value)) {
     return raw_value
+  }
+
+  if (!target.options.can_use_refs) {
+    throw new Error('to use `use_ref_id` declare `can_use_refs` as option')
   }
 
   return replaceRefs(md, raw_value, {}, mut_refs_index)
@@ -213,6 +217,10 @@ const initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref)
   if (!needsRefs(raw_value)) {
     value = raw_value
   } else {
+    if (!target.options.can_use_refs) {
+      throw new Error('to use `use_ref_id` declare `can_use_refs` as option')
+    }
+
     const local_wanted = {}
     value = replaceRefs(md, raw_value, local_wanted, mut_refs_index)
 
