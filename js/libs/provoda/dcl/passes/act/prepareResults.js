@@ -3,6 +3,7 @@ import getTargetModels from './getTargetModels'
 import prepareNestingValue from './prepareNestingValue'
 import spv from '../../../../spv'
 import noopForPass from '../noop'
+import MutActionResult from './MutActionResult'
 const countKeys = spv.countKeys
 const initPassedValue = prepareNestingValue.initPassedValue
 
@@ -10,7 +11,7 @@ const isRedirectAction = function(target) {
   return Boolean(target.options && target.options.action)
 }
 
-const prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const prepareAndHold = function(md, target, value, mut_action_result) {
   const multi_path = target.target_path
 
   switch (multi_path.result_type) {
@@ -18,7 +19,7 @@ const prepareAndHold = function(md, target, value, mut_refs_index, mut_wanted_re
       return {
         target: target,
         target_md: md,
-        value: initPassedValue(md, target, value, mut_refs_index, mut_wanted_ref)
+        value: initPassedValue(md, target, value, mut_action_result)
       }
       return
     }
@@ -43,31 +44,31 @@ const getProperDestValue = function(target, value, i) {
   return value[i]
 }
 
-const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref, mut_result) {
+const unwrap = function(md, target, value, data, mut_action_result) {
   if (isRedirectAction(target)) {
     const models = getTargetModels(md, target, data)
     if (!Array.isArray(models)) {
-      mut_result.push({
+      mut_action_result.mut_result.push({
         target: target,
         target_md: models,
-        value: prepareNestingValue.useRefIfNeeded(target, md, getProperDestValue(target, value, 0), mut_refs_index, mut_wanted_ref)
+        value: prepareNestingValue.useRefIfNeeded(target, md, getProperDestValue(target, value, 0), mut_action_result)
       })
       return
     }
 
     for (let i = 0; i < models.length; i++) {
       const cur = models[i]
-      mut_result.push({
+      mut_action_result.mut_result.push({
         target: target,
         target_md: cur,
-        value: prepareNestingValue.useRefIfNeeded(target, md, getProperDestValue(target, value, i), mut_refs_index, mut_wanted_ref)
+        value: prepareNestingValue.useRefIfNeeded(target, md, getProperDestValue(target, value, i), mut_action_result)
       })
     }
     return
   }
 
   if (target.path_type == 'by_provoda_id') {
-    mut_result.push({target: target, md: md, value: value, data: data})
+    mut_action_result.mut_result.push({target: target, md: md, value: value, data: data})
     return
   }
 
@@ -82,26 +83,26 @@ const unwrap = function(md, target, value, data, mut_refs_index, mut_wanted_ref,
   if (Array.isArray(models)) {
     for (let i = 0; i < models.length; i++) {
       const cur = models[i]
-      mut_result.push(
-        prepareAndHold(cur, target, getProperDestValue(target, value, i), mut_refs_index, mut_wanted_ref, mut_result)
+      mut_action_result.mut_result.push(
+        prepareAndHold(cur, target, getProperDestValue(target, value, i), mut_action_result)
       )
     }
   } else {
-    mut_result.push(
-      prepareAndHold(models, target, getProperDestValue(target, value, null), mut_refs_index, mut_wanted_ref, mut_result)
+    mut_action_result.mut_result.push(
+      prepareAndHold(models, target, getProperDestValue(target, value, null), mut_action_result)
     )
   }
 
 }
 
-const completeValues = function(list, mut_refs_index, mut_wanted_ref) {
-  let lst_wanted = mut_wanted_ref
+const completeValues = function(mut_action_result) {
+  let lst_wanted = mut_action_result.mut_wanted_ref
 
   while (true) {
     const local_wanted = {}
 
-    for (let i = 0; i < list.length; i++) {
-      const cur = list[i]
+    for (let i = 0; i < mut_action_result.mut_result.length; i++) {
+      const cur = mut_action_result.mut_result[i]
       const target = cur.target
       if (isRedirectAction(target)) {
         continue
@@ -113,10 +114,10 @@ const completeValues = function(list, mut_refs_index, mut_wanted_ref) {
 
 
       cur.value = prepareNestingValue(
-        cur.target_md, target, cur.value, mut_refs_index, local_wanted
+        cur.target_md, target, cur.value, mut_action_result, local_wanted
       )
 
-      list[i] = cur
+      mut_action_result.mut_result[i] = cur
     }
 
     if (!countKeys(lst_wanted)) {
@@ -134,15 +135,12 @@ const completeValues = function(list, mut_refs_index, mut_wanted_ref) {
 
 
 export default function(md, dcl, value, data) {
-
-  const mut_result = []
-  const mut_refs_index = {}
-  const mut_wanted_ref = {}
+  const mut_action_result = new MutActionResult()
 
   if (!dcl.targeted_results_list) {
-    unwrap(md, dcl.targeted_single_result, value, data, mut_refs_index, mut_wanted_ref, mut_result)
-    completeValues(mut_result, mut_refs_index, mut_wanted_ref)
-    return mut_result
+    unwrap(md, dcl.targeted_single_result, value, data, mut_action_result)
+    completeValues(mut_action_result)
+    return mut_action_result.mut_result
   }
 
   if (value !== Object(value)) {
@@ -158,11 +156,11 @@ export default function(md, dcl, value, data) {
     if (cur_value === noopForPass) {
       continue
     }
-    unwrap(md, cur, cur_value, data, mut_refs_index, mut_wanted_ref, mut_result)
+    unwrap(md, cur, cur_value, data, mut_action_result)
   }
 
-  completeValues(mut_result, mut_refs_index, mut_wanted_ref)
+  completeValues(mut_action_result)
 
-  return mut_result
+  return mut_action_result.mut_result
 
 }

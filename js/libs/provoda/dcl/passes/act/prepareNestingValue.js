@@ -124,13 +124,12 @@ const needsRefs = function(init_data) {
 
 }
 
-const replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
+
+const replaceRefs = function(md, init_data, mut_wanted_ref, mut_action_result) {
   if (init_data.use_ref_id) {
-    if (mut_refs_index[init_data.use_ref_id]) {
-      return getModelById(md, mut_refs_index[init_data.use_ref_id])
+    if (mut_action_result.mut_refs_index[init_data.use_ref_id]) {
+      return getModelById(md, mut_action_result.mut_refs_index[init_data.use_ref_id])
     }
-
-
 
     mut_wanted_ref[init_data.use_ref_id] = init_data.use_ref_id
 
@@ -150,13 +149,13 @@ const replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
     }
     const cur = rels[nesting_name]
     if (!Array.isArray(cur)) {
-      result.rels[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
+      result.rels[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_action_result)
       continue
     }
 
     const list = []
     for (let i = 0; i < cur.length; i++) {
-      list.push(replaceRefs(md, cur[i], mut_wanted_ref, mut_refs_index))
+      list.push(replaceRefs(md, cur[i], mut_wanted_ref, mut_action_result))
     }
   }
 
@@ -188,7 +187,7 @@ const callInit = function(md, nesting_name, value) {
   return created_model
 }
 
-const useRefIfNeeded = function(target, md, raw_value, mut_refs_index, _mut_wanted_ref) {
+const useRefIfNeeded = function(target, md, raw_value, mut_action_result) {
   if (isOk(raw_value)) {
     return raw_value
   }
@@ -201,10 +200,10 @@ const useRefIfNeeded = function(target, md, raw_value, mut_refs_index, _mut_want
     throw new Error('to use `use_ref_id` declare `can_use_refs` as option')
   }
 
-  return replaceRefs(md, raw_value, {}, mut_refs_index)
+  return replaceRefs(md, raw_value, {}, mut_action_result)
 }
 
-const initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
+const initItem = function(md, target, raw_value, mut_action_result) {
   if (isOk(raw_value)) {
     return raw_value
   }
@@ -222,14 +221,14 @@ const initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref)
     }
 
     const local_wanted = {}
-    value = replaceRefs(md, raw_value, local_wanted, mut_refs_index)
+    value = replaceRefs(md, raw_value, local_wanted, mut_action_result)
 
     if (isOk(value)) {
       return value
     }
 
     if (spv.countKeys(local_wanted)) {
-      cloneObj(mut_wanted_ref, local_wanted)
+      cloneObj(mut_action_result.mut_wanted_ref, local_wanted)
       return value
     }
   }
@@ -245,16 +244,16 @@ const initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref)
       // to avoid checing hold_ref_id for every action
       throw new Error('to use `hold_ref_id` declare `can_hold_refs` as option')
     }
-    if (mut_refs_index[value.hold_ref_id]) {
+    if (mut_action_result.mut_refs_index[value.hold_ref_id]) {
       throw new Error('ref id holded already ' + value.hold_ref_id)
     }
-    mut_refs_index[value.hold_ref_id] = created_model._provoda_id
+    mut_action_result.mut_refs_index[value.hold_ref_id] = created_model._provoda_id
   }
 
   return created_model
 }
 
-const initItemsList = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const initItemsList = function(md, target, value, mut_action_result) {
   if (!value) {
     return value
   }
@@ -267,34 +266,34 @@ const initItemsList = function(md, target, value, mut_refs_index, mut_wanted_ref
   const result = new Array(list.length)
   for (let i = 0; i < list.length; i++) {
     const cur = list[i]
-    result[i] = initItem(md, target, cur, mut_refs_index, mut_wanted_ref)
+    result[i] = initItem(md, target, cur, mut_action_result)
   }
   return result
 }
 
-const initValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const initValue = function(md, target, value, mut_action_result) {
   if (Array.isArray(value)) {
-    return initItemsList(md, target, value, mut_refs_index, mut_wanted_ref)
+    return initItemsList(md, target, value, mut_action_result)
   }
 
-  return initItem(md, target, value, mut_refs_index, mut_wanted_ref)
+  return initItem(md, target, value, mut_action_result)
 }
 
-const initPassedValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const initPassedValue = function(md, target, value, mut_action_result) {
   switch (target.options.method) {
     case 'at_index':
     case 'replace': {
       return [
         value[0],
-        initValue(md, target, value[1], mut_refs_index, mut_wanted_ref),
+        initValue(md, target, value[1], mut_action_result),
       ]
     }
   }
 
-  return initValue(md, target, value, mut_refs_index, mut_wanted_ref)
+  return initValue(md, target, value, mut_action_result)
 }
 
-const prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const prepareNestingValue = function(md, target, value, mut_action_result) {
   const multi_path = target.target_path
 
   if (!target.options.method) {
@@ -314,22 +313,22 @@ const prepareNestingValue = function(md, target, value, mut_refs_index, mut_want
       return without(current_value, value)
     }
     case 'at_start': {
-      return toStart(current_value, initItemsList(md, target, value, mut_refs_index, mut_wanted_ref))
+      return toStart(current_value, initItemsList(md, target, value, mut_action_result))
     }
     case 'at_end': {
-      return toEnd(current_value, initItemsList(md, target, value, mut_refs_index, mut_wanted_ref))
+      return toEnd(current_value, initItemsList(md, target, value, mut_action_result))
     }
     case 'at_index': {
       return toIndex(
         current_value,
-        initItemsList(md, target, value[1], mut_refs_index, mut_wanted_ref),
+        initItemsList(md, target, value[1], mut_action_result),
         value[0]
       )
     }
     case 'replace': {
       return replaceAt(
         current_value,
-        initItemsList(md, target, value[1], mut_refs_index, mut_wanted_ref),
+        initItemsList(md, target, value[1], mut_action_result),
         value[0]
       )
     }
@@ -337,13 +336,13 @@ const prepareNestingValue = function(md, target, value, mut_refs_index, mut_want
       if (value && Array.isArray(value)) {
         throw new Error('value should not be list')
       }
-      return initItem(md, target, value, mut_refs_index, mut_wanted_ref)
+      return initItem(md, target, value, mut_action_result)
     }
     case 'set_many': {
       if (value && !Array.isArray(value)) {
         throw new Error('value should be list')
       }
-      return initItemsList(md, target, value, mut_refs_index, mut_wanted_ref)
+      return initItemsList(md, target, value, mut_action_result)
     }
     //|| 'set_one'
     //|| 'replace'
