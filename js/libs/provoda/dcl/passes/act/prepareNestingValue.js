@@ -279,20 +279,6 @@ const initValue = function(md, target, value, mut_action_result) {
   return initItem(md, target, value, mut_action_result)
 }
 
-const initPassedValue = function(md, target, value, mut_action_result) {
-  switch (target.options.method) {
-    case 'at_index':
-    case 'replace': {
-      return [
-        value[0],
-        initValue(md, target, value[1], mut_action_result),
-      ]
-    }
-  }
-
-  return initValue(md, target, value, mut_action_result)
-}
-
 const prepareNestingValue = function(md, target, value, mut_action_result) {
   const multi_path = target.target_path
 
@@ -355,7 +341,6 @@ const prepareNestingValue = function(md, target, value, mut_action_result) {
 }
 
 prepareNestingValue.initValue = initValue
-prepareNestingValue.initPassedValue = initPassedValue
 prepareNestingValue.useRefIfNeeded = useRefIfNeeded
 
 export default prepareNestingValue

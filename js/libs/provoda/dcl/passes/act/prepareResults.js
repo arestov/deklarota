@@ -5,13 +5,12 @@ import spv from '../../../../spv'
 import noopForPass from '../noop'
 import MutActionResult from './MutActionResult'
 const countKeys = spv.countKeys
-const initPassedValue = prepareNestingValue.initPassedValue
 
 const isRedirectAction = function(target) {
   return Boolean(target.options && target.options.action)
 }
 
-const prepareAndHold = function(md, target, value, mut_action_result) {
+const prepareAndHold = function(md, target, value) {
   const multi_path = target.target_path
 
   switch (multi_path.result_type) {
@@ -19,7 +18,7 @@ const prepareAndHold = function(md, target, value, mut_action_result) {
       return {
         target: target,
         target_md: md,
-        value: initPassedValue(md, target, value, mut_action_result)
+        value: value,
       }
       return
     }
@@ -84,12 +83,12 @@ const unwrap = function(md, target, value, data, mut_action_result) {
     for (let i = 0; i < models.length; i++) {
       const cur = models[i]
       mut_action_result.mut_result.push(
-        prepareAndHold(cur, target, getProperDestValue(target, value, i), mut_action_result)
+        prepareAndHold(cur, target, getProperDestValue(target, value, i))
       )
     }
   } else {
     mut_action_result.mut_result.push(
-      prepareAndHold(models, target, getProperDestValue(target, value, null), mut_action_result)
+      prepareAndHold(models, target, getProperDestValue(target, value, null))
     )
   }
 
