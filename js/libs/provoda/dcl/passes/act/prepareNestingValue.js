@@ -108,14 +108,6 @@ const initItemsList = function(md, target, value, mut_action_result) {
   return result
 }
 
-const initValue = function(md, target, value, mut_action_result) {
-  if (Array.isArray(value)) {
-    return initItemsList(md, target, value, mut_action_result)
-  }
-
-  return initItem(md, target, value, mut_action_result)
-}
-
 const prepareNestingValue = function(md, target, value, mut_action_result) {
   const multi_path = target.target_path
 
@@ -176,7 +168,5 @@ const prepareNestingValue = function(md, target, value, mut_action_result) {
 
   // d
 }
-
-prepareNestingValue.initValue = initValue
 
 export default prepareNestingValue
