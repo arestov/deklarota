@@ -16,6 +16,24 @@ const toArray = function(value) {
   return Array.isArray(value) ? value : [value]
 }
 
+const initItemsList = function(md, target, value, mut_action_result) {
+  if (!value) {
+    return value
+  }
+
+  const list = toArray(value)
+  if (isOk(list)) {
+    return list
+  }
+
+  const result = new Array(list.length)
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
+    result[i] = initItem(md, target, cur, mut_action_result)
+  }
+  return result
+}
+
 const without = function(old_value, value) {
   if (!old_value || (Array.isArray(old_value) && !old_value.length)) {
     // nothing to erase. keep that old "nothing" value
@@ -88,24 +106,6 @@ const toIndex = function(old_value, value, index) {
 
 const replaceAt = function(old_value, value, index) {
   return spliceList(old_value, value, index, 1)
-}
-
-const initItemsList = function(md, target, value, mut_action_result) {
-  if (!value) {
-    return value
-  }
-
-  const list = toArray(value)
-  if (isOk(list)) {
-    return list
-  }
-
-  const result = new Array(list.length)
-  for (let i = 0; i < list.length; i++) {
-    const cur = list[i]
-    result[i] = initItem(md, target, cur, mut_action_result)
-  }
-  return result
 }
 
 const prepareNestingValue = function(md, target, value, mut_action_result) {
