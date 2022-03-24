@@ -6,6 +6,7 @@ import pushToRoute from '../../../structure/pushToRoute'
 import { replaceRefs } from './replaceRefs'
 import { doCopy } from '../../../../spv/cloneObj'
 import { needsRefs } from './needsRefs'
+import { isOk } from './isOk'
 
 const getNestingConstr = get_constr.getNestingConstr
 
@@ -276,25 +277,3 @@ prepareNestingValue.initValue = initValue
 prepareNestingValue.useRefIfNeeded = useRefIfNeeded
 
 export default prepareNestingValue
-
-function isProvodaBhv(md) {
-  return md.hasOwnProperty('_provoda_id') || md.hasOwnProperty('view_id')
-}
-
-function isOk(list) {
-  if (!list) {
-    return true
-  }
-
-  if (!Array.isArray(list)) {
-    return isProvodaBhv(list)
-  }
-
-
-  if (!list.length) {
-    return true
-  }
-
-  return list.every(isProvodaBhv)
-
-}
