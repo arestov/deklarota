@@ -1,11 +1,11 @@
 
 import spv from '../../../../spv'
-import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import getNesting from '../../../provoda/getNesting'
 import get_constr from '../../../structure/get_constr'
 import pushToRoute from '../../../structure/pushToRoute'
 import { replaceRefs } from './replaceRefs'
 import { doCopy } from '../../../../spv/cloneObj'
+import { needsRefs } from './needsRefs'
 
 const getNestingConstr = get_constr.getNestingConstr
 
@@ -93,37 +93,6 @@ const toIndex = function(old_value, value, index) {
 const replaceAt = function(old_value, value, index) {
   return spliceList(old_value, value, index, 1)
 }
-
-const needsRefs = function(init_data) {
-  const rels = getRelFromInitParams(init_data)
-  for (const nesting_name in rels) {
-    if (!rels.hasOwnProperty(nesting_name)) {
-      continue
-    }
-    const cur = rels[nesting_name]
-
-    if (cur == null) {
-      continue
-    }
-    if (!Array.isArray(cur)) {
-      if (needsRefs(cur)) {
-        return true
-      }
-      continue
-    }
-
-    if (cur.some(needsRefs)) {
-      return true
-    }
-
-  }
-
-  if (init_data.use_ref_id) {
-    return true
-  }
-
-}
-
 
 const callInit = function(md, nesting_name, value) {
   const created = pushToRoute(md, nesting_name, value.attrs)
