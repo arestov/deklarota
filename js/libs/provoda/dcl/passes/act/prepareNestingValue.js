@@ -3,10 +3,10 @@ import spv from '../../../../spv'
 import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import getNesting from '../../../provoda/getNesting'
 import get_constr from '../../../structure/get_constr'
-import getModelById from '../../../utils/getModelById'
 import pushToRoute from '../../../structure/pushToRoute'
+import { replaceRefs } from './replaceRefs'
+import { doCopy } from '../../../../spv/cloneObj'
 
-const cloneObj = spv.cloneObj
 const getNestingConstr = get_constr.getNestingConstr
 
 const push = Array.prototype.push
@@ -125,43 +125,6 @@ const needsRefs = function(init_data) {
 }
 
 
-const replaceRefs = function(md, init_data, mut_wanted_ref, mut_action_result) {
-  if (init_data.use_ref_id) {
-    if (mut_action_result.mut_refs_index[init_data.use_ref_id]) {
-      return getModelById(md, mut_action_result.mut_refs_index[init_data.use_ref_id])
-    }
-
-    mut_wanted_ref[init_data.use_ref_id] = init_data.use_ref_id
-
-    return init_data
-  }
-
-
-  const result = cloneObj({}, init_data)
-  const rels = getRelFromInitParams(init_data)
-  if (rels) {
-    result.rels = cloneObj({}, rels)
-  }
-
-  for (const nesting_name in rels) {
-    if (!rels.hasOwnProperty(nesting_name)) {
-      continue
-    }
-    const cur = rels[nesting_name]
-    if (!Array.isArray(cur)) {
-      result.rels[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_action_result)
-      continue
-    }
-
-    const list = []
-    for (let i = 0; i < cur.length; i++) {
-      list.push(replaceRefs(md, cur[i], mut_wanted_ref, mut_action_result))
-    }
-  }
-
-  return result
-}
-
 const callInit = function(md, nesting_name, value) {
   const created = pushToRoute(md, nesting_name, value.attrs)
   if (created) {
@@ -179,7 +142,7 @@ const callInit = function(md, nesting_name, value) {
   // expected `value` is : {attrs: {}, rels: {}}
   const init_data = {}
 
-  cloneObj(init_data, value)
+  doCopy(init_data, value)
   init_data.init_version = 2
   init_data.by = 'prepareNestingValue'
   const created_model = md.initSi(Constr, init_data)
@@ -228,7 +191,7 @@ const initItem = function(md, target, raw_value, mut_action_result) {
     }
 
     if (spv.countKeys(local_wanted)) {
-      cloneObj(mut_action_result.mut_wanted_ref, local_wanted)
+      doCopy(mut_action_result.mut_wanted_ref, local_wanted)
       return value
     }
   }
