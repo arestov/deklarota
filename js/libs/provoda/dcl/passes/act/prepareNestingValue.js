@@ -94,7 +94,11 @@ const spliceList = (old_value, value, index, amountToRemove) => {
     return result
   }
 
-  result.splice(index, amountToRemove, ...to_add)
+  if (amountToRemove) {
+    result.splice(index, amountToRemove)
+  }
+
+  result.splice(index, 0, ...to_add)
 
   return result
 }
