@@ -4,6 +4,7 @@ import prepareNestingValue from './prepareNestingValue'
 import spv from '../../../../spv'
 import noopForPass from '../noop'
 import MutActionResult from './MutActionResult'
+import { useRefIfNeeded } from './useRefIfNeeded'
 const countKeys = spv.countKeys
 
 const isRedirectAction = function(target) {
@@ -50,7 +51,7 @@ const unwrap = function(md, target, value, data, mut_action_result) {
       mut_action_result.mut_result.push({
         target: target,
         target_md: models,
-        value: prepareNestingValue.useRefIfNeeded(target, md, getProperDestValue(target, value, 0), mut_action_result)
+        value: useRefIfNeeded(target, md, getProperDestValue(target, value, 0), mut_action_result)
       })
       return
     }
@@ -60,7 +61,7 @@ const unwrap = function(md, target, value, data, mut_action_result) {
       mut_action_result.mut_result.push({
         target: target,
         target_md: cur,
-        value: prepareNestingValue.useRefIfNeeded(target, md, getProperDestValue(target, value, i), mut_action_result)
+        value: useRefIfNeeded(target, md, getProperDestValue(target, value, i), mut_action_result)
       })
     }
     return

@@ -120,22 +120,6 @@ const callInit = function(md, nesting_name, value) {
   return created_model
 }
 
-const useRefIfNeeded = function(target, md, raw_value, mut_action_result) {
-  if (isOk(raw_value)) {
-    return raw_value
-  }
-
-  if (!needsRefs(raw_value)) {
-    return raw_value
-  }
-
-  if (!target.options.can_use_refs) {
-    throw new Error('to use `use_ref_id` declare `can_use_refs` as option')
-  }
-
-  return replaceRefs(md, raw_value, {}, mut_action_result)
-}
-
 const initItem = function(md, target, raw_value, mut_action_result) {
   if (isOk(raw_value)) {
     return raw_value
@@ -274,6 +258,5 @@ const prepareNestingValue = function(md, target, value, mut_action_result) {
 }
 
 prepareNestingValue.initValue = initValue
-prepareNestingValue.useRefIfNeeded = useRefIfNeeded
 
 export default prepareNestingValue
