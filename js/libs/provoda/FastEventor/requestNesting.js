@@ -10,7 +10,7 @@ const clean_obj = {}
 
 
 function nestingMark(nesting_name, name) {
-  return '$meta$nests$' + nesting_name + '$' + name
+  return '$meta$rels$' + nesting_name + '$' + name
 }
 
 function statesAnyway(states, nesting_name, is_main_list) {
@@ -168,22 +168,14 @@ export default function(dclt, nesting_name, limit) {
   })
 
   const parse_items = dclt.parse_items
-  const parse_serv = dclt.parse_serv
   const side_data_parsers = dclt.side_data_parsers
 
-  const supports_paging = !!parse_serv
   const limit_value = limit && (limit[1] - limit[0])
   const paging_opts = this.sputnik.getPagingInfo(nesting_name, limit_value)
 
   const network_api_opts = {
     nocache: store.error
   }
-
-  if (supports_paging) {
-    network_api_opts.paging = paging_opts
-  }
-
-
   const request = initRequest(_this.sputnik, nesting_name, paging_opts, store.error, network_api_opts)
 
 
@@ -283,8 +275,7 @@ export default function(dclt, nesting_name, limit) {
 
     const morph_helpers = sputnik.app.morph_helpers
     let items = parse_items.call(sputnik, r, clean_obj, morph_helpers)
-    const serv_data = typeof parse_serv == 'function' && parse_serv.call(sputnik, r, paging_opts, morph_helpers)
-    const can_load_more = supports_paging && hasMoreData(serv_data, limit_value, paging_opts, items)
+    const can_load_more = false // paging
 
     if (can_load_more) {
       markListIncomplete()
@@ -295,7 +286,7 @@ export default function(dclt, nesting_name, limit) {
 
     items = paging_opts.remainder ? items.slice(paging_opts.remainder) : items
 
-    sputnik.insertDataAsSubitems(sputnik, nesting_name, items, serv_data, source_name)
+    sputnik.insertDataAsSubitems(sputnik, nesting_name, items, source_name)
 
     sputnik.nextTick(sputnik.updateManyStates, [many_states], true)
 
@@ -306,10 +297,8 @@ export default function(dclt, nesting_name, limit) {
     if (!sputnik.loaded_nestings_items[nesting_name]) {
       sputnik.loaded_nestings_items[nesting_name] = 0
     }
-    const has_data_holes = serv_data === true || (serv_data && serv_data.has_data_holes === true)
 
-    sputnik.loaded_nestings_items[nesting_name] +=
-      has_data_holes ? paging_opts.page_limit : (items ? items.length : 0)
+    sputnik.loaded_nestings_items[nesting_name] += (items ? items.length : 0)
     //special logic where server send us page without few items. but it can be more pages available
     //so serv_data in this case is answer for question "Is more data available?"
 
@@ -341,25 +330,4 @@ export default function(dclt, nesting_name, limit) {
 
 
   */
-}
-
-
-function hasMoreData(serv_data, page_limit, paging_opts, items) {
-  if (serv_data === true) {
-    return true
-  } else if (serv_data && ((serv_data.hasOwnProperty('total_pages_num') && serv_data.hasOwnProperty('page_num')) || serv_data.hasOwnProperty('total'))) {
-    if (!isNaN(serv_data.total)) {
-      if ((paging_opts.current_length + items.length) < serv_data.total && serv_data.total > paging_opts.page_limit) {
-        return true
-      }
-    } else {
-      if (serv_data.page_num < serv_data.total_pages_num) {
-        return true
-      }
-    }
-
-  } else {
-    return items.length == page_limit
-  }
-
 }

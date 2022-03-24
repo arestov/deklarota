@@ -40,7 +40,7 @@ test('interface passed to action should be assigned', async () => {
   return steps([
     () => {
       pvPass(app.start_page, 'addWithInterface', {
-        states: {
+        attrs: {
           artist: 'Cloudy beasts',
           title: '1st added to start',
         },

@@ -30,7 +30,7 @@ function getUniqReadonly(input) {
   return Object.freeze(Array.from(uniq))
 }
 
-export default function updateNesting(self, collection_name_raw, input, opts) {
+export default function updateNesting(self, collection_name_raw, input) {
   const collection_name = sameName(collection_name_raw)
 
   if (self._currentMotivator() == null) {
@@ -82,11 +82,6 @@ export default function updateNesting(self, collection_name_raw, input, opts) {
 
   checkNesting(self, collection_name, array, removed)
   // !?
-
-  if (opts == null || !opts.skip_report) {
-    self.sendCollectionChange(collection_name, array, old_value, removed)
-  }
-
 
   return self
 }

@@ -33,7 +33,7 @@ function buildHead(self, data) {
   return head
 }
 
-export default function initModel(self, opts, data, _params, _more, states) {
+export default function initModel(self, opts, data) {
   const current_motivator = opts._motivator
   const app = opts.app
   const map_parent = opts.map_parent
@@ -100,7 +100,7 @@ export default function initModel(self, opts, data, _params, _more, states) {
 
   self.head = buildHead(self, data)
 
-  prepareStates(self, data, states)
+  prepareStates(self, data)
 
   return self
 }
@@ -111,16 +111,13 @@ function toServStates(iss, states) {
   return Object.assign(iss || {}, states)
 }
 
-function createISS(self, data, states) {
+function createISS(self, data) {
   const init_v2 = data && data.init_version === 2
 
   let iss = null
 
-  if (!init_v2) {
-    iss = toServStates(iss, states)
-  }
 
-  iss = toServStates(iss, data && data.states)
+  iss = toServStates(iss, data && data.attrs)
 
   if (!init_v2 && self.network_data_as_states && data && data.network_states) {
     iss = toServStates(iss, data.network_states)
@@ -141,10 +138,10 @@ function createISS(self, data, states) {
   return iss
 }
 
-function prepareStates(self, data, states) {
+function prepareStates(self, data) {
   self.init_states = self.init_states || null
 
-  const iss = createISS(self, data, states)
+  const iss = createISS(self, data)
 
   if (!iss) {
     return

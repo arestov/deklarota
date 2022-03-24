@@ -13,7 +13,7 @@ export default function(Constr, states, params, map_parent, app) {
   const model = new BehaviorContr(opts, {
     by: 'utilCreate',
     init_version: 2,
-    states: states,
+    attrs: states,
     head: null,
     url_params: null,
     rels: getRelFromInitParams(params),

@@ -23,14 +23,6 @@ import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 
 const check = /initStates/gi
 
-const warnV2Bad = function() {
-  if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
-    return
-  }
-
-  console.warn('handling_v2_init = false')
-}
-
 const checkSideeffects = function(self, props, params) {
 
   const init = params && params.init || props.init
@@ -45,7 +37,7 @@ const checkSideeffects = function(self, props, params) {
     // means that init fn can handle both legacy and v2 structure
     self.handling_v2_init = false
 
-    warnV2Bad()
+    throw new Error('handling_v2_init = false')
   }
 
   if (init.length > 2 && !self.hasOwnProperty('network_data_as_states')) {

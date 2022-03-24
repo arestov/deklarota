@@ -1,11 +1,9 @@
 
 import BrowseMap from './BrowseMap'
-import spv from '../../spv'
 import _updateRel from '../_internal/_updateRel'
 
-import pushToRoute from '../structure/pushToRoute'
-
-const cloneObj = spv.cloneObj
+import spv from '../../spv'
+import makeItemByData from '../Model/makeItemByData'
 
 const getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 
@@ -17,7 +15,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
   init: function initLoadableListBase(self) {
-    self.excess_data_items = null
     self.loaded_nestings_items = null
     self.loadable_lists = null
   },
@@ -82,7 +79,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   main_list_name: 'lists_list',
-  getMainListChangeOpts: function() {},
   page_limit: 30,
 
   getPagingInfo: function(nesting_name, limit) {
@@ -132,33 +128,33 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  insertDataAsSubitems: function(target, nesting_name, data_list, _opts, source_name) {
+  insertDataAsSubitems: function(target, nesting_name, data_list, source_name) {
     const items_list = []
 
     if (!data_list || !data_list.length) {
       return items_list
     }
 
-    const mlc_opts = target.getMainListChangeOpts()
 
     const splitItemData = target['nest_rq_split-' + nesting_name]
+    if (splitItemData) {
+      throw new Error('nest_rq_split derecated')
+    }
 
     for (let i = 0; i < data_list.length; i++) {
-      const splited_data = splitItemData && splitItemData(data_list[i], target.getNestingSource(nesting_name, target.app))
-      const cur_data = splited_data ? splited_data[0] : data_list[i]
-      const cur_params = splited_data && splited_data[1]
+      const cur_data = data_list[i]
 
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
       }
-      const item = target.addItemToDatalist(cur_data, true, cur_params, nesting_name)
+      const item = target.addItemToDatalist(cur_data, true, nesting_name)
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name
       }
       items_list.push(item)
     }
 
-    target.dataListChange(mlc_opts, items_list, nesting_name)
+    target.dataListChange(items_list, nesting_name)
     return items_list
   },
   __getLoadableRel: function() {
@@ -200,21 +196,13 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  dataListChange: function(mlc_opts, items, rel_name) {
+  dataListChange: function(_tems, rel_name) {
     if (!rel_name) {
       throw new Error('rel name should be provided')
     }
 
-    let array = this.loadable_lists && this.loadable_lists[rel_name]
-    if (this.beforeReportChange) {
-
-      array = this.beforeReportChange(array, items)
-      if (!this.loadable_lists) {
-        this.loadable_lists = {}
-      }
-      this.loadable_lists[rel_name] = array
-    }
-    _updateRel(this, rel_name, array, mlc_opts)
+    const array = this.loadable_lists && this.loadable_lists[rel_name]
+    _updateRel(this, rel_name, array)
   },
 
   compareItemWithObj: function(item, data) {
@@ -240,11 +228,11 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  addItemToDatalist: function(obj, silent, item_params, nesting_name) {
-    return this.addDataItem(obj, silent, nesting_name, item_params)
+  addItemToDatalist: function(obj, silent, nesting_name) {
+    return this.addDataItem(obj, silent, nesting_name)
   },
 
-  addDataItem: function(obj, skip_changes, nesting_name, item_params) {
+  addDataItem: function(obj, skip_changes, nesting_name) {
     if (!nesting_name) {
       throw new Error('rel name should be provided')
     }
@@ -255,49 +243,14 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     if (!this.loadable_lists[ nesting_name ]) {
       this.loadable_lists[ nesting_name ] = []
     }
-    let
-      item
-    let work_array = this.loadable_lists[ nesting_name ]
-    const ml_ch_opts = !skip_changes && this.getMainListChangeOpts()
+    let item
+    const work_array = this.loadable_lists[ nesting_name ]
 
-    let excess_items = this.excess_data_items && this.excess_data_items[ nesting_name ]
+    work_array.push(item = this.makeItemByData(obj, nesting_name))
 
-    if (excess_items && excess_items.length) {
-      const matched = this.compareItemsWithObj(excess_items, obj)
-      /*
-      задача этого кода - сделать так, что бы при вставке новых данных всё что лежит в массиве
-      "излишек" должно оставаться в конце массива
-      */
-      //excess_items = this.excess_data_items[ nesting_name ];
-      if (matched) {
-        item = matched
-        /*если совпадает с предполагаемыми объектом, то ставим наш элемент в конец рабочего массива
-        и удаляем из массива "излишков", а сами излишки в самый конец */
-        work_array = spv.arrayExclude(work_array, excess_items)
-        excess_items = spv.arrayExclude(excess_items, matched)
-        work_array.push(matched)
-        work_array = work_array.concat(excess_items)
-
-      } else {
-        /* если объект не совпадает ни с одним элементом, то извлекаем все излишки,
-        вставляем объект, вставляем элементы обратно */
-        work_array = spv.arrayExclude(work_array, excess_items)
-        work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
-        work_array = work_array.concat(excess_items)
-
-
-      }
-      this.excess_data_items[ nesting_name ] = excess_items
-    } else {
-      work_array.push(item = this.makeItemByData(obj, item_params, nesting_name))
-    }
     this.loadable_lists[ nesting_name ] = work_array
     if (!skip_changes) {
-      if (this.beforeReportChange) {
-        work_array = this.beforeReportChange(work_array, [item])
-        this.loadable_lists[ nesting_name ] = work_array
-      }
-      _updateRel(this, nesting_name, work_array, ml_ch_opts)
+      _updateRel(this, nesting_name, work_array)
     }
     return item
   },
@@ -314,129 +267,11 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     return this.loadable_lists[ this.main_list_name ]
   },
 
-  makeItemByData: function(data, item_params, nesting_name) {
-    const mentioned = this._nest_rqc[nesting_name]
-    const md = this
-    if (!mentioned) {
-      throw new Error('cant make item')
-    }
-
-    const created = pushToRoute(md, nesting_name, data)
-    if (created) {
-      return created
-    }
-
-    const best_constr = this._all_chi[mentioned.key]
-
-
-    const network_data_as_states = best_constr.prototype.network_data_as_states
-
-    if (best_constr.prototype.handling_v2_init) {
-      const v2_data = cloneObj({
-        by: 'LoadableList',
-        init_version: 2,
-        states: data,
-      }, convertToNestings(item_params))
-      return this.initSi(best_constr, v2_data)
-    }
-
-    if (network_data_as_states) {
-      return this.initSi(best_constr, {network_states: data}, item_params)
-    } else {
-      return this.initSi(best_constr, data, item_params)
-    }
-  },
-
-  findMustBePresentDataItem: function(obj, nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    const list = this.getNesting(nesting_name)
-    const matched = list && this.compareItemsWithObj(this.getNesting(nesting_name), obj)
-    return matched || this.injectExcessDataItem(obj, nesting_name)
-  },
-
-  injectExcessDataItem: function(obj, nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    if (this.isDataInjValid && !this.isDataInjValid(obj)) {
-      return
-    }
-    let
-      work_array = (this.loadable_lists && this.loadable_lists[ nesting_name ]) || []
-    const ml_ch_opts = this.getMainListChangeOpts()
-    const item = this.makeItemByData(obj, false, nesting_name)
-
-    if (!this.cant_find_dli_pos) {
-      if (!this.excess_data_items) {
-        this.excess_data_items = {}
-      }
-      if (!this.excess_data_items[ nesting_name ]) {
-        this.excess_data_items[ nesting_name ] = []
-      }
-      this.excess_data_items[ nesting_name ].push(item)
-      work_array.push(item)
-    } else {
-      work_array.unshift(item)
-    }
-    if (this.beforeReportChange) {
-      work_array = this.beforeReportChange(work_array, [item])
-
-    }
-    if (!this.loadable_lists) {
-      this.loadable_lists = {}
-    }
-    this.loadable_lists[ nesting_name ] = work_array
-
-    _updateRel(this, nesting_name, work_array, ml_ch_opts)
-    return item
+  makeItemByData: function(data, nesting_name) {
+    return makeItemByData(this, nesting_name, data)
   },
 })
 
-function convertToNestings(params) {
-  if (params == null) {return}
+LoadableListBase.LoadableListBase = LoadableListBase
 
-  if (params.subitems) {
-    throw new Error('`subitems` prop of initingParams is depricated. use `rels`')
-  }
-
-  if (params.subitems_source_name) {
-    throw new Error('`subitems_source_name` prop of initingParams is depricated. use `nestings_sources`')
-  }
-
-  return {
-    rels: params.rels,
-    nestings_sources: params.nestings_sources,
-  }
-}
-
-const LoadableList = spv.inh(LoadableListBase, {
-  init: function(self, _opts, data, params) {
-    const init_v2 = data && data.init_version === 2
-
-    if (init_v2) {
-      return
-    }
-
-    if (!params || !params.subitems || !params.subitems[self.main_list_name]) {
-      return
-    }
-
-    self.nextTick(self.insertDataAsSubitems, [
-      self,
-      self.main_list_name,
-      params.subitems[self.main_list_name],
-      null,
-      params.subitems_source_name && params.subitems_source_name[self.main_list_name]], true
-    )
-  }
-}, {
-  handling_v2_init: true,
-})
-
-LoadableList.LoadableListBase = LoadableListBase
-
-export default LoadableList
+export default LoadableListBase

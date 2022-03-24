@@ -58,19 +58,19 @@ test('special nestings by pass calculated', async () => {
     () => {
       expect({}).toEqual(getListItem(0))
       pvPass(app.start_page, 'addToStart', {
-        states: {
+        attrs: {
           artist: 'Cloudy beasts',
           title: '1st added to start',
         },
       })
       pvPass(app.start_page, 'addToStart', {
-        states: {
+        attrs: {
           artist: 'Cloudy beasts',
           title: '2nd added to start',
         },
       })
       pvPass(app.start_page, 'addToStart', {
-        states: {
+        attrs: {
           artist: 'Cloudy beasts',
           title: '3rd added to start',
         },
@@ -93,7 +93,7 @@ test('special nestings by pass calculated', async () => {
 
     () => {
       pvPass(app.start_page, 'addToEnd', {
-        states: {
+        attrs: {
           artist: 'Cloudy beasts',
           title: 'added to end',
         },
@@ -111,7 +111,7 @@ test('special nestings by pass calculated', async () => {
       pvPass(app.start_page, 'addToIndex', [
         1,
         {
-          states: {
+          attrs: {
             artist: 'Cloudy beasts',
             title: 'added to index 1',
           },
@@ -130,7 +130,7 @@ test('special nestings by pass calculated', async () => {
       pvPass(app.start_page, 'replace', [
         1,
         {
-          states: {
+          attrs: {
             artist: 'Cloudy beasts',
             title: 'replaced at index 1',
           },
@@ -151,7 +151,7 @@ test('special nestings by pass calculated', async () => {
     () => {
       // set one
       pvPass(app.start_page, 'setOne', {
-        states: {
+        attrs: {
           artist: 'Cloudy beasts',
           title: 'just one',
         },
@@ -167,7 +167,7 @@ test('special nestings by pass calculated', async () => {
       }).toEqual(getData(item))
 
       pvPass(app.start_page, 'setOne', {
-        states: {
+        attrs: {
           artist: 'Cloudy beasts',
           title: 'another one',
         },

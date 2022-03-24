@@ -24,12 +24,12 @@ test('routes', async () => {
         to: ['<< tracklist', { method: 'set_many' }],
         fn: () => ([
           {
-            states: {
+            attrs: {
               trackName: 'super-hit-1',
             },
           },
           {
-            states: {
+            attrs: {
               trackName: 'super-hit-2',
             },
           },

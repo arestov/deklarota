@@ -1,17 +1,12 @@
 
 import spv from '../../../../spv'
-import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import getNesting from '../../../provoda/getNesting'
-import get_constr from '../../../structure/get_constr'
-import getModelById from '../../../utils/getModelById'
-import pushToRoute from '../../../structure/pushToRoute'
+import { isOk } from './isOk'
+import { initItem } from './initItem'
 
-const cloneObj = spv.cloneObj
-const getNestingConstr = get_constr.getNestingConstr
 
 const push = Array.prototype.push
 const unshift = Array.prototype.unshift
-const splice = Array.prototype.splice
 
 const toArray = function(value) {
   if (!value) {
@@ -19,6 +14,24 @@ const toArray = function(value) {
   }
 
   return Array.isArray(value) ? value : [value]
+}
+
+const initItemsList = function(md, target, value, mut_action_result) {
+  if (!value) {
+    return value
+  }
+
+  const list = toArray(value)
+  if (isOk(list)) {
+    return list
+  }
+
+  const result = new Array(list.length)
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
+    result[i] = initItem(md, target, cur, mut_action_result)
+  }
+  return result
 }
 
 const without = function(old_value, value) {
@@ -67,229 +80,39 @@ const toEnd = function(old_value, value) {
   return result
 }
 
-const toIndex = function(old_value, value, index) {
+
+const spliceList = (old_value, value, index, amountToRemove) => {
   if (typeof index != 'number') {
     throw 'index should be numer'
   }
+
   const old_list = toArray(old_value)
   const to_add = toArray(value)
   const result = old_list ? old_list.slice(0) : []
 
-  if (to_add) {
-    for (let i = 0; i < to_add.length; i++) {
-      splice.call(result, index + i, 0, to_add[i])
-    }
+  if (to_add == null) {
+    return result
   }
+
+  if (amountToRemove) {
+    result.splice(index, amountToRemove)
+  }
+
+  result.splice(index, 0, ...to_add)
 
   return result
 }
+
+const toIndex = function(old_value, value, index) {
+  return spliceList(old_value, value, index, 0)
+}
+
 
 const replaceAt = function(old_value, value, index) {
-  if (typeof index != 'number') {
-    throw 'index should be numer'
-  }
-
-  const old_list = toArray(old_value)
-  const to_add = toArray(value)
-  const result = old_list ? old_list.slice(0) : []
-
-  if (to_add) {
-    for (let i = 0; i < to_add.length; i++) {
-      splice.call(result, index + i, 1, to_add[i])
-    }
-  }
-
-  return result
+  return spliceList(old_value, value, index, 1)
 }
 
-const needsRefs = function(init_data) {
-  const rels = getRelFromInitParams(init_data)
-  for (const nesting_name in rels) {
-    if (!rels.hasOwnProperty(nesting_name)) {
-      continue
-    }
-    const cur = rels[nesting_name]
-
-    if (cur == null) {
-      continue
-    }
-    if (!Array.isArray(cur)) {
-      if (needsRefs(cur)) {
-        return true
-      }
-      continue
-    }
-
-    if (cur.some(needsRefs)) {
-      return true
-    }
-
-  }
-
-  if (init_data.use_ref_id) {
-    return true
-  }
-
-}
-
-const replaceRefs = function(md, init_data, mut_wanted_ref, mut_refs_index) {
-  if (init_data.use_ref_id) {
-    if (mut_refs_index[init_data.use_ref_id]) {
-      return getModelById(md, mut_refs_index[init_data.use_ref_id])
-    }
-
-
-
-    mut_wanted_ref[init_data.use_ref_id] = init_data.use_ref_id
-
-    return init_data
-  }
-
-
-  const result = cloneObj({}, init_data)
-  const rels = getRelFromInitParams(init_data)
-  if (rels) {
-    result.rels = cloneObj({}, rels)
-  }
-
-  for (const nesting_name in rels) {
-    if (!rels.hasOwnProperty(nesting_name)) {
-      continue
-    }
-    const cur = rels[nesting_name]
-    if (!Array.isArray(cur)) {
-      result.rels[nesting_name] = replaceRefs(md, cur, mut_wanted_ref, mut_refs_index)
-      continue
-    }
-
-    const list = []
-    for (let i = 0; i < cur.length; i++) {
-      list.push(replaceRefs(md, cur[i], mut_wanted_ref, mut_refs_index))
-    }
-  }
-
-  return result
-}
-
-const callInit = function(md, nesting_name, value) {
-  const created = pushToRoute(md, nesting_name, value.states)
-  if (created) {
-    return created
-  }
-
-  const Constr = getNestingConstr(md.app, md, nesting_name)
-  if (!Constr) {
-    throw new Error('cant find Constr for ' + nesting_name)
-    // todo - move validation to dcl process
-  }
-
-
-
-  // expected `value` is : {states: {}, rels: {}}
-  const init_data = {}
-
-  cloneObj(init_data, value)
-  init_data.init_version = 2
-  init_data.by = 'prepareNestingValue'
-  const created_model = md.initSi(Constr, init_data)
-
-  return created_model
-}
-
-const useRefIfNeeded = function(md, raw_value, mut_refs_index, _mut_wanted_ref) {
-  if (isOk(raw_value)) {
-    return raw_value
-  }
-
-  if (!needsRefs(raw_value)) {
-    return raw_value
-  }
-
-  return replaceRefs(md, raw_value, {}, mut_refs_index)
-}
-
-const initItem = function(md, target, raw_value, mut_refs_index, mut_wanted_ref) {
-  if (isOk(raw_value)) {
-    return raw_value
-  }
-
-  if (target.options.model) {
-    throw new Error('implement me')
-  }
-
-  let value
-  if (!needsRefs(raw_value)) {
-    value = raw_value
-  } else {
-    const local_wanted = {}
-    value = replaceRefs(md, raw_value, local_wanted, mut_refs_index)
-
-    if (isOk(value)) {
-      return value
-    }
-
-    if (spv.countKeys(local_wanted)) {
-      cloneObj(mut_wanted_ref, local_wanted)
-      return value
-    }
-  }
-
-  const multi_path = target.target_path
-  const nesting_name = multi_path.nesting.target_nest_name
-
-  const created_model = callInit(md, nesting_name, value)
-
-  if (value.hold_ref_id) {
-    if (mut_refs_index[value.hold_ref_id]) {
-      throw new Error('ref id holded already ' + value.hold_ref_id)
-    }
-    mut_refs_index[value.hold_ref_id] = created_model._provoda_id
-  }
-
-  return created_model
-}
-
-const initItemsList = function(md, target, value, mut_refs_index, mut_wanted_ref) {
-  if (!value) {
-    return value
-  }
-
-  const list = toArray(value)
-  if (isOk(list)) {
-    return list
-  }
-
-  const result = new Array(list.length)
-  for (let i = 0; i < list.length; i++) {
-    const cur = list[i]
-    result[i] = initItem(md, target, cur, mut_refs_index, mut_wanted_ref)
-  }
-  return result
-}
-
-const initValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
-  if (Array.isArray(value)) {
-    return initItemsList(md, target, value, mut_refs_index, mut_wanted_ref)
-  }
-
-  return initItem(md, target, value, mut_refs_index, mut_wanted_ref)
-}
-
-const initPassedValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
-  switch (target.options.method) {
-    case 'at_index':
-    case 'replace': {
-      return [
-        value[0],
-        initValue(md, target, value[1], mut_refs_index, mut_wanted_ref),
-      ]
-    }
-  }
-
-  return initValue(md, target, value, mut_refs_index, mut_wanted_ref)
-}
-
-const prepareNestingValue = function(md, target, value, mut_refs_index, mut_wanted_ref) {
+const prepareNestingValue = function(md, target, value, mut_action_result) {
   const multi_path = target.target_path
 
   if (!target.options.method) {
@@ -309,22 +132,22 @@ const prepareNestingValue = function(md, target, value, mut_refs_index, mut_want
       return without(current_value, value)
     }
     case 'at_start': {
-      return toStart(current_value, initItemsList(md, target, value, mut_refs_index, mut_wanted_ref))
+      return toStart(current_value, initItemsList(md, target, value, mut_action_result))
     }
     case 'at_end': {
-      return toEnd(current_value, initItemsList(md, target, value, mut_refs_index, mut_wanted_ref))
+      return toEnd(current_value, initItemsList(md, target, value, mut_action_result))
     }
     case 'at_index': {
       return toIndex(
         current_value,
-        initItemsList(md, target, value[1], mut_refs_index, mut_wanted_ref),
+        initItemsList(md, target, value[1], mut_action_result),
         value[0]
       )
     }
     case 'replace': {
       return replaceAt(
         current_value,
-        initItemsList(md, target, value[1], mut_refs_index, mut_wanted_ref),
+        initItemsList(md, target, value[1], mut_action_result),
         value[0]
       )
     }
@@ -332,13 +155,13 @@ const prepareNestingValue = function(md, target, value, mut_refs_index, mut_want
       if (value && Array.isArray(value)) {
         throw new Error('value should not be list')
       }
-      return initItem(md, target, value, mut_refs_index, mut_wanted_ref)
+      return initItem(md, target, value, mut_action_result)
     }
     case 'set_many': {
       if (value && !Array.isArray(value)) {
         throw new Error('value should be list')
       }
-      return initItemsList(md, target, value, mut_refs_index, mut_wanted_ref)
+      return initItemsList(md, target, value, mut_action_result)
     }
     //|| 'set_one'
     //|| 'replace'
@@ -350,30 +173,4 @@ const prepareNestingValue = function(md, target, value, mut_refs_index, mut_want
   // d
 }
 
-prepareNestingValue.initValue = initValue
-prepareNestingValue.initPassedValue = initPassedValue
-prepareNestingValue.useRefIfNeeded = useRefIfNeeded
-
 export default prepareNestingValue
-
-function isProvodaBhv(md) {
-  return md.hasOwnProperty('_provoda_id') || md.hasOwnProperty('view_id')
-}
-
-function isOk(list) {
-  if (!list) {
-    return true
-  }
-
-  if (!Array.isArray(list)) {
-    return isProvodaBhv(list)
-  }
-
-
-  if (!list.length) {
-    return true
-  }
-
-  return list.every(isProvodaBhv)
-
-}

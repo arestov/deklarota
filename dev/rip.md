@@ -131,3 +131,19 @@
 - remove mpl_attached attr
 
 - deprecate effects inside effects.out.effect
+
+- deprecate handling_v2_init = false
+
+- deprecate init method on models
+
+- remove getMainListChangeOpts, ignore skip_report option for rel updates
+
+- remove rel beforeReportChange method
+
+- remove findMustBePresentDataItem
+
+- remove injectExcessDataItem
+
+- deprecate nest_rq_split
+
+- deprecate effects.in.request-rel.parse_serv

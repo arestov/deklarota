@@ -46,7 +46,7 @@ const manualRequest = function(send_declr, sputnik, opts) {
   args[1] = opts
 
   for (let i = 0; i < declr.dependencies.length; i++) {
-    args[i + 2] = sputnik.state(declr.dependencies[i])
+    args[i + 2] = sputnik.readAddr(declr.dependencies[i])
   }
 
   const cache_key = allow_cache && [

@@ -215,12 +215,12 @@ function modelProps(add) {
     getSiOpts: function() {
       return getSiOpts(this)
     },
-    initChi: function(name, data, params, more, states) {
+    initChi: function(name, data) {
       const Constr = this._all_chi['chi-' + name]
-      return initSi(Constr, this, data, params, more, states)
+      return initSi(Constr, this, data)
     },
-    initSi: function(Constr, data, params, more, states) {
-      return initSi(Constr, this, data, params, more, states)
+    initSi: function(Constr, data) {
+      return initSi(Constr, this, data)
     },
     mapStates: function(states_map, donor, acceptor) {
       if (acceptor && typeof acceptor == 'boolean') {

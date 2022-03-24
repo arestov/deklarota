@@ -20,7 +20,7 @@ export default function(dcl) {
 
       dcl.boolean_attrs.push(
         new BooleanAttr(states_name + '__' + suffix),
-        new BooleanAttr('$meta$states$' + states_name + '$' + suffix)
+        new BooleanAttr('$meta$attrs$' + states_name + '$' + suffix)
       )
     }
   }

@@ -173,21 +173,17 @@ function getterSPI() {
 
     const head_by_urlname = hbu_declr && hbu_declr(hbu_data, null, morph_helpers)
 
-    if (Constr.prototype.handling_v2_init) {
-      return self.initSi(Constr, {
-        by: 'routePathByModels',
-        init_version: 2,
-        states: allStates(states, extra_states),
-        head: head_by_urlname,
-        url_params: hbu_data,
-      })
+    if (!Constr.prototype.handling_v2_init) {
+      throw new Error('handling_v2_init = false')
     }
 
-    const instance_data = {}
-    cloneObj(instance_data, states)
-    instance_data.head = head_by_urlname
-
-    return self.initSi(Constr, allStates(instance_data, extra_states), null, null, states)
+    return self.initSi(Constr, {
+      by: 'routePathByModels',
+      init_version: 2,
+      attrs: allStates(states, extra_states),
+      head: head_by_urlname,
+      url_params: hbu_data,
+    })
   }
 
 
