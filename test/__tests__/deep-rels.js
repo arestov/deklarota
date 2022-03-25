@@ -41,7 +41,7 @@ test('attr based on deep list', async () => {
       actions: {
         /* no nice attr */
         stage1CreateLevel1v1: {
-          to: ['<< level1', { method: 'at_end' }],
+          to: ['<< level1', { method: 'at_end', can_create: true }],
           fn: () => ({
             attrs: {
               title: 'level1Gold',
@@ -51,7 +51,7 @@ test('attr based on deep list', async () => {
 
         /* no nice attr */
         stage1CreateLevel2v1: {
-          to: ['<< level1.level2', { method: 'at_end' }],
+          to: ['<< level1.level2', { method: 'at_end', can_create: true }],
           fn: () => ({
             attrs: {
               title: 'level2Silver',
@@ -61,7 +61,7 @@ test('attr based on deep list', async () => {
 
         /* should have nice attr after */
         stage1CreateLevel3v1: {
-          to: ['<< level1.level2.level3', { method: 'at_end' }],
+          to: ['<< level1.level2.level3', { method: 'at_end', can_create: true }],
           fn: () => ({
             attrs: {
               title: 'level3Bronze',

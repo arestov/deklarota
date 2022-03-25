@@ -93,6 +93,7 @@ test('auto dispatch and handle `handleInit` pass', async () => {
         method,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
         // model: Song,
+        can_create: true,
       }],
       fn: [
         [],
