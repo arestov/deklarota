@@ -147,7 +147,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
       }
-      const item = target.addItemToDatalist(cur_data, true, nesting_name)
+      const item = target.addDataItem(cur_data, true, nesting_name)
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name
       }
@@ -226,10 +226,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
         return array[i]
       }
     }
-  },
-
-  addItemToDatalist: function(obj, silent, nesting_name) {
-    return this.addDataItem(obj, silent, nesting_name)
   },
 
   addDataItem: function(obj, skip_changes, nesting_name) {
