@@ -154,8 +154,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       items_list.push(item)
     }
 
-    target.dataListChange(items_list, nesting_name)
-    return items_list
+    target.dataListChange(nesting_name)
   },
   __getLoadableRel: function() {
     let rel_name
@@ -196,7 +195,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  dataListChange: function(_tems, rel_name) {
+  dataListChange: function(rel_name) {
     if (!rel_name) {
       throw new Error('rel name should be provided')
     }
