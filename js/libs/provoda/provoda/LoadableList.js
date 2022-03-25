@@ -143,7 +143,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
       }
-      const item = target.addDataItem(cur_data, nesting_name)
+      const item = makeItemByData(target, nesting_name, cur_data)
       list.push(item)
 
       if (source_name && item && item._network_source === null) {
@@ -214,21 +214,8 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       }
     }
   },
-
-  addDataItem: function(obj, nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    return this.makeItemByData(obj, nesting_name)
-  },
-
   getMainlist: function() {
     throw new Error('getMainlist is depricated')
-  },
-
-  makeItemByData: function(data, nesting_name) {
-    return makeItemByData(this, nesting_name, data)
   },
 })
 
