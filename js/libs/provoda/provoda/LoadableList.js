@@ -129,13 +129,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   insertDataAsSubitems: function(target, nesting_name, data_list, source_name) {
-    const items_list = []
-
-    if (!data_list || !data_list.length) {
-      return items_list
-    }
-
-
     const splitItemData = target['nest_rq_split-' + nesting_name]
     if (splitItemData) {
       throw new Error('nest_rq_split derecated')
@@ -151,7 +144,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name
       }
-      items_list.push(item)
     }
 
     target.dataListChange(nesting_name)
