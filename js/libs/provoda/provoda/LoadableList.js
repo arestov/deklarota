@@ -146,7 +146,8 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       }
     }
 
-    target.dataListChange(nesting_name)
+    const array = this.loadable_lists && this.loadable_lists[nesting_name]
+    _updateRel(this, nesting_name, array)
   },
   __getLoadableRel: function() {
     let rel_name
@@ -185,15 +186,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       }
       return groups
     }
-  },
-
-  dataListChange: function(rel_name) {
-    if (!rel_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    const array = this.loadable_lists && this.loadable_lists[rel_name]
-    _updateRel(this, rel_name, array)
   },
 
   compareItemWithObj: function(item, data) {
