@@ -16,7 +16,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
   init: function initLoadableListBase(self) {
     self.loaded_nestings_items = null
-    self.loadable_lists = null
   },
 }, {
   handling_v2_init: true,
@@ -134,6 +133,10 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       throw new Error('nest_rq_split derecated')
     }
 
+    const cur_val = target.getNesting(nesting_name)
+
+    const list = cur_val ? [...cur_val] : []
+
     for (let i = 0; i < data_list.length; i++) {
       const cur_data = data_list[i]
 
@@ -141,13 +144,14 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
         continue
       }
       const item = target.addDataItem(cur_data, nesting_name)
+      list.push(item)
+
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name
       }
     }
 
-    const array = this.loadable_lists && this.loadable_lists[nesting_name]
-    _updateRel(this, nesting_name, array)
+    _updateRel(this, nesting_name, list)
   },
   __getLoadableRel: function() {
     let rel_name
@@ -216,32 +220,11 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       throw new Error('rel name should be provided')
     }
 
-    if (!this.loadable_lists) {
-      this.loadable_lists = {}
-    }
-    if (!this.loadable_lists[ nesting_name ]) {
-      this.loadable_lists[ nesting_name ] = []
-    }
-    let item
-    const work_array = this.loadable_lists[ nesting_name ]
-
-    work_array.push(item = this.makeItemByData(obj, nesting_name))
-
-    this.loadable_lists[ nesting_name ] = work_array
-
-    return item
+    return this.makeItemByData(obj, nesting_name)
   },
 
   getMainlist: function() {
     throw new Error('getMainlist is depricated')
-
-    if (!this.loadable_lists) {
-      this.loadable_lists = {}
-    }
-    if (!this.loadable_lists[ this.main_list_name ]) {
-      this.loadable_lists[ this.main_list_name ] = []
-    }
-    return this.loadable_lists[ this.main_list_name ]
   },
 
   makeItemByData: function(data, nesting_name) {
