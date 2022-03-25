@@ -147,7 +147,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
       }
-      const item = target.addDataItem(cur_data, true, nesting_name)
+      const item = target.addDataItem(cur_data, nesting_name)
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name
       }
@@ -228,7 +228,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  addDataItem: function(obj, skip_changes, nesting_name) {
+  addDataItem: function(obj, nesting_name) {
     if (!nesting_name) {
       throw new Error('rel name should be provided')
     }
@@ -245,9 +245,7 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     work_array.push(item = this.makeItemByData(obj, nesting_name))
 
     this.loadable_lists[ nesting_name ] = work_array
-    if (!skip_changes) {
-      _updateRel(this, nesting_name, work_array)
-    }
+
     return item
   },
 
