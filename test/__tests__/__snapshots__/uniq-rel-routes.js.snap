@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should keep uniq items of rel 1`] = `
+Array [
+  Object {
+    "id": "a1",
+    "name": "jack",
+  },
+  Object {
+    "id": "b2",
+    "name": "ivan",
+  },
+  Object {
+    "id": "c3",
+    "name": "tom",
+  },
+  Object {
+    "id": "d4",
+    "name": "sam",
+  },
+]
+`;

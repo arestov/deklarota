@@ -10,6 +10,7 @@ import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
 import updateMetaAttrs from './rel/updateMetaAttrs'
 import emptyArray from '../emptyArray'
 import sameName from '../sameName'
+import checkUniqOnListUpdate from '../dcl/nests/uniq/checkOnListUpdate'
 
 const checkNesting = nestWIndex.checkNesting
 
@@ -50,6 +51,8 @@ export default function updateNesting(self, collection_name_raw, input) {
   if (!isNestingChanged(old_value, array)) {
     return self
   }
+
+  checkUniqOnListUpdate(self, collection_name, array)
 
   self.children_models[collection_name] = array
 

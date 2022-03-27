@@ -4,6 +4,8 @@ import _updateRel from '../_internal/_updateRel'
 
 import spv from '../../spv'
 import makeItemByData from '../Model/makeItemByData'
+import getRelUniq from '../dcl/nests/uniq/getRelUniq'
+import { addUniqItem, findDataDup, MutUniqState } from '../dcl/nests/uniq/MutUniqState'
 
 const getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 
@@ -134,7 +136,8 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
 
     const cur_val = target.getNesting(nesting_name)
-
+    const uniq = getRelUniq(target, nesting_name)
+    const mut_uniq_state = uniq && new MutUniqState(uniq, cur_val)
     const list = cur_val ? [...cur_val] : []
 
     for (let i = 0; i < data_list.length; i++) {
@@ -143,8 +146,18 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
       }
-      const item = makeItemByData(target, nesting_name, cur_data)
+
+      const dup = findDataDup(mut_uniq_state, cur_data)
+      if (dup) {
+        dup.updateManyStates(cur_data)
+      }
+
+      const item = dup || makeItemByData(target, nesting_name, cur_data)
+      if (!dup && mut_uniq_state) {
+        addUniqItem(mut_uniq_state, item)
+      }
       list.push(item)
+
 
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name

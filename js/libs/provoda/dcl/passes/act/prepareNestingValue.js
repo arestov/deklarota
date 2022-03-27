@@ -1,8 +1,11 @@
 
 import spv from '../../../../spv'
 import getNesting from '../../../provoda/getNesting'
+import getRelUniq from '../../nests/uniq/getRelUniq'
 import { isOk } from './isOk'
 import { initItem } from './initItem'
+import getRelFromInitParams from '../../../utils/getRelFromInitParams'
+import { addUniqItem, findDataDup, MutUniqState } from '../../nests/uniq/MutUniqState'
 
 
 const push = Array.prototype.push
@@ -16,22 +19,72 @@ const toArray = function(value) {
   return Array.isArray(value) ? value : [value]
 }
 
-const initItemsList = function(md, target, value, mut_action_result) {
-  if (!value) {
-    return value
+const updateModelByData = (md, data) => {
+
+  md.updateManyAttrs(data.attrs)
+
+  if (data.interfaces) {
+    for (const api_name in data.interfaces) {
+      if (!Object.hasOwnProperty.call(data.interfaces, api_name)) {
+        continue
+      }
+      md.useInterface(api_name, data.interfaces[api_name])
+    }
   }
 
-  const list = toArray(value)
-  if (isOk(list)) {
-    return list
+  const rels = getRelFromInitParams(data)
+  if (rels) {
+    for (const rel_name in rels) {
+      if (!Object.hasOwnProperty.call(rels, rel_name)) {
+        continue
+      }
+      const element = rels[rel_name]
+      md.updateNesting(rel_name, element)
+    }
+  }
+}
+
+const initOneUniq = (mut_uniq_state, md, target, cur, mut_action_result) => {
+  if (isOk(cur)) {
+    // uniq/dup check of model instance will be executed in updateNesting
+    return cur
+  }
+  const dup = findDataDup(mut_uniq_state, cur.attrs)
+
+  if (dup == null) {
+    const item = initItem(md, target, cur, mut_action_result)
+    if (mut_uniq_state) {
+      addUniqItem(mut_uniq_state, item)
+    }
+    return item
   }
 
-  const result = new Array(list.length)
-  for (let i = 0; i < list.length; i++) {
-    const cur = list[i]
-    result[i] = initItem(md, target, cur, mut_action_result)
+  updateModelByData(dup, cur)
+  return dup
+}
+
+const makeDupsChecker = (md, target, value, mut_action_result) => {
+  const rel_name = target.target_path.nesting.target_nest_name
+  const uniq = getRelUniq(md, rel_name)
+
+  return (list_to_check_raw) => {
+    if (!value) {
+      return value
+    }
+
+    const list = toArray(value)
+    if (isOk(list)) {
+      return list
+    }
+
+    const mut_uniq_state = uniq ? new MutUniqState(uniq, list_to_check_raw) : null
+    const result = new Array(list.length)
+    for (let i = 0; i < list.length; i++) {
+      const cur = list[i]
+      result[i] = initOneUniq(mut_uniq_state, md, target, cur, mut_action_result)
+    }
+    return result
   }
-  return result
 }
 
 const without = function(old_value, value) {
@@ -59,9 +112,9 @@ const without = function(old_value, value) {
   return spv.arrayExclude(old_value, value)
 }
 
-const toStart = function(old_value, value) {
+const toStart = function(old_value, getItems) {
   const old_list = toArray(old_value)
-  const to_add = toArray(value)
+  const to_add = toArray(getItems(old_list))
   const result = old_list ? old_list.slice(0) : []
   if (to_add) {
     unshift.apply(result, to_add)
@@ -69,9 +122,9 @@ const toStart = function(old_value, value) {
   return result
 }
 
-const toEnd = function(old_value, value) {
+const toEnd = function(old_value, getItems) {
   const old_list = toArray(old_value)
-  const to_add = toArray(value)
+  const to_add = toArray(getItems(old_list))
   const result = old_list ? old_list.slice(0) : []
 
   if (to_add) {
@@ -81,14 +134,15 @@ const toEnd = function(old_value, value) {
 }
 
 
-const spliceList = (old_value, value, index, amountToRemove) => {
+const spliceList = (old_value, index, amountToRemove, getItems) => {
   if (typeof index != 'number') {
     throw 'index should be numer'
   }
 
   const old_list = toArray(old_value)
-  const to_add = toArray(value)
   const result = old_list ? old_list.slice(0) : []
+
+  const to_add = toArray(getItems(old_list))
 
   if (to_add == null) {
     return result
@@ -103,13 +157,13 @@ const spliceList = (old_value, value, index, amountToRemove) => {
   return result
 }
 
-const toIndex = function(old_value, value, index) {
-  return spliceList(old_value, value, index, 0)
+const toIndex = function(old_value, index, getItems) {
+  return spliceList(old_value, index, 0, getItems)
 }
 
 
-const replaceAt = function(old_value, value, index) {
-  return spliceList(old_value, value, index, 1)
+const replaceAt = function(old_value, index, getItems) {
+  return spliceList(old_value, index, 1, getItems)
 }
 
 const prepareNestingValue = function(md, target, value, mut_action_result) {
@@ -132,23 +186,23 @@ const prepareNestingValue = function(md, target, value, mut_action_result) {
       return without(current_value, value)
     }
     case 'at_start': {
-      return toStart(current_value, initItemsList(md, target, value, mut_action_result))
+      return toStart(current_value, makeDupsChecker(md, target, value, mut_action_result))
     }
     case 'at_end': {
-      return toEnd(current_value, initItemsList(md, target, value, mut_action_result))
+      return toEnd(current_value, makeDupsChecker(md, target, value, mut_action_result))
     }
     case 'at_index': {
       return toIndex(
         current_value,
-        initItemsList(md, target, value[1], mut_action_result),
-        value[0]
+        value[0],
+        makeDupsChecker(md, target, value[1], mut_action_result)
       )
     }
     case 'replace': {
       return replaceAt(
         current_value,
-        initItemsList(md, target, value[1], mut_action_result),
-        value[0]
+        value[0],
+        makeDupsChecker(md, target, value[1], mut_action_result)
       )
     }
     case 'set_one': {
@@ -161,7 +215,7 @@ const prepareNestingValue = function(md, target, value, mut_action_result) {
       if (value && !Array.isArray(value)) {
         throw new Error('value should be list')
       }
-      return initItemsList(md, target, value, mut_action_result)
+      return makeDupsChecker(md, target, value, mut_action_result)()
     }
     //|| 'set_one'
     //|| 'replace'
