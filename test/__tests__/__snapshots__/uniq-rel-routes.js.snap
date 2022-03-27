@@ -33,3 +33,5 @@ Array [
   },
 ]
 `;
+
+exports[`should keep uniq items of rel 3`] = `[Error: attr should be uniq across defined rel]`;

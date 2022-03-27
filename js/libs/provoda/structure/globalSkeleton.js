@@ -17,6 +17,7 @@ import numDiff from '../Model/mentions/numDiff'
 import addChainToIndex, { sortChainLinks } from '../Model/mentions/addChainToIndex'
 import target_types from '../Model/mentions/target_types'
 import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
+import uniqRelToMentionChain from '../dcl/nests/uniq/uniqRelToMentionChain'
 
 const TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 const TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
@@ -161,9 +162,15 @@ function addCompxNestForModel(global_skeleton, model, ascent_level, is_root) {
   handleGlueRels(global_skeleton, model, ascent_level, is_root)
 }
 
+function addUniqRelAttrCheck(global_skeleton, model) {
+  uniqRelToMentionChain(global_skeleton.chains, model)
+}
+
 function addModel(global_skeleton, model, ascent_level, is_root) {
   provideGlueRels(model)
   addCompxNestForModel(global_skeleton, model, ascent_level, is_root)
+
+  addUniqRelAttrCheck(global_skeleton, model)
 
   if (model.__attrs_uniq_external_deps == null || !model.__attrs_uniq_external_deps.length) {
     return
@@ -174,6 +181,7 @@ function addModel(global_skeleton, model, ascent_level, is_root) {
     if (!supportedAttrTargetAddr(cur)) {
       continue
     }
+
 
     global_skeleton.chains.push(new MentionChain(
       TARGET_TYPE_ATTR,

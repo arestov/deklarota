@@ -7,6 +7,10 @@ import model from 'pv/model'
 import modernRoot from '../modernRoot'
 import testingInit from '../testingInit'
 
+beforeEach(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {})
+})
+
 
 test('should keep uniq items of rel', async () => {
   const sampleList = [
@@ -94,5 +98,21 @@ test('should keep uniq items of rel', async () => {
         name: item.getAttr('name'),
       })),
     ).toMatchSnapshot()
+  }
+
+  {
+    const list = inited.app_model.readAddr('<< @all:users')
+    const md = list[0]
+    {
+      md.updateAttr('id', 'j7')
+      await inited.computed()
+
+      expect(md.getAttr('id')).toBe('j7')
+    }
+
+    {
+      md.updateAttr('id', 'c3')
+      expect(inited.computed()).rejects.toMatchSnapshot()
+    }
   }
 })

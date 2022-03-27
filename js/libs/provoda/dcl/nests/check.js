@@ -206,6 +206,29 @@ const checkCompAttrsFromRels = cachedField(
   }
 )
 
+const uniqRel = (mut_result, list) => {
+  if (list == null) {
+    return
+  }
+
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
+    if (!cur.rel_shape.uniq) {
+      continue
+    }
+    mut_result.push(cur)
+  }
+}
+
+const checkUniqRels = cachedField('__dcls_rels_uniq', ['_nest_by_type_listed'], false, function checkUniqRels(nest_by_type_listed) {
+  const result = []
+
+  uniqRel(result, nest_by_type_listed.model)
+  uniqRel(result, nest_by_type_listed.input)
+
+  return result.length ? result : null
+})
+
 
 
 const attrToRelValue = function relToCompAttr(attr_to_rel_name, comp_rels_list) {
@@ -272,5 +295,6 @@ export default function checkRels(self) {
   checkAttrsToRelValues(self)
   checkCompAttrsFromRels(self)
 
+  checkUniqRels(self)
   return true
 }

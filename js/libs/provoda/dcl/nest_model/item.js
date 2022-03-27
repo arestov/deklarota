@@ -17,6 +17,7 @@ export default function(name, item, options) {
 
   return {
     ...nest_constr,
+    rel_name: name,
     rel_shape,
   }
 }
