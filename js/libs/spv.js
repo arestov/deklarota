@@ -152,7 +152,7 @@ const arExclComplex = function(result, arr, obj) {
   return result
 }
 
-spv.arrayExclude = function arrayExclude(arr, obj) {
+export function arrayExclude(arr, obj) {
   const r = []
   if (!arr) {
     return r
@@ -164,6 +164,7 @@ spv.arrayExclude = function arrayExclude(arr, obj) {
     return arExclSimple(r, arr, obj)
   }
 }
+spv.arrayExclude = arrayExclude
 
 spv.shuffleArray = function(obj) {
   const shuffled = []
