@@ -77,6 +77,13 @@ test('should keep uniq items of rel', async () => {
     fakeapi,
   })
 
+  expect(
+    inited.app_model.readAddr('<< @all:users').map(item => ({
+      id: item.getAttr('id'),
+      name: item.getAttr('name'),
+    })),
+  ).toMatchSnapshot()
+
   inited.app_model.dispatch('addUsers', sampleList2.map(attrs => ({ attrs })))
 
   {
