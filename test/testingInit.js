@@ -18,19 +18,34 @@ const initCore = async (AppRoot, runtime, interfaces) => {
   })
 }
 
+let last_error_prom = null
+let reject_error_prom = null 
+
+const prepareLastErrorProm = () => {
+  last_error_prom = new Promise((resolve, reject) => {
+    reject_error_prom = reject
+  })
+}
+
 const testingInit = async (
-  AppRoot, interfaces = {}, { proxies = false, sync_sender = false } = {}
+  AppRoot, interfaces = {}, { proxies = false, sync_sender = false } = {},
 ) => {
+  prepareLastErrorProm()
   const runtime = prepareAppRuntime({
     sync_sender,
     proxies,
     warnUnexpectedAttrs: false,
+    onError: (err) => {
+      reject_error_prom(err)
+      prepareLastErrorProm()
+    }
   })
 
   const inited = await initCore(AppRoot, runtime, interfaces)
 
   const computed = () => Promise.race([
     runtime.last_error,
+    last_error_prom,
     new Promise(resolve => inited.app_model.input(resolve)),
   ])
 
