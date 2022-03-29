@@ -4,6 +4,8 @@ import _updateRel from '../_internal/_updateRel'
 
 import spv from '../../spv'
 import makeItemByData from '../Model/makeItemByData'
+import getRelUniq from '../dcl/nests/uniq/getRelUniq'
+import { addUniqItem, findDataDup, MutUniqState } from '../dcl/nests/uniq/MutUniqState'
 
 const getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
 
@@ -16,7 +18,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
   init: function initLoadableListBase(self) {
     self.loaded_nestings_items = null
-    self.loadable_lists = null
   },
 }, {
   handling_v2_init: true,
@@ -129,17 +130,15 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   insertDataAsSubitems: function(target, nesting_name, data_list, source_name) {
-    const items_list = []
-
-    if (!data_list || !data_list.length) {
-      return items_list
-    }
-
-
     const splitItemData = target['nest_rq_split-' + nesting_name]
     if (splitItemData) {
       throw new Error('nest_rq_split derecated')
     }
+
+    const cur_val = target.getNesting(nesting_name)
+    const uniq = getRelUniq(target, nesting_name)
+    const mut_uniq_state = uniq && new MutUniqState(uniq, cur_val)
+    const list = cur_val ? [...cur_val] : []
 
     for (let i = 0; i < data_list.length; i++) {
       const cur_data = data_list[i]
@@ -147,15 +146,25 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       if (target.isDataItemValid && !target.isDataItemValid(cur_data)) {
         continue
       }
-      const item = target.addItemToDatalist(cur_data, true, nesting_name)
+
+      const dup = findDataDup(mut_uniq_state, cur_data)
+      if (dup) {
+        dup.updateManyStates(cur_data)
+      }
+
+      const item = dup || makeItemByData(target, nesting_name, cur_data)
+      if (!dup && mut_uniq_state) {
+        addUniqItem(mut_uniq_state, item)
+      }
+      list.push(item)
+
+
       if (source_name && item && item._network_source === null) {
         item._network_source = source_name
       }
-      items_list.push(item)
     }
 
-    target.dataListChange(items_list, nesting_name)
-    return items_list
+    _updateRel(this, nesting_name, list)
   },
   __getLoadableRel: function() {
     let rel_name
@@ -196,15 +205,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     }
   },
 
-  dataListChange: function(_tems, rel_name) {
-    if (!rel_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    const array = this.loadable_lists && this.loadable_lists[rel_name]
-    _updateRel(this, rel_name, array)
-  },
-
   compareItemWithObj: function(item, data) {
     if (!this.items_comparing_props) {
       return
@@ -227,48 +227,8 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       }
     }
   },
-
-  addItemToDatalist: function(obj, silent, nesting_name) {
-    return this.addDataItem(obj, silent, nesting_name)
-  },
-
-  addDataItem: function(obj, skip_changes, nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    if (!this.loadable_lists) {
-      this.loadable_lists = {}
-    }
-    if (!this.loadable_lists[ nesting_name ]) {
-      this.loadable_lists[ nesting_name ] = []
-    }
-    let item
-    const work_array = this.loadable_lists[ nesting_name ]
-
-    work_array.push(item = this.makeItemByData(obj, nesting_name))
-
-    this.loadable_lists[ nesting_name ] = work_array
-    if (!skip_changes) {
-      _updateRel(this, nesting_name, work_array)
-    }
-    return item
-  },
-
   getMainlist: function() {
     throw new Error('getMainlist is depricated')
-
-    if (!this.loadable_lists) {
-      this.loadable_lists = {}
-    }
-    if (!this.loadable_lists[ this.main_list_name ]) {
-      this.loadable_lists[ this.main_list_name ] = []
-    }
-    return this.loadable_lists[ this.main_list_name ]
-  },
-
-  makeItemByData: function(data, nesting_name) {
-    return makeItemByData(this, nesting_name, data)
   },
 })
 

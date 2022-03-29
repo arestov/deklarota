@@ -32,6 +32,7 @@ const RelShape = function RelShape(options) {
   }
 
   this.many = Boolean(options.many)
+  this.uniq = options.uniq
 
   Object.freeze(this)
 }

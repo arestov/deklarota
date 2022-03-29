@@ -67,6 +67,10 @@ export const initItem = function(md, target, raw_value, mut_action_result) {
   const multi_path = target.target_path
   const nesting_name = multi_path.nesting.target_nest_name
 
+  if (!target.options.can_create) {
+    throw new Error('add `can_create` to options to create model instance in rel')
+  }
+
   const created_model = callInit(md, nesting_name, value)
 
   if (value.hold_ref_id) {

@@ -11,11 +11,13 @@ export default function(name, item, options) {
 
   const rel_shape = relShape({
     many: Boolean(options && options.many),
-    linking: nestContstuctorToRelLinkItem(nest_constr)
+    linking: nestContstuctorToRelLinkItem(nest_constr),
+    uniq: options?.uniq,
   })
 
   return {
     ...nest_constr,
+    rel_name: name,
     rel_shape,
   }
 }

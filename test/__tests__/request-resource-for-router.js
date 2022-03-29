@@ -92,7 +92,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
         ],
       },
       'requireRel:billing': {
-        to: ['<< billing', { method: 'set_one' }],
+        to: ['<< billing', { method: 'set_one', can_create: true }],
         fn: [
           ['<<<<'],
           (_, self) => ({
@@ -104,7 +104,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
       },
       'requireRel:onboarding': {
         to: {
-          onboarding: ['<< onboarding', { method: 'set_one' }],
+          onboarding: ['<< onboarding', { method: 'set_one', can_create: true }],
         },
         fn: () => ({}),
       },
@@ -123,7 +123,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
     actions: {
       'requireRel:user': {
         to: {
-          user: ['<< user', { method: 'set_one' }],
+          user: ['<< user', { method: 'set_one', can_create: true }],
         },
         fn: () => ({}),
       },

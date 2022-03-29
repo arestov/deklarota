@@ -21,7 +21,7 @@ test('routes', async () => {
     },
     actions: {
       handleInit: {
-        to: ['<< tracklist', { method: 'set_many' }],
+        to: ['<< tracklist', { method: 'set_many', can_create: true }],
         fn: () => ([
           {
             attrs: {

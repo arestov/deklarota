@@ -67,6 +67,7 @@ test('interface passed to action should be assigned', async () => {
         method,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
         // model: Song,
+        can_create: true,
       }],
       fn: [
         [],
