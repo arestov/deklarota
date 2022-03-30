@@ -6,12 +6,18 @@ export default function getByName(self, sp_name) {
   }
 
   if (self.__modern_subpages_valid) {
-    return self.__modern_subpages[sp_name]
+    return self.__modern_subpages?.get(sp_name)
   }
 
   self.__modern_subpages_valid = true
 
-  const result = {}
+  if (self.__modern_subpages == null) {
+    self.__modern_subpages = new Map()
+  } else {
+    self.__modern_subpages.clear()
+  }
+
+  const result = self.__modern_subpages
 
   for (let i = self.__routes_matchers_runs.length - 1; i >= 0; i--) {
     const cur = self.__routes_matchers_runs[i]
@@ -22,11 +28,10 @@ export default function getByName(self, sp_name) {
     for (let jj = 0; jj < cur.matched.length; jj += 2) {
       const key = cur.matched[jj]
       const value = cur.matched[jj + 1]
-      result[key] = value
+      result.set(key, value)
     }
   }
 
-  self.__modern_subpages = result
 
-  return self.__modern_subpages[sp_name]
+  return result.get(sp_name)
 };
