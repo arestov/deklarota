@@ -13,7 +13,7 @@ const areStatesValid = function(md, states) {
 
   return true
 }
-const makeMatchingData = (mut_result, dcl, self, ordered_items) => {
+const makeMatchingData = (mut_result, dcl, ordered_items) => {
   // PLACE TO IMPROVE PERFORMANCE
   // we dont need full run & index rebuilding
   // TODO:
@@ -34,10 +34,6 @@ const makeMatchingData = (mut_result, dcl, self, ordered_items) => {
     const key = stringifyRoute(dcl.route, cur.states)
     mut_result.push(key, cur)
   }
-
-
-  self.__modern_subpages_valid = false
-  self.__modern_subpages = null
 }
 
 export default makeMatchingData
