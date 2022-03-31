@@ -30,6 +30,9 @@ const Route = function(name, data) {
   this.path = name
   this.path_template = name
   const route = parseRoute(name)
+  this.route = route
+
+  const multi_path = asMultiPath(this.source)
 
   const states = []
   for (let i = 0; i < route.parts.length; i++) {
@@ -39,10 +42,6 @@ const Route = function(name, data) {
     }
     states.push(cur.state[0])
   }
-
-  this.route = route
-
-  const multi_path = asMultiPath(this.source)
   this.states = states
 
   this.nwbase = new NestWatch(multi_path, states, {
