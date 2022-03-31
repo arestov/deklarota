@@ -29,6 +29,7 @@ const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch,
 
   const runner = lnwatch.data.route_runner
   const self = runner.md
+  const { dcl } = runner
 
   const result = getMatched(runner)
   runner.matched = null
@@ -42,18 +43,20 @@ const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch,
 
   for (let i = 0; i < ordered_items.length; i++) {
     const cur = ordered_items[i]
-    if (!areStatesValid(cur, runner.dcl.states)) {
+    if (!areStatesValid(cur, dcl.states)) {
       continue
     }
 
-    const key = stringifyRoute(runner.dcl.route, cur.states)
+    const key = stringifyRoute(dcl.route, cur.states)
     result.push(key, cur)
   }
 
-  runner.matched = result
 
   self.__modern_subpages_valid = false
   self.__modern_subpages = null
+
+  runner.matched = result
+
 }
 
 const handleChangedState = function(motivator, _n1, lnwatch, _changes) {
