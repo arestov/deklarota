@@ -13,6 +13,11 @@ const areStatesValid = function(md, states) {
   return true
 }
 const makeMatchingData = (mut_result, dcl, self, ordered_items) => {
+  // PLACE TO IMPROVE PERFORMANCE
+  // we dont need full run & index rebuilding
+  // TODO:
+  // implement atomic changes of index here
+
   mut_result.length = 0
   if (!ordered_items) {
     return

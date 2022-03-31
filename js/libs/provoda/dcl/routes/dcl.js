@@ -19,10 +19,6 @@ const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch,
 }
 
 const handleChangedState = function(motivator, _n1, lnwatch, _changes) {
-  // PLACE TO IMPROVE PERFORMANCE
-  // we dont need full run & index rebuilding
-  // TODO:
-  // implement atomic changes of index here
 
   handleChangedCount(motivator, null, lnwatch, null, lnwatch.ordered_items)
 
