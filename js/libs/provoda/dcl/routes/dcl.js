@@ -4,7 +4,6 @@ import parseRoute from '../../routes/parse'
 import stringifyRoute from '../../routes/stringify'
 import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
 import pvState from '../../utils/state'
-import run from './run'
 
 const getMatched = function(runner) {
   if (!runner.matched) {
@@ -13,6 +12,14 @@ const getMatched = function(runner) {
 
   return runner.matched
 }
+
+const run = (runner) => {
+  const self = runner.md
+
+  self.__modern_subpages_valid = false
+  self.__modern_subpages = null
+}
+
 
 const areStatesValid = function(md, states) {
   for (let jj = 0; jj < states.length; jj++) {
