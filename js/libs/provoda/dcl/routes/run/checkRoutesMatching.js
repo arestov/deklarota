@@ -1,7 +1,8 @@
 import getDepValue from '../../../utils/multiPath/getDepValue'
 import makeMatchingData from './makeMatchingData'
 
-const invalidate = (self) => {
+const invalidate = (self, dcl) => {
+  self.__routes_matchers_state.delete(dcl.path_template)
   self.__modern_subpages_valid = false
   self.__modern_subpages = null
 }
@@ -13,7 +14,7 @@ const remakeData = (self, dcl) => {
   const result = self.__routes_matchers_state.get(dcl.path_template) || []
   // reusing
 
-  invalidate(self)
+  invalidate(self, dcl)
 
   makeMatchingData(result, dcl, ordered_items)
 
