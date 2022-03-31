@@ -1,7 +1,8 @@
 import checkUniqOnAttrChange from '../../dcl/nests/uniq/checkUniqOnAttrChange'
+import { checkRoutesMatchingOnAttrsChange } from '../../dcl/routes/run/checkRoutesMatching'
 import target_types from './target_types'
 
-const { TARGET_TYPE_UNIQ_REL_BY_ATTR } = target_types
+const { TARGET_TYPE_UNIQ_REL_BY_ATTR, TARGET_TYPE_ROUTE_MATCHING } = target_types
 
 export default function scheduleDelivering(motivation_model, list) {
   const current_motivator = motivation_model._currentMotivator()
@@ -10,9 +11,14 @@ export default function scheduleDelivering(motivation_model, list) {
 
   for (let i = 0; i < list.length; i++) {
     const cur = list[i]
-    if (cur.link.chain.target_type === TARGET_TYPE_UNIQ_REL_BY_ATTR) {
-      checkUniqOnAttrChange(motivation_model, cur)
-      continue
+    switch (cur.link.chain.target_type) {
+      case TARGET_TYPE_UNIQ_REL_BY_ATTR: {
+        checkUniqOnAttrChange(motivation_model, cur)
+        continue
+      }
+      case TARGET_TYPE_ROUTE_MATCHING: {
+        checkRoutesMatchingOnAttrsChange(cur)
+      }
     }
 
     calls_flow.pushToFlow(
