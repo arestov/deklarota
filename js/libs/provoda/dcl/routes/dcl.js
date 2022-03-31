@@ -25,17 +25,8 @@ const areStatesValid = function(md, states) {
   return true
 }
 
-const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _n3, ordered_items) {
-
-  const runner = lnwatch.data.route_runner
-  const self = runner.md
-  const { dcl } = runner
-
-  const result = getMatched(runner)
-  runner.matched = null
-
-  // reusing
-  result.length = 0
+const makeMatchingData = (mut_result, dcl, self, ordered_items) => {
+  mut_result.length = 0
   if (!ordered_items) {
     return
   }
@@ -48,12 +39,24 @@ const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch,
     }
 
     const key = stringifyRoute(dcl.route, cur.states)
-    result.push(key, cur)
+    mut_result.push(key, cur)
   }
 
 
   self.__modern_subpages_valid = false
   self.__modern_subpages = null
+}
+
+const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _n3, ordered_items) {
+
+  const runner = lnwatch.data.route_runner
+  const self = runner.md
+  const { dcl } = runner
+
+  const result = getMatched(runner)
+  runner.matched = null
+  // reusing
+  makeMatchingData(result, dcl, self, ordered_items)
 
   runner.matched = result
 
