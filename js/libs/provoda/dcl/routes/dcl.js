@@ -13,14 +13,6 @@ const getMatched = function(runner) {
   return runner.matched
 }
 
-const run = (runner) => {
-  const self = runner.md
-
-  self.__modern_subpages_valid = false
-  self.__modern_subpages = null
-}
-
-
 const areStatesValid = function(md, states) {
   for (let jj = 0; jj < states.length; jj++) {
     const cur = states[jj]
@@ -36,6 +28,7 @@ const areStatesValid = function(md, states) {
 const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _n3, ordered_items) {
 
   const runner = lnwatch.data.route_runner
+  const self = runner.md
 
   const result = getMatched(runner)
   runner.matched = null
@@ -59,8 +52,8 @@ const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch,
 
   runner.matched = result
 
-  run(runner)
-
+  self.__modern_subpages_valid = false
+  self.__modern_subpages = null
 }
 
 const handleChangedState = function(motivator, _n1, lnwatch, _changes) {
