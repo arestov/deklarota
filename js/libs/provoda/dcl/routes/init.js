@@ -7,6 +7,7 @@ export default function(self) {
   self.__modern_subpages_valid = false
   self.__modern_subpages = null
   self.__routes_matchers_runs = null
+  self.__routes_matchers_state = null
 
   if (!self.__routes_matchers_defs) {
     return
@@ -23,4 +24,5 @@ export default function(self) {
 
   self.__routes_matchers_runs = list
 
+  self.__routes_matchers_state = new Map()
 }

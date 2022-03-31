@@ -4,27 +4,17 @@ import parseRoute from '../../routes/parse'
 import asMultiPath from '../../utils/NestingSourceDr/asMultiPath'
 import makeMatchingData from './makeMatchingData'
 
-const getMatched = function(runner) {
-  if (!runner.matched) {
-    runner.matched = []
-  }
-
-  return runner.matched
-}
-
-
 const handleChangedCount = function handleChangedCount(_motivator, _n2, lnwatch, _n3, ordered_items) {
 
   const runner = lnwatch.data.route_runner
   const self = runner.md
   const { dcl } = runner
 
-  const result = getMatched(runner)
-  runner.matched = null
+  const result = self.__routes_matchers_state.get(dcl.path_template) || []
   // reusing
   makeMatchingData(result, dcl, self, ordered_items)
 
-  runner.matched = result
+  self.__routes_matchers_state.set(dcl.path_template, result)
 
 }
 
@@ -42,6 +32,7 @@ const Route = function(name, data) {
   this.source = Array.isArray(data) ? data[0] : data
   this.dest = Array.isArray(data) ? data[1] : data
   this.path = name
+  this.path_template = name
   const route = parseRoute(name)
 
   const states = []

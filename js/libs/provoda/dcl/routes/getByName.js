@@ -19,15 +19,19 @@ export default function getByName(self, sp_name) {
 
   const result = self.__modern_subpages
 
-  for (let i = self.__routes_matchers_runs.length - 1; i >= 0; i--) {
-    const cur = self.__routes_matchers_runs[i]
-    if (!cur.matched) {
+  for (let i = self.__routes_matchers_defs.length - 1; i >= 0; i--) {
+    const cur = self.__routes_matchers_defs[i]
+    const path_template = cur.path_template
+
+    const matched = self.__routes_matchers_state.get(path_template)
+
+    if (!matched) {
       continue
     }
 
-    for (let jj = 0; jj < cur.matched.length; jj += 2) {
-      const key = cur.matched[jj]
-      const value = cur.matched[jj + 1]
+    for (let jj = 0; jj < matched.length; jj += 2) {
+      const key = matched[jj]
+      const value = matched[jj + 1]
       result.set(key, value)
     }
   }
