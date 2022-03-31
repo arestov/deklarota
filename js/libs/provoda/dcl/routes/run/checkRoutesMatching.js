@@ -1,6 +1,3 @@
-import getDepValue from '../../../utils/multiPath/getDepValue'
-import makeMatchingData from './makeMatchingData'
-
 const invalidate = (self, dcl) => {
   self.__routes_matchers_state.delete(dcl.path_template)
   self.__modern_subpages_valid = false
@@ -8,17 +5,7 @@ const invalidate = (self, dcl) => {
 }
 
 const remakeData = (self, dcl) => {
-
-  const ordered_items = getDepValue(self, dcl.addr)
-
-  const result = self.__routes_matchers_state.get(dcl.path_template) || []
-  // reusing
-
   invalidate(self, dcl)
-
-  makeMatchingData(result, dcl, ordered_items)
-
-  self.__routes_matchers_state.set(dcl.path_template, result)
 }
 
 export const checkRoutesMatching = (self, chain) => {
