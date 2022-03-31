@@ -1,5 +1,6 @@
-import stringifyRoute from '../../routes/stringify'
-import pvState from '../../utils/state'
+import stringifyRoute from '../../../routes/stringify'
+import pvState from '../../../utils/state'
+
 
 const areStatesValid = function(md, states) {
   for (let jj = 0; jj < states.length; jj++) {
