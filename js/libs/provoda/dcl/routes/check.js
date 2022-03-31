@@ -9,9 +9,11 @@ const buildRoutes = function(self, index) {
 
   const result = []
   for (const name in index) {
-    result.push(
-      index[name]
-    )
+    if (!index.hasOwnProperty(name)) {
+      continue
+    }
+
+    result.push(index[name])
   }
 
   self.__routes_matchers_defs = result
