@@ -89,7 +89,7 @@ test('auto dispatch and handle `handleInit` pass', async () => {
     })
 
     const createAction = (method, id = 1) => ({
-      to: [`songs_list < playlists/${id} < #`, {
+      to: [`songs_list < playlists/[:id::${id}] < #`, {
         method,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
         // model: Song,
@@ -107,24 +107,14 @@ test('auto dispatch and handle `handleInit` pass', async () => {
         zero_map_level: true,
         model_name: 'startModel',
         rels: {
-          all_playlists: ['nest', [['playlists/1', 'playlists/2']]],
+          all_playlists: ['nest', [['playlists/[:id::1]', 'playlists/[:id::2]']]],
+          playlists: ['model', Playlist, { many: true, uniq: ['id'] }],
         },
         actions: {
           addToEnd: createAction('at_end'),
         },
-        sub_pager: {
-          type: {
-            playlists: 'playlist',
-          },
-          by_type: {
-            playlist: {
-              head: {
-                id: 'by_slash.0',
-              },
-              title: [[]],
-              constr: Playlist,
-            },
-          },
+        routes: {
+          'playlists/[:id]': 'playlists',
         },
       }),
     }, self => {
