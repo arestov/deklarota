@@ -5,7 +5,6 @@ import getModernPage from './dcl/routes/getByName'
 import createModern from './dcl/routes/createModern'
 const selectModern = createModern.selectModern
 
-const cloneObj = spv.cloneObj
 const getSPI = getterSPI()
 const getSPIConstr = getterSPIConstr()
 const MARKED_REMOVED = Symbol()
