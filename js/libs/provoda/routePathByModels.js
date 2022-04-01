@@ -2,17 +2,44 @@
 import spv from '../spv'
 import allStates from './dcl/routes/allStates'
 import getModernPage from './dcl/routes/getByName'
-import createModern, { selectModern } from './dcl/routes/createModern'
+import createModern, { getRouteConstr, selectModern } from './dcl/routes/createModern'
+import { toBasicTemplate } from './routes/parse'
 
 const getSPI = getterSPI()
 const getSPIConstr = getterSPIConstr()
 const MARKED_REMOVED = Symbol()
+
+const getModernConstr = (start_md, pth_string) => {
+  const route_template = pth_string
+  const basic_route_template = toBasicTemplate(route_template)
+
+  const dcl = start_md._extendable_routes_index?.[basic_route_template]
+  if (!dcl) {
+    return
+  }
+
+  return getRouteConstr(start_md, dcl)
+}
 
 const routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options, extra_states) {
 
   if (!pth_string) {
     throw new Error('Empty path can\'t be used. Use / to get start page')
   }
+
+  if (need_constr) {
+    const Constr = getModernConstr(start_md, pth_string)
+
+    if (Constr) {
+      return Constr
+    }
+  } else {
+    const modern = findModern(start_md, pth_string)
+    if (modern) {
+      return modern
+    }
+  }
+
   /*
   catalog
   users
@@ -126,7 +153,7 @@ function selectRouteItem(self, sp_name) {
   }
 }
 
-const findModern = (self, sp_name, options) => {
+function findModern(self, sp_name, options) {
   if (self.__routes_matchers_defs == null) {
     return
   }
