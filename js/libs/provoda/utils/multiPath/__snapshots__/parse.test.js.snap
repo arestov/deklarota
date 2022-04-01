@@ -26,6 +26,7 @@ Object {
           Array [
             "ddaf",
             "ddaf",
+            undefined,
           ],
         ],
       },
@@ -60,6 +61,7 @@ Object {
           Array [
             "ddaf",
             "ddaf",
+            undefined,
           ],
         ],
       },
@@ -173,6 +175,7 @@ Object {
           Array [
             "ddaf",
             "ddaf",
+            undefined,
           ],
         ],
       },
