@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist:next_value],([:track])" 1`] = `
+Object {
+  "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\),\\\\\\(\\(\\.\\+\\?\\)\\\\\\)\\$/,
+  "parts": Array [
+    Object {
+      "matcher": Object {
+        "has_group": true,
+        "regexp": /tracks\\\\/\\(\\.\\+\\?\\)/,
+      },
+      "matching_group": 1,
+      "prefix": "tracks/",
+      "state": Array [
+        "artist",
+        "next_value",
+        undefined,
+      ],
+      "state_source": "[:artist:next_value]",
+    },
+    Object {
+      "matcher": Object {
+        "has_group": true,
+        "regexp": /,\\\\\\(\\(\\.\\+\\?\\)/,
+      },
+      "matching_group": 2,
+      "prefix": ",(",
+      "state": Array [
+        "track",
+        "track",
+        undefined,
+      ],
+      "state_source": "[:track]",
+    },
+    Object {
+      "matcher": Object {
+        "has_group": false,
+        "regexp": /\\\\\\)/,
+      },
+      "matching_group": null,
+      "prefix": ")",
+      "state": null,
+      "state_source": null,
+    },
+  ],
+}
+`;
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist]" 1`] = `
+Object {
+  "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\)\\$/,
+  "parts": Array [
+    Object {
+      "matcher": Object {
+        "has_group": true,
+        "regexp": /tracks\\\\/\\(\\.\\+\\?\\)/,
+      },
+      "matching_group": 1,
+      "prefix": "tracks/",
+      "state": Array [
+        "artist",
+        "artist",
+        undefined,
+      ],
+      "state_source": "[:artist]",
+    },
+  ],
+}
+`;
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist],[:track]" 1`] = `
+Object {
+  "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\),\\(\\.\\+\\?\\)\\$/,
+  "parts": Array [
+    Object {
+      "matcher": Object {
+        "has_group": true,
+        "regexp": /tracks\\\\/\\(\\.\\+\\?\\)/,
+      },
+      "matching_group": 1,
+      "prefix": "tracks/",
+      "state": Array [
+        "artist",
+        "artist",
+        undefined,
+      ],
+      "state_source": "[:artist]",
+    },
+    Object {
+      "matcher": Object {
+        "has_group": true,
+        "regexp": /,\\(\\.\\+\\?\\)/,
+      },
+      "matching_group": 2,
+      "prefix": ",",
+      "state": Array [
+        "track",
+        "track",
+        undefined,
+      ],
+      "state_source": "[:track]",
+    },
+  ],
+}
+`;

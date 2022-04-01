@@ -9,12 +9,20 @@ const STATE = 4
 const ALTERNATIVE = 5
 
 // Add optional params - 'tracks/[:artist:next_value],([:track])'
+// Add optional values - 'tracks/[:artist::Smith],([:track])'
 
 const stateItem = function(text) {
   const parts = text.split(':')
   const dest = parts[0]
   const source = parts[1] || dest
-  return [dest, source]
+  const value = parts[2]
+  if (value == '') {
+    throw new Error('value can\'t be empty string')
+  }
+  if (value && parts[1]) {
+    throw new Error('param should be empty when value exists')
+  }
+  return [dest, source, value]
 }
 
 const reRegExpChar = /[\\^$.*+?()[\]{}|]/g
