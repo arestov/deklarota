@@ -184,24 +184,34 @@ function getterSPI() {
     })
   }
 
+  const findModern = (self, sp_name, options) => {
+    if (self.__routes_matchers_defs == null) {
+      return
+    }
+
+    const autocreate = !options || options.autocreate !== false
+
+    const item = getModernPage(self, sp_name)
+    if (item != null) {
+      return item
+    }
+
+    const created = autocreate && createModern(self, sp_name)
+    if (created) {
+      watchModelDie(self, created)
+      return created
+    }
+  }
+
 
   return function getSPI(self, sp_name, options, extra_states) {
     const autocreate = !options || options.autocreate !== false
     const reuse = options && options.reuse
 
-    if (self.__routes_matchers_defs != null) {
-      const item = getModernPage(self, sp_name)
-      if (item != null) {
-        return item
-      }
-
-      const created = autocreate && createModern(self, sp_name)
-      if (created) {
-        watchModelDie(self, created)
-        return created
-      }
+    const modern = findModern(self, sp_name, options)
+    if (modern) {
+      return modern
     }
-
 
     const item = selectRouteItem(self, sp_name)
     if (item != null) {
