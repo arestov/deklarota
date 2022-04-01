@@ -9,6 +9,7 @@ import RouterCore from '../../js/models/Router.js'
 
 import modernRoot from '../modernRoot'
 import testingInit from '../testingInit'
+import routePathByModels from '../../js/libs/provoda/routePathByModels.js'
 
 
 const getMainNavigationRouter = async inited => {
@@ -24,7 +25,7 @@ const getMainNavigationRouter = async inited => {
   })
   await computed()
 
-  const mainNavigationRouter = inited.rootBwlev.sub_pages['router-main']
+  const mainNavigationRouter = routePathByModels(inited.rootBwlev, 'router-main')
   return mainNavigationRouter
 }
 
@@ -41,17 +42,15 @@ const MainRouter = model({
 })
 
 const RootSession = {
-  sub_page: {
-    'router-main': {
-      constr: MainRouter,
-      title: [['nav_title_nothing']],
-    },
+  routes: {
+    'router-main': 'router_main',
   },
   attrs: {
     closedAt: ['input'],
     isCommonRoot: ['input', false],
   },
   rels: {
+    router_main: ['nest', [MainRouter]],
     fake_spyglass: ['nest', ['router-main']],
   },
 }
