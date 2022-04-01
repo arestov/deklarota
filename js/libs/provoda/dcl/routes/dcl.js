@@ -13,6 +13,10 @@ const Route = function(name, data) {
   const multi_path = asMultiPath(this.source)
   this.addr = multi_path
 
+  if (multi_path.nesting.path.length > 1) {
+    throw new Error('should be just 1 rel step')
+  }
+
   const states = []
   const all_addrs = []
 
