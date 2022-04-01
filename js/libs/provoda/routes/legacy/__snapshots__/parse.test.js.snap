@@ -15,10 +15,12 @@ Object {
     Array [
       "artist",
       "artist",
+      undefined,
     ],
     Array [
       "track",
       "track",
+      undefined,
     ],
   ],
 }
