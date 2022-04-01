@@ -13,7 +13,6 @@ import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
 import initDeclaredNestings from './initDeclaredNestings'
 import markStrucure from './structure/mark'
 import create from './create'
-import addSubpage from './dcl/sub_pager/addSubpage'
 import behavior from './provoda/bhv'
 import mergeBhv from './provoda/_lmerge'
 import mpxUpdateAttr from './provoda/v/mpxUpdateAttr'
@@ -69,7 +68,6 @@ const provoda = {
   getParsedPath: initDeclaredNestings.getParsedPath,
   getSubpages: initDeclaredNestings.getSubpages,
   pathExecutor: initDeclaredNestings.pathExecutor,
-  addSubpage: addSubpage,
   updateNesting: function(md, nesting_name, nesting_value, opts, spec_data) {
     md.updateNesting(nesting_name, nesting_value, opts, spec_data)
   },

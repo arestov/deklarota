@@ -1,5 +1,4 @@
 
-import spv from '../spv'
 import allStates from './dcl/routes/allStates'
 import getModernPage from './dcl/routes/getByName'
 import createModern, { getRouteConstr, selectModern } from './dcl/routes/createModern'
@@ -70,15 +69,6 @@ const routePathByModels = function routePathByModels(start_md, pth_string, need_
   let result = null
   let tree_parts_group = null
   for (let i = 0; i < pth.length; i++) {
-    const types = spv.getTargetField(cur_md, '_sub_pager.type')
-    if (types && types[pth[i]]) {
-      if (!tree_parts_group) {
-        tree_parts_group = []
-      }
-      tree_parts_group.push(pth[i])
-      continue
-    }
-
     let path_full_string
     if (tree_parts_group) {
       const full = tree_parts_group.slice(0)
@@ -118,35 +108,11 @@ function slash(str) {
   return str.split('/')
 }
 
-function subPageType(type_obj, parts) {
-  const target = type_obj[decodeURIComponent(parts[0])]
-  if (typeof target !== 'function') {
-    return target || null
-  }
-
-  return target(parts[1])
-}
-
 function selectRouteItem(self, sp_name) {
   if (self._sub_pages && self._sub_pages[sp_name]) {
     return self._sub_pages[sp_name]
   }
 
-  const sub_pager = self._sub_pager
-  if (sub_pager) {
-    if (sub_pager.item) {
-      return sub_pager.item
-    } else {
-      const types = sub_pager.by_type
-      const type = subPageType(sub_pager.type, slash(sp_name))
-      if (type && !types[type]) {
-        throw new Error('unexpected type: ' + type + ', expecting: ' + Object.keys(type))
-      }
-      if (type) {
-        return sub_pager.by_type[type]
-      }
-    }
-  }
 
   if (self.subPager) {
     throw new Error('`subPager` is legacy. (there is no proper way to get `constr`, only `instance`). so get rid of `subPager`')
@@ -223,7 +189,6 @@ function getterSPI() {
 
   return function getSPI(self, sp_name, options, extra_states) {
     const autocreate = !options || options.autocreate !== false
-    const reuse = options && options.reuse
 
     const modern = findModern(self, sp_name, options)
     if (modern) {
@@ -232,13 +197,6 @@ function getterSPI() {
 
     const item = selectRouteItem(self, sp_name)
     if (item != null) {
-      const can_be_reusable = item.can_be_reusable
-      if (reuse && can_be_reusable && self._last_subpages[item.key]) {
-        const instance = self._last_subpages[item.key]
-        if (instance.state('$$reusable_url')) {
-          return instance
-        }
-      }
 
       const getKey = item.getKey
       const key = getKey ? getKey(decodeURIComponent(sp_name), sp_name) : sp_name
@@ -259,9 +217,7 @@ function getterSPI() {
         watchModelDie(self, instance)
         watchSubPageKey(self, instance, key)
         self.sub_pages[key] = instance
-        if (can_be_reusable) {
-          self._last_subpages[item.key] = instance
-        }
+
         return instance
       }
     }
