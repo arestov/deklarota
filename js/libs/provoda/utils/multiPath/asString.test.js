@@ -35,8 +35,8 @@ describe('asString', () => {
         '< state_name < nesting < resource < #',
       ]],
       ['full root query with route', [
-        '< state_name << /resource/[:ddaf]/sdf < #',
-        '< state_name << /resource/[:ddaf]/sdf < #',
+        '< state_name << resource/[:ddaf]/sdf < #',
+        '< state_name << resource/[:ddaf]/sdf < #',
       ]],
       ['root attr query', [
         '< state_name <<< #',
@@ -63,12 +63,12 @@ describe('asString', () => {
         '< state_name <<<',
       ]],
       ['root route query shortcut', [
-        '/resource/[:ddaf]/sdf < #',
-        '<<< /resource/[:ddaf]/sdf < #'
+        'resource/[:ddaf]/sdf < #',
+        '<<< resource/[:ddaf]/sdf < #'
       ]],
       ['route shortcut', [
-        '/resource/[:ddaf]/sdf <',
-        '<<< /resource/[:ddaf]/sdf <',
+        'resource/[:ddaf]/sdf <',
+        '<<< resource/[:ddaf]/sdf <',
       ]],
       ['grandparent nesting shortcut', [
         'nesting_name << ^^',

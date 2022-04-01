@@ -1,78 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parse smoke result should match snapshot for "/resource/[:ddaf]/sdf < #" 1`] = `
-Object {
-  "as_string": null,
-  "from_base": Object {
-    "steps": null,
-    "type": "root",
-  },
-  "nesting": Object {},
-  "resource": Object {
-    "path": "/resource/[:ddaf]/sdf",
-    "template": Object {
-      "from_parent": undefined,
-      "from_root": false,
-      "full_usable_string": "/resource/[:ddaf]/sdf",
-      "parsed": Object {
-        "clean_string_parts": Array [
-          "/resource/",
-          "/sdf",
-        ],
-        "states": Array [
-          "ddaf",
-        ],
-        "states_map": Array [
-          Array [
-            "ddaf",
-            "ddaf",
-            undefined,
-          ],
-        ],
-      },
-    },
-  },
-  "result_type": null,
-  "state": Object {},
-  "zip_name": null,
-}
-`;
-
-exports[`parse smoke result should match snapshot for "/resource/[:ddaf]/sdf <" 1`] = `
-Object {
-  "as_string": null,
-  "from_base": Object {},
-  "nesting": Object {},
-  "resource": Object {
-    "path": "/resource/[:ddaf]/sdf",
-    "template": Object {
-      "from_parent": undefined,
-      "from_root": false,
-      "full_usable_string": "/resource/[:ddaf]/sdf",
-      "parsed": Object {
-        "clean_string_parts": Array [
-          "/resource/",
-          "/sdf",
-        ],
-        "states": Array [
-          "ddaf",
-        ],
-        "states_map": Array [
-          Array [
-            "ddaf",
-            "ddaf",
-            undefined,
-          ],
-        ],
-      },
-    },
-  },
-  "result_type": null,
-  "state": Object {},
-  "zip_name": null,
-}
-`;
-
 exports[`parse smoke result should match snapshot for "< @one:state_name < nesting < resource < #" 1`] = `
 Object {
   "as_string": null,
@@ -149,7 +76,7 @@ Object {
 }
 `;
 
-exports[`parse smoke result should match snapshot for "< state_name << /resource/[:ddaf]/sdf < #" 1`] = `
+exports[`parse smoke result should match snapshot for "< state_name << resource/[:ddaf]/sdf < #" 1`] = `
 Object {
   "as_string": null,
   "from_base": Object {
@@ -158,14 +85,14 @@ Object {
   },
   "nesting": Object {},
   "resource": Object {
-    "path": "/resource/[:ddaf]/sdf",
+    "path": "resource/[:ddaf]/sdf",
     "template": Object {
       "from_parent": undefined,
       "from_root": false,
-      "full_usable_string": "/resource/[:ddaf]/sdf",
+      "full_usable_string": "resource/[:ddaf]/sdf",
       "parsed": Object {
         "clean_string_parts": Array [
-          "/resource/",
+          "resource/",
           "/sdf",
         ],
         "states": Array [
@@ -303,6 +230,79 @@ Object {
   },
   "resource": Object {},
   "result_type": "nesting",
+  "state": Object {},
+  "zip_name": null,
+}
+`;
+
+exports[`parse smoke result should match snapshot for "resource/[:ddaf]/sdf < #" 1`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {
+    "steps": null,
+    "type": "root",
+  },
+  "nesting": Object {},
+  "resource": Object {
+    "path": "resource/[:ddaf]/sdf",
+    "template": Object {
+      "from_parent": undefined,
+      "from_root": false,
+      "full_usable_string": "resource/[:ddaf]/sdf",
+      "parsed": Object {
+        "clean_string_parts": Array [
+          "resource/",
+          "/sdf",
+        ],
+        "states": Array [
+          "ddaf",
+        ],
+        "states_map": Array [
+          Array [
+            "ddaf",
+            "ddaf",
+            undefined,
+          ],
+        ],
+      },
+    },
+  },
+  "result_type": null,
+  "state": Object {},
+  "zip_name": null,
+}
+`;
+
+exports[`parse smoke result should match snapshot for "resource/[:ddaf]/sdf <" 1`] = `
+Object {
+  "as_string": null,
+  "from_base": Object {},
+  "nesting": Object {},
+  "resource": Object {
+    "path": "resource/[:ddaf]/sdf",
+    "template": Object {
+      "from_parent": undefined,
+      "from_root": false,
+      "full_usable_string": "resource/[:ddaf]/sdf",
+      "parsed": Object {
+        "clean_string_parts": Array [
+          "resource/",
+          "/sdf",
+        ],
+        "states": Array [
+          "ddaf",
+        ],
+        "states_map": Array [
+          Array [
+            "ddaf",
+            "ddaf",
+            undefined,
+          ],
+        ],
+      },
+    },
+  },
+  "result_type": null,
   "state": Object {},
   "zip_name": null,
 }

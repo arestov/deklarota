@@ -194,7 +194,7 @@ test('special nestings by pass calculated', async () => {
     })
 
     const createAction = (method, id = 1, rel = 'songs_list') => ({
-      to: [`${rel} < /playlists/${id} < #`, {
+      to: [`${rel} < playlists/${id} < #`, {
         method,
         can_create: true,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',

@@ -89,7 +89,7 @@ test('auto dispatch and handle `handleInit` pass', async () => {
     })
 
     const createAction = (method, id = 1) => ({
-      to: [`songs_list < /playlists/${id} < #`, {
+      to: [`songs_list < playlists/${id} < #`, {
         method,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
         // model: Song,
