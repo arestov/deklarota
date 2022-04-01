@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist::Smith]" 1`] = `"tracks/Smith"`;
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist:next_value],([:track])" 1`] = `"tracks/Smith,(nice%20to%20have%20you)"`;
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist]" 1`] = `"tracks/Smith"`;
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist],[:track]" 1`] = `"tracks/Smith,nice%20to%20have%20you"`;
