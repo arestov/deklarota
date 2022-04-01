@@ -1,6 +1,8 @@
 
 // var spv = require('spv')
 
+import { decodeValueChunk } from './decodeValueChunk'
+
 const string_state_regexp = /((.*?)(\[\:(.+?)\]))|(.+)/g
 // 0:                     1:((2:)(3:(4:)))|(:5)
 const PREFIX = 2
@@ -26,7 +28,7 @@ const stateItem = function(text) {
   if (value && parts[1]) {
     throw new Error('param should be empty when value exists')
   }
-  return [dest, source, value == null ? null : decodeURIComponent(value)]
+  return [dest, source, value == null ? null : decodeValueChunk(value)]
 }
 
 const reRegExpChar = /[\\^$.*+?()[\]{}|]/g
