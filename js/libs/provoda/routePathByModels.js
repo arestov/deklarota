@@ -2,8 +2,7 @@
 import spv from '../spv'
 import allStates from './dcl/routes/allStates'
 import getModernPage from './dcl/routes/getByName'
-import createModern from './dcl/routes/createModern'
-const selectModern = createModern.selectModern
+import createModern, { selectModern } from './dcl/routes/createModern'
 
 const getSPI = getterSPI()
 const getSPIConstr = getterSPIConstr()
