@@ -147,3 +147,5 @@
 - deprecate nest_rq_split
 
 - deprecate effects.in.request-rel.parse_serv
+
+- deprecate/remove subPager

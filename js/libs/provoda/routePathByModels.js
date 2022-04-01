@@ -149,7 +149,7 @@ function selectRouteItem(self, sp_name) {
   }
 
   if (self.subPager) {
-    console.warn('`subPager` is legacy. (there is no proper way to get `constr`, only `instance`). so get rid of `subPager`')
+    throw new Error('`subPager` is legacy. (there is no proper way to get `constr`, only `instance`). so get rid of `subPager`')
   }
 }
 
@@ -173,15 +173,6 @@ function findModern(self, sp_name, options) {
 }
 
 function getterSPI() {
-  const init = function(parent, target, data) {
-    if (target.hasOwnProperty('_provoda_id')) {
-      return target
-    }
-    parent.useMotivator(target, function(instance) {
-      instance.init(parent.getSiOpts(), data)
-    })
-    return target
-  }
 
   const prepare = function(self, item, sp_name, slashed, extra_states) {
     const Constr = self._all_chi[item.key]
@@ -274,27 +265,6 @@ function getterSPI() {
         return instance
       }
     }
-
-    if (self.subPager != null) {
-      if (self.sub_pages[sp_name]) {
-        return self.sub_pages[sp_name]
-      }
-
-      if (!autocreate) {
-        return null
-      }
-
-      const sub_page = self.subPager(decodeURIComponent(sp_name), sp_name)
-      const instance = Array.isArray(sub_page)
-        ? init(self, sub_page[0], sub_page[1])
-        : sub_page
-
-      self.sub_pages[sp_name] = instance
-      watchModelDie(self, instance)
-      watchSubPageKey(self, instance, sp_name)
-      return instance
-
-    }
   }
 }
 
@@ -310,14 +280,6 @@ function getterSPIConstr() {
       return self._all_chi[item.key]
     }
 
-    if (self.subPager) {
-      const result = self.getSPC(decodeURIComponent(sp_name), sp_name)
-      if (Array.isArray(result)) {
-        return result[0]
-      } else {
-        return result
-      }
-    }
   }
 }
 
