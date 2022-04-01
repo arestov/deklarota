@@ -1,5 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`parse smoke result should match snapshot for "tracks/[:artist::Smith]" 1`] = `
+Object {
+  "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\)\\$/,
+  "parts": Array [
+    Object {
+      "matcher": Object {
+        "has_group": true,
+        "regexp": /tracks\\\\/\\(\\.\\+\\?\\)/,
+      },
+      "matching_group": 1,
+      "prefix": "tracks/",
+      "state": Array [
+        "artist",
+        "artist",
+        "Smith",
+      ],
+      "state_source": "[:artist::Smith]",
+    },
+  ],
+}
+`;
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist::nice%20to%20have%20you)]" 1`] = `
+Object {
+  "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\)\\$/,
+  "parts": Array [
+    Object {
+      "matcher": Object {
+        "has_group": true,
+        "regexp": /tracks\\\\/\\(\\.\\+\\?\\)/,
+      },
+      "matching_group": 1,
+      "prefix": "tracks/",
+      "state": Array [
+        "artist",
+        "artist",
+        "nice to have you)",
+      ],
+      "state_source": "[:artist::nice%20to%20have%20you)]",
+    },
+  ],
+}
+`;
+
 exports[`parse smoke result should match snapshot for "tracks/[:artist:next_value],([:track])" 1`] = `
 Object {
   "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\),\\\\\\(\\(\\.\\+\\?\\)\\\\\\)\\$/,
@@ -14,7 +58,7 @@ Object {
       "state": Array [
         "artist",
         "next_value",
-        undefined,
+        null,
       ],
       "state_source": "[:artist:next_value]",
     },
@@ -28,7 +72,7 @@ Object {
       "state": Array [
         "track",
         "track",
-        undefined,
+        null,
       ],
       "state_source": "[:track]",
     },
@@ -60,7 +104,7 @@ Object {
       "state": Array [
         "artist",
         "artist",
-        undefined,
+        null,
       ],
       "state_source": "[:artist]",
     },
@@ -82,7 +126,7 @@ Object {
       "state": Array [
         "artist",
         "artist",
-        undefined,
+        null,
       ],
       "state_source": "[:artist]",
     },
@@ -96,7 +140,7 @@ Object {
       "state": Array [
         "track",
         "track",
-        undefined,
+        null,
       ],
       "state_source": "[:track]",
     },

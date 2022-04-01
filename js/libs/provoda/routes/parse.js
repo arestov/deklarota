@@ -22,7 +22,7 @@ const stateItem = function(text) {
   if (value && parts[1]) {
     throw new Error('param should be empty when value exists')
   }
-  return [dest, source, value]
+  return [dest, source, value == null ? null : decodeURIComponent(value)]
 }
 
 const reRegExpChar = /[\\^$.*+?()[\]{}|]/g

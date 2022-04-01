@@ -8,6 +8,8 @@ describe('parse', () => {
       ['tracks/[:artist]'],
       ['tracks/[:artist],[:track]'],
       ['tracks/[:artist:next_value],([:track])'],
+      ['tracks/[:artist::Smith]'],
+      ['tracks/[:artist::nice%20to%20have%20you)]']
 
     ])('result should match snapshot for "%s"', input => {
       expect(parse(input)).toMatchSnapshot()
