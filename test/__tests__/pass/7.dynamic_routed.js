@@ -40,26 +40,21 @@ test('change for dynamic routed resource calculated', async () => {
 
     const StartPage = {
       zero_map_level: true,
-      sub_pager: {
-        item: [
-          SubResource,
-          [[]],
-          {
-            name: 'simple_name',
-          },
-        ],
+      routes: {
+        '[:name]': 'something',
       },
       rels: {
         placeholder: ['nest', ['nice_resource']],
+        something: ['model', SubResource, { many: true, uniq: 'name' }],
       },
       actions: {
         change: {
           to: {
-            title: ['< title << [:head.name]'],
-            copy: ['< dup_default_title << [:head.name]'],
+            title: ['< title << [:name:head.name]'],
+            copy: ['< dup_default_title << [:name:head.name]'],
           },
           fn: [
-            ['< default_title << [:head.name]'],
+            ['< default_title << [:name:head.name]'],
             (data, default_title) => ({
               title: data.attrs.title,
               copy: `dup ${default_title}`,
