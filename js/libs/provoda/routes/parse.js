@@ -145,7 +145,7 @@ const statePartAsString = function(state_dcl) {
 
 }
 export const toBasicTemplate = (str) => {
-  const parsed = parse(str)
+  const parsed = parse(str.replace(/^\//, ''))
 
   const parts = parsed.parts
   const toStrings = new Array(parts.length)
