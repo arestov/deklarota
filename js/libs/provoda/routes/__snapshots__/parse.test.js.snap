@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`parse smoke result should match snapshot for "tracks/" 1`] = `"tracks/"`;
+
 exports[`parse smoke result should match snapshot for "tracks/[:artist::Smith]" 1`] = `
 Object {
   "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\)\\$/,
@@ -90,6 +92,8 @@ Object {
 }
 `;
 
+exports[`parse smoke result should match snapshot for "tracks/[:artist:next_value],([:track])" 2`] = `"tracks/[:artist],([:track])"`;
+
 exports[`parse smoke result should match snapshot for "tracks/[:artist]" 1`] = `
 Object {
   "matcher": /\\^tracks\\\\/\\(\\.\\+\\?\\)\\$/,
@@ -111,6 +115,8 @@ Object {
   ],
 }
 `;
+
+exports[`parse smoke result should match snapshot for "tracks/[:artist],([:track])" 1`] = `"tracks/[:artist],([:track])"`;
 
 exports[`parse smoke result should match snapshot for "tracks/[:artist],[:track]" 1`] = `
 Object {

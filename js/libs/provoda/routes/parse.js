@@ -16,6 +16,10 @@ const stateItem = function(text) {
   const dest = parts[0]
   const source = parts[1] || dest
   const value = parts[2]
+  if (!dest) {
+    throw new Error('dest can`t be empty')
+  }
+
   if (value == '') {
     throw new Error('value can\'t be empty string')
   }
@@ -130,6 +134,27 @@ const parse = function(full_usable_string) {
     parts: parts,
     matcher: new RegExp(fullRegExpString),
   }
+}
+
+const statePartAsString = function(state_dcl) {
+  if (!state_dcl) {
+    return ''
+  }
+
+  return `[:${state_dcl[0]}]`
+
+}
+export const toBasicTemplate = (str) => {
+  const parsed = parse(str)
+
+  const parts = parsed.parts
+  const toStrings = new Array(parts.length)
+  for (let i = 0; i < parts.length; i++) {
+    const cur = parts[i]
+    const result = (cur.prefix || '') + statePartAsString(cur.state)
+    toStrings[i] = result
+  }
+  return toStrings.join('')
 }
 
 export default parse

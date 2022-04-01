@@ -1,6 +1,6 @@
 import {describe, it, expect} from '@jest/globals'
 
-import parse from './parse'
+import parse, { toBasicTemplate } from './parse'
 
 describe('parse', () => {
   describe('smoke', () => {
@@ -16,6 +16,15 @@ describe('parse', () => {
     })
 
     it.each([
+      ['tracks/[:artist:next_value],([:track])'],
+      ['tracks/[:artist],([:track])'],
+      ['tracks/']
+    ])('result should match snapshot for "%s"', input => {
+      expect(toBasicTemplate(input)).toMatchSnapshot()
+    })
+
+    it.each([
+      ['tracks/[::]'],
       ['tracks/[:artist][:track]'],
       ['tracks/[:artist:next_value:]'],
       ['tracks/[:artist:next_value:john]'],
