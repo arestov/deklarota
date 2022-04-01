@@ -126,6 +126,25 @@ function selectRouteItem(self, sp_name) {
   }
 }
 
+const findModern = (self, sp_name, options) => {
+  if (self.__routes_matchers_defs == null) {
+    return
+  }
+
+  const autocreate = !options || options.autocreate !== false
+
+  const item = getModernPage(self, sp_name)
+  if (item != null) {
+    return item
+  }
+
+  const created = autocreate && createModern(self, sp_name)
+  if (created) {
+    watchModelDie(self, created)
+    return created
+  }
+}
+
 function getterSPI() {
   const init = function(parent, target, data) {
     if (target.hasOwnProperty('_provoda_id')) {
@@ -183,26 +202,6 @@ function getterSPI() {
       url_params: hbu_data,
     })
   }
-
-  const findModern = (self, sp_name, options) => {
-    if (self.__routes_matchers_defs == null) {
-      return
-    }
-
-    const autocreate = !options || options.autocreate !== false
-
-    const item = getModernPage(self, sp_name)
-    if (item != null) {
-      return item
-    }
-
-    const created = autocreate && createModern(self, sp_name)
-    if (created) {
-      watchModelDie(self, created)
-      return created
-    }
-  }
-
 
   return function getSPI(self, sp_name, options, extra_states) {
     const autocreate = !options || options.autocreate !== false
