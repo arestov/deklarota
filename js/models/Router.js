@@ -184,7 +184,11 @@ export default spv.inh(BasicRouter, {
       'comp',
       ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md'],
       (arg1, arg2) => arg1 || arg2,
-    ]
+    ],
+    current_mp_bwlev: [
+      'comp',
+      ['<< @one:current_mp_bwlev'],
+    ],
   },
   rels: {
     navigation: ['input', {any: true, many: true}],
@@ -339,8 +343,7 @@ export default spv.inh(BasicRouter, {
   },
   effects: {
   },
-  'stch-@current_mp_bwlev': function(self, _, __, c) {
-    const bwlev = c && c.items
+  'stch-current_mp_bwlev': function(self, bwlev) {
     if (!bwlev) {
       return
     }
