@@ -431,8 +431,8 @@ const BrowseLevel = spv.inh(Model, {
     }
 
     // load everything
-
-    loadAllByStruc(target.getNesting('pioneer'), obj, prev)
+    throw new Error('deps loading is broken')
+    // loadAllByStruc(target.getNesting('pioneer'), obj, prev)
   },
 })
 

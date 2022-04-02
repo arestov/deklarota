@@ -8,7 +8,6 @@ import prsStCon from './prsStCon'
 
 import { initAttrs } from './updateProxy'
 import StatesEmitter from './StatesEmitter'
-import _requestsDeps from './Model/_requestsDeps'
 import onPropsExtend from './Model/onExtend'
 import initModel from './Model/init'
 import gentlyUpdateNesting from './Model/gentlyUpdateNesting'
@@ -133,7 +132,6 @@ function modelProps(add) {
     },
   })
 
-  add(_requestsDeps)
   add({
     'regfr-light_rel_ev': regfr_light_rel_ev,
 
