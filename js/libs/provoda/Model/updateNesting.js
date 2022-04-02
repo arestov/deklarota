@@ -1,5 +1,3 @@
-import hp from '../helpers'
-import nestWIndex from '../nest-watch/index'
 import isNestingChanged from '../utils/isNestingChanged'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import validateRuntimeValue from '../dcl/nests/validateRuntimeValue'
@@ -12,7 +10,6 @@ import emptyArray from '../emptyArray'
 import sameName from '../sameName'
 import checkUniqOnListUpdate from '../dcl/nests/uniq/checkOnListUpdate'
 
-const checkNesting = nestWIndex.checkNesting
 
 function getUniqReadonly(input) {
   // yes, make Object.freeze for input array!
@@ -84,7 +81,6 @@ export default function updateNesting(self, collection_name_raw, input) {
 
   updateMetaAttrs(self, collection_name, array)
 
-  const removed = hp.getRemovedNestingItems(array, old_value)
 
   _passHandleNesting(self, collection_name, old_value, array)
 
@@ -92,7 +88,6 @@ export default function updateNesting(self, collection_name_raw, input) {
 
   triggerLightRelChange(self, collection_name, array)
 
-  checkNesting(self, collection_name, array, removed)
   // !?
 
   return self

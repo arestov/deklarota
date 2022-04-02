@@ -1,11 +1,6 @@
-import LocalWatchRoot from '../nest-watch/LocalWatchRoot'
-import addRemoveN from '../nest-watch/add-remove'
-import NestWatch from '../nest-watch/NestWatch'
-import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
+// import toMultiPath from '../utils/NestingSourceDr/toMultiPath'
 import getModelById from '../utils/getModelById'
 import spv from '../../spv'
-const addRootNestWatch = addRemoveN.addRootNestWatch
-const removeRootNestWatch = addRemoveN.removeRootNestWatch
 
 const watchDependence = changeDependence(true)
 const unwatchDependence = changeDependence(false)
@@ -105,7 +100,7 @@ const getNestWatch = spv.memorize(function(dep, supervision) {
     }
   }
 
-  return new NestWatch(toMultiPath({selector: dep.value}), null, null, addHandler, removeHandler)
+  throw new Error('NestWatch was removed')
 }, function(dep) {
   return dep.dep_id
 })
