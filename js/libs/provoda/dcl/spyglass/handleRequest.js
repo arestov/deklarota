@@ -33,7 +33,8 @@ function ensureSpyglass(self, index, key, request) {
     return index
   }
 
-  const path = request.name + ((key && key !== request.name) ? ('/' + key) : '')
+  const sub_path = ((key && key !== request.name) ? ('/' + key) : '')
+  const path = request.name + sub_path
 
   const spyglass = getSPByPathTemplate(self.app, self, 'router-' + path)
 
