@@ -151,28 +151,6 @@ export default spv.inh(BasicRouter, {
       'comp',
       ['< used_data_structure <<< ^'],
     ],
-    'full_url': [
-      'comp',
-      ['< @all:url_part < navigation.pioneer <<', '<< @all:navigation <<'],
-      function(_updates, list) {
-        return list && joinNavURL(list)
-      }
-    ],
-    'doc_title': [
-      'comp',
-      ['< @all:nav_title < navigation.pioneer <<'],
-      function(list) {
-        if (!list) {
-          return 'Seesu'
-        }
-        const as_first = list[list.length - 1]
-        const as_second = list[list.length - 2]
-        if (!as_second) {
-          return as_first
-        }
-        return as_first + ' ← ' + as_second
-      }
-    ],
     resolved_navigation_desire: [
       'comp',
       ['resolved_navigation_desire', 'wantedReq', '< createdByReqIdResources <<< #'],
@@ -360,25 +338,6 @@ export default spv.inh(BasicRouter, {
 
   },
   effects: {
-    out: {
-      'browser-location': {
-        api: ['navi', 'self'],
-        trigger: 'full_url',
-        create_when: {
-          api_inits: false,
-        },
-        fn: function(navi, self, { value: url }) {
-          if (url == null) {
-            return
-          }
-          const bwlev = self.getNesting('current_mp_bwlev')
-          navi.update(url, bwlev)
-          self.app.trackPage(bwlev.getNesting('pioneer').model_name)
-        },
-
-        require: 'doc_title'
-      }
-    }
   },
   'stch-@current_mp_bwlev': function(self, _, __, c) {
     const bwlev = c && c.items
