@@ -21,17 +21,13 @@ states by
 ## NEW
 
 modern init accept
-  - head info
-  - url params
   - states (network + url + head info)
   - rels
 
 ```
 {
-  head: {},
   states: {},
   rels: {},
-  url_params: {},
 }
 ```
 
@@ -42,4 +38,4 @@ modern init accept
 
 
 ## todo
-  refactor network_data_as_states, nest_rq_split
+  refactor nest_rq_split

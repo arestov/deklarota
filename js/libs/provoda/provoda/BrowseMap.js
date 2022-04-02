@@ -65,17 +65,6 @@ BrowseMap.Model = spv.inh(HModel, {
   init: function(self, _opts, data) {
     const init_v2 = data && data.init_version === 2
 
-    if (!self.skip_map_init) {
-      if (data && !init_v2) {
-        if (data['url_part'] && !self.hasComplexStateFn('url_part')) {
-          self.initState('url_part', data['url_part'])
-        }
-        if (data['nav_title']) {
-          self.initState('nav_title', data['nav_title'])
-        }
-      }
-    }
-
     self.lists_list = null
     // self.map_level_num = null;
 
@@ -100,7 +89,6 @@ BrowseMap.Model = spv.inh(HModel, {
     mp_show: ['input'],
   },
   handling_v2_init: true,
-  network_data_as_states: true,
   '__required-nav_title': true,
   /*
 

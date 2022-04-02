@@ -242,9 +242,6 @@ export default spv.inh(View, {
     this.markAnimationEnd(models, -1)
     this.completely_rendered_once['map_slice'] = true
   },
-  'stch-doc_title': function(target, title) {
-    target.parent_view.d.title = title || ''
-  },
   'stch-current_mp_bwlev': function(target) {
 
     //map_level_num

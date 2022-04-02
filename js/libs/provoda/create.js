@@ -14,8 +14,6 @@ export default function(Constr, states, params, map_parent, app) {
     by: 'utilCreate',
     init_version: 2,
     attrs: states,
-    head: null,
-    url_params: null,
     rels: getRelFromInitParams(params),
   })
 

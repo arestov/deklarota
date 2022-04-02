@@ -36,7 +36,6 @@ const HModel = spv.inh(Model, {
   },
 }, {
   handling_v2_init: true,
-  network_data_as_states: true,
   _hndOnPMDSwitch: function(e) {
     this.checkPMDSwiched(e.value)
   },

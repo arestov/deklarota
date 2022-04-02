@@ -14,8 +14,6 @@ const requireLazyRel = (self, rel_name) => {
     by: 'requireLazyRel',
     init_version: 2,
     attrs: null,
-    head: null,
-    url_params: null,
   })
 
   const { many } = getRelShape(self, rel_name)
