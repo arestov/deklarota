@@ -10,10 +10,7 @@ import followFromTo from './followFromTo'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import cloneObj from '../../spv/cloneObj'
 import handlers from './router_handlers'
-
-const requireRouter = (self, router_name) => {
-  return getSPByPathTemplate(self.app, self, `router-${router_name}`)
-}
+import requireRouter from './requireRouter'
 
 const RootLev = spv.inh(Model, {
   /*
