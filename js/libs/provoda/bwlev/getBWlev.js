@@ -1,11 +1,9 @@
-
-import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import initBWlev from './initBWlev'
+import { getNestingConstr } from '../structure/get_constr'
 
 const getConstr = function(map, model_name) {
-  try {
-    return getSPByPathTemplate(map.app, map, 'bwlev-' + model_name, true)
-  } catch (e) {}
+  const full_rel_name = 'bwlev-' + model_name
+  return getNestingConstr(map.app, map, full_rel_name)
 }
 
 export default function getBWlev(md, probe_name, parent_bwlev, map_level_num, map, freeze_parent_bwlev) {

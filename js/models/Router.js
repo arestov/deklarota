@@ -1,6 +1,6 @@
 
 import Model from '../libs/provoda/provoda/model/Model'
-import spv from '../libs/spv'
+import spv, { countKeys } from '../libs/spv'
 import pvState from '../libs/provoda/provoda/state'
 import _updateRel from '../libs/provoda/_internal/_updateRel'
 import joinNavURL from '../libs/provoda/provoda/joinNavURL'
@@ -17,11 +17,8 @@ import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 
-const ensureSubPage = (self) => {
-  if (!self.hasOwnProperty('sub_page')) {
-    self.sub_page = {}
-  }
-  return self.sub_page
+const addRel = (rels, rel_name, Constr) => {
+  rels[rel_name] = ['model', Constr]
 }
 
 export const BasicRouter = spv.inh(Model, {
@@ -50,6 +47,8 @@ export const BasicRouter = spv.inh(Model, {
       }
     }
 
+    const rels = {}
+
     if (props.model_name) {
       const rel_name = `nav_parent_at_perspectivator_${props.model_name}`
 
@@ -59,29 +58,33 @@ export const BasicRouter = spv.inh(Model, {
         },
       })
 
-      ensureSubPage(self)['bwlev-$default'] = {
-        constr: self.$default_bwlev_constr,
-        title: [[]],
-      }
+      addRel(rels, 'bwlev-$default', self.$default_bwlev_constr)
     }
 
     if (props.bwlevs_for) {
-      const sub_page = ensureSubPage(self)
-
       for (const model_name in props.bwlevs_for) {
         if (!props.bwlevs_for.hasOwnProperty(model_name)) {
           continue
         }
         const cur = props.bwlevs_for[model_name]
-        const sub_page_name = `bwlev-${model_name}`
-
         if (typeof cur != 'object') {
           throw new Error('bwlevs_for item should object {attrs, rels, ...}')
         }
 
-        sub_page[sub_page_name] = spv.inh(self.$default_bwlev_constr, {}, cur)
+        addRel(rels, `bwlev-${model_name}`, spv.inh(self.$default_bwlev_constr, {}, cur))
       }
     }
+
+    if (!countKeys(rels, true)) {
+      return
+    }
+
+    const new_rels = {
+      ...props.rels,
+      ...rels,
+    }
+
+    self.rels = props.rels = new_rels
   }
 }, {
   rpc_legacy: {
