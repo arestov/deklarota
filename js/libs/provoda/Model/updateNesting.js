@@ -1,3 +1,4 @@
+import hp from '../helpers'
 import isNestingChanged from '../utils/isNestingChanged'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import validateRuntimeValue from '../dcl/nests/validateRuntimeValue'
@@ -81,6 +82,7 @@ export default function updateNesting(self, collection_name_raw, input) {
 
   updateMetaAttrs(self, collection_name, array)
 
+  const removed = hp.getRemovedNestingItems(array, old_value)
 
   _passHandleNesting(self, collection_name, old_value, array)
 
@@ -89,6 +91,8 @@ export default function updateNesting(self, collection_name_raw, input) {
   triggerLightRelChange(self, collection_name, array)
 
   // !?
+
+  self.sendCollectionChange(collection_name, array, old_value, removed)
 
   return self
 }
