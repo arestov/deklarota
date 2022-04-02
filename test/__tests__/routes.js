@@ -71,8 +71,6 @@ test('routes', async () => {
     const created = app.getSPI('tracks/fresh-cover', { autocreate: true })
     expect(created && pvState(created, 'trackName')).toBe('fresh-cover')
 
-    expect(created && pvState(created, 'url_part')).toBe('/tracks/fresh-cover')
-
     // eslint-disable-next-line fp/no-mutation
     autocreated = created
   })

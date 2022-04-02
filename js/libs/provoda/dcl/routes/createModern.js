@@ -2,19 +2,7 @@
 import _updateRel from '../../_internal/_updateRel'
 import matchRoute from '../../routes/match'
 import get_constr from '../../structure/get_constr'
-import allStates from './allStates'
 const getNestingConstr = get_constr.getNestingConstr
-
-const createStates = function(Constr, sp_name, extra_states) {
-  const has_compx = Constr.prototype.hasComplexStateFn('url_part')
-  if (has_compx) {
-    return allStates(null, extra_states)
-  }
-
-  return allStates({
-    url_part: '/' + sp_name
-  }, extra_states)
-}
 
 export const getRouteConstr = (model, dcl) => {
   return getNestingConstr(model.app, model, dcl.dest)
@@ -46,11 +34,17 @@ function createModern(self, sp_name, extra_states) {
 
   const Constr = selected.Constr
 
+  let attrs = null
+  if (extra_states || selected.matched) {
+    attrs = attrs || {}
+    Object.assign(attrs, extra_states, selected.matched)
+  }
+
+
   const created = self.initSi(Constr, {
     by: 'routePathByModels',
     init_version: 2,
-    attrs: createStates(Constr, sp_name, extra_states),
-    head: selected.matched,
+    attrs: attrs,
   })
 
   const nesting_name = selected.routedcl.dest
