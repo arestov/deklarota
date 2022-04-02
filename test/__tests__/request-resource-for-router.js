@@ -42,16 +42,12 @@ const MainRouter = model({
 })
 
 const RootSession = {
-  routes: {
-    'router-main': 'router-main',
-  },
   attrs: {
     closedAt: ['input'],
     isCommonRoot: ['input', false],
   },
   rels: {
     'router-main': ['nest', [MainRouter]],
-    fake_spyglass: ['nest', ['router-main']],
   },
 }
 

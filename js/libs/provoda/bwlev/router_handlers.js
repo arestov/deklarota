@@ -1,7 +1,9 @@
 import showMOnMap from './showMOnMap'
 import getModelById from '../utils/getModelById'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
+import requireRouter from './requireRouter'
 
+const getRouter = (from, prefixed_name) => requireRouter(from, prefixed_name.replace('router-', ''))
 
 const handlers = {
   navigateToResource(context_md_id) {
@@ -30,10 +32,13 @@ const handlers = {
     /*
       set current/view model as current model of uri router inside context router
     */
+    if (!router_name.startsWith('router-')) {
+      throw new Error('router name should starts with `router-`')
+    }
     const context_md = getModelById(this, context_md_id)
     const resource = context_md
     const context_router = this
-    const router = getSPByPathTemplate(this.app, context_router, router_name)
+    const router = getRouter(context_router, router_name)
     const bwlev = showMOnMap(router, resource)
     bwlev.showOnMap()
   },
@@ -41,16 +46,23 @@ const handlers = {
     /*
       set subpage/uri model of current/view model as current model of uri router inside context router
     */
+    if (!router_name.startsWith('router-')) {
+      throw new Error('router name should starts with `router-`')
+    }
     const context_md = getModelById(this, context_md_id)
     const resource = getSPByPathTemplate(this.app, context_md, locator)
     const context_router = this
-    const router = getSPByPathTemplate(this.app, context_router, router_name)
+    const router = getRouter(context_router, router_name)
     const bwlev = showMOnMap(router, resource)
     bwlev.showOnMap()
   },
   expectRouterRevealRel(current_md_id, router_name, rel_path) {
+    if (!router_name.startsWith('router-')) {
+      throw new Error('router name should starts with `router-`')
+    }
     const context_router = this
-    const router = getSPByPathTemplate(this.app, context_router, router_name)
+
+    const router = getRouter(context_router, router_name)
     router.dispatch('expectRelBeRevealedByRelPath', {rel_path, current_md_id})
   }
 }
