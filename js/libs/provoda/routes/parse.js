@@ -1,6 +1,8 @@
 
 // var spv = require('spv')
 
+import { decodeValueChunk } from './decodeValueChunk'
+
 const string_state_regexp = /((.*?)(\[\:(.+?)\]))|(.+)/g
 // 0:                     1:((2:)(3:(4:)))|(:5)
 const PREFIX = 2
@@ -9,12 +11,24 @@ const STATE = 4
 const ALTERNATIVE = 5
 
 // Add optional params - 'tracks/[:artist:next_value],([:track])'
+// Add optional values - 'tracks/[:artist::Smith],([:track])'
 
 const stateItem = function(text) {
   const parts = text.split(':')
   const dest = parts[0]
   const source = parts[1] || dest
-  return [dest, source]
+  const value = parts[2]
+  if (!dest) {
+    throw new Error('dest can`t be empty')
+  }
+
+  if (value == '') {
+    throw new Error('value can\'t be empty string')
+  }
+  if (value && parts[1]) {
+    throw new Error('param should be empty when value exists')
+  }
+  return [dest, source, value == null ? null : decodeValueChunk(value)]
 }
 
 const reRegExpChar = /[\\^$.*+?()[\]{}|]/g
@@ -122,6 +136,27 @@ const parse = function(full_usable_string) {
     parts: parts,
     matcher: new RegExp(fullRegExpString),
   }
+}
+
+const statePartAsString = function(state_dcl) {
+  if (!state_dcl) {
+    return ''
+  }
+
+  return `[:${state_dcl[0]}]`
+
+}
+export const toBasicTemplate = (str) => {
+  const parsed = parse(str.replace(/^\//, ''))
+
+  const parts = parsed.parts
+  const toStrings = new Array(parts.length)
+  for (let i = 0; i < parts.length; i++) {
+    const cur = parts[i]
+    const result = (cur.prefix || '') + statePartAsString(cur.state)
+    toStrings[i] = result
+  }
+  return toStrings.join('')
 }
 
 export default parse

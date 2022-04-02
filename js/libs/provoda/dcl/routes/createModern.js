@@ -16,7 +16,11 @@ const createStates = function(Constr, sp_name, extra_states) {
   }, extra_states)
 }
 
-function selectModern(self, sp_name) {
+export const getRouteConstr = (model, dcl) => {
+  return getNestingConstr(model.app, model, dcl.dest)
+}
+
+export function selectModern(self, sp_name) {
   if (self.__routes_matchers_defs == null) {
     return
   }
@@ -28,7 +32,7 @@ function selectModern(self, sp_name) {
       continue
     }
 
-    const Constr = getNestingConstr(self.app, self, cur.dest)
+    const Constr = getRouteConstr(self, cur)
 
     return {matched: matched, routedcl: cur, Constr: Constr}
   }

@@ -5,9 +5,10 @@ import getDepValue from '../../utils/multiPath/getDepValue'
 import handleHeavyRelQueryChange from './heavy_queries/handleHeavyRelQueryChange'
 
 import target_types from './target_types'
+import { checkRoutesMatching } from '../../dcl/routes/run/checkRoutesMatching'
 const TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
 const TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
-const { TARGET_TYPE_HEAVY_REQUESTER, TARGET_TYPE_UNIQ_REL_BY_ATTR } = target_types
+const { TARGET_TYPE_HEAVY_REQUESTER, TARGET_TYPE_UNIQ_REL_BY_ATTR, TARGET_TYPE_ROUTE_MATCHING } = target_types
 
 export default function deliverChainUpdates(self, chain) {
 
@@ -22,6 +23,10 @@ export default function deliverChainUpdates(self, chain) {
     }
     case TARGET_TYPE_HEAVY_REQUESTER: {
       handleHeavyRelQueryChange(self, chain)
+      break
+    }
+    case TARGET_TYPE_ROUTE_MATCHING: {
+      checkRoutesMatching(self, chain)
       break
     }
     case TARGET_TYPE_UNIQ_REL_BY_ATTR: {

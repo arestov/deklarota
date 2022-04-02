@@ -4,7 +4,7 @@
 // a - передача nesting
 
 /*
-  инициализировать /playlists/1
+инициализировать /playlists/1
   добавть Song в /playlists/1 в songs_list
 */
 
@@ -194,7 +194,7 @@ test('special nestings by pass calculated', async () => {
     })
 
     const createAction = (method, id = 1, rel = 'songs_list') => ({
-      to: [`${rel} < /playlists/${id} < #`, {
+      to: [`${rel} < playlists/[:id::${id}] < #`, {
         method,
         can_create: true,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
@@ -212,7 +212,8 @@ test('special nestings by pass calculated', async () => {
         zero_map_level: true,
         model_name: 'startModel',
         rels: {
-          all_playlists: ['nest', [['playlists/1', 'playlists/2']]],
+          all_playlists: ['nest', [['playlists/[:id::1]', 'playlists/[:id::2]']]],
+          playlists: ['model', Playlist, { many: true, uniq: ['id'] }],
         },
         actions: {
           addToStart: createAction('at_start'),
@@ -221,19 +222,8 @@ test('special nestings by pass calculated', async () => {
           replace: createAction('replace'),
           setOne: createAction('set_one', 2, 'one_song'),
         },
-        sub_pager: {
-          type: {
-            playlists: 'playlist',
-          },
-          by_type: {
-            playlist: {
-              head: {
-                id: 'by_slash.0',
-              },
-              title: [[]],
-              constr: Playlist,
-            },
-          },
+        routes: {
+          'playlists/[:id]': 'playlists',
         },
       }),
     }, self => {

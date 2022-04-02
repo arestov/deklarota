@@ -1,8 +1,8 @@
 
 
-import looksLikeWrappedJSON from './utils/looksLikeWrappedJSON'
+import { decodeValueChunk } from './decodeValueChunk'
 
-const tryParse = function(text) {
+export const tryParse = function(text) {
   try {
     const to_parse = text.slice(1, -1)
     return JSON.parse(to_parse)
@@ -10,7 +10,6 @@ const tryParse = function(text) {
     return text
   }
 }
-
 
 const match = function(parsed, some_url) {
   // 'tracks/[:artist:next_value],[:track]' + 'tracks/Mike,Play%20With%20You'
@@ -32,11 +31,7 @@ const match = function(parsed, some_url) {
       continue
     }
     const raw_value = matched[cur.matching_group]
-    const decoded = decodeURIComponent(raw_value)
-
-    const unparsed = looksLikeWrappedJSON(decoded)
-      ? tryParse(decoded)
-      : decoded
+    const unparsed = decodeValueChunk(raw_value)
 
     const source = cur.state[0]
 

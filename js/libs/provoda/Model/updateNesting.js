@@ -38,6 +38,15 @@ export default function updateNesting(self, collection_name_raw, input) {
     throw new Error('wrap updateRel call in `.input()`')
   }
 
+  if (Array.isArray(input)) {
+    for (let mm = 0; mm < input.length; mm++) {
+      const cur = input[mm]
+      if (cur == null) {
+        throw new Error('rel list should not have holes')
+      }
+    }
+  }
+
   validateRuntimeValue(self, collection_name, input)
 
   if (!self.children_models) {

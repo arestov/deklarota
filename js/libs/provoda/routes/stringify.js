@@ -7,7 +7,7 @@ const statePartAsString = function(state_dcl, data) {
   }
 
   const source = state_dcl[1]
-  const value = data[source]
+  const value = state_dcl[2] || data[source]
   if (value == null) {
     return ''
   }

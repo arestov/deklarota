@@ -6,6 +6,7 @@ import { isOk } from './isOk'
 import { initItem } from './initItem'
 import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import { addUniqItem, findDataDup, MutUniqState } from '../../nests/uniq/MutUniqState'
+import getStart from '../../../utils/multiPath/getStart'
 
 
 const push = Array.prototype.push
@@ -63,7 +64,11 @@ const initOneUniq = (mut_uniq_state, md, target, cur, mut_action_result) => {
   return dup
 }
 
-const makeDupsChecker = (md, target, value, mut_action_result) => {
+const makeDupsChecker = (self, target, value, mut_action_result) => {
+  if (self == null) {
+    throw new Error('empty self')
+  }
+  const md = getStart(self, target.target_path)
   const rel_name = target.target_path.nesting.target_nest_name
   const uniq = getRelUniq(md, rel_name)
 

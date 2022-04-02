@@ -10,6 +10,7 @@ import followFromTo from './followFromTo'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import cloneObj from '../../spv/cloneObj'
 import handlers from './router_handlers'
+import requireRouter from './requireRouter'
 
 const RootLev = spv.inh(Model, {
   /*
@@ -44,7 +45,7 @@ const RootLev = spv.inh(Model, {
     requestSpyglass: handleSpyglassRequests,
     requestPage: function(id) {
       const md = getModelById(this, id)
-      const bwlev = showMOnMap(getSPByPathTemplate(this.app, this, 'router-navigation'), md)
+      const bwlev = showMOnMap(requireRouter('navigation'), md)
       bwlev.showOnMap()
     },
     followURL: function(from_id, url) {
@@ -53,7 +54,7 @@ const RootLev = spv.inh(Model, {
 
       const target_md = getSPByPathTemplate(this.app, md, url)
 
-      const bwlev = followFromTo(getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, target_md)
+      const bwlev = followFromTo(requireRouter('navigation'), from_bwlev, target_md)
       bwlev.showOnMap()
       return bwlev
     },
@@ -62,7 +63,7 @@ const RootLev = spv.inh(Model, {
 
       const from_bwlev = getModelById(this, from_id)
 
-      const bwlev = followFromTo(this, getSPByPathTemplate(this.app, this, 'router-navigation'), from_bwlev, md)
+      const bwlev = followFromTo(this, requireRouter('navigation'), from_bwlev, md)
       bwlev.showOnMap()
       return bwlev
     },
@@ -76,13 +77,15 @@ const RootLev = spv.inh(Model, {
     },
     navShowByReq: function(req, router_name_arg) {
       // TODO: move to router_handlers
-      const router_name = router_name_arg
-        ? ('router-' + router_name_arg)
-        : 'router-navigation'
 
       const remember_context = !req || req.remember_context !== false
 
-      const map = getSPByPathTemplate(this.app, this, router_name)
+      const map = requireRouter(
+        this,
+        router_name_arg
+          ? router_name_arg
+          : 'navigation'
+      )
 
       const current_mp_bwlev = map.getNesting('current_mp_bwlev')
 

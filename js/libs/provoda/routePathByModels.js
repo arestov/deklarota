@@ -1,20 +1,44 @@
 
-import spv from '../spv'
 import allStates from './dcl/routes/allStates'
 import getModernPage from './dcl/routes/getByName'
-import createModern from './dcl/routes/createModern'
-const selectModern = createModern.selectModern
+import createModern, { getRouteConstr, selectModern } from './dcl/routes/createModern'
+import { toBasicTemplate } from './routes/parse'
 
-const cloneObj = spv.cloneObj
 const getSPI = getterSPI()
 const getSPIConstr = getterSPIConstr()
 const MARKED_REMOVED = Symbol()
+
+const getModernConstr = (start_md, pth_string) => {
+  const route_template = pth_string
+  const basic_route_template = toBasicTemplate(route_template)
+
+  const dcl = start_md._extendable_routes_index?.[basic_route_template]
+  if (!dcl) {
+    return
+  }
+
+  return getRouteConstr(start_md, dcl)
+}
 
 const routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options, extra_states) {
 
   if (!pth_string) {
     throw new Error('Empty path can\'t be used. Use / to get start page')
   }
+
+  if (need_constr) {
+    const Constr = getModernConstr(start_md, pth_string)
+
+    if (Constr) {
+      return Constr
+    }
+  } else {
+    const modern = findModern(start_md, pth_string)
+    if (modern) {
+      return modern
+    }
+  }
+
   /*
   catalog
   users
@@ -45,15 +69,6 @@ const routePathByModels = function routePathByModels(start_md, pth_string, need_
   let result = null
   let tree_parts_group = null
   for (let i = 0; i < pth.length; i++) {
-    const types = spv.getTargetField(cur_md, '_sub_pager.type')
-    if (types && types[pth[i]]) {
-      if (!tree_parts_group) {
-        tree_parts_group = []
-      }
-      tree_parts_group.push(pth[i])
-      continue
-    }
-
     let path_full_string
     if (tree_parts_group) {
       const full = tree_parts_group.slice(0)
@@ -93,51 +108,37 @@ function slash(str) {
   return str.split('/')
 }
 
-function subPageType(type_obj, parts) {
-  const target = type_obj[decodeURIComponent(parts[0])]
-  if (typeof target !== 'function') {
-    return target || null
-  }
-
-  return target(parts[1])
-}
-
 function selectRouteItem(self, sp_name) {
   if (self._sub_pages && self._sub_pages[sp_name]) {
     return self._sub_pages[sp_name]
   }
 
-  const sub_pager = self._sub_pager
-  if (sub_pager) {
-    if (sub_pager.item) {
-      return sub_pager.item
-    } else {
-      const types = sub_pager.by_type
-      const type = subPageType(sub_pager.type, slash(sp_name))
-      if (type && !types[type]) {
-        throw new Error('unexpected type: ' + type + ', expecting: ' + Object.keys(type))
-      }
-      if (type) {
-        return sub_pager.by_type[type]
-      }
-    }
-  }
 
   if (self.subPager) {
-    console.warn('`subPager` is legacy. (there is no proper way to get `constr`, only `instance`). so get rid of `subPager`')
+    throw new Error('`subPager` is legacy. (there is no proper way to get `constr`, only `instance`). so get rid of `subPager`')
+  }
+}
+
+function findModern(self, sp_name, options) {
+  if (self.__routes_matchers_defs == null) {
+    return
+  }
+
+  const autocreate = !options || options.autocreate !== false
+
+  const item = getModernPage(self, sp_name)
+  if (item != null) {
+    return item
+  }
+
+  const created = autocreate && createModern(self, sp_name)
+  if (created) {
+    watchModelDie(self, created)
+    return created
   }
 }
 
 function getterSPI() {
-  const init = function(parent, target, data) {
-    if (target.hasOwnProperty('_provoda_id')) {
-      return target
-    }
-    parent.useMotivator(target, function(instance) {
-      instance.init(parent.getSiOpts(), data)
-    })
-    return target
-  }
 
   const prepare = function(self, item, sp_name, slashed, extra_states) {
     const Constr = self._all_chi[item.key]
@@ -186,34 +187,16 @@ function getterSPI() {
     })
   }
 
-
   return function getSPI(self, sp_name, options, extra_states) {
     const autocreate = !options || options.autocreate !== false
-    const reuse = options && options.reuse
 
-    if (self.__routes_matchers_defs != null) {
-      const item = getModernPage(self, sp_name)
-      if (item != null) {
-        return item
-      }
-
-      const created = autocreate && createModern(self, sp_name)
-      if (created) {
-        watchModelDie(self, created)
-        return created
-      }
+    const modern = findModern(self, sp_name, options)
+    if (modern) {
+      return modern
     }
-
 
     const item = selectRouteItem(self, sp_name)
     if (item != null) {
-      const can_be_reusable = item.can_be_reusable
-      if (reuse && can_be_reusable && self._last_subpages[item.key]) {
-        const instance = self._last_subpages[item.key]
-        if (instance.state('$$reusable_url')) {
-          return instance
-        }
-      }
 
       const getKey = item.getKey
       const key = getKey ? getKey(decodeURIComponent(sp_name), sp_name) : sp_name
@@ -234,32 +217,9 @@ function getterSPI() {
         watchModelDie(self, instance)
         watchSubPageKey(self, instance, key)
         self.sub_pages[key] = instance
-        if (can_be_reusable) {
-          self._last_subpages[item.key] = instance
-        }
+
         return instance
       }
-    }
-
-    if (self.subPager != null) {
-      if (self.sub_pages[sp_name]) {
-        return self.sub_pages[sp_name]
-      }
-
-      if (!autocreate) {
-        return null
-      }
-
-      const sub_page = self.subPager(decodeURIComponent(sp_name), sp_name)
-      const instance = Array.isArray(sub_page)
-        ? init(self, sub_page[0], sub_page[1])
-        : sub_page
-
-      self.sub_pages[sp_name] = instance
-      watchModelDie(self, instance)
-      watchSubPageKey(self, instance, sp_name)
-      return instance
-
     }
   }
 }
@@ -276,14 +236,6 @@ function getterSPIConstr() {
       return self._all_chi[item.key]
     }
 
-    if (self.subPager) {
-      const result = self.getSPC(decodeURIComponent(sp_name), sp_name)
-      if (Array.isArray(result)) {
-        return result[0]
-      } else {
-        return result
-      }
-    }
   }
 }
 

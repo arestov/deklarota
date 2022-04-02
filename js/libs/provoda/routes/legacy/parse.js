@@ -20,7 +20,8 @@ const makeStatesMap = function(states_raw) {
     const parts = states_raw[i].split(':')
     const dest = parts[0]
     const source = parts[1] || dest
-    result[i] = [dest, source]
+    const value = parts[2]
+    result[i] = [dest, source, value]
   }
 
   return result

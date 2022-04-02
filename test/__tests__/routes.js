@@ -60,6 +60,9 @@ test('routes', async () => {
 
   await waitFlow(app)
 
+  // eslint-disable-next-line fp/no-let
+  let autocreated
+
   await input(app, () => {
     expect(app.getSPI('tracks/super-hit-1', { autocreate: false })).toBe(undefined)
 
@@ -69,7 +72,13 @@ test('routes', async () => {
     expect(created && pvState(created, 'trackName')).toBe('fresh-cover')
 
     expect(created && pvState(created, 'url_part')).toBe('/tracks/fresh-cover')
+
+    // eslint-disable-next-line fp/no-mutation
+    autocreated = created
   })
+
+  await waitFlow(app)
+  expect(app.getNesting('tracklist').includes(autocreated)).toBeTruthy()
 
   // get proper routes
   // miss wrong routes

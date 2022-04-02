@@ -7,7 +7,7 @@ describe('parse', () => {
     it.each([
       ['< @one:state_name < nesting < resource < #'],
       ['< state_name < nesting < resource < #'],
-      ['< state_name << /resource/[:ddaf]/sdf < #'],
+      ['< state_name << resource/[:ddaf]/sdf < #'],
       ['< state_name <<< #'],
       ['<< nesting_name << #'],
       ['<< nesting_name << ^^'],
@@ -16,8 +16,8 @@ describe('parse', () => {
       ['state_name'],
       ['@one:state_name:nest'],
       ['@state_name:nest.test'],
-      ['/resource/[:ddaf]/sdf < #'],
-      ['/resource/[:ddaf]/sdf <'],
+      ['resource/[:ddaf]/sdf < #'],
+      ['resource/[:ddaf]/sdf <'],
       ['nesting_name < < ^^'],
     ])('result should match snapshot for "%s"', input => {
       expect(parse(input)).toMatchSnapshot()

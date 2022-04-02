@@ -6,6 +6,7 @@ import _updateRel from '../../_internal/_updateRel'
 import getModelById from '../../utils/getModelById'
 import getKey from './getKey'
 import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
+import requireRouter from '../../bwlev/requireRouter'
 
 export default function(request) {
   const self = this
@@ -33,9 +34,12 @@ function ensureSpyglass(self, index, key, request) {
     return index
   }
 
-  const path = request.name + ((key && key !== request.name) ? ('/' + key) : '')
+  const sub_path = ((key && key !== request.name) ? ('/' + key) : '')
 
-  const spyglass = getSPByPathTemplate(self.app, self, 'router-' + path)
+  const router = requireRouter(self, request.name)
+  const spyglass = sub_path
+    ? getSPByPathTemplate(router.app, router, sub_path)
+    : router
 
   const new_index = spv.cloneObj({}, index)
 

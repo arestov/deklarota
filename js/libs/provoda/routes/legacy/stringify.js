@@ -16,9 +16,12 @@ const pathExecutor = function(getChunk) {
       let full_path = ''
       for (let i = 0; i < obj.parsed.clean_string_parts.length; i++) {
         full_path += obj.parsed.clean_string_parts[i]
-        const cur_state = obj.parsed.states[i]
-        if (cur_state) {
-          const chunk = getChunk(cur_state, app, arg1, arg2)
+        const st_dcl = obj.parsed.states_map[i]
+        if (st_dcl) {
+          const source = st_dcl[1]
+          const value = st_dcl[2]
+
+          const chunk = value ?? getChunk(source, app, arg1, arg2)
           full_path += getValue(app, chunk) || 'null'
         }
       }

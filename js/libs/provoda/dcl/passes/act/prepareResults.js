@@ -14,6 +14,10 @@ const isRedirectAction = function(target) {
 const prepareAndHold = function(md, target, value) {
   const multi_path = target.target_path
 
+  if (!md) {
+    throw new Error('empty prepareAndHold md')
+  }
+
   switch (multi_path.result_type) {
     case 'nesting': {
       return {
@@ -48,6 +52,10 @@ const unwrap = function(md, target, value, data, mut_action_result) {
   if (isRedirectAction(target)) {
     const models = getTargetModels(md, target, data)
     if (!Array.isArray(models)) {
+      if (!models) {
+        throw new Error('empty models of unwrap')
+      }
+
       mut_action_result.mut_result.push({
         target: target,
         target_md: models,
@@ -58,6 +66,9 @@ const unwrap = function(md, target, value, data, mut_action_result) {
 
     for (let i = 0; i < models.length; i++) {
       const cur = models[i]
+      if (!cur) {
+        throw new Error('empty cur of unwrap')
+      }
       mut_action_result.mut_result.push({
         target: target,
         target_md: cur,

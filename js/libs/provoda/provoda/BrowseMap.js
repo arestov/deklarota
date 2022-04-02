@@ -8,6 +8,7 @@ import showInterest from '../bwlev/showInterest'
 import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import routePathByModels from '../routePathByModels'
+import requireRouter from '../bwlev/requireRouter'
 
 const getSPIConstr = routePathByModels.getSPIConstr
 const getSPI = routePathByModels.getSPI
@@ -152,7 +153,7 @@ function hookRoot(rootmd, start_page, states) {
     if (states) {
       bwlev_root.updateManyStates(states)
     }
-    getSPByPathTemplate(bwlev_root.app, bwlev_root, 'router-navigation')
+    requireRouter(bwlev_root, 'navigation')
   })
 
   return bwlev_root
