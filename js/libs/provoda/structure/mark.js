@@ -45,8 +45,6 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
   const all = {}
 
   doCopy(all, self._chi)
-  doCopy(all, self._chi_sub_pages)
-  doCopy(all, self._chi_sub_pages_side)
   doCopy(all, self._chi_nest)
   doCopy(all, self._chi_nest_rqc)
 

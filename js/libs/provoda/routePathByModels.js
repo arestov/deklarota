@@ -109,11 +109,6 @@ function slash(str) {
 }
 
 function selectRouteItem(self, sp_name) {
-  if (self._sub_pages && self._sub_pages[sp_name]) {
-    return self._sub_pages[sp_name]
-  }
-
-
   if (self.subPager) {
     throw new Error('`subPager` is legacy. (there is no proper way to get `constr`, only `instance`). so get rid of `subPager`')
   }
