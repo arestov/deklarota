@@ -1,7 +1,6 @@
 
 import initDeclaredNestings from '../initDeclaredNestings'
 import prsStCon from '../prsStCon'
-import nestWIndex from '../nest-watch/index'
 import runGlueRelSources from '../dcl/glue_rels/runtime/run'
 import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
@@ -12,7 +11,6 @@ import getRelFromInitParams from '../utils/getRelFromInitParams'
 import _updateRel from '../_internal/_updateRel'
 
 import _updateAttr from '../_internal/_updateAttr'
-const initWatchList = nestWIndex.initList
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
@@ -67,7 +65,6 @@ export default function postInitModel(self, opts, initing_params) {
   connectStates(self, getRelFromInitParams(initing_params))
   connectNests(self)
 
-  initWatchList(self, self.st_nest_matches)
   initRoutes(self)
 
   const init_v2_data = self.init_v2_data
