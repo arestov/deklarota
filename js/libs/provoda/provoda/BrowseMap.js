@@ -149,11 +149,14 @@ function hookRoot(rootmd, start_page, states) {
     return bwlev_root
   }
 
+  if (!states) {
+    return bwlev_root
+  }
+
   bwlev_root.nextTick(function() {
     if (states) {
       bwlev_root.updateManyStates(states)
     }
-    requireRouter(bwlev_root, 'navigation')
   })
 
   return bwlev_root
