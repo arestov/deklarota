@@ -34,9 +34,11 @@ function ensureSpyglass(self, index, key, request) {
   }
 
   const sub_path = ((key && key !== request.name) ? ('/' + key) : '')
-  const path = request.name + sub_path
 
-  const spyglass = getSPByPathTemplate(self.app, self, 'router-' + path)
+  const router = getSPByPathTemplate(self.app, self, 'router-' + request.name)
+  const spyglass = sub_path
+    ? getSPByPathTemplate(router.app, router, sub_path)
+    : router
 
   const new_index = spv.cloneObj({}, index)
 
