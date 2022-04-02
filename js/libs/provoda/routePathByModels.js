@@ -104,7 +104,7 @@ const routePathByModels = function routePathByModels(start_md, pth_string, need_
 }
 
 
-function findModern(self, sp_name, options) {
+function findModern(self, sp_name, options, extra_states) {
   if (self.__routes_matchers_defs == null) {
     return
   }
@@ -116,7 +116,7 @@ function findModern(self, sp_name, options) {
     return item
   }
 
-  const created = autocreate && createModern(self, sp_name)
+  const created = autocreate && createModern(self, sp_name, extra_states)
   if (created) {
     watchModelDie(self, created)
     return created
@@ -125,7 +125,7 @@ function findModern(self, sp_name, options) {
 
 function getterSPI() {
   return function getSPI(self, sp_name, options, extra_states) {
-    const modern = findModern(self, sp_name, options)
+    const modern = findModern(self, sp_name, options, extra_states)
     if (modern) {
       return modern
     }
