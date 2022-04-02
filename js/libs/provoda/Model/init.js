@@ -1,38 +1,6 @@
 import initSubPager from '../dcl/sub_pager/init'
 import makeAttrsCollector from './makeAttrsCollector'
 
-function buildHead(self, data) {
-  const init_v2 = data && data.init_version === 2
-
-  let head = null
-
-  if (self.map_parent && self.map_parent.head) {
-    if (!head) {head = {}}
-    Object.assign(head, self.map_parent.head)
-  }
-
-  if (data && data.head) {
-    if (!head) {head = {}}
-    Object.assign(head, data.head)
-  }
-
-  if (init_v2) {
-    return head
-  }
-
-  if (self.network_data_as_states && data && data.network_states) {
-    if (self.net_head) {
-      if (!head) {head = {}}
-      for (let i = 0; i < self.net_head.length; i++) {
-        const pk = self.net_head[i]
-        head[pk] = data.network_states[pk]
-      }
-    }
-  }
-
-  return head
-}
-
 export default function initModel(self, opts, data) {
   const current_motivator = opts._motivator
   const app = opts.app
@@ -98,8 +66,6 @@ export default function initModel(self, opts, data) {
     self.init_v2_data = data
   }
 
-  self.head = buildHead(self, data)
-
   prepareStates(self, data)
 
   return self
@@ -118,12 +84,6 @@ function createISS(self, data) {
 
 
   iss = toServStates(iss, data && data.attrs)
-
-  if (!init_v2 && self.network_data_as_states && data && data.network_states) {
-    iss = toServStates(iss, data.network_states)
-  }
-
-  iss = toServStates(iss, self.head)
 
   if (!iss) {
     return iss
