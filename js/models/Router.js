@@ -3,9 +3,6 @@ import Model from '../libs/provoda/provoda/model/Model'
 import spv, { countKeys } from '../libs/spv'
 import pvState from '../libs/provoda/provoda/state'
 import _updateRel from '../libs/provoda/_internal/_updateRel'
-import joinNavURL from '../libs/provoda/provoda/joinNavURL'
-import navi from '../libs/navi'
-import changeBridge from '../libs/provoda/bwlev/changeBridge'
 import getNesting from '../libs/provoda/provoda/getNesting'
 import createLevel from '../libs/provoda/bwlev/createLevel'
 import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
@@ -136,10 +133,9 @@ export default spv.inh(BasicRouter, {
       self
     )
 
-    initMapTree(self, self.app.start_page, self.needs_url_history, navi)
-    self.nextTick(function() {
-      initNav(self, navi, self.app)
-    })
+    const bwlev = BrowseMap.showInterest(self, [])
+    BrowseMap.changeBridge(bwlev)
+
   }
 }, {
   __use_navi: false,
@@ -356,52 +352,6 @@ export default spv.inh(BasicRouter, {
     self.app.resortQueue()
   },
 })
-
-
-function initMapTree(target, start_page, needs_url_history, navi) {
-  if (target.__use_navi && navi) {
-    target.useInterface('navi', needs_url_history && navi)
-  }
-  _updateRel(target, 'navigation', [])
-  _updateRel(target, 'start_page', start_page)
-
-}
-
-function initNav(map, navi, app) {
-  if (map.needs_url_history) {
-    navi.init(app.inputFn(function(e) {
-      const url = e.newURL
-      const state_from_history = navi.findHistory(e.newURL)
-      const handleQuery = map.handleQuery
-      if (state_from_history) {
-        changeBridge(state_from_history.data)
-        handleQuery(map, state_from_history.data.getNesting('pioneer'))
-      } else{
-        const interest = BrowseMap.getUserInterest(url.replace(/\ ?\$...$/, ''), app.start_page)
-        const bwlev = BrowseMap.showInterest(map, interest)
-        BrowseMap.changeBridge(bwlev)
-        handleQuery(map, bwlev.getNesting('pioneer'))
-      }
-    }));
-    (function() {
-      const url = window.location && window.location.hash.replace(/^\#/,'')
-      if (url) {
-        app.on('handle-location', function() {
-          navi.hashchangeHandler({
-            newURL: url
-          }, true)
-
-        })
-      } else {
-        const bwlev = BrowseMap.showInterest(map, [])
-        BrowseMap.changeBridge(bwlev)
-      }
-    })()
-  } else {
-    const bwlev = BrowseMap.showInterest(map, [])
-    BrowseMap.changeBridge(bwlev)
-  }
-}
 
 function askAuth(bwlev) {
   if (!bwlev) {return}

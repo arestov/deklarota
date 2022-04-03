@@ -153,3 +153,5 @@
 - remove sub_pager, can_be_reusable/$$reusable_url attr
 
 - remove `sub_page: {...}`
+
+- remove navi interface from common router
