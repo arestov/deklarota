@@ -362,8 +362,6 @@ function initMapTree(target, _start_page, needs_url_history, navi) {
   if (target.__use_navi && navi) {
     target.useInterface('navi', needs_url_history && navi)
   }
-  _updateRel(target, 'navigation', [])
-
 }
 
 function initNav(map, navi, app) {
