@@ -82,6 +82,7 @@ const leak = new MODELLEAK()
 
 
 const Model = spv.inh(StatesEmitter, {
+  strict: true,
   naming: function(fn) {
     return function Model(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
