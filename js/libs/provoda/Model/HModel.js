@@ -10,16 +10,6 @@ const HModel = spv.inh(Model, {
     }
   },
   preinit: function(self, opts) {
-
-    //opts = opts || {};
-    if (!self.app) {
-      self.app = null
-    }
-
-    if (!self.map_parent) {
-      self.map_parent = null
-    }
-
     if (!self.skip_map_init && !self.zero_map_level) {
       if (!opts || !opts.map_parent) {
         if (!self.zero_map_level) {
