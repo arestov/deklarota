@@ -9,18 +9,7 @@ const HModel = spv.inh(Model, {
       fn(this, opts, data, params, more, states)
     }
   },
-  preinit: function(self, opts) {
-    if (!self.skip_map_init && !self.zero_map_level) {
-      if (!opts || !opts.map_parent) {
-        if (!self.zero_map_level) {
-          throw new Error('who is your map parent model?')
-        }
-      }
-    }
-
-
-
-    // self._super.apply(this, arguments);
+  preinit: function(_self, _opts) {
   },
 }, {
   handling_v2_init: true,
