@@ -73,8 +73,6 @@ function toServStates(iss, states) {
 }
 
 function createISS(self, data) {
-  const init_v2 = data && data.init_version === 2
-
   let iss = null
 
 
