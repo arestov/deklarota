@@ -155,3 +155,5 @@
 - remove `sub_page: {...}`
 
 - remove navi interface from common router
+
+- remove switchPmd
