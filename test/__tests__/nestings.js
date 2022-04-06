@@ -16,6 +16,7 @@ const toIds = md_list => {
 
 test('nestings updated', async () => {
   const Appartment = model({
+    model_name: 'Appartment',
     attrs: {
       number: [
         'comp',
@@ -42,7 +43,7 @@ test('nestings updated', async () => {
 })
 
 test('compx with nestings calculated', async () => {
-  const Brother = model({})
+  const Brother = model({ model_name: 'Brother' })
 
   const { app_model: person, steps } = await init({
     rels: {
@@ -76,6 +77,7 @@ test('compx with nestings calculated', async () => {
 
 test('state compx calculated from parent and root states', async () => {
   const DeepestChild = model({
+    model_name: 'DeepestChild',
     attrs: {
       description_name: [
         'comp',
@@ -85,11 +87,13 @@ test('state compx calculated from parent and root states', async () => {
     },
   })
   const DeepChild = model({
+    model_name: 'DeepChild',
     rels: {
       child: ['nest', [DeepestChild]],
     },
   })
   const Child = model({
+    model_name: 'Child',
     rels: {
       child: ['nest', [DeepChild]],
     },
@@ -135,6 +139,7 @@ test('state compx calculated from parent and root states', async () => {
 test('nest compx calculated', async () => {
   const createDeepChild = (num, props) => {
     const DeepChild = model({
+      model_name: `DeepChild${num}`,
       attrs: {
         desc: [
           'comp',
@@ -150,6 +155,7 @@ test('nest compx calculated', async () => {
   const indie = createDeepChild('indie')
 
   const TargetChild = model({
+    model_name: 'TargetChild',
     rels: {
       indie_raw: ['nest', [indie]],
       indie: ['input', { linking: ['<< indie_raw', '<< list'] }],

@@ -17,6 +17,7 @@ const toIds = md_list => {
 
 const mdl = props => model(props)
 const createDeepChild = (num, props) => mdl({
+  model_name: `DeepChild${num}`,
   attrs: {
     desc: [
       'comp',
@@ -48,6 +49,7 @@ test('compx-nests', async () => {
 
   async function setup() {
     const target_child = mdl({
+      model_name: 'target_child',
       rels: {
         indie: ['input', { linking: '<< indie_source << #' }],
         list: ['input', { linking: '<< list_source << #', many: true }],
@@ -89,10 +91,10 @@ test('compx-nests', async () => {
         rels: {
           target_child: ['nest', [target_child]],
           list_source: [
-            'nest', [[createDeepChild(1), createDeepChild(2)]],
+            'nest', [[createDeepChild('1.0'), createDeepChild(2)]],
           ],
           indie_source: [
-            'nest', [createDeepChild(1)],
+            'nest', [createDeepChild('1.1')],
           ],
         },
       }),

@@ -18,6 +18,7 @@ import makeStepsRunner from '../../steps'
 
 const mdl = props => model(props)
 const createDeepChild = (num, props) => mdl({
+  model_name: `DeepChild${num}`,
   attrs: {
     desc: [
       'comp',
@@ -185,11 +186,10 @@ test('special nestings by pass calculated', async () => {
   ])
 
   async function setup() {
-    const Song = createDeepChild('Song')
     const Playlist = createDeepChild('playlist', {
       rels: {
-        songs_list: ['model', Song, { many: true }],
-        one_song: ['model', Song, { many: false }],
+        songs_list: ['model', createDeepChild('songs_list'), { many: true }],
+        one_song: ['model', createDeepChild('one_song'), { many: false }],
       },
     })
 

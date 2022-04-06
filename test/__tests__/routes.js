@@ -17,7 +17,7 @@ test('routes', async () => {
   const app = (await init({
     zero_map_level: true,
     rels: {
-      tracklist: ['model', model({}), { many: true }],
+      tracklist: ['model', model({ model_name: 'Track' }), { many: true }],
     },
     actions: {
       handleInit: {

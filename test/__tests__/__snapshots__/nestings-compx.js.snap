@@ -3,7 +3,7 @@
 exports[`compx-nests 1`] = `
 Object {
   "all_desc_indie": Array [
-    "DeepChild1",
+    "DeepChild1.1",
   ],
   "all_indie": Array [
     6,
@@ -14,7 +14,7 @@ Object {
   ],
   "nickname": "nikolay",
   "num": 629,
-  "one_desc_list": "DeepChild1",
+  "one_desc_list": "DeepChild1.0",
   "one_indie": 6,
   "one_list": 4,
 }

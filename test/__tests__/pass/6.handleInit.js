@@ -8,6 +8,7 @@ import makeStepsRunner from '../../steps'
 
 const mdl = props => model(props)
 const createDeepChild = (num, props) => mdl({
+  model_name: `DeepChild${num}`,
   attrs: {
     desc: [
       'comp',

@@ -30,9 +30,16 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
   const self = Constr.prototype
 
+  if (!self.model_name) {
+    const err = new Error('model should have model_name')
+    console.error(self.__code_path, err)
+    throw err
+  }
+
   if (Constr == RootConstr) {
     self.__all_constrs = {}
     self.__global_skeleton = new globalSkeleton.GlobalSkeleton()
+    self.constrs_by_name = new Map()
   }
 
   self.RootConstr = RootConstr
@@ -96,6 +103,16 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
     analyzeLinks(Constr, RootConstr)
     clearCaches()
   }
+
+  const root_item = RootConstr.prototype
+
+  if (root_item.constrs_by_name.has(self.model_name)) {
+    const err = new Error('model should have uniq model_name')
+    console.error(err, '\n', self.model_name, self.__code_path)
+    throw err
+  }
+
+  root_item.constrs_by_name.set(self.model_name, self)
 
   RootConstr.prototype.__all_constrs[self.hierarchy_num] = self
   return Constr

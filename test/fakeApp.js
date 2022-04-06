@@ -8,6 +8,7 @@ export default function fakeApp(props, init) {
     init: initSelf,
   }
   const App = spv.inh(AppModel, all, {
+    model_name: 'Root',
     encodeURLPart: encodeURIComponent,
     decodeURLPart: decodeURIComponent,
     ...props,

@@ -30,6 +30,7 @@ test('change for dynamic routed resource calculated', async () => {
 
   async function setup() {
     const SubResource = mdl({
+      model_name: 'SubResource',
       attrs: {
         default_title: [
           'comp',

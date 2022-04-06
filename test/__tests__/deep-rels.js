@@ -15,13 +15,13 @@ test('attr based on deep list', async () => {
     },
   })
 
-  const deepLevel3 = bhv({})
-  const deepLevel2 = bhv(modelForLevel('level3', deepLevel3, { many: true }))
-  const deepLevel1 = bhv(modelForLevel('level2', deepLevel2, { many: true }))
+  const deepLevel3 = bhv({ model_name: 'deepLevel3' })
+  const deepLevel2 = bhv({ ...modelForLevel('level3', deepLevel3, { many: true }), model_name: 'deepLevel2' })
+  const deepLevel1 = bhv({ ...modelForLevel('level2', deepLevel2, { many: true }), model_name: 'deepLevel1' })
 
 
-  const base1 = bhv({})
-  const base2 = bhv({})
+  const base1 = bhv({ model_name: 'base1' })
+  const base2 = bhv({ model_name: 'base2' })
 
 
   const App = mergeBhv(

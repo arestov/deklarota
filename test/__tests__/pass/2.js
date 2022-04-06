@@ -43,6 +43,7 @@ const action2 = {
 
 const mdl = props => model(props)
 const createDeepChild = (num, props) => mdl({
+  model_name: `DeepChild${num}`,
   attrs: {
     desc: [
       'comp',
@@ -81,6 +82,7 @@ test('multiple state by pass calculated', async () => {
 
   async function setup() {
     const TargetChild = mdl({
+      model_name: 'TargetChild',
       rels: {
         indie: [
           'nest', [createDeepChild('indie')],

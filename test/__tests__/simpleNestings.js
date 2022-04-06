@@ -10,6 +10,7 @@ const waitFlow = require('../waitFlow')
 
 test('nestings legacy inited', async () => {
   const Appartment = model({
+    model_name: 'Appartment',
     attrs: {},
   })
 
@@ -28,6 +29,7 @@ test('nestings legacy inited', async () => {
 
 test('nestings new inited', async () => {
   const Appartment = model({
+    model_name: 'Appartment',
     attrs: {},
   })
 

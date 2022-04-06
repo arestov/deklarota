@@ -35,6 +35,7 @@ const action = {
 test('simple pass by * calculated', async () => {
   const createDeepChild = (num, props) => {
     const DeepChild = model({
+      model_name: `DeepChild${num}`,
       attrs: {
         desc: [
           'comp',
@@ -48,7 +49,7 @@ test('simple pass by * calculated', async () => {
   }
 
 
-  const TargetChild = model({})
+  const TargetChild = model({ model_name: 'TargetChild' })
 
   const startModel = createDeepChild('start', {
     zero_map_level: true,
