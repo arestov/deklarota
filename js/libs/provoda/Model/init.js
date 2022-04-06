@@ -4,7 +4,6 @@ import makeAttrsCollector from './makeAttrsCollector'
 export default function initModel(self, opts, data) {
   const current_motivator = opts._motivator
   const app = opts.app
-  const map_parent = opts.map_parent
   const _highway = opts._highway
 
   self.current_motivator = self.current_motivator || (current_motivator)
@@ -37,11 +36,7 @@ export default function initModel(self, opts, data) {
 
   initSubPager(self)
 
-  if (map_parent != null) {
-    self.map_parent = map_parent
-  }
-
-  self.map_parent = self.map_parent || null
+  self.map_parent = opts?.map_parent || null
 
   self.req_order_field = null
 
