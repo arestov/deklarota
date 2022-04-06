@@ -481,7 +481,7 @@ function reportBadChange(etr, state_name) {
 
   if (!etr.getInstanceKey) {return}
 
-  if (!etr._highway.warn_unexpected_attrs) {return}
+  if (etr._highway.warn_unexpected_attrs === false) {return}
 
   // only for models
   if (!etr._provoda_id) {return}
@@ -531,7 +531,9 @@ function reportBadChange(etr, state_name) {
     return
   }
 
-  console.warn('unexpected-attr-change: ', state_name, etr.__code_path)
+  const err = new Error('unexpected-attr-change')
+  console.log({state_name}, err, etr.__code_path)
+  throw err
 }
 
 const update = function updateWithValidation(md, state_name, state_value, opts) {
