@@ -1,7 +1,4 @@
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop)
-}
-
+import { hasOwnProperty } from './hasOwnProperty'
 
 function isSimpleObject(obj) {
   if (obj == null) {
