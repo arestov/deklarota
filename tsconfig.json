@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "es2020",
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "importsNotUsedAsValues": "error",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+    },
+    "typeRoots": ["./node_modules/@types", "./src/typings/"]
+  },
+  "include": ["src/**/*", "tests/**/*", "tests2/**/*"],
+  "exclude": ["node_modules"]
+}

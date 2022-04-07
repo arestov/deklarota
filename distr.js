@@ -1,6 +1,7 @@
 const { rollup } = require('rollup')
 const replace = require('rollup-plugin-replace')
 const pathm = require('path')
+const esbuild = require('rollup-plugin-esbuild')
 
 const build = ({
   all = false,
@@ -66,6 +67,7 @@ const build = ({
       'process.versions': '({})',
       NODE_ENV: `'${process.env.NODE_ENV}'`,
     }),
+    esbuild({ target: 'es2020' }),
   ].filter(Boolean)
 })
   .then(async bundle => {
