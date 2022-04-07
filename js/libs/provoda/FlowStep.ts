@@ -1,5 +1,21 @@
 class FlowStep {
-  constructor(is_transaction_end, num, complex_order, inited_order, fn, context, args, arg, cb_wrapper, real_context, finup, init_end) {
+  aborted: boolean
+  p_space: string
+  p_index_key: string
+  is_transaction_end: boolean
+  num: number | null
+  fn: Function | null
+  context: unknown | null
+  args: null | unknown | unknown[]
+  arg: null | unknown
+  cb_wrapper: Function | null
+  real_context: unknown | null
+  finup: boolean
+  complex_order: number[]
+  inited_order: number[]
+  init_end: boolean
+  next: FlowStep | null
+  constructor(is_transaction_end: boolean, num: number, complex_order: number[], inited_order: number[], fn: Function, context: any, args: string | any[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
     this.aborted = false
     this.p_space = ''
     this.p_index_key = ''
@@ -47,14 +63,14 @@ class FlowStep {
     this.next = FlowStep.prototype
     this.next = null
 
-    if (!this.fn && !this.cb_wrapper) {
+    if (this.fn == null && this.cb_wrapper == null) {
       throw new Error('how to handle this step!?')
     }
 
     Object.seal(this)
     //this.custom_order = null;
   }
-  abort() {
+  abort(): void {
     this.aborted = true
     this.num = null
     this.fn = null
@@ -65,7 +81,7 @@ class FlowStep {
     this.real_context = null
     //this.complex_order = null;
   }
-  call() {
+  call(): void {
     if (this.cb_wrapper != null) {
       /*
       вместо того, что бы просто выполнить отложенную функцию мы можем вызвать специальный обработчик, который сможет сделать некие действиями, имея в распоряжении
@@ -76,12 +92,18 @@ class FlowStep {
       return
     }
 
+    const { fn } = this
+
+    if (fn == null) {
+      throw new Error('how to handle this step!?')
+    }
+
     if (this.args == null) {
-      this.fn.call(this.context, this.arg)
+      fn.call(this.context, this.arg)
       return
     }
 
-    this.fn.apply(this.context, this.args)
+    fn.apply(this.context, this.args)
     return
   }
 }
