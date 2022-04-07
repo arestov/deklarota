@@ -4,6 +4,8 @@
     "module": "es2020",
     "allowJs": true,
     "noEmit": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
     "strict": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
@@ -23,6 +25,6 @@
     },
     "typeRoots": ["./node_modules/@types", "./src/typings/"]
   },
-  "include": ["src/**/*", "tests/**/*", "tests2/**/*"],
+  "include": ["js/**/*"],
   "exclude": ["node_modules"]
 }

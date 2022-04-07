@@ -1,7 +1,9 @@
 {
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 2020
   },
+  "parser": "@typescript-eslint/parser",
   "root": true,
   "env": {
     "node": true,
@@ -12,7 +14,7 @@
     "window": false,
     "requirejs": false
   },
-  "plugins": ["eslint-plugin-import"],
+  "plugins": ["eslint-plugin-import", "@typescript-eslint"],
   "rules": {
     "semi": [2, "never"],
     "semi-spacing": [2, { "before": false, "after": true }],
@@ -49,6 +51,14 @@
     "one-var-declaration-per-line": [2, "always"],
     "one-var": [2, "never"],
     "no-var": 2,
-    "prefer-const": 2,
-  }
+    "prefer-const": 2
+  },
+  "overrides": [{
+    "files": ["**/*.ts"],
+    "rules": {
+      "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+      "@typescript-eslint/no-explicit-any": "error"
+    }
+  }]
 }
