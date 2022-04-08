@@ -356,5 +356,5 @@ export default spv.inh(BasicRouter, {
 function askAuth(bwlev) {
   if (!bwlev) {return}
 
-  getNesting(bwlev, 'pioneer').switchPmd()
+  throw new Error('focus to model with auth')
 }

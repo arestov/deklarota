@@ -57,7 +57,6 @@ const AppModelBase = spv.inh(LoadableList, {
     console.warn('add checkActingRequestsPriority')
   },
   model_name: 'app_model',
-  skip_map_init: true,
 
   resortQueue: function(queue) {
     if (queue) {
