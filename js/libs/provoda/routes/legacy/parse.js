@@ -1,5 +1,5 @@
 
-import spv from '../../../spv'
+import memorize from '../../../spv/memorize'
 
 // from template to full string - implemented
 // from string to match - NOT IMPLEMENTED
@@ -47,6 +47,6 @@ const parse = function(full_usable_string) {
   }
 }
 
-const parsePath = spv.memorize(parse)
+const parsePath = memorize(parse)
 
 export default parsePath
