@@ -6,9 +6,9 @@ import fromLegacy from './fromLegacy'
 import isJustAttrAddr from './isJustAttrAddr'
 import memorize from '../../../spv/memorize'
 import { doCopy } from '../../../spv/cloneObj'
-import splitByDot from '../../../spv/splitByDot'
 import parseAttrPart from './addr-parts/attr'
 import { parents, parseAscendorPart } from './addr-parts/ascendor'
+import parseRelPart from './addr-parts/rel'
 
 export { parseAscendorPart as getBaseInfo }
 
@@ -123,34 +123,7 @@ const self = Object.freeze({
 })
 
 
-export const getNestInfo = memorize(function getNestInfo(string) {
-  if (!string) {
-    return empty
-  }
-
-  const parts = string.split(':')
-  const path = parts.pop()
-
-  const full_path = splitByDot(path)
-
-  const zip_name = parts[0] || null
-
-  if (zip_name) {
-    throw new Error('dont use. use < @[zip_name] [statename] < [nestingname]')
-  }
-
-  const target_nest_name = full_path[full_path.length - 1] // last one
-
-  if (!target_nest_name) {
-    throw new Error('wrong nest path: ' + string)
-  }
-
-  return {
-    path: full_path,
-    base: full_path.slice(0, full_path.length - 1), // all, except last
-    target_nest_name: target_nest_name,
-  }
-})
+export const getNestInfo = memorize(parseRelPart)
 
 const parseMultiPath = function(string, allow_legacy) {
   if (string == '<<<<') {
