@@ -7,6 +7,7 @@ import isJustAttrAddr from './isJustAttrAddr'
 import memorize from '../../../spv/memorize'
 import { doCopy } from '../../../spv/cloneObj'
 import splitByDot from '../../../spv/splitByDot'
+import parseAttrPart from './addr-parts/attr'
 
 const empty = Object.freeze({})
 const root = Object.freeze({
@@ -96,16 +97,7 @@ const parseModern = memorize(function parseModern(string) {
 const matchNotStateSymbols = /(^\W)|\@|\:/
 
 
-export const getStateInfo = memorize(function getStateInfo(string) {
-  if (!string) {
-    return empty
-  }
-
-  return {
-    base: splitByDot(string)[0],
-    path: string,
-  }
-})
+export const getStateInfo = memorize(parseAttrPart)
 
 const SimpleStateAddr = function(string) {
   this.state = getStateInfo(string)
