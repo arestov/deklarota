@@ -1,6 +1,5 @@
 
 
-import getParsedPath from '../../routes/legacy/getParsedPath'
 import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 import isJustAttrAddr from './isJustAttrAddr'
@@ -9,8 +8,10 @@ import { doCopy } from '../../../spv/cloneObj'
 import parseAttrPart from './addr-parts/attr'
 import { parents, parseAscendorPart } from './addr-parts/ascendor'
 import parseRelPart from './addr-parts/rel'
+import parseRoutePart from './addr-parts/route'
 
 export { parseAscendorPart as getBaseInfo }
+export { parseRoutePart as getResourceInfo }
 
 const empty = Object.freeze({})
 
@@ -198,7 +199,7 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   const zip_name = zip_state_string || zip_nest_string || null
   const state_info = getStateInfo(state_string)
   const nest_info = getNestInfo(nest_string)
-  const resource_info = getResourceInfo(resource_raw)
+  const resource_info = parseRoutePart(resource_raw)
   const base_info = parseAscendorPart(base_raw)
 
   const result_type = getResultType(state_info, nest_info, resource_info, base_info)
@@ -233,28 +234,6 @@ export function createAddrByPart(source) {
 
   updateResultType(draft)
   return draft
-}
-
-
-export function getResourceInfo(string) {
-  if (!string) {
-    return empty
-  }
-
-  if (string.startsWith('#')) {
-    throw new Error('use "ascending part" for root/parent traversing')
-  }
-
-  if (string.startsWith('/')) {
-    const err = new Error('route should no starts with `/`')
-    console.log(string, err)
-    throw err
-  }
-
-  return {
-    path: string,
-    template: getParsedPath(string),
-  }
 }
 
 function getResultType(state, nest) {
