@@ -8,19 +8,11 @@ import memorize from '../../../spv/memorize'
 import { doCopy } from '../../../spv/cloneObj'
 import splitByDot from '../../../spv/splitByDot'
 import parseAttrPart from './addr-parts/attr'
+import { parents, parseAscendorPart } from './addr-parts/ascendor'
+
+export { parseAscendorPart as getBaseInfo }
 
 const empty = Object.freeze({})
-const root = Object.freeze({
-  type: 'root',
-  steps: null,
-})
-const parents = memorize(function(num) {
-  return Object.freeze({
-    type: 'parent',
-    steps: num,
-  })
-})
-const parent_count_regexp = /\^+/gi
 
 /*
 
@@ -234,7 +226,7 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
   const state_info = getStateInfo(state_string)
   const nest_info = getNestInfo(nest_string)
   const resource_info = getResourceInfo(resource_raw)
-  const base_info = getBaseInfo(base_raw)
+  const base_info = parseAscendorPart(base_raw)
 
   const result_type = getResultType(state_info, nest_info, resource_info, base_info)
 
@@ -290,23 +282,6 @@ export function getResourceInfo(string) {
     path: string,
     template: getParsedPath(string),
   }
-}
-
-export function getBaseInfo(string) {
-  if (!string) {
-    return empty
-  }
-
-  if (string == '#') {
-    return root
-  }
-
-  const from_parent_num = string.match(parent_count_regexp)
-  if (from_parent_num) {
-    return parents(from_parent_num[0].length)
-  }
-
-  throw new Error('unsupported base: ' + string)
 }
 
 function getResultType(state, nest) {
