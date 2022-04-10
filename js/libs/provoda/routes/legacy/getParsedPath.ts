@@ -2,8 +2,24 @@
 import spv from '../../../spv'
 import parsePath from './parse'
 
+type MarkFromRoot = {
+  cutted: string
+}
 
-const isFromRoot = function(first_char, string_template) {
+type MarkFromParent = {
+  cutted: string
+  count: number
+}
+
+type LegacyRichRoute = {
+  full_usable_string: string,
+  from_root: boolean,
+  from_parent: number | undefined | false,
+  parsed: ReturnType<typeof parsePath>,
+}
+
+
+const isFromRoot = function(first_char: string, string_template: string): MarkFromRoot | undefined {
   const from_root = first_char == '#'
   if (!from_root) {return}
 
@@ -13,7 +29,7 @@ const isFromRoot = function(first_char, string_template) {
 }
 
 const parent_count_regexp = /^\^+/gi
-const isFromParent = function(first_char, string_template) {
+const isFromParent = function(first_char: string, string_template: string): MarkFromParent | undefined {
   if (first_char != '^') {return}
 
   const cutted = string_template.replace(parent_count_regexp, '')
@@ -23,7 +39,7 @@ const isFromParent = function(first_char, string_template) {
   }
 }
 
-const getParsedPath = spv.memorize(function(string_template) {
+const getParsedPath = spv.memorize(function(string_template: string): LegacyRichRoute {
   //example "#tracks/[:artist],[:track]"
   //example "^^tracks/[:artist],[:track]"
   //example "^"
