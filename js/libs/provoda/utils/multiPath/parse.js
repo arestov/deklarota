@@ -1,18 +1,19 @@
 
 
-import spv from '../../../spv'
 import getParsedPath from '../../routes/legacy/getParsedPath'
 import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 import isJustAttrAddr from './isJustAttrAddr'
+import memorize from '../../../spv/memorize'
+import { doCopy } from '../../../spv/cloneObj'
+import splitByDot from '../../../spv/splitByDot'
 
-const splitByDot = spv.splitByDot
 const empty = Object.freeze({})
 const root = Object.freeze({
   type: 'root',
   steps: null,
 })
-const parents = spv.memorize(function(num) {
+const parents = memorize(function(num) {
   return Object.freeze({
     type: 'parent',
     steps: num,
@@ -48,7 +49,7 @@ const checkSplit = /(?:^|\s+)?<(?:\s+)?/
 const end = /(<$)|(\^$)|(#$)/
 const start = /^</
 
-const parseFromStart = spv.memorize(function(string) {
+const parseFromStart = memorize(function(string) {
   const parts = string.split(checkSplit)
   // parts[0] should be empty
   const state = parts[1]
@@ -60,7 +61,7 @@ const parseFromStart = spv.memorize(function(string) {
 
 })
 
-const parseFromEnd = spv.memorize(function(string) {
+const parseFromEnd = memorize(function(string) {
   const parts = string.split(checkSplit)
 
   const length = parts.length
@@ -80,7 +81,7 @@ function canParseModern(string) {
     : null
 }
 
-const parseModern = spv.memorize(function parseModern(string) {
+const parseModern = memorize(function parseModern(string) {
   const can_parse = canParseModern(string)
   if (can_parse == null) {
     return null
@@ -95,7 +96,7 @@ const parseModern = spv.memorize(function parseModern(string) {
 const matchNotStateSymbols = /(^\W)|\@|\:/
 
 
-export const getStateInfo = spv.memorize(function getStateInfo(string) {
+export const getStateInfo = memorize(function getStateInfo(string) {
   if (!string) {
     return empty
   }
@@ -110,7 +111,7 @@ const SimpleStateAddr = function(string) {
   this.state = getStateInfo(string)
 }
 
-SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
+SimpleStateAddr.prototype = doCopy(SimpleStateAddr.prototype, {
   result_type: 'state',
   zip_name: null,
   state: null,
@@ -120,7 +121,7 @@ SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
   as_string: null,
 })
 
-const simpleState = spv.memorize(function simpleState(string) {
+const simpleState = memorize(function simpleState(string) {
   return new SimpleStateAddr(string)
 })
 
@@ -138,7 +139,7 @@ const self = Object.freeze({
 })
 
 
-export const getNestInfo = spv.memorize(function getNestInfo(string) {
+export const getNestInfo = memorize(function getNestInfo(string) {
   if (!string) {
     return empty
   }
@@ -190,8 +191,8 @@ const parseMultiPath = function(string, allow_legacy) {
 }
 const matchZip = /(?:\@(.+?)\:)?(.+)?/
 
-const parseLegacyCached = spv.memorize(parseMultiPath)
-const parseModernCached = spv.memorize(parseMultiPath)
+const parseLegacyCached = memorize(parseMultiPath)
+const parseModernCached = memorize(parseMultiPath)
 
 
 const parseWithCache = function(addr_str, legacy_ok) {
