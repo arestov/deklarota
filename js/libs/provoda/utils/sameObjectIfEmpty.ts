@@ -1,8 +1,11 @@
 import { isObjectEmpty } from '../../spv'
 
-export const emptyObject = Object.freeze({})
+const emptyObject = {} as const
+Object.freeze(emptyObject)
 
-const sameObjectIfEmpty = (object) => {
+export { emptyObject }
+
+const sameObjectIfEmpty = <Input>(object: Input): null | Input | typeof emptyObject => {
   if (object == null) {
     return null
   }
