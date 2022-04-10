@@ -1,6 +1,7 @@
 import { emptyObject } from '../../sameObjectIfEmpty'
 import type { ParentAscendor, RootAscendor } from './ascendor.types'
 import memorize from '../../../../spv/memorize'
+import type { EmptyObject } from '../../empty.types'
 
 const root: RootAscendor = Object.freeze({
   type: 'root',
@@ -16,7 +17,7 @@ export const parents = memorize(function(num: number): ParentAscendor {
 
 const parent_count_regexp = /\^+/gi
 
-export function parseAscendorPart(string: string): typeof emptyObject | RootAscendor | ParentAscendor {
+export function parseAscendorPart(string: string): EmptyObject | RootAscendor | ParentAscendor {
   if (!string) {
     return emptyObject
   }
