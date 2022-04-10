@@ -1,7 +1,9 @@
 import getParsedPath from '../../../routes/legacy/getParsedPath'
+import type { EmptyObject } from '../../empty.types'
 import { emptyObject } from '../../sameObjectIfEmpty'
+import type { RoutePartOfAddr } from './routes.types'
 
-function parseRoutePart(string) {
+function parseRoutePart(string: string): EmptyObject | RoutePartOfAddr {
   if (!string) {
     return emptyObject
   }
