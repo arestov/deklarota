@@ -1,5 +1,6 @@
 
 import memorize from '../../../spv/memorize'
+import type { LegacyRouteParamsMap, ParsedLegacyRoute } from './legacy-routes.types'
 
 // from template to full string - implemented
 // from string to match - NOT IMPLEMENTED
@@ -12,8 +13,6 @@ import memorize from '../../../spv/memorize'
 // {next_value: 'Mike'} will be used as "artist" for template
 
 const string_state_regexp = /\[\:.+?\]/gi
-
-type LegacyRouteParamsMap = [string, string, string | undefined][]
 
 const makeStatesMap = function(states_raw: string[]):LegacyRouteParamsMap {
   const result: LegacyRouteParamsMap = new Array(states_raw.length)
@@ -30,12 +29,6 @@ const makeStatesMap = function(states_raw: string[]):LegacyRouteParamsMap {
   }
 
   return result
-}
-
-type ParsedLegacyRoute = {
-  clean_string_parts: string[]
-  states: string[] | null
-  states_map: LegacyRouteParamsMap | null
 }
 
 const parse = function(full_usable_string: string): ParsedLegacyRoute {

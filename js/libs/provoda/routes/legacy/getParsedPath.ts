@@ -1,23 +1,7 @@
 
 import spv from '../../../spv'
+import type { LegacyRichRoute, MarkFromParent, MarkFromRoot } from './legacy-routes.types'
 import parsePath from './parse'
-
-type MarkFromRoot = {
-  cutted: string
-}
-
-type MarkFromParent = {
-  cutted: string
-  count: number
-}
-
-type LegacyRichRoute = {
-  full_usable_string: string,
-  from_root: boolean,
-  from_parent: number | undefined | false,
-  parsed: ReturnType<typeof parsePath>,
-}
-
 
 const isFromRoot = function(first_char: string, string_template: string): MarkFromRoot | undefined {
   const from_root = first_char == '#'
