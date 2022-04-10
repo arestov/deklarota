@@ -1,7 +1,7 @@
 
 import spv from '../../../spv'
+import splitByDot from '../../../spv/splitByDot'
 import getParsedState from '../../utils/getParsedState'
-const splitByDot = spv.splitByDot
 
 
 const getPath = spv.memorize(function(full_name) {
