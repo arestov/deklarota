@@ -1,13 +1,19 @@
 import splitByDot from '../../../../spv/splitByDot'
+import type { EmptyObject } from '../../empty.types'
+import type { RelPartOfAddr } from './rel.types'
 import { emptyObject } from '../../sameObjectIfEmpty'
 
-function parseRelPart(string) {
+function parseRelPart(string: string): EmptyObject | RelPartOfAddr {
   if (!string) {
     return emptyObject
   }
 
   const parts = string.split(':')
   const path = parts.pop()
+
+  if (path == null) {
+    throw new Error('path can\`t be empty')
+  }
 
   const full_path = splitByDot(path)
 
