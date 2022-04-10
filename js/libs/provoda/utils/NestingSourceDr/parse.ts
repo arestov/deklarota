@@ -1,10 +1,11 @@
 
 import memorize from '../../../spv/memorize'
 import splitByDot from '../../../spv/splitByDot'
+import type { RelPath } from '../multiPath/addr.types'
 
 class NestingSourceDr {
   start_point: string | false
-  selector: string[]
+  selector: RelPath
   constructor(string: string) {
     const parts = string.split('>')
     this.start_point = parts.length > 1 && (parts[0] || false)
