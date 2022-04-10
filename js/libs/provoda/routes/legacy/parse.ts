@@ -13,12 +13,17 @@ import memorize from '../../../spv/memorize'
 
 const string_state_regexp = /\[\:.+?\]/gi
 
-const makeStatesMap = function(states_raw) {
-  const result = new Array(states_raw.length)
+type LegacyRouteParamsMap = [string, string, string | undefined][]
+
+const makeStatesMap = function(states_raw: string[]):LegacyRouteParamsMap {
+  const result: LegacyRouteParamsMap = new Array(states_raw.length)
 
   for (let i = 0; i < states_raw.length; i++) {
-    const parts = states_raw[i].split(':')
+    const parts = (states_raw[i] as string).split(':')
     const dest = parts[0]
+    if (dest == null) {
+      throw new Error()
+    }
     const source = parts[1] || dest
     const value = parts[2]
     result[i] = [dest, source, value]
@@ -27,22 +32,31 @@ const makeStatesMap = function(states_raw) {
   return result
 }
 
-const parse = function(full_usable_string) {
+type ParsedLegacyRoute = {
+  clean_string_parts: string[]
+  states: string[] | null
+  states_map: LegacyRouteParamsMap | null
+}
+
+const parse = function(full_usable_string: string): ParsedLegacyRoute {
   // tracks/[:artist],[:track]
   const clean_string_parts = full_usable_string.split(string_state_regexp)
   const states = full_usable_string.match(string_state_regexp)
 
   if (states) {
     for (let i = 0; i < states.length; i++) {
-      states[i] = states[i].slice(2, states[i].length - 1)
+      const cur = states[i] as string
+      states[i] = cur.slice(2, cur.length - 1)
     }
   }
+
+  const statesconv = states as string[] | null
 
   const states_map = states && makeStatesMap(states)
 
   return {
     clean_string_parts: clean_string_parts,
-    states: states,
+    states: statesconv,
     states_map: states_map,
   }
 }

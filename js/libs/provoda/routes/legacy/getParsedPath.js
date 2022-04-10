@@ -1,6 +1,6 @@
 
 import spv from '../../../spv'
-import parsePath from './parse.js'
+import parsePath from './parse'
 
 
 const isFromRoot = function(first_char, string_template) {
