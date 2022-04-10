@@ -1,7 +1,6 @@
 
-import spv from '../../../spv'
-const memorize = spv.memorize
-const splitByDot = spv.splitByDot
+import memorize from '../../../spv/memorize'
+import splitByDot from '../../../spv/splitByDot'
 
 const NestingSourceDr = function(string) {
   const parts = string.split('>')
