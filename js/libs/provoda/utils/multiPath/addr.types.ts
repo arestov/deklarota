@@ -19,4 +19,5 @@ export type Addr = {
   nesting: RelAddr
   resource: RouteAddr
   from_base: AscendorAddr
+  base_itself?: boolean
 }
