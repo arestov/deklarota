@@ -1,5 +1,4 @@
-import type { AttrPartOfAddr } from './addr-parts/attr.types'
-import type { Addr, AscendorAddr, RelAddr, RouteAddr, ZipAddr } from './addr.types'
+import type { Addr, AscendorAddr, AttrAddr, RelAddr, RouteAddr, ZipAddr } from './addr.types'
 
 type ZipArg = ZipAddr | boolean
 
@@ -18,7 +17,7 @@ export default function multiPathAsString(multi_path: Addr): string {
   return multi_path.as_string
 };
 
-function isStateOk(state: AttrPartOfAddr): boolean {
+function isStateOk(state: AttrAddr): boolean {
   return Boolean(state && state.path)
 }
 
@@ -30,7 +29,7 @@ function wrapBySpace(item: string): string {
   return ' ' + item + ' '
 }
 
-function firstPart(zip_name: ZipArg, state: AttrPartOfAddr): string {
+function firstPart(zip_name: ZipArg, state: AttrAddr): string {
   return '<' + wrapBySpace(zipPart(zip_name) + stateString(state))
 }
 
@@ -43,7 +42,7 @@ function zipPart(zip_name: ZipArg): string {
 }
 
 
-function stateString(state: AttrPartOfAddr): string {
+function stateString(state: AttrAddr): string {
   if (!isStateOk(state)) {
     return ''
   }

@@ -10,7 +10,7 @@ export type AscendorAddr = RootAscendor | ParentAscendor | EmptyObject
 export type RouteAddr = RoutePartOfAddr | EmptyObject
 export type RelAddr = RelPartOfAddr | EmptyObject
 export type ZipAddr = null | string
-export type AttrAddr = AttrPartOfAddr
+export type AttrAddr = AttrPartOfAddr | EmptyObject
 
 export type Addr = {
   zip_name: ZipAddr
