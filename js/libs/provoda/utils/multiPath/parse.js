@@ -4,7 +4,6 @@ import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 import isJustAttrAddr from './isJustAttrAddr'
 import memorize from '../../../spv/memorize'
-import { doCopy } from '../../../spv/cloneObj'
 import parseAttrPart from './addr-parts/attr'
 import { parents, parseAscendorPart } from './addr-parts/ascendor'
 import parseRelPart from './addr-parts/rel'
@@ -96,7 +95,7 @@ const SimpleStateAddr = function(string) {
   this.state = getStateInfo(string)
 }
 
-SimpleStateAddr.prototype = doCopy(SimpleStateAddr.prototype, {
+SimpleStateAddr.prototype = Object.assign(SimpleStateAddr.prototype, {
   result_type: 'state',
   zip_name: null,
   state: null,
