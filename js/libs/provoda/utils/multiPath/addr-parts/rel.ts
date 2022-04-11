@@ -3,7 +3,7 @@ import type { EmptyObject } from '../../empty.types'
 import type { RelPartOfAddr } from './rel.types'
 import { emptyObject } from '../../sameObjectIfEmpty'
 
-function parseRelPart(string: string): EmptyObject | RelPartOfAddr {
+function parseRelPart(string: string | null): EmptyObject | RelPartOfAddr {
   if (!string) {
     return emptyObject
   }

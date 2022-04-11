@@ -11,9 +11,15 @@ export type RouteAddr = RoutePartOfAddr | EmptyObject
 export type RelAddr = RelPartOfAddr | EmptyObject
 export type ZipAddr = null | string
 export type AttrAddr = AttrPartOfAddr | EmptyObject
+export type AddrResultKind = 'state' | 'nesting' | null
+
+export type AddrSelf = {
+  as_string: '<<<<',
+  base_itself: true,
+}
 
 export type Addr = {
-  result_type: 'state' | 'nesting'
+  result_type: AddrResultKind
   zip_name: ZipAddr
   as_string: null | string
   state: AttrAddr

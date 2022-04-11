@@ -3,7 +3,7 @@ import type { EmptyObject } from '../../empty.types'
 import { emptyObject } from '../../sameObjectIfEmpty'
 import type { RoutePartOfAddr } from './routes.types'
 
-function parseRoutePart(string: string): EmptyObject | RoutePartOfAddr {
+function parseRoutePart(string: string | null): EmptyObject | RoutePartOfAddr {
   if (!string) {
     return emptyObject
   }

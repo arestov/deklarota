@@ -17,7 +17,7 @@ export const parents = memorize(function(num: number): ParentAscendor {
 
 const parent_count_regexp = /\^+/gi
 
-export function parseAscendorPart(string: string): EmptyObject | RootAscendor | ParentAscendor {
+export function parseAscendorPart(string: string | null): EmptyObject | RootAscendor | ParentAscendor {
   if (!string) {
     return emptyObject
   }

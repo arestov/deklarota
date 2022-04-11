@@ -3,7 +3,7 @@ import type { EmptyObject } from '../../empty.types'
 import { emptyObject } from '../../sameObjectIfEmpty'
 import type { AttrPartOfAddr, AttrPath } from './attr.types'
 
-function parseAttrPart(string: string): EmptyObject | AttrPartOfAddr {
+function parseAttrPart(string: string | null): EmptyObject | AttrPartOfAddr {
   if (!string) {
     return emptyObject
   }
