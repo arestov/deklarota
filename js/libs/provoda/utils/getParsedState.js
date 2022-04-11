@@ -1,8 +1,8 @@
 
-import spv from '../../spv'
 import parse from './NestingSourceDr/parse'
 import asString from './multiPath/asString'
-const splitByDot = spv.splitByDot
+import splitByDot from '../../spv/splitByDot'
+import memorize from '../../spv/memorize'
 
 function itself(item) {return item}
 
@@ -155,7 +155,7 @@ const fromMultiPath = function(multi_path, _as_string, original) {
   return null
 }
 
-const getParsedState = spv.memorize(function getParsedState(state_name) {
+const getParsedState = memorize(function getParsedState(state_name) {
   // isSpecialState
   const required = state_name.charAt(0) === '&'
   const rest = required ? state_name.slice(1) : state_name
