@@ -13,6 +13,7 @@ export type ZipAddr = null | string
 export type AttrAddr = AttrPartOfAddr | EmptyObject
 
 export type Addr = {
+  result_type: 'state' | 'nesting'
   zip_name: ZipAddr
   as_string: null | string
   state: AttrAddr

@@ -20,6 +20,14 @@ export type LegacyParentAddress = {
   nil_allowed?: boolean
 }
 
+export type LegacyAttAddress = {
+  rel_type: 'local_state',
+  full_name: string
+  state_name: string
+  full_state_name: string
+  base_state_name: string
+}
+
 export type LegacyNestingAddress ={
   rel_type: 'nesting'
   full_name: string
@@ -43,4 +51,4 @@ export type LegacyRootAddress = {
   nil_allowed?: boolean
 }
 
-export type LegacyAddress = LegacyParentAddress | LegacyNestingAddress | LegacyRootAddress | LegacySelfRef
+export type LegacyAddress = LegacyParentAddress | LegacyNestingAddress | LegacyRootAddress | LegacyAttAddress | LegacySelfRef
