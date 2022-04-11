@@ -56,7 +56,6 @@ const getFullPathInfo = memorize(function(full_path) {
           type: null,
           steps: null,
         },
-        raw_info: info,
         as_string: null,
       }
     }
@@ -87,7 +86,6 @@ const getFullPathInfo = memorize(function(full_path) {
           type: null,
           steps: null,
         },
-        raw_info: info,
         as_string: null,
       }
     }
@@ -108,7 +106,6 @@ const getFullPathInfo = memorize(function(full_path) {
           type: 'parent',
           steps: info.ancestors,
         },
-        raw_info: info,
         as_string: null,
       }
     }
@@ -128,7 +125,6 @@ const getFullPathInfo = memorize(function(full_path) {
           type: 'root',
           steps: null,
         },
-        raw_info: info,
         as_string: null,
       }
     }
