@@ -122,7 +122,7 @@ const simulateLegacyPath = {
   }
 }
 
-const fromMultiPath = function(multi_path, _as_string, original) {
+export const fromMultiPath = function(multi_path, _as_string, original) {
 
   if (multi_path.base_itself) {
     return selfRef
@@ -171,5 +171,4 @@ export const clearCache = () => {
   getParsedState.__clear()
 }
 
-getParsedState.fromMultiPath = fromMultiPath
 export default getParsedState
