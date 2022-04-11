@@ -1,4 +1,6 @@
-const isJustAttrAddr = function(addr) {
+import type { Addr } from './addr.types'
+
+const isJustAttrAddr = function(addr: Addr): boolean {
   if (addr.result_type !== 'state') {
     return false
   }
