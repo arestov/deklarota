@@ -8,11 +8,12 @@ import parseAttrPart from './addr-parts/attr'
 import { parents, parseAscendorPart } from './addr-parts/ascendor'
 import parseRelPart from './addr-parts/rel'
 import parseRoutePart from './addr-parts/route'
+import { emptyObject } from '../sameObjectIfEmpty'
 
 export { parseAscendorPart as getBaseInfo }
 export { parseRoutePart as getResourceInfo }
 
-const empty = Object.freeze({})
+const empty = emptyObject
 
 /*
 
