@@ -1,6 +1,27 @@
+import type { EmptyObject } from '../empty.types'
+import type { ParentAscendor, RootAscendor } from './addr-parts/ascendor.types'
+import type { AttrPartOfAddr } from './addr-parts/attr.types'
+import type { RelPartOfAddr } from './addr-parts/rel.types'
+import type { RoutePartOfAddr } from './addr-parts/routes.types'
+
+type Ascendor = RootAscendor | ParentAscendor | EmptyObject
+type Route = RoutePartOfAddr | EmptyObject
+type Rel = RelPartOfAddr | EmptyObject
+type Zip = null | string
+
+type Addr = {
+  zip_name: Zip
+  as_string: null | string
+  state: AttrPartOfAddr
+  nesting: Rel
+  resource: Route
+  from_base: Ascendor
+}
+
+type ZipArg = Zip | boolean
 
 
-export default function multiPathAsString(multi_path) {
+export default function multiPathAsString(multi_path: Addr): string {
   if (multi_path.as_string) {
     return multi_path.as_string
   }
@@ -14,11 +35,11 @@ export default function multiPathAsString(multi_path) {
   return multi_path.as_string
 };
 
-function isStateOk(state) {
-  return state && state.path
+function isStateOk(state: AttrPartOfAddr): boolean {
+  return Boolean(state && state.path)
 }
 
-function wrapBySpace(item) {
+function wrapBySpace(item: string): string {
   if (!item) {
     return ''
   }
@@ -26,11 +47,11 @@ function wrapBySpace(item) {
   return ' ' + item + ' '
 }
 
-function firstPart(zip_name, state) {
+function firstPart(zip_name: ZipArg, state: AttrPartOfAddr): string {
   return '<' + wrapBySpace(zipPart(zip_name) + stateString(state))
 }
 
-function zipPart(zip_name) {
+function zipPart(zip_name: ZipArg): string {
   if (!zip_name) {
     return ''
   }
@@ -39,7 +60,7 @@ function zipPart(zip_name) {
 }
 
 
-function stateString(state) {
+function stateString(state: AttrPartOfAddr): string {
   if (!isStateOk(state)) {
     return ''
   }
@@ -47,11 +68,11 @@ function stateString(state) {
   return state.path
 }
 
-function isNestingOk(nesting) {
-  return nesting && nesting.path
+function isNestingOk(nesting: Rel): boolean {
+  return Boolean(nesting && nesting.path)
 }
 
-function nestingString(zip_name, nesting) {
+function nestingString(zip_name: ZipArg, nesting: Rel): string {
   if (!isNestingOk(nesting)) {
     return '<'
   }
@@ -61,7 +82,7 @@ function nestingString(zip_name, nesting) {
   return '<' + wrapBySpace(zipPart(zip_name) + path)
 }
 
-function resourceString(resource) {
+function resourceString(resource: Route): string {
   if (!resource || !resource.path) {
     return '<'
   }
@@ -69,7 +90,7 @@ function resourceString(resource) {
   return '< ' + resource.path + ' '
 }
 
-function baseStringMin(from_base) {
+function baseStringMin(from_base: Ascendor): string {
   if (!from_base || !from_base.type) {
     return ''
   }
@@ -91,7 +112,7 @@ function baseStringMin(from_base) {
   }
 }
 
-function baseString(from_base) {
+function baseString(from_base: Ascendor): string {
   const result = baseStringMin(from_base)
   return result ? '< ' + result : '<'
 }
