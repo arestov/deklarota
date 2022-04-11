@@ -1,24 +1,7 @@
-import type { EmptyObject } from '../empty.types'
-import type { ParentAscendor, RootAscendor } from './addr-parts/ascendor.types'
 import type { AttrPartOfAddr } from './addr-parts/attr.types'
-import type { RelPartOfAddr } from './addr-parts/rel.types'
-import type { RoutePartOfAddr } from './addr-parts/routes.types'
+import type { Addr, AscendorAddr, RelAddr, RouteAddr, ZipAddr } from './addr.types'
 
-type Ascendor = RootAscendor | ParentAscendor | EmptyObject
-type Route = RoutePartOfAddr | EmptyObject
-type Rel = RelPartOfAddr | EmptyObject
-type Zip = null | string
-
-type Addr = {
-  zip_name: Zip
-  as_string: null | string
-  state: AttrPartOfAddr
-  nesting: Rel
-  resource: Route
-  from_base: Ascendor
-}
-
-type ZipArg = Zip | boolean
+type ZipArg = ZipAddr | boolean
 
 
 export default function multiPathAsString(multi_path: Addr): string {
@@ -68,11 +51,11 @@ function stateString(state: AttrPartOfAddr): string {
   return state.path
 }
 
-function isNestingOk(nesting: Rel): boolean {
+function isNestingOk(nesting: RelAddr): boolean {
   return Boolean(nesting && nesting.path)
 }
 
-function nestingString(zip_name: ZipArg, nesting: Rel): string {
+function nestingString(zip_name: ZipArg, nesting: RelAddr): string {
   if (!isNestingOk(nesting)) {
     return '<'
   }
@@ -82,7 +65,7 @@ function nestingString(zip_name: ZipArg, nesting: Rel): string {
   return '<' + wrapBySpace(zipPart(zip_name) + path)
 }
 
-function resourceString(resource: Route): string {
+function resourceString(resource: RouteAddr): string {
   if (!resource || !resource.path) {
     return '<'
   }
@@ -90,7 +73,7 @@ function resourceString(resource: Route): string {
   return '< ' + resource.path + ' '
 }
 
-function baseStringMin(from_base: Ascendor): string {
+function baseStringMin(from_base: AscendorAddr): string {
   if (!from_base || !from_base.type) {
     return ''
   }
@@ -112,7 +95,7 @@ function baseStringMin(from_base: Ascendor): string {
   }
 }
 
-function baseString(from_base: Ascendor): string {
+function baseString(from_base: AscendorAddr): string {
   const result = baseStringMin(from_base)
   return result ? '< ' + result : '<'
 }
