@@ -7,7 +7,7 @@ type FunctionWithPossibleCache<CacheResolver> = CacheResolver & {
 }
 
 type FunctionWithCache<CacheResolver> = FunctionWithPossibleCache<CacheResolver> & {
-  __clear?(): void;
+  __clear(): void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,5 +40,5 @@ export default function memorize<Resolver extends AnythingFn>(func: Resolver, ge
     cache.clear()
   }
 
-  return result
+  return result as FunctionWithCache<Resolver>
 };
