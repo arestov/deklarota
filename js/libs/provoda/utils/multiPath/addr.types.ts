@@ -4,7 +4,9 @@ import type { AttrPartOfAddr } from './addr-parts/attr.types'
 import type { RelPartOfAddr } from './addr-parts/rel.types'
 import type { RoutePartOfAddr } from './addr-parts/routes.types'
 
-export type RelPath = string[]
+export type RelPathStep = string
+
+export type RelPath = RelPathStep[]
 
 export type AscendorAddr = RootAscendor | ParentAscendor | EmptyObject
 export type RouteAddr = RoutePartOfAddr | EmptyObject
