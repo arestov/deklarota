@@ -5,44 +5,11 @@ import splitByDot from '../../spv/splitByDot'
 import memorize from '../../spv/memorize'
 import type { Addr } from './multiPath/addr.types'
 import type { ParentAscendor } from './multiPath/addr-parts/ascendor.types'
+import type { LegacyAddress, LegacyNestingAddress, LegacyParentAddress, LegacyRootAddress, LegacySelfRef } from './legacy-address.types'
 
 function itself<SomeType>(item: SomeType): SomeType {return item}
 
-const selfRef = {rel_type: 'self'} as const
-type LegacyParentAddress = {
-  rel_type: 'parent'
-  full_name: string
-  state_name: string
-  full_state_name: string
-  base_state_name: string
-  ancestors: number
-  nil_allowed?: boolean
-}
-
-type LegacyNestingAddress ={
-  rel_type: 'nesting'
-  full_name: string
-  state_name: string | undefined
-  full_state_name: string | undefined
-  base_state_name: string | undefined
-
-  nesting_source: ReturnType<typeof parse>
-  nesting_name: string
-  zip_name: string | undefined
-  zip_func: string | typeof itself
-  nil_allowed?: boolean
-}
-
-type LegacyRootAddress = {
-  rel_type: 'root',
-  full_name: string
-  state_name: string
-  full_state_name: string
-  base_state_name: string
-  nil_allowed?: boolean
-}
-
-type LegacyAddress = LegacyParentAddress | LegacyNestingAddress | LegacyRootAddress
+const selfRef: LegacySelfRef = {rel_type: 'self'}
 
 const enc_states = {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

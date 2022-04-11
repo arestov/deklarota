@@ -1,12 +1,8 @@
 
 import memorize from '../../../spv/memorize'
 import splitByDot from '../../../spv/splitByDot'
+import type { NestingSource } from '../legacy-address.types'
 import type { RelPath } from '../multiPath/addr.types'
-
-type NestingSource = {
-  start_point: string | false
-  selector: RelPath
-}
 
 class NestingSourceDr {
   start_point: string | false
