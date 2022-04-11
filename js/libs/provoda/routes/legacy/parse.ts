@@ -1,5 +1,6 @@
 
-import spv from '../../../spv'
+import memorize from '../../../spv/memorize'
+import type { LegacyRouteParamsMap, ParsedLegacyRoute } from './legacy-routes.types'
 
 // from template to full string - implemented
 // from string to match - NOT IMPLEMENTED
@@ -13,12 +14,15 @@ import spv from '../../../spv'
 
 const string_state_regexp = /\[\:.+?\]/gi
 
-const makeStatesMap = function(states_raw) {
-  const result = new Array(states_raw.length)
+const makeStatesMap = function(states_raw: string[]):LegacyRouteParamsMap {
+  const result: LegacyRouteParamsMap = new Array(states_raw.length)
 
   for (let i = 0; i < states_raw.length; i++) {
-    const parts = states_raw[i].split(':')
+    const parts = (states_raw[i] as string).split(':')
     const dest = parts[0]
+    if (dest == null) {
+      throw new Error()
+    }
     const source = parts[1] || dest
     const value = parts[2]
     result[i] = [dest, source, value]
@@ -27,26 +31,29 @@ const makeStatesMap = function(states_raw) {
   return result
 }
 
-const parse = function(full_usable_string) {
+const parse = function(full_usable_string: string): ParsedLegacyRoute {
   // tracks/[:artist],[:track]
   const clean_string_parts = full_usable_string.split(string_state_regexp)
   const states = full_usable_string.match(string_state_regexp)
 
   if (states) {
     for (let i = 0; i < states.length; i++) {
-      states[i] = states[i].slice(2, states[i].length - 1)
+      const cur = states[i] as string
+      states[i] = cur.slice(2, cur.length - 1)
     }
   }
+
+  const statesconv = states as string[] | null
 
   const states_map = states && makeStatesMap(states)
 
   return {
     clean_string_parts: clean_string_parts,
-    states: states,
+    states: statesconv,
     states_map: states_map,
   }
 }
 
-const parsePath = spv.memorize(parse)
+const parsePath = memorize(parse)
 
 export default parsePath

@@ -1,9 +1,7 @@
 
-import getParsedState from './getParsedState'
+import { fromMultiPath } from './getParsedState'
 import asString from './multiPath/asString'
 import parseMultiPath from './multiPath/parse'
-
-const fromMultiPath = getParsedState.fromMultiPath
 
 const getMultiPath = function(full_name) {
   if (full_name && full_name.charAt(0) == '<') {

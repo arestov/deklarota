@@ -1,6 +1,9 @@
+import type { Addr, AscendorAddr, AttrAddr, RelAddr, RouteAddr, ZipAddr } from './addr.types'
+
+type ZipArg = ZipAddr | boolean
 
 
-export default function multiPathAsString(multi_path) {
+export default function multiPathAsString(multi_path: Addr): string {
   if (multi_path.as_string) {
     return multi_path.as_string
   }
@@ -14,11 +17,11 @@ export default function multiPathAsString(multi_path) {
   return multi_path.as_string
 };
 
-function isStateOk(state) {
-  return state && state.path
+function isStateOk(state: AttrAddr): boolean {
+  return Boolean(state && state.path)
 }
 
-function wrapBySpace(item) {
+function wrapBySpace(item: string): string {
   if (!item) {
     return ''
   }
@@ -26,11 +29,11 @@ function wrapBySpace(item) {
   return ' ' + item + ' '
 }
 
-function firstPart(zip_name, state) {
+function firstPart(zip_name: ZipArg, state: AttrAddr): string {
   return '<' + wrapBySpace(zipPart(zip_name) + stateString(state))
 }
 
-function zipPart(zip_name) {
+function zipPart(zip_name: ZipArg): string {
   if (!zip_name) {
     return ''
   }
@@ -39,7 +42,7 @@ function zipPart(zip_name) {
 }
 
 
-function stateString(state) {
+function stateString(state: AttrAddr): string {
   if (!isStateOk(state)) {
     return ''
   }
@@ -47,11 +50,11 @@ function stateString(state) {
   return state.path
 }
 
-function isNestingOk(nesting) {
-  return nesting && nesting.path
+function isNestingOk(nesting: RelAddr): boolean {
+  return Boolean(nesting && nesting.path)
 }
 
-function nestingString(zip_name, nesting) {
+function nestingString(zip_name: ZipArg, nesting: RelAddr): string {
   if (!isNestingOk(nesting)) {
     return '<'
   }
@@ -61,7 +64,7 @@ function nestingString(zip_name, nesting) {
   return '<' + wrapBySpace(zipPart(zip_name) + path)
 }
 
-function resourceString(resource) {
+function resourceString(resource: RouteAddr): string {
   if (!resource || !resource.path) {
     return '<'
   }
@@ -69,7 +72,7 @@ function resourceString(resource) {
   return '< ' + resource.path + ' '
 }
 
-function baseStringMin(from_base) {
+function baseStringMin(from_base: AscendorAddr): string {
   if (!from_base || !from_base.type) {
     return ''
   }
@@ -91,7 +94,7 @@ function baseStringMin(from_base) {
   }
 }
 
-function baseString(from_base) {
+function baseString(from_base: AscendorAddr): string {
   const result = baseStringMin(from_base)
   return result ? '< ' + result : '<'
 }

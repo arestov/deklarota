@@ -1,24 +1,22 @@
 
 
-import spv from '../../../spv'
-import getParsedPath from '../../routes/legacy/getParsedPath'
 import supportedZip from './supportedZip'
 import fromLegacy from './fromLegacy'
 import isJustAttrAddr from './isJustAttrAddr'
+import memorize from '../../../spv/memorize'
+import parseAttrPart from './addr-parts/attr'
+import { parents, parseAscendorPart } from './addr-parts/ascendor'
+import parseRelPart from './addr-parts/rel'
+import parseRoutePart from './addr-parts/route'
+import { emptyObject } from '../sameObjectIfEmpty'
+import type { Addr, AddrResultKind, AddrSelf, AttrAddr, RelAddr } from './addr.types'
 
-const splitByDot = spv.splitByDot
-const empty = Object.freeze({})
-const root = Object.freeze({
-  type: 'root',
-  steps: null,
-})
-const parents = spv.memorize(function(num) {
-  return Object.freeze({
-    type: 'parent',
-    steps: num,
-  })
-})
-const parent_count_regexp = /\^+/gi
+export { parseAscendorPart as getBaseInfo }
+export { parseRoutePart as getResourceInfo }
+
+type AddrDraft = Addr
+
+const empty = emptyObject
 
 /*
 
@@ -48,7 +46,7 @@ const checkSplit = /(?:^|\s+)?<(?:\s+)?/
 const end = /(<$)|(\^$)|(#$)/
 const start = /^</
 
-const parseFromStart = spv.memorize(function(string) {
+const parseFromStart = memorize(function(string: string) {
   const parts = string.split(checkSplit)
   // parts[0] should be empty
   const state = parts[1]
@@ -60,7 +58,7 @@ const parseFromStart = spv.memorize(function(string) {
 
 })
 
-const parseFromEnd = spv.memorize(function(string) {
+const parseFromEnd = memorize(function(string) {
   const parts = string.split(checkSplit)
 
   const length = parts.length
@@ -72,7 +70,7 @@ const parseFromEnd = spv.memorize(function(string) {
   return parseParts(state, nest, resource, base)
 })
 
-function canParseModern(string) {
+function canParseModern(string: string): null | {from_start: boolean, from_end: boolean} {
   const from_start = start.test(string)
   const from_end = end.test(string)
   return (from_start || from_end)
@@ -80,7 +78,7 @@ function canParseModern(string) {
     : null
 }
 
-const parseModern = spv.memorize(function parseModern(string) {
+const parseModern = memorize(function parseModern(string: string): Addr | null {
   const can_parse = canParseModern(string)
   if (can_parse == null) {
     return null
@@ -95,22 +93,19 @@ const parseModern = spv.memorize(function parseModern(string) {
 const matchNotStateSymbols = /(^\W)|\@|\:/
 
 
-export const getStateInfo = spv.memorize(function getStateInfo(string) {
-  if (!string) {
-    return empty
-  }
+export const getStateInfo = memorize(parseAttrPart)
 
-  return {
-    base: splitByDot(string)[0],
-    path: string,
-  }
-})
-
-const SimpleStateAddr = function(string) {
-  this.state = getStateInfo(string)
+type SimpleAttrAddr = {
+  // eslint-disable-next-line no-unused-vars
+  new (string: string): Addr
 }
 
-SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
+// eslint-disable-next-line no-unused-vars
+const SimpleStateAddr = function(this: Addr, string: string): void {
+  this.state = getStateInfo(string)
+} as unknown as SimpleAttrAddr
+
+Object.assign(SimpleStateAddr.prototype, {
   result_type: 'state',
   zip_name: null,
   state: null,
@@ -120,11 +115,12 @@ SimpleStateAddr.prototype = spv.cloneObj(SimpleStateAddr.prototype, {
   as_string: null,
 })
 
-const simpleState = spv.memorize(function simpleState(string) {
-  return new SimpleStateAddr(string)
+const simpleState = memorize(function simpleState(string: string): Addr {
+  const result = new SimpleStateAddr(string)
+  return result
 })
 
-const attemptSimpleStateName = function(string) {
+const attemptSimpleStateName = function(string: string): null | Addr {
   if (!string || matchNotStateSymbols.test(string)) {
     return null
   }
@@ -132,42 +128,15 @@ const attemptSimpleStateName = function(string) {
   return simpleState(string)
 }
 
-const self = Object.freeze({
+const self: AddrSelf = Object.freeze({
   as_string: '<<<<',
   base_itself: true,
 })
 
 
-export const getNestInfo = spv.memorize(function getNestInfo(string) {
-  if (!string) {
-    return empty
-  }
+export const getNestInfo = memorize(parseRelPart)
 
-  const parts = string.split(':')
-  const path = parts.pop()
-
-  const full_path = splitByDot(path)
-
-  const zip_name = parts[0] || null
-
-  if (zip_name) {
-    throw new Error('dont use. use < @[zip_name] [statename] < [nestingname]')
-  }
-
-  const target_nest_name = full_path[full_path.length - 1] // last one
-
-  if (!target_nest_name) {
-    throw new Error('wrong nest path: ' + string)
-  }
-
-  return {
-    path: full_path,
-    base: full_path.slice(0, full_path.length - 1), // all, except last
-    target_nest_name: target_nest_name,
-  }
-})
-
-const parseMultiPath = function(string, allow_legacy) {
+const parseMultiPath = function(string: string, allow_legacy?: boolean): Addr | AddrSelf | null {
   if (string == '<<<<') {
     return self
   }
@@ -190,11 +159,11 @@ const parseMultiPath = function(string, allow_legacy) {
 }
 const matchZip = /(?:\@(.+?)\:)?(.+)?/
 
-const parseLegacyCached = spv.memorize(parseMultiPath)
-const parseModernCached = spv.memorize(parseMultiPath)
+const parseLegacyCached = memorize(parseMultiPath)
+const parseModernCached = memorize(parseMultiPath)
 
 
-const parseWithCache = function(addr_str, legacy_ok) {
+const parseWithCache = function(addr_str: string, legacy_ok?: boolean): Addr | AddrSelf | null {
   if (legacy_ok != true) {
     return parseModernCached(addr_str, false)
   }
@@ -207,7 +176,7 @@ parseWithCache.simpleState = simpleState
 
 export default parseWithCache
 
-function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
+function parseParts(state_raw?: string, nest_raw?: string, resource_raw?: string, base_raw?: string): Addr {
   const state_part_splited = state_raw && state_raw.match(matchZip)
   const zip_state_string = state_part_splited && state_part_splited[1]
   const state_string = state_part_splited && state_part_splited[2]
@@ -238,12 +207,12 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 
 
   const zip_name = zip_state_string || zip_nest_string || null
-  const state_info = getStateInfo(state_string)
-  const nest_info = getNestInfo(nest_string)
-  const resource_info = getResourceInfo(resource_raw)
-  const base_info = getBaseInfo(base_raw)
+  const state_info = getStateInfo(state_string || null)
+  const nest_info = getNestInfo(nest_string || null)
+  const resource_info = parseRoutePart(resource_raw || null)
+  const base_info = parseAscendorPart(base_raw || null)
 
-  const result_type = getResultType(state_info, nest_info, resource_info, base_info)
+  const result_type = getResultType(state_info, nest_info)
 
   return Object.seal({
     result_type: result_type,
@@ -257,12 +226,12 @@ function parseParts(state_raw, nest_raw, resource_raw, base_raw) {
 }
 
 
-export function updateResultType(draft) {
-  draft.result_type = getResultType(draft.state, draft.nesting, draft.resource, draft.from_base)
+export function updateResultType(draft: AddrDraft): void {
+  draft.result_type = getResultType(draft.state, draft.nesting)
 
 }
 
-export function createAddrByPart(source) {
+export function createAddrByPart(source: AddrDraft): Addr {
   const draft = Object.seal({
     result_type: null,
     zip_name: null,
@@ -277,46 +246,7 @@ export function createAddrByPart(source) {
   return draft
 }
 
-
-export function getResourceInfo(string) {
-  if (!string) {
-    return empty
-  }
-
-  if (string.startsWith('#')) {
-    throw new Error('use "ascending part" for root/parent traversing')
-  }
-
-  if (string.startsWith('/')) {
-    const err = new Error('route should no starts with `/`')
-    console.log(string, err)
-    throw err
-  }
-
-  return {
-    path: string,
-    template: getParsedPath(string),
-  }
-}
-
-export function getBaseInfo(string) {
-  if (!string) {
-    return empty
-  }
-
-  if (string == '#') {
-    return root
-  }
-
-  const from_parent_num = string.match(parent_count_regexp)
-  if (from_parent_num) {
-    return parents(from_parent_num[0].length)
-  }
-
-  throw new Error('unsupported base: ' + string)
-}
-
-function getResultType(state, nest) {
+function getResultType(state: AttrAddr, nest: RelAddr): AddrResultKind {
   if (state && state.path) {
     return 'state'
   }
@@ -328,7 +258,7 @@ function getResultType(state, nest) {
   return null
 }
 
-export const clearCache = () => {
+export const clearCache = (): void => {
   parents.__clear()
   parseFromStart.__clear()
   parseFromEnd.__clear()

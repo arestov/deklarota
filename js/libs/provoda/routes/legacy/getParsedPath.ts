@@ -1,9 +1,9 @@
 
 import spv from '../../../spv'
-import parsePath from './parse.js'
+import type { LegacyRichRoute, MarkFromParent, MarkFromRoot } from './legacy-routes.types'
+import parsePath from './parse'
 
-
-const isFromRoot = function(first_char, string_template) {
+const isFromRoot = function(first_char: string, string_template: string): MarkFromRoot | undefined {
   const from_root = first_char == '#'
   if (!from_root) {return}
 
@@ -13,7 +13,7 @@ const isFromRoot = function(first_char, string_template) {
 }
 
 const parent_count_regexp = /^\^+/gi
-const isFromParent = function(first_char, string_template) {
+const isFromParent = function(first_char: string, string_template: string): MarkFromParent | undefined {
   if (first_char != '^') {return}
 
   const cutted = string_template.replace(parent_count_regexp, '')
@@ -23,7 +23,7 @@ const isFromParent = function(first_char, string_template) {
   }
 }
 
-const getParsedPath = spv.memorize(function(string_template) {
+const getParsedPath = spv.memorize(function(string_template: string): LegacyRichRoute {
   //example "#tracks/[:artist],[:track]"
   //example "^^tracks/[:artist],[:track]"
   //example "^"

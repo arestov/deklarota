@@ -1,6 +1,6 @@
 import memorize from './memorize'
 
-const splitByDot = memorize(function splitByDot(string) {
+const splitByDot = memorize(function splitByDot(string: string) {
   return string.split('.')
 })
 
