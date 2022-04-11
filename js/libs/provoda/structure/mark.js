@@ -12,7 +12,7 @@ import {clearCache as clearCacheCompAttr} from '../dcl/attrs/comp/parseItems'
 import {clearCache as clearCacheCompGlue} from '../dcl/attrs/comp/extendByServiceAttrs'
 import {clearCache as clearCacheMultiPathParse} from '../utils/multiPath/parse'
 import {clearCache as clearCacheMultiPathLegacy} from '../utils/multiPath/fromLegacy'
-import {clearCache as clearCacheLegacyAddr} from '../utils/getParsedState.js'
+import {clearCache as clearCacheLegacyAddr} from '../utils/getParsedState'
 import splitByDot from '../../spv/splitByDot'
 
 function makePath(parent_path, current_name) {
