@@ -1,7 +1,14 @@
+import type { RelPath, Addr, RelPathStep } from '../../utils/multiPath/addr.types'
 import target_types from './target_types'
+import type { MENTION_TARGET } from './target_types.types'
 
 class MentionChainLink {
-  constructor(chain, num, rel) {
+  // eslint-disable-next-line no-use-before-define
+  chain: MentionChain
+  num: number
+  rel: string
+  // eslint-disable-next-line no-use-before-define
+  constructor(chain: MentionChain, num: number, rel: RelPathStep) {
     this.chain = chain
     this.num = num
     this.rel = rel
@@ -9,12 +16,13 @@ class MentionChainLink {
   }
 }
 
-function addrToLinks(rel_path, chain) {
+// eslint-disable-next-line no-use-before-define
+function addrToLinks(rel_path: RelPath, chain: MentionChain): MentionChainLink[] {
   const list = []
 
   for (let i = 0; i < rel_path.length; i++) {
     const rel = rel_path[i]
-    list.push(new MentionChainLink(chain, i, rel))
+    list.push(new MentionChainLink(chain, i, rel as RelPathStep))
   }
 
   Object.freeze(list)
@@ -23,7 +31,20 @@ function addrToLinks(rel_path, chain) {
 }
 
 class MentionChain {
-  constructor(target_type, rel_path, target_matcher, addr, target_name, handler_payload) {
+  target_matcher: unknown
+  target_type: MENTION_TARGET
+  addr: Addr | null
+  list: MentionChainLink[]
+  target_name: string
+  handler_payload: unknown
+  constructor(
+    target_type: MENTION_TARGET,
+    rel_path: RelPath,
+    target_matcher: unknown,
+    addr: Addr | null,
+    target_name: string | null,
+    handler_payload: unknown
+  ) {
     this.target_matcher = target_matcher
     this.target_type = target_type
     this.addr = addr
@@ -40,6 +61,7 @@ class MentionChain {
         if (!handler_payload) {
           throw new Error('handler_payload should be provided')
         }
+        break
       }
       default:
     }
