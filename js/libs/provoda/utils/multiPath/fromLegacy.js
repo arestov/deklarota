@@ -1,10 +1,10 @@
 
-import spv from '../../../spv'
+import memorize from '../../../spv/memorize'
 import splitByDot from '../../../spv/splitByDot'
 import getParsedState from '../../utils/getParsedState'
 
 
-const getPath = spv.memorize(function(full_name) {
+const getPath = memorize(function(full_name) {
   const result = getParsedState(full_name)
   if (result) {
     return result
@@ -41,7 +41,7 @@ const createStateInfo = function(full_state_name, base_state_name) {
   }
 }
 
-const getFullPathInfo = spv.memorize(function(full_path) {
+const getFullPathInfo = memorize(function(full_path) {
   const info = getPath(full_path)
 
   switch (info.rel_type) {
