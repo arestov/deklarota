@@ -1,3 +1,4 @@
+import isBwlevName from '../utils/isBwlevName'
 import getBwlevParent from './getBwlevParent'
 const getParentsBranch = (bwlev) => {
   let result = []
@@ -5,7 +6,7 @@ const getParentsBranch = (bwlev) => {
   let cur = bwlev
   while (cur) {
     /* throw can be removed when be sure that there is no code calling getParentsBranch with usual model */
-    if (cur.model_name !== 'bwlev') {
+    if (!isBwlevName(cur.model_name)) {
       throw new Error('consider to use getRouteStepParent for none bwlev model')
     }
 

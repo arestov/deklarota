@@ -4,6 +4,7 @@ import { doCopy } from '../spv/cloneObj'
 import getBwlevParent from './bwlev/getBwlevParent'
 
 import MDProxy from './MDProxy'
+import isBwlevName from './utils/isBwlevName'
 const CH_GR_LE = 2
 
 const slice = Array.prototype.slice
@@ -32,7 +33,7 @@ FakeModel.prototype = {
     return spv.cloneObj(target, this.states)
   },
   getParentMapModel: function() {
-    if (this.model_name != 'bwlev') {
+    if (!isBwlevName(this.model_name)) {
       return this.map_parent
     }
 

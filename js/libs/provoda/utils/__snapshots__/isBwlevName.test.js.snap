@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`isBwlevName result should match snapshot for ":" 1`] = `false`;
+
+exports[`isBwlevName result should match snapshot for ":rf" 1`] = `false`;
+
+exports[`isBwlevName result should match snapshot for "bwlev" 1`] = `true`;
+
+exports[`isBwlevName result should match snapshot for "bwlev:" 1`] = `false`;
+
+exports[`isBwlevName result should match snapshot for "bwlev:rf" 1`] = `true`;

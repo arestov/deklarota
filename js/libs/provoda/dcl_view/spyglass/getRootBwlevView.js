@@ -1,5 +1,6 @@
 
 import spv from '../../../spv'
+import isBwlevName from '../../utils/isBwlevName'
 const nil = spv.nil
 
 export default function getRootBwlevView(target) {
@@ -7,7 +8,7 @@ export default function getRootBwlevView(target) {
   let possible_root
 
   while (!nil(cur)) {
-    if (cur.mpx.md.model_name == 'bwlev') {
+    if (isBwlevName(cur.mpx.md.model_name)) {
       possible_root = cur
     }
 

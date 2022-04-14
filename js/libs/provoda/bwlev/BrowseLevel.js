@@ -17,6 +17,8 @@ import showMOnMap from './showMOnMap'
 import getAliveNavPioneer from './getAliveNavPioneer'
 import getBwlevParent from './getBwlevParent'
 import { hasRelDcl } from '../dcl/nests/getRelShape'
+import { hasOwnProperty } from '../hasOwnProperty'
+import isBwlevName from '../utils/isBwlevName'
 
 
 const transportName = function(spyglass_name) {
@@ -78,7 +80,16 @@ const BrowseLevel = spv.inh(Model, {
     // 	throw new Error('must have model name');
     // }
 
-  }
+  },
+  onExtend: function(_self, props) {
+    if (!hasOwnProperty(props, 'model_name')) {
+      return
+    }
+    if (!isBwlevName(props.model_name)) {
+      console.log(props.model_name)
+      throw new Error('should starts with `bwlev:`')
+    }
+  },
 }, {
   model_name: 'bwlev',
   attrs: {
