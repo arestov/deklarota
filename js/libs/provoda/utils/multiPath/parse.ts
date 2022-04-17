@@ -14,7 +14,7 @@ import type { Addr, AddrResultKind, AddrSelf, AttrAddr, RelAddr } from './addr.t
 export { parseAscendorPart as getBaseInfo }
 export { parseRoutePart as getResourceInfo }
 
-type AddrDraft = Addr
+type AddrDraft = Partial<Addr>
 
 const empty = emptyObject
 
@@ -226,7 +226,7 @@ function parseParts(state_raw?: string, nest_raw?: string, resource_raw?: string
 }
 
 
-export function updateResultType(draft: AddrDraft): void {
+export function updateResultType(draft: Addr): void {
   draft.result_type = getResultType(draft.state, draft.nesting)
 
 }
