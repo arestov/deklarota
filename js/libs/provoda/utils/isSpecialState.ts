@@ -1,7 +1,7 @@
 
 import memorize from '../../spv/memorize'
 
-const isSpecialState = memorize(function(state_name) {
+const isSpecialState = memorize(function(state_name: string): boolean {
   const char = state_name.charAt(0)
 
   switch (char) {
