@@ -1,7 +1,7 @@
 
-import spv from '../../spv'
+import memorize from '../../spv/memorize'
 
-const isSpecialState = spv.memorize(function(state_name) {
+const isSpecialState = memorize(function(state_name) {
   const char = state_name.charAt(0)
 
   switch (char) {
