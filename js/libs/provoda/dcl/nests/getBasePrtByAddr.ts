@@ -1,6 +1,8 @@
+import type { ModelProto } from '../../dkt.types'
 import routePathByModels from '../../routePathByModels'
+import type { Addr, AscendorAddr } from '../../utils/multiPath/addr.types'
 
-const getAddrBasePrt = (prt, from_base) => {
+const getAddrBasePrt = (prt: ModelProto, from_base: AscendorAddr): ModelProto => {
   if (!from_base || !from_base.type) {
     return prt
   }
@@ -19,13 +21,14 @@ const getAddrBasePrt = (prt, from_base) => {
       return result
     }
     default: {
-      throw new Error('unknown type ' + from_base.type)
+      // TODO: legacy error. don't need it when all code be ts
+      throw new Error('unknown type ' + (from_base as unknown as AscendorAddr).type)
     }
   }
 }
 
 
-const getBasePrtByAddr = (prt, addr) => {
+const getBasePrtByAddr = (prt: ModelProto, addr: Addr): ModelProto => {
   const base = getAddrBasePrt(prt, addr.from_base)
 
   if (!addr.resource.path) {
