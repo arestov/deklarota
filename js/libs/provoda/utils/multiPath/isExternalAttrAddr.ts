@@ -1,4 +1,6 @@
-const isExternalAttrAddr = function(addr) {
+import type { Addr } from './addr.types'
+
+const isExternalAttrAddr = function(addr: Addr): boolean {
   if (addr.result_type !== 'state') {
     return false
   }
