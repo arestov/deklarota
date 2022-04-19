@@ -1,5 +1,8 @@
 
 import spv from '../../../../../spv'
+import usedInterfaceAttrName from '../../usedInterfaceAttrName'
+
+
 const updateRootInterface = spv.memorize(function(name) {
   return function(val) {
     const interface_instance = val
@@ -8,13 +11,25 @@ const updateRootInterface = spv.memorize(function(name) {
     this.useInterface('#' + name, interface_instance)
   }
 })
+
+const watchInterface = function(self, from, interface_name, fn) {
+  const meta_state_name = usedInterfaceAttrName(interface_name)
+  self.lwch(from, meta_state_name, fn)
+}
+
+const unwatchInterface = function(self, from, interface_name, fn) {
+  const meta_state_name = usedInterfaceAttrName(interface_name)
+  self.removeLwch(from, meta_state_name, fn)
+}
+
+
 const connectRootApis = function(self, list) {
   if (!list) {
     return
   }
   for (let i = 0; i < list.length; i++) {
     const cur = list[i]
-    self.watchInterface(self.getStrucRoot(), cur, updateRootInterface(cur))
+    watchInterface(self, self.getStrucRoot(), cur, updateRootInterface(cur))
   }
 }
 
@@ -24,7 +39,7 @@ const disconnectRootApis = function(self, list) {
   }
   for (let i = 0; i < list.length; i++) {
     const cur = list[i]
-    self.unwatchInterface(self.getStrucRoot(), cur, updateRootInterface(cur))
+    unwatchInterface(self, self.getStrucRoot(), cur, updateRootInterface(cur))
   }
 }
 

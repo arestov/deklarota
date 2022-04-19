@@ -14,7 +14,6 @@ import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
 import useInterfaceAsSource from './dcl/effects/transaction/start'
-import usedInterfaceAttrName from './dcl/effects/usedInterfaceAttrName'
 
 const getLightConnector = spv.memorize(function(state_name) {
   return function updateStateBindedLightly(value) {
@@ -37,15 +36,6 @@ function props(add) {
   add({
     getInterface: function(interface_name) {
       return this._interfaces_used[interface_name]
-    },
-    watchInterface: function(from, interface_name, fn) {
-      const meta_state_name = usedInterfaceAttrName(interface_name)
-      this.lwch(from, meta_state_name, fn)
-    },
-    unwatchInterface: function(from, interface_name, fn) {
-      const meta_state_name = usedInterfaceAttrName(interface_name)
-      this.removeLwch(from, meta_state_name, fn)
-
     },
     __updateInteraceState: __updateInteraceState,
     __reportInterfaceChange: __reportInterfaceChange,
