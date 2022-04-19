@@ -16,11 +16,4 @@ export default {
 
     return obj
   },
-  nullObjValues: function(obj) {
-    for (const p in obj) {
-      if (obj.hasOwnProperty(p)) {
-        obj[p] = null
-      }
-    }
-  },
 }
