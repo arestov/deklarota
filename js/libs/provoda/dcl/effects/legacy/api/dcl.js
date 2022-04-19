@@ -22,38 +22,39 @@ const assignPropsFromData = function(self, data) {
 
   if (typeof data == 'function') {
     self.fn = data
-  } else {
-    switch (data.length) {
-      case 2: {
-        const attr_deps = data[0]
+    return
+  }
 
-        const all_deps = wrapDeps(attr_deps)
-        // var all_deps_name = '_api_all_needs_' + name
-        self.deps_name = Symbol() // Symbol(all_deps_name)
+  switch (data.length) {
+    case 2: {
+      const attr_deps = data[0]
 
-        self.fn = data[1]
-        self.all_deps = all_deps
-      }
-        break
-      case 3:
-      case 4: {
-        const attr_deps = data[0]
-        const needed_apis = data[1]
+      const all_deps = wrapDeps(attr_deps)
+      // var all_deps_name = '_api_all_needs_' + name
+      self.deps_name = Symbol() // Symbol(all_deps_name)
 
-        self.needed_apis = needed_apis
-
-        const needed_apis_deps = wrapInterfaceAttrs(needed_apis)
-
-        const all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
-        // var all_deps_name = '_api_all_needs_' + name
-        self.deps_name = Symbol() // Symbol(all_deps_name)
-        self.all_deps = all_deps
-
-        self.fn = data[2]
-        self.destroy = data[3]
-      }
-        break
+      self.fn = data[1]
+      self.all_deps = all_deps
     }
+      break
+    case 3:
+    case 4: {
+      const attr_deps = data[0]
+      const needed_apis = data[1]
+
+      self.needed_apis = needed_apis
+
+      const needed_apis_deps = wrapInterfaceAttrs(needed_apis)
+
+      const all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
+      // var all_deps_name = '_api_all_needs_' + name
+      self.deps_name = Symbol() // Symbol(all_deps_name)
+      self.all_deps = all_deps
+
+      self.fn = data[2]
+      self.destroy = data[3]
+    }
+      break
   }
 }
 
