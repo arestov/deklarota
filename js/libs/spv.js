@@ -43,9 +43,10 @@ spv.mapfn = function(func) {
 }
 
 const hasArg = function(el) {return el}
-spv.hasEveryArgs = function() {
+export const hasEveryArgs = function() {
   return Array.prototype.every.call(arguments, hasArg)
 }
+
 spv.getExistingItems = function(arr) {
   const result = []
   for (let i = 0; i < arr.length; i++) {
