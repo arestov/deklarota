@@ -6,9 +6,7 @@ import initBWlev from '../bwlev/initBWlev'
 import toProperNavParent from '../bwlev/toProperNavParent'
 import showInterest from '../bwlev/showInterest'
 import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
-import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import routePathByModels from '../routePathByModels'
-import requireRouter from '../bwlev/requireRouter'
 
 const getSPIConstr = routePathByModels.getSPIConstr
 const getSPI = routePathByModels.getSPI

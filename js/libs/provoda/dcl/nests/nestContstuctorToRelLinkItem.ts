@@ -1,7 +1,9 @@
 import {getResourceInfo, createAddrByPart} from '../../utils/multiPath/parse'
+import type { RelLink } from './rel.types'
 
 
-const nestContstuctorToRelLinkItem = (item) => {
+
+const nestContstuctorToRelLinkItem = (item: {type: 'route', value: string } | {type: 'constr', key: string}): RelLink => {
   switch (item.type) {
     case 'route': {
       if (item.value.startsWith('/')) {
