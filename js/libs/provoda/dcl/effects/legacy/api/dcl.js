@@ -1,11 +1,12 @@
 
 
+import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 import wrapDeps from './utils/wrapDeps'
 
 const wrapInterfaceAttrs = function(arr) {
   const result = new Array(arr.length)
   for (let i = 0; i < arr.length; i++) {
-    result[i] = '$meta$apis$' + arr[i] + '$used'
+    result[i] = usedInterfaceAttrName(arr[i])
   }
   return result
 }

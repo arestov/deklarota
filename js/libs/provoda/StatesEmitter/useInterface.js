@@ -5,6 +5,7 @@ import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
 import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 import checkInitedApi from '../dcl/effects/legacy/produce/checkInitedApi'
+import usedInterfaceAttrName from '../dcl/effects/usedInterfaceAttrName'
 
 const template = function() {
   return {
@@ -24,9 +25,8 @@ export function __reportInterfaceChange(interface_name, value) {
   this.__updateInteraceState(this, interface_name, value)
 }
 
-
 export function __updateInteraceState(self, interface_name, value) {
-  const name_for_used_modern = '$meta$apis$' + interface_name + '$used'
+  const name_for_used_modern = usedInterfaceAttrName(interface_name)
 
   self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
 
