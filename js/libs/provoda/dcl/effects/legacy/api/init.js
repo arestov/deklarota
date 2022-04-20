@@ -1,9 +1,9 @@
 
-import spv from '../../../../../spv'
+import memorize from '../../../../../spv/memorize'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 
 
-const updateRootInterface = spv.memorize(function(name) {
+const updateRootInterface = memorize(function(name) {
   return function(val) {
     const interface_instance = val
       ? this.getStrucRoot().getInterface(name)
