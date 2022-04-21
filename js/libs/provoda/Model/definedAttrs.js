@@ -1,6 +1,17 @@
+import { hasEveryArgs } from '../../spv'
 import definedMetaAttrs from './rel/definedMetaAttrs'
 
 const push = Array.prototype.push
+
+const doesFnReturnsBool = (fn) => {
+  switch (fn) {
+    case Boolean:
+    case hasEveryArgs:
+      return true
+  }
+
+  return false
+}
 
 export default function(self) {
   if (self.__defined_attrs_bool) {
@@ -23,7 +34,7 @@ export default function(self) {
   if (self.full_comlxs_list) {
     for (let i = 0; i < self.full_comlxs_list.length; i++) {
       const cur = self.full_comlxs_list[i]
-      const isFullBool = cur.fn === Boolean && !cur.require_marks.length
+      const isFullBool = doesFnReturnsBool(cur.fn) && !cur.require_marks.length
       result.push({name: cur.name, type: isFullBool ? 'bool' : null})
     }
   }
