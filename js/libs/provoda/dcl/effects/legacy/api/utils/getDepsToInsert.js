@@ -12,15 +12,11 @@ const empty = []
 export default function getDepsToInsert(source, extended_comp_attrs) {
   if (!source) {return empty}
 
-  const result = []
-
   for (const name in source) {
     if (!source.hasOwnProperty(name)) {continue}
 
     const cur = source[name]
     if (!cur.all_deps) {continue}
-
-    result.push(name)
 
     doCopy(cur, extended_comp_attrs)
   }
@@ -29,10 +25,6 @@ export default function getDepsToInsert(source, extended_comp_attrs) {
     const cur = source[prop]
     if (!cur.all_deps) {continue}
 
-    result.push(prop)
-
     doCopy(cur, extended_comp_attrs)
   }
-
-  return result
 };
