@@ -23,6 +23,7 @@ import parseCompItems from '../attrs/comp/parseItems'
 import cachedField from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
 import assign from './legacy/utils/assign'
+import getDepsToInsert from './legacy/api/utils/getDepsToInsert'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -135,6 +136,16 @@ const checkAttrsFromConsumeRel = cachedField('___dcl_eff_consume_req_nest', ['_n
   return extended_comp_attrs
 })
 
+const checkAttrsFromOutFx = cachedField('___dcl_eff_produce', ['__api_effects'], false, (effects) => {
+  const extended_comp_attrs = {}
+
+  getDepsToInsert(effects, extended_comp_attrs)
+
+  parseCompItems(extended_comp_attrs)
+  return extended_comp_attrs
+})
+
+
 const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
@@ -152,10 +163,8 @@ const rebuildType = function(self, type, result, list) {
       return
     }
     case 'produce-': {
-      const extended_comp_attrs = {}
-      buildProduce(self, result, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_produce = extended_comp_attrs
+      buildProduce(self, result)
+      checkAttrsFromOutFx(self)
       return
     }
     case 'api-': {
