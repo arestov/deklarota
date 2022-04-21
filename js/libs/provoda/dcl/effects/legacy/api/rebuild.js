@@ -104,7 +104,7 @@ function wrapAttr(name) {
 
 
 export default function rebuild(self, apis, extended_comp_attrs) {
-  const inserted_names = getDepsToInsert(apis, self, extended_comp_attrs)
+  const inserted_names = getDepsToInsert(apis, extended_comp_attrs)
   self.__defined_api_attrs_bool = inserted_names.map(wrapAttr)
 
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index

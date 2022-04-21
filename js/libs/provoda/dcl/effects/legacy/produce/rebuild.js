@@ -73,7 +73,7 @@ function rootApis(obj) {
 export default function rebuildEffects(self, effects, extended_comp_attrs) {
   self.__api_effects = effects
 
-  getDepsToInsert(effects, self, extended_comp_attrs)
+  getDepsToInsert(effects, extended_comp_attrs)
 
   self.__api_effects_$_index = indexByDepName(effects) || self.__api_effects_$_index
   self.__api_effects_$_index_by_triggering = indexByList(effects, 'triggering_states') || self.__api_effects_$_index_by_triggering

@@ -9,7 +9,7 @@ const doCopy = function(item, extended_comp_attrs) {
 
 const empty = []
 
-export default function getDepsToInsert(source, self, extended_comp_attrs) {
+export default function getDepsToInsert(source, extended_comp_attrs) {
   if (!source) {return empty}
 
   const result = []
