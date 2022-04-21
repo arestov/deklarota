@@ -1,6 +1,6 @@
 
 
-const doCopy = function(item, _self, extended_comp_attrs) {
+const doCopy = function(item, extended_comp_attrs) {
   if (!item.deps_name) {
     throw new Error('item should have deps_name')
   }
@@ -22,7 +22,7 @@ export default function getDepsToInsert(source, self, extended_comp_attrs) {
 
     result.push(name)
 
-    doCopy(cur, self, extended_comp_attrs)
+    doCopy(cur, extended_comp_attrs)
   }
 
   for (const prop of Object.getOwnPropertySymbols(source)) {
@@ -31,7 +31,7 @@ export default function getDepsToInsert(source, self, extended_comp_attrs) {
 
     result.push(prop)
 
-    doCopy(cur, self, extended_comp_attrs)
+    doCopy(cur, extended_comp_attrs)
   }
 
   return result
