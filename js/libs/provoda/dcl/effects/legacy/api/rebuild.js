@@ -1,6 +1,8 @@
 
 import spv from '../../../../../spv'
 import indexByDepName from './utils/indexByDepName'
+import cachedField from '../../../cachedField'
+import parseCompItems from '../../../attrs/comp/parseItems'
 import getDepsToInsert from './utils/getDepsToInsert'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 import { hasOwnProperty } from '../../../../hasOwnProperty'
@@ -122,12 +124,19 @@ function getBoolAttrs(apis) {
   return bool_attrs
 }
 
-export default function rebuild(self, apis, extended_comp_attrs) {
+export const checkApiBools = cachedField('__defined_api_attrs_bool', ['__api_dcls'], false, (apis) => {
+  return getBoolAttrs(apis)
+})
+
+export const checkAttrsFromApi = cachedField('___dcl_eff_api', ['__api_dcls'], false, (apis) => {
+  const extended_comp_attrs = {}
   getDepsToInsert(apis, extended_comp_attrs)
+  parseCompItems(extended_comp_attrs)
+  return extended_comp_attrs
+})
 
-
-  self.__defined_api_attrs_bool = getBoolAttrs(apis)
-
+export default function rebuild(self, apis) {
+  self.__api_dcls = apis
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index
   self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual
   self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null

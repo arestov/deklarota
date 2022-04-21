@@ -16,7 +16,7 @@ import StateBindDeclr from './legacy/subscribe/dcl'
 import buildSubscribes from './legacy/subscribe/rebuild'
 import ProduceEffectDeclr from './legacy/produce/dcl'
 import buildProduce from './legacy/produce/rebuild'
-import buildApi from './legacy/api/rebuild'
+import buildApi, { checkApiBools, checkAttrsFromApi } from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
 
 import parseCompItems from '../attrs/comp/parseItems'
@@ -168,10 +168,9 @@ const rebuildType = function(self, type, result, list) {
       return
     }
     case 'api-': {
-      const extended_comp_attrs = {}
-      buildApi(self, result, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_api = extended_comp_attrs
+      buildApi(self, result)
+      checkAttrsFromApi(self)
+      checkApiBools(self)
     }
   }
 }
