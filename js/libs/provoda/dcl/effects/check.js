@@ -118,6 +118,23 @@ const checkAttrsFromConsume = cachedField('___dcl_eff_consume_req_st', ['_states
   return extended_comp_attrs
 })
 
+const checkAttrsFromConsumeRel = cachedField('___dcl_eff_consume_req_nest', ['_nest_reqs'], false, (_nest_reqs) => {
+  const extended_comp_attrs = {}
+
+  for (const nest_name in _nest_reqs) {
+    const cur_nest = _nest_reqs[nest_name]
+
+    if (!cur_nest.state_dep) {
+      continue
+    }
+
+    assign(extended_comp_attrs, cur_nest)
+  }
+
+  parseCompItems(extended_comp_attrs)
+  return extended_comp_attrs
+})
+
 const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
@@ -126,10 +143,8 @@ const rebuildType = function(self, type, result, list) {
       return
     }
     case 'consume-nest_request': {
-      const extended_comp_attrs = {}
-      buildNestReqs(self, result, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_consume_req_nest = extended_comp_attrs
+      buildNestReqs(self, result)
+      checkAttrsFromConsumeRel(self)
       return
     }
     case 'consume-subscribe': {
