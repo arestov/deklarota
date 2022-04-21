@@ -3,6 +3,7 @@ import spv from '../../../../../spv'
 import indexByDepName from './utils/indexByDepName'
 import getDepsToInsert from './utils/getDepsToInsert'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
+import { hasOwnProperty } from '../../../../hasOwnProperty'
 
 const usualApis = function(obj) {
   if (!obj) {
@@ -104,9 +105,28 @@ function wrapAttr(name) {
 }
 
 
+function getBoolAttrs(apis) {
+  const bool_attrs = []
+  for (const api_name in apis) {
+    if (!hasOwnProperty(apis, api_name)) {
+      continue
+
+    }
+    const api = apis[api_name]
+    bool_attrs.push(wrapAttr(usedInterfaceAttrName(api.name)))
+    if (api.deps_name) {
+      bool_attrs.push(wrapAttr(api.deps_name))
+    }
+  }
+
+  return bool_attrs
+}
+
 export default function rebuild(self, apis, extended_comp_attrs) {
   getDepsToInsert(apis, extended_comp_attrs)
-  self.__defined_api_attrs_bool = Object.keys(apis).map((api_name) => wrapAttr(usedInterfaceAttrName(api_name)))
+
+
+  self.__defined_api_attrs_bool = getBoolAttrs(apis)
 
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index
   self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual
