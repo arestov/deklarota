@@ -1,6 +1,5 @@
 
 
-import assign from '../utils/assign'
 import changeSources from '../utils/changeSources'
 
 const doIndex = function(list, value) {
@@ -17,7 +16,7 @@ const doIndex = function(list, value) {
 }
 
 
-export default function buildStateReqs(self, list, extended_comp_attrs) {
+export default function buildStateReqs(self, list) {
   self._states_reqs_index = {}
   self._states_reqs_list = list
   const states_index = {}
@@ -43,6 +42,5 @@ export default function buildStateReqs(self, list, extended_comp_attrs) {
 
     // copy dependencies to comp, so runtime will subscribe to nonlocal changes
     // (todo: subscribe to nonlocal deps without mutating comp)
-    assign(extended_comp_attrs, list[i])
   }
 }

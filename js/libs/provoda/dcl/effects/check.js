@@ -22,6 +22,7 @@ import ApiDeclr from './legacy/api/dcl'
 import parseCompItems from '../attrs/comp/parseItems'
 import cachedField from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
+import assign from './legacy/utils/assign'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -108,13 +109,20 @@ const notEqual = function(one, two) {
   }
 }
 
+const checkAttrsFromConsume = cachedField('___dcl_eff_consume_req_st', ['_states_reqs_list'], false, (list) => {
+  const extended_comp_attrs = {}
+  for (let i = 0; i < list.length; i++) {
+    assign(extended_comp_attrs, list[i])
+  }
+  parseCompItems(extended_comp_attrs)
+  return extended_comp_attrs
+})
+
 const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
-      const extended_comp_attrs = {}
-      buildStateReqs(self, list, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_consume_req_st = extended_comp_attrs
+      buildStateReqs(self, list)
+      checkAttrsFromConsume(self)
       return
     }
     case 'consume-nest_request': {
