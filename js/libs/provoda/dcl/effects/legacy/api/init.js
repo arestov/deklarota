@@ -1,5 +1,6 @@
 
 import memorize from '../../../../../spv/memorize'
+import { hasOwnProperty } from '../../../../hasOwnProperty'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 
 
@@ -56,7 +57,7 @@ export const dispose = function(self) {
 
   if (self.__apis_$_index) {
     for (const name in self.__apis_$_index) {
-      if (!self.__apis_$_index.hasOwnProperty(name)) {
+      if (!hasOwnProperty(self.__apis_$_index, name)) {
         continue
       }
       const declr = self.__apis_$_index[name]
@@ -66,7 +67,7 @@ export const dispose = function(self) {
   }
 
   for (const name in self._interfaces_used) {
-    if (!self._interfaces_used.hasOwnProperty(name)) {
+    if (!hasOwnProperty(self._interfaces_used, name)) {
       continue
     }
     self.useInterface(name, null)
