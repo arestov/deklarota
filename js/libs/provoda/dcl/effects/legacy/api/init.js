@@ -52,9 +52,7 @@ function needsSelf(self) {
 }
 
 export const dispose = function(self) {
-  disconnectRootApis(self, self.__apis_$__needs_root_apis)
-  disconnectRootApis(self, self.__api_root_dep_apis)
-  disconnectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
+  disconnectRootApis(self, self.__dcls_list_api_to_connect)
 
   if (self.__apis_$_index) {
     for (const name in self.__apis_$_index) {
@@ -90,9 +88,7 @@ export default function(self, apis_as_arg) {
     }
   }
 
-  connectRootApis(self, self.__apis_$__needs_root_apis)
-  connectRootApis(self, self.__api_root_dep_apis)
-  connectRootApis(self, self.__api_root_dep_apis_subscribe_eff)
+  connectRootApis(self, self.__dcls_list_api_to_connect)
 
   if (needsSelf(self)) {
     self.useInterface('self', self)

@@ -24,6 +24,7 @@ import cachedField from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
 import assign from './legacy/utils/assign'
 import getDepsToInsert from './legacy/api/utils/getDepsToInsert'
+import emptyArray from '../../emptyArray'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -231,6 +232,21 @@ const fxAttrs = cachedField(
   }
 )
 
+const checkDepsApi = cachedField(
+  '__dcls_list_api_to_connect',
+  ['__apis_$__needs_root_apis', '__api_root_dep_apis', '__api_root_dep_apis_subscribe_eff'],
+  false,
+  (l1, l2, l3) => {
+    const uniq = new Set([
+      ...(l1 || emptyArray),
+      ...(l2 || emptyArray),
+      ...(l3 || emptyArray),
+    ])
+
+    return [...uniq]
+  },
+)
+
 const checkNetworkSources = cachedField(
   'netsources_of_all',
   ['netsources_of_nestings', 'netsources_of_states'],
@@ -283,6 +299,7 @@ export default function checkEffects(self, props) {
   rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
 
   checkNetworkSources(self)
+  checkDepsApi(self)
 
   fxAttrs(self)
 
