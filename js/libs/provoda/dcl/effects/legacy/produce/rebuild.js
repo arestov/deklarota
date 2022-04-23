@@ -1,6 +1,6 @@
 
 import spv from '../../../../../spv'
-import cachedField from '../../../cachedField'
+import { cacheFields } from '../../../cachedField'
 import indexByDepName from '../api/utils/indexByDepName'
 
 
@@ -70,23 +70,35 @@ function rootApis(obj) {
   return result.length ? result : null
 }
 
-const fxOut = cachedField(
-  '__api_effects_out',
-  ['__api_effects'],
-  false, (effects) => {
-    return {
-      index: indexByDepName(effects),
-      index_by_triggering: indexByList(effects, 'triggering_states'),
-      index_by_apis: indexByList(effects, 'apis'),
-    }
-  })
+const fxOut = {
+  __api_effects_out: [
+    ['__api_effects'],
+    (effects) => {
+      return {
+        index: indexByDepName(effects),
+        index_by_triggering: indexByList(effects, 'triggering_states'),
+        index_by_apis: indexByList(effects, 'apis'),
+      }
+    },
+  ],
+}
 
-const fxRootApis = cachedField('__api_root_dep_apis', ['__api_effects'], false, (effects) => {
-  return rootApis(effects)
-})
+const fxRootApis = {
+  __api_root_dep_apis: [
+    ['__api_effects'],
+    (effects) => {
+      return rootApis(effects)
+    }
+  ]
+}
+
+const schema = {
+  ...fxOut,
+  ...fxRootApis,
+}
 
 export default function rebuildEffects(self, effects) {
   self.__api_effects = effects
-  fxOut(self)
-  fxRootApis(self)
+
+  cacheFields(schema, self)
 }

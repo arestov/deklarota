@@ -63,4 +63,16 @@ const cachedField = function(field, deps, _final_compile, fn) {
     return calcData(model, field, deps, fn)
   }
 }
+
+export const cacheFields = (schema, model) => {
+  for (const field in schema) {
+    if (!Object.hasOwnProperty.call(schema, field)) {
+      continue
+    }
+
+    const [deps, fn] = schema[field]
+    calcData(model, field, deps, fn)
+  }
+}
+
 export default cachedField
