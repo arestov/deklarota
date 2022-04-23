@@ -25,6 +25,7 @@ import copyWithSymbols from '../copyWithSymbols'
 import assign from './legacy/utils/assign'
 import getDepsToInsert from './legacy/api/utils/getDepsToInsert'
 import emptyArray from '../../emptyArray'
+import { fxListP } from './fxP'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -164,7 +165,8 @@ const rebuildType = function(self, type, result, list) {
       return
     }
     case 'consume-subscribe': {
-      buildSubscribes(self, list)
+      self[fxListP(type)] = list
+      buildSubscribes(self)
       return
     }
     case 'produce-': {
