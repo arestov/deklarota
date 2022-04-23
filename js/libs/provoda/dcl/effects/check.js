@@ -20,7 +20,7 @@ import buildApi, { checkApiBools, checkAttrsFromApi } from './legacy/api/rebuild
 import ApiDeclr from './legacy/api/dcl'
 
 import parseCompItems from '../attrs/comp/parseItems'
-import cachedField from '../cachedField'
+import cachedField, { cacheFields } from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
 import assign from './legacy/utils/assign'
 import getDepsToInsert from './legacy/api/utils/getDepsToInsert'
@@ -111,31 +111,37 @@ const notEqual = function(one, two) {
   }
 }
 
-const checkAttrsFromConsume = cachedField('___dcl_eff_consume_req_st', ['_states_reqs_list'], false, (list) => {
-  const extended_comp_attrs = {}
-  for (let i = 0; i < list.length; i++) {
-    assign(extended_comp_attrs, list[i])
+const ___dcl_eff_consume_req_st = [
+  ['_states_reqs_list'],
+  (list) => {
+    const extended_comp_attrs = {}
+    for (let i = 0; i < list.length; i++) {
+      assign(extended_comp_attrs, list[i])
+    }
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
   }
-  parseCompItems(extended_comp_attrs)
-  return extended_comp_attrs
-})
+]
 
-const checkAttrsFromConsumeRel = cachedField('___dcl_eff_consume_req_nest', ['_nest_reqs'], false, (_nest_reqs) => {
-  const extended_comp_attrs = {}
+const ___dcl_eff_consume_req_nest = [
+  ['_nest_reqs'],
+  (_nest_reqs) => {
+    const extended_comp_attrs = {}
 
-  for (const nest_name in _nest_reqs) {
-    const cur_nest = _nest_reqs[nest_name]
+    for (const nest_name in _nest_reqs) {
+      const cur_nest = _nest_reqs[nest_name]
 
-    if (!cur_nest.state_dep) {
-      continue
+      if (!cur_nest.state_dep) {
+        continue
+      }
+
+      assign(extended_comp_attrs, cur_nest)
     }
 
-    assign(extended_comp_attrs, cur_nest)
-  }
-
-  parseCompItems(extended_comp_attrs)
-  return extended_comp_attrs
-})
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
+  },
+]
 
 const checkAttrsFromOutFx = cachedField('___dcl_eff_produce', ['__api_effects'], false, (effects) => {
   const extended_comp_attrs = {}
@@ -277,9 +283,13 @@ const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], f
   return _effect_by_type_listed
 })
 
+const schema = {
+  ___dcl_eff_consume_req_st,
+  ___dcl_eff_consume_req_nest,
+}
+
 const afterBuild = (self) => {
-  checkAttrsFromConsume(self)
-  checkAttrsFromConsumeRel(self)
+  cacheFields(schema, self)
   checkAttrsFromOutFx(self)
   checkAttrsFromApi(self)
   checkApiBools(self)
