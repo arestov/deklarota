@@ -72,9 +72,13 @@ function rootApis(obj) {
 export default function rebuildEffects(self, effects) {
   self.__api_effects = effects
 
-  self.__api_effects_$_index = indexByDepName(effects) || self.__api_effects_$_index
-  self.__api_effects_$_index_by_triggering = indexByList(effects, 'triggering_states') || self.__api_effects_$_index_by_triggering
-  self.__api_effects_$_index_by_apis = indexByList(effects, 'apis') || self.__api_effects_$_index_by_apis
+  self.__api_effects_out = {
+    index: indexByDepName(effects) || self.__api_effects_out?.index,
+    index_by_triggering: indexByList(effects, 'triggering_states') || self.__api_effects_out?.index_by_triggering,
+    index_by_apis: indexByList(effects, 'apis') || self.__api_effects_out?.index_by_apis,
+  }
+
+
 
   self.__api_root_dep_apis = rootApis(effects) || self.__api_root_dep_apis || null
 }

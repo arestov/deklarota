@@ -49,7 +49,7 @@ function needsSelf(self) {
     return true
   }
 
-  return self.__api_effects_$_index_by_apis && self.__api_effects_$_index_by_apis['self']
+  return self.__api_effects_out?.index_by_apis && self.__api_effects_out?.index_by_apis['self']
 }
 
 export const dispose = function(self) {

@@ -53,7 +53,7 @@ function checkEffect(self, effect) {
 }
 
 function checkInitedApi(self, api_name) {
-  const effects_to_check = self.__api_effects_$_index_by_apis?.[api_name]
+  const effects_to_check = self.__api_effects_out?.index_by_apis?.[api_name]
   if (effects_to_check == null) {return}
 
   for (let i = 0; i < effects_to_check.length; i++) {
