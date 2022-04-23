@@ -283,6 +283,10 @@ const afterBuild = (self) => {
   checkAttrsFromOutFx(self)
   checkAttrsFromApi(self)
   checkApiBools(self)
+
+  checkNetworkSources(self)
+  checkDepsApi(self)
+  fxAttrs(self)
 }
 
 export default function checkEffects(self, props) {
@@ -301,11 +305,6 @@ export default function checkEffects(self, props) {
 
   rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
   afterBuild(self)
-
-  checkNetworkSources(self)
-  checkDepsApi(self)
-
-  fxAttrs(self)
 
   return true
 }
