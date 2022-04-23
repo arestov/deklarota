@@ -6,6 +6,7 @@ import parseCompItems from '../../../attrs/comp/parseItems'
 import getDepsToInsert from './utils/getDepsToInsert'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 import { hasOwnProperty } from '../../../../hasOwnProperty'
+import { fxByNameP } from '../../fxP'
 
 const usualApis = function(obj) {
   if (!obj) {
@@ -124,11 +125,11 @@ function getBoolAttrs(apis) {
   return bool_attrs
 }
 
-export const checkApiBools = cachedField('__defined_api_attrs_bool', ['__api_dcls'], false, (apis) => {
+export const checkApiBools = cachedField('__defined_api_attrs_bool', [fxByNameP('api-')], false, (apis) => {
   return getBoolAttrs(apis)
 })
 
-export const checkAttrsFromApi = cachedField('___dcl_eff_api', ['__api_dcls'], false, (apis) => {
+export const checkAttrsFromApi = cachedField('___dcl_eff_api', [fxByNameP('api-')], false, (apis) => {
   const extended_comp_attrs = {}
   getDepsToInsert(apis, extended_comp_attrs)
   parseCompItems(extended_comp_attrs)
@@ -136,7 +137,6 @@ export const checkAttrsFromApi = cachedField('___dcl_eff_api', ['__api_dcls'], f
 })
 
 export default function rebuild(self, apis) {
-  self.__api_dcls = apis
   self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index
   self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual
   self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null
