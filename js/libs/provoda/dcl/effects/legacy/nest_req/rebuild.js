@@ -1,4 +1,5 @@
 
+import { cacheFields } from '../../../cachedField'
 import changeSources from '../utils/changeSources'
 
 const getSource = (by_name) => {
@@ -20,8 +21,14 @@ const getSource = (by_name) => {
   return netsources_of_nestings
 }
 
+const netsources_of_nestings = [['_nest_reqs'], getSource]
+
+const schema = {
+  netsources_of_nestings,
+}
+
 export default function buildNestReqs(self, by_name) {
   self._nest_reqs = by_name
 
-  self.netsources_of_nestings = getSource(by_name)
+  cacheFields(schema, self)
 }
