@@ -151,12 +151,10 @@ const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
       buildStateReqs(self, list)
-      checkAttrsFromConsume(self)
       return
     }
     case 'consume-nest_request': {
       buildNestReqs(self, result)
-      checkAttrsFromConsumeRel(self)
       return
     }
     case 'consume-subscribe': {
@@ -165,13 +163,10 @@ const rebuildType = function(self, type, result, list) {
     }
     case 'produce-': {
       buildProduce(self, result)
-      checkAttrsFromOutFx(self)
       return
     }
     case 'api-': {
       buildApi(self, result)
-      checkAttrsFromApi(self)
-      checkApiBools(self)
     }
   }
 }
@@ -282,6 +277,14 @@ const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], f
   return _effect_by_type_listed
 })
 
+const afterBuild = (self) => {
+  checkAttrsFromConsume(self)
+  checkAttrsFromConsumeRel(self)
+  checkAttrsFromOutFx(self)
+  checkAttrsFromApi(self)
+  checkApiBools(self)
+}
+
 export default function checkEffects(self, props) {
   const currentIndex = self._extendable_effect_index
 
@@ -297,6 +300,7 @@ export default function checkEffects(self, props) {
   checkListed(self)
 
   rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
+  afterBuild(self)
 
   checkNetworkSources(self)
   checkDepsApi(self)
