@@ -81,9 +81,12 @@ const fxOut = cachedField(
     }
   })
 
+const fxRootApis = cachedField('__api_root_dep_apis', ['__api_effects'], false, (effects) => {
+  return rootApis(effects)
+})
+
 export default function rebuildEffects(self, effects) {
   self.__api_effects = effects
   fxOut(self)
-
-  self.__api_root_dep_apis = rootApis(effects) || self.__api_root_dep_apis || null
+  fxRootApis(self)
 }
