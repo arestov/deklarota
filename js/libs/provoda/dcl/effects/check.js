@@ -139,7 +139,7 @@ const rebuildType = function(self, type, result, list) {
       return
     }
     case 'produce-': {
-      self.__api_effects = result
+      self[fxByNameP(type)] = result
       return
     }
     case 'api-': {
@@ -257,6 +257,10 @@ const schema = {
   _interfaces_to_states_index,
   __api_root_dep_apis_subscribe_eff,
 
+  __api_effects: [
+    [fxByNameP('produce-')],
+    value => value,
+  ],
   __api_effects_out,
   __api_root_dep_apis,
 
