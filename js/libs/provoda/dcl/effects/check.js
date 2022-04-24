@@ -9,7 +9,7 @@ import { doCopy } from '../../../spv/cloneObj'
 // var NestCompx = require('../nest_compx/item')
 import NestReqMap from './legacy/nest_req/dcl'
 
-import { netsources_of_nestings } from './legacy/nest_req/rebuild'
+import { netsources_of_nestings, ___dcl_eff_consume_req_nest } from './legacy/nest_req/rebuild'
 import StateReqMap from './legacy/state_req/dcl'
 import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
@@ -22,7 +22,6 @@ import ApiDeclr from './legacy/api/dcl'
 import parseCompItems from '../attrs/comp/parseItems'
 import cachedField, { cacheFields } from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
-import assign from './legacy/utils/assign'
 import getDepsToInsert from './legacy/api/utils/getDepsToInsert'
 import emptyArray from '../../emptyArray'
 import { fxByNameP, fxListP } from './fxP'
@@ -111,26 +110,6 @@ const notEqual = function(one, two) {
     }
   }
 }
-
-const ___dcl_eff_consume_req_nest = [
-  ['_nest_reqs'],
-  (_nest_reqs) => {
-    const extended_comp_attrs = {}
-
-    for (const nest_name in _nest_reqs) {
-      const cur_nest = _nest_reqs[nest_name]
-
-      if (!cur_nest.state_dep) {
-        continue
-      }
-
-      assign(extended_comp_attrs, cur_nest)
-    }
-
-    parseCompItems(extended_comp_attrs)
-    return extended_comp_attrs
-  },
-]
 
 const checkAttrsFromOutFx = cachedField('___dcl_eff_produce', ['__api_effects'], false, (effects) => {
   const extended_comp_attrs = {}
