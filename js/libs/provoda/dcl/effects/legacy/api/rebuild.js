@@ -1,7 +1,7 @@
 
 import spv from '../../../../../spv'
 import indexByDepName from './utils/indexByDepName'
-import cachedField, { cacheFields } from '../../../cachedField'
+import cachedField from '../../../cachedField'
 import parseCompItems from '../../../attrs/comp/parseItems'
 import getDepsToInsert from './utils/getDepsToInsert'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
@@ -138,25 +138,22 @@ export const checkAttrsFromApi = cachedField('___dcl_eff_api', [apis_prop], fals
   return extended_comp_attrs
 })
 
-const schema = {
-  __apis_$_index: [
-    [apis_prop],
-    (apis) => indexByDepName(apis),
-  ],
-  __apis_$_usual: [
-    [apis_prop],
-    apis => usualApis(apis),
-  ],
-  __apis_$__needs_root_apis: [
-    [apis_prop],
-    apis => notEmpty(rootApis(apis, [])),
-  ],
-  __apis_$__needs_self: [
-    [apis_prop],
-    apis => needSelf(apis, false),
-  ],
-}
+export const __apis_$_index = [
+  [apis_prop],
+  (apis) => indexByDepName(apis),
+]
 
-export default function rebuild(self) {
-  cacheFields(schema, self)
-}
+export const __apis_$_usual = [
+  [apis_prop],
+  apis => usualApis(apis),
+]
+
+export const __apis_$__needs_root_apis = [
+  [apis_prop],
+  apis => notEmpty(rootApis(apis, [])),
+]
+
+export const __apis_$__needs_self = [
+  [apis_prop],
+  apis => needSelf(apis, false),
+]
