@@ -148,7 +148,7 @@ const rebuildType = function(self, type, result, list) {
   }
 }
 
-const rebuild = function(self, newV, oldV, listByType) {
+const handleUserDcls = function(self, newV, oldV, listByType) {
   for (const type in newV) {
     if (!newV.hasOwnProperty(type)) {
       continue
@@ -297,7 +297,7 @@ export default function checkEffects(self, props) {
 
   checkListed(self)
 
-  rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
+  handleUserDcls(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
   afterBuild(self)
 
   return true
