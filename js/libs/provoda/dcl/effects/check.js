@@ -112,15 +112,17 @@ const notEqual = function(one, two) {
   }
 }
 
-const checkAttrsFromOutFx = cachedField('___dcl_eff_produce', ['__api_effects'], false, (effects) => {
-  const extended_comp_attrs = {}
+const ___dcl_eff_produce = [
+  ['__api_effects'],
+  (effects) => {
+    const extended_comp_attrs = {}
 
-  getDepsToInsert(effects, extended_comp_attrs)
+    getDepsToInsert(effects, extended_comp_attrs)
 
-  parseCompItems(extended_comp_attrs)
-  return extended_comp_attrs
-})
-
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
+  }
+]
 
 const rebuildType = function(self, type, result, list) {
   switch (type) {
@@ -269,11 +271,13 @@ const schema = {
 
   ___dcl_eff_consume_req_st,
   ___dcl_eff_consume_req_nest,
+
+  ___dcl_eff_produce,
 }
 
 const afterBuild = (self) => {
   cacheFields(schema, self)
-  checkAttrsFromOutFx(self)
+
   checkAttrsFromApi(self)
   checkApiBools(self)
 
