@@ -1,7 +1,6 @@
 
 import spv from '../../../../../spv'
 import indexByDepName from './utils/indexByDepName'
-import cachedField from '../../../cachedField'
 import parseCompItems from '../../../attrs/comp/parseItems'
 import getDepsToInsert from './utils/getDepsToInsert'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
@@ -127,16 +126,22 @@ function getBoolAttrs(apis) {
 
 const apis_prop = fxByNameP('api-')
 
-export const checkApiBools = cachedField('__defined_api_attrs_bool', [apis_prop], false, (apis) => {
-  return getBoolAttrs(apis)
-})
+export const __defined_api_attrs_bool = [
+  [apis_prop],
+  (apis) => {
+    return getBoolAttrs(apis)
+  }
+]
 
-export const checkAttrsFromApi = cachedField('___dcl_eff_api', [apis_prop], false, (apis) => {
-  const extended_comp_attrs = {}
-  getDepsToInsert(apis, extended_comp_attrs)
-  parseCompItems(extended_comp_attrs)
-  return extended_comp_attrs
-})
+export const ___dcl_eff_api = [
+  [apis_prop],
+  (apis) => {
+    const extended_comp_attrs = {}
+    getDepsToInsert(apis, extended_comp_attrs)
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
+  },
+]
 
 export const __apis_$_index = [
   [apis_prop],

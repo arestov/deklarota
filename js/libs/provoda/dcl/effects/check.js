@@ -17,7 +17,7 @@ import { _build_cache_interfaces, _interfaces_to_states_index, __api_root_dep_ap
 import ProduceEffectDeclr from './legacy/produce/dcl'
 import { __api_effects_out, __api_root_dep_apis } from './legacy/produce/rebuild'
 import { __apis_$_index, __apis_$_usual, __apis_$__needs_root_apis, __apis_$__needs_self,
-  checkApiBools, checkAttrsFromApi } from './legacy/api/rebuild'
+  __defined_api_attrs_bool, ___dcl_eff_api } from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
 
 import parseCompItems from '../attrs/comp/parseItems'
@@ -273,13 +273,13 @@ const schema = {
   ___dcl_eff_consume_req_nest,
 
   ___dcl_eff_produce,
+
+  ___dcl_eff_api,
+  __defined_api_attrs_bool,
 }
 
 const afterBuild = (self) => {
   cacheFields(schema, self)
-
-  checkAttrsFromApi(self)
-  checkApiBools(self)
 
   checkNetworkSources(self)
   checkDepsApi(self)
