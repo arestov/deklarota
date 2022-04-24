@@ -98,7 +98,5 @@ const schema = {
 }
 
 export default function rebuildEffects(self, effects) {
-  self.__api_effects = effects
-
   cacheFields(schema, self)
 }

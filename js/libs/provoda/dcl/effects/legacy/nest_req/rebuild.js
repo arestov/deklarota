@@ -27,8 +27,6 @@ const schema = {
   netsources_of_nestings,
 }
 
-export default function buildNestReqs(self, by_name) {
-  self._nest_reqs = by_name
-
+export default function buildNestReqs(self) {
   cacheFields(schema, self)
 }

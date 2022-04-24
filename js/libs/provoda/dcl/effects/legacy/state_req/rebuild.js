@@ -60,8 +60,6 @@ const schema = {
 }
 
 
-export default function buildStateReqs(self, list) {
-  self._states_reqs_list = list
-
+export default function buildStateReqs(self) {
   cacheFields(schema, self)
 }

@@ -157,10 +157,12 @@ const checkAttrsFromOutFx = cachedField('___dcl_eff_produce', ['__api_effects'],
 const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
+      self._states_reqs_list = list
       buildStateReqs(self, list)
       return
     }
     case 'consume-nest_request': {
+      self._nest_reqs = result
       buildNestReqs(self, result)
       return
     }
@@ -170,6 +172,7 @@ const rebuildType = function(self, type, result, list) {
       return
     }
     case 'produce-': {
+      self.__api_effects = result
       buildProduce(self, result)
       return
     }
