@@ -279,7 +279,7 @@ const schema = {
   __dcls_comp_attrs_from_effects,
 }
 
-const afterBuild = (self) => {
+const makeSchemaPartsFromAllDcls = (self) => {
   cacheFields(schema, self)
 }
 
@@ -298,7 +298,7 @@ export default function checkEffects(self, props) {
   checkListed(self)
 
   handleUserDcls(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
-  afterBuild(self)
+  makeSchemaPartsFromAllDcls(self)
 
   return true
 }
