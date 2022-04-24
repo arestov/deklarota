@@ -15,7 +15,7 @@ import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } f
 import StateBindDeclr from './legacy/subscribe/dcl'
 import { _build_cache_interfaces, _interfaces_to_states_index, __api_root_dep_apis_subscribe_eff } from './legacy/subscribe/rebuild'
 import ProduceEffectDeclr from './legacy/produce/dcl'
-import buildProduce from './legacy/produce/rebuild'
+import { __api_effects_out, __api_root_dep_apis } from './legacy/produce/rebuild'
 import buildApi, { checkApiBools, checkAttrsFromApi } from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
 
@@ -137,7 +137,6 @@ const rebuildType = function(self, type, result, list) {
     }
     case 'produce-': {
       self.__api_effects = result
-      buildProduce(self, result)
       return
     }
     case 'api-': {
@@ -262,6 +261,9 @@ const schema = {
   _build_cache_interfaces,
   _interfaces_to_states_index,
   __api_root_dep_apis_subscribe_eff,
+
+  __api_effects_out,
+  __api_root_dep_apis,
 
 
   ___dcl_eff_consume_req_st,
