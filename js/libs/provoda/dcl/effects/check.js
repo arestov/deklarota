@@ -187,11 +187,8 @@ const checkModern = function(self) {
   )
 }
 
-
-const fxAttrs = cachedField(
-  '__dcls_comp_attrs_from_effects',
+const __dcls_comp_attrs_from_effects = [
   ['___dcl_eff_consume_req_st', '___dcl_eff_consume_req_nest', '___dcl_eff_produce', '___dcl_eff_api'],
-  false,
   function collectCheck(s1, s2, s3, s4) {
     const result = {}
 
@@ -202,12 +199,10 @@ const fxAttrs = cachedField(
 
     return result
   }
-)
+]
 
-const checkDepsApi = cachedField(
-  '__dcls_list_api_to_connect',
+const __dcls_list_api_to_connect = [
   ['__apis_$__needs_root_apis', '__api_root_dep_apis', '__api_root_dep_apis_subscribe_eff'],
-  false,
   (l1, l2, l3) => {
     const uniq = new Set([
       ...(l1 || emptyArray),
@@ -217,19 +212,17 @@ const checkDepsApi = cachedField(
 
     return [...uniq]
   },
-)
+]
 
-const checkNetworkSources = cachedField(
-  'netsources_of_all',
+const netsources_of_all = [
   ['netsources_of_nestings', 'netsources_of_states'],
-  false,
   (netsources_of_nestings, netsources_of_states) => {
     return {
       nestings: netsources_of_nestings,
       states: netsources_of_states
     }
-  }
-)
+  },
+]
 
 const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], false, (_effect_by_type) => {
   const _effect_by_type_listed = {}
@@ -276,14 +269,14 @@ const schema = {
 
   ___dcl_eff_api,
   __defined_api_attrs_bool,
+
+  netsources_of_all,
+  __dcls_list_api_to_connect,
+  __dcls_comp_attrs_from_effects,
 }
 
 const afterBuild = (self) => {
   cacheFields(schema, self)
-
-  checkNetworkSources(self)
-  checkDepsApi(self)
-  fxAttrs(self)
 }
 
 export default function checkEffects(self, props) {
