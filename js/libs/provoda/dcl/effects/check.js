@@ -9,7 +9,7 @@ import { doCopy } from '../../../spv/cloneObj'
 // var NestCompx = require('../nest_compx/item')
 import NestReqMap from './legacy/nest_req/dcl'
 
-import buildNestReqs from './legacy/nest_req/rebuild'
+import { netsources_of_nestings } from './legacy/nest_req/rebuild'
 import StateReqMap from './legacy/state_req/dcl'
 import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
@@ -150,7 +150,6 @@ const rebuildType = function(self, type, result, list) {
     }
     case 'consume-nest_request': {
       self._nest_reqs = result
-      buildNestReqs(self, result)
       return
     }
     case 'consume-subscribe': {
@@ -279,6 +278,8 @@ const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], f
 const schema = {
   _states_reqs_index,
   netsources_of_states,
+
+  netsources_of_nestings,
 
   ___dcl_eff_consume_req_st,
   ___dcl_eff_consume_req_nest,
