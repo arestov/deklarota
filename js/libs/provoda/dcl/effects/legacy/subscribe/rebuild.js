@@ -1,6 +1,5 @@
 
 import spv from '../../../../../spv'
-import { cacheFields } from '../../../cachedField'
 import { fxListP } from '../../fxP'
 const rootApis = function(list) {
 
@@ -18,7 +17,7 @@ const rootApis = function(list) {
   return Object.keys(index)
 }
 
-const _build_cache_interfaces = [
+export const _build_cache_interfaces = [
   [fxListP('consume-subscribe')],
   (list) => {
     const result = {}
@@ -30,7 +29,7 @@ const _build_cache_interfaces = [
   }
 ]
 
-const _interfaces_to_states_index = [
+export const _interfaces_to_states_index = [
   [fxListP('consume-subscribe')],
   (list) => {
     const index = {}
@@ -49,17 +48,8 @@ const _interfaces_to_states_index = [
   }
 ]
 
-const __api_root_dep_apis_subscribe_eff = [
+export const __api_root_dep_apis_subscribe_eff = [
   [fxListP('consume-subscribe')],
   (list) => rootApis(list),
 ]
 
-const schema = {
-  _build_cache_interfaces,
-  _interfaces_to_states_index,
-  __api_root_dep_apis_subscribe_eff,
-}
-
-export default function(self) {
-  cacheFields(schema, self)
-}

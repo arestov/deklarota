@@ -13,7 +13,7 @@ import { netsources_of_nestings } from './legacy/nest_req/rebuild'
 import StateReqMap from './legacy/state_req/dcl'
 import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
-import buildSubscribes from './legacy/subscribe/rebuild'
+import { _build_cache_interfaces, _interfaces_to_states_index, __api_root_dep_apis_subscribe_eff } from './legacy/subscribe/rebuild'
 import ProduceEffectDeclr from './legacy/produce/dcl'
 import buildProduce from './legacy/produce/rebuild'
 import buildApi, { checkApiBools, checkAttrsFromApi } from './legacy/api/rebuild'
@@ -154,7 +154,6 @@ const rebuildType = function(self, type, result, list) {
     }
     case 'consume-subscribe': {
       self[fxListP(type)] = list
-      buildSubscribes(self)
       return
     }
     case 'produce-': {
@@ -280,6 +279,11 @@ const schema = {
   netsources_of_states,
 
   netsources_of_nestings,
+
+  _build_cache_interfaces,
+  _interfaces_to_states_index,
+  __api_root_dep_apis_subscribe_eff,
+
 
   ___dcl_eff_consume_req_st,
   ___dcl_eff_consume_req_nest,
