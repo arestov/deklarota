@@ -1,6 +1,5 @@
 
 
-import { cacheFields } from '../../../cachedField'
 import changeSources from '../utils/changeSources'
 
 const doIndex = function(list, value) {
@@ -16,7 +15,7 @@ const doIndex = function(list, value) {
   return result
 }
 
-const _states_reqs_index = [
+export const _states_reqs_index = [
   ['_states_reqs_list'],
   (list) => {
     const result = {}
@@ -34,7 +33,7 @@ const _states_reqs_index = [
   }
 ]
 
-const netsources_of_states = [
+export const netsources_of_states = [
   ['_states_reqs_list'],
   (list) => {
     const result = {
@@ -53,13 +52,3 @@ const netsources_of_states = [
     return result
   }
 ]
-
-const schema = {
-  _states_reqs_index,
-  netsources_of_states,
-}
-
-
-export default function buildStateReqs(self) {
-  cacheFields(schema, self)
-}

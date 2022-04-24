@@ -11,7 +11,7 @@ import NestReqMap from './legacy/nest_req/dcl'
 
 import buildNestReqs from './legacy/nest_req/rebuild'
 import StateReqMap from './legacy/state_req/dcl'
-import buildStateReqs from './legacy/state_req/rebuild'
+import { _states_reqs_index, netsources_of_states } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
 import buildSubscribes from './legacy/subscribe/rebuild'
 import ProduceEffectDeclr from './legacy/produce/dcl'
@@ -158,7 +158,6 @@ const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
       self._states_reqs_list = list
-      buildStateReqs(self, list)
       return
     }
     case 'consume-nest_request': {
@@ -290,6 +289,9 @@ const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], f
 })
 
 const schema = {
+  _states_reqs_index,
+  netsources_of_states,
+
   ___dcl_eff_consume_req_st,
   ___dcl_eff_consume_req_nest,
 }
