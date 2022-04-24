@@ -247,6 +247,13 @@ const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], f
   return _effect_by_type_listed
 })
 
+const compDclsSchema = {
+  __apis_$__needs_root_apis,
+  __api_root_dep_apis,
+  __api_root_dep_apis_subscribe_eff,
+  __dcls_list_api_to_connect,
+}
+
 const schema = {
   _states_reqs_index,
   netsources_of_states,
@@ -255,16 +262,14 @@ const schema = {
 
   _build_cache_interfaces,
   _interfaces_to_states_index,
-  __api_root_dep_apis_subscribe_eff,
 
   __api_effects: [
     [fxByNameP('produce-')],
     value => value,
   ],
   __api_effects_out,
-  __api_root_dep_apis,
 
-  __apis_$_index, __apis_$_usual, __apis_$__needs_root_apis, __apis_$__needs_self,
+  __apis_$_index, __apis_$_usual, __apis_$__needs_self,
 
   ___dcl_eff_consume_req_st,
   ___dcl_eff_consume_req_nest,
@@ -275,12 +280,15 @@ const schema = {
   __defined_api_attrs_bool,
 
   netsources_of_all,
-  __dcls_list_api_to_connect,
   __dcls_comp_attrs_from_effects,
 }
 
 const makeSchemaPartsFromAllDcls = (self) => {
   cacheFields(schema, self)
+}
+
+const makeCompDcls = (self) => {
+  cacheFields(compDclsSchema, self)
 }
 
 export default function checkEffects(self, props) {
@@ -298,6 +306,7 @@ export default function checkEffects(self, props) {
   checkListed(self)
 
   handleUserDcls(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
+  makeCompDcls(self)
   makeSchemaPartsFromAllDcls(self)
 
   return true
