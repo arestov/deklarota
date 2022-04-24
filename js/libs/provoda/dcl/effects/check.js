@@ -11,7 +11,7 @@ import NestReqMap from './legacy/nest_req/dcl'
 
 import buildNestReqs from './legacy/nest_req/rebuild'
 import StateReqMap from './legacy/state_req/dcl'
-import { _states_reqs_index, netsources_of_states } from './legacy/state_req/rebuild'
+import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
 import buildSubscribes from './legacy/subscribe/rebuild'
 import ProduceEffectDeclr from './legacy/produce/dcl'
@@ -111,18 +111,6 @@ const notEqual = function(one, two) {
     }
   }
 }
-
-const ___dcl_eff_consume_req_st = [
-  ['_states_reqs_list'],
-  (list) => {
-    const extended_comp_attrs = {}
-    for (let i = 0; i < list.length; i++) {
-      assign(extended_comp_attrs, list[i])
-    }
-    parseCompItems(extended_comp_attrs)
-    return extended_comp_attrs
-  }
-]
 
 const ___dcl_eff_consume_req_nest = [
   ['_nest_reqs'],

@@ -1,6 +1,8 @@
 
 
+import assign from '../utils/assign'
 import changeSources from '../utils/changeSources'
+import parseCompItems from '../../../attrs/comp/parseItems'
 
 const doIndex = function(list, value) {
   const result = []
@@ -52,3 +54,16 @@ export const netsources_of_states = [
     return result
   }
 ]
+
+export const ___dcl_eff_consume_req_st = [
+  ['_states_reqs_list'],
+  (list) => {
+    const extended_comp_attrs = {}
+    for (let i = 0; i < list.length; i++) {
+      assign(extended_comp_attrs, list[i])
+    }
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
+  }
+]
+
