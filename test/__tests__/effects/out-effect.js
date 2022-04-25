@@ -17,13 +17,13 @@ test('should use api from root & parent', async () => {
         localApiFromRoot: [
           ['_provoda_id'],
           ['#someApi'],
-          (api) => api,
+          api => api,
         ],
         localApiFromParent: [
           ['_provoda_id'],
           ['#someApi'],
-          (api) => api,
-        ]
+          api => api,
+        ],
       },
       out: {
         updateVal1: {
@@ -48,7 +48,7 @@ test('should use api from root & parent', async () => {
             api.updateSpecVar('key2', value)
           },
         },
-      }
+      },
     },
 
 
@@ -69,7 +69,7 @@ test('should use api from root & parent', async () => {
   const { computed } = inited
 
 
-  let spec_var = {}
+  const spec_var = {}
 
   const api = { updateSpecVar: (key, val) => { spec_var[key] = val } }
   inited.app_model.useInterface('someApi', api)
@@ -79,13 +79,12 @@ test('should use api from root & parent', async () => {
   {
     inited.app_model.updateAttr('rootMarker1', 'MyValue!')
     await computed()
-    expect(spec_var['key1']).toBe('MyValue!')
+    expect(spec_var.key1).toBe('MyValue!')
   }
 
   {
     inited.app_model.updateAttr('rootMarker2', 'Another:')
     await computed()
-    expect(spec_var['key2']).toBe('Another:')
-
+    expect(spec_var.key2).toBe('Another:')
   }
 })
