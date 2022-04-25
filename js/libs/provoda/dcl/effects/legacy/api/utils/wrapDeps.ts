@@ -10,7 +10,8 @@ export default function wrapDeps<T extends CompAttr>(deps: string | string[] | C
   }
 
   if (Array.isArray(deps) && typeof deps[0] == 'string') {
-    const result: CompAttr = [deps, hasEveryArgs]
+    const fn = deps.length == 1 ? Boolean : hasEveryArgs
+    const result: CompAttr = [deps, fn]
     Object.freeze(result)
     return result
   }
