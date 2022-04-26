@@ -14,7 +14,7 @@ import StateReqMap from './legacy/state_req/dcl'
 import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
 import { _build_cache_interfaces, _interfaces_to_states_index, __api_root_dep_apis_subscribe_eff } from './legacy/subscribe/rebuild'
-import ProduceEffectDeclr from './legacy/produce/dcl'
+import ProduceEffectDeclr, { getEffectsTriggeringAttrs } from './legacy/produce/dcl'
 import { __api_effects_out, __api_root_dep_apis } from './legacy/produce/rebuild'
 import { __apis_$_index, __apis_$_usual, __apis_$__needs_root_apis, __apis_$__needs_self,
   __defined_api_attrs_bool, ___dcl_eff_api } from './legacy/api/rebuild'
@@ -25,6 +25,7 @@ import cachedField, { cacheFields } from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
 import getDepsToInsert from './legacy/api/utils/getDepsToInsert'
 import emptyArray from '../../emptyArray'
+import { __dcls_extended_fxs } from './rel-api-glue'
 import { fxByNameP, fxListP } from './fxP'
 
 // var buildSel = require('../nest_sel/build');
@@ -118,6 +119,17 @@ const ___dcl_eff_produce = [
     const extended_comp_attrs = {}
 
     getDepsToInsert(effects, extended_comp_attrs)
+
+
+    /*
+      not very good,
+      but lets make comp attr with all triggering attrs, so it will be provided by glue sources
+      goal: make attrs of triggering with rels work (comp attrs glue will do that work)
+    */
+    extended_comp_attrs.__fx_out_triggering_attrs = [
+      getEffectsTriggeringAttrs(effects),
+      Boolean,
+    ]
 
     parseCompItems(extended_comp_attrs)
     return extended_comp_attrs
@@ -252,6 +264,8 @@ const compDclsSchema = {
   __api_root_dep_apis,
   __api_root_dep_apis_subscribe_eff,
   __dcls_list_api_to_connect,
+
+  __dcls_extended_fxs,
 }
 
 const schema = {
@@ -264,8 +278,11 @@ const schema = {
   _interfaces_to_states_index,
 
   __api_effects: [
-    [fxByNameP('produce-')],
-    value => value,
+    [fxByNameP('produce-'), '__dcls_extended_fxs'],
+    (arg1, arg2) => ({
+      ...arg1,
+      ...arg2,
+    }),
   ],
   __api_effects_out,
 
