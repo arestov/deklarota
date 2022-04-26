@@ -473,7 +473,7 @@ function modelProps(add) {
 
   add({
     readAddr: function(addr) {
-      const parsed = getParsedAddr(addr)
+      const parsed = typeof addr === 'string' ? getParsedAddr(addr) : addr
       return getDepValue(this, parsed)
     },
   })
