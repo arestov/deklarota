@@ -37,15 +37,6 @@ function props(add) {
     getInterface: function(interface_name) {
       return this._interfaces_used[interface_name]
     },
-    watchInterface: function(from, interface_name, fn) {
-      const meta_state_name = '$meta$apis$' + interface_name + '$used'
-      this.lwch(from, meta_state_name, fn)
-    },
-    unwatchInterface: function(from, interface_name, fn) {
-      const meta_state_name = '$meta$apis$' + interface_name + '$used'
-      this.removeLwch(from, meta_state_name, fn)
-
-    },
     __updateInteraceState: __updateInteraceState,
     __reportInterfaceChange: __reportInterfaceChange,
     useInterface: function(interface_name, obj, destroy) {

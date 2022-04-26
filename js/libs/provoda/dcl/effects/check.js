@@ -9,19 +9,24 @@ import { doCopy } from '../../../spv/cloneObj'
 // var NestCompx = require('../nest_compx/item')
 import NestReqMap from './legacy/nest_req/dcl'
 
-import buildNestReqs from './legacy/nest_req/rebuild'
+import { netsources_of_nestings, ___dcl_eff_consume_req_nest } from './legacy/nest_req/rebuild'
 import StateReqMap from './legacy/state_req/dcl'
-import buildStateReqs from './legacy/state_req/rebuild'
+import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
-import buildSubscribes from './legacy/subscribe/rebuild'
-import ProduceEffectDeclr from './legacy/produce/dcl'
-import buildProduce from './legacy/produce/rebuild'
-import buildApi from './legacy/api/rebuild'
+import { _build_cache_interfaces, _interfaces_to_states_index, __api_root_dep_apis_subscribe_eff } from './legacy/subscribe/rebuild'
+import ProduceEffectDeclr, { getEffectsTriggeringAttrs } from './legacy/produce/dcl'
+import { __api_effects_out, __api_root_dep_apis } from './legacy/produce/rebuild'
+import { __apis_$_index, __apis_$_usual, __apis_$__needs_root_apis, __apis_$__needs_self,
+  __defined_api_attrs_bool, ___dcl_eff_api } from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
 
 import parseCompItems from '../attrs/comp/parseItems'
-import cachedField from '../cachedField'
+import cachedField, { cacheFields } from '../cachedField'
 import copyWithSymbols from '../copyWithSymbols'
+import getDepsToInsert from './legacy/api/utils/getDepsToInsert'
+import emptyArray from '../../emptyArray'
+import { __dcls_extended_fxs } from './rel-api-glue'
+import { fxByNameP, fxListP } from './fxP'
 
 // var buildSel = require('../nest_sel/build');
 
@@ -108,43 +113,54 @@ const notEqual = function(one, two) {
   }
 }
 
+const ___dcl_eff_produce = [
+  ['__api_effects'],
+  (effects) => {
+    const extended_comp_attrs = {}
+
+    getDepsToInsert(effects, extended_comp_attrs)
+
+
+    /*
+      not very good,
+      but lets make comp attr with all triggering attrs, so it will be provided by glue sources
+      goal: make attrs of triggering with rels work (comp attrs glue will do that work)
+    */
+    extended_comp_attrs.__fx_out_triggering_attrs = [
+      getEffectsTriggeringAttrs(effects),
+      Boolean,
+    ]
+
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
+  }
+]
+
 const rebuildType = function(self, type, result, list) {
   switch (type) {
     case 'consume-state_request': {
-      const extended_comp_attrs = {}
-      buildStateReqs(self, list, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_consume_req_st = extended_comp_attrs
+      self._states_reqs_list = list
       return
     }
     case 'consume-nest_request': {
-      const extended_comp_attrs = {}
-      buildNestReqs(self, result, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_consume_req_nest = extended_comp_attrs
+      self._nest_reqs = result
       return
     }
     case 'consume-subscribe': {
-      buildSubscribes(self, list)
+      self[fxListP(type)] = list
       return
     }
     case 'produce-': {
-      const extended_comp_attrs = {}
-      buildProduce(self, result, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_produce = extended_comp_attrs
+      self[fxByNameP(type)] = result
       return
     }
     case 'api-': {
-      const extended_comp_attrs = {}
-      buildApi(self, result, extended_comp_attrs)
-      parseCompItems(extended_comp_attrs)
-      self.___dcl_eff_api = extended_comp_attrs
+      self[fxByNameP(type)] = result
     }
   }
 }
 
-const rebuild = function(self, newV, oldV, listByType) {
+const handleUserDcls = function(self, newV, oldV, listByType) {
   for (const type in newV) {
     if (!newV.hasOwnProperty(type)) {
       continue
@@ -183,11 +199,8 @@ const checkModern = function(self) {
   )
 }
 
-
-const fxAttrs = cachedField(
-  '__dcls_comp_attrs_from_effects',
+const __dcls_comp_attrs_from_effects = [
   ['___dcl_eff_consume_req_st', '___dcl_eff_consume_req_nest', '___dcl_eff_produce', '___dcl_eff_api'],
-  false,
   function collectCheck(s1, s2, s3, s4) {
     const result = {}
 
@@ -198,19 +211,30 @@ const fxAttrs = cachedField(
 
     return result
   }
-)
+]
 
-const checkNetworkSources = cachedField(
-  'netsources_of_all',
+const __dcls_list_api_to_connect = [
+  ['__apis_$__needs_root_apis', '__api_root_dep_apis', '__api_root_dep_apis_subscribe_eff'],
+  (l1, l2, l3) => {
+    const uniq = new Set([
+      ...(l1 || emptyArray),
+      ...(l2 || emptyArray),
+      ...(l3 || emptyArray),
+    ])
+
+    return [...uniq]
+  },
+]
+
+const netsources_of_all = [
   ['netsources_of_nestings', 'netsources_of_states'],
-  false,
   (netsources_of_nestings, netsources_of_states) => {
     return {
       nestings: netsources_of_nestings,
       states: netsources_of_states
     }
-  }
-)
+  },
+]
 
 const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], false, (_effect_by_type) => {
   const _effect_by_type_listed = {}
@@ -235,6 +259,55 @@ const checkListed = cachedField('_effect_by_type_listed', ['_effect_by_type'], f
   return _effect_by_type_listed
 })
 
+const compDclsSchema = {
+  __apis_$__needs_root_apis,
+  __api_root_dep_apis,
+  __api_root_dep_apis_subscribe_eff,
+  __dcls_list_api_to_connect,
+
+  __dcls_extended_fxs,
+}
+
+const schema = {
+  _states_reqs_index,
+  netsources_of_states,
+
+  netsources_of_nestings,
+
+  _build_cache_interfaces,
+  _interfaces_to_states_index,
+
+  __api_effects: [
+    [fxByNameP('produce-'), '__dcls_extended_fxs'],
+    (arg1, arg2) => ({
+      ...arg1,
+      ...arg2,
+    }),
+  ],
+  __api_effects_out,
+
+  __apis_$_index, __apis_$_usual, __apis_$__needs_self,
+
+  ___dcl_eff_consume_req_st,
+  ___dcl_eff_consume_req_nest,
+
+  ___dcl_eff_produce,
+
+  ___dcl_eff_api,
+  __defined_api_attrs_bool,
+
+  netsources_of_all,
+  __dcls_comp_attrs_from_effects,
+}
+
+const makeSchemaPartsFromAllDcls = (self) => {
+  cacheFields(schema, self)
+}
+
+const makeCompDcls = (self) => {
+  cacheFields(compDclsSchema, self)
+}
+
 export default function checkEffects(self, props) {
   const currentIndex = self._extendable_effect_index
 
@@ -249,11 +322,9 @@ export default function checkEffects(self, props) {
 
   checkListed(self)
 
-  rebuild(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
-
-  checkNetworkSources(self)
-
-  fxAttrs(self)
+  handleUserDcls(self, self._effect_by_type, oldByType, self._effect_by_type_listed)
+  makeCompDcls(self)
+  makeSchemaPartsFromAllDcls(self)
 
   return true
 }

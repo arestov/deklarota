@@ -35,7 +35,7 @@ function disallowedByLoopBreaker(self, effect) {
 
 
 function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self) {
-  const index = self.__api_effects_$_index_by_triggering
+  const index = self.__api_effects_out?.index_by_triggering
 
   for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
     const state_name = changes_list[i]
@@ -60,7 +60,7 @@ function checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, 
 }
 
 function createWhenBecomesReady(self, total_original_states, changes_list, initial_transaction_id) {
-  const index = self.__api_effects_$_index
+  const index = self.__api_effects_out?.index
   if (index == null) {
     return
   }
@@ -96,7 +96,7 @@ function createWhenBecomesReady(self, total_original_states, changes_list, initi
 
 
 function iterateEffects(initial_transaction_id, changes_list, total_original_states, self) {
-  if (!self.__api_effects_$_index) {
+  if (!self.__api_effects_out?.index) {
     return
   }
 

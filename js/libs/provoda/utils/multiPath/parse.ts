@@ -70,24 +70,15 @@ const parseFromEnd = memorize(function(string) {
   return parseParts(state, nest, resource, base)
 })
 
-function canParseModern(string: string): null | {from_start: boolean, from_end: boolean} {
-  const from_start = start.test(string)
-  const from_end = end.test(string)
-  return (from_start || from_end)
-    ? {from_start: from_start, from_end: from_end}
-    : null
-}
-
 const parseModern = memorize(function parseModern(string: string): Addr | null {
-  const can_parse = canParseModern(string)
-  if (can_parse == null) {
-    return null
-  }
-
-  if (can_parse.from_start) {
+  if (start.test(string)) {
     return parseFromStart(string)
   }
-  return parseFromEnd(string)
+  if (end.test(string)) {
+    return parseFromEnd(string)
+  }
+
+  return null
 })
 
 const matchNotStateSymbols = /(^\W)|\@|\:/

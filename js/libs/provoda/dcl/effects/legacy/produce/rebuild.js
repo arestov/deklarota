@@ -1,7 +1,6 @@
 
 import spv from '../../../../../spv'
 import indexByDepName from '../api/utils/indexByDepName'
-import getDepsToInsert from '../api/utils/getDepsToInsert'
 
 
 const buildIndexFromListInProp = (result, cur, list_prop_name) => {
@@ -70,14 +69,21 @@ function rootApis(obj) {
   return result.length ? result : null
 }
 
-export default function rebuildEffects(self, effects, extended_comp_attrs) {
-  self.__api_effects = effects
+export const __api_effects_out = [
+  ['__api_effects'],
+  (effects) => {
+    return {
+      index: indexByDepName(effects),
+      index_by_triggering: indexByList(effects, 'triggering_states'),
+      index_by_apis: indexByList(effects, 'apis'),
+    }
+  },
+]
 
-  getDepsToInsert(effects, self, extended_comp_attrs)
+export const __api_root_dep_apis = [
+  ['__api_effects'],
+  (effects) => {
+    return rootApis(effects)
+  }
+]
 
-  self.__api_effects_$_index = indexByDepName(effects) || self.__api_effects_$_index
-  self.__api_effects_$_index_by_triggering = indexByList(effects, 'triggering_states') || self.__api_effects_$_index_by_triggering
-  self.__api_effects_$_index_by_apis = indexByList(effects, 'apis') || self.__api_effects_$_index_by_apis
-
-  self.__api_root_dep_apis = rootApis(effects) || self.__api_root_dep_apis || null
-}

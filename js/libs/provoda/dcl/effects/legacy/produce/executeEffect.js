@@ -1,6 +1,7 @@
 import { countKeys } from '../../../../../spv'
 import { getDepsValues } from '../../../../utils/multiPath/readingDeps/getDepsValues'
 import { agendaKey } from './getCurrentTransactionKey'
+import { getOutputFxDcl } from './getOutputFxDcl'
 import justOneAttr from './justOneAttr'
 
 function pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key) {
@@ -63,7 +64,7 @@ function executeEffect(self, effect_name, transaction_id) {
 
 
 
-  const effect = self.__api_effects[effect_name]
+  const effect = getOutputFxDcl(self, effect_name)
 
   const args = new Array(effect.apis.length + 1) // + effect.fn_deps?
   for (let i = 0; i < effect.apis.length; i++) {

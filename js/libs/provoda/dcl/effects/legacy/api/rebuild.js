@@ -1,7 +1,11 @@
 
 import spv from '../../../../../spv'
 import indexByDepName from './utils/indexByDepName'
+import parseCompItems from '../../../attrs/comp/parseItems'
 import getDepsToInsert from './utils/getDepsToInsert'
+import usedInterfaceAttrName from '../../usedInterfaceAttrName'
+import { hasOwnProperty } from '../../../../hasOwnProperty'
+import { fxByNameP } from '../../fxP'
 
 const usualApis = function(obj) {
   if (!obj) {
@@ -103,12 +107,58 @@ function wrapAttr(name) {
 }
 
 
-export default function rebuild(self, apis, extended_comp_attrs) {
-  const inserted_names = getDepsToInsert(apis, self, extended_comp_attrs)
-  self.__defined_api_attrs_bool = inserted_names.map(wrapAttr)
+function getBoolAttrs(apis) {
+  const bool_attrs = []
+  for (const api_name in apis) {
+    if (!hasOwnProperty(apis, api_name)) {
+      continue
 
-  self.__apis_$_index = indexByDepName(apis) || self.__apis_$_index
-  self.__apis_$_usual = usualApis(apis) || self.__apis_$_usual
-  self.__apis_$__needs_root_apis = notEmpty(rootApis(apis, [])) || null
-  self.__apis_$__needs_self = needSelf(apis, false)
+    }
+    const api = apis[api_name]
+    bool_attrs.push(wrapAttr(usedInterfaceAttrName(api.name)))
+    if (api.deps_name) {
+      bool_attrs.push(wrapAttr(api.deps_name))
+    }
+  }
+
+  return bool_attrs
 }
+
+const apis_prop = fxByNameP('api-')
+
+export const __defined_api_attrs_bool = [
+  [apis_prop],
+  (apis) => {
+    return getBoolAttrs(apis)
+  }
+]
+
+export const ___dcl_eff_api = [
+  [apis_prop],
+  (apis) => {
+    const extended_comp_attrs = {}
+    getDepsToInsert(apis, extended_comp_attrs)
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
+  },
+]
+
+export const __apis_$_index = [
+  [apis_prop],
+  (apis) => indexByDepName(apis),
+]
+
+export const __apis_$_usual = [
+  [apis_prop],
+  apis => usualApis(apis),
+]
+
+export const __apis_$__needs_root_apis = [
+  [apis_prop],
+  apis => notEmpty(rootApis(apis, [])),
+]
+
+export const __apis_$__needs_self = [
+  [apis_prop],
+  apis => needSelf(apis, false),
+]

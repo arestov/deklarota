@@ -1,5 +1,6 @@
 
 import spv from '../../../../../spv'
+import emptyArray from '../../../../emptyArray'
 import { readingDeps } from '../../../../utils/multiPath/readingDeps/readingDeps'
 import _updateAttr from '../../../../_internal/_updateAttr'
 import wrapDeps from '../api/utils/wrapDeps'
@@ -86,4 +87,31 @@ export default function ApiEffectDeclr(name, data) {
   if (data.effects) {
     throw new Error('effects as dep of out.effect is deprecated')
   }
+}
+
+export const getEffectsTriggeringAttrs = (source)=> {
+  if (!source) {return emptyArray}
+
+  const result = []
+
+  for (const name in source) {
+    if (!source.hasOwnProperty(name)) {continue}
+
+    const cur = source[name]
+
+    if (cur.triggering_states) {
+      Array.prototype.push.apply(result, cur.triggering_states)
+    }
+  }
+
+  for (const prop of Object.getOwnPropertySymbols(source)) {
+    const cur = source[prop]
+
+    if (cur.triggering_states) {
+      Array.prototype.push.apply(result, cur.triggering_states)
+    }
+  }
+
+  //: CompAttr
+  return result
 }

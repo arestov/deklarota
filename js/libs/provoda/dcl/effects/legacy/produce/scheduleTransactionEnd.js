@@ -1,5 +1,6 @@
 import executeEffect from './executeEffect'
 import getCurrentTransactionKey, { agendaKey } from './getCurrentTransactionKey'
+import { getOutputFxDcl } from './getOutputFxDcl'
 import { apiAndConditionsReady } from './isReady'
 
 function handleTransactionEnd(self, transaction_key) {
@@ -17,7 +18,7 @@ function handleTransactionEnd(self, transaction_key) {
     if (!effects_schedule.hasOwnProperty(effect_name)) {
       continue
     }
-    const effect = self.__api_effects[effect_name]
+    const effect = getOutputFxDcl(self, effect_name)
 
     // TODO: check that attrs inside effects_schedule[effect_name].prev_values  realy changed
     if (!apiAndConditionsReady(self, effect)) {

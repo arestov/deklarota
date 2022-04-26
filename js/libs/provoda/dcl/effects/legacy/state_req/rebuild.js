@@ -2,6 +2,7 @@
 
 import assign from '../utils/assign'
 import changeSources from '../utils/changeSources'
+import parseCompItems from '../../../attrs/comp/parseItems'
 
 const doIndex = function(list, value) {
   const result = []
@@ -16,33 +17,53 @@ const doIndex = function(list, value) {
   return result
 }
 
-
-export default function buildStateReqs(self, list, extended_comp_attrs) {
-  self._states_reqs_index = {}
-  self._states_reqs_list = list
-  const states_index = {}
-
-  for (let i = 0; i < list.length; i++) {
-    const states_list = list[i].states_list
-    for (let jj = 0; jj < states_list.length; jj++) {
-      states_index[states_list[jj]] = true
+export const _states_reqs_index = [
+  ['_states_reqs_list'],
+  (list) => {
+    const result = {}
+    const uniq_states = new Set()
+    for (let i = 0; i < list.length; i++) {
+      const states_list = list[i].states_list
+      for (let jj = 0; jj < states_list.length; jj++) {
+        uniq_states.add(states_list[jj])
+      }
     }
+    for (const state_name of uniq_states) {
+      result[state_name] = doIndex(list, state_name)
+    }
+    return result
   }
-  for (const state_name in states_index) {
-    self._states_reqs_index[state_name] = doIndex(list, state_name)
-  }
+]
 
-  self.netsources_of_states = {
-    api_names: [],
-    api_names_converted: false,
-    sources_names: []
-  }
+export const netsources_of_states = [
+  ['_states_reqs_list'],
+  (list) => {
+    const result = {
+      api_names: [],
+      api_names_converted: false,
+      sources_names: []
+    }
 
-  for (let i = 0; i < list.length; i++) {
-    changeSources(self.netsources_of_states, list[i].send_declr)
+    for (let i = 0; i < list.length; i++) {
+      changeSources(result, list[i].send_declr)
 
-    // copy dependencies to comp, so runtime will subscribe to nonlocal changes
-    // (todo: subscribe to nonlocal deps without mutating comp)
-    assign(extended_comp_attrs, list[i])
+      // copy dependencies to comp, so runtime will subscribe to nonlocal changes
+      // (todo: subscribe to nonlocal deps without mutating comp)
+    }
+
+    return result
   }
-}
+]
+
+export const ___dcl_eff_consume_req_st = [
+  ['_states_reqs_list'],
+  (list) => {
+    const extended_comp_attrs = {}
+    for (let i = 0; i < list.length; i++) {
+      assign(extended_comp_attrs, list[i])
+    }
+    parseCompItems(extended_comp_attrs)
+    return extended_comp_attrs
+  }
+]
+

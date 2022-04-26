@@ -1,11 +1,12 @@
 
 
+import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 import wrapDeps from './utils/wrapDeps'
 
 const wrapInterfaceAttrs = function(arr) {
   const result = new Array(arr.length)
   for (let i = 0; i < arr.length; i++) {
-    result[i] = '$meta$apis$' + arr[i] + '$used'
+    result[i] = usedInterfaceAttrName(arr[i])
   }
   return result
 }
@@ -16,6 +17,46 @@ const attrToList = (str) => {
   }
 
   return str
+}
+
+const assignPropsFromData = function(self, data) {
+
+  if (typeof data == 'function') {
+    self.fn = data
+    return
+  }
+
+  switch (data.length) {
+    case 2: {
+      const attr_deps = data[0]
+
+      const all_deps = wrapDeps(attr_deps)
+      // var all_deps_name = '_api_all_needs_' + name
+      self.deps_name = Symbol() // Symbol(all_deps_name)
+
+      self.fn = data[1]
+      self.all_deps = all_deps
+    }
+      break
+    case 3:
+    case 4: {
+      const attr_deps = data[0]
+      const needed_apis = data[1]
+
+      self.needed_apis = needed_apis
+
+      const needed_apis_deps = wrapInterfaceAttrs(needed_apis)
+
+      const all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
+      // var all_deps_name = '_api_all_needs_' + name
+      self.deps_name = Symbol() // Symbol(all_deps_name)
+      self.all_deps = all_deps
+
+      self.fn = data[2]
+      self.destroy = data[3]
+    }
+      break
+  }
 }
 
 export default function ApiDeclr(name, data) {
@@ -29,42 +70,8 @@ export default function ApiDeclr(name, data) {
 
   this.all_deps = null
 
-  if (typeof data == 'function') {
-    this.fn = data
-  } else {
-    switch (data.length) {
-      case 2: {
-        const attr_deps = data[0]
+  assignPropsFromData(this, data)
 
-        const all_deps = wrapDeps(attr_deps)
-        // var all_deps_name = '_api_all_needs_' + name
-        this.deps_name = Symbol() // Symbol(all_deps_name)
-
-        this.fn = data[1]
-        this.all_deps = all_deps
-      }
-        break
-      case 3:
-      case 4: {
-        const attr_deps = data[0]
-        const needed_apis = data[1]
-
-        this.needed_apis = needed_apis
-
-        const needed_apis_deps = wrapInterfaceAttrs(needed_apis)
-
-        const all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
-        // var all_deps_name = '_api_all_needs_' + name
-        this.deps_name = Symbol() // Symbol(all_deps_name)
-        this.all_deps = all_deps
-
-        this.fn = data[2]
-        this.destroy = data[3]
-      }
-        break
-    }
-
-  }
 
   Object.seal(this)
 }
