@@ -40,6 +40,10 @@ const NestDcl = function(name, data) {
     this.preload_on = (preload === true ? 'mp_has_focus' : preload) || null
     this.idle_until = data[2] || null
   }
+
+  if (this.preload_on) {
+    throw new Error('preload_on deprecated')
+  }
   /*
   ask_for
   idle_until
