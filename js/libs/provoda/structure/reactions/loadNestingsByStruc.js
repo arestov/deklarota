@@ -1,8 +1,7 @@
 
 
 import hp from '../../helpers'
-import initDeclaredNestings from '../../initDeclaredNestings'
-const getSubpages = initDeclaredNestings.getSubpages
+import { getSubpages } from '../../initDeclaredNestings'
 
 export default function loadNestingsByStruc(md, struc) {
   if (!struc) {return}

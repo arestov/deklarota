@@ -2,8 +2,7 @@
 
 import hp from '../../helpers'
 import _updateRel from '../../_internal/_updateRel'
-import initDeclaredNestings from '../../initDeclaredNestings'
-const getSubpages = initDeclaredNestings.getSubpages
+import { getSubpages } from '../../initDeclaredNestings'
 
 export default function initNestingsByStruc(md, struc) {
   if (!struc) {return}

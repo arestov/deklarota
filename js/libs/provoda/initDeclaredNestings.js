@@ -81,11 +81,10 @@ const initDeclaredNestings = function(md) {
   }
 }
 
-initDeclaredNestings.getSubpages = getSubpages
-initDeclaredNestings.pathExecutor = pathExecutor
+export { getSubpages, pathExecutor }
 
 
-initDeclaredNestings.getConstrByPath = function(app, md, string_template) {
+export const getConstrByPath = function(app, md, string_template) {
   return getSPByPathTemplate(app, md, string_template, true)
 }
 

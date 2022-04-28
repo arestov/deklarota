@@ -10,7 +10,6 @@ import StatesEmitter from './StatesEmitter'
 import Model from './Model'
 import HModel from './Model/HModel'
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
-import initDeclaredNestings from './initDeclaredNestings'
 import markStrucure from './structure/mark'
 import create from './create'
 import behavior from './provoda/bhv'
@@ -65,9 +64,6 @@ const provoda = {
       }
     }
   },
-  getParsedPath: initDeclaredNestings.getParsedPath,
-  getSubpages: initDeclaredNestings.getSubpages,
-  pathExecutor: initDeclaredNestings.pathExecutor,
   updateNesting: function(md, nesting_name, nesting_value, opts, spec_data) {
     md.updateNesting(nesting_name, nesting_value, opts, spec_data)
   },

@@ -3,7 +3,7 @@
 import spv from '../spv'
 import hp from './helpers'
 import MDProxy from './MDProxy'
-import initDeclaredNestings from './initDeclaredNestings'
+import initDeclaredNestings, { getConstrByPath } from './initDeclaredNestings'
 import prsStCon from './prsStCon'
 
 import { initAttrs } from './updateProxy'
@@ -301,7 +301,7 @@ function modelProps(add) {
       onPropsExtend(this, props, original, params)
     }),
     getConstrByPathTemplate: function(app, path_template) {
-      return initDeclaredNestings.getConstrByPath(app, this, path_template)
+      return getConstrByPath(app, this, path_template)
     },
     connectMPX: function() {
       if (!this.mpx) {
