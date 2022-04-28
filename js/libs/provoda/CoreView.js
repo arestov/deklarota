@@ -243,6 +243,7 @@ const View = spv.inh(StatesEmitter, {
   init: initView,
   onExtend: onPropsExtend
 }, {
+  __isView: true,
   ___attrsToSync: function() {
     if (this._lbr.undetailed_states) {
       return this._lbr.undetailed_states

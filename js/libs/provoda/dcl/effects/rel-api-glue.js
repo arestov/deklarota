@@ -5,14 +5,16 @@ import multiPathAsString from '../../utils/multiPath/asString'
 import ApiEffectDeclr from './legacy/produce/dcl'
 
 export const __dcls_extended_fxs = [
-  ['__dcls_list_api_to_connect'],
-  (apis_list) => {
-
+  ['__dcls_list_api_to_connect', '__isView'],
+  (apis_list, __isView) => {
     /*
       connects api from root model to local model
     */
 
     const result = {}
+    if (__isView) {
+      return result
+    }
 
     for (let i = 0; i < apis_list.length; i++) {
       const api_name = apis_list[i]
