@@ -10,7 +10,6 @@ const build = ({
   preserveModules: true,
   external: ['cash-dom'],
   input: [
-    'js/libs/provoda/provoda.js',
     'js/libs/provoda/provoda/model.js',
     'js/libs/provoda/provoda/getAttr.js',
     'js/libs/provoda/provoda/updateAttr.js',
