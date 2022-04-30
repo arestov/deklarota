@@ -8,7 +8,16 @@ import { cacheFields } from '../cachedField'
 
 
 const schema = {
-  $actions$combo: [['$in$actions'], (val) => val],
+  $actions$combo: [['$in$actions', '$actions$derived$from_idle_rels'], (val1, val2) => {
+    if (!val1 && !val2) {
+      return undefined
+    }
+
+    return {
+      ...val1,
+      ...val2,
+    }
+  }],
   $actions$handle_attr,
   $actions$handle_rel,
   $actions$handleInit,

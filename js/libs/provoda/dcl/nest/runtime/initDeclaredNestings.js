@@ -27,21 +27,6 @@ const initOneDeclaredNesting = function(md, el) {
     }
     return
   }
-
-  const init_func = function(state) {
-    if (!state) {
-      return
-    }
-
-    if (!this.getNesting(el.nesting_name)) {
-      _updateRel(this, el.nesting_name, initRelByDcl(this, el))
-    }
-
-    md.removeLwch(md, el.idle_until, init_func)
-  }
-
-  md.lwch(md, el.idle_until, init_func)
-
 }
 
 const initDeclaredNestings = function(md) {

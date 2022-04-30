@@ -8,14 +8,16 @@ import extendByServiceAttrs from './comp/extendByServiceAttrs'
 
 const prepareToExtendByServicingAttrs = cachedField(
   '__attrs_comp_to_be_serviced',
-  ['__attrs_comp_to_be_serviced', '__attrs_base_comp', '__dcls_comp_attrs_from_effects', '__dcls_comp_attrs_from_rels'],
+  ['__attrs_comp_to_be_serviced', '__attrs_base_comp',
+    '__dcls_comp_attrs_from_effects', '__dcls_comp_attrs_from_rels', '$comp_attrs$derived$from_idle_rels'],
   false,
-  (_current, arg1, arg2, arg3) => {
+  (_current, arg1, arg2, arg3, arg4) => {
     const result = {}
 
     doCopy(result, arg1)
     copyWithSymbols(result, arg2)
     doCopy(result, arg3)
+    doCopy(result, arg4)
 
     return result
   }
