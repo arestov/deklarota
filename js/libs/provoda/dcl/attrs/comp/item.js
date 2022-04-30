@@ -7,6 +7,7 @@ import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
 // import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
 import sameName from '../../../sameName'
+import isBoolCompAttr from './isBoolCompAttr'
 
 const shortStringWhenPossible = function(addr) {
 
@@ -69,7 +70,6 @@ const emptyList = []
 const badAttrs = new Set(['main_list_loading', 'list_loading', 'all_data_loaded'])
 const ignoredLegacy = new Set(['$needs_load', 'list_loading', 'can_load_data', 'can_load_more', 'more_load_available'])
 
-
 const CompxAttrDecl = function(comlx_name_raw, cur) {
   const comlx_name = sameName(comlx_name_raw)
 
@@ -79,6 +79,7 @@ const CompxAttrDecl = function(comlx_name_raw, cur) {
 
   const deps_list = cur[0] || sameArrayIfEmpty(emptyList)
   const fn = cur[1]
+
 
   if (!deps_list.length && typeof fn !== 'function') {
     throw new Error('use attr "input" to define default values')
@@ -90,6 +91,10 @@ const CompxAttrDecl = function(comlx_name_raw, cur) {
   if (!Array.isArray(deps_list)) {
     throw new Error('should be list')
   }
+
+  const params = cur[2]
+
+  this.is_bool = isBoolCompAttr(params)
 
   Object.freeze(deps_list)
 
