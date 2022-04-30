@@ -1,5 +1,5 @@
 export const $actions$handle_rel = [
-  ['$in$actions'],
+  ['$actions$combo'],
   (index) => {
     const result = {}
 

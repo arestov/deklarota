@@ -5,7 +5,7 @@ const getDeprefixFunc = spv.getDeprefixFunc
 const check = getDeprefixFunc('handleAttr:')
 
 export const $actions$handle_attr = [
-  ['$in$actions'],
+  ['$actions$combo'],
   (index) => {
     const result = {}
 

@@ -1,5 +1,5 @@
 export const $actions$handleInit = [
-  ['$in$actions'],
+  ['$actions$combo'],
   (index) => {
     if (!index.hasOwnProperty('handleInit')) {
       return null
