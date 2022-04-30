@@ -2,11 +2,11 @@
 // etr, original_states, state_name, value
 
 export default function(self, state_name, old_value, value) {
-  if (!self.__handleNesting || !self.__handleNesting[state_name]) {
+  if (!self.$actions$handle_rel || !self.$actions$handle_rel[state_name]) {
     return
   }
 
-  const pass_name = self.__handleNesting[state_name].name
+  const pass_name = self.$actions$handle_rel[state_name].name
 
   const arg = {
     next_value: value,

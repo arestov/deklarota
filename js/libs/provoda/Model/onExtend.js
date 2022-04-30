@@ -11,7 +11,7 @@ import checkNestSel from '../dcl/nest_sel/check'
 import checkNestCnt from '../dcl/nest_conj/check'
 
 import checkModernNests from '../dcl/nests/check'
-import checkPasses from '../dcl/passes/check'
+import checkPasses, { checkInputActions } from '../dcl/passes/check'
 import checkRoutes from '../dcl/routes/check'
 import checkSubpager from '../dcl/sub_pager/check'
 import collectSubpages, { depricateOldSubpages } from '../dcl/sub_pager/collectSubpages'
@@ -84,6 +84,8 @@ export default function(self, props, _original, params) {
   if (props.hasOwnProperty('redirectBWLev')) { // legacy perspectivator redirects
     throw new Error('replace redirectBWLev in model by selectPreferredCursor in perspectivator')
   }
+
+  checkInputActions(self)
 
   checkNestRqC(self, props)
   checkNestSel(self, props)

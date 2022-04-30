@@ -1,20 +1,37 @@
 
 
-import spv from '../../../spv'
 import Dcl from './dcl'
-import rebuildHandleState from './handleState/rebuild'
-import rebuildHandleNesting from './handleNesting/rebuild'
-import rebuildHandleInit from './handleInit/rebuild'
-const cloneObj = spv.cloneObj
+import { $actions$handle_attr } from './handleState/rebuild'
+import { $actions$handle_rel } from './handleNesting/rebuild'
+import { $actions$handleInit } from './handleInit/rebuild'
+import { cacheFields } from '../cachedField'
 
-export default function checkPasses(self) {
+
+const schema = {
+  $actions$combo: [['$in$actions', '$actions$derived$from_idle_rels'], (val1, val2) => {
+    if (!val1 && !val2) {
+      return undefined
+    }
+
+    return {
+      ...val1,
+      ...val2,
+    }
+  }],
+  $actions$handle_attr,
+  $actions$handle_rel,
+  $actions$handleInit,
+}
+
+export const checkInputActions = (self) => {
   const actions = self.hasOwnProperty('actions') && self.actions
   if (!actions) {
     return
   }
 
-  const result = {}
-  cloneObj(result, self._extendable_passes_index || {})
+  const result = {
+    ...self.$in$actions,
+  }
 
   for (const name in actions) {
     if (!actions.hasOwnProperty(name)) {
@@ -23,9 +40,10 @@ export default function checkPasses(self) {
     result[name] = new Dcl(name, actions[name])
   }
 
-  rebuildHandleState(self, result)
-  rebuildHandleNesting(self, result)
-  rebuildHandleInit(self, result)
+  self.$in$actions = result
 
-  self._extendable_passes_index = result
+}
+
+export default function checkPasses(self) {
+  cacheFields(schema, self)
 }

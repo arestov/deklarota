@@ -1,16 +1,19 @@
-export default function rebuild(self, index) {
-  const result = {}
+export const $actions$handle_rel = [
+  ['$actions$combo'],
+  (index) => {
+    const result = {}
 
-  for (const name in index) {
-    if (!index.hasOwnProperty(name)) {
-      continue
+    for (const name in index) {
+      if (!index.hasOwnProperty(name)) {
+        continue
+      }
+
+      const cur = index[name]
+      if (!cur.rel_name) {continue}
+
+      result[cur.rel_name] = index[name]
     }
 
-    const cur = index[name]
-    if (!cur.rel_name) {continue}
-
-    result[cur.rel_name] = index[name]
+    return result
   }
-
-  self.__handleNesting = result
-}
+]

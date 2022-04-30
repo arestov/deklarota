@@ -34,7 +34,7 @@ export default function(self) {
   if (self.full_comlxs_list) {
     for (let i = 0; i < self.full_comlxs_list.length; i++) {
       const cur = self.full_comlxs_list[i]
-      const isFullBool = doesFnReturnsBool(cur.fn) && !cur.require_marks.length
+      const isFullBool = cur.is_bool || doesFnReturnsBool(cur.fn) && !cur.require_marks.length
       result.push({name: cur.name, type: isFullBool ? 'bool' : null})
     }
   }

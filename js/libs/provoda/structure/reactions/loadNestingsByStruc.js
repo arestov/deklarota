@@ -1,8 +1,7 @@
 
 
 import hp from '../../helpers'
-import initDeclaredNestings from '../../initDeclaredNestings'
-const getSubpages = initDeclaredNestings.getSubpages
+import initRelByDcl from '../../dcl/nest/runtime/initRelByDcl'
 
 export default function loadNestingsByStruc(md, struc) {
   if (!struc) {return}
@@ -16,7 +15,7 @@ export default function loadNestingsByStruc(md, struc) {
     const el = idx[nesting_name]
     if (!el) {continue}
 
-    const item = getSubpages(md, el)
+    const item = initRelByDcl(md, el)
     if (Array.isArray(item) || !item.preloadStart) {
       continue
     }

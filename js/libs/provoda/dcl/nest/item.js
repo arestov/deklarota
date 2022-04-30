@@ -14,6 +14,7 @@ const subPagesToRelShapeLinks = (list) => {
 
 const NestDcl = function(name, data) {
   this.nesting_name = name
+  this.name = name
   this.subpages_names_list = declarationConstructor(name, data[0], 'nest-')
 
   this.ask_for = null
@@ -39,6 +40,10 @@ const NestDcl = function(name, data) {
     const preload = data[1]
     this.preload_on = (preload === true ? 'mp_has_focus' : preload) || null
     this.idle_until = data[2] || null
+  }
+
+  if (this.preload_on) {
+    throw new Error('preload_on deprecated')
   }
   /*
   ask_for

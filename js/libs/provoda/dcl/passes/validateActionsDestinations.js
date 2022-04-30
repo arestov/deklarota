@@ -53,7 +53,7 @@ const validateActionsDestinations = (_Root, self) => {
     return
   }
 
-  const actions = self._extendable_passes_index
+  const actions = self.$actions$combo
   if (!actions) {
     return
   }

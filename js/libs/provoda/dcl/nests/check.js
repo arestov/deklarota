@@ -1,5 +1,5 @@
 import spv from '../../../spv'
-import cachedField from '../cachedField'
+import cachedField, { cacheFields } from '../cachedField'
 
 import NestSelector from '../nest_sel/item'
 import NestCntDeclr from '../nest_conj/item'
@@ -8,7 +8,7 @@ import NestCompx from '../nest_compx/item'
 import NestModel from '../nest_model/item'
 import NestInput from './input/item'
 
-import buildNest from '../nest/build'
+import buildNest, { $comp_attrs$derived$from_idle_rels, $actions$derived$from_idle_rels, $rels$idle } from '../nest/build'
 import buildModel from '../nest_model/build'
 const cloneObj = spv.cloneObj
 
@@ -230,6 +230,13 @@ const checkUniqRels = cachedField('__dcls_rels_uniq', ['_nest_by_type_listed'], 
 })
 
 
+const comp_dcls_schema = {
+  $rels$idle,
+  $comp_attrs$derived$from_idle_rels,
+  $actions$derived$from_idle_rels
+}
+
+
 
 const attrToRelValue = function relToCompAttr(attr_to_rel_name, comp_rels_list) {
   if (!comp_rels_list || !comp_rels_list.length) {
@@ -294,6 +301,8 @@ export default function checkRels(self) {
 
   checkAttrsToRelValues(self)
   checkCompAttrsFromRels(self)
+
+  cacheFields(comp_dcls_schema, self)
 
   checkUniqRels(self)
   return true

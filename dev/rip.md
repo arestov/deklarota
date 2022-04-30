@@ -157,3 +157,5 @@
 - remove navi interface from common router
 
 - remove switchPmd
+
+- deprecate preload_on for rel.nest
