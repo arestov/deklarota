@@ -4,22 +4,25 @@ import spv from '../../../../spv'
 const getDeprefixFunc = spv.getDeprefixFunc
 const check = getDeprefixFunc('handleAttr:')
 
-export default function rebuild(self, index) {
-  const result = {}
+export const $actions$handle_attr = [
+  ['$in$actions'],
+  (index) => {
+    const result = {}
 
-  for (const name in index) {
-    if (!index.hasOwnProperty(name)) {
-      continue
+    for (const name in index) {
+      if (!index.hasOwnProperty(name)) {
+        continue
+      }
+
+      const result_name = check(name)
+
+      if (!result_name) {
+        continue
+      }
+
+      result[result_name] = index[name]
     }
 
-    const result_name = check(name)
-
-    if (!result_name) {
-      continue
-    }
-
-    result[result_name] = index[name]
+    return result
   }
-
-  self.__handleState = result
-}
+]

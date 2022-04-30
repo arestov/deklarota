@@ -2,11 +2,11 @@
 // etr, original_states, state_name, value
 
 export default function(self, original_states, state_name, value) {
-  if (self.__handleState == null || self.__handleState[state_name] == null) {
+  if (self.$actions$handle_attr == null || self.$actions$handle_attr[state_name] == null) {
     return
   }
 
-  const pass_name = self.__handleState[state_name].name
+  const pass_name = self.$actions$handle_attr[state_name].name
 
   const old_value = original_states.get(state_name)
   const arg = {
