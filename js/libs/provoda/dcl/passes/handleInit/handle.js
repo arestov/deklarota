@@ -2,11 +2,11 @@
 // etr, original_states, state_name, value
 
 export default function(self, data) {
-  if (!self.__handleInit) {
+  if (!self.$actions$handleInit) {
     return
   }
 
-  const pass_name = self.__handleInit.name
+  const pass_name = self.$actions$handleInit.name
 
   const arg = data
 

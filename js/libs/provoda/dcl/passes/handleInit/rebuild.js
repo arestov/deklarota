@@ -1,10 +1,10 @@
+export const $actions$handleInit = [
+  ['$in$actions'],
+  (index) => {
+    if (!index.hasOwnProperty('handleInit')) {
+      return null
+    }
 
-
-export default function rebuild(self, index) {
-  if (!index.hasOwnProperty('handleInit')) {
-    self.__handleInit = null
-    return
+    return index.handleInit
   }
-
-  self.__handleInit = index.handleInit
-};
+]
