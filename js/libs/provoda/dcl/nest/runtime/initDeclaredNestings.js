@@ -1,8 +1,8 @@
 
 
-import _updateRel from './_internal/_updateRel'
-import pathExecutor from './routes/legacy/stringify'
-import getSPByPathTemplate from './routes/legacy/getSPByPathTemplate'
+import _updateRel from '../../../_internal/_updateRel'
+import pathExecutor from '../../../routes/legacy/stringify'
+import getSPByPathTemplate from '../../../routes/legacy/getSPByPathTemplate'
 
 //если есть состояние для предзагрузки
 //если изменилось гнездование

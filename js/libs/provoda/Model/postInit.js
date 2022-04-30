@@ -1,5 +1,5 @@
 
-import initDeclaredNestings from '../initDeclaredNestings'
+import initDeclaredNestings from '../dcl/nest/runtime/initDeclaredNestings'
 import prsStCon from '../prsStCon'
 import runGlueRelSources from '../dcl/glue_rels/runtime/run'
 import initApis from '../dcl/effects/legacy/api/init'

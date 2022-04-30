@@ -3,7 +3,7 @@
 import spv from '../spv'
 import hp from './helpers'
 import MDProxy from './MDProxy'
-import initDeclaredNestings, { getConstrByPath } from './initDeclaredNestings'
+import { getConstrByPath } from './dcl/nest/runtime/initDeclaredNestings'
 import prsStCon from './prsStCon'
 
 import { initAttrs } from './updateProxy'
