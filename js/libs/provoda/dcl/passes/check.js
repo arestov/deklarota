@@ -14,7 +14,7 @@ const schema = {
   $actions$handleInit,
 }
 
-export default function checkPasses(self) {
+export const checkInputActions = (self) => {
   const actions = self.hasOwnProperty('actions') && self.actions
   if (!actions) {
     return
@@ -33,6 +33,8 @@ export default function checkPasses(self) {
 
   self.$in$actions = result
 
-  cacheFields(schema, self)
+}
 
+export default function checkPasses(self) {
+  cacheFields(schema, self)
 }
