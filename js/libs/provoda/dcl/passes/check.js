@@ -1,12 +1,10 @@
 
 
-import spv from '../../../spv'
 import Dcl from './dcl'
 import { $actions$handle_attr } from './handleState/rebuild'
 import { $actions$handle_rel } from './handleNesting/rebuild'
 import { $actions$handleInit } from './handleInit/rebuild'
 import { cacheFields } from '../cachedField'
-const cloneObj = spv.cloneObj
 
 
 const schema = {
@@ -21,8 +19,9 @@ export default function checkPasses(self) {
     return
   }
 
-  const result = {}
-  cloneObj(result, self.$in$actions || {})
+  const result = {
+    ...self.$in$actions,
+  }
 
   for (const name in actions) {
     if (!actions.hasOwnProperty(name)) {
