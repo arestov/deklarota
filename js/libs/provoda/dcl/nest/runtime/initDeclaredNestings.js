@@ -3,42 +3,11 @@
 import _updateRel from '../../../_internal/_updateRel'
 import pathExecutor from '../../../routes/legacy/stringify'
 import getSPByPathTemplate from '../../../routes/legacy/getSPByPathTemplate'
+import initRelByDcl from './initRelByDcl'
 
 //если есть состояние для предзагрузки
 //если изменилось гнездование
 
-const getSubPByDeclr = function(md, cur) {
-  if (cur.type == 'route') {
-    return getSPByPathTemplate(md.app, md, cur.value)
-  } else {
-    const constr = md._all_chi[cur.key]
-    return md.initSi(constr)
-  }
-}
-
-const getSubPByDeclrStrict = (md, cur) => {
-  const result = getSubPByDeclr(md, cur)
-  if (result == null) {
-    console.log(cur, md.__code_path)
-    throw new Error('should not be empty')
-  }
-
-  return result
-}
-
-const getSubpages = function(md, el) {
-  const array = el.subpages_names_list
-  let result
-  if (Array.isArray(array)) {
-    result = new Array(array)
-    for (let i = 0; i < array.length; i++) {
-      result[i] = getSubPByDeclrStrict(md, array[i])
-    }
-  } else {
-    result = getSubPByDeclrStrict(md, array)
-  }
-  return result
-}
 
 const initOneDeclaredNesting = function(md, el) {
   /*
@@ -54,7 +23,7 @@ const initOneDeclaredNesting = function(md, el) {
 
   if (!el.idle_until) {
     if (!md.getNesting(el.nesting_name)) {
-      _updateRel(md, el.nesting_name, getSubpages(md, el))
+      _updateRel(md, el.nesting_name, initRelByDcl(md, el))
     }
     return
   }
@@ -65,7 +34,7 @@ const initOneDeclaredNesting = function(md, el) {
     }
 
     if (!this.getNesting(el.nesting_name)) {
-      _updateRel(this, el.nesting_name, getSubpages(this, el))
+      _updateRel(this, el.nesting_name, initRelByDcl(this, el))
     }
 
     md.removeLwch(md, el.idle_until, init_func)
@@ -81,7 +50,7 @@ const initDeclaredNestings = function(md) {
   }
 }
 
-export { getSubpages, pathExecutor }
+export { pathExecutor }
 
 
 export const getConstrByPath = function(app, md, string_template) {

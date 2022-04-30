@@ -2,7 +2,7 @@
 
 import hp from '../../helpers'
 import _updateRel from '../../_internal/_updateRel'
-import { getSubpages } from '../../initDeclaredNestings'
+import initRelByDcl from '../../dcl/nest/runtime/initRelByDcl'
 
 export default function initNestingsByStruc(md, struc) {
   if (!struc) {return}
@@ -21,6 +21,6 @@ export default function initNestingsByStruc(md, struc) {
     if (md.getNesting(el.nesting_name)) {
       continue
     }
-    _updateRel(md, el.nesting_name, getSubpages(md, el))
+    _updateRel(md, el.nesting_name, initRelByDcl(md, el))
   }
 }
