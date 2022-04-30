@@ -8,6 +8,7 @@ import { cacheFields } from '../cachedField'
 
 
 const schema = {
+  $actions$combo: [['$in$actions'], (val) => val],
   $actions$handle_attr,
   $actions$handle_rel,
   $actions$handleInit,
@@ -31,7 +32,6 @@ export default function checkPasses(self) {
   }
 
   self.$in$actions = result
-  self.$actions$combo = result
 
   cacheFields(schema, self)
 
