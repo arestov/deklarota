@@ -1,7 +1,7 @@
 const getAction = (ptr, action_name) => {
-  if (!ptr._extendable_passes_index) {return null}
+  if (!ptr.$actions$combo) {return null}
 
-  return ptr._extendable_passes_index[action_name] || null
+  return ptr.$actions$combo[action_name] || null
 }
 
 export default getAction

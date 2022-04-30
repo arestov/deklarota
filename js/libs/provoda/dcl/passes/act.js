@@ -42,7 +42,7 @@ import { getDepsValues } from '../../utils/multiPath/readingDeps/getDepsValues'
 */
 
 export default function pass(md, pass_name, data) {
-  const pass_handlers = md._extendable_passes_index
+  const pass_handlers = md.$actions$combo
   if (!pass_handlers.hasOwnProperty(pass_name)) {
     throw new Error('missing pass ' + pass_name)
   }

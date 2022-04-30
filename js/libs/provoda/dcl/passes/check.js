@@ -34,5 +34,5 @@ export default function checkPasses(self) {
 
   cacheFields(schema, self)
 
-  self._extendable_passes_index = result
+  self.$actions$combo = result
 }
