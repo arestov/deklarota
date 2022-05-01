@@ -1,6 +1,6 @@
 
 
-export default function loadAllByStruc(md, obj, prev) {
+export default function loadAllByStruc(_md, obj, prev) {
   // obj.list is `struc`
   if (!obj.inactive) {
     for (let i = 0; i < obj.list.length; i++) {
