@@ -77,23 +77,17 @@ test('interface passed to action should be assigned', async () => {
     })
 
     const app = (await init({
-      zero_map_level: false,
-      'chi-start__page': createDeepChild('start', {
-        zero_map_level: true,
-        model_name: 'startModel',
-        rels: {
-          all_playlists: ['nest', [['playlists/[:id::1]', 'playlists/[:id::2]']]],
-          playlists: ['model', Playlist, { many: true, uniq: ['id'] }],
-        },
-        actions: {
-          addWithInterface: createAction('at_start'),
-        },
-        routes: {
-          'playlists/[:id]': 'playlists',
-        },
-      }),
-    }, self => {
-      self.start_page = self.initChi('start__page') // eslint-disable-line
+      model_name: 'startModel',
+      rels: {
+        all_playlists: ['nest', [['playlists/[:id::1]', 'playlists/[:id::2]']]],
+        playlists: ['model', Playlist, { many: true, uniq: ['id'] }],
+      },
+      actions: {
+        addWithInterface: createAction('at_start'),
+      },
+      routes: {
+        'playlists/[:id]': 'playlists',
+      },
     })).app_model
 
     return app
