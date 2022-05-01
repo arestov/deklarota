@@ -3,20 +3,11 @@ import fromLegacy from '../../../utils/multiPath/fromLegacy'
 import parse from '../../../utils/multiPath/parse'
 import sameArrayIfEmpty from '../../../utils/sameArrayIfEmpty'
 import asString from '../../../utils/multiPath/asString'
-import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
 // import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
 import sameName from '../../../sameName'
 import isBoolCompAttr from './isBoolCompAttr'
-
-const shortStringWhenPossible = function(addr) {
-
-  if (!isJustAttrAddr(addr)) {
-    return asString(addr)
-  }
-
-  return addr.state.path
-}
+import shortStringWhenPossible from '../../../utils/multiPath/shortStringWhenPossible'
 
 const identical = function(state) {
   return state
