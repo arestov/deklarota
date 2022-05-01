@@ -33,22 +33,6 @@ const action = {
 }
 
 test('simple pass by * calculated', async () => {
-  const createDeepChild = (num, props) => {
-    const DeepChild = model({
-      model_name: `DeepChild${num}`,
-      attrs: {
-        desc: [
-          'comp',
-          [],
-          () => `DeepChild${num}`,
-        ],
-      },
-      ...props,
-    })
-    return DeepChild
-  }
-
-
   const TargetChild = model({ model_name: 'TargetChild' })
 
   const app = (await init({

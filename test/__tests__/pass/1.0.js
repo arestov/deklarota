@@ -24,7 +24,6 @@
 
 */
 
-import model from 'pv/model'
 import pvState from 'pv/getAttr'
 import pvPass from 'pv/pass'
 
@@ -58,18 +57,6 @@ const action2 = {
     },
   ],
 }
-
-const mdl = props => model(props)
-const createDeepChild = (num, props) => mdl({
-  attrs: {
-    desc: [
-      'comp',
-      [],
-      () => `DeepChild${num}`,
-    ],
-  },
-  ...props,
-})
 
 test('simple state by pass1 && pass2 calculated', async () => {
   const app = await setup()
