@@ -181,20 +181,11 @@ test('nest compx calculated', async () => {
     },
   })
 
-  const startModel = createDeepChild('start', {
-    zero_map_level: true,
+  const { app_model: app, steps } = (await init({
     model_name: 'startModel',
     rels: {
       target_child: ['nest', [TargetChild]],
     },
-  })
-
-
-  const { app_model: app, steps } = (await init({
-    zero_map_level: false,
-    'chi-start__page': startModel,
-  }, self => {
-    self.start_page = self.initChi('start__page') // eslint-disable-line
   }))
 
 
