@@ -15,7 +15,7 @@ class FlowStep {
   inited_order: number[]
   init_end: boolean
   next: FlowStep | null
-  constructor(is_transaction_end: boolean, num: number, complex_order: number[], inited_order: number[], fn: Function, context: any, args: string | any[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
+  constructor(is_transaction_end: boolean, num: number, complex_order: number[], inited_order: number[], fn: Function, context: unknown, args: string | unknown[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
     this.aborted = false
     this.p_space = ''
     this.p_index_key = ''
