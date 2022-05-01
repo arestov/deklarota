@@ -6,16 +6,16 @@ Object {
     "DeepChild1.1",
   ],
   "all_indie": Array [
-    6,
+    5,
   ],
   "all_list": Array [
+    3,
     4,
-    5,
   ],
   "nickname": "nikolay",
   "num": 629,
   "one_desc_list": "DeepChild1.0",
-  "one_indie": 6,
-  "one_list": 4,
+  "one_indie": 5,
+  "one_list": 3,
 }
 `;
