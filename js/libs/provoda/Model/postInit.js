@@ -32,7 +32,15 @@ function connectStates(self, input_rels) {
   // prefill own states before connecting relations
   ensureInitialAttrs(self)
 
+  self.children_models.$root = self.app
+  self.children_models.$parent = self.map_parent
   self.__initStates()
+  self.children_models.$root = null
+  self.children_models.$parent = null
+  _updateRel(self, '$root', self.app)
+  if (self.map_parent) {
+    _updateRel(self, '$parent', self.map_parent)
+  }
 
   /* should be before prsStCon.connect.nesting */
   assignInputRels(self, input_rels)

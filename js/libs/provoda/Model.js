@@ -114,6 +114,16 @@ const getStrucParent = function(item, _count, soft) {
 }
 
 function modelProps(add) {
+  add({
+    rels: {
+      $root: ['input', {
+        linking: '<<<< #',
+      }],
+      $parent: ['input', {
+        linking: '<<<< ^',
+      }],
+    },
+  })
 
   add({
     effects: {

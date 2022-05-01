@@ -57,6 +57,9 @@ const AppModelBase = spv.inh(LoadableList, {
     console.warn('add checkActingRequestsPriority')
   },
   model_name: 'app_model',
+  rels: {
+    $root: ['input', {linking: '<<<<'}],
+  },
 
   resortQueue: function(queue) {
     if (queue) {
