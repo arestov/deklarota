@@ -28,12 +28,13 @@ const prepareLastErrorProm = () => {
 }
 
 const testingInit = async (
-  AppRoot, interfaces = {}, { proxies = false, sync_sender = false } = {},
+  AppRoot, interfaces = {}, { proxies = false, sync_sender = false, __proxies_leaks_check = false } = {},
 ) => {
   prepareLastErrorProm()
   const runtime = prepareAppRuntime({
     sync_sender,
     proxies,
+    __proxies_leaks_check,
     warnUnexpectedAttrs: false,
     onError: err => {
       reject_error_prom(err)
