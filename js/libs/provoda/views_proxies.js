@@ -64,7 +64,7 @@ Space.prototype = {
   }
 }
 
-export const Proxies = function(_check_interval, options = {}) {
+export const Proxies = function(options = {}) {
   this.spaces = {}
   this.spaces_list = []
   /*
