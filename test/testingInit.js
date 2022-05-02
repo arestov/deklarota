@@ -19,7 +19,7 @@ const initCore = async (AppRoot, runtime, interfaces) => {
 }
 
 let last_error_prom = null
-let reject_error_prom = null 
+let reject_error_prom = null
 
 const prepareLastErrorProm = () => {
   last_error_prom = new Promise((resolve, reject) => {
@@ -35,10 +35,10 @@ const testingInit = async (
     sync_sender,
     proxies,
     warnUnexpectedAttrs: false,
-    onError: (err) => {
+    onError: err => {
       reject_error_prom(err)
       prepareLastErrorProm()
-    }
+    },
   })
 
   const inited = await initCore(AppRoot, runtime, interfaces)
