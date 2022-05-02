@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should init 1`] = `
+<div
+  class="app-main-part"
+>
+  
+        
+  <div>
+    George
+  </div>
+  
+      
+</div>
+`;
