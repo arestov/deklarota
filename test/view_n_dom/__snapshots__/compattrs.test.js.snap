@@ -12,9 +12,15 @@ exports[`should init 1`] = `
   
         
   <!--anchor for pv-when-->
+  <div>
+    :) rootValue
+  </div>
   
         
   <!--anchor for pv-when-->
+  <div>
+    0__0 parentValue
+  </div>
   
       
 </div>
