@@ -3,7 +3,7 @@ import { getAllGlueSources as getAllGlueSourcesAttrs } from '../attrs/comp/menti
 
 import prepareGlueSourceRuntime from './runtime/prepare'
 import cachedField from '../cachedField'
-const emptyArray = Object.freeze([])
+import emptyArray from '../../emptyArray'
 
 const provideGlueRels = cachedField(
   '__rel_all_glue_sources',
