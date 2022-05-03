@@ -6,9 +6,9 @@ import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 
 import isGlueTargetAttr from './isGlueTargetAttr'
 import cachedField from '../../cachedField'
+import { emptyObject } from '../../../utils/sameObjectIfEmpty'
 
 const makeGroups = groupDeps(getEncodedState)
-const emptyObject = Object.freeze({})
 
 const compressList = (result, prop) => {
   if (result[prop].length == 1) {
