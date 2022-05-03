@@ -38,13 +38,15 @@ test('should init', async () => {
 
   await computed()
 
-  const { whenViewReady, document } = await testingInitView(inited, {
-    getRootView,
-    document_path: path.resolve(__dirname, './main.html'),
+  {
+    const { whenViewReady, document } = await testingInitView(inited, {
+      getRootView,
+      document_path: path.resolve(__dirname, './main.html'),
 
-  })
+    })
 
-  await whenViewReady()
+    await whenViewReady()
 
-  expect(document.querySelector('.app .app-main-part')).toMatchSnapshot()
+    expect(document.querySelector('.app .app-main-part')).toMatchSnapshot()
+  }
 })
