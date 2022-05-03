@@ -48,7 +48,7 @@ test('should init', async () => {
             attrs: {
               simpleValue: ['input', 'VValue'],
               fromRoot: ['comp', ['< rootMark <<< #']],
-              fromParent: ['comp', ['< parentMark <<< ^']],
+              fromParent: ['comp', ['< @one:parentMark < $v_parent']],
             },
           }),
         },

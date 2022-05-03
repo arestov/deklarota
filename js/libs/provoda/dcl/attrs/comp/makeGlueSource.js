@@ -29,8 +29,8 @@ const getTreeGetter = function(val) {
   }
 }
 
-function makeGlueSource(addr) {
-  const glue_target_type = isGlueTargetAttr(addr)
+function makeGlueSource(addr, isView) {
+  const glue_target_type = isGlueTargetAttr(addr, isView)
   if (glue_target_type == null) {
     return null
   }

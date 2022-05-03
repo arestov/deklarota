@@ -6,7 +6,7 @@ import { doRelSplit } from '../../glue_rels/splitComplexRel'
 const rel_of_ascendor = glueTargets.rel_of_ascendor
 
 function groupDeps(parse) {
-  return function(list) {
+  return function(list, isView) {
     const states_of_parent = {}
     const states_of_nesting = {}
     const states_of_root = {}
@@ -20,7 +20,7 @@ function groupDeps(parse) {
 
       for (let jj = 0; jj < deps_list.length; jj++) {
         const addr = addrs[jj]
-        const glue_target = isGlueTargetAttr(addr)
+        const glue_target = isGlueTargetAttr(addr, isView)
 
         if (glue_target === rel_of_ascendor) {
           const splited = doRelSplit(addr)
