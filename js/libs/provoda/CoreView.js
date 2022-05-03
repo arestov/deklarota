@@ -6,7 +6,6 @@ import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
 import updateProxy from './updateProxy'
-import prsStCon from './prsStCon'
 import StatesEmitter from './StatesEmitter'
 import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
@@ -23,6 +22,7 @@ import getBwlevView from './dcl_view/getBwlevView'
 import getViewLocationId from './View/getViewLocationId'
 import makeAttrsCollector from './View/makeAttrsCollector'
 import getRelPath from './View/getRelPath'
+import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs/comp/runtime/connectViewExternalDeps'
 const CH_GR_LE = 2
 
 
@@ -147,8 +147,7 @@ const initView = function(target, view_otps, opts) {
 
   Object.assign(target._lbr.undetailed_children_models, target.mpx.nestings)
 
-  prsStCon.connect.parent(target, target)
-  prsStCon.connect.root(target, target)
+  connectViewExternalDeps(target)
 
   nestBorrowInit(target)
   initSpyglasses(target)
@@ -718,8 +717,8 @@ const View = spv.inh(StatesEmitter, {
       return this
     }
 
-    prsStCon.disconnect.parent(this, this)
-    prsStCon.disconnect.root(this, this)
+    disconnectViewExternalDeps(this)
+
 
     disposeEffects(this)
 

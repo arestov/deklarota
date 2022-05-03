@@ -8,8 +8,12 @@ const isAscending = function(addr) {
   return isGlueRoot(addr) || isGlueParent(addr)
 }
 
-const hasGlueSourceAttr = function(addr) {
+const hasGlueSourceAttr = function(addr, isView) {
   if ((addr.zip_name != null && addr.zip_name != 'all') && isRelAddr(addr)) {
+    if (isView) {
+      // View works on "one" view-rel mode for now. cant work with "many"
+      return
+    }
     if (addr.result_type === 'nesting') {
       return glueTargets.zip_of_rel
     }

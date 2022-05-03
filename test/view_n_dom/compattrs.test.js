@@ -47,8 +47,8 @@ test('should init', async () => {
           user: spv.inh(View, null, {
             attrs: {
               simpleValue: ['input', 'VValue'],
-              fromRoot: ['comp', ['< rootMark <<< #']],
-              fromParent: ['comp', ['< parentMark <<< ^']],
+              fromRoot: ['comp', ['< @one:rootMark < $v_root']],
+              fromParent: ['comp', ['< @one:parentMark < $v_parent']],
             },
           }),
         },

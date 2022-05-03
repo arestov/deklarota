@@ -14,6 +14,7 @@ import collectStateChangeHandlers from '../dcl_view/v-collectStateChangeHandlers
 import checkNestBorrow from '../dcl_view/nest_borrow/check-dcl'
 import checkNestBorrowWatch from '../dcl_view/nest_borrow/watch'
 import checkSpyglass from '../dcl_view/spyglass/check-dcl'
+import validateViewAttrs from './validateViewAttrs'
 const cloneObj = spv.cloneObj
 
 const getBaseTreeCheckList = function(start) {
@@ -65,6 +66,7 @@ const completeBuild = (self) => {
   checkEffects(self)
 
   buildAttrsFinal(self)
+  validateViewAttrs(self)
 }
 
 export default function(self, props, original) {

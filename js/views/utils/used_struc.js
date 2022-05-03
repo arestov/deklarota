@@ -16,7 +16,7 @@ const bhv = {
     ],
     'used_struc': [
       'comp',
-      ['< view_structure <<< #', 'view_path'],
+      ['< @one:view_structure < $v_root', 'view_path'],
       function(view_structure, view_path) {
         if (!view_structure || !view_path) {
           return

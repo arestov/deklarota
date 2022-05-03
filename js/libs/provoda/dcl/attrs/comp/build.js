@@ -6,9 +6,9 @@ import isJustAttrAddr from '../../../utils/multiPath/isJustAttrAddr'
 
 import isGlueTargetAttr from './isGlueTargetAttr'
 import cachedField from '../../cachedField'
+import { emptyObject } from '../../../utils/sameObjectIfEmpty'
 
 const makeGroups = groupDeps(getEncodedState)
-const emptyObject = Object.freeze({})
 
 const compressList = (result, prop) => {
   if (result[prop].length == 1) {
@@ -109,7 +109,7 @@ export default function(self) {
   return true
 }
 
-function uniqExternalDeps(full_comlxs_list) {
+function uniqExternalDeps(full_comlxs_list, isView) {
   const uniq = new Map()
 
   for (let i = 0; i < full_comlxs_list.length; i++) {
@@ -120,7 +120,7 @@ function uniqExternalDeps(full_comlxs_list) {
         continue
       }
 
-      if (isGlueTargetAttr(addr)) {
+      if (isGlueTargetAttr(addr, isView)) {
         continue
       }
 
@@ -150,9 +150,9 @@ function collectStatesConnectionsProps(self, full_comlxs_list) {
   ]
   */
   self.__attrs_full_comlxs_list = full_comlxs_list
-  self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list)
+  self.__attrs_uniq_external_deps = uniqExternalDeps(full_comlxs_list, self.__isView)
 
-  const result = makeGroups(full_comlxs_list)
+  const result = makeGroups(full_comlxs_list, self.__isView)
 
   for (let i = 0; i < result.conndst_nesting.length; i++) {
     const addr = result.conndst_nesting[i].addr

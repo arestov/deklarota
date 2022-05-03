@@ -3,6 +3,7 @@ import type { EmptyObject } from './empty.types'
 
 
 const emptyObject: EmptyObject = {}
+Object.freeze(emptyObject)
 export { emptyObject }
 
 const sameObjectIfEmpty = <Input>(object: Input): null | Input | EmptyObject => {
