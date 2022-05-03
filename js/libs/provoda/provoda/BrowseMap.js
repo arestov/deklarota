@@ -1,6 +1,6 @@
 
 import spv from '../../spv'
-import HModel from '../Model/HModel'
+import Model from '../Model'
 import changeBridge from '../bwlev/changeBridge'
 import initBWlev from '../bwlev/initBWlev'
 import toProperNavParent from '../bwlev/toProperNavParent'
@@ -53,7 +53,7 @@ BrowseMap.getUserInterest = function(pth_string, start_md) {
 
 BrowseMap.routePathByModels = routePathByModels
 
-BrowseMap.Model = spv.inh(HModel, {
+BrowseMap.Model = spv.inh(Model, {
   strict: true,
   naming: function(fn) {
     return function BrowseMapModel(opts, data, params, more, states) {
