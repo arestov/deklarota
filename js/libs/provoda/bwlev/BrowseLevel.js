@@ -432,7 +432,7 @@ const BrowseLevel = spv.inh(Model, {
     loadNestingsByStruc(target.getNesting('pioneer'), struc)
   },
 
-  'stch-__to_load_all': function(target, obj, prev) {
+  'stch-__to_load_all': function(_target, obj, prev) {
     if (!obj.list) {
       return
     }

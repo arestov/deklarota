@@ -71,7 +71,7 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
       _parent_constr: Constr,
       _root_constr: RootConstr,
       hierarchy_path: hierarchy_path,
-      hierarchy_path_string: hierarchy_path.join('  ')
+      hierarchy_path_string: hierarchy_path.join('  '),
     })
 
     self._all_chi[prop] = mark(item, RootConstr, next_ascent_level, hierarchy_path)

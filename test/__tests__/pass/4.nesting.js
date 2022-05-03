@@ -207,27 +207,20 @@ test('special nestings by pass calculated', async () => {
     })
 
     const app = (await init({
-      zero_map_level: false,
-      'chi-start__page': createDeepChild('start', {
-        zero_map_level: true,
-        model_name: 'startModel',
-        rels: {
-          all_playlists: ['nest', [['playlists/[:id::1]', 'playlists/[:id::2]']]],
-          playlists: ['model', Playlist, { many: true, uniq: ['id'] }],
-        },
-        actions: {
-          addToStart: createAction('at_start'),
-          addToEnd: createAction('at_end'),
-          addToIndex: createAction('at_index'),
-          replace: createAction('replace'),
-          setOne: createAction('set_one', 2, 'one_song'),
-        },
-        routes: {
-          'playlists/[:id]': 'playlists',
-        },
-      }),
-    }, self => {
-      self.start_page = self.initChi('start__page') // eslint-disable-line
+      rels: {
+        all_playlists: ['nest', [['playlists/[:id::1]', 'playlists/[:id::2]']]],
+        playlists: ['model', Playlist, { many: true, uniq: ['id'] }],
+      },
+      actions: {
+        addToStart: createAction('at_start'),
+        addToEnd: createAction('at_end'),
+        addToIndex: createAction('at_index'),
+        replace: createAction('replace'),
+        setOne: createAction('set_one', 2, 'one_song'),
+      },
+      routes: {
+        'playlists/[:id]': 'playlists',
+      },
     })).app_model
 
     return app

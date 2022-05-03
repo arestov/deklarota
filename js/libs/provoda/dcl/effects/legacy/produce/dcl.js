@@ -1,7 +1,9 @@
 
 import spv from '../../../../../spv'
 import emptyArray from '../../../../emptyArray'
+import parseAddr from '../../../../utils/multiPath/parse'
 import { readingDeps } from '../../../../utils/multiPath/readingDeps/readingDeps'
+import shortStringWhenPossible from '../../../../utils/multiPath/shortStringWhenPossible'
 import _updateAttr from '../../../../_internal/_updateAttr'
 import wrapDeps from '../api/utils/wrapDeps'
 import getDclInputApis from '../utils/getDclInputApis'
@@ -38,6 +40,18 @@ const getHandler = function(schema) {
 
 const getDeps = readingDeps()
 
+const convertToProperPaths = (str) => {
+  const addr = parseAddr(str)
+  if (!addr) {
+    return str
+  }
+  return shortStringWhenPossible(addr)
+}
+
+const toCorrectAttrs = (deps) => {
+  return Object.freeze(toRealArray(deps).map(convertToProperPaths))
+}
+
 export default function ApiEffectDeclr(name, data) {
 
   this.name = name
@@ -59,8 +73,7 @@ export default function ApiEffectDeclr(name, data) {
 
   this.apis = toRealArray(data.api)
   this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
-
-  this.triggering_states = toRealArray(data.trigger)
+  this.triggering_states = toCorrectAttrs(data.trigger)
   this.create_when_api_inits = data.create_when?.api_inits
   this.create_when_becomes_ready = data.create_when?.becomes_ready ?? true
 
@@ -77,7 +90,7 @@ export default function ApiEffectDeclr(name, data) {
   this.result_handler = data.parse && getHandler(this.is_async, data.parse)
 
   if (data.require) {
-    this.deps = wrapDeps(data.require)
+    this.deps = wrapDeps(toCorrectAttrs(data.require))
     // var desc = '_need_api_effect_' + name
     this.deps_name = Symbol() // || Symbol(desc)
 

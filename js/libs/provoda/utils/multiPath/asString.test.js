@@ -75,7 +75,7 @@ describe('asString', () => {
         '<< nesting_name << ^^'
       ]]
     ])('should work for %s', (_title, [input, expected]) => {
-      expect(asString(parse(input))).toEqual(expected)
+      expect(asString(parse(input))).toMatchSnapshot(expected)
     })
   })
 })

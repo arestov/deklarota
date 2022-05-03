@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should init 1`] = `
+<div
+  class="app-main-part"
+>
+  
+        
+  <div>
+    George
+  </div>
+  
+        
+  <!--anchor for pv-when-->
+  <div>
+    :) rootValue
+  </div>
+  
+        
+  <!--anchor for pv-when-->
+  <div>
+    0__0 parentValue
+  </div>
+  
+      
+</div>
+`;

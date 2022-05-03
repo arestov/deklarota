@@ -74,24 +74,18 @@ test('map_values_list_to_target in pass', async () => {
 
   async function setup() {
     const app = (await init({
-      zero_map_level: false,
-      'chi-start__page': createDeepChild('start', {
-        zero_map_level: true,
-        model_name: 'startModel',
-        rels: {
-          nest_a: ['nest', [createDeepChild('nestA')]],
-          nest_b: ['nest', [createDeepChild('nestB')]],
-          selected: [
-            'input',
-            { linking: ['<< nest_a', '<< nest_b'], many: true },
-          ],
-        },
-        actions: {
-          'handleRel:selected': action,
-        },
-      }),
-    }, self => {
-      self.start_page = self.initChi('start__page') // eslint-disable-line
+      model_name: 'startModel',
+      rels: {
+        nest_a: ['nest', [createDeepChild('nestA')]],
+        nest_b: ['nest', [createDeepChild('nestB')]],
+        selected: [
+          'input',
+          { linking: ['<< nest_a', '<< nest_b'], many: true },
+        ],
+      },
+      actions: {
+        'handleRel:selected': action,
+      },
     })).app_model
 
     return app

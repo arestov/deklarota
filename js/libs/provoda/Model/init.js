@@ -45,7 +45,7 @@ export default function initModel(self, opts, data) {
 
   //self.states = {};
 
-  self.children_models = null
+  self.children_models = {}
   self.__mentions_as_rel = null
   self._network_source = self._network_source || null
 

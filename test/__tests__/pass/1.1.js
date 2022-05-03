@@ -33,26 +33,9 @@ const action = {
 }
 
 test('simple pass by * calculated', async () => {
-  const createDeepChild = (num, props) => {
-    const DeepChild = model({
-      model_name: `DeepChild${num}`,
-      attrs: {
-        desc: [
-          'comp',
-          [],
-          () => `DeepChild${num}`,
-        ],
-      },
-      ...props,
-    })
-    return DeepChild
-  }
-
-
   const TargetChild = model({ model_name: 'TargetChild' })
 
-  const startModel = createDeepChild('start', {
-    zero_map_level: true,
+  const app = (await init({
     model_name: 'startModel',
     rels: {
       my_friend: ['nest', [TargetChild]],
@@ -60,14 +43,6 @@ test('simple pass by * calculated', async () => {
     actions: {
       action1: action,
     },
-  })
-
-
-  const app = (await init({
-    zero_map_level: false,
-    'chi-start__page': startModel,
-  }, self => {
-    self.start_page = self.initChi('start__page') // eslint-disable-line
   })).app_model
 
   const steps = makeStepsRunner(app)

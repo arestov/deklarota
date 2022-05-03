@@ -1,4 +1,3 @@
-import spv from 'spv'
 import model from 'pv/model'
 import pvUpdate from 'pv/updateAttr'
 import updateNesting from 'pv/updateNesting'
@@ -84,22 +83,16 @@ test('compx-nests', async () => {
     })
 
     const app = (await init({
-      zero_map_level: false,
-      'chi-start__page': createDeepChild('start', {
-        zero_map_level: true,
-        model_name: 'startModel',
-        rels: {
-          target_child: ['nest', [target_child]],
-          list_source: [
-            'nest', [[createDeepChild('1.0'), createDeepChild(2)]],
-          ],
-          indie_source: [
-            'nest', [createDeepChild('1.1')],
-          ],
-        },
-      }),
-    }, self => {
-      self.start_page = self.initChi('start__page') // eslint-disable-line
+      model_name: 'startModel',
+      rels: {
+        target_child: ['nest', [target_child]],
+        list_source: [
+          'nest', [[createDeepChild('1.0'), createDeepChild(2)]],
+        ],
+        indie_source: [
+          'nest', [createDeepChild('1.1')],
+        ],
+      },
     })).app_model
 
     return app

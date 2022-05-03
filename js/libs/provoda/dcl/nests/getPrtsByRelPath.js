@@ -21,11 +21,11 @@ const getPrtsByRelPath = (self, rel_path, soft_check) => {
       if (!refered_prt) {
 
         console.warn('🧶', 'cant find rel', step, rel_path, self.__code_path)
-        if (soft_check) {
-          continue
+        if (!soft_check) {
+          throw new Error('cant find rel')
         }
+        continue
 
-        throw new Error('cant find rel')
       }
 
       if (Array.isArray(refered_prt)) {

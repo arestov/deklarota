@@ -1,4 +1,3 @@
-import model from 'pv/model'
 import pvState from 'pv/getAttr'
 import pvUpdate from 'pv/updateAttr'
 
@@ -33,18 +32,6 @@ const action2 = {
   ],
 }
 
-const mdl = props => model(props)
-const createDeepChild = (num, props) => mdl({
-  attrs: {
-    desc: [
-      'comp',
-      [],
-      () => `DeepChild${num}`,
-    ],
-  },
-  ...props,
-})
-
 test('simple state by pass1 && pass2 calculated', async () => {
   const app = await setup()
   const steps = makeStepsRunner(app)
@@ -66,19 +53,13 @@ test('simple state by pass1 && pass2 calculated', async () => {
 
   async function setup() {
     const app = (await init({
-      zero_map_level: false,
-      'chi-start__page': createDeepChild('start', {
-        zero_map_level: true,
-        model_name: 'startModel',
-        rels: {
-        },
-        actions: {
-          'handleAttr:some_prop': action1,
-          'handleAttr:some_prop2': action2,
-        },
-      }),
-    }, self => {
-      self.start_page = self.initChi('start__page') // eslint-disable-line
+      model_name: 'startModel',
+      rels: {
+      },
+      actions: {
+        'handleAttr:some_prop': action1,
+        'handleAttr:some_prop2': action2,
+      },
     })).app_model
 
     return app

@@ -10,8 +10,7 @@ test('state loaded', async () => {
   let check1 = false
   let check2 = false
 
-  const StartPage = model({
-    zero_map_level: true,
+  const SomePage = model({
     effects: {
       in: {
         0: {
@@ -72,6 +71,9 @@ test('state loaded', async () => {
   })
 
   const app = (await init({
+    rels: {
+      somepage: ['nest', [SomePage]],
+    },
     effects: {
       api: {
         fake() {
@@ -79,19 +81,14 @@ test('state loaded', async () => {
         },
       },
     },
-    zero_map_level: false,
-  'chi-start__page': StartPage,
-
-    checkActingRequestsPriority() {
-
-    },
-  }, self => {
-    self.all_queues = []
-    self.start_page = self.initChi('start__page')
+    checkActingRequestsPriority() {},
+  }, () => {
+    // self.all_queues = []
+    // self.start_page = self.initChi('start__page')
   })).app_model
 
-  return waitFlow(app).then(app => app.start_page.requestState('bio').then(() => waitFlow(app))).then(app => {
-    expect('was born').toBe(pvState(app.start_page, 'bio'))
+  return waitFlow(app).then(app => app.getNesting('somepage').requestState('bio').then(() => waitFlow(app))).then(app => {
+    expect('was born').toBe(pvState(app.getNesting('somepage'), 'bio'))
 
     // check loops breakers: transaction/inspect
     expect(check1).toBe(true)

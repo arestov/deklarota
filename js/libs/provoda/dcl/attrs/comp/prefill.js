@@ -14,7 +14,7 @@ const prefillCompAttr = function prefillCompAttr(self, changes_list) {
     if (value == null) {
       continue
     }
-
+    // it's ok to skip empty array rel values. (it's prefilled)
     if (isRelAddr(cur) && Array.isArray(value) && !value.length) {
       continue
     }

@@ -8,6 +8,7 @@ import createLevel from '../../bwlev/createLevel'
 import pvState from '../../provoda/state'
 import _updateAttr from '../../_internal/_updateAttr'
 import getKey from './getKey'
+import getBWlev from '../../bwlev/getBWlev'
 
 const getPioneer = function(lev) {
   return lev && lev.getNesting('pioneer')

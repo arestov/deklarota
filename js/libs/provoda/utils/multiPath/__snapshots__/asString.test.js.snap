@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`asString smoke should work for attr query shortcut: < state_name <<< 1`] = `"< state_name <<<"`;
+
+exports[`asString smoke should work for full root query with route: < state_name << resource/[:ddaf]/sdf < # 1`] = `"< state_name << resource/[:ddaf]/sdf < #"`;
+
+exports[`asString smoke should work for full root query: < state_name < nesting < resource < # 1`] = `"< state_name < nesting < resource < #"`;
+
+exports[`asString smoke should work for grandparent attr query: < state_name <<< ^^ 1`] = `"< state_name <<< ^^"`;
+
+exports[`asString smoke should work for grandparent nesting query: << nesting_name << ^^ 1`] = `"<< nesting_name << ^^"`;
+
+exports[`asString smoke should work for grandparent nesting shortcut: << nesting_name << ^^ 1`] = `"<< nesting_name << ^^"`;
+
+exports[`asString smoke should work for nesting shortcut: << @one:nesting << 1`] = `"<< @one:nesting <<"`;
+
+exports[`asString smoke should work for root attr query: < state_name <<< # 1`] = `"< state_name <<< #"`;
+
+exports[`asString smoke should work for root nesting query: << nesting_name << # 1`] = `"<< nesting_name << #"`;
+
+exports[`asString smoke should work for root route attr: < @one:state_name < nesting < resource < # 1`] = `"< @one:state_name < nesting < resource < #"`;
+
+exports[`asString smoke should work for root route query shortcut: <<< resource/[:ddaf]/sdf < # 1`] = `"<<< resource/[:ddaf]/sdf < #"`;
+
+exports[`asString smoke should work for route shortcut: <<< resource/[:ddaf]/sdf < 1`] = `"<<< resource/[:ddaf]/sdf <"`;
+
+exports[`asString smoke should work for trivial attr query: < state_name <<< 1`] = `"< state_name <<<"`;
