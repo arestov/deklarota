@@ -4,6 +4,8 @@ const checkRel = (rel: string): void => {
   switch (rel) {
     case '$v_parent':
       return
+    case '$v_root':
+      return
   }
   console.warn('only $v_root, $v_parent can be used', { rel })
   throw new Error('only $v_root, $v_parent can be used')
@@ -12,7 +14,7 @@ const checkRel = (rel: string): void => {
 const validateViewAddr = (addr: Addr): void => {
   if (addr.from_base.type == 'root') {
     console.warn('replace', addr, 'by $v_root')
-    return
+    throw new Error('replace ascendor (#) addr by rel $v_root')
   }
 
   if (addr.from_base.type == 'parent') {

@@ -6,7 +6,6 @@ import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
 import updateProxy from './updateProxy'
-import prsStCon from './prsStCon'
 import StatesEmitter from './StatesEmitter'
 import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
@@ -147,8 +146,6 @@ const initView = function(target, view_otps, opts) {
   }
 
   Object.assign(target._lbr.undetailed_children_models, target.mpx.nestings)
-
-  prsStCon.connect.root(target, target)
 
   connectViewExternalDeps(target)
 
@@ -719,8 +716,6 @@ const View = spv.inh(StatesEmitter, {
     if (this._lbr.marked_as_dead) {
       return this
     }
-
-    prsStCon.disconnect.root(this, this)
 
     disconnectViewExternalDeps(this)
 
