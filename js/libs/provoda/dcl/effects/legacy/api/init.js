@@ -1,55 +1,6 @@
 
-import memorize from '../../../../../spv/memorize'
 import { hasOwnProperty } from '../../../../hasOwnProperty'
-import { isView } from '../../../../isView'
-import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 
-
-const updateRootInterface = memorize(function(name) {
-  return function(val) {
-    const interface_instance = val
-      ? this.getStrucRoot().getInterface(name)
-      : null
-    this.useInterface('#' + name, interface_instance)
-  }
-})
-
-const watchInterface = function(self, from, interface_name, fn) {
-  const meta_state_name = usedInterfaceAttrName(interface_name)
-  self.lwch(from, meta_state_name, fn)
-}
-
-const unwatchInterface = function(self, from, interface_name, fn) {
-  const meta_state_name = usedInterfaceAttrName(interface_name)
-  self.removeLwch(from, meta_state_name, fn)
-}
-
-
-const connectRootApis = function(self, list) {
-  if (!isView(self)) {
-    return
-  }
-  if (!list) {
-    return
-  }
-  for (let i = 0; i < list.length; i++) {
-    const cur = list[i]
-    watchInterface(self, self.getStrucRoot(), cur, updateRootInterface(cur))
-  }
-}
-
-const disconnectRootApis = function(self, list) {
-  if (!isView(self)) {
-    return
-  }
-  if (!list) {
-    return
-  }
-  for (let i = 0; i < list.length; i++) {
-    const cur = list[i]
-    unwatchInterface(self, self.getStrucRoot(), cur, updateRootInterface(cur))
-  }
-}
 
 function needsSelf(self) {
   if (self.__apis_$__needs_self == true) {
@@ -60,7 +11,6 @@ function needsSelf(self) {
 }
 
 export const dispose = function(self) {
-  disconnectRootApis(self, self.__dcls_list_api_to_connect)
 
   if (self.__apis_$_index) {
     for (const name in self.__apis_$_index) {
@@ -95,8 +45,6 @@ export default function(self, apis_as_arg) {
       self.useInterface(cur.name, cur.fn())
     }
   }
-
-  connectRootApis(self, self.__dcls_list_api_to_connect)
 
   if (needsSelf(self)) {
     self.useInterface('self', self)
