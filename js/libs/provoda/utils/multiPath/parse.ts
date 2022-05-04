@@ -9,7 +9,7 @@ import { parents, parseAscendorPart } from './addr-parts/ascendor'
 import parseRelPart from './addr-parts/rel'
 import parseRoutePart from './addr-parts/route'
 import { emptyObject } from '../sameObjectIfEmpty'
-import type { Addr, AddrResultKind, AddrSelf, AttrAddr, RelAddr } from './addr.types'
+import type { Addr, AddrResultKind, AddrSelf, AscendorAddr, AttrAddr, RelAddr, RouteAddr } from './addr.types'
 
 export { parseAscendorPart as getBaseInfo }
 export { parseRoutePart as getResourceInfo }
@@ -167,6 +167,30 @@ parseWithCache.simpleState = simpleState
 
 export default parseWithCache
 
+function migrateRelString(rel_string: string | undefined | null, base: AscendorAddr, resource: RouteAddr): string | undefined | null {
+  if (!base.type) {
+    return rel_string
+  }
+
+  if (resource.path) {
+    return rel_string
+  }
+
+  const path_end = rel_string ? `.${rel_string}` : ''
+
+  switch (base.type) {
+    case 'root':
+      return `$root${path_end}`
+    case 'parent': {
+      const full_prefix_path: string[] = []
+      for (let i = 0; i < base.steps; i++) {
+        full_prefix_path.push('$parent')
+      }
+      return `${full_prefix_path.join('.')}${path_end}`
+    }
+  }
+}
+
 function parseParts(state_raw?: string, nest_raw?: string, resource_raw?: string, base_raw?: string): Addr {
   const state_part_splited = state_raw && state_raw.match(matchZip)
   const zip_state_string = state_part_splited && state_part_splited[1]
@@ -195,13 +219,16 @@ function parseParts(state_raw?: string, nest_raw?: string, resource_raw?: string
   if (zip_nest_string && !supportedZip(zip_nest_string, 'nesting')) {
     throw new Error('unsupported zip for state: ' + zip_nest_string)
   }
-
-
-  const zip_name = zip_state_string || zip_nest_string || null
-  const state_info = getStateInfo(state_string || null)
-  const nest_info = getNestInfo(nest_string || null)
-  const resource_info = parseRoutePart(resource_raw || null)
   const base_info = parseAscendorPart(base_raw || null)
+  const resource_info = parseRoutePart(resource_raw || null)
+
+  const migrated_rel_string = migrateRelString(nest_string, base_info, resource_info)
+
+  const migrated = migrated_rel_string != nest_string
+
+  const zip_name = zip_state_string || zip_nest_string || null || (migrated ? 'one' : null)
+  const state_info = getStateInfo(state_string || null)
+  const nest_info = getNestInfo(migrated_rel_string || null)
 
   const result_type = getResultType(state_info, nest_info)
 
@@ -211,8 +238,9 @@ function parseParts(state_raw?: string, nest_raw?: string, resource_raw?: string
     state: state_info,
     nesting: nest_info,
     resource: resource_info,
-    from_base: base_info,
+    from_base: resource_info.path ? base_info : emptyObject,
     as_string: null,
+    legacy_ascendor_migrate_needed: base_raw
   })
 }
 
@@ -225,7 +253,7 @@ export function updateResultType(draft: Addr): void {
 export function createAddrByPart(source: AddrDraft): Addr {
   const draft = Object.seal({
     result_type: null,
-    zip_name: null,
+    zip_name: source.zip_name || null,
     state: source.state || empty ,
     nesting: source.nesting || empty,
     resource: source.resource || empty,

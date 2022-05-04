@@ -20,6 +20,7 @@ import checkEffects from '../dcl/effects/check'
 import checkNest from '../dcl/nest/check'
 
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
+import validateModelSchema from './validateModelSchema'
 
 const check = /initStates/gi
 
@@ -76,6 +77,8 @@ export const completeBuild = (self) => {
 
 
   self._attrs_collector = null
+
+  validateModelSchema(self)
 }
 
 export default function(self, props, _original, params) {

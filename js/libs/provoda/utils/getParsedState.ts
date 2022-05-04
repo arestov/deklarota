@@ -5,7 +5,7 @@ import splitByDot from '../../spv/splitByDot'
 import memorize from '../../spv/memorize'
 import type { Addr } from './multiPath/addr.types'
 import type { ParentAscendor } from './multiPath/addr-parts/ascendor.types'
-import type { LegacyAddress, LegacyNestingAddress, LegacyParentAddress, LegacyRootAddress, LegacySelfRef } from './legacy-address.types'
+import type { LegacyAddress, LegacyNestingAddress, LegacySelfRef } from './legacy-address.types'
 
 function itself<SomeType>(item: SomeType): SomeType {return item}
 
@@ -16,7 +16,7 @@ const enc_states = {
   '^': (function() { // parent
     const parent_count_regexp = /^\^+/gi
       // example: '^visible'
-    return function parent(string: string, nil_allowed?: boolean): LegacyParentAddress {
+    return function parent(string: string, nil_allowed?: boolean): LegacyNestingAddress {
 
       const state_name = string.replace(parent_count_regexp, '')
       const count = string.length - state_name.length
@@ -25,14 +25,25 @@ const enc_states = {
         throw new Error('')
       }
 
+      const full_path = []
+      for (let i = 0; i < count; i++) {
+        full_path.push('$parent')
+      }
+
       return {
-        rel_type: 'parent',
+        rel_type: 'nesting',
+        'nesting_name': full_path.join('.'),
+        'nesting_source':  {
+          'selector':  full_path,
+          'start_point': false,
+        },
         full_name: string,
         state_name: state_name,
         full_state_name: state_name,
         base_state_name: base_state_name,
-        ancestors: count,
-        nil_allowed: nil_allowed !== false
+        nil_allowed: nil_allowed !== false,
+        zip_name: 'one',
+        zip_func: 'one',
       }
     }
   })(),
@@ -65,7 +76,7 @@ const enc_states = {
 
     }
   },
-  '#': function(string: string, nil_allowed?: boolean): LegacyRootAddress {
+  '#': function(string: string, nil_allowed?: boolean): LegacyNestingAddress {
     // root
 
     //example: '#vk_id'
@@ -80,27 +91,43 @@ const enc_states = {
     }
 
     return {
-      rel_type: 'root',
+      rel_type: 'nesting',
       full_name: string,
       state_name: state_name,
       full_state_name: state_name,
       base_state_name,
-      nil_allowed: nil_allowed !== false
+      nil_allowed: nil_allowed !== false,
+      'nesting_name': '$root',
+      'nesting_source':  {
+        'selector':  [
+          '$root',
+        ],
+        'start_point': false,
+      },
+      zip_name: 'one',
+      zip_func: 'one',
 
     }
   }
 } as const
 
 const simulateLegacyPath = {
-  '^': function(multi_path: Addr & {from_base: ParentAscendor}): LegacyParentAddress {
+  '^': function(multi_path: Addr & {from_base: ParentAscendor}): LegacyNestingAddress {
     return {
-      rel_type: 'parent',
+      rel_type: 'nesting',
       full_name: asString(multi_path),
       state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,
       base_state_name: multi_path.state.base,
-
-      ancestors: multi_path.from_base.steps,
+      'nesting_name': '$parent',
+      'nesting_source':  {
+        'selector':  [
+          '$parent',
+        ],
+        'start_point': false,
+      },
+      zip_name: 'one',
+      zip_func: 'one',
     }
   },
   '@': function(multi_path: Addr): LegacyNestingAddress {
@@ -121,10 +148,19 @@ const simulateLegacyPath = {
       zip_func: multi_path.zip_name || itself,
     }
   },
-  '#': function(multi_path: Addr): LegacyRootAddress {
+  '#': function(multi_path: Addr): LegacyNestingAddress {
 
     return {
-      rel_type: 'root',
+      rel_type: 'nesting',
+      'nesting_name': '$root',
+      'nesting_source':  {
+        'selector':  [
+          '$root',
+        ],
+        'start_point': false,
+      },
+      zip_name: 'one',
+      zip_func: 'one',
       full_name: asString(multi_path),
       state_name: multi_path.state.path,
       full_state_name: multi_path.state.path,

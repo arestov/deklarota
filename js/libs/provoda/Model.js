@@ -4,7 +4,6 @@ import spv from '../spv'
 import hp from './helpers'
 import MDProxy from './MDProxy'
 import { getConstrByPath } from './dcl/nest/runtime/initDeclaredNestings'
-import prsStCon from './prsStCon'
 
 import { initAttrs } from './updateProxy'
 import StatesEmitter from './StatesEmitter'
@@ -31,6 +30,7 @@ import checkAndDisposeModel from './Model/checkAndDisposeModel'
 import {normalizeAddrsToValuesMap} from './Model/mockRelations'
 import isPublicRel from './Model/rel/isPublicRel'
 import createMutableRelStore from './Model/rel/createMutableRelStore'
+import triggerDestroy from './helpers/triggerDestroy'
 
 const push = Array.prototype.push
 
@@ -231,45 +231,6 @@ function modelProps(add) {
     initSi: function(Constr, data) {
       return initSi(Constr, this, data)
     },
-    mapStates: function(states_map, donor, acceptor) {
-      if (acceptor && typeof acceptor == 'boolean') {
-        if (this.init_states === false) {
-          throw new Error('states inited already, you can\'t init now')
-        }
-        if (!this.init_states) {
-          this.init_states = {}
-        }
-        acceptor = this.init_states
-      }
-      return spv.mapProps(states_map, donor, acceptor)
-    },
-    initState: function(state_name, state_value) {
-      if (this.init_states === false) {
-        throw new Error('states inited already, you can\'t init now')
-      }
-      if (this.hasComplexStateFn(state_name)) {
-        throw new Error('you can\'t change complex state ' + state_name)
-      }
-
-      if (!this.init_states) {
-        this.init_states = {}
-      }
-      this.init_states[state_name] = state_value
-    },
-    initStates: function(more_states) {
-      if (!more_states) {
-        return
-      }
-
-      if (this.init_states === false) {
-        throw new Error('states inited already, you can\'t init now')
-      }
-
-      if (!this.init_states) {
-        this.init_states = {}
-      }
-      Object.assign(this.init_states, more_states)
-    },
     __initStates: function() {
       if (this.init_states === false) {
         throw new Error('states inited already, you can\'t init now')
@@ -364,9 +325,6 @@ function modelProps(add) {
         return
       }
 
-      prsStCon.disconnect.parent(this, this)
-      prsStCon.disconnect.root(this, this)
-
       disposeGlueSources(this)
       disposeEffects(this)
       disposeMentions(this)
@@ -375,7 +333,7 @@ function modelProps(add) {
     //this.mpx.die();
     // send to views
       this._highway.views_proxies.killMD(this)
-      hp.triggerDestroy(this)
+      triggerDestroy(this)
 
       this.dead = leak
 

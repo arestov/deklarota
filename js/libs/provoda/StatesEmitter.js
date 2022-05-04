@@ -1,10 +1,8 @@
 import spv from '../spv'
-import utils_simple from './utils/simple'
 import updateProxy from './updateProxy'
 import Eventor from './Eventor'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './StatesEmitter/useInterface'
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
-import attr_events from './StatesEmitter/attr_events'
 import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
 import regfr_lightstev from './internal_events/light_attr_change/regfire'
 import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
@@ -15,23 +13,9 @@ import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
 import useInterfaceAsSource from './dcl/effects/transaction/start'
 
-const getLightConnector = spv.memorize(function(state_name) {
-  return function updateStateBindedLightly(value) {
-    _updateAttr(this, state_name, value)
-  }
-})
-
 
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
-
-  const EvConxOpts = function(context, immediately) {
-    this.context = context
-    this.immediately = immediately
-    Object.freeze(this)
-  }
-
-  add(attr_events)
 
   add({
     getInterface: function(interface_name) {
@@ -65,33 +49,11 @@ function props(add) {
   // 	return this;
   // },
     'regfr-lightstev': regfr_lightstev,
-    getContextOptsI: function() {
-      if (!this.conx_optsi) {
-        this.conx_optsi = new EvConxOpts(this, true)
-      }
-      return this.conx_optsi
-    },
+
     ___attrsToSync: function() {
       return this.states
     },
-    getContextOpts: function() {
-      if (!this.conx_opts) {
-        this.conx_opts = new EvConxOpts(this)
-      }
-      return this.conx_opts
-    },
 
-
-    wlch: function(donor, donor_state, acceptor_state_name) {
-      const cb = getLightConnector(acceptor_state_name, donor_state)
-
-      const event_name = utils_simple.getSTEVNameLight(donor_state)
-      donor.evcompanion._addEventHandler(event_name, cb, this, null, null, true)
-    },
-    unwlch: function(donor, donor_state, acceptor_state_name) {
-      const cb = getLightConnector(acceptor_state_name, donor_state)
-      this.removeLwch(donor, donor_state, cb)
-    },
     onExtend: function(props, original) {
       onPropsExtend(this, props, original)
     }

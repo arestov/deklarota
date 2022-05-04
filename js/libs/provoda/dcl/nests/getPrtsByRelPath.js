@@ -11,6 +11,31 @@ const getPrtsByRelPath = (self, rel_path, soft_check) => {
     const step = rel_path[i]
     for (let jj = 0; jj < list_to_check.length; jj++) {
       const item_to_check = list_to_check[jj]
+      switch (step) {
+        case '$root': {
+          const prt = item_to_check.RootConstr.prototype.start_page
+          if (!prt) {
+            if (!soft_check) {
+              throw new Error('cant find rel')
+            }
+            continue
+          }
+          next_check.push(prt)
+          continue
+        }
+        case '$parent': {
+          const prt = item_to_check._parent_constr?.prototype
+          if (!prt) {
+            if (!soft_check) {
+              throw new Error('cant find rel')
+            }
+            continue
+          }
+          next_check.push(prt)
+          continue
+        }
+      }
+
       const rel_shape = getRelShape(item_to_check, step)
       if (rel_shape && rel_shape.any) {
         continue
