@@ -13,6 +13,7 @@ import animateMapChanges from '../libs/provoda/bwlev/animateMapChanges'
 import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
+import { considerOwnerAsImportantForRequestsManager } from '../libs/provoda/dcl/effects/legacy/api/requests_manager'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
@@ -348,8 +349,8 @@ export default spv.inh(BasicRouter, {
       self.onCurrentChange(self, bwlev)
     }
 
-    self.app.important_model = getNesting(bwlev, 'pioneer')
-    self.app.resortQueue()
+    const important_model = getNesting(bwlev, 'pioneer')
+    considerOwnerAsImportantForRequestsManager(important_model)
   },
 })
 

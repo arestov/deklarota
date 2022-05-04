@@ -15,7 +15,6 @@ const AppModelBase = spv.inh(LoadableList, {
     target.all_queues = target.all_queues || []
 
     target.views_strucs = {}
-    target.important_model = null
   },
   postInit: function(target) {
 
@@ -49,38 +48,10 @@ const AppModelBase = spv.inh(LoadableList, {
     target.start_page = target.initChi('start__page')
   }
 }, {
-  checkActingRequestsPriority: function() {
-    if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
-      return
-    }
-
-    console.warn('add checkActingRequestsPriority')
-  },
   model_name: 'app_model',
   rels: {
     $root: ['input', {linking: '<<<<'}],
   },
-
-  resortQueue: function(queue) {
-    if (queue) {
-      queue.removePrioMarks()
-    } else {
-      for (let i = 0; i < this.all_queues.length; i++) {
-        this.all_queues[i].removePrioMarks()
-      }
-    }
-    const md = this.important_model
-    if (md) {
-      if (md.checkRequestsPriority) {
-        md.checkRequestsPriority()
-      } else if (md.setPrio) {
-        md.setPrio()
-      }
-    }
-
-    this.checkActingRequestsPriority()
-  },
-
   routePathByModels: function(pth_string, start_md, need_constr, strict, options, extra_states) {
     return BrowseMap.routePathByModels(start_md || this.start_page, pth_string, need_constr, strict, options, extra_states)
   },

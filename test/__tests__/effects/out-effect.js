@@ -62,7 +62,6 @@ test('should use api from root & parent', async () => {
     rels: {
       user: ['nest', [User]],
     },
-    checkActingRequestsPriority: () => {},
   })
 
   const inited = await testingInit(AppRoot)

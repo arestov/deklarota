@@ -29,7 +29,6 @@ test('should init', async () => {
     rels: {
       user: ['nest', [User]],
     },
-    checkActingRequestsPriority: () => {},
   })
 
   const inited = await testingInit(AppRoot, {}, { proxies: true })

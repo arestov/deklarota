@@ -4,6 +4,7 @@ import View from '../../libs/provoda/View'
 import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mergeBhv from '../../libs/provoda/provoda/_lmerge'
 import used_str from '../utils/used_struc'
+import { considerOwnerAsImportantForRequestsManager } from '../../libs/provoda/dcl/effects/legacy/api/requests_manager'
 const used_struc_bhv = used_str.bhv
 
 const BrowseLevView = spv.inh(View, {
@@ -66,7 +67,7 @@ const BrowseLevView = spv.inh(View, {
     if (!value) {
       return
     }
-    target.root_view.updateImportantBwlev(target)
+    considerOwnerAsImportantForRequestsManager(target)
   },
 
   base_tree: {

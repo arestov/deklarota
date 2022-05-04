@@ -31,6 +31,7 @@ import {normalizeAddrsToValuesMap} from './Model/mockRelations'
 import isPublicRel from './Model/rel/isPublicRel'
 import createMutableRelStore from './Model/rel/createMutableRelStore'
 import triggerDestroy from './helpers/triggerDestroy'
+import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 
 const push = Array.prototype.push
 
@@ -283,12 +284,6 @@ function modelProps(add) {
     _assignPublicAttrs: function(target) {
       return ensurePublicAttrs.assignPublicAttrs(this, target)
     },
-    getReqsOrderField: function() {
-      if (!this.req_order_field) {
-        this.req_order_field = ['mdata', 'm', this._provoda_id, 'order']
-      }
-      return this.req_order_field
-    },
     getMDReplacer: function() {
       if (!this.md_replacer) {
         const MDReplace = function() {}
@@ -329,7 +324,7 @@ function modelProps(add) {
       disposeEffects(this)
       disposeMentions(this)
 
-      this.stopRequests()
+      stopRequests(this)
     //this.mpx.die();
     // send to views
       this._highway.views_proxies.killMD(this)
@@ -343,37 +338,6 @@ function modelProps(add) {
   })
 
   add({
-    getRelativeRequestsGroups: function(space, only_models) {
-      const all_models = []
-      const groups = []
-
-      let i = 0
-      let cur = null
-      for (const collection_name in this.children_models) {
-        cur = this.children_models[collection_name]
-        if (!cur) {
-          continue
-        }
-        if (Array.isArray(cur)) {
-          all_models.push.apply(all_models, cur)
-        } else {
-          all_models.push(cur)
-        }
-      }
-      const clean_models = spv.getArrayNoDubs(all_models)
-
-      if (only_models) {
-        return clean_models
-      } else {
-        for (i = 0; i < clean_models.length; i++) {
-          const reqs = clean_models[i].getModelImmediateRequests(space)
-          if (reqs && reqs.length) {
-            groups.push(reqs)
-          }
-        }
-        return groups
-      }
-    },
     getNesting: function(collection_name) {
       return this.children_models && this.children_models[collection_name]
     },

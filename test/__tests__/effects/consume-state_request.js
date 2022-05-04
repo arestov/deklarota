@@ -6,7 +6,6 @@ import waitFlow from '../../waitFlow'
 import fakeInterface from '../../fakeInterface'
 
 test('state loaded', async () => {
-
   let check1 = false
   let check2 = false
 
@@ -53,7 +52,7 @@ test('state loaded', async () => {
           fn: () => {
             check2 = true
           },
-        }
+        },
       },
     },
 
@@ -70,6 +69,12 @@ test('state loaded', async () => {
     },
   })
 
+  const requests_manager = {
+    addRequest: jest.fn(),
+    considerOwnerAsImportant: jest.fn(),
+    stopRequests: jest.fn(),
+  }
+
   const app = (await init({
     rels: {
       somepage: ['nest', [SomePage]],
@@ -81,10 +86,10 @@ test('state loaded', async () => {
         },
       },
     },
-    checkActingRequestsPriority() {},
   }, () => {
-    // self.all_queues = []
     // self.start_page = self.initChi('start__page')
+  }, undefined, {
+    requests_manager,
   })).app_model
 
   return waitFlow(app).then(app => app.getNesting('somepage').requestState('bio').then(() => waitFlow(app))).then(app => {
@@ -93,5 +98,7 @@ test('state loaded', async () => {
     // check loops breakers: transaction/inspect
     expect(check1).toBe(true)
     expect(check2).toBe(false)
+
+    expect(requests_manager.addRequest).toHaveBeenCalled()
   })
 })

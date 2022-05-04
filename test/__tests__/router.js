@@ -53,6 +53,12 @@ const RootSession = {
 
 
 test('should init router', async () => {
+  const requests_manager = {
+    addRequest: jest.fn(),
+    considerOwnerAsImportant: jest.fn(),
+    stopRequests: jest.fn(),
+  }
+
   const User = model({
     model_name: 'User',
     rels: {
@@ -78,10 +84,9 @@ test('should init router', async () => {
       }],
       nav_parent_at_perspectivator_MainRouter: ['comp', ['<<<<'], { linking: '<<<<' }],
     },
-    checkActingRequestsPriority: () => {},
   })
 
-  const inited = await testingInit(AppRoot)
+  const inited = await testingInit(AppRoot, {requests_manager})
 
   const mainNavigationRouter = await getMainNavigationRouter(inited)
 
@@ -116,4 +121,6 @@ test('should init router', async () => {
 
     expect(mainNavigationRouter.readAddr('<< @one:current_mp_md')).toBe(another_md)
   }
+
+  expect(requests_manager.considerOwnerAsImportant).toHaveBeenCalledTimes(4)
 })

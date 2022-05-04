@@ -7,8 +7,6 @@ import makeItemByData from '../Model/makeItemByData'
 import getRelUniq from '../dcl/nests/uniq/getRelUniq'
 import { addUniqItem, findDataDup, MutUniqState } from '../dcl/nests/uniq/MutUniqState'
 
-const getRelativeRequestsGroups = BrowseMap.Model.prototype.getRelativeRequestsGroups
-
 const LoadableListBase = spv.inh(BrowseMap.Model, {
   strict: true,
   naming: function(fn) {
@@ -177,32 +175,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       break
     }
     return rel_name
-  },
-  getRelativeRequestsGroups: function(space) {
-    const rel_name = this.__getLoadableRel()
-    if (!rel_name) {
-      return
-    }
-
-    let main_models = this.getNesting(rel_name)
-    if (!main_models || !main_models.length) {
-      return
-    } else {
-      main_models = main_models.slice()
-      const more_models = getRelativeRequestsGroups.call(this, space, true)
-      if (more_models) {
-        main_models = main_models.concat(more_models)
-      }
-      const clean_array = spv.getArrayNoDubs(main_models)
-      const groups = []
-      for (let i = 0; i < clean_array.length; i++) {
-        const reqs = clean_array[i].getModelImmediateRequests(space)
-        if (reqs && reqs.length) {
-          groups.push(reqs)
-        }
-      }
-      return groups
-    }
   },
 
   compareItemWithObj: function(item, data) {
