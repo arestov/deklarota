@@ -24,6 +24,8 @@ import makeAttrsCollector from './View/makeAttrsCollector'
 import getRelPath from './View/getRelPath'
 import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs/comp/runtime/connectViewExternalDeps'
 import wlch from './View/wlch'
+import attr_events from './StatesEmitter/attr_events'
+
 const CH_GR_LE = 2
 
 
@@ -245,6 +247,7 @@ const View = spv.inh(StatesEmitter, {
 }, {
   __isView: true,
   ...wlch,
+  ...attr_events,
   ___attrsToSync: function() {
     if (this._lbr.undetailed_states) {
       return this._lbr.undetailed_states

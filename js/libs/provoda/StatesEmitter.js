@@ -3,7 +3,6 @@ import updateProxy from './updateProxy'
 import Eventor from './Eventor'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './StatesEmitter/useInterface'
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
-import attr_events from './StatesEmitter/attr_events'
 import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
 import regfr_lightstev from './internal_events/light_attr_change/regfire'
 import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
@@ -17,8 +16,6 @@ import useInterfaceAsSource from './dcl/effects/transaction/start'
 
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
-
-  add(attr_events)
 
   add({
     getInterface: function(interface_name) {
