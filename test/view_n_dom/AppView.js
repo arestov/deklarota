@@ -34,14 +34,6 @@ const AppView = spv.inh(AppBase, null, {
 
   scrollToWP(_cwp) {},
 
-  updateImportantBwlev(bwlevView) {
-    this.parent_view.important_bwlev_view = bwlevView
-    this.parent_view.resortQueue()
-
-    if (this.checkSizeFn) {
-      this.checkSizeFn()
-    }
-  },
 })
 
 

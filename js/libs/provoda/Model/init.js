@@ -38,8 +38,6 @@ export default function initModel(self, opts, data) {
 
   self.map_parent = opts?.map_parent || null
 
-  self.req_order_field = null
-
   self._provoda_id = self._highway.models_counters++
   self._highway.models[self._provoda_id] = self
 

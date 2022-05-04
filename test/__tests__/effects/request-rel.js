@@ -19,7 +19,6 @@ test('should request rel list', async () => {
   })
 
   const AppRoot = modernRoot({
-    checkActingRequestsPriority: () => {},
     rels: {
       users: ['model', User, { many: true }],
       start_page: ['input', {

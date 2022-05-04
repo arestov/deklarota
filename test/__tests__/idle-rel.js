@@ -17,7 +17,6 @@ test('should not init idle rel until its ok to init', async () => {
         idle_until: 'wantUser2',
       }]],
     },
-    checkActingRequestsPriority: () => {},
   })
 
   const inited = await testingInit(AppRoot)

@@ -351,8 +351,6 @@ export default spv.inh(BasicRouter, {
 
     const important_model = getNesting(bwlev, 'pioneer')
     considerOwnerAsImportantForRequestsManager(important_model)
-    self.app.important_model = important_model
-    self.app.resortQueue()
   },
 })
 

@@ -320,7 +320,6 @@ export default function(dclt, nesting_name, limit) {
 
   addRequestToRequestsManager(this.sputnik, request, 'input', dclt, api)
 
-  this.addRequest(request)
   return request
 
   /*

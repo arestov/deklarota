@@ -77,7 +77,6 @@ const initView = function(target, view_otps, opts) {
 
   target.used_data_structure = view_otps.used_data_structure || target.used_data_structure
 
-  target.req_order_field = null
   target.tpl = null
   target.c = null
 
@@ -421,12 +420,6 @@ const View = spv.inh(StatesEmitter, {
     const key = this.getBoxDemensionKey.apply(this, args)
     return this.getBoxDemensionByKey(cb, key)
   },
-  getReqsOrderField: function() {
-    if (!this.req_order_field) {
-      this.req_order_field = ['mdata', 'v', this.view_id, 'order']
-    }
-    return this.req_order_field
-  },
   getStoredMpx: function(md) {
     if (md.stream) {
       return md.mpx
@@ -588,28 +581,6 @@ const View = spv.inh(StatesEmitter, {
       return view
     }
   },
-  getRelativeRequestsGroups: function(space) {
-    const all_views = []
-    const all_requests = []
-    const iterating = [this]
-    let i = 0
-    let cur = null
-    while (iterating.length) {
-      cur = iterating.shift()
-      for (i = 0; i < cur.children.length; i++) {
-        iterating.push(cur.children[i])
-        all_views.push(cur.children[i])
-      }
-    }
-
-    for (i = 0; i < all_views.length; i++) {
-      const reqs = all_views[i].getModelImmediateRequests(space)
-      if (reqs && reqs.length) {
-        all_requests.push(reqs)
-      }
-    }
-    return all_requests
-  },
   addChildView: function(view) {
     mutateChildren(this)
 
@@ -692,7 +663,6 @@ const View = spv.inh(StatesEmitter, {
     }
     this.dead = true //new DeathMarker();
     stopRequests(this)
-    this.stopRequests()
 
     triggerDestroy(this)
     if (!skip_md_call) {

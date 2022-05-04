@@ -35,7 +35,6 @@ test('should keep uniq items of rel', async () => {
   })
 
   const AppRoot = modernRoot({
-    checkActingRequestsPriority: () => {},
     rels: {
       users: ['model', User, { many: true, uniq: ['id'] }],
       start_page: ['input', {

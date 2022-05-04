@@ -9,7 +9,6 @@ test('should request rel list', async () => {
   let value = null
 
   const AppRoot = modernRoot({
-    checkActingRequestsPriority: () => {},
     rels: {
       start_page: ['input', {
         linking: '<<<<',

@@ -24,7 +24,6 @@ test('should init router', async () => {
     rels: {
       user: ['nest', [User]],
     },
-    checkActingRequestsPriority: () => {},
   })
 
   const inited = await testingInit(AppRoot)

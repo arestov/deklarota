@@ -123,7 +123,6 @@ test('should execute nested requireRel & reveal resource in router', async () =>
         fn: () => ({}),
       },
     },
-    checkActingRequestsPriority: () => {},
   })
 
   const inited = await testingInit(AppRoot)

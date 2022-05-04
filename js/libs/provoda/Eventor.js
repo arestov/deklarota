@@ -72,24 +72,6 @@ const Eventor = spv.inh(function() {}, {
       this.evcompanion.trigger.apply(this.evcompanion, arguments)
     },
 
-    addRequest: function() {
-      return this.evcompanion.addRequest.apply(this.evcompanion, arguments)
-    },
-    addRequests: function() {
-      return this.evcompanion.addRequests.apply(this.evcompanion, arguments)
-    },
-    stopRequests: function() {
-      return this.evcompanion.stopRequests.apply(this.evcompanion, arguments)
-    },
-    getRelativeRequestsGroups: function() {
-
-    },
-    getModelImmediateRequests: function() {
-      return this.evcompanion.getModelImmediateRequests.apply(this.evcompanion, arguments)
-    },
-    setPrio: function() {
-      return this.evcompanion.setPrio.apply(this.evcompanion, arguments)
-    },
     requestState: function() {
       return this.evcompanion.requestState.apply(this.evcompanion, arguments)
     },

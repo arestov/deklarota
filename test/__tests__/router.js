@@ -84,7 +84,6 @@ test('should init router', async () => {
       }],
       nav_parent_at_perspectivator_MainRouter: ['comp', ['<<<<'], { linking: '<<<<' }],
     },
-    checkActingRequestsPriority: () => {},
   })
 
   const inited = await testingInit(AppRoot, {requests_manager})

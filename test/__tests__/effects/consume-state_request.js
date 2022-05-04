@@ -86,9 +86,7 @@ test('state loaded', async () => {
         },
       },
     },
-    checkActingRequestsPriority() {},
   }, () => {
-    // self.all_queues = []
     // self.start_page = self.initChi('start__page')
   }, undefined, {
     requests_manager,

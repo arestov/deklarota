@@ -68,7 +68,6 @@ const BrowseLevView = spv.inh(View, {
       return
     }
     considerOwnerAsImportantForRequestsManager(target)
-    target.root_view.updateImportantBwlev(target)
   },
 
   base_tree: {

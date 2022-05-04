@@ -144,8 +144,6 @@ function sendRequest(selected_map, store, self) {
     {has_error: store.error},
     {nocache: store.error})
 
-  self.addRequest(request)
-
   addRequestToRequestsManager(self.sputnik, request, 'input', selected_map, getNetApiByDeclr(selected_map.send_declr, self.sputnik))
 
   return request

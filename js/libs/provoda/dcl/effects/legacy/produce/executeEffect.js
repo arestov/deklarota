@@ -40,8 +40,6 @@ function handleEffectResult(self, effect, result) {
     return
   }
 
-  self.addRequest(result)
-
   if (result?.then) {
     addRequestToRequestsManager(self, result, 'output', effect, null)
   }
