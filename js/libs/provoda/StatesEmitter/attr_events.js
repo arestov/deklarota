@@ -1,10 +1,6 @@
-import subscribeToDie from '../internal_events/die/subscribe'
 import utils_simple from '../utils/simple'
 
 const attr_events = {
-  onDie: function(cb) {
-    subscribeToDie(this, cb)
-  },
   _bindLight: function(donor, state_name, cb) {
     const event_name = utils_simple.getSTEVNameLight(state_name)
     donor.evcompanion._addEventHandler(event_name, cb, this)

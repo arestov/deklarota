@@ -3,6 +3,8 @@
 import spv from '../spv'
 import FastEventor from './FastEventor/index'
 import hndMotivationWrappper from './helpers/hndMotivationWrappper'
+import onInstanceInitDie from './internal_events/die/onInstanceInit'
+import subscribeToDie from './internal_events/die/subscribe'
 
 
 const Eventor = spv.inh(function() {}, {
@@ -12,9 +14,13 @@ const Eventor = spv.inh(function() {}, {
     }
   },
   init: function(self) {
+    onInstanceInitDie(self)
     self.evcompanion = new FastEventor(self)
   },
   props: {
+    onDie: function(cb) {
+      subscribeToDie(this, cb)
+    },
     // init: function(){
     // 	this.evcompanion = new FastEventor(this);
     // 	return this;

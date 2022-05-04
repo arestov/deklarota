@@ -9,7 +9,6 @@ import getEncodedState from './utils/getEncodedState'
 import getShortStateName from './utils/getShortStateName'
 import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
 import groupMotive from './helpers/groupMotive'
-import triggerDestroy from './helpers/triggerDestroy'
 import getNetApiByDeclr from './helpers/getNetApiByDeclr'
 import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 
@@ -40,7 +39,6 @@ export default {
 
   })(),
   state: pvState,
-  triggerDestroy: triggerDestroy,
   wipeObj: utils_simple.wipeObj,
   getRightNestingName: function(_md, nesting_name) {
     return nesting_name

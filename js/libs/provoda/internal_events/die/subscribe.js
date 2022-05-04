@@ -2,9 +2,9 @@
 
 export default function subscribeToDie(self, cb) {
 
-  if (!self.evcompanion._die_subscribers) {
-    self.evcompanion._die_subscribers = []
+  if (!self._die_subscribers) {
+    self._die_subscribers = []
   }
 
-  self.evcompanion._die_subscribers.push(cb)
+  self._die_subscribers.push(cb)
 };

@@ -30,6 +30,7 @@ import checkAndDisposeModel from './Model/checkAndDisposeModel'
 import {normalizeAddrsToValuesMap} from './Model/mockRelations'
 import isPublicRel from './Model/rel/isPublicRel'
 import createMutableRelStore from './Model/rel/createMutableRelStore'
+import triggerDestroy from './helpers/triggerDestroy'
 
 const push = Array.prototype.push
 
@@ -371,7 +372,7 @@ function modelProps(add) {
     //this.mpx.die();
     // send to views
       this._highway.views_proxies.killMD(this)
-      hp.triggerDestroy(this)
+      triggerDestroy(this)
 
       this.dead = leak
 

@@ -3,7 +3,6 @@
 import spv from '../../spv'
 import utils_simple from '../utils/simple'
 import requesting from './requesting'
-import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 const wipeObj = utils_simple.wipeObj
 const removeItem = spv.removeItem
 
@@ -116,7 +115,6 @@ const FastEventor = function(context) {
   this._requestsSortFunc = null
   this.mapped_reqs = null
   this.nesting_requests = null
-  onInstanceInitDie(this)
   Object.seal(this)
 }
 FastEventor.prototype = spv.coe(function(add) {
