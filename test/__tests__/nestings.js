@@ -81,7 +81,7 @@ test('state compx calculated from parent and root states', async () => {
     attrs: {
       description_name: [
         'comp',
-        ['< family_name <<< #', '< name <<< ^', 'name'],
+        ['< @one:family_name < $root', '< @one:name < $parent', 'name'],
         (family_name, parent_name, name) => `${name} ${family_name}, son of ${parent_name}`,
       ],
     },
@@ -164,7 +164,7 @@ test('nest compx calculated', async () => {
       ],
       calculated_child: [
         'comp',
-        ['number <<< #', 'nickname <<< ^', '<< @all:indie', '<< @all:list'],
+        ['< @one:number < $root', '< @one:nickname < $parent', '<< @all:indie', '<< @all:list'],
         (num, nickname, indie_value, list) => {
           if (num === 100) {
             return list && list.slice(0, 1)

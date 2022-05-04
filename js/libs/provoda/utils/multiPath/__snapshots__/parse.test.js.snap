@@ -7,6 +7,7 @@ Object {
     "steps": null,
     "type": "root",
   },
+  "legacy_ascendor_migrate_needed": "#",
   "nesting": Object {
     "base": Array [],
     "path": Array [
@@ -42,6 +43,7 @@ exports[`parse smoke result should match snapshot for "< state < nesting_name" 1
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": undefined,
   "nesting": Object {
     "base": Array [],
     "path": Array [
@@ -66,6 +68,7 @@ Object {
     "steps": null,
     "type": "root",
   },
+  "legacy_ascendor_migrate_needed": "#",
   "nesting": Object {
     "base": Array [],
     "path": Array [
@@ -104,6 +107,7 @@ Object {
     "steps": null,
     "type": "root",
   },
+  "legacy_ascendor_migrate_needed": "#",
   "nesting": Object {},
   "resource": Object {
     "path": "resource/[:ddaf]/sdf",
@@ -142,6 +146,7 @@ exports[`parse smoke result should match snapshot for "< state_name <<" 1`] = `
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": undefined,
   "nesting": Object {},
   "resource": Object {},
   "result_type": "state",
@@ -157,6 +162,7 @@ exports[`parse smoke result should match snapshot for "< state_name <<< #" 1`] =
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": "#",
   "nesting": Object {
     "base": Array [],
     "path": Array [
@@ -178,6 +184,7 @@ exports[`parse smoke result should match snapshot for "< state_name <<< ^^" 1`] 
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": "^^",
   "nesting": Object {
     "base": Array [
       "$parent",
@@ -202,6 +209,7 @@ exports[`parse smoke result should match snapshot for "< state_name" 1`] = `
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": undefined,
   "nesting": Object {},
   "resource": Object {},
   "result_type": "state",
@@ -217,6 +225,7 @@ exports[`parse smoke result should match snapshot for "<< nesting_name << #" 1`]
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": "#",
   "nesting": Object {
     "base": Array [
       "$root",
@@ -238,6 +247,7 @@ exports[`parse smoke result should match snapshot for "<< nesting_name << ^^" 1`
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": "^^",
   "nesting": Object {
     "base": Array [
       "$parent",
@@ -261,6 +271,7 @@ exports[`parse smoke result should match snapshot for "<< nesting_name" 1`] = `
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": undefined,
   "nesting": Object {
     "base": Array [],
     "path": Array [
@@ -279,6 +290,7 @@ exports[`parse smoke result should match snapshot for "<<<< #" 1`] = `
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": "#",
   "nesting": Object {
     "base": Array [],
     "path": Array [
@@ -301,6 +313,7 @@ exports[`parse smoke result should match snapshot for "nesting_name < < ^^" 1`] 
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": "^^",
   "nesting": Object {
     "base": Array [
       "$parent",
@@ -327,6 +340,7 @@ Object {
     "steps": null,
     "type": "root",
   },
+  "legacy_ascendor_migrate_needed": "#",
   "nesting": Object {},
   "resource": Object {
     "path": "resource/[:ddaf]/sdf",
@@ -362,6 +376,7 @@ exports[`parse smoke result should match snapshot for "resource/[:ddaf]/sdf <" 1
 Object {
   "as_string": null,
   "from_base": Object {},
+  "legacy_ascendor_migrate_needed": "",
   "nesting": Object {},
   "resource": Object {
     "path": "resource/[:ddaf]/sdf",

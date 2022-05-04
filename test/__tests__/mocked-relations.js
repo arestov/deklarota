@@ -13,14 +13,14 @@ it('should have proper value of external attrs', async () => {
     mock_relations: true,
     attrs: {
       attrFromRel: ['comp', ['< @one:relAttr < nested']],
-      attrFromRoot: ['comp', ['< rootAttr <<< #']],
-      attrFromParent: ['comp', ['< parentAttr <<< ^']],
+      attrFromRoot: ['comp', ['< @one:rootAttr < $root']],
+      attrFromParent: ['comp', ['< @one:parentAttr < $parent']],
     },
   }, null, {
     relation_mocks: {
       '< @one:relAttr < nested <<': 'valueOfRelAttr',
-      '< rootAttr <<< #': 'valueOfRootAttr',
-      '< parentAttr <<< ^': 'valueOfParentAttr',
+      '< @one:rootAttr < $root': 'valueOfRootAttr',
+      '< @one:parentAttr < $parent': 'valueOfParentAttr',
 
     },
   })
@@ -33,8 +33,8 @@ it('should have proper value of external attrs', async () => {
     () => {
       testApp.app_model.__updateRelationMocks({
         '< @one:relAttr < nested <<': 'valueOfRelAttr2',
-        '< rootAttr <<< #': 'valueOfRootAttr2',
-        '< parentAttr <<< ^': 'valueOfParentAttr2',
+        '< @one:rootAttr < $root': 'valueOfRootAttr2',
+        '< @one:parentAttr < $parent': 'valueOfParentAttr2',
 
       })
     },

@@ -145,11 +145,11 @@ export default spv.inh(BasicRouter, {
     current_expected_rel: ['input'],
     'used_data_structure': [
       'comp',
-      ['< used_data_structure <<< ^'],
+      ['< @one:used_data_structure < $parent'],
     ],
     resolved_navigation_desire: [
       'comp',
-      ['resolved_navigation_desire', 'wantedReq', '< createdByReqIdResources <<< #'],
+      ['resolved_navigation_desire', 'wantedReq', '< @one:createdByReqIdResources < $root'],
       function(currentValue, req, index) {
         if (!req) {
           return null

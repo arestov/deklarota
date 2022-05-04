@@ -224,7 +224,9 @@ function parseParts(state_raw?: string, nest_raw?: string, resource_raw?: string
 
   const migrated_rel_string = migrateRelString(nest_string, base_info, resource_info)
 
-  const zip_name = zip_state_string || zip_nest_string || null || (migrated_rel_string != nest_string ? 'one' : null)
+  const migrated = migrated_rel_string != nest_string
+
+  const zip_name = zip_state_string || zip_nest_string || null || (migrated ? 'one' : null)
   const state_info = getStateInfo(state_string || null)
   const nest_info = getNestInfo(migrated_rel_string || null)
 
@@ -238,6 +240,7 @@ function parseParts(state_raw?: string, nest_raw?: string, resource_raw?: string
     resource: resource_info,
     from_base: resource_info.path ? base_info : emptyObject,
     as_string: null,
+    legacy_ascendor_migrate_needed: base_raw
   })
 }
 

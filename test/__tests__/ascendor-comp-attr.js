@@ -10,9 +10,7 @@ test('should init router', async () => {
   const User = model({
     model_name: 'User',
     attrs: {
-      computed1a: ['comp', ['< attr1 <<< #']],
       computed1b: ['comp', ['< @one:attr1 < $root']],
-      computed2a: ['comp', ['< attr2 <<< ^']],
       computed2b: ['comp', ['< @one:attr2 < $parent']],
 
     },
@@ -31,8 +29,6 @@ test('should init router', async () => {
 
   const inited = await testingInit(AppRoot)
   await inited.computed()
-  expect(inited.app_model.readAddr('< @one:computed1a < user')).toBe('SomeValue, 34')
   expect(inited.app_model.readAddr('< @one:computed1b < user')).toBe('SomeValue, 34')
-  expect(inited.app_model.readAddr('< @one:computed2a < user')).toBe('hey! :)')
   expect(inited.app_model.readAddr('< @one:computed2b < user')).toBe('hey! :)')
 })

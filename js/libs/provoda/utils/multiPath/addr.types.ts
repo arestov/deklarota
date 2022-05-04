@@ -29,4 +29,5 @@ export type Addr = {
   resource: RouteAddr
   from_base: AscendorAddr
   base_itself?: boolean
+  legacy_ascendor_migrate_needed?: string
 }
