@@ -1,5 +1,4 @@
 import spv from '../spv'
-import utils_simple from './utils/simple'
 import updateProxy from './updateProxy'
 import Eventor from './Eventor'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './StatesEmitter/useInterface'
@@ -14,12 +13,6 @@ import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
 import useInterfaceAsSource from './dcl/effects/transaction/start'
-
-const getLightConnector = spv.memorize(function(state_name) {
-  return function updateStateBindedLightly(value) {
-    _updateAttr(this, state_name, value)
-  }
-})
 
 
 // Eventor.extendTo(StatesEmitter,
@@ -64,17 +57,6 @@ function props(add) {
       return this.states
     },
 
-
-    wlch: function(donor, donor_state, acceptor_state_name) {
-      const cb = getLightConnector(acceptor_state_name, donor_state)
-
-      const event_name = utils_simple.getSTEVNameLight(donor_state)
-      donor.evcompanion._addEventHandler(event_name, cb, this, null, null, true)
-    },
-    unwlch: function(donor, donor_state, acceptor_state_name) {
-      const cb = getLightConnector(acceptor_state_name, donor_state)
-      this.removeLwch(donor, donor_state, cb)
-    },
     onExtend: function(props, original) {
       onPropsExtend(this, props, original)
     }

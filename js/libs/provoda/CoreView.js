@@ -23,6 +23,7 @@ import getViewLocationId from './View/getViewLocationId'
 import makeAttrsCollector from './View/makeAttrsCollector'
 import getRelPath from './View/getRelPath'
 import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs/comp/runtime/connectViewExternalDeps'
+import wlch from './View/wlch'
 const CH_GR_LE = 2
 
 
@@ -243,6 +244,7 @@ const View = spv.inh(StatesEmitter, {
   onExtend: onPropsExtend
 }, {
   __isView: true,
+  ...wlch,
   ___attrsToSync: function() {
     if (this._lbr.undetailed_states) {
       return this._lbr.undetailed_states
