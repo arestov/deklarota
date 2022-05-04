@@ -69,7 +69,7 @@ function calcsReady(highway) {
     Promise.all([flow_promise, requests_promise]).then(check, reject)
 
     function check() {
-      if (!calls_flow.flow_end && !highway.requests.length) {
+      if (!calls_flow.flow_end && !highway.size) {
         resolve()
       } else {
         calcsReady(highway).then(resolve)

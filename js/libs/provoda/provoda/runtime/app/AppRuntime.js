@@ -55,6 +55,7 @@ function AppRuntime(optionsRaw) {
   this.current_transaction = null
   this.expected_rels_to_chains = null
   this.live_heavy_rel_query_by_rel_name = null
+  this.requests = new Set()
   Object.seal(this)
 }
 

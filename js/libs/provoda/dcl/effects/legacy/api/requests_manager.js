@@ -6,6 +6,15 @@ export const addRequestToRequestsManager = (related_owner, req, type, dcl, api) 
     */
     throw new Error('type (input/output) should be provived')
   }
+
+  {
+    const anyway = () => {
+      related_owner._highway.requests.delete(req)
+    }
+    related_owner._highway.requests.add(req)
+    req.then(anyway, anyway)
+  }
+
   related_owner.getStrucRoot().getInterface('requests_manager')?.addRequest(req, related_owner, type, dcl, api)
 }
 

@@ -31,6 +31,7 @@ function ViewRuntime(optionsRaw) {
 
   this.local_calls_flow = flow
   this.sync_r = options.sync_r || null
+  this.requests = new Set()
 }
 
 ViewRuntime.prototype.start = function(options) {
@@ -39,7 +40,6 @@ ViewRuntime.prototype.start = function(options) {
   const interfaces = options.interfaces
   const bwlev = options.bwlev
   const RootView = options.RootView
-
 
   return new Promise(function(resolve) {
     self.calls_flow.input(function() {

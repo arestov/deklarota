@@ -452,7 +452,6 @@ FastEventor.prototype = spv.coe(function(add) {
     addRequests: function(array, opts) {
     //opts = opts || {};
     //space, depend
-      const _highway = this.sputnik._highway
 
       const space = (opts && opts.space) || this.default_requests_space
       let i = 0
@@ -483,20 +482,11 @@ FastEventor.prototype = spv.coe(function(add) {
             _this.requests[space] = spv.findAndRemoveItem(_this.requests[space], req)
           }
 
-          const _highway = _this.sputnik._highway
-          if (_highway.requests) {
-            _highway.requests = spv.findAndRemoveItem(_highway.requests, req)
-          }
-
         }
       }
       const added = []
       for (i = 0; i < array.length; i++) {
         req = array[i]
-
-        if (_highway.requests && _highway.requests.indexOf(req) == -1) {
-          _highway.requests.push(req)
-        }
 
       /*if (req.queued){
         spv.setTargetField(req.queued, 'mdata.' + this._provoda_id, this);
