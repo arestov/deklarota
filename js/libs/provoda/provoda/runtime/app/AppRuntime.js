@@ -49,6 +49,13 @@ function AppRuntime(optionsRaw) {
 
   this.relation_mocks = options.relation_mocks
   this.no_effects = Boolean(this.relation_mocks)
+  this._subscribe_effect_handlers = null
+  this.__model_replacers = null
+  this.requests_by_declarations = null
+  this.current_transaction = null
+  this.expected_rels_to_chains = null
+  this.live_heavy_rel_query_by_rel_name = null
+  Object.seal(this)
 }
 
 AppRuntime.prototype.start = function(options) {
