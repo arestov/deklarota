@@ -25,6 +25,7 @@ import getRelPath from './View/getRelPath'
 import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs/comp/runtime/connectViewExternalDeps'
 import wlch from './View/wlch'
 import attr_events from './StatesEmitter/attr_events'
+import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 
 const CH_GR_LE = 2
 
@@ -690,6 +691,7 @@ const View = spv.inh(StatesEmitter, {
       this._highway.views_proxies.removeSpaceById(this.proxies_space)
     }
     this.dead = true //new DeathMarker();
+    stopRequests(this)
     this.stopRequests()
 
     triggerDestroy(this)

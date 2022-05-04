@@ -4,6 +4,7 @@ import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 import spv from '../../spv'
 import req_utils from './req-utils'
 import types from './stateReqTypes'
+import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
 
 const arrayExclude = spv.arrayExclude
 
@@ -144,6 +145,9 @@ function sendRequest(selected_map, store, self) {
     {nocache: store.error})
 
   self.addRequest(request)
+
+  addRequestToRequestsManager(self.sputnik, request, 'input', selected_map, getNetApiByDeclr(selected_map.send_declr, self.sputnik))
+
   return request
 
 }

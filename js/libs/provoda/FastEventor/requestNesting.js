@@ -1,6 +1,7 @@
 import req_utils from './req-utils'
 import types from './nestReqTypes'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
+import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
 
 const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
@@ -316,6 +317,8 @@ export default function(dclt, nesting_name, limit) {
 
     //сделать выводы о завершенности всех данных
   }
+
+  addRequestToRequestsManager(this.sputnik, request, 'input', dclt, api)
 
   this.addRequest(request)
   return request

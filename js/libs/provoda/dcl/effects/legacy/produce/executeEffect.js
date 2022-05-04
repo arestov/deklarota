@@ -1,5 +1,6 @@
 import { countKeys } from '../../../../../spv'
 import { getDepsValues } from '../../../../utils/multiPath/readingDeps/getDepsValues'
+import { addRequestToRequestsManager } from '../api/requests_manager'
 import { agendaKey } from './getCurrentTransactionKey'
 import { getOutputFxDcl } from './getOutputFxDcl'
 import justOneAttr from './justOneAttr'
@@ -40,6 +41,10 @@ function handleEffectResult(self, effect, result) {
   }
 
   self.addRequest(result)
+
+  if (result?.then) {
+    addRequestToRequestsManager(self, result, 'output', effect, null)
+  }
 
   if (!handle) {return}
   result.then(function(result) {

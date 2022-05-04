@@ -31,6 +31,7 @@ import {normalizeAddrsToValuesMap} from './Model/mockRelations'
 import isPublicRel from './Model/rel/isPublicRel'
 import createMutableRelStore from './Model/rel/createMutableRelStore'
 import triggerDestroy from './helpers/triggerDestroy'
+import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 
 const push = Array.prototype.push
 
@@ -329,6 +330,7 @@ function modelProps(add) {
       disposeEffects(this)
       disposeMentions(this)
 
+      stopRequests(this)
       this.stopRequests()
     //this.mpx.die();
     // send to views
