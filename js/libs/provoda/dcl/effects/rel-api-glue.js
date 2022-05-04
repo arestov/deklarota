@@ -5,10 +5,10 @@ import multiPathAsString from '../../utils/multiPath/asString'
 import ApiEffectDeclr from './legacy/produce/dcl'
 import followRelPath from '../../followRelPath'
 
-const models_base_addr = createAddrByPart({ from_base: Object.freeze({
-  type: 'root',
-  steps: null
-})})
+const models_base_addr = Object.freeze(createAddrByPart({
+  zip_name: 'one',
+  nesting: { path: [ '$root' ], base: [], target_nest_name: '$root' },
+}))
 
 const views_base_addr = createAddrByPart({
   nesting: Object.freeze({

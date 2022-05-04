@@ -4,7 +4,6 @@ import spv from '../spv'
 import hp from './helpers'
 import MDProxy from './MDProxy'
 import { getConstrByPath } from './dcl/nest/runtime/initDeclaredNestings'
-import prsStCon from './prsStCon'
 
 import { initAttrs } from './updateProxy'
 import StatesEmitter from './StatesEmitter'
@@ -363,9 +362,6 @@ function modelProps(add) {
       if (this.dead != false) {
         return
       }
-
-      prsStCon.disconnect.parent(this, this)
-      prsStCon.disconnect.root(this, this)
 
       disposeGlueSources(this)
       disposeEffects(this)

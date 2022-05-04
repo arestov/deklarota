@@ -1,6 +1,5 @@
 
 import initDeclaredNestings from '../dcl/nest/runtime/initDeclaredNestings'
-import prsStCon from '../prsStCon'
 import runGlueRelSources from '../dcl/glue_rels/runtime/run'
 import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
@@ -49,10 +48,6 @@ function connectStates(self, input_rels) {
     mockRelations(self)
     return
   }
-
-  prsStCon.connect.parent(self, self)
-  prsStCon.connect.root(self, self)
-  prsStCon.connect.nesting(self, self)
 }
 
 function connectNests(self) {
