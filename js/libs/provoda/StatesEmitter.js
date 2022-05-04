@@ -25,12 +25,6 @@ const getLightConnector = spv.memorize(function(state_name) {
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
 
-  const EvConxOpts = function(context, immediately) {
-    this.context = context
-    this.immediately = immediately
-    Object.freeze(this)
-  }
-
   add(attr_events)
 
   add({
@@ -65,20 +59,9 @@ function props(add) {
   // 	return this;
   // },
     'regfr-lightstev': regfr_lightstev,
-    getContextOptsI: function() {
-      if (!this.conx_optsi) {
-        this.conx_optsi = new EvConxOpts(this, true)
-      }
-      return this.conx_optsi
-    },
+
     ___attrsToSync: function() {
       return this.states
-    },
-    getContextOpts: function() {
-      if (!this.conx_opts) {
-        this.conx_opts = new EvConxOpts(this)
-      }
-      return this.conx_opts
     },
 
 
