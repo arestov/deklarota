@@ -6,6 +6,16 @@ import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 import onInstanceInitDie from './internal_events/die/onInstanceInit'
 import subscribeToDie from './internal_events/die/subscribe'
 
+const assertCurm = (self) => {
+  const curm = self._currentMotivator()
+  if (!curm) {
+    throw new Error('no curm')
+  }
+
+  if (self.current_motivator && self.current_motivator != curm) {
+    throw new Error('no curm mismatch')
+  }
+}
 
 const Eventor = spv.inh(function() {}, {
   naming: function(construct) {
@@ -54,9 +64,9 @@ const Eventor = spv.inh(function() {}, {
       if (!use_current_motivator) {
         throw new Error('consider to use .input() or .inputWithContext()')
       }
-      if (!this._currentMotivator()) {
-        throw new Error('no curm')
-      }
+
+      assertCurm(this)
+
       return this._getCallsFlow().pushToFlow(fn, this, args, false, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), finup)
     },
     inputWithContext: function(fn, args) {
@@ -66,9 +76,9 @@ const Eventor = spv.inh(function() {}, {
       if (!use_current_motivator) {
         throw new Error('consider to use .input() or .inputWithContext()')
       }
-      if (!this._currentMotivator()) {
-        throw new Error('no curm')
-      }
+
+      assertCurm(this)
+
       return this._calls_flow.pushToFlow(
         fn, this, args, !args && this, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), false,
         initiator, fn.init_end
