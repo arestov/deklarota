@@ -52,14 +52,6 @@ const Eventor = spv.inh(function() {}, {
         self._calls_flow.pushToFlow(fn, self, args)
       }
     },
-    useMotivator: function(item, fn) {
-      const old_value = item.current_motivator
-      const motivator = this.current_motivator
-      item.current_motivator = motivator
-      const result = fn.call(this, item)
-      item.current_motivator = old_value
-      return result
-    },
     nextLocalTick: function(fn, args, use_current_motivator, finup) {
       if (!use_current_motivator) {
         throw new Error('consider to use .input() or .inputWithContext()')

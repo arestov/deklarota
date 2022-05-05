@@ -12,9 +12,6 @@ export default function initSi(Constr, parent_md, data) {
     const instance = new Constr()
     const initsbi_opts = parent_md.getSiOpts()
 
-    parent_md.useMotivator(instance, function(instance) {
-      instance.init(initsbi_opts, data)
-    })
 
     return instance
   }
