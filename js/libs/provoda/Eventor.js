@@ -11,10 +11,6 @@ const assertCurm = (self) => {
   if (!curm) {
     throw new Error('no curm')
   }
-
-  if (self.current_motivator && self.current_motivator != curm) {
-    throw new Error('no curm mismatch')
-  }
 }
 
 const Eventor = spv.inh(function() {}, {
