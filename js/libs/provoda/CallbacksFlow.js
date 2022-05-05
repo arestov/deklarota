@@ -2,14 +2,6 @@
 
 import FlowStep from './FlowStep'
 
-const Group = function(num) {
-  this.num = 1 // just hint type for js engine
-  this.num = num
-  this.complex_order = [num]
-  this.inited_order = this.complex_order
-  Object.freeze(this)
-}
-
 const compareComplexOrder = function(array_one, array_two) {
   const max_length = Math.max(array_one.length, array_two.length)
 
@@ -209,19 +201,6 @@ const CallbacksFlow = function(options) {
 CallbacksFlow.prototype = {
   input: function(fn, args, context) {
     this.pushToFlow(fn, context, args)
-  },
-  startGroup: function() {
-    const step = new Group(++this.flow_steps_counter)
-    this.callbacks_busy = true
-    this.current_step = step
-    return step
-  },
-  completeGroup: function(step) {
-    if (this.current_step != step) {
-      throw new Error('wrong step')
-    }
-    this.callbacks_busy = false
-    this.current_step = null
   },
   iterateCallbacksFlow: function() {
     const started_at = Date.now()
