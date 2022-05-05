@@ -721,7 +721,7 @@ const View = spv.inh(StatesEmitter, {
     this._lbr.dettree_incomplete = this.requestDetalizationLevel(this._lbr.detltree_depth)
     this._lbr.detltree_depth++
     if (this._lbr.dettree_incomplete) {
-      this.nextLocalTick(this.__tickDetRequest)
+      this.nextLocalTick(this.__tickDetRequest, null, true)
     }
   },
   requestDeepDetLevels: function() {
@@ -737,7 +737,7 @@ const View = spv.inh(StatesEmitter, {
 
 
 
-    this.nextLocalTick(this.__tickDetRequest)
+    this.nextLocalTick(this.__tickDetRequest, null, true)
 
     return this
   },
