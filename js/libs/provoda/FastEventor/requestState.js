@@ -64,7 +64,7 @@ function bindRequest(api, request, selected_map, store, self) {
 
   return request.then(function(r) {
     return new Promise(function(resolve) {
-      self.sputnik.nextTick(function() {
+      self.sputnik.input(function() {
         if (wasReset()) {
           resolve(failed('reset'))
           return
