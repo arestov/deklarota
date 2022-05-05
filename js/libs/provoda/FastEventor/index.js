@@ -160,15 +160,12 @@ FastEventor.prototype = spv.coe(function(add) {
     },
 
     hndUsualEvCallbacksWrapper: function(motivator, fn, context, args, arg) {
-      const old_m = context.current_motivator
-      context.current_motivator = motivator
       if (args) {
         fn.apply(context, args)
       } else {
         fn.call(context, arg)
       }
 
-      context.current_motivator = old_m
     },
     _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg, once, easy_bind_control) {
     //common opts allowed

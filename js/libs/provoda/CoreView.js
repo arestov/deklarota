@@ -727,9 +727,7 @@ const View = spv.inh(StatesEmitter, {
     return this.requestDeepDetLevels()
   }),
   requestDeepDetLevels: function() {
-    if (!this.current_motivator) {
-      // throw new Error('should be current_motivator');
-    }
+
     if (this._lbr._states_set_processing || this._lbr._collections_set_processing) {
       return this
     }
@@ -756,9 +754,7 @@ const View = spv.inh(StatesEmitter, {
     } else {
       for (let i = 0; i < this.children.length; i++) {
         const cur = this.children[i]
-        cur.current_motivator = this.current_motivator
         const cur_incomplete = cur.requestDetalizationLevel(rel_depth)
-        cur.current_motivator = null
         incomplete = incomplete || cur_incomplete
       }
       return incomplete

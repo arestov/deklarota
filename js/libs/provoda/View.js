@@ -486,10 +486,7 @@ cloneObj(props, {
 
   },
 
-  checkTplTreeChange: function(current_motivator) {
-    const old_mt = this.current_motivator
-    this.current_motivator = current_motivator
-
+  checkTplTreeChange: function() {
     this.ensureTotalChangesUpdates()
     const total_ch = this.__total_states_list
     this.updateTemplatesStates(total_ch)
@@ -498,8 +495,6 @@ cloneObj(props, {
     for (const nesname in children_models) {
       this.pvCollectionChange(nesname, children_models[nesname])
     }
-
-    this.current_motivator = old_mt
   },
 })
 const DomView = spv.inh(CoreView, {
