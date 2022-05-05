@@ -1,6 +1,7 @@
 import isJustAttrAddr from '../utils/multiPath/isJustAttrAddr'
 import parse from '../utils/multiPath/parse'
 import asString from '../utils/multiPath/asString'
+import { FlowStepUpdateManyAttrs } from './flowStepHandlers.types'
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
@@ -41,7 +42,7 @@ const mockRelations = (self) => {
 
   }
 
-  self.nextTick(self.updateManyStates, [normalized_map], true)
+  self.nextTick(FlowStepUpdateManyAttrs, [normalized_map], true)
 }
 
 
