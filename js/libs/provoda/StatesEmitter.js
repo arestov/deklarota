@@ -11,6 +11,7 @@ import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
 import useInterfaceAsSource from './dcl/effects/transaction/start'
+import { FlowStepAction } from './Model/flowStepHandlers.types'
 
 
 export const __updateManyAttrs = function(obj) {
@@ -61,7 +62,7 @@ function props(add) {
   add({
     __act: act,
     dispatch: function(action_name, data) {
-      this._calls_flow.pushToFlow(act, this, [this, action_name, data])
+      this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data])
     },
   // init: function(){
   // 	this._super();
