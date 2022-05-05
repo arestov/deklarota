@@ -24,7 +24,6 @@ class FlowStep {
     this.is_transaction_end = Boolean(is_transaction_end)
     this.num = 1 // just hint type for engine
     this.num = num
-    this.fn = Function.prototype // just hint type for engine
     this.fn = fn
     this.context = Object.prototype
     this.context = context
