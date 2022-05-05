@@ -50,7 +50,6 @@ export default function initModel(self, opts, data) {
 
   self.md_replacer = null
   self.mpx = null
-  self._requests_deps = null
 
   self.init_v2_data = null
   const init_v2 = data && data.init_version === 2
