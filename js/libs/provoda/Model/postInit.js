@@ -52,7 +52,7 @@ function connectStates(self, input_rels) {
 
 function connectNests(self) {
   if (self.nestings_declarations) {
-    self.nextTick(FlowStepInitNestRels, null, false, self.current_motivator)
+    self.nextTick(FlowStepInitNestRels, null, true)
   }
 
   runGlueRelSources(self)
@@ -83,6 +83,6 @@ export default function postInitModel(self, opts, initing_params) {
   }
   initApis(self, opts && opts.interfaces)
 
-  self.nextTick(FlowStepMarkInited, null, false, self.current_motivator)
+  self.nextTick(FlowStepMarkInited, null, true)
   Object.seal(self)
 }
