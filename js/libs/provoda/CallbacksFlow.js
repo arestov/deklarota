@@ -317,6 +317,13 @@ CallbacksFlow.prototype = {
     this.pushIteration(this.hndIterateCallbacksFlow)
     this.iteration_delayed_check_time = now + MIN
   },
+  pushToFlowWithMotivator: function(fn, context, args, force) {
+    const motivator = this.current_step
+    if (!motivator && force) {
+      throw new Error('missing motivator')
+    }
+    this.pushToFlow(fn, context, args, null, null, null, motivator)
+  },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
     const flow_step_num = ++this.flow_steps_counter
 

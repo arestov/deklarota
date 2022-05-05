@@ -16,45 +16,6 @@ const removeFlowStep = function(tpl, w_cache_key) {
   tpl.calls_flow_index[w_cache_key] = null
 }
 
-const setMotive = function(context, fn, motivator, args, arg) {
-  //устанавливаем мотиватор конечному пользователю события
-  const ov_c = context.current_motivator
-  context.current_motivator = motivator
-
-  let ov_t
-
-  if (this != context) {
-    //устанавливаем мотиватор реальному владельцу события, чтобы его могли взять вручную
-    //что-то вроде api
-    ov_t = this.current_motivator
-    this.current_motivator = motivator
-  }
-
-  if (args) {
-    fn.apply(context, args)
-  } else {
-    fn.call(context, arg)
-  }
-
-  if (context.current_motivator != motivator) {
-    throw new Error('wrong motivator') //тот кто поменял current_motivator должен был вернуть его обратно
-  }
-  context.current_motivator = ov_c
-
-  if (this != context) {
-    if (this.current_motivator != motivator) {
-      throw new Error('wrong motivator') //тот кто поменял current_motivator должен был вернуть его обратно
-    }
-    this.current_motivator = ov_t
-  }
-}
-
-const wrapChange = function(motivator, fn, context, args, arg) {
-
-  setMotive.call(context, context, fn, motivator, args, arg)
-  // debugger;
-}
-
 const getFieldsTreesBases = function(all_vs) {
   const sfy_values = new Array(all_vs.length)
   for (let i = 0; i < all_vs.length; i++) {
@@ -85,7 +46,6 @@ const StandartChange = function(node, opts, w_cache_subkey) {
     throw new Error('w_cache_subkey (usualy just directive_name) must be provided')
   }
 
-  this.current_motivator = null
   this.w_cache_subkey = w_cache_subkey
   this.data = opts.data == null ? null : opts.data
   this.needs_recheck = Boolean(opts.needs_recheck)
@@ -135,7 +95,7 @@ StandartChange.prototype = {
     }
 
   },
-  checkFunc: function(states, wwtch, async_changes, current_motivator) {
+  checkFunc: function(states, wwtch, async_changes) {
     let new_value = calc(this.calculator, states)
     if (this.simplifyValue) {
       new_value = this.simplifyValue(new_value)
@@ -144,7 +104,7 @@ StandartChange.prototype = {
       abortFlowStep(wwtch.context, wwtch.w_cache_key)
       if (async_changes) {
         // fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup
-        const flow_step = wwtch.context.calls_flow.pushToFlow(this.changeValue, this, [new_value, wwtch], false, wrapChange, false, current_motivator)
+        const flow_step = wwtch.context.calls_flow.pushToFlowWithMotivator(this.changeValue, this, [new_value, wwtch], true)
         wwtch.context.calls_flow_index[wwtch.w_cache_key] = flow_step
         //).pushToFlow(cb, mo_context, reg_args, one_reg_arg, callbacks_wrapper, this.sputnik, this.sputnik.current_motivator);
       } else {
