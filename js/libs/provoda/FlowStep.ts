@@ -1,4 +1,5 @@
 class FlowStep {
+  callFlowStep: Function
   aborted: boolean
   p_space: string
   p_index_key: string
@@ -15,7 +16,8 @@ class FlowStep {
   inited_order: number[]
   init_end: boolean
   next: FlowStep | null
-  constructor(is_transaction_end: boolean, num: number, complex_order: number[], inited_order: number[], fn: Function, context: unknown, args: string | unknown[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
+  constructor(callFlowStep: Function, is_transaction_end: boolean, num: number, complex_order: number[], inited_order: number[], fn: Function, context: unknown, args: string | unknown[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
+    this.callFlowStep = callFlowStep
     this.aborted = false
     this.p_space = ''
     this.p_index_key = ''
@@ -82,29 +84,8 @@ class FlowStep {
     //this.complex_order = null;
   }
   call(): void {
-    if (this.cb_wrapper != null) {
-      /*
-      вместо того, что бы просто выполнить отложенную функцию мы можем вызвать специальный обработчик, который сможет сделать некие действиями, имея в распоряжении
-      в первую очередь мотиватор, далее контекст для самого себя, контекст колбэка, сам колбэк и аргументы для колбэка
-
-      */
-      this.cb_wrapper.call(this.real_context, this, this.fn, this.context, this.args, this.arg)
-      return
-    }
-
-    const { fn } = this
-
-    if (fn == null) {
-      throw new Error('how to handle this step!?')
-    }
-
-    if (this.args == null) {
-      fn.call(this.context, this.arg)
-      return
-    }
-
-    fn.apply(this.context, this.args)
-    return
+    const { callFlowStep } = this
+    callFlowStep(this)
   }
 }
 export default FlowStep

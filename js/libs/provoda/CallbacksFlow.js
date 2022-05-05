@@ -168,6 +168,7 @@ const getBoxedRAFFunc = function(win) {
 const MIN = 60 * 1000
 
 const CallbacksFlow = function(options) {
+  this.callFlowStep = options.callFlowStep
   // glo is global/window
   const glo = options.glo
   const rendering_flow = options.rendering_flow
@@ -326,7 +327,7 @@ CallbacksFlow.prototype = {
     inited_order.push(flow_step_num)
 
     const is_transaction_end = motivator ? motivator.is_transaction_end : false
-    const flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
+    const flow_step = new FlowStep(this.callFlowStep, is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
     order(this, flow_step)
     this.checkCallbacksFlow()
     return flow_step
@@ -338,7 +339,7 @@ CallbacksFlow.prototype = {
     const inited_order = complex_order
 
     const is_transaction_end = true
-    const flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
+    const flow_step = new FlowStep(this.callFlowStep, is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
     order(this, flow_step)
     this.checkCallbacksFlow()
   },
