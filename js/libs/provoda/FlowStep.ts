@@ -13,10 +13,8 @@ class FlowStep {
   real_context: unknown | null
   finup: boolean
   complex_order: number[]
-  inited_order: number[]
-  init_end: boolean
   next: FlowStep | null
-  constructor(callFlowStep: Function, is_transaction_end: boolean, num: number, complex_order: number[], inited_order: number[], fn: Function, context: unknown, args: string | unknown[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
+  constructor(callFlowStep: Function, is_transaction_end: boolean, num: number, complex_order: number[], fn: Function, context: unknown, args: string | unknown[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
     this.callFlowStep = callFlowStep
     this.aborted = false
     this.p_space = ''
@@ -56,10 +54,9 @@ class FlowStep {
     this.complex_order = Array.prototype
     this.complex_order = complex_order
 
-    this.inited_order = Array.prototype
-    this.inited_order = inited_order
-
-    this.init_end = Boolean(init_end)
+    if (init_end) {
+      throw new Error('unexpected init_end')
+    }
 
     this.next = FlowStep.prototype
     this.next = null
