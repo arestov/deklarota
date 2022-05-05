@@ -207,8 +207,8 @@ const CallbacksFlow = function(options) {
 }
 
 CallbacksFlow.prototype = {
-  input: function(fn) {
-    this.pushToFlow(fn)
+  input: function(fn, args, context) {
+    this.pushToFlow(fn, context, args)
   },
   startGroup: function() {
     const step = new Group(++this.flow_steps_counter)
