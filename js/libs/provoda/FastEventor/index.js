@@ -159,14 +159,6 @@ FastEventor.prototype = spv.coe(function(add) {
       return funcs
     },
 
-    hndUsualEvCallbacksWrapper: function(motivator, fn, context, args, arg) {
-      if (args) {
-        fn.apply(context, args)
-      } else {
-        fn.call(context, arg)
-      }
-
-    },
     _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg, once, easy_bind_control) {
     //common opts allowed
 
@@ -181,7 +173,7 @@ FastEventor.prototype = spv.coe(function(add) {
 
       const callbacks_wrapper =
       (matched_reg_fire && matched_reg_fire.getWrapper && matched_reg_fire.getWrapper.call(this.sputnik)) ||
-      this.hndUsualEvCallbacksWrapper
+      null
 
       const one_reg_arg = matched_reg_fire && matched_reg_fire.fn.call(this.sputnik, ev_name)
       const fired = one_reg_arg != null

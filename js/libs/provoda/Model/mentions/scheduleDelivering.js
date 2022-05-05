@@ -7,7 +7,7 @@ const { TARGET_TYPE_UNIQ_REL_BY_ATTR, TARGET_TYPE_ROUTE_MATCHING } = target_type
 
 export default function scheduleDelivering(motivation_model, list) {
   const current_motivator = motivation_model._currentMotivator()
-  const wrapper = motivation_model.evcompanion.hndUsualEvCallbacksWrapper
+  const wrapper = null
   const calls_flow = motivation_model._getCallsFlow()
 
   for (let i = 0; i < list.length; i++) {
