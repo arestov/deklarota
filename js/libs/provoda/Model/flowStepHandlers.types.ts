@@ -4,3 +4,5 @@ export const FlowStepUseInterface = 3 as const
 export const FlowStepMarkInited = 4 as const
 export const FlowStepAction = 5 as const
 export const FlowStepDeliverChainUpdates = 6 as const
+export const FlowStepEffectsTransactionEnd = 7 as const
+export const FlowStepExecEffect = 8 as const
