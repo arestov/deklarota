@@ -53,6 +53,9 @@ const Eventor = spv.inh(function() {}, {
     nextLocalTick: function(fn, args, use_current_motivator, finup) {
       return this._getCallsFlow().pushToFlow(fn, this, args, false, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), finup)
     },
+    inputWithContext: function(fn, args) {
+      this._getCallsFlow().input(fn, args, this)
+    },
     nextTick: function(fn, args, use_current_motivator, initiator) {
       return this._calls_flow.pushToFlow(
         fn, this, args, !args && this, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), false,
