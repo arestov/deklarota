@@ -2,7 +2,7 @@
 
 import spv from '../spv'
 import FastEventor from './FastEventor/index'
-import hndMotivationWrappper from './helpers/hndMotivationWrappper'
+import { WFlowStepWrapper } from './flowStepsWrappers.type'
 import onInstanceInitDie from './internal_events/die/onInstanceInit'
 import subscribeToDie from './internal_events/die/subscribe'
 
@@ -55,7 +55,7 @@ const Eventor = spv.inh(function() {}, {
 
       assertCurm(this)
 
-      return this._getCallsFlow().pushToFlow(fn, this, args, false, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), finup)
+      return this._getCallsFlow().pushToFlow(fn, this, args, false, WFlowStepWrapper, this, use_current_motivator && this._currentMotivator(), finup)
     },
     inputWithContext: function(fn, args) {
       this._getCallsFlow().input(fn, args, this)
@@ -68,7 +68,7 @@ const Eventor = spv.inh(function() {}, {
       assertCurm(this)
 
       return this._calls_flow.pushToFlow(
-        fn, this, args, !args && this, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), false,
+        fn, this, args, !args && this, WFlowStepWrapper, this, use_current_motivator && this._currentMotivator(), false,
         initiator, fn.init_end
       )
     },

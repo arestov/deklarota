@@ -10,7 +10,6 @@ import getShortStateName from './utils/getShortStateName'
 import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
 import groupMotive from './helpers/groupMotive'
 import getNetApiByDeclr from './helpers/getNetApiByDeclr'
-import hndMotivationWrappper from './helpers/hndMotivationWrappper'
 
 
 const memorize = spv.memorize
@@ -51,7 +50,6 @@ export default {
   getSTEVNameLight: utils_simple.getSTEVNameLight,
   getRemovedNestingItems: getRemovedNestingItems,
   oop_ext: {
-    hndMotivationWrappper: hndMotivationWrappper,
   },
   $v: {
     getBwlevView: getBwlevView,

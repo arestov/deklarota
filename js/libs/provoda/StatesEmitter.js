@@ -10,8 +10,8 @@ import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
-import useInterfaceAsSource from './dcl/effects/transaction/start'
 import { FlowStepAction } from './Model/flowStepHandlers.types'
+import { WFlowStepUseInterfaceAsSource } from './flowStepsWrappers.type'
 
 
 export const __updateManyAttrs = function(obj) {
@@ -55,7 +55,7 @@ function props(add) {
       }
 
       // expecting new transaction will be started
-      this._getCallsFlow().pushToFlow(fn, this, null, interface_instance, useInterfaceAsSource)
+      this._getCallsFlow().pushToFlow(fn, this, null, interface_instance, WFlowStepUseInterfaceAsSource)
     },
   })
 
