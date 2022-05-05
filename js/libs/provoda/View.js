@@ -267,11 +267,11 @@ cloneObj(props, {
     let i = 0
     //var states = this.states;
     if (this.tpl) {
-      this.tpl.checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this.current_motivator)
+      this.tpl.checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this._currentMotivator())
     }
     if (this.tpls) {
       for (i = 0; i < this.tpls.length; i++) {
-        this.tpls[i].checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this.current_motivator)
+        this.tpls[i].checkChanges(total_ch, this.states, !sync_tpl, !sync_tpl && this._currentMotivator())
       }
     }
 
