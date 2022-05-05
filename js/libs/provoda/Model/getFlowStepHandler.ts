@@ -3,11 +3,13 @@ import type FlowStep from '../FlowStep'
 import { proxyStch } from '../handleLegacySideEffects'
 import act from '../dcl/passes/act'
 import { useInterfaceHandler } from '../StatesEmitter/useInterface'
-import { FlowStepAction, FlowStepDeliverChainUpdates, FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect, FlowStepInitNestRels, FlowStepLegacyStch, FlowStepMarkInited, FlowStepUseInterface } from './flowStepHandlers.types'
+import { FlowStepAction, FlowStepDeliverChainUpdates, FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect, FlowStepHandlRelSideDataLegacy, FlowStepInitNestRels, FlowStepLegacyStch, FlowStepMarkInited, FlowStepUpdateManyAttrs, FlowStepUseInterface } from './flowStepHandlers.types'
 import { markInitied } from './postInit'
 import deliverChainUpdates from './mentions/deliverChainUpdates'
 import { eraseTransactionEffectsData, handleTransactionEnd } from '../dcl/effects/legacy/produce/scheduleTransactionEnd'
 import executeEffect from '../dcl/effects/legacy/produce/executeEffect'
+import { __updateManyAttrs } from '../StatesEmitter'
+import { handleNetworkSideData } from '../provoda/LoadableList'
 
 const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
 
@@ -30,6 +32,10 @@ const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
       return executeEffect
     case FlowStepEraseEffectData:
       return eraseTransactionEffectsData
+    case FlowStepUpdateManyAttrs:
+      return __updateManyAttrs
+    case FlowStepHandlRelSideDataLegacy:
+      return handleNetworkSideData
   }
 
   return null

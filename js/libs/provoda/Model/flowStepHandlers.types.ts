@@ -7,3 +7,5 @@ export const FlowStepDeliverChainUpdates = 6 as const
 export const FlowStepEffectsTransactionEnd = 7 as const
 export const FlowStepExecEffect = 8 as const
 export const FlowStepEraseEffectData = 9 as const
+export const FlowStepUpdateManyAttrs = 10 as const
+export const FlowStepHandlRelSideDataLegacy = 11 as const

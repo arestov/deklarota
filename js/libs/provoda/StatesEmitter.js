@@ -13,6 +13,28 @@ import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
 import useInterfaceAsSource from './dcl/effects/transaction/start'
 
 
+export const __updateManyAttrs = function(obj) {
+  const changes_list = []
+  for (const state_name in obj) {
+    if (obj.hasOwnProperty(state_name)) {
+      if (this.hasComplexStateFn(state_name)) {
+        throw new Error('you can\'t change complex state ' + state_name)
+      }
+      changes_list.push(state_name, obj[state_name])
+    }
+  }
+
+  if (this._currentMotivator() != null) {
+    this._updateProxy(changes_list)
+    return
+  }
+
+  const self = this
+  this.input(function() {
+    self._updateProxy(changes_list)
+  })
+
+}
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
 
@@ -77,34 +99,11 @@ function props(add) {
     gentlyUpdateAttr(this, state_name, value, opts)
   }
 
-  const updateManyAttrs = function(obj) {
-    const changes_list = []
-    for (const state_name in obj) {
-      if (obj.hasOwnProperty(state_name)) {
-        if (this.hasComplexStateFn(state_name)) {
-          throw new Error('you can\'t change complex state ' + state_name)
-        }
-        changes_list.push(state_name, obj[state_name])
-      }
-    }
-
-    if (this._currentMotivator() != null) {
-      this._updateProxy(changes_list)
-      return
-    }
-
-    const self = this
-    this.input(function() {
-      self._updateProxy(changes_list)
-    })
-
-  }
-
   add({
 
 
-    updateManyStates: updateManyAttrs,
-    updateManyAttrs: updateManyAttrs,
+    updateManyStates: __updateManyAttrs,
+    updateManyAttrs: __updateManyAttrs,
     updateState: updateAttr,
     updateAttr: updateAttr,
     setStateDependence: function(state_name, source_id, value) {
