@@ -88,5 +88,5 @@ export default function useInterfaceWrap(self, interface_name, obj, destroy) {
     console.error(new Error(`Couldn't use "${interface_name}" interface in ${self}.`))
     return undefined
   }
-  self.nextTick(FlowStepUseInterface, [self, interface_name, obj, destroy], false, false)
+  self.inputWithContext(FlowStepUseInterface, [self, interface_name, obj, destroy])
 }
