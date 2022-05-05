@@ -1,6 +1,6 @@
 function waitFlow(app_model) {
   return new Promise(resolve => {
-    app_model.nextTick(() => {
+    app_model.input(() => {
       next(app_model, () => {
         resolve(app_model)
       })
