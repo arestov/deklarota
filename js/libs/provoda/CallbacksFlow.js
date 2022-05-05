@@ -323,6 +323,10 @@ CallbacksFlow.prototype = {
     const complex_order = (motivator && motivator.complex_order.slice()) || []
     complex_order.push(flow_step_num)
 
+    if (initiator) {
+      throw new Error('use motivator, not initiator')
+    }
+
     const inited_order = initedOrder(initiator, motivator)
     inited_order.push(flow_step_num)
 

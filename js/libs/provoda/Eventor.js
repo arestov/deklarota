@@ -54,6 +54,9 @@ const Eventor = spv.inh(function() {}, {
       if (!use_current_motivator) {
         throw new Error('consider to use .input() or .inputWithContext()')
       }
+      if (!this._currentMotivator()) {
+        throw new Error('no curm')
+      }
       return this._getCallsFlow().pushToFlow(fn, this, args, false, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), finup)
     },
     inputWithContext: function(fn, args) {
@@ -62,6 +65,9 @@ const Eventor = spv.inh(function() {}, {
     nextTick: function(fn, args, use_current_motivator, initiator) {
       if (!use_current_motivator) {
         throw new Error('consider to use .input() or .inputWithContext()')
+      }
+      if (!this._currentMotivator()) {
+        throw new Error('no curm')
       }
       return this._calls_flow.pushToFlow(
         fn, this, args, !args && this, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), false,
