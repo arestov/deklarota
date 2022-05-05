@@ -6,3 +6,4 @@ export const FlowStepAction = 5 as const
 export const FlowStepDeliverChainUpdates = 6 as const
 export const FlowStepEffectsTransactionEnd = 7 as const
 export const FlowStepExecEffect = 8 as const
+export const FlowStepEraseEffectData = 9 as const

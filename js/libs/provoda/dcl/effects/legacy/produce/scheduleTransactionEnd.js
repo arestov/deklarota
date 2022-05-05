@@ -1,4 +1,4 @@
-import { FlowStepEffectsTransactionEnd, FlowStepExecEffect } from '../../../../Model/flowStepHandlers.types'
+import { FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect } from '../../../../Model/flowStepHandlers.types'
 import getCurrentTransactionKey, { agendaKey } from './getCurrentTransactionKey'
 import { getOutputFxDcl } from './getOutputFxDcl'
 import { apiAndConditionsReady } from './isReady'
@@ -39,7 +39,7 @@ export function handleTransactionEnd(self, transaction_key) {
   }
 
   flow.pushToFlow(
-    eraseTransactionEffectsData,
+    FlowStepEraseEffectData,
     null,
     [self, key],
     null,
@@ -51,7 +51,7 @@ export function handleTransactionEnd(self, transaction_key) {
 
 }
 
-function eraseTransactionEffectsData(self, key) {
+export function eraseTransactionEffectsData(self, key) {
   self._highway.__produce_side_effects_schedule.delete(key)
 }
 
