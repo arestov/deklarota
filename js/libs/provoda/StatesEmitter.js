@@ -3,7 +3,6 @@ import updateProxy from './updateProxy'
 import Eventor from './Eventor'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './StatesEmitter/useInterface'
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
-import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
 import regfr_lightstev from './internal_events/light_attr_change/regfire'
 import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
 import _updateAttr from './_internal/_updateAttr'
@@ -147,9 +146,6 @@ function props(add) {
       const light_cb_cs = this.evcompanion.getMatchedCallbacks(light_name)
 
       return light_cb_cs ? light_cb_cs.length : 0
-    },
-    __deliverChainUpdates: function(chain) {
-      deliverChainUpdates(this, chain)
     },
     _throwError(msg, context) {
       const err = msg instanceof Error ? msg : new Error(msg)

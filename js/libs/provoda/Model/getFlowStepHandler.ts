@@ -3,8 +3,9 @@ import type FlowStep from '../FlowStep'
 import { proxyStch } from '../handleLegacySideEffects'
 import act from '../dcl/passes/act'
 import { useInterfaceHandler } from '../StatesEmitter/useInterface'
-import { FlowStepAction, FlowStepInitNestRels, FlowStepLegacyStch, FlowStepMarkInited, FlowStepUseInterface } from './flowStepHandlers.types'
+import { FlowStepAction, FlowStepDeliverChainUpdates, FlowStepInitNestRels, FlowStepLegacyStch, FlowStepMarkInited, FlowStepUseInterface } from './flowStepHandlers.types'
 import { markInitied } from './postInit'
+import deliverChainUpdates from './mentions/deliverChainUpdates'
 
 const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
 
@@ -19,6 +20,8 @@ const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
       return markInitied
     case FlowStepAction:
       return act
+    case FlowStepDeliverChainUpdates:
+      return deliverChainUpdates
   }
 
   return null
