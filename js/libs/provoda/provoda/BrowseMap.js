@@ -127,22 +127,9 @@ BrowseMap.Model = spv.inh(Model, {
   }
 })
 
-function hookRoot(rootmd, start_page, states) {
+function hookRoot(rootmd, _start_page, states) {
   const CurBrowseLevel = rootmd.__BWLev
-  const bwlev_root = initBWlev(CurBrowseLevel, rootmd, '', -2, null, null)
-  if (!start_page) {
-    return bwlev_root
-  }
-
-  if (!states) {
-    return bwlev_root
-  }
-
-  bwlev_root.nextTick(function() {
-    if (states) {
-      bwlev_root.updateManyStates(states)
-    }
-  })
+  const bwlev_root = initBWlev(CurBrowseLevel, rootmd, '', -2, null, null, undefined, states)
 
   return bwlev_root
 }
