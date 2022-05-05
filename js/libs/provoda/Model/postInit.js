@@ -1,5 +1,4 @@
 
-import initDeclaredNestings from '../dcl/nest/runtime/initDeclaredNestings'
 import runGlueRelSources from '../dcl/glue_rels/runtime/run'
 import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
@@ -10,6 +9,7 @@ import getRelFromInitParams from '../utils/getRelFromInitParams'
 import _updateRel from '../_internal/_updateRel'
 
 import _updateAttr from '../_internal/_updateAttr'
+import { FlowStepInitNestRels, FlowStepMarkInited } from './flowStepHandlers.types'
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
@@ -52,13 +52,13 @@ function connectStates(self, input_rels) {
 
 function connectNests(self) {
   if (self.nestings_declarations) {
-    self.nextTick(initDeclaredNestings, null, false, self.current_motivator)
+    self.nextTick(FlowStepInitNestRels, null, false, self.current_motivator)
   }
 
   runGlueRelSources(self)
 }
 
-function markInitied(md) {
+export function markInitied(md) {
   // - this state shuld be true when all preparations, all initial triggers and subscribtions are done
   // - use it to not produce effects for states changes during initialization
   _updateAttr(md, '$meta$inited', true)
@@ -83,6 +83,6 @@ export default function postInitModel(self, opts, initing_params) {
   }
   initApis(self, opts && opts.interfaces)
 
-  self.nextTick(markInitied, null, false, self.current_motivator)
+  self.nextTick(FlowStepMarkInited, null, false, self.current_motivator)
   Object.seal(self)
 }

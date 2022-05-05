@@ -5,11 +5,11 @@ class FlowStep {
   p_index_key: string
   is_transaction_end: boolean
   num: number | null
-  fn: Function | null
+  fn: Function | null | number
   context: unknown | null
   args: null | unknown | unknown[]
   arg: null | unknown
-  cb_wrapper: Function | null
+  cb_wrapper: Function | null | number
   real_context: unknown | null
   finup: boolean
   complex_order: number[]
