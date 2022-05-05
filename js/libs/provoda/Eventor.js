@@ -32,8 +32,8 @@ const Eventor = spv.inh(function() {}, {
     _currentMotivator: function() {
       return this._getCallsFlow().current_step
     },
-    input: function(fn) {
-      this._getCallsFlow().input(fn)
+    input: function(fn, args) {
+      this._getCallsFlow().input(fn, args)
     },
     inputFn: function(fn) {
       const self = this
