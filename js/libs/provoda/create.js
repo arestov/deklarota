@@ -1,10 +1,9 @@
 
 import spv from '../spv'
-import Model from './Model'
 import getRelFromInitParams from './utils/getRelFromInitParams'
 
 export default function(Constr, states, params, map_parent, app) {
-  const BehaviorContr = Constr || Model
+  const BehaviorContr = Constr
   const opts = (app || map_parent) && {
     app: app || map_parent.app,
     map_parent: map_parent
