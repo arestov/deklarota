@@ -1,6 +1,8 @@
 
 // etr, original_states, state_name, value
 
+import { FlowStepAction } from '../../../Model/flowStepHandlers.types'
+
 export default function(self, original_states, state_name, value) {
   if (self.$actions$handle_attr == null || self.$actions$handle_attr[state_name] == null) {
     return
@@ -14,5 +16,5 @@ export default function(self, original_states, state_name, value) {
     prev_value: old_value,
   }
 
-  self.nextLocalTick(self.__act, [self, pass_name, arg], true)
+  self.nextLocalTick(FlowStepAction, [self, pass_name, arg], true)
 };
