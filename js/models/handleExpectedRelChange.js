@@ -2,6 +2,8 @@ import getModelById from '../libs/provoda/utils/getModelById'
 import getAction from '../libs/provoda/dcl/passes/getAction'
 import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
 
+export const REL_QUERY_TYPE_REL = 0
+
 const handleExpectedRelChange = (chain, current_md) => {
   let complete
   let link_step_value = current_md

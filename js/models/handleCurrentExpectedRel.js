@@ -4,7 +4,7 @@ import target_types from '../libs/provoda/Model/mentions/target_types'
 import addHeavyRelQuery from '../libs/provoda/Model/mentions/heavy_queries/addHeavyRelQuery'
 import removeHeavyRelQuery from '../libs/provoda/Model/mentions/heavy_queries/removeHeavyRelQuery'
 import { getNestInfo } from '../libs/provoda/utils/multiPath/parse'
-import handleExpectedRelChange from './handleExpectedRelChange'
+import { REL_QUERY_TYPE_REL } from './handleExpectedRelChange'
 
 const { TARGET_TYPE_HEAVY_REQUESTER } = target_types
 
@@ -51,7 +51,7 @@ const handleCurrentExpectedRel = (self, data) => {
         but i want to keep TARGET_TYPE_HEAVY_REQUESTER kinda universal for now
         (so importing handleExpectedRelChange to deliverChainUpdates will make TARGET_TYPE_HEAVY_REQUESTER less universal)
       */
-      {data: data.next_value, handler: handleExpectedRelChange},
+      {data: data.next_value, handler_type: REL_QUERY_TYPE_REL},
     )
 
     setChain(self, data.next_value, chain)
