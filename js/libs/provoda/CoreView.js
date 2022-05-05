@@ -26,6 +26,7 @@ import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs
 import wlch from './View/wlch'
 import attr_events from './StatesEmitter/attr_events'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
+import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.types'
 
 const CH_GR_LE = 2
 
@@ -71,6 +72,17 @@ const mutateChildren = (target) => {
   }
 
   return target.children
+}
+
+export const __tickDetRequest = function() {
+  if (!this.isAlive()) {
+    return
+  }
+  this._lbr.dettree_incomplete = this.requestDetalizationLevel(this._lbr.detltree_depth)
+  this._lbr.detltree_depth++
+  if (this._lbr.dettree_incomplete) {
+    this.nextLocalTick(ViewFlowStepTickDetailsRequest, null, true)
+  }
 }
 
 const initView = function(target, view_otps, opts) {
@@ -714,20 +726,8 @@ const View = spv.inh(StatesEmitter, {
   requestAll: groupMotive(function() {
     return this.requestDeepDetLevels()
   }),
-  __tickDetRequest: function() {
-    if (!this.isAlive()) {
-      return
-    }
-    this._lbr.dettree_incomplete = this.requestDetalizationLevel(this._lbr.detltree_depth)
-    this._lbr.detltree_depth++
-    if (this._lbr.dettree_incomplete) {
-      this.nextLocalTick(this.__tickDetRequest)
-    }
-  },
   requestDeepDetLevels: function() {
-    if (!this.current_motivator) {
-      // throw new Error('should be current_motivator');
-    }
+
     if (this._lbr._states_set_processing || this._lbr._collections_set_processing) {
       return this
     }
@@ -737,7 +737,7 @@ const View = spv.inh(StatesEmitter, {
 
 
 
-    this.nextLocalTick(this.__tickDetRequest)
+    this.nextLocalTick(ViewFlowStepTickDetailsRequest, null, true)
 
     return this
   },
@@ -754,9 +754,7 @@ const View = spv.inh(StatesEmitter, {
     } else {
       for (let i = 0; i < this.children.length; i++) {
         const cur = this.children[i]
-        cur.current_motivator = this.current_motivator
         const cur_incomplete = cur.requestDetalizationLevel(rel_depth)
-        cur.current_motivator = null
         incomplete = incomplete || cur_incomplete
       }
       return incomplete
@@ -807,10 +805,10 @@ const View = spv.inh(StatesEmitter, {
       }
       args.unshift(this)
 
-      this.nextTick(updateProxy, args)
+      this.input(updateProxy, args)
 
       if (this.__syncStates) {
-        this.nextTick(this.__syncStates, args)
+        this.input(this.__syncStates, args)
       }
     }
   })(),
@@ -891,7 +889,7 @@ const View = spv.inh(StatesEmitter, {
     }
     args.unshift(this)
 
-    this.nextTick(this.collectionChange, args)
+    this.inputWithContext(this.collectionChange, args)
   },
   collectionChange: function(target, nesname, items, rold_value, removed) {
     /*

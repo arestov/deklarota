@@ -2,11 +2,9 @@ import initSubPager from '../dcl/sub_pager/init'
 import makeAttrsCollector from './makeAttrsCollector'
 
 export default function initModel(self, opts, data) {
-  const current_motivator = opts._motivator
   const app = opts.app
   const _highway = opts._highway
 
-  self.current_motivator = self.current_motivator || (current_motivator)
   self.dead = false
 
   if (app != null) {
@@ -50,7 +48,6 @@ export default function initModel(self, opts, data) {
 
   self.md_replacer = null
   self.mpx = null
-  self._requests_deps = null
 
   self.init_v2_data = null
   const init_v2 = data && data.init_version === 2

@@ -1,6 +1,6 @@
 
 
-import hndMotivationWrappper from '../../helpers/hndMotivationWrappper'
+import { WFlowStepWrapper } from '../../flowStepsWrappers.type'
 import getAttrByName from './getAttrByName'
 
 const LightEvOpts = function(ev_name, cb, context) {
@@ -11,7 +11,7 @@ const LightEvOpts = function(ev_name, cb, context) {
 }
 
 LightEvOpts.prototype = {
-  wrapper: hndMotivationWrappper,
+  wrapper: WFlowStepWrapper,
 }
 
 export default {
@@ -22,7 +22,7 @@ export default {
     return this.state(getAttrByName(namespace))
   },
   getWrapper: function() {
-    return hndMotivationWrappper
+    return WFlowStepWrapper
   },
   getFSNamespace: function(namespace) {
     return getAttrByName(namespace)

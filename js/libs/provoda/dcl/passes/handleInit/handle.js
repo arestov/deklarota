@@ -1,6 +1,8 @@
 
 // etr, original_states, state_name, value
 
+import { FlowStepAction } from '../../../Model/flowStepHandlers.types'
+
 export default function(self, data) {
   if (!self.$actions$handleInit) {
     return
@@ -10,5 +12,5 @@ export default function(self, data) {
 
   const arg = data
 
-  self.nextLocalTick(self.__act, [self, pass_name, arg], true)
+  self.nextLocalTick(FlowStepAction, [self, pass_name, arg], true)
 };

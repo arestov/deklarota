@@ -2,14 +2,6 @@
 
 import FlowStep from './FlowStep'
 
-const Group = function(num) {
-  this.num = 1 // just hint type for js engine
-  this.num = num
-  this.complex_order = [num]
-  this.inited_order = this.complex_order
-  Object.freeze(this)
-}
-
 const compareComplexOrder = function(array_one, array_two) {
   const max_length = Math.max(array_one.length, array_two.length)
 
@@ -26,63 +18,6 @@ const compareComplexOrder = function(array_one, array_two) {
     }
     if (typeof item_two_step == 'undefined') {
       // __[1, 2, 3] vs [1, 2] => [1, 2], __[1, 2, 3]
-      return 1
-    }
-    if (item_one_step > item_two_step) {
-      return 1
-    }
-    if (item_one_step < item_two_step) {
-      return -1
-    }
-  }
-}
-
-const compareInitOrder = function(array_one, array_two, end_one, end_two) {
-  const max_length = Math.max(array_one.length, array_two.length)
-
-  for (let i = 0; i < max_length; i++) {
-    const item_one_step = array_one[i]
-    const item_two_step = array_two[i]
-
-    if (typeof item_one_step == 'undefined' && typeof item_two_step == 'undefined') {
-      return 0
-    }
-    if (typeof item_one_step == 'undefined') {
-      // __[1, 2]*END, [1, 2, 3]*END => [1, 2, 3]*END, __[1, 2]*END
-      if (end_one && end_two) {
-        return 1
-      }
-
-      // __[1, 2]*END vs [1, 2, 3] => [1, 2, 3], __[1, 2]*END
-      if (end_one) {
-        return 1
-      }
-
-      // __[1, 2], [1, 2, 3]*END => __[1, 2], [1, 2, 3]*END
-      if (end_two) {
-        return -1
-      }
-
-      // __[1, 2] vs [1, 2, 3] => __[1, 2], [1, 2, 3]
-      return -1
-    }
-    if (typeof item_two_step == 'undefined') {
-      // __[1, 2, 3]*END, [1, 2]*END => __[1, 2, 3]*END, [1, 2]*END
-      if (end_one && end_two) {
-        return -1
-      }
-
-      // __[1, 2, 3]*END, [1, 2] => [1, 2], __[1, 2, 3]*END
-      if (end_one) {
-        return 1
-      }
-
-      // __[1, 2, 3], [1, 2]*END => __[1, 2, 3], [1, 2]*END
-      if (end_two) {
-        return -1
-      }
-
-      //__[1, 2, 3], [1, 2] vs  => [1, 2], __[1, 2, 3]
       return 1
     }
     if (item_one_step > item_two_step) {
@@ -113,13 +48,6 @@ const sortFlows = function(item_one, item_two) {
   } else if (item_two.finup) {
     return -1
   }
-
-  if (item_one.init_end || item_two.init_end) {
-    return compareInitOrder(item_one.inited_order, item_two.inited_order, item_one.init_end, item_two.init_end)
-  }
-
-
-
 
   /*if (item_one.custom_order && item_two.custom_order) {
 
@@ -168,6 +96,7 @@ const getBoxedRAFFunc = function(win) {
 const MIN = 60 * 1000
 
 const CallbacksFlow = function(options) {
+  this.callFlowStep = options.callFlowStep
   // glo is global/window
   const glo = options.glo
   const rendering_flow = options.rendering_flow
@@ -206,21 +135,8 @@ const CallbacksFlow = function(options) {
 }
 
 CallbacksFlow.prototype = {
-  input: function(fn) {
-    this.pushToFlow(fn)
-  },
-  startGroup: function() {
-    const step = new Group(++this.flow_steps_counter)
-    this.callbacks_busy = true
-    this.current_step = step
-    return step
-  },
-  completeGroup: function(step) {
-    if (this.current_step != step) {
-      throw new Error('wrong step')
-    }
-    this.callbacks_busy = false
-    this.current_step = null
+  input: function(fn, args, context) {
+    this.pushToFlow(fn, context, args)
   },
   iterateCallbacksFlow: function() {
     const started_at = Date.now()
@@ -316,17 +232,25 @@ CallbacksFlow.prototype = {
     this.pushIteration(this.hndIterateCallbacksFlow)
     this.iteration_delayed_check_time = now + MIN
   },
+  pushToFlowWithMotivator: function(fn, context, args, force) {
+    const motivator = this.current_step
+    if (!motivator && force) {
+      throw new Error('missing motivator')
+    }
+    this.pushToFlow(fn, context, args, null, null, null, motivator)
+  },
   pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
     const flow_step_num = ++this.flow_steps_counter
 
-    const complex_order = (motivator && motivator.complex_order.slice()) || []
-    complex_order.push(flow_step_num)
+    const complex_order = complexOrder(motivator?.complex_order, flow_step_num)
 
-    const inited_order = initedOrder(initiator, motivator)
-    inited_order.push(flow_step_num)
+    if (initiator) {
+      throw new Error('use motivator, not initiator')
+    }
+
 
     const is_transaction_end = motivator ? motivator.is_transaction_end : false
-    const flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
+    const flow_step = new FlowStep(this.callFlowStep, is_transaction_end, flow_step_num, complex_order, fn, context, args, cbf_arg, cb_wrapper, real_context, finup, init_end)
     order(this, flow_step)
     this.checkCallbacksFlow()
     return flow_step
@@ -335,10 +259,9 @@ CallbacksFlow.prototype = {
   scheduleTransactionEnd: function functionName(starter_id, context, args, fn, cb_wrapper) {
     const flow_step_num = ++this.flow_steps_counter
     const complex_order = [starter_id, Infinity, flow_step_num]
-    const inited_order = complex_order
 
     const is_transaction_end = true
-    const flow_step = new FlowStep(is_transaction_end, flow_step_num, complex_order, inited_order, fn, context, args, null, cb_wrapper)
+    const flow_step = new FlowStep(this.callFlowStep, is_transaction_end, flow_step_num, complex_order, fn, context, args, null, cb_wrapper)
     order(this, flow_step)
     this.checkCallbacksFlow()
   },
@@ -409,15 +332,13 @@ function toEnd(self, flow_step) {
   return flow_step
 }
 
-function initedOrder(initiator, parent_motivator) {
-  if (initiator) {
-    return initiator.inited_order.slice()
-  }
-  if (parent_motivator) {
-    return parent_motivator.inited_order.slice()
+function complexOrder(order_list, new_step_num) {
+  if (!order_list) {
+    return Object.freeze([new_step_num])
+
   }
 
-  return []
+  return Object.freeze([...order_list, new_step_num])
 }
 
 export default CallbacksFlow

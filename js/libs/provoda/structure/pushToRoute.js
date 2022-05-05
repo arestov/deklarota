@@ -1,5 +1,6 @@
 
 
+import { FlowStepUpdateManyAttrs } from '../Model/flowStepHandlers.types'
 import getSPByPathTemplateAndData from '../routes/legacy/getSPByPathTemplateAndData'
 
 export default function pushToRoute(md, nesting_name, data) {
@@ -25,9 +26,7 @@ export default function pushToRoute(md, nesting_name, data) {
     states[attr_name] = true
   }
 
-  md.useMotivator(result, function() {
-    result.updateManyStates(states)
-  })
+  md.nextTick(FlowStepUpdateManyAttrs, [states], true)
 
   return result
 }

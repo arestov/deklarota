@@ -140,8 +140,8 @@ export default function(view, con) {
   }
 
   if (!view._lbr.hndPvTreeChange) {
-    view._lbr.hndPvTreeChange = function(current_motivator) {
-      view.checkTplTreeChange(current_motivator)
+    view._lbr.hndPvTreeChange = function() {
+      view.checkTplTreeChange()
     }
   }
 

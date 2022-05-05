@@ -207,7 +207,7 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       // hotfix for pv-repeat
       // pvTreeChange should be passed inside pv-repeat
       if (wwtch.context.pvTreeChange) {
-        wwtch.context.pvTreeChange(this.current_motivator)
+        wwtch.context.pvTreeChange()
       }
 
       // clean this for GC

@@ -251,7 +251,7 @@ const hndPVRepeat = function(new_fv, states) {
 }
 
 
-const checkPVRepeat = function(states, async_changes, current_motivator) {
+const checkPVRepeat = function(states, async_changes) {
   const wwtch = this
   abortFlowStep(wwtch.context, wwtch.w_cache_key)
   const new_fv = spv.getTargetField(states, wwtch.field_name)
@@ -260,8 +260,7 @@ const checkPVRepeat = function(states, async_changes, current_motivator) {
 
   if (wwtch.original_fv != new_fv) {
     if (async_changes) {
-
-      const flow_step = wwtch.context.calls_flow.pushToFlow(hndPVRepeat, this, [new_fv, states], false, false, false, current_motivator)
+      const flow_step = wwtch.context.calls_flow.pushToFlowWithMotivator(hndPVRepeat, this, [new_fv, states], true)
       wwtch.context.calls_flow_index[wwtch.w_cache_key] = flow_step
     } else {
       hndPVRepeat.call(this, new_fv, states)

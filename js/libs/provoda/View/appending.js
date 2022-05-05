@@ -130,7 +130,6 @@ export default {
         const $first = counter === 0
         const $last = counter === (array.length - 1)
 
-        view.current_motivator = this.current_motivator
         _updateAttrsByChanges(view, [
           '$index', counter,
           '$index_back', (array.length - 1) - counter,
@@ -138,8 +137,6 @@ export default {
           '$last', $last,
           '$middle', !($first || $last),
         ])
-
-        view.current_motivator = null
 
         counter++
       }

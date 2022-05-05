@@ -1,3 +1,4 @@
+import { FlowStepLegacyStch } from './Model/flowStepHandlers.types'
 
 
 const CH_GR_LE = 2
@@ -13,7 +14,7 @@ function getStateChangeEffect(target, state_name) {
   return target.__state_change_index[state_name]
 }
 
-function proxyStch(target, state_name, value, old_value) {
+export function proxyStch(target, state_name, value, old_value) {
 
   const method = getStateChangeEffect(target, state_name)
 
@@ -26,7 +27,7 @@ function _handleStch(etr, state_name, value, old_value) {
     return
   }
 
-  etr.nextLocalTick(proxyStch, [etr, state_name, value, old_value], true, method.finup)
+  etr.nextLocalTick(FlowStepLegacyStch, [etr, state_name, value, old_value], true, method.finup)
 }
 
 export default function handleLegacySideEffects(etr, total_original_states, changes_list, start_from, inputLength) {

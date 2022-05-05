@@ -1,6 +1,7 @@
 import getModelById from '../libs/provoda/utils/getModelById'
 import getAction from '../libs/provoda/dcl/passes/getAction'
 import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
+import { FlowStepAction } from '../libs/provoda/Model/flowStepHandlers.types'
 
 export const REL_QUERY_TYPE_REL = 0
 
@@ -28,7 +29,7 @@ const handleExpectedRelChange = (chain, current_md) => {
     }
 
     const self = link_step_value
-    self.nextLocalTick(self.__act, [self, requesting_action], true)
+    self.nextLocalTick(FlowStepAction, [self, requesting_action], true)
   }
 
 

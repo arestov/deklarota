@@ -2,6 +2,7 @@ import req_utils from './req-utils'
 import types from './nestReqTypes'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
+import { FlowStepHandlRelSideDataLegacy, FlowStepUpdateManyAttrs } from '../Model/flowStepHandlers.types'
 
 const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
@@ -186,7 +187,7 @@ export default function(dclt, nesting_name, limit) {
   function markAttemptComplete() {
     const states = {}
     statesComplete(states, nesting_name)
-    _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
+    _this.sputnik.nextTick(FlowStepUpdateManyAttrs, [states], true)
   }
 
   function anyway() {
@@ -197,14 +198,14 @@ export default function(dclt, nesting_name, limit) {
 
     const states = {}
     statesAnyway(states, nesting_name, is_main_list)
-    _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
+    _this.sputnik.nextTick(FlowStepUpdateManyAttrs, [states], true)
   }
 
   function handleError() {
     store.error = true
     const states = {}
     statesError(states, nesting_name)
-    _this.sputnik.nextTick(_this.sputnik.updateManyStates, [states], true)
+    _this.sputnik.nextTick(FlowStepUpdateManyAttrs, [states], true)
 
     anyway()
     markAttemptComplete()
@@ -289,7 +290,7 @@ export default function(dclt, nesting_name, limit) {
 
     sputnik.insertDataAsSubitems(sputnik, nesting_name, items, source_name)
 
-    sputnik.nextTick(sputnik.updateManyStates, [many_states], true)
+    sputnik.nextTick(FlowStepUpdateManyAttrs, [many_states], true)
 
     if (!sputnik.loaded_nestings_items) {
       sputnik.loaded_nestings_items = {}
@@ -307,7 +308,7 @@ export default function(dclt, nesting_name, limit) {
 
     for (let i = 0; i < side_data_parsers.length; i++) {
       sputnik.nextTick(
-        sputnik.handleNetworkSideData, [
+        FlowStepHandlRelSideDataLegacy, [
           sputnik,
           source_name,
           side_data_parsers[i][0],

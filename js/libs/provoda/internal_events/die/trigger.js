@@ -5,7 +5,7 @@ export default function(self) {
     return
   }
 
-  const wrapper = self.hndUsualEvCallbacksWrapper
+  const wrapper = null
 
   for (let i = 0; i < self._die_subscribers.length; i++) {
     const cur = self._die_subscribers[i]

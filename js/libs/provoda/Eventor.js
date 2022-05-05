@@ -2,10 +2,16 @@
 
 import spv from '../spv'
 import FastEventor from './FastEventor/index'
-import hndMotivationWrappper from './helpers/hndMotivationWrappper'
+import { WFlowStepWrapper } from './flowStepsWrappers.type'
 import onInstanceInitDie from './internal_events/die/onInstanceInit'
 import subscribeToDie from './internal_events/die/subscribe'
 
+const assertCurm = (self) => {
+  const curm = self._currentMotivator()
+  if (!curm) {
+    throw new Error('no curm')
+  }
+}
 
 const Eventor = spv.inh(function() {}, {
   naming: function(construct) {
@@ -32,8 +38,8 @@ const Eventor = spv.inh(function() {}, {
     _currentMotivator: function() {
       return this._getCallsFlow().current_step
     },
-    input: function(fn) {
-      this._getCallsFlow().input(fn)
+    input: function(fn, args) {
+      this._getCallsFlow().input(fn, args)
     },
     inputFn: function(fn) {
       const self = this
@@ -42,20 +48,27 @@ const Eventor = spv.inh(function() {}, {
         self._calls_flow.pushToFlow(fn, self, args)
       }
     },
-    useMotivator: function(item, fn) {
-      const old_value = item.current_motivator
-      const motivator = this.current_motivator
-      item.current_motivator = motivator
-      const result = fn.call(this, item)
-      item.current_motivator = old_value
-      return result
-    },
     nextLocalTick: function(fn, args, use_current_motivator, finup) {
-      return this._getCallsFlow().pushToFlow(fn, this, args, false, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), finup)
+      if (!use_current_motivator) {
+        throw new Error('consider to use .input() or .inputWithContext()')
+      }
+
+      assertCurm(this)
+
+      return this._getCallsFlow().pushToFlow(fn, this, args, false, WFlowStepWrapper, this, use_current_motivator && this._currentMotivator(), finup)
+    },
+    inputWithContext: function(fn, args) {
+      this._getCallsFlow().input(fn, args, this)
     },
     nextTick: function(fn, args, use_current_motivator, initiator) {
+      if (!use_current_motivator) {
+        throw new Error('consider to use .input() or .inputWithContext()')
+      }
+
+      assertCurm(this)
+
       return this._calls_flow.pushToFlow(
-        fn, this, args, !args && this, hndMotivationWrappper, this, use_current_motivator && this._currentMotivator(), false,
+        fn, this, args, !args && this, WFlowStepWrapper, this, use_current_motivator && this._currentMotivator(), false,
         initiator, fn.init_end
       )
     },

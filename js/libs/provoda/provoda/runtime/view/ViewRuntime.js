@@ -4,12 +4,14 @@ import CallbacksFlow from '../../../CallbacksFlow'
 import initEffects from '../../../StatesEmitter/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
+import callFlowStep from '../../../View/callFlowStep'
 
 function ViewRuntime(optionsRaw) {
   const options = optionsRaw || {}
 
   const glo = typeof globalThis !== 'undefined' ? globalThis : window
   const flow = new CallbacksFlow({
+    callFlowStep,
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,

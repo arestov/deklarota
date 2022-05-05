@@ -3,7 +3,6 @@ import updateProxy from './updateProxy'
 import Eventor from './Eventor'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './StatesEmitter/useInterface'
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
-import deliverChainUpdates from './Model/mentions/deliverChainUpdates'
 import regfr_lightstev from './internal_events/light_attr_change/regfire'
 import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
 import _updateAttr from './_internal/_updateAttr'
@@ -11,9 +10,32 @@ import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'
 import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
-import useInterfaceAsSource from './dcl/effects/transaction/start'
+import { FlowStepAction } from './Model/flowStepHandlers.types'
+import { WFlowStepUseInterfaceAsSource } from './flowStepsWrappers.type'
 
 
+export const __updateManyAttrs = function(obj) {
+  const changes_list = []
+  for (const state_name in obj) {
+    if (obj.hasOwnProperty(state_name)) {
+      if (this.hasComplexStateFn(state_name)) {
+        throw new Error('you can\'t change complex state ' + state_name)
+      }
+      changes_list.push(state_name, obj[state_name])
+    }
+  }
+
+  if (this._currentMotivator() != null) {
+    this._updateProxy(changes_list)
+    return
+  }
+
+  const self = this
+  this.input(function() {
+    self._updateProxy(changes_list)
+  })
+
+}
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
 
@@ -33,14 +55,14 @@ function props(add) {
       }
 
       // expecting new transaction will be started
-      this._getCallsFlow().pushToFlow(fn, this, null, interface_instance, useInterfaceAsSource)
+      this._getCallsFlow().pushToFlow(fn, this, null, interface_instance, WFlowStepUseInterfaceAsSource)
     },
   })
 
   add({
     __act: act,
     dispatch: function(action_name, data) {
-      this._calls_flow.pushToFlow(act, this, [this, action_name, data])
+      this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data])
     },
   // init: function(){
   // 	this._super();
@@ -78,34 +100,11 @@ function props(add) {
     gentlyUpdateAttr(this, state_name, value, opts)
   }
 
-  const updateManyAttrs = function(obj) {
-    const changes_list = []
-    for (const state_name in obj) {
-      if (obj.hasOwnProperty(state_name)) {
-        if (this.hasComplexStateFn(state_name)) {
-          throw new Error('you can\'t change complex state ' + state_name)
-        }
-        changes_list.push(state_name, obj[state_name])
-      }
-    }
-
-    if (this._currentMotivator() != null) {
-      this._updateProxy(changes_list)
-      return
-    }
-
-    const self = this
-    this.input(function() {
-      self._updateProxy(changes_list)
-    })
-
-  }
-
   add({
 
 
-    updateManyStates: updateManyAttrs,
-    updateManyAttrs: updateManyAttrs,
+    updateManyStates: __updateManyAttrs,
+    updateManyAttrs: __updateManyAttrs,
     updateState: updateAttr,
     updateAttr: updateAttr,
     setStateDependence: function(state_name, source_id, value) {
@@ -148,9 +147,6 @@ function props(add) {
 
       return light_cb_cs ? light_cb_cs.length : 0
     },
-    __deliverChainUpdates: function(chain) {
-      deliverChainUpdates(this, chain)
-    },
     _throwError(msg, context) {
       const err = msg instanceof Error ? msg : new Error(msg)
       console.error(err, '\n', context, '\n', this.__code_path)
@@ -172,7 +168,6 @@ const StatesEmitter = spv.inh(Eventor, {
   init: function(self) {
     self.conx_optsi = null
     self.conx_opts = null
-    self.current_motivator = self.current_motivator || null
 
     initEffectsSubscribe(self)
 

@@ -6,6 +6,7 @@ import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
 import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 import checkInitedApi from '../dcl/effects/legacy/produce/checkInitedApi'
 import usedInterfaceAttrName from '../dcl/effects/usedInterfaceAttrName'
+import { FlowStepUseInterface } from '../Model/flowStepHandlers.types'
 
 const template = function() {
   return {
@@ -35,7 +36,7 @@ export function __updateInteraceState(self, interface_name, value) {
   ])
 }
 
-const useInterface = function(self, interface_name, obj, destroy) {
+export const useInterfaceHandler = function(self, interface_name, obj, destroy) {
   const old_interface = self._interfaces_used[interface_name]
   if (obj === old_interface || (obj == null && old_interface == null)) {
     return
@@ -80,12 +81,12 @@ const useInterface = function(self, interface_name, obj, destroy) {
   checkInitedApi(self, interface_name)
 }
 
-useInterface.skipAliveCheck = true
+useInterfaceHandler.skipAliveCheck = true
 
 export default function useInterfaceWrap(self, interface_name, obj, destroy) {
   if (self == null) {
     console.error(new Error(`Couldn't use "${interface_name}" interface in ${self}.`))
     return undefined
   }
-  self.nextTick(useInterface, [self, interface_name, obj, destroy], false, false)
+  self.inputWithContext(FlowStepUseInterface, [self, interface_name, obj, destroy])
 }

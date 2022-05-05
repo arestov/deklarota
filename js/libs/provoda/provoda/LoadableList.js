@@ -7,6 +7,10 @@ import makeItemByData from '../Model/makeItemByData'
 import getRelUniq from '../dcl/nests/uniq/getRelUniq'
 import { addUniqItem, findDataDup, MutUniqState } from '../dcl/nests/uniq/MutUniqState'
 
+export const handleNetworkSideData = function(target, source_name, ns, data) {
+  target.app.handleNetworkSideData(source_name, ns, data, target)
+}
+
 const LoadableListBase = spv.inh(BrowseMap.Model, {
   strict: true,
   naming: function(fn) {
@@ -71,10 +75,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     if (state) {
       target.preloadStart()
     }
-  },
-
-  handleNetworkSideData: function(target, source_name, ns, data) {
-    target.app.handleNetworkSideData(source_name, ns, data, target)
   },
 
   main_list_name: 'lists_list',
