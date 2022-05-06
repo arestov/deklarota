@@ -195,30 +195,7 @@ FastEventor.prototype = spv.coe(function(add) {
         return this.sputnik
       }
     },
-    once: function(ev_name, cb, opts, context) {
-      return this._addEventHandler(
-        ev_name,
-        cb,
-        opts && opts.context || context,
-        opts && opts.immediately,
-        opts && opts.exlusive,
-        opts && opts.skip_reg,
-        opts && opts.soft_reg,
-        true,
-        opts && opts.easy_bind_control)
-    },
-    on: function(ev_name, cb, opts, context) {
-      return this._addEventHandler(
-        ev_name,
-        cb,
-        opts && opts.context || context,
-        opts && opts.immediately,
-        opts && opts.exlusive,
-        opts && opts.skip_reg,
-        opts && opts.soft_reg,
-        false,
-        opts && opts.easy_bind_control)
-    },
+
     off: function(event_name, cb, obj, context) {
       const ev_name = event_name
 

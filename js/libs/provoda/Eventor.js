@@ -72,19 +72,9 @@ const Eventor = spv.inh(function() {}, {
         initiator, fn.init_end
       )
     },
-    once: function(namespace, cb, opts, context) {
-      return this.evcompanion.once(namespace, cb, opts, context)
-    },
-    on: function(namespace, cb, opts, context) {
-      return this.evcompanion.on(namespace, cb, opts, context)
-    },
     off: function(namespace, cb, obj, context) {
       return this.evcompanion.off(namespace, cb, obj, context)
     },
-    trigger: function() {
-      this.evcompanion.trigger.apply(this.evcompanion, arguments)
-    },
-
     requestState: function() {
       return this.evcompanion.requestState.apply(this.evcompanion, arguments)
     },
