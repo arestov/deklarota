@@ -1,7 +1,6 @@
-const isGlueRel = function(self, rel_key) {
-  const skeleton = self.__global_skeleton
-
-  return skeleton.glue_rels.has(rel_key)
+const isGlueRel = function() {
+  // glue rels was removed from code. check rip.md
+  return false
 }
 
 export default isGlueRel

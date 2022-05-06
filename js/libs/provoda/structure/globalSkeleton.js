@@ -22,7 +22,6 @@ function GlobalSkeleton() {
   this.chains = []
   this.chains_by_rel = null
   this.chains_by_attr = null
-  this.glue_rels = new Set()
 
   Object.seal(this)
 }
