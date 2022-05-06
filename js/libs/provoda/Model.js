@@ -33,6 +33,7 @@ import createMutableRelStore from './Model/rel/createMutableRelStore'
 import triggerDestroy from './helpers/triggerDestroy'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import requestState, { resetRequestedState } from './FastEventor/requestState'
+import requestNesting from './FastEventor/requestNesting'
 
 const push = Array.prototype.push
 
@@ -337,10 +338,10 @@ function modelProps(add) {
       return this
     }
   })
-
   add({
     requestState,
     resetRequestedState,
+    requestNesting,
   })
 
   add({

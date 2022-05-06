@@ -104,7 +104,6 @@ const FastEventor = function(context) {
   if (context.reg_fires) {
     this.reg_fires = context.reg_fires
   }
-  this.nesting_requests = null
   Object.seal(this)
 }
 FastEventor.prototype = spv.coe(function(add) {

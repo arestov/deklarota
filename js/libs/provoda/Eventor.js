@@ -75,9 +75,6 @@ const Eventor = spv.inh(function() {}, {
     off: function(namespace, cb, obj, context) {
       return this.evcompanion.off(namespace, cb, obj, context)
     },
-    requestNesting: function() {
-      return this.evcompanion.requestNesting.apply(this.evcompanion, arguments)
-    }
   }
 })
 

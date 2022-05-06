@@ -1,4 +1,5 @@
 import initSubPager from '../dcl/sub_pager/init'
+import { initRelsRequesting } from '../FastEventor/requestNesting'
 import { initAttrsRequesting } from '../FastEventor/requestState'
 import makeAttrsCollector from './makeAttrsCollector'
 
@@ -46,6 +47,7 @@ export default function initModel(self, opts, data) {
   self.__mentions_as_rel = null
   self._network_source = self._network_source || null
   initAttrsRequesting(self)
+  initRelsRequesting(self)
 
 
   self.md_replacer = null
