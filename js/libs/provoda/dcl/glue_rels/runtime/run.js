@@ -16,11 +16,17 @@ const gotRelGlue = memorize(function(rel_key) {
 
 const unsubscribe = function(from, to, event_name, func) {
 // donor.evcompanion.off(utils_simple.getSTEVNameLight(donor_state), func, false, this)
+  // now only views can have events (evcompanion and off)
+
+  throw new Error('glue rels cant use _addEventHandler anymore. dkt should make another way')
+
   from.evcompanion.off(event_name, func, false, to)
 }
 
 const subscribe = function(from, to, event_name, cb) {
   // copied from _bindLight
+  throw new Error('glue rels cant use _addEventHandler anymore. dkt should make another way')
+  // now only views can have events (evcompanion and _addEventHandler)
   from.evcompanion._addEventHandler(event_name, cb, to)
 
   if (to == from) {
