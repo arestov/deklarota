@@ -50,8 +50,7 @@ class MentionChain {
     this.addr = addr
     this.list = addrToLinks(rel_path, this)
     switch (target_type) {
-      case target_types.TARGET_TYPE_ATTR:
-      case target_types.TARGET_TYPE_GLUE_REL: {
+      case target_types.TARGET_TYPE_ATTR: {
         if (!target_name) {
           throw new Error('target_name should be provided')
         }

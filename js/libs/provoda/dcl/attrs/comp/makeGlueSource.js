@@ -2,7 +2,6 @@ import spv from '../../../../spv'
 import asString from '../../../utils/multiPath/asString'
 import createUpdatedAddr from '../../../utils/multiPath/createUpdatedAddr'
 import zip_fns from '../../../utils/zip/multipath-as-dep'
-import { doRelSplit } from '../../glue_rels/splitComplexRel'
 
 import CompxAttrDecl from './item'
 
@@ -66,9 +65,7 @@ function makeGlueSource(addr, isView) {
     }
 
     case rel_of_ascendor: {
-      const splited = doRelSplit(addr)
-      const source_addr = splited.destination
-      return new CompxAttrDecl(target_key, [[asString(source_addr)]])
+      throw new Error('cant handle that')
     }
 
     default: {

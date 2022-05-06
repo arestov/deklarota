@@ -160,4 +160,6 @@
 
 - deprecate preload_on for rel.nest
 
-- deprecate events for glue_rels (consider to remove glue_rels, also check light_rel_change)
+- deprecate events for glue_rels
+
+- remove glue_rels https://github.com/arestov/deklarota/pull/106 (first 0199e00)

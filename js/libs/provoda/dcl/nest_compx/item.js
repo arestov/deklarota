@@ -2,7 +2,6 @@ import spv from '../../../spv'
 import cloneObj from '../../../spv/cloneObj'
 
 import parseMultiPath from '../../utils/multiPath/parse'
-import splitComplexRel from '../glue_rels/splitComplexRel'
 import asString from '../../utils/multiPath/asString'
 import isRelAddr from '../../utils/multiPath/isRelAddr'
 import CompxAttrDecl from '../attrs/comp/item'
@@ -43,7 +42,7 @@ const getDeps = spv.memorize(function getEncodedState(string) {
     return simple_addr
   }
 
-  const alt_result = cloneObj({}, splitComplexRel(result) || result)
+  const alt_result = cloneObj({}, result)
   alt_result.nwatch = true
   return alt_result
 })
@@ -80,34 +79,6 @@ const same = function(item) {
   return item
 }
 
-const getGlueSources = function(list) {
-  const result = []
-  for (let i = 0; i < list.length; i++) {
-    const addr = list[i]
-    if (addr.splited == null) {
-      continue
-    }
-
-    result.push(Object.freeze({
-      meta_relation: addr.splited.meta_relation,
-      source: addr.splited.source,
-      final_rel_addr: addr.splited.final_rel_addr,
-      final_rel_key: addr.splited.final_rel_key,
-    }))
-  }
-
-  return Object.freeze(result)
-}
-
-const useDesination = function(addr) {
-  if (addr.splited == null) {
-    return addr
-  }
-
-  return addr.splited.destination
-}
-
-
 const NestCompxDcl = function(name, data) {
   const fn = typeof data[2] == 'function' ? data[2] : null
 
@@ -118,7 +89,6 @@ const NestCompxDcl = function(name, data) {
   const deps = data[1]
   const list = deps.map(getDeps)
 
-  this.glue_sources = Object.freeze(getGlueSources(list))
 
   // for prefill
   this.raw_deps = Object.freeze(list)
@@ -130,7 +100,7 @@ const NestCompxDcl = function(name, data) {
   }
 
 
-  const prepared_to_run = list.map(useDesination)
+  const prepared_to_run = list
   // for cache keys
   this.deps = Object.freeze(prepared_to_run.map(asString))
   // will be used by runner (to init watchers)

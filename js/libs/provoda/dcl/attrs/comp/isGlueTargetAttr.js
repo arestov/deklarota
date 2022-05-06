@@ -32,7 +32,7 @@ const hasGlueSourceAttr = function(addr, isView) {
   }
 
   if (isRelAddr(addr) && isAscending(addr)) {
-    return glueTargets.rel_of_ascendor
+    throw new Error('cant handle that')
   }
 
 }

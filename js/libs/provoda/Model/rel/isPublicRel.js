@@ -1,5 +1,5 @@
-import isGlueRel from '../mentions/isGlueRel'
 
-const isPublicRel = (self, rel_name) => !isGlueRel(self, rel_name)
+// was used for glue rels. check rip md
+const isPublicRel = () => true
 
 export default isPublicRel
