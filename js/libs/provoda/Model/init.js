@@ -64,20 +64,13 @@ export default function initModel(self, opts, data) {
   return self
 }
 
-function toServStates(iss, states) {
-  if (!states) {return iss}
-
-  return Object.assign(iss || {}, states)
-}
-
 function createISS(self, data) {
-  let iss = null
+  if (!data?.attrs) {
+    return null
+  }
 
-
-  iss = toServStates(iss, data && data.attrs)
-
-  if (!iss) {
-    return iss
+  const iss = {
+    ...data.attrs
   }
 
   for (const state_name in iss) {
@@ -90,14 +83,5 @@ function createISS(self, data) {
 }
 
 function prepareStates(self, data) {
-  self.init_states = self.init_states || null
-
-  const iss = createISS(self, data)
-
-  if (!iss) {
-    return
-  }
-
-  self.init_states = self.init_states || {}
-  self.init_states = Object.assign(self.init_states, iss)
+  self.init_states = createISS(self, data) || null
 }
