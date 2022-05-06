@@ -1,9 +1,9 @@
 
-import cloneObj from './spv/cloneObj.js'
-import memorize from './spv/memorize'
-import coe from './spv/coe'
 import Class from './spv/Class'
+import cloneObj from './spv/cloneObj.js'
+import coe from './spv/coe'
 import inh from './spv/inh'
+import memorize from './spv/memorize'
 import splitByDot from './spv/splitByDot'
 
 const spv = {}
