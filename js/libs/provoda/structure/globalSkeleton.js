@@ -9,7 +9,6 @@ import MentionChain from '../Model/mentions/MentionChain'
 import numDiff from '../Model/mentions/numDiff'
 import addChainToIndex, { sortChainLinks } from '../Model/mentions/addChainToIndex'
 import target_types from '../Model/mentions/target_types'
-import provideGlueRels from '../dcl/glue_rels/provideGlueRels'
 import uniqRelToMentionChain from '../dcl/nests/uniq/uniqRelToMentionChain'
 import routesToMentionChains from '../dcl/routes/routesToMentionChains'
 
@@ -55,7 +54,6 @@ function addUniqRelAttrCheck(global_skeleton, model) {
 }
 
 function addModel(global_skeleton, model, ascent_level, is_root) {
-  provideGlueRels(model)
   addCompxNestForModel(global_skeleton, model, ascent_level, is_root)
 
   addUniqRelAttrCheck(global_skeleton, model)
