@@ -18,17 +18,6 @@ spv.getArrayNoDubs = function(array, clean_array) {
   return clean_array
 }
 
-spv.mapfn = function(func) {
-  return function(array) {
-    if (!array) {return array}
-    const result = new Array(array.length)
-    for (let i = 0; i < array.length; i++) {
-      result[i] = func(array[i], i)
-    }
-    return result
-  }
-}
-
 const hasArg = function(el) {return el}
 export const hasEveryArgs = function() {
   return Array.prototype.every.call(arguments, hasArg)
