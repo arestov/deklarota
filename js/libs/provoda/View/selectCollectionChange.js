@@ -36,7 +36,7 @@ export default function(target, nesname, items, removed, old_value) {
 
   for (let i = 0; i < items.length; i++) {
     const cur = items[i]
-    const dclr = selecPoineertDeclr(target.dclrs_fpckgs, target.dclrs_selectors,
+    let dclr = selecPoineertDeclr(target.dclrs_fpckgs, target.dclrs_selectors,
       nesname, cur.model_name, target.nesting_space)
 
     if (!dclr) {
