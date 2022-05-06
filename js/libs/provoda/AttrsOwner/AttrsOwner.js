@@ -1,16 +1,16 @@
-import spv from '../spv'
-import updateProxy from './updateProxy'
-import Eventor from './Eventor'
-import useInterface, { __reportInterfaceChange, __updateInteraceState } from './AttrsOwner/useInterface'
-import gentlyUpdateAttr from './AttrsOwner/gentlyUpdateAttr'
-import regfr_lightstev from './internal_events/light_attr_change/regfire'
-import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
-import onPropsExtend from './onExtendSE'
-import act from './dcl/passes/act'
-import pvState from './utils/state'
-import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
-import { FlowStepAction } from './Model/flowStepHandlers.types'
-import { WFlowStepUseInterfaceAsSource } from './flowStepsWrappers.type'
+import spv from '../../spv'
+import updateProxy from '../updateProxy'
+import Eventor from '../Eventor'
+import useInterface, { __reportInterfaceChange, __updateInteraceState } from './useInterface'
+import gentlyUpdateAttr from './gentlyUpdateAttr'
+import regfr_lightstev from '../internal_events/light_attr_change/regfire'
+import getNameByAttr from '../internal_events/light_attr_change/getNameByAttr'
+import onPropsExtend from '../onExtendSE'
+import act from '../dcl/passes/act'
+import pvState from '../utils/state'
+import initEffectsSubscribe from '../dcl/effects/legacy/subscribe/init'
+import { FlowStepAction } from '../Model/flowStepHandlers.types'
+import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
 
 
 export const __updateManyAttrs = function(obj) {
@@ -131,9 +131,9 @@ function props(add) {
   })
 }
 
-const StatesEmitter = spv.inh(Eventor, {
+const AttrsOwner = spv.inh(Eventor, {
   naming: function(construct) {
-    return function StatesEmitter() {
+    return function AttrsOwner() {
       construct(this)
     }
   },
@@ -148,4 +148,4 @@ const StatesEmitter = spv.inh(Eventor, {
   props: props,
 })
 
-export default StatesEmitter
+export default AttrsOwner

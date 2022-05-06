@@ -6,7 +6,7 @@ import MDProxy from './MDProxy'
 import { getConstrByPath } from './dcl/nest/runtime/initDeclaredNestings'
 
 import { initAttrs } from './updateProxy'
-import StatesEmitter from './StatesEmitter'
+import AttrsOwner from './AttrsOwner/AttrsOwner'
 import onPropsExtend from './Model/onExtend'
 import initModel from './Model/init'
 import gentlyUpdateNesting from './Model/gentlyUpdateNesting'
@@ -84,7 +84,7 @@ function MODELLEAK() {}
 const leak = new MODELLEAK()
 
 
-const Model = spv.inh(StatesEmitter, {
+const Model = spv.inh(AttrsOwner, {
   strict: true,
   naming: function(fn) {
     return function Model(opts, data, params, more, states) {
@@ -271,7 +271,7 @@ function modelProps(add) {
       this.init_states = false
     },
     handling_v2_init: true,
-    onExtend: spv.precall(StatesEmitter.prototype.onExtend, function(props, original, params) {
+    onExtend: spv.precall(AttrsOwner.prototype.onExtend, function(props, original, params) {
       onPropsExtend(this, props, original, params)
     }),
     getConstrByPathTemplate: function(app, path_template) {

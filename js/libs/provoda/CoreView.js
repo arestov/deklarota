@@ -6,7 +6,7 @@ import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
 import updateProxy from './updateProxy'
-import StatesEmitter from './StatesEmitter'
+import AttrsOwner from './AttrsOwner/AttrsOwner'
 import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
 import initApis from './dcl/effects/legacy/api/init'
@@ -250,7 +250,7 @@ const getContextRouter = (self) => {
   return context_router
 }
 
-const View = spv.inh(StatesEmitter, {
+const View = spv.inh(AttrsOwner, {
   naming: function(fn) {
     return function View(view_otps, opts) {
       fn(this, view_otps, opts)
@@ -379,7 +379,7 @@ const View = spv.inh(StatesEmitter, {
   updateSpyglass: changeSpyglassUniversalM('updateSpyglass'),
   toggleSpyglass: changeSpyglassUniversalM('toggleSpyglass'),
   getSpyglassData: getSpyglassData,
-  onExtend: spv.precall(StatesEmitter.prototype.onExtend, function(md, props, original, params) {
+  onExtend: spv.precall(AttrsOwner.prototype.onExtend, function(md, props, original, params) {
     return onPropsExtend(md, props, original, params)
   }),
   getStrucRoot: function() {

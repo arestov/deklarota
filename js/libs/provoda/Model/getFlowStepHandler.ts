@@ -8,7 +8,7 @@ import { markInitied } from './postInit'
 import deliverChainUpdates from './mentions/deliverChainUpdates'
 import { eraseTransactionEffectsData, handleTransactionEnd } from '../dcl/effects/legacy/produce/scheduleTransactionEnd'
 import executeEffect from '../dcl/effects/legacy/produce/executeEffect'
-import { __updateManyAttrs } from '../StatesEmitter'
+import { __updateManyAttrs } from '../AttrsOwner/AttrsOwner'
 import { handleNetworkSideData } from '../provoda/LoadableList'
 
 const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
