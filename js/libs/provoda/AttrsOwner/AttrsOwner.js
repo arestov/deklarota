@@ -11,7 +11,8 @@ import pvState from '../utils/state'
 import initEffectsSubscribe from '../dcl/effects/legacy/subscribe/init'
 import { FlowStepAction } from '../Model/flowStepHandlers.types'
 import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
-
+import calls_flows_holder_basic from './calls_flows_holder_basic'
+import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 
 export const __updateManyAttrs = function(obj) {
   const changes_list = []
@@ -37,6 +38,7 @@ export const __updateManyAttrs = function(obj) {
 }
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
+  add(calls_flows_holder_basic)
 
   add({
     getInterface: function(interface_name) {
@@ -142,6 +144,7 @@ const AttrsOwner = spv.inh(Eventor, {
     self.conx_opts = null
 
     initEffectsSubscribe(self)
+    onInstanceInitDie(self)
 
   },
   onExtend: onPropsExtend,
