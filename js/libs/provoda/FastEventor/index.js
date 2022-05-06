@@ -1,7 +1,6 @@
 
 
 import spv from '../../spv'
-import requesting from './requesting'
 const removeItem = spv.removeItem
 
 const EventSubscribingOpts = function(ev_name, cb, context, immediately, wrapper) {
@@ -317,8 +316,6 @@ FastEventor.prototype = spv.coe(function(add) {
       return this
     }
   })
-
-  add(requesting)
 
 })
 
