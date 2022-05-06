@@ -2,15 +2,8 @@
 
 import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
-import getAllPossibleRelMentionsCandidates, {
-  getRootRelMentions, getParentRelMentions,
-  getAllGlueSources,
-} from '../dcl/nest_compx/mentionsCandidates'
-import {
-  getRootRelMentions as getRootRelMentionsAttrs,
-  getParentRelMentions as getParentRelMentionsAttrs,
-  getAllGlueSources as getAllGlueSourcesAttrs,
-} from '../dcl/attrs/comp/mentionsCandidates'
+import getAllPossibleRelMentionsCandidates from '../dcl/nest_compx/mentionsCandidates'
+import {} from '../dcl/attrs/comp/mentionsCandidates'
 import MentionChain from '../Model/mentions/MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
@@ -21,7 +14,6 @@ import uniqRelToMentionChain from '../dcl/nests/uniq/uniqRelToMentionChain'
 import routesToMentionChains from '../dcl/routes/routesToMentionChains'
 
 const TARGET_TYPE_ATTR = target_types.TARGET_TYPE_ATTR
-const TARGET_TYPE_GLUE_REL = target_types.TARGET_TYPE_GLUE_REL
 
 
 function GlobalSkeleton() {
@@ -54,113 +46,8 @@ function handleCompRels(_global_skeleton, model) {
   }
 }
 
-function markGlueRels(global_skeleton, model) {
-  const list = [
-    ...(getAllGlueSources(model) || []),
-    ...(getAllGlueSourcesAttrs(model) || [])
-
-  ]
-  if (list == null) {return}
-  for (let i = 0; i < list.length; i++) {
-    const cur = list[i]
-    global_skeleton.glue_rels.add(cur.meta_relation)
-    global_skeleton.glue_rels.add(cur.final_rel_key)
-  }
-}
-
-const iterateMentions = function iterateMentions(iterateFn) {
-  return function iterate(model, level) {
-    const full_list = []
-    full_list.push(...iterateFn(model, level))
-    for (const chi in model._all_chi) {
-      if (!model._all_chi.hasOwnProperty(chi) || model._all_chi[chi] == null) {
-        continue
-      }
-      full_list.push(...iterate(model._all_chi[chi].prototype, level + 1))
-    }
-
-    if (!full_list.length) {
-      return full_list
-    }
-
-    const result = new Map()
-    for (let i = 0; i < full_list.length; i++) {
-      const cur = full_list[i]
-      const key = cur.final_rel_key
-      if (result.has(key)) {
-        continue
-      }
-
-      result.set(key, cur)
-    }
-
-    return [...result.values()]
-  }
-}
-
-
-
-const getAllRootMentions = iterateMentions(function(model) {
-  return [
-    ...(getRootRelMentions(model) || []),
-    ...(getRootRelMentionsAttrs(model) || []),
-  ]
-})
-
-const getAllParentMentions = iterateMentions(function(model, level) {
-  const list = level ? [
-    ...(getParentRelMentions(model) || []),
-    ...(getParentRelMentionsAttrs(model) || []),
-  ] : []
-  if (!list.length) {
-    return list
-  }
-
-  return list.filter(function(item) {
-    return (level - item.source.from_base.steps) == 0
-  })
-})
-
-
-function handleGlueParentAscent(global_skeleton, model) {
-  const list = getAllParentMentions(model, 0)
-
-  for (let i = 0; i < list.length; i++) {
-    const candidate = list[i]
-    global_skeleton.chains.push(new MentionChain(
-      TARGET_TYPE_GLUE_REL,
-      candidate.final_rel_addr.nesting.path,
-      model,
-      candidate.final_rel_addr,
-      candidate.final_rel_key
-    ))
-  }
-}
-
-function handleGlueRels(global_skeleton, model, ascent_level, is_root) {
-  markGlueRels(global_skeleton, model)
-  handleGlueParentAscent(global_skeleton, model, ascent_level)
-
-  if (!is_root) {
-    return
-  }
-  const root_mentions = getAllRootMentions(model, 0)
-
-  for (let i = 0; i < root_mentions.length; i++) {
-    const candidate = root_mentions[i]
-    global_skeleton.chains.push(new MentionChain(
-      TARGET_TYPE_GLUE_REL,
-      candidate.final_rel_addr.nesting.path,
-      model,
-      candidate.final_rel_addr,
-      candidate.final_rel_key
-    ))
-  }
-}
-
-function addCompxNestForModel(global_skeleton, model, ascent_level, is_root) {
+function addCompxNestForModel(global_skeleton, model, _ascent_level, _is_root) {
   handleCompRels(global_skeleton, model)
-  handleGlueRels(global_skeleton, model, ascent_level, is_root)
 }
 
 function addUniqRelAttrCheck(global_skeleton, model) {
