@@ -104,7 +104,6 @@ const FastEventor = function(context) {
   if (context.reg_fires) {
     this.reg_fires = context.reg_fires
   }
-  this.mapped_reqs = null
   this.nesting_requests = null
   Object.seal(this)
 }

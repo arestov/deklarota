@@ -27,6 +27,7 @@ import wlch from './View/wlch'
 import attr_events from './StatesEmitter/attr_events'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.types'
+import requestState, { initAttrsRequesting, resetRequestedState } from './FastEventor/requestState'
 
 const CH_GR_LE = 2
 
@@ -171,6 +172,7 @@ const initView = function(target, view_otps, opts) {
     target.__connectAdapter.call(null, target)
   }
 
+  initAttrsRequesting(target)
   initApis(target, opts && opts.interfaces)
   if (target.isRootView) {
     const parent_opts = target.parent_view && target.parent_view.opts
@@ -267,6 +269,8 @@ const View = spv.inh(StatesEmitter, {
 
     return this.states
   },
+  requestState,
+  resetRequestedState,
   requestPageById: function(_provoda_id) {
     this.root_view.parent_view.RPCLegacy('requestPage', _provoda_id)
   },

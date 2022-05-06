@@ -75,12 +75,6 @@ const Eventor = spv.inh(function() {}, {
     off: function(namespace, cb, obj, context) {
       return this.evcompanion.off(namespace, cb, obj, context)
     },
-    requestState: function() {
-      return this.evcompanion.requestState.apply(this.evcompanion, arguments)
-    },
-    resetRequestedState: function() {
-      return this.evcompanion.resetRequestedState.apply(this.evcompanion, arguments)
-    },
     requestNesting: function() {
       return this.evcompanion.requestNesting.apply(this.evcompanion, arguments)
     }
