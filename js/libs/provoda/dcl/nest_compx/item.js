@@ -2,7 +2,6 @@ import spv from '../../../spv'
 import cloneObj from '../../../spv/cloneObj'
 
 import parseMultiPath from '../../utils/multiPath/parse'
-import splitComplexRel from '../glue_rels/splitComplexRel'
 import asString from '../../utils/multiPath/asString'
 import isRelAddr from '../../utils/multiPath/isRelAddr'
 import CompxAttrDecl from '../attrs/comp/item'
@@ -43,7 +42,7 @@ const getDeps = spv.memorize(function getEncodedState(string) {
     return simple_addr
   }
 
-  const alt_result = cloneObj({}, splitComplexRel(result) || result)
+  const alt_result = cloneObj({}, result)
   alt_result.nwatch = true
   return alt_result
 })
