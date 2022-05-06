@@ -4,7 +4,7 @@ import assignField from '../dcl/assignField'
 import getTypedDcls from '../dcl-h/getTypedDcls'
 import parseCompItems from '../dcl/attrs/comp/parseItems'
 import buildAttrsFinal from '../dcl/attrs/build'
-import checkChi, { checkChiProps } from '../StatesEmitter/checkChi'
+import checkChi, { checkChiProps } from '../AttrsOwner/checkChi'
 
 import checkNestRqC from '../dcl/nest_model/check'
 import checkNestSel from '../dcl/nest_sel/check'

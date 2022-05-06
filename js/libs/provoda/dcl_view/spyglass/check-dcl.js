@@ -1,5 +1,5 @@
 
-import checkPrefix from '../../StatesEmitter/checkPrefix'
+import checkPrefix from '../../AttrsOwner/checkPrefix'
 import spv from '../../../spv'
 const transportName = function(spyglass_name) {
   return 'router__' + spyglass_name.replace('/', '__')

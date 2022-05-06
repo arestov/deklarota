@@ -1,5 +1,5 @@
 
-import AttrsCollector from '../StatesEmitter/AttrsCollector'
+import AttrsCollector from '../AttrsOwner/AttrsCollector'
 import definedAttrs from './definedAttrs'
 
 export default function(self) {

@@ -3,7 +3,7 @@ import spv from '../../spv'
 import { doCopy } from '../../spv/cloneObj'
 
 import definedAttrs from '../Model/definedAttrs'
-import AttrsCollector from '../StatesEmitter/AttrsCollector'
+import AttrsCollector from '../AttrsOwner/AttrsCollector'
 import RootLev from '../bwlev/RootLev'
 import globalSkeleton from './globalSkeleton'
 import analyzeLinks from './analyzeLinks'
