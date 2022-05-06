@@ -154,7 +154,7 @@ FastEventor.prototype = spv.coe(function(add) {
       return funcs
     },
 
-    _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg, _once, easy_bind_control) {
+    _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg) {
     //common opts allowed
 
       const ev_name = ev_name_raw
@@ -184,11 +184,8 @@ FastEventor.prototype = spv.coe(function(add) {
       if (!fired) {
         this._pushCallbackToStack(ev_name, subscr_opts)
       }
-      if (easy_bind_control) {
-        return subscr_opts
-      } else {
-        return this.sputnik
-      }
+
+      return this.sputnik
     },
 
     off: function(event_name, cb, obj, context) {
