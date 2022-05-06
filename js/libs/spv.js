@@ -18,19 +18,6 @@ spv.getArrayNoDubs = function(array, clean_array) {
   return clean_array
 }
 
-spv.once = function(fn) {
-  let result
-  return function() {
-    if (fn) {
-      const fnn = fn
-      fn = null
-      return (result = fnn.apply(this, arguments))
-    } else {
-      return result
-    }
-  }
-}
-
 spv.mapfn = function(func) {
   return function(array) {
     if (!array) {return array}
