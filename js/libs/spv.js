@@ -23,16 +23,6 @@ export const hasEveryArgs = function() {
   return Array.prototype.every.call(arguments, hasArg)
 }
 
-spv.getExistingItems = function(arr) {
-  const result = []
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i]) {
-      result.push(arr[i])
-    }
-  }
-  return result
-}
-
 const addEvent = (elem, evType, fn) => {
   elem.addEventListener(evType, fn, false)
   return fn
@@ -80,37 +70,6 @@ spv.domReady = function(d, callback) {
     spv.addEvent(d, 'DOMContentLoaded', f)
   }
 }
-
-spv.doesContain = function(target, valueOf) {
-  const cached_t_value = valueOf ? valueOf.call(target) : (target.valueOf())
-
-  for (let i = 0; i < this.length; i++) {
-    if (valueOf) {
-      if (valueOf.call(this[i]) == cached_t_value) {
-        return i
-      }
-    } else{
-      if (this[i].valueOf() == cached_t_value) {
-        return i
-      }
-    }
-
-
-  }
-  return -1
-}
-spv.hasCommonItems = function(arr1, arr2) {
-  if (!arr2) {
-    return false
-  }
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr2.indexOf(arr1[i]) != -1) {
-      return true
-    }
-  }
-  return false
-}
-
 
 const arExclSimple = function(result, arr, obj) {
   for (let i = 0; i < arr.length; i++) {
@@ -197,55 +156,6 @@ const getFields = function(obj, fields) {
   }
   return r
 }
-spv.getDiffObj = function(one, two) {
-  let
-    i
-  const diff = {}
-  const all_props = {}
-
-  for (i in one) {
-    all_props[i] = true
-  }
-  for (i in two) {
-    all_props[i] = true
-  }
-
-  for (i in all_props) {
-    if (one[i] !== two[i]) {
-      diff[i] = two[i]
-    }
-  }
-  return diff
-}
-
-spv.matchWords = function(source, query) {
-  const words = query.split(/[\s\.\—\-\—\–\_\|\+\(\)\*\&\!\?\@\,\\\/\❤\♡\'\"\[\]]+/gi)
-  const r = {}
-  if (words.length) {
-    r.forward = true
-    let any_order = true
-    const source_sliced = source
-    for (let i = 0; i < words.length; i++) {
-      const index = source_sliced.indexOf(words[i])
-      if (index != -1) {
-        source_sliced.slice(index + words[i].length)
-      } else {
-        r.forward = false
-        break
-      }
-    }
-    if (!r.forward) {
-      for (let i = 0; i < words.length; i++) {
-        if (source.indexOf(words[i]) == -1) {
-          any_order = false
-          break
-        }
-      }
-    }
-    r.any = any_order
-  }
-  return r
-}
 
 const regexp_escaper = /([$\^*()+\[\]{}|.\/?\\])/g
 const escapeRegExp = function(str, clean) {
@@ -257,50 +167,6 @@ const escapeRegExp = function(str, clean) {
 
 spv.escapeRegExp = escapeRegExp
 
-const getStringPattern = function(str) {
-  if (str.replace(/\s/g, '')) {
-
-    str = escapeRegExp(str, true).split(/\s/g)
-    for (let i = 0; i < str.length; i++) {
-      str[i] = '((^\|\\s)' + str[i] + ')'
-    }
-    str = str.join('|')
-
-    return new RegExp(str, 'gi')
-  }
-}
-
-spv.searchInArray = function(array, query, fields) {
-  query = getStringPattern(query)
-  let r
-  let i
-  let cur
-
-  if (query) {
-    r = []
-
-    if (fields) {
-      for (i = 0; i < array.length; i++) {
-        cur = array[i]
-        const fields_values = getFields(cur, fields)
-        if (fields_values.join(' ').search(query) > -1) {
-          r.push(cur)
-        }
-
-      }
-    } else{
-      for (i = 0; i < array.length; i++) {
-        cur = array[i]
-        if (typeof cur == 'string' && cur.search(query) > -1) {
-          r.push(cur)
-        }
-      }
-    }
-  }
-  return r
-}
-
-spv.getStringPattern = getStringPattern
 
 spv.collapseAll = function() {
   const r = []
@@ -336,46 +202,6 @@ const toRealArray = (array, check_field) => {
 
 spv.toRealArray = toRealArray
 
-spv.f = {
-  allOf: function() {
-    // logical `and`, return last result of stop
-    let i = 0
-    const args = new Array(arguments.length - 1)
-    for (i = 1; i < arguments.length; i++) {
-      args[ i - 1 ] = arguments[i]
-    }
-
-    return function() {
-      let result
-      for (let i = 0; i < args.length; i++) {
-        result = args[i].apply(this, arguments)
-        if (!result) {
-          return result
-        }
-      }
-      return result
-    }
-  },
-  firstOf: function() {
-    // logical `or`, return first result of stop
-    let i = 0
-    const args = new Array(arguments.length - 1)
-    for (i = 1; i < arguments.length; i++) {
-      args[ i - 1 ] = arguments[i]
-    }
-
-    return function() {
-      let result
-      for (let i = 0; i < args.length; i++) {
-        result = args[i].apply(this, arguments)
-        if (result) {
-          return result
-        }
-      }
-      return result
-    }
-  },
-}
 const setTargetField = function(obj, tree, value) {
   tree = getFieldsTree(tree)
   let cur_obj = obj
@@ -481,43 +307,6 @@ const sortByRules = spv.sortByRules = function sortByRules(a, b, rules) {
   }
 }
 
-spv.indexBy = function(array, field) {
-  const index = {}
-  if (!array || !array.length) {
-    return index
-  }
-
-  for (let i = 0; i < array.length; i++) {
-    const value = getTargetField(array[i], field)
-    index[value] = array[i]
-  }
-
-  return index
-}
-
-spv.groupBy = function(array, field) {
-  const index = {}
-  if (!array || !array.length) {
-    return index
-  }
-
-  for (let i = 0; i < array.length; i++) {
-    const value = getTargetField(array[i], field)
-    if (!index[value]) {
-      index[value] = []
-    }
-    index[value].push(array[i])
-  }
-
-  return index
-}
-
-spv.getSortFunc = function(rules) {
-  return function(a, b) {
-    return sortByRules(a, b, rules)
-  }
-}
-
 const makeIndexByField = spv.makeIndexByField = function(array, field, keep_case) {
   const r = {}
   if (array && array.length) {
@@ -610,30 +399,6 @@ const $filter = function(array, field, value_or_testfunc) {
 
 spv.cloneObj = cloneObj
 
-const getUnitBaseNum = function(_c) {
-  if (_c > 0) {
-    if (_c > 10 && _c < 20) {
-      return 2
-    } else {
-      let _cc = '0' + _c
-      _cc = parseFloat(_cc.slice(_cc.length - 1))
-
-      if (_cc === 0) {
-        return 2
-      } else if (_cc == 1) {
-        return 0
-      }else if (_cc < 5) {
-        return 1
-      } else {
-        return 2
-      }
-    }
-  } else if (_c === 0) {
-    return 2
-  }
-}
-spv.getUnitBaseNum = getUnitBaseNum
-
 spv.stringifyParams = function(params, ignore_params, splitter, joiner, opts) {
   opts = opts || {}
   splitter = splitter || ''
@@ -657,18 +422,6 @@ spv.stringifyParams = function(params, ignore_params, splitter, joiner, opts) {
 spv.Class = Class
 spv.inh = inh
 
-spv.passingContext = function passingContext(func) {
-  // for legacy
-  return function(obj) {
-    const arr = new Array(arguments.length)
-    for (let i = 0; i < arguments.length; i++) {
-      arr[i] = arguments[i]
-    }
-    arr.shift()
-
-    func.apply(obj, arr)
-  }
-}
 
 spv.precall = function precall(func1, func2) {
   // for legacy
