@@ -1,8 +1,6 @@
 
 
 import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
-import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
-import getAllPossibleRelMentionsCandidates from '../dcl/nest_compx/mentionsCandidates'
 import MentionChain from '../Model/mentions/MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
@@ -29,31 +27,11 @@ function GlobalSkeleton() {
   Object.seal(this)
 }
 
-function handleCompRels(_global_skeleton, model) {
-  const all_deps = getAllPossibleRelMentionsCandidates(model)
-  if (all_deps == null) {
-    return
-  }
-
-  for (let i = 0; i < all_deps.length; i++) {
-    const candidate = all_deps[i]
-    if (!supportedRelTargetAddr(candidate.addr)) {
-      continue
-    }
-
-  }
-}
-
-function addCompxNestForModel(global_skeleton, model, _ascent_level, _is_root) {
-  handleCompRels(global_skeleton, model)
-}
-
 function addUniqRelAttrCheck(global_skeleton, model) {
   uniqRelToMentionChain(global_skeleton.chains, model)
 }
 
-function addModel(global_skeleton, model, ascent_level, is_root) {
-  addCompxNestForModel(global_skeleton, model, ascent_level, is_root)
+function addModel(global_skeleton, model, _ascent_level, _is_root) {
 
   addUniqRelAttrCheck(global_skeleton, model)
   routesToMentionChains(global_skeleton.chains, model)
