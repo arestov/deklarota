@@ -885,35 +885,7 @@ spv.mmap = function(config, converters) {
 }
 //i should not rewrite fields
 
-
-
-
 spv.coe = coe
-
-const letter_regexp = /[^\u00C0-\u1FFF\u2C00-\uD7FF\w]/gi
-//http://stackoverflow.com/questions/150033/regular-expression-to-match-non-english-characters#comment22322603_150078
-
-
-const hardTrim = function(string) {
-  return string.replace(letter_regexp, '').toLowerCase()
-}
-spv.hardTrim = hardTrim
-
-
-
-
-spv.insertItem = function(array, item, index) {
-  const array_length = array.length
-  let next_value = item
-  let value_to_recover
-
-  for (let jj = index; jj < array_length + 1; jj++) {
-    value_to_recover = array[jj]
-    array[jj] = next_value
-    next_value = value_to_recover
-  }
-  return array
-}
 
 const removeItem = function(array, index) {
   //var array_length = array.length;
@@ -935,45 +907,14 @@ spv.findAndRemoveItem = function(array, item) {
   }
 }
 
-let startsWith
-if (String.prototype.startsWith) {
-  startsWith = function(str, substr, pos) {
-    return str.startsWith(substr, pos)
-  }
-} else {
-  //http://jsperf.com/starts-with/14, without problems for GC
-  startsWith = function(str, substr, pos) {
-    const len = substr.length
-    const shift = pos || 0
-
-    for (let i = 0; i < len; i++) {
-      if (str.charAt(i + shift) != substr.charAt(i)) {
-        return false
-      }
-    }
-    return true
-  }
+const startsWith = function(str, substr, pos) {
+  return str.startsWith(substr, pos)
 }
 
 spv.startsWith = startsWith
 
-let endsWith
-if (String.prototype.endsWith) {
-  endsWith = function(str, substr, pos) {
-    return str.endsWith(substr, pos)
-  }
-} else {
-  endsWith = function(str, substr, pos) {
-    const len = substr.length
-    const big_length_diff = (pos || str.length) - len
-
-    for (let i = len; i > 0; i--) {
-      if (str.charAt(big_length_diff + i - 1) !== substr.charAt(i - 1)) {
-        return false
-      }
-    }
-    return true
-  }
+const endsWith = function(str, substr, pos) {
+  return str.endsWith(substr, pos)
 }
 
 spv.endsWith = endsWith
