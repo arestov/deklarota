@@ -1,5 +1,6 @@
 
 import spv from '../../../../../spv'
+import morphMap from '../../../../../spv/morphMap'
 import emptyArray from '../../../../emptyArray'
 import parseAddr from '../../../../utils/multiPath/parse'
 import { readingDeps } from '../../../../utils/multiPath/readingDeps/readingDeps'
@@ -25,7 +26,7 @@ const wrapByInput = (dcl, fn) => {
 
 
 const getHandler = function(schema) {
-  const parse = typeof schema === 'object' && spv.mmap(schema)
+  const parse = typeof schema === 'object' && morphMap(schema)
   const is_one_field = typeof schema === 'string'
 
   if (is_one_field) {

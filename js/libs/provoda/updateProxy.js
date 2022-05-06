@@ -1,7 +1,7 @@
 
 
 import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
-import produceEffects from './StatesEmitter/produceEffects'
+import produceEffects from './AttrsOwner/produceEffects'
 import _passHandleState from './dcl/passes/handleState/handle'
 import attrToRel from './dcl/nests/attrToRel'
 import deliverAttrQueryUpdates from './Model/mentions/deliverAttrQueryUpdates'

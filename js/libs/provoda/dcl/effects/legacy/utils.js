@@ -1,6 +1,7 @@
 
 
 import spv from '../../../../spv'
+import morphMap from '../../../../spv/morphMap'
 const splitByDot = spv.splitByDot
 
 const apiDeclr = spv.memorize(function(name) {
@@ -63,7 +64,6 @@ function stateName(name) {
   return '$__can_load_' + name
 }
 
-
 function toSchemaFn(mmap) {
   if (!mmap) {
     return null
@@ -76,7 +76,7 @@ function toSchemaFn(mmap) {
     return mmap
   }
 
-  return spv.mmap(mmap)
+  return morphMap(mmap)
 }
 
 

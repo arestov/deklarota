@@ -159,3 +159,5 @@
 - remove switchPmd
 
 - deprecate preload_on for rel.nest
+
+- deprecate events for glue_rels (consider to remove glue_rels, also check light_rel_change)

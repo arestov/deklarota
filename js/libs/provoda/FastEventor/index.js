@@ -1,13 +1,11 @@
 
 
 import spv from '../../spv'
-import requesting from './requesting'
 const removeItem = spv.removeItem
 
-const EventSubscribingOpts = function(ev_name, cb, once, context, immediately, wrapper) {
+const EventSubscribingOpts = function(ev_name, cb, context, immediately, wrapper) {
   this.ev_name = ev_name
   this.cb = cb
-  this.once = once
   this.context = context
   this.immediately = immediately
   this.wrapper = wrapper || null
@@ -97,10 +95,6 @@ const withoutEvItem = withoutCriteria((cur, ev_name, cb, context) => {
   return cur.ev_name == ev_name
 })
 
-const withoutOnce = withoutCriteria((cur) => {
-  return Boolean(cur.cb)
-})
-
 const FastEventor = function(context) {
   this.sputnik = context
   this.subscribes = null
@@ -109,9 +103,6 @@ const FastEventor = function(context) {
   if (context.reg_fires) {
     this.reg_fires = context.reg_fires
   }
-  this._requestsSortFunc = null
-  this.mapped_reqs = null
-  this.nesting_requests = null
   Object.seal(this)
 }
 FastEventor.prototype = spv.coe(function(add) {
@@ -159,7 +150,7 @@ FastEventor.prototype = spv.coe(function(add) {
       return funcs
     },
 
-    _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg, once, easy_bind_control) {
+    _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg) {
     //common opts allowed
 
       const ev_name = ev_name_raw
@@ -184,41 +175,15 @@ FastEventor.prototype = spv.coe(function(add) {
       const subscr_opts =
       matched_reg_fire
         ? matched_reg_fire.createEventOpts(ev_name, cb, context)
-        : new EventSubscribingOpts(ev_name, cb, once, context, immediately, callbacks_wrapper)
+        : new EventSubscribingOpts(ev_name, cb, context, immediately, callbacks_wrapper)
 
-      if (!(once && fired)) {
+      if (!fired) {
         this._pushCallbackToStack(ev_name, subscr_opts)
       }
-      if (easy_bind_control) {
-        return subscr_opts
-      } else {
-        return this.sputnik
-      }
+
+      return this.sputnik
     },
-    once: function(ev_name, cb, opts, context) {
-      return this._addEventHandler(
-        ev_name,
-        cb,
-        opts && opts.context || context,
-        opts && opts.immediately,
-        opts && opts.exlusive,
-        opts && opts.skip_reg,
-        opts && opts.soft_reg,
-        true,
-        opts && opts.easy_bind_control)
-    },
-    on: function(ev_name, cb, opts, context) {
-      return this._addEventHandler(
-        ev_name,
-        cb,
-        opts && opts.context || context,
-        opts && opts.immediately,
-        opts && opts.exlusive,
-        opts && opts.skip_reg,
-        opts && opts.soft_reg,
-        false,
-        opts && opts.easy_bind_control)
-    },
+
     off: function(event_name, cb, obj, context) {
       const ev_name = event_name
 
@@ -320,44 +285,18 @@ FastEventor.prototype = spv.coe(function(add) {
       return calls_flow.pushToFlow(cb, callback_context, args, arg, wrapper, wrapper_context, this.sputnik._currentMotivator())
 
     },
-    cleanOnceEvents: function(event_name) {
-    // this.off(ev_name, false, cur);
 
-      const ev_name = event_name
-
-      const items = this.subscribes && this.subscribes[ev_name]
-      if (items) {
-        const original_length = items.length
-        const clean = withoutOnce(items, null, null, null)
-
-        if (clean.length != original_length) {
-          this.subscribes[ev_name] = clean
-          resetSubscribesCache(this, ev_name)
-        }
-      }
-
-    },
-    triggerCallbacks: function(cb_cs, args, opts, ev_name, arg) {
-      let need_cleanup = false
+    triggerCallbacks: function(cb_cs, args, opts, arg) {
       for (let i = 0; i < cb_cs.length; i++) {
         const cur = cb_cs[i]
         if (!cur.cb) {
           continue
         }
         this.callEventCallback(cur, args, opts, arg)
-
-        if (cur.once) {
-          need_cleanup = true
-          cur.cb = null
-        }
       }
 
-      if (need_cleanup) {
-        this.cleanOnceEvents(ev_name)
-      }
     },
     trigger: function(ev_name) {
-      let need_cleanup = false
       const cb_cs = this.getMatchedCallbacks(ev_name)
       if (cb_cs) {
         let i = 0
@@ -372,20 +311,11 @@ FastEventor.prototype = spv.coe(function(add) {
             continue
           }
           this.callEventCallback(cur, args, (args && args[ args.length - 1 ]))
-          if (cur.once) {
-            need_cleanup = true
-            cur.cb = null
-          }
         }
-      }
-      if (need_cleanup) {
-        this.cleanOnceEvents(ev_name)
       }
       return this
     }
   })
-
-  add(requesting)
 
 })
 

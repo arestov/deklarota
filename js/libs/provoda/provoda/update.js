@@ -1,3 +1,3 @@
 
-import gentlyUpdateAttr from '../StatesEmitter/gentlyUpdateAttr'
+import gentlyUpdateAttr from '../AttrsOwner/gentlyUpdateAttr'
 export default gentlyUpdateAttr

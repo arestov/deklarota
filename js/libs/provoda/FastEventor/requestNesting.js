@@ -115,6 +115,10 @@ function initRequest(self, nesting_name, paging_opts, has_error, network_api_opt
   return startFetching(self, nesting_name, paging_opts, has_error, network_api_opts)
 }
 
+export const initRelsRequesting = (self) => {
+  self.nesting_requests = null
+}
+
 export default function(dclt, nesting_name, limit) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
@@ -128,7 +132,7 @@ export default function(dclt, nesting_name, limit) {
   }
 
   const send_declr = dclt.send_declr
-  const api = getNetApiByDeclr(send_declr, this.sputnik)
+  const api = getNetApiByDeclr(send_declr, this)
   if (!api) {
     console.warn(new Error('api not ready yet'), send_declr)
     return
@@ -161,24 +165,24 @@ export default function(dclt, nesting_name, limit) {
     return store && store.req == req
   }
 
-  const is_main_list = nesting_name == this.sputnik.main_list_name
+  const is_main_list = nesting_name == this.main_list_name
 
-  this.sputnik.inputFromInterface(api, function() {
+  this.inputFromInterface(api, function() {
     const states = {}
     statesStart(states, nesting_name, is_main_list)
-    _this.sputnik.updateManyStates(states)
+    _this.updateManyStates(states)
   })
 
   const parse_items = dclt.parse_items
   const side_data_parsers = dclt.side_data_parsers
 
   const limit_value = limit && (limit[1] - limit[0])
-  const paging_opts = this.sputnik.getPagingInfo(nesting_name, limit_value)
+  const paging_opts = this.getPagingInfo(nesting_name, limit_value)
 
   const network_api_opts = {
     nocache: store.error
   }
-  const request = initRequest(_this.sputnik, nesting_name, paging_opts, store.error, network_api_opts)
+  const request = initRequest(_this, nesting_name, paging_opts, store.error, network_api_opts)
 
 
   store.process = true
@@ -187,7 +191,7 @@ export default function(dclt, nesting_name, limit) {
   function markAttemptComplete() {
     const states = {}
     statesComplete(states, nesting_name)
-    _this.sputnik.nextTick(FlowStepUpdateManyAttrs, [states], true)
+    _this.nextTick(FlowStepUpdateManyAttrs, [states], true)
   }
 
   function anyway() {
@@ -198,14 +202,14 @@ export default function(dclt, nesting_name, limit) {
 
     const states = {}
     statesAnyway(states, nesting_name, is_main_list)
-    _this.sputnik.nextTick(FlowStepUpdateManyAttrs, [states], true)
+    _this.nextTick(FlowStepUpdateManyAttrs, [states], true)
   }
 
   function handleError() {
     store.error = true
     const states = {}
     statesError(states, nesting_name)
-    _this.sputnik.nextTick(FlowStepUpdateManyAttrs, [states], true)
+    _this.nextTick(FlowStepUpdateManyAttrs, [states], true)
 
     anyway()
     markAttemptComplete()
@@ -228,11 +232,11 @@ export default function(dclt, nesting_name, limit) {
       if (!isValidRequest(request)) {
         return
       }
-      _this.sputnik.updateManyStates(statesQueue({}, nesting_name, value))
+      _this.updateManyStates(statesQueue({}, nesting_name, value))
     }
 
     const startWaiting = changeWaitingState(true)
-    this.sputnik.inputFromInterface(api, startWaiting)
+    this.inputFromInterface(api, startWaiting)
 
     const stopWaiting = changeWaitingState(false)
     request.queued_promise.then(stopWaiting, stopWaiting)
@@ -247,11 +251,11 @@ export default function(dclt, nesting_name, limit) {
       }
 
       if (has_error) {
-        _this.sputnik.inputFromInterface(api, handleError)
+        _this.inputFromInterface(api, handleError)
         return
       }
 
-      _this.sputnik.inputFromInterface(api, function() {
+      _this.inputFromInterface(api, function() {
         store.error = false
         store.has_all_items = true
         handleNestResponse(response, source_name, function() {
@@ -266,14 +270,14 @@ export default function(dclt, nesting_name, limit) {
         return
       }
 
-      _this.sputnik.inputFromInterface(api, handleError)
+      _this.inputFromInterface(api, handleError)
 
 
     })
 
   function handleNestResponse(r, source_name, markListIncomplete) {
     // should be in data bus queue - use `.input` wrap
-    const sputnik = _this.sputnik
+    const sputnik = _this
 
     const morph_helpers = sputnik.app.morph_helpers
     let items = parse_items.call(sputnik, r, clean_obj, morph_helpers)
@@ -319,7 +323,7 @@ export default function(dclt, nesting_name, limit) {
     //сделать выводы о завершенности всех данных
   }
 
-  addRequestToRequestsManager(this.sputnik, request, 'input', dclt, api)
+  addRequestToRequestsManager(this, request, 'input', dclt, api)
 
   return request
 

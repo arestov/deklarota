@@ -2,7 +2,7 @@
 import CallbacksFlow from '../../../CallbacksFlow'
 import SyncSender from '../../../sync_sender'
 import { Proxies } from '../../../views_proxies'
-import initEffects from '../../../StatesEmitter/initEffects'
+import initEffects from '../../../AttrsOwner/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep from '../../../Model/callFlowStep'

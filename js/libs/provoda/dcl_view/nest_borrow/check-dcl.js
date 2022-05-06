@@ -1,5 +1,5 @@
 
-import checkPrefix from '../../StatesEmitter/checkPrefix'
+import checkPrefix from '../../AttrsOwner/checkPrefix'
 import spv from '../../../spv'
 const nil = spv.nil
 

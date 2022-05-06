@@ -6,7 +6,7 @@ import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
 import updateProxy from './updateProxy'
-import StatesEmitter from './StatesEmitter'
+import AttrsOwner from './AttrsOwner/AttrsOwner'
 import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
 import initApis from './dcl/effects/legacy/api/init'
@@ -24,9 +24,11 @@ import makeAttrsCollector from './View/makeAttrsCollector'
 import getRelPath from './View/getRelPath'
 import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs/comp/runtime/connectViewExternalDeps'
 import wlch from './View/wlch'
-import attr_events from './StatesEmitter/attr_events'
+import attr_events from './AttrsOwner/attr_events'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.types'
+import requestState, { initAttrsRequesting, resetRequestedState } from './FastEventor/requestState'
+import { events_part, initEvents } from './View/events_part'
 
 const CH_GR_LE = 2
 
@@ -86,6 +88,7 @@ export const __tickDetRequest = function() {
 }
 
 const initView = function(target, view_otps, opts) {
+  initEvents(target)
 
   target.used_data_structure = view_otps.used_data_structure || target.used_data_structure
 
@@ -171,6 +174,7 @@ const initView = function(target, view_otps, opts) {
     target.__connectAdapter.call(null, target)
   }
 
+  initAttrsRequesting(target)
   initApis(target, opts && opts.interfaces)
   if (target.isRootView) {
     const parent_opts = target.parent_view && target.parent_view.opts
@@ -248,7 +252,7 @@ const getContextRouter = (self) => {
   return context_router
 }
 
-const View = spv.inh(StatesEmitter, {
+const View = spv.inh(AttrsOwner, {
   naming: function(fn) {
     return function View(view_otps, opts) {
       fn(this, view_otps, opts)
@@ -257,9 +261,8 @@ const View = spv.inh(StatesEmitter, {
   init: initView,
   onExtend: onPropsExtend
 }, {
+  ...events_part,
   __isView: true,
-  ...wlch,
-  ...attr_events,
   ___attrsToSync: function() {
     if (this._lbr.undetailed_states) {
       return this._lbr.undetailed_states
@@ -267,6 +270,8 @@ const View = spv.inh(StatesEmitter, {
 
     return this.states
   },
+  requestState,
+  resetRequestedState,
   requestPageById: function(_provoda_id) {
     this.root_view.parent_view.RPCLegacy('requestPage', _provoda_id)
   },
@@ -375,7 +380,7 @@ const View = spv.inh(StatesEmitter, {
   updateSpyglass: changeSpyglassUniversalM('updateSpyglass'),
   toggleSpyglass: changeSpyglassUniversalM('toggleSpyglass'),
   getSpyglassData: getSpyglassData,
-  onExtend: spv.precall(StatesEmitter.prototype.onExtend, function(md, props, original, params) {
+  onExtend: spv.precall(AttrsOwner.prototype.onExtend, function(md, props, original, params) {
     return onPropsExtend(md, props, original, params)
   }),
   getStrucRoot: function() {

@@ -1,18 +1,17 @@
-import spv from '../spv'
-import updateProxy from './updateProxy'
-import Eventor from './Eventor'
-import useInterface, { __reportInterfaceChange, __updateInteraceState } from './StatesEmitter/useInterface'
-import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
-import regfr_lightstev from './internal_events/light_attr_change/regfire'
-import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
-import _updateAttr from './_internal/_updateAttr'
-import onPropsExtend from './onExtendSE'
-import act from './dcl/passes/act'
-import pvState from './utils/state'
-import initEffectsSubscribe from './dcl/effects/legacy/subscribe/init'
-import { FlowStepAction } from './Model/flowStepHandlers.types'
-import { WFlowStepUseInterfaceAsSource } from './flowStepsWrappers.type'
-
+import spv from '../../spv'
+import updateProxy from '../updateProxy'
+import useInterface, { __reportInterfaceChange, __updateInteraceState } from './useInterface'
+import gentlyUpdateAttr from './gentlyUpdateAttr'
+import regfr_lightstev from '../internal_events/light_attr_change/regfire'
+import getNameByAttr from '../internal_events/light_attr_change/getNameByAttr'
+import onPropsExtend from '../onExtendSE'
+import act from '../dcl/passes/act'
+import pvState from '../utils/state'
+import initEffectsSubscribe from '../dcl/effects/legacy/subscribe/init'
+import { FlowStepAction } from '../Model/flowStepHandlers.types'
+import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
+import calls_flows_holder_basic from './calls_flows_holder_basic'
+import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 
 export const __updateManyAttrs = function(obj) {
   const changes_list = []
@@ -38,6 +37,7 @@ export const __updateManyAttrs = function(obj) {
 }
 // Eventor.extendTo(StatesEmitter,
 function props(add) {
+  add(calls_flows_holder_basic)
 
   add({
     getInterface: function(interface_name) {
@@ -107,33 +107,6 @@ function props(add) {
     updateManyAttrs: __updateManyAttrs,
     updateState: updateAttr,
     updateAttr: updateAttr,
-    setStateDependence: function(state_name, source_id, value) {
-      if (typeof source_id == 'object') {
-        source_id = source_id._provoda_id
-      }
-      const old_value = this.state(state_name) || {index: {}, count: 0}
-      old_value.index[source_id] = value ? true : false
-
-      let count = 0
-
-      for (const prop in old_value.index) {
-        if (!old_value.index.hasOwnProperty(prop)) {
-          continue
-        }
-        if (old_value.index[prop]) {
-          count++
-        }
-      }
-
-
-
-      _updateAttr(this, state_name, {
-        index: old_value.index,
-        count: count
-      })
-
-
-    },
     hasComplexStateFn: function(state_name) {
       return this.compx_check[state_name]
     },
@@ -159,9 +132,9 @@ function props(add) {
   })
 }
 
-const StatesEmitter = spv.inh(Eventor, {
+const AttrsOwner = spv.inh(function() {}, {
   naming: function(construct) {
-    return function StatesEmitter() {
+    return function AttrsOwner() {
       construct(this)
     }
   },
@@ -170,10 +143,11 @@ const StatesEmitter = spv.inh(Eventor, {
     self.conx_opts = null
 
     initEffectsSubscribe(self)
+    onInstanceInitDie(self)
 
   },
   onExtend: onPropsExtend,
   props: props,
 })
 
-export default StatesEmitter
+export default AttrsOwner

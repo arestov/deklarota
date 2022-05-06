@@ -19,24 +19,6 @@ function getBwlevId(view) {
 }
 
 export default {
-  getRDep: (function() {
-    const getTargetName = memorize(function getTargetName(state_name) {
-      return state_name.split(':')[ 1 ]
-    })
-
-    return function(state_name) {
-      const target_name = getTargetName(state_name)
-      return function(target, state, oldstate) {
-        if (oldstate) {
-          oldstate.setStateDependence(target_name, target, false)
-        }
-        if (state) {
-          state.setStateDependence(target_name, target, true)
-        }
-      }
-    }
-
-  })(),
   state: pvState,
   wipeObj: utils_simple.wipeObj,
   getRightNestingName: function(_md, nesting_name) {

@@ -1,6 +1,7 @@
 
 
 import spv from '../../../../../spv'
+import morphMap from '../../../../../spv/morphMap'
 import utils from '../utils'
 
 const SendDeclaration = utils.SendDeclaration
@@ -64,7 +65,7 @@ export default function NestReqMap(name, dclt) {
     for (let i = 0; i < array.length; i++) {
       const spec_cur = array[i]
       if (typeof spec_cur[1] != 'function') {
-        spec_cur[1] = spv.mmap(spec_cur[1])
+        spec_cur[1] = morphMap(spec_cur[1])
       }
     }
   }

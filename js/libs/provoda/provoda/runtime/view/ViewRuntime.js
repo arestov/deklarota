@@ -1,7 +1,7 @@
 
 import cloneObj from '../../../../spv/cloneObj'
 import CallbacksFlow from '../../../CallbacksFlow'
-import initEffects from '../../../StatesEmitter/initEffects'
+import initEffects from '../../../AttrsOwner/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep from '../../../View/callFlowStep'
