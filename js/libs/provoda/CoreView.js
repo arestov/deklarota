@@ -28,6 +28,7 @@ import attr_events from './AttrsOwner/attr_events'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.types'
 import requestState, { initAttrsRequesting, resetRequestedState } from './FastEventor/requestState'
+import { events_part, initEvents } from './View/events_part'
 
 const CH_GR_LE = 2
 
@@ -87,6 +88,7 @@ export const __tickDetRequest = function() {
 }
 
 const initView = function(target, view_otps, opts) {
+  initEvents(target)
 
   target.used_data_structure = view_otps.used_data_structure || target.used_data_structure
 
@@ -259,9 +261,8 @@ const View = spv.inh(AttrsOwner, {
   init: initView,
   onExtend: onPropsExtend
 }, {
+  ...events_part,
   __isView: true,
-  ...wlch,
-  ...attr_events,
   ___attrsToSync: function() {
     if (this._lbr.undetailed_states) {
       return this._lbr.undetailed_states

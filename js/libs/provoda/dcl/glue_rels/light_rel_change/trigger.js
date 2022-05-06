@@ -1,6 +1,12 @@
 import getNameByValue from './getNameByValue'
 
 function triggerLightRelChange(self, rel_key, value) {
+  // Only Views can have evcompanion
+  // consider to remove glue rels since code does not work
+  if (self.evcompanion == null) {
+    return
+  }
+
   const light_name = getNameByValue(rel_key)
 
   const light_cb_cs = self.evcompanion.getMatchedCallbacks(light_name)

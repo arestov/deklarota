@@ -1,6 +1,5 @@
 import spv from '../../spv'
 import updateProxy from '../updateProxy'
-import Eventor from '../Eventor'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './useInterface'
 import gentlyUpdateAttr from './gentlyUpdateAttr'
 import regfr_lightstev from '../internal_events/light_attr_change/regfire'
@@ -133,7 +132,7 @@ function props(add) {
   })
 }
 
-const AttrsOwner = spv.inh(Eventor, {
+const AttrsOwner = spv.inh(function() {}, {
   naming: function(construct) {
     return function AttrsOwner() {
       construct(this)

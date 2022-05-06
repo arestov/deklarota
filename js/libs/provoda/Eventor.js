@@ -18,9 +18,6 @@ const Eventor = spv.inh(function() {}, {
     // 	return this;
     // },
 
-    off: function(namespace, cb, obj, context) {
-      return this.evcompanion.off(namespace, cb, obj, context)
-    },
   }
 })
 
