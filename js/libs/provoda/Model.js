@@ -19,7 +19,6 @@ import ensurePublicAttrs from './Model/ensurePublicAttrs'
 import addrFromObj from './provoda/dcl/addr.js'
 import prefillCompAttr from './dcl/attrs/comp/prefill'
 import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
-import { disposeGlueSources } from './dcl/glue_rels/runtime/run'
 import disposeEffects from './dcl/effects/dispose'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
@@ -322,7 +321,6 @@ function modelProps(add) {
         return
       }
 
-      disposeGlueSources(this)
       disposeEffects(this)
       disposeMentions(this)
 

@@ -1,5 +1,4 @@
 
-import runGlueRelSources from '../dcl/glue_rels/runtime/run'
 import initApis from '../dcl/effects/legacy/api/init'
 import initRoutes from '../dcl/routes/init'
 import __handleInit from '../dcl/passes/handleInit/handle'
@@ -54,8 +53,6 @@ function connectNests(self) {
   if (self.nestings_declarations) {
     self.nextTick(FlowStepInitNestRels, null, true)
   }
-
-  runGlueRelSources(self)
 }
 
 export function markInitied(md) {
