@@ -24,17 +24,4 @@ const Eventor = spv.inh(function() {}, {
   }
 })
 
-
-const PublicEventor = spv.inh(Eventor, {
-  init: function(self, opts) {
-    if (!opts || !opts._highway) {
-      throw new Error('pass _highway option')
-    }
-    self._highway = opts._highway
-    self._calls_flow = self._highway.calls_flow
-  }
-})
-
-Eventor.PublicEventor = PublicEventor
-
 export default Eventor
