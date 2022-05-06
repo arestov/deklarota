@@ -9,7 +9,7 @@ function triggerLightRelChange(self, rel_key, value) {
     return
   }
 
-  self.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value)
+  self.evcompanion.triggerCallbacks(light_cb_cs, false, false, value)
 }
 
 

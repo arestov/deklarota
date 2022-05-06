@@ -13,7 +13,7 @@ function triggerLightAttrChange(self, attr_name, value) {
     return
   }
 
-  self.evcompanion.triggerCallbacks(light_cb_cs, false, false, light_name, value)
+  self.evcompanion.triggerCallbacks(light_cb_cs, false, false, value)
 }
 
 
