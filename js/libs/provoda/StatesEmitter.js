@@ -5,7 +5,6 @@ import useInterface, { __reportInterfaceChange, __updateInteraceState } from './
 import gentlyUpdateAttr from './StatesEmitter/gentlyUpdateAttr'
 import regfr_lightstev from './internal_events/light_attr_change/regfire'
 import getNameByAttr from './internal_events/light_attr_change/getNameByAttr'
-import _updateAttr from './_internal/_updateAttr'
 import onPropsExtend from './onExtendSE'
 import act from './dcl/passes/act'
 import pvState from './utils/state'
@@ -107,33 +106,6 @@ function props(add) {
     updateManyAttrs: __updateManyAttrs,
     updateState: updateAttr,
     updateAttr: updateAttr,
-    setStateDependence: function(state_name, source_id, value) {
-      if (typeof source_id == 'object') {
-        source_id = source_id._provoda_id
-      }
-      const old_value = this.state(state_name) || {index: {}, count: 0}
-      old_value.index[source_id] = value ? true : false
-
-      let count = 0
-
-      for (const prop in old_value.index) {
-        if (!old_value.index.hasOwnProperty(prop)) {
-          continue
-        }
-        if (old_value.index[prop]) {
-          count++
-        }
-      }
-
-
-
-      _updateAttr(this, state_name, {
-        index: old_value.index,
-        count: count
-      })
-
-
-    },
     hasComplexStateFn: function(state_name) {
       return this.compx_check[state_name]
     },
