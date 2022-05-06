@@ -12,6 +12,36 @@ const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
 const onPromiseFail = req_utils.onPromiseFail
 
+const getReqState = (self, key) => {
+  return self.__runtime_attr_requests_state?.[key]
+}
+
+const setReqState = (self, key, prop, value) => {
+
+  if (!self.__runtime_attr_requests_state) {
+    self.__runtime_attr_requests_state = {}
+  }
+
+
+  if (!self.__runtime_attr_requests_state[key]) {
+    // it's ok to mutate store by ref
+    const store = {
+      done: false,
+      error: false,
+      process: false
+    }
+
+    self.__runtime_attr_requests_state[key] = store
+  }
+
+  self.__runtime_attr_requests_state[key][prop] = value
+  return self.__runtime_attr_requests_state[key]
+}
+
+const deleteReqState = (self, key) => {
+  self.__runtime_attr_requests_state[key] = null
+}
+
 
 const withoutSelf = function(array, name) {
   for (let i = 0; i < array.length; i++) {
@@ -57,7 +87,7 @@ function bindRequest(api, request, selected_map, store, self) {
   })
 
   function wasReset() {
-    const current_store = self.mapped_reqs && self.mapped_reqs[selected_map.num]
+    const current_store = getReqState(self, selected_map.num)
     return current_store != store
   }
 
@@ -230,12 +260,13 @@ export function resetRequestedState(state_name) {
   }
   const selected_map = maps_for_state[0] //take first
   const selected_map_num = selected_map.num
-  const store = this.mapped_reqs && this.mapped_reqs[selected_map_num]
+  const store = getReqState(selected_map_num)
   if (!store) {
     return
   }
 
-  this.mapped_reqs[selected_map_num] = null
+  deleteReqState(this, selected_map_num)
+
   const self = this
   this.input(function() {
     const states = {}
@@ -265,20 +296,17 @@ const requestState = function(state_name) {
     return used_compex
   }
 
-  let i
-  let cur
+
   const maps_for_state = this._states_reqs_index && this._states_reqs_index[state_name]
   if (!maps_for_state) {
     console.warn('cant request state:', state_name, 'but tried. should not try without dcl')
   }
   let cant_request
-  if (this.mapped_reqs) {
-    for (i = 0; i < maps_for_state.length; i++) {
-      cur = this.mapped_reqs[maps_for_state[i].num]
-      if (cur && (cur.done || cur.process)) {
-        cant_request = true
-        break
-      }
+  for (let i = 0; i < maps_for_state.length; i++) {
+    const cur = getReqState(this, maps_for_state[i].num)
+    if (cur && (cur.done || cur.process)) {
+      cant_request = true
+      break
     }
   }
 
@@ -295,27 +323,13 @@ const requestState = function(state_name) {
   }
 
   const selected_map_num = selected_map.num
-  if (!this.mapped_reqs) {
-    this.mapped_reqs = {}
-  }
 
-
-  if (!this.mapped_reqs[selected_map_num]) {
-    this.mapped_reqs[selected_map_num] = {
-      done: false,
-      error: false,
-      process: false
-    }
-  }
-
-  const store = this.mapped_reqs[selected_map_num]
-
-  store.process = true
+  const store = setReqState(this, selected_map_num, 'process', true)
 
   const self = this
 
   this.inputFromInterface(api, function() {
-    if (self.mapped_reqs[selected_map.num] != store) {
+    if (getReqState(self, selected_map.num) != store) {
       return
     }
     const states = {}
@@ -339,7 +353,7 @@ const requestState = function(state_name) {
 }
 
 export const initAttrsRequesting = (self) => {
-  self.mapped_reqs = null
+  self.__runtime_attr_requests_state = null
 }
 
 
