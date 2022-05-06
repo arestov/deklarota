@@ -18,7 +18,6 @@ import toSimpleStructure from './Model/toSimpleStructure'
 import ensurePublicAttrs from './Model/ensurePublicAttrs'
 import addrFromObj from './provoda/dcl/addr.js'
 import prefillCompAttr from './dcl/attrs/comp/prefill'
-import regfr_light_rel_ev from './dcl/glue_rels/light_rel_change/regfire'
 import disposeEffects from './dcl/effects/dispose'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
@@ -146,8 +145,6 @@ function modelProps(add) {
   })
 
   add({
-    'regfr-light_rel_ev': regfr_light_rel_ev,
-
     getNonComplexStatesList: function(state_name) {
     // get source states
       const short_name = state_name

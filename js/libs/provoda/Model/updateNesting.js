@@ -5,7 +5,6 @@ import validateRuntimeValue from '../dcl/nests/validateRuntimeValue'
 
 import handleMentions from './mentions/handleRelChange'
 import isGlueRel from './mentions/isGlueRel'
-import triggerLightRelChange from '../dcl/glue_rels/light_rel_change/trigger'
 import updateMetaAttrs from './rel/updateMetaAttrs'
 import emptyArray from '../emptyArray'
 import sameName from '../sameName'
@@ -67,7 +66,6 @@ export default function updateNesting(self, collection_name_raw, input) {
 
   if (isGlueRel(self, collection_name)) {
     handleMentions(self, collection_name, old_value, array)
-    triggerLightRelChange(self, collection_name, array)
     return
   }
 
@@ -87,8 +85,6 @@ export default function updateNesting(self, collection_name_raw, input) {
   _passHandleNesting(self, collection_name, old_value, array)
 
   handleMentions(self, collection_name, old_value, array)
-
-  triggerLightRelChange(self, collection_name, array)
 
   // !?
 
