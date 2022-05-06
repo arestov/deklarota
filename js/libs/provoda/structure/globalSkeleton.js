@@ -3,7 +3,6 @@
 import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import supportedRelTargetAddr from '../Model/mentions/supportedRelTargetAddr'
 import getAllPossibleRelMentionsCandidates from '../dcl/nest_compx/mentionsCandidates'
-import {} from '../dcl/attrs/comp/mentionsCandidates'
 import MentionChain from '../Model/mentions/MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
