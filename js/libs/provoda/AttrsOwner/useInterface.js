@@ -49,8 +49,8 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
   }
 
 
-  binders = runOnApiRemoved(self, binders, interface_name)
   self.__interfaces_to_subscribers = binders
+  runOnApiRemoved(self, interface_name)
 
   if (old_interface && destroy) {
     destroy(old_interface)
@@ -66,8 +66,8 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
   }
 
   self._interfaces_used[interface_name] = obj
-  binders = runOnApiAdded(self, binders, interface_name)
   self.__interfaces_to_subscribers = binders
+  runOnApiAdded(self, interface_name)
 
   self.__reportInterfaceChange(interface_name, Date.now())
 
