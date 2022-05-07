@@ -107,17 +107,28 @@ const getHandler = function(self, dcl) {
 }
 
 
-const makeBindChanges = function(self, index, binders, original_values) {
-  // _build_cache_interfaces
-  for (const key in binders.values) {
-    const change = Boolean(original_values[key]) != Boolean(binders.values[key])
+const makeBindChanges = function(self, prev_values, next_values) {
+  if (prev_values == null && next_values == null) {
+    return
+  }
+
+  const index = self.__fxs_subscribe_by_name
+  // __fxs_subscribe_by_name
+  for (const key in next_values) {
+    const change = Boolean(prev_values[key]) != Boolean(next_values[key])
     if (!change) {
       continue
     }
 
+    if (!self.__interfaces_to_subscribers_removers) {
+      self.__interfaces_to_subscribers_removers = {}
+    }
+
+    const removers = self.__interfaces_to_subscribers_removers
+
     const cur = index[key]
 
-    if (binders.values[key]) {
+    if (next_values[key]) {
       const apis = cur.apis
       const bind_args = new Array(apis.length + 1)
 
@@ -130,15 +141,13 @@ const makeBindChanges = function(self, index, binders, original_values) {
         console.error(self.__code_path)
         throw new Error('effect should provide fn to cancel subscription ' + key)
       }
-      binders.removers[key] = cancel
+      removers[key] = cancel
 
     } else {
-      binders.removers[key].call()
-      binders.removers[key] = null
+      removers[key].call()
+      removers[key] = null
     }
   }
-
-  return binders
 }
 
 export default makeBindChanges

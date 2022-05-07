@@ -1,26 +1,12 @@
 
 
-import spv from '../../spv'
 import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
-import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
-import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 import checkInitedApi from '../dcl/effects/legacy/produce/checkInitedApi'
 import usedInterfaceAttrName from '../dcl/effects/usedInterfaceAttrName'
 import { FlowStepUseInterface } from '../Model/flowStepHandlers.types'
+import markApi from '../dcl/effects/legacy/subscribe/run/markApi'
+import makeBindChanges from '../dcl/effects/legacy/subscribe/run/makeBindChanges'
 
-const template = function() {
-  return {
-    indexes: {},
-
-    /*
-      value - true, когда есть все нужные api
-      при смене value для state происходит bind.
-      при value === false происходит unbind
-    */
-    values: {},
-    removers: {}
-  }
-}
 
 export function __reportInterfaceChange(interface_name, value) {
   this.__updateInteraceState(this, interface_name, value)
@@ -36,45 +22,46 @@ export function __updateInteraceState(self, interface_name, value) {
   ])
 }
 
+const ensurePrevApiRemoved = (self, interface_name, destroy) => {
+  const old_interface = self.getInterface(interface_name)
+  if (old_interface == null) {
+    return
+  }
+
+  const prev_values = markApi(self, interface_name)
+  self._interfaces_used[interface_name] = null
+  const next_values = markApi(self, interface_name)
+
+  makeBindChanges(self, prev_values, next_values)
+
+  if (old_interface && destroy) {
+    destroy(old_interface)
+  }
+}
+
 export const useInterfaceHandler = function(self, interface_name, obj, destroy) {
   const old_interface = self._interfaces_used[interface_name]
   if (obj === old_interface || (obj == null && old_interface == null)) {
     return
   }
 
-  let binders = self._interfaces_binders
-  if (!binders) {
-    binders = self._interfaces_binders = template()
-  }
-
-  const values_original = spv.cloneObj({}, binders.values)
-
-  if (self._interfaces_used[interface_name] != null) {
-    self._interfaces_used[interface_name] = null
-  }
-
-
-  binders = runOnApiRemoved(self, binders, interface_name, values_original)
-  self._interfaces_binders = binders
-
-  if (old_interface && destroy) {
-    destroy(old_interface)
-  }
+  ensurePrevApiRemoved(self, interface_name, destroy)
 
   if (!obj) {
     self.__reportInterfaceChange(interface_name, false)
     return
   }
 
-  const values_original2 = spv.cloneObj({}, binders.values)
-
   if (Object.isFrozen(self._interfaces_used)) {
     self._interfaces_used = {}
   }
 
+
+  const prev_values = markApi(self, interface_name)
   self._interfaces_used[interface_name] = obj
-  binders = runOnApiAdded(self, binders, interface_name, values_original2)
-  self._interfaces_binders = binders
+  const next_values = markApi(self, interface_name)
+
+  makeBindChanges(self, prev_values, next_values)
 
   self.__reportInterfaceChange(interface_name, Date.now())
 
