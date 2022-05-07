@@ -26,12 +26,14 @@ const markApi = function(index, binders, interface_name, mark) {
     if (!binders.indexes[cur.key]) {
       binders.indexes[cur.key] = {}
     }
+    // mark current api for each dependant api
     binders.indexes[cur.key][interface_name] = mark
   }
 
   let result = binders
   for (let i = 0; i < list.length; i++) {
     const cur = list[i]
+    // calc final value for list of deps
     result = checkState(result, cur)
   }
   return result
