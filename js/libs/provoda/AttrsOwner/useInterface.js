@@ -45,14 +45,12 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
     binders = self.__interfaces_to_subscribers = template()
   }
 
-  const values_original = spv.cloneObj({}, binders.values)
-
   if (self._interfaces_used[interface_name] != null) {
     self._interfaces_used[interface_name] = null
   }
 
 
-  binders = runOnApiRemoved(self, binders, interface_name, values_original)
+  binders = runOnApiRemoved(self, binders, interface_name)
   self.__interfaces_to_subscribers = binders
 
   if (old_interface && destroy) {
