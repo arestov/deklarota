@@ -13,7 +13,7 @@ import { netsources_of_nestings, ___dcl_eff_consume_req_nest } from './legacy/ne
 import StateReqMap from './legacy/state_req/dcl'
 import { _states_reqs_index, netsources_of_states, ___dcl_eff_consume_req_st } from './legacy/state_req/rebuild'
 import StateBindDeclr from './legacy/subscribe/dcl'
-import { _build_cache_interfaces, _interfaces_to_states_index, __api_root_dep_apis_subscribe_eff } from './legacy/subscribe/rebuild'
+import { __fxs_subscribe_by_name, __fxs_subscribe_by_api, __api_root_dep_apis_subscribe_eff } from './legacy/subscribe/rebuild'
 import ProduceEffectDeclr, { getEffectsTriggeringAttrs } from './legacy/produce/dcl'
 import { __api_effects_out, __api_root_dep_apis } from './legacy/produce/rebuild'
 import { __apis_$_index, __apis_$_usual, __apis_$__needs_root_apis, __apis_$__needs_self,
@@ -274,8 +274,8 @@ const schema = {
 
   netsources_of_nestings,
 
-  _build_cache_interfaces,
-  _interfaces_to_states_index,
+  __fxs_subscribe_by_name,
+  __fxs_subscribe_by_api,
 
   __api_effects: [
     [fxByNameP('produce-'), '__dcls_extended_fxs'],

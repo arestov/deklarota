@@ -108,7 +108,7 @@ const getHandler = function(self, dcl) {
 
 
 const makeBindChanges = function(self, index, binders, original_values) {
-  // _build_cache_interfaces
+  // __fxs_subscribe_by_name
   for (const key in binders.values) {
     const change = Boolean(original_values[key]) != Boolean(binders.values[key])
     if (!change) {

@@ -17,7 +17,7 @@ const rootApis = function(list) {
   return Object.keys(index)
 }
 
-export const _build_cache_interfaces = [
+export const __fxs_subscribe_by_name = [
   [fxListP('consume-subscribe')],
   (list) => {
     const result = {}
@@ -29,7 +29,7 @@ export const _build_cache_interfaces = [
   }
 ]
 
-export const _interfaces_to_states_index = [
+export const __fxs_subscribe_by_api = [
   [fxListP('consume-subscribe')],
   (list) => {
     const index = {}

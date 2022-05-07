@@ -5,7 +5,7 @@ import makeBindChanges from './run/makeBindChanges'
 
 export default function(self, using_raw, interface_name, values_original) {
   let using = using_raw
-  using = self._interfaces_binders = markApi(self._interfaces_to_states_index, using, interface_name, false)
-  using = self._interfaces_binders = makeBindChanges(self, self._build_cache_interfaces, using, values_original)
+  using = self._interfaces_binders = markApi(self.__fxs_subscribe_by_api, using, interface_name, false)
+  using = self._interfaces_binders = makeBindChanges(self, self.__fxs_subscribe_by_name, using, values_original)
   return using
 }
