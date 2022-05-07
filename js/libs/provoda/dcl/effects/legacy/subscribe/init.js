@@ -1,7 +1,7 @@
 import { emptyObject } from '../../../../utils/sameObjectIfEmpty'
 
 function initEffectsSubscribe(self) {
-  self._interfaces_binders = null
+  self.__interfaces_to_subscribers = null
   self._interfaces_used = emptyObject
 }
 
