@@ -7,17 +7,6 @@ import checkInitedApi from '../dcl/effects/legacy/produce/checkInitedApi'
 import usedInterfaceAttrName from '../dcl/effects/usedInterfaceAttrName'
 import { FlowStepUseInterface } from '../Model/flowStepHandlers.types'
 
-const template = function() {
-  return {
-    /*
-      value - true, когда есть все нужные api
-      при смене value для state происходит bind.
-      при value === false происходит unbind
-    */
-    values: {},
-    removers: {}
-  }
-}
 
 export function __reportInterfaceChange(interface_name, value) {
   this.__updateInteraceState(this, interface_name, value)
@@ -71,10 +60,7 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
 
   self._interfaces_used[interface_name] = obj
 
-  let binders = self.__interfaces_to_subscribers
-  if (!binders) {
-    binders = self.__interfaces_to_subscribers = template()
-  }
+
 
   runOnApiAdded(self, interface_name)
 
