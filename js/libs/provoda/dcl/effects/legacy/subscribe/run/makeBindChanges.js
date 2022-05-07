@@ -107,12 +107,12 @@ const getHandler = function(self, dcl) {
 }
 
 
-const makeBindChanges = function(self, original_values) {
+const makeBindChanges = function(self, prev_values) {
   const index = self.__fxs_subscribe_by_name
   // __fxs_subscribe_by_name
-  const binders_values = self.__interfaces_to_subscribers_values
-  for (const key in binders_values) {
-    const change = Boolean(original_values[key]) != Boolean(binders_values[key])
+  const next_values = self.__interfaces_to_subscribers_values
+  for (const key in next_values) {
+    const change = Boolean(prev_values[key]) != Boolean(next_values[key])
     if (!change) {
       continue
     }
@@ -125,7 +125,7 @@ const makeBindChanges = function(self, original_values) {
 
     const cur = index[key]
 
-    if (binders_values[key]) {
+    if (next_values[key]) {
       const apis = cur.apis
       const bind_args = new Array(apis.length + 1)
 
