@@ -13,18 +13,22 @@ const gotAllApis = function(self, dcl) {
   return true
 }
 
-const markApi = function(self, index, mut_binders, interface_name) {
+const markApi = function(self, index, interface_name) {
   const fsx_list = index && index[interface_name]
   if (!fsx_list || !fsx_list.length) {
-    return mut_binders
+    return
   }
+
+  if (!self.__interfaces_to_subscribers_values) {
+    self.__interfaces_to_subscribers_values = {}
+  }
+  const values = self.__interfaces_to_subscribers_values
 
   for (let i = 0; i < fsx_list.length; i++) {
     const cur = fsx_list[i]
     // calc final value for fsx_list of deps
-    mut_binders.values[cur.key] = gotAllApis(self, cur)
+    values[cur.key] = gotAllApis(self, cur)
   }
-  return mut_binders
 }
 
 export default markApi
