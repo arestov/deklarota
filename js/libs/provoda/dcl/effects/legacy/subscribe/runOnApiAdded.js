@@ -9,8 +9,10 @@ export default function(self, interface_name) {
   }
 
 
-  const values_original2 = {...self.__interfaces_to_subscribers_values}
+  const prev_values = {...self.__interfaces_to_subscribers_values}
 
   markApi(self, interface_name)
-  makeBindChanges(self, values_original2)
+  const next_values = self.__interfaces_to_subscribers_values
+
+  makeBindChanges(self, prev_values, next_values)
 }
