@@ -10,8 +10,6 @@ import { FlowStepUseInterface } from '../Model/flowStepHandlers.types'
 
 const template = function() {
   return {
-    indexes: {},
-
     /*
       value - true, когда есть все нужные api
       при смене value для state происходит bind.
