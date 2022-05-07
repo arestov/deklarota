@@ -178,21 +178,21 @@ function updateProxy(etr, changes_list, opts) {
   return etr
 }
 
-function createFakeEtr(etr, first_changes_list) {
-  const state = {}
+function localState(name) {
+  if (!this.states.hasOwnProperty(name)) {
+    return
+  }
+  return this.states[name]
+}
 
+function createFakeEtr(etr, first_changes_list) {
   return {
     etr: {
-      states: state,
+      states: {},
       _attrs_collector: etr._attrs_collector,
       full_comlxs_list: etr.full_comlxs_list,
       full_comlxs_index: etr.full_comlxs_index,
-      state: function(name) {
-        if (!state.hasOwnProperty(name)) {
-          return
-        }
-        return state[name]
-      }
+      state: localState,
     },
     total_original_states: new Map(),
     total_ch: [],
