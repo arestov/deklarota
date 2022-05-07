@@ -6,6 +6,7 @@ import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
 import checkInitedApi from '../dcl/effects/legacy/produce/checkInitedApi'
 import usedInterfaceAttrName from '../dcl/effects/usedInterfaceAttrName'
 import { FlowStepUseInterface } from '../Model/flowStepHandlers.types'
+import markApi from '../dcl/effects/legacy/subscribe/run/markApi'
 
 
 export function __reportInterfaceChange(interface_name, value) {
@@ -28,9 +29,11 @@ const ensurePrevApiRemoved = (self, interface_name, destroy) => {
     return
   }
 
+  const prev_values = markApi(self, interface_name)
   self._interfaces_used[interface_name] = null
+  const next_values = markApi(self, interface_name)
 
-  runOnApiRemoved(self, interface_name)
+  runOnApiRemoved(self, prev_values, next_values)
 
   if (old_interface && destroy) {
     destroy(old_interface)
@@ -54,11 +57,14 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
     self._interfaces_used = {}
   }
 
+
+  const prev_values = markApi(self, interface_name)
   self._interfaces_used[interface_name] = obj
+  const next_values = markApi(self, interface_name)
 
 
 
-  runOnApiAdded(self, interface_name)
+  runOnApiAdded(self, prev_values, next_values)
 
   self.__reportInterfaceChange(interface_name, Date.now())
 

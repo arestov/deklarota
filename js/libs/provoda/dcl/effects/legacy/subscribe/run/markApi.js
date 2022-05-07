@@ -20,16 +20,14 @@ const markApi = function(self, interface_name) {
     return
   }
 
-  if (!self.__interfaces_to_subscribers_values) {
-    self.__interfaces_to_subscribers_values = {}
-  }
-  const values = self.__interfaces_to_subscribers_values
-
+  const values = {}
   for (let i = 0; i < fsx_list.length; i++) {
     const cur = fsx_list[i]
     // calc final value for fsx_list of deps
     values[cur.key] = gotAllApis(self, cur)
   }
+
+  return values
 }
 
 export default markApi
