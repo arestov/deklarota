@@ -33,9 +33,9 @@ export function __updateInteraceState(self, interface_name, value) {
   ])
 }
 
-export const useInterfaceHandler = function(self, interface_name, obj, destroy) {
-  const old_interface = self._interfaces_used[interface_name]
-  if (obj === old_interface || (obj == null && old_interface == null)) {
+const ensurePrevApiRemoved = (self, interface_name, destroy) => {
+  const old_interface = self.getInterface(interface_name)
+  if (old_interface == null) {
     return
   }
 
@@ -50,6 +50,15 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
   if (old_interface && destroy) {
     destroy(old_interface)
   }
+}
+
+export const useInterfaceHandler = function(self, interface_name, obj, destroy) {
+  const old_interface = self._interfaces_used[interface_name]
+  if (obj === old_interface || (obj == null && old_interface == null)) {
+    return
+  }
+
+  ensurePrevApiRemoved(self, interface_name, destroy)
 
   if (!obj) {
     self.__reportInterfaceChange(interface_name, false)
