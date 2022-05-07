@@ -28,11 +28,7 @@ const ensurePrevApiRemoved = (self, interface_name, destroy) => {
     return
   }
 
-
-  if (self._interfaces_used[interface_name] != null) {
-    self._interfaces_used[interface_name] = null
-  }
-
+  self._interfaces_used[interface_name] = null
 
   runOnApiRemoved(self, interface_name)
 
