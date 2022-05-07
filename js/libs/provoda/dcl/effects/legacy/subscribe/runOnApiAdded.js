@@ -17,6 +17,10 @@ const template = function() {
 }
 
 export default function(self, interface_name) {
+  if (!self.__fxs_subscribe_by_api?.hasOwnProperty(interface_name)) {
+    return
+  }
+
   if (!self.__interfaces_to_subscribers) {
     self.__interfaces_to_subscribers = template()
   }
