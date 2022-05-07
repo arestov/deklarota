@@ -1,6 +1,5 @@
 
 
-import spv from '../../spv'
 import _updateAttrsByChanges from '../_internal/_updateAttrsByChanges'
 import runOnApiAdded from '../dcl/effects/legacy/subscribe/runOnApiAdded'
 import runOnApiRemoved from '../dcl/effects/legacy/subscribe/runOnApiRemoved'
@@ -62,14 +61,12 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
     return
   }
 
-  const values_original2 = spv.cloneObj({}, binders.values)
-
   if (Object.isFrozen(self._interfaces_used)) {
     self._interfaces_used = {}
   }
 
   self._interfaces_used[interface_name] = obj
-  binders = runOnApiAdded(self, binders, interface_name, values_original2)
+  binders = runOnApiAdded(self, binders, interface_name)
   self.__interfaces_to_subscribers = binders
 
   self.__reportInterfaceChange(interface_name, Date.now())
