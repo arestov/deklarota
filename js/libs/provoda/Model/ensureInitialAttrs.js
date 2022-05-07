@@ -3,7 +3,7 @@ import initInputAttrs from '../dcl/attrs/input/init'
 import emptyArray from '../emptyArray'
 import { defaultMetaAttrValues as defaultRelMetaAttrsValues } from './rel/definedMetaAttrs'
 
-import { createFakeEtr, computeInitialAttrs, getComplexInitList } from '../updateProxy'
+import { createFakeEtr, computeInitialAttrs, getComplexInitList, freezeFakeEtr } from '../updateProxy'
 
 const fillExternalDeps = (self, first_changes_list) => {
   if (self._extendable_nest_index) {
@@ -67,5 +67,14 @@ export default function ensureInitialAttrs(self) {
   }
 
 
-  self.constructor.prototype._fake_etr = fake
+  freezeFakeEtr(fake)
+
+  /*
+    let's save only parts of etr.
+    the rest should be removed by GC
+  */
+  self.constructor.prototype._fake_etr = Object.freeze({
+    original_values: fake.etr.original_values,
+    total_ch: fake.total_ch,
+  })
 }

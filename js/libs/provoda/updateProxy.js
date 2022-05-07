@@ -200,6 +200,13 @@ function createFakeEtr(etr, first_changes_list) {
   }
 }
 
+function freezeFakeEtr(fake) {
+  Object.freeze(fake.etr.states)
+  Object.freeze(fake.total_original_states)
+  Object.freeze(fake.total_ch)
+  Object.freeze(fake.states_changing_stack)
+}
+
 function toKey(entry) {
   return entry[0]
 }
@@ -211,20 +218,20 @@ function computeInitialAttrs(etr, total_original_states, total_ch, states_changi
   etr.original_values = [...total_original_states.entries()].map(toKey)
 }
 
-function initAttrs(etr, fake, input_initial_changes) {
+function initAttrs(etr, prototype_changes, input_initial_changes) {
   const serv_st = etr.serv_st || getFree(pool)
   etr.serv_st = serv_st
 
   const total_original_states = serv_st.total_original_states
 
-  const original_values = fake.etr.original_values
+  const original_values = prototype_changes.original_values
 
   for (let i = 0; i < original_values.length; i++) {
     const name = original_values[i]
     total_original_states.set(name, undefined)
   }
 
-  Array.prototype.push.apply(etr.serv_st.total_ch, fake.total_ch)
+  Array.prototype.push.apply(etr.serv_st.total_ch, prototype_changes.total_ch)
 
   // write precomputed changes
   getChanges(etr, total_original_states, 0, etr.serv_st.total_ch, null)
@@ -552,6 +559,6 @@ const update = function updateWithValidation(md, state_name, state_value, opts) 
 updateProxy.update = update
 updateProxy.getComplexInitList = getComplexInitList
 
-export { createFakeEtr, computeInitialAttrs, getComplexInitList, initAttrs, update }
+export { createFakeEtr, freezeFakeEtr, computeInitialAttrs, getComplexInitList, initAttrs, update }
 
 export default updateProxy
