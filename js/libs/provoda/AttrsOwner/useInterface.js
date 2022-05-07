@@ -39,17 +39,12 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
     return
   }
 
-  let binders = self.__interfaces_to_subscribers
-  if (!binders) {
-    binders = self.__interfaces_to_subscribers = template()
-  }
 
   if (self._interfaces_used[interface_name] != null) {
     self._interfaces_used[interface_name] = null
   }
 
 
-  self.__interfaces_to_subscribers = binders
   runOnApiRemoved(self, interface_name)
 
   if (old_interface && destroy) {
@@ -66,7 +61,12 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
   }
 
   self._interfaces_used[interface_name] = obj
-  self.__interfaces_to_subscribers = binders
+
+  let binders = self.__interfaces_to_subscribers
+  if (!binders) {
+    binders = self.__interfaces_to_subscribers = template()
+  }
+
   runOnApiAdded(self, interface_name)
 
   self.__reportInterfaceChange(interface_name, Date.now())
