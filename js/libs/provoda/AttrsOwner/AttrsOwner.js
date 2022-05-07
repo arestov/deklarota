@@ -139,8 +139,6 @@ const AttrsOwner = spv.inh(function() {}, {
     }
   },
   init: function(self) {
-    self.conx_optsi = null
-    self.conx_opts = null
 
     initEffectsSubscribe(self)
     onInstanceInitDie(self)
