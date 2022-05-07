@@ -12,5 +12,5 @@ export default function(self, interface_name) {
   const values_original2 = {...self.__interfaces_to_subscribers_values}
 
   markApi(self, self.__fxs_subscribe_by_api, interface_name)
-  makeBindChanges(self, self.__fxs_subscribe_by_name, values_original2)
+  makeBindChanges(self, values_original2)
 }

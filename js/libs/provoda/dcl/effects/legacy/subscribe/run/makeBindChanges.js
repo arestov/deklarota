@@ -107,7 +107,8 @@ const getHandler = function(self, dcl) {
 }
 
 
-const makeBindChanges = function(self, index, original_values) {
+const makeBindChanges = function(self, original_values) {
+  const index = self.__fxs_subscribe_by_name
   // __fxs_subscribe_by_name
   const binders_values = self.__interfaces_to_subscribers_values
   for (const key in binders_values) {
