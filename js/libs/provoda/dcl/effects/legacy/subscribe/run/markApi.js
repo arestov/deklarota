@@ -13,7 +13,8 @@ const gotAllApis = function(self, dcl) {
   return true
 }
 
-const markApi = function(self, index, interface_name) {
+const markApi = function(self, interface_name) {
+  const index = self.__fxs_subscribe_by_api
   const fsx_list = index && index[interface_name]
   if (!fsx_list || !fsx_list.length) {
     return
