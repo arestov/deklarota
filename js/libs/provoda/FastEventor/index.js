@@ -152,7 +152,6 @@ FastEventor.prototype = spv.coe(function(add) {
 
     _addEventHandler: function(ev_name_raw, cb, context, immediately, exlusive, skip_reg, soft_reg) {
     //common opts allowed
-
       const ev_name = ev_name_raw
 
       if (exlusive) {
@@ -177,9 +176,7 @@ FastEventor.prototype = spv.coe(function(add) {
         ? matched_reg_fire.createEventOpts(ev_name, cb, context)
         : new EventSubscribingOpts(ev_name, cb, context, immediately, callbacks_wrapper)
 
-      if (!fired) {
-        this._pushCallbackToStack(ev_name, subscr_opts)
-      }
+      this._pushCallbackToStack(ev_name, subscr_opts)
 
       return this.sputnik
     },
@@ -285,7 +282,6 @@ FastEventor.prototype = spv.coe(function(add) {
       return calls_flow.pushToFlow(cb, callback_context, args, arg, wrapper, wrapper_context, this.sputnik._currentMotivator())
 
     },
-
     triggerCallbacks: function(cb_cs, args, opts, arg) {
       for (let i = 0; i < cb_cs.length; i++) {
         const cur = cb_cs[i]
@@ -294,7 +290,6 @@ FastEventor.prototype = spv.coe(function(add) {
         }
         this.callEventCallback(cur, args, opts, arg)
       }
-
     },
     trigger: function(ev_name) {
       const cb_cs = this.getMatchedCallbacks(ev_name)
