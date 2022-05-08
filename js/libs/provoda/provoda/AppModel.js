@@ -11,10 +11,6 @@ const AppModelBase = spv.inh(LoadableList, {
   },
   preinit: function(target) {
     target.app = target
-
-    target.all_queues = target.all_queues || []
-
-    target.views_strucs = {}
   },
   postInit: function(target) {
 
