@@ -324,7 +324,7 @@ const BrowseLevel = spv.inh(Model, {
             if (!next) {return}
 
             const pioneer_id = item.getNesting('pioneer')._provoda_id
-            next.children_bwlevs_by_pioneer_id[pioneer_id] = item
+            next.children_bwlevs_by_pioneer_id[pioneer_id] = item._provoda_id
           }
 
           deleteCacheValue(current_parent_bwlev, self)
