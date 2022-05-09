@@ -27,18 +27,21 @@ function assignInputRels(self, input_rels) {
 }
 
 
-const __initStates = (self) => {
-  if (self.init_states === false) {
+const __initStates = (self, model_init_opts) => {
+  const { init_states } = model_init_opts
+  if (init_states === false) {
     throw new Error('states inited already, you can\'t init now')
   }
+
+  model_init_opts.init_states = false
 
   const changes_list = []
 
   changes_list.push('_provoda_id', self._provoda_id)
 
-  if (self.init_states) {
-    for (const state_name in self.init_states) {
-      if (!self.init_states.hasOwnProperty(state_name)) {
+  if (init_states) {
+    for (const state_name in init_states) {
+      if (!init_states.hasOwnProperty(state_name)) {
         continue
       }
 
@@ -46,7 +49,7 @@ const __initStates = (self) => {
         throw new Error('you can\'t change complex state ' + state_name)
       }
 
-      changes_list.push(state_name, self.init_states[state_name])
+      changes_list.push(state_name, init_states[state_name])
     }
   }
 
@@ -60,19 +63,19 @@ const __initStates = (self) => {
     initAttrs(self, self._fake_etr, changes_list)
   }
 
-  // self.updateManyStates(self.init_states);
-  self.init_states = false
+  // self.updateManyStates(init_states);
+
 }
 
 
-function connectStates(self, input_rels) {
+function connectStates(self, input_rels, model_init_opts) {
 
   // prefill own states before connecting relations
   ensureInitialAttrs(self)
 
   self.children_models.$root = self.app
   self.children_models.$parent = self.map_parent
-  __initStates(self)
+  __initStates(self, model_init_opts)
   self.children_models.$root = null
   self.children_models.$parent = null
   _updateRel(self, '$root', self.app)
@@ -102,7 +105,7 @@ export function markInitied(md) {
 }
 
 export default function postInitModel(self, opts, initing_params) {
-  connectStates(self, getRelFromInitParams(initing_params))
+  connectStates(self, getRelFromInitParams(initing_params), opts)
   connectNests(self)
 
   const init_v2_data = self.init_v2_data

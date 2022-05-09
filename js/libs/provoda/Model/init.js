@@ -65,7 +65,8 @@ export default function initModel(self, opts, data) {
     self.init_v2_data = data
   }
 
-  prepareStates(self, data)
+  // we going to mutate incoming `opts`
+  prepareStates(self, opts, data)
 
   return self
 }
@@ -88,6 +89,9 @@ function createISS(self, data) {
   return iss
 }
 
-function prepareStates(self, data) {
-  self.init_states = createISS(self, data) || null
+function prepareStates(self, opts, data) {
+  if (opts.init_states) {
+    throw new Error('incoming `opts` should not have `init_states`')
+  }
+  opts.init_states = createISS(self, data) || null
 }
