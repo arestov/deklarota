@@ -96,6 +96,8 @@ const BrowseLevel = spv.inh(Model, {
     is_main_perspectivator_resident: ['input', false],
     probe_name: ['input'],
     children_bwlevs_by_pioneer_id: ['input', Object.freeze({})],
+    // can we calc this using some rel?
+
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
     currentReq: ['input'],
