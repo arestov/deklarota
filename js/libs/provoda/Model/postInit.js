@@ -1,6 +1,5 @@
 
 import initApis from '../dcl/effects/legacy/api/init'
-import initRoutes from '../dcl/routes/init'
 import __handleInit from '../dcl/passes/handleInit/handle'
 import ensureInitialAttrs from './ensureInitialAttrs'
 import mockRelations from './mockRelations'
@@ -64,8 +63,6 @@ export function markInitied(md) {
 export default function postInitModel(self, opts, initing_params) {
   connectStates(self, getRelFromInitParams(initing_params))
   connectNests(self)
-
-  initRoutes(self)
 
   const init_v2_data = self.init_v2_data
   if (init_v2_data != null) {

@@ -2,6 +2,7 @@ import initSubPager from '../dcl/sub_pager/init'
 import { initRelsRequesting } from '../FastEventor/requestNesting'
 import { initAttrsRequesting } from '../FastEventor/requestState'
 import makeAttrsCollector from './makeAttrsCollector'
+import initRoutes from '../dcl/routes/init'
 
 export default function initModel(self, opts, data) {
   const app = opts.app
@@ -35,6 +36,7 @@ export default function initModel(self, opts, data) {
   self.extra = self.use_extra ? {} : null
 
   initSubPager(self)
+  initRoutes(self)
 
   self.map_parent = opts?.map_parent || null
 
