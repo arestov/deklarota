@@ -67,7 +67,6 @@ const BrowseLevel = spv.inh(Model, {
 
   postInit: function(self) {
 
-    self.children_bwlevs_by_pioneer_id = {}
     self.map = null
 
     if (!hasRelDcl(self, 'nav_parent')) {
@@ -96,6 +95,7 @@ const BrowseLevel = spv.inh(Model, {
     map_level_num: ['input'],
     is_main_perspectivator_resident: ['input', false],
     probe_name: ['input'],
+    children_bwlevs_by_pioneer_id: ['input', Object.freeze({})],
     pioneer_provoda_id: ['input'],
     pioneer: ['input'],
     currentReq: ['input'],
@@ -309,6 +309,8 @@ const BrowseLevel = spv.inh(Model, {
       fn: [
         ['$noop', '<<<<', '$meta$inited', 'freeze_parent_bwlev', '<< @one:parent_bwlev'],
         (data, noop, self, inited, freeze_parent_bwlev, current_parent_bwlev) => {
+          // TODO: make test for this code
+
           if (!inited || freeze_parent_bwlev) {
             return noop
           }
@@ -317,14 +319,22 @@ const BrowseLevel = spv.inh(Model, {
             if (!prev) {return}
 
             const pioneer_id = item.getNesting('pioneer')._provoda_id
-            delete prev.children_bwlevs_by_pioneer_id[pioneer_id]
+            const cache = { ...prev.getAttr('children_bwlevs_by_pioneer_id') }
+            delete cache[pioneer_id]
+
+            // TODO: let's not change state by calling updateAttr inside action
+            prev.updateAttr('children_bwlevs_by_pioneer_id', cache)
           }
 
           const setCacheValue = (next, item) => {
             if (!next) {return}
 
             const pioneer_id = item.getNesting('pioneer')._provoda_id
-            next.children_bwlevs_by_pioneer_id[pioneer_id] = item._provoda_id
+            const cache = {...next.getAttr('children_bwlevs_by_pioneer_id') }
+            cache[pioneer_id] = item._provoda_id
+
+            // TODO: let's not change state by calling updateAttr inside action
+            next.updateAttr('children_bwlevs_by_pioneer_id', cache)
           }
 
           deleteCacheValue(current_parent_bwlev, self)
