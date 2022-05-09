@@ -5,7 +5,6 @@ import hp from './helpers'
 import MDProxy from './MDProxy'
 import { getConstrByPath } from './dcl/nest/runtime/initDeclaredNestings'
 
-import { initAttrs } from './updateProxy'
 import AttrsOwner from './AttrsOwner/AttrsOwner'
 import onPropsExtend from './Model/onExtend'
 import initModel from './Model/init'
@@ -17,7 +16,6 @@ import getLinedStructure from './Model/getLinedStructure'
 import toSimpleStructure from './Model/toSimpleStructure'
 import ensurePublicAttrs from './Model/ensurePublicAttrs'
 import addrFromObj from './provoda/dcl/addr.js'
-import prefillCompAttr from './dcl/attrs/comp/prefill'
 import disposeEffects from './dcl/effects/dispose'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
@@ -229,42 +227,6 @@ function modelProps(add) {
     },
     initSi: function(Constr, data) {
       return initSi(Constr, this, data)
-    },
-    __initStates: function() {
-      if (this.init_states === false) {
-        throw new Error('states inited already, you can\'t init now')
-      }
-
-      const changes_list = []
-
-      changes_list.push('_provoda_id', this._provoda_id)
-
-      if (this.init_states) {
-        for (const state_name in this.init_states) {
-          if (!this.init_states.hasOwnProperty(state_name)) {
-            continue
-          }
-
-          if (this.hasComplexStateFn(state_name)) {
-            throw new Error('you can\'t change complex state ' + state_name)
-          }
-
-          changes_list.push(state_name, this.init_states[state_name])
-        }
-      }
-
-      const mock = Boolean(this.mock_relations)
-      if (is_prod || !mock) {
-        prefillCompAttr(this, changes_list)
-      }
-
-
-      if (changes_list && changes_list.length) {
-        initAttrs(this, this._fake_etr, changes_list)
-      }
-
-    // this.updateManyStates(this.init_states);
-      this.init_states = false
     },
     handling_v2_init: true,
     onExtend: spv.precall(AttrsOwner.prototype.onExtend, function(props, original, params) {

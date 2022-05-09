@@ -8,6 +8,8 @@ import _updateRel from '../_internal/_updateRel'
 
 import _updateAttr from '../_internal/_updateAttr'
 import { FlowStepInitNestRels, FlowStepMarkInited } from './flowStepHandlers.types'
+import prefillCompAttr from '../dcl/attrs/comp/prefill'
+import { initAttrs } from '../updateProxy'
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
@@ -24,6 +26,45 @@ function assignInputRels(self, input_rels) {
   }
 }
 
+
+const __initStates = (self) => {
+  if (self.init_states === false) {
+    throw new Error('states inited already, you can\'t init now')
+  }
+
+  const changes_list = []
+
+  changes_list.push('_provoda_id', self._provoda_id)
+
+  if (self.init_states) {
+    for (const state_name in self.init_states) {
+      if (!self.init_states.hasOwnProperty(state_name)) {
+        continue
+      }
+
+      if (self.hasComplexStateFn(state_name)) {
+        throw new Error('you can\'t change complex state ' + state_name)
+      }
+
+      changes_list.push(state_name, self.init_states[state_name])
+    }
+  }
+
+  const mock = Boolean(self.mock_relations)
+  if (is_prod || !mock) {
+    prefillCompAttr(self, changes_list)
+  }
+
+
+  if (changes_list && changes_list.length) {
+    initAttrs(self, self._fake_etr, changes_list)
+  }
+
+  // self.updateManyStates(self.init_states);
+  self.init_states = false
+}
+
+
 function connectStates(self, input_rels) {
 
   // prefill own states before connecting relations
@@ -31,7 +72,7 @@ function connectStates(self, input_rels) {
 
   self.children_models.$root = self.app
   self.children_models.$parent = self.map_parent
-  self.__initStates()
+  __initStates(self)
   self.children_models.$root = null
   self.children_models.$parent = null
   _updateRel(self, '$root', self.app)
