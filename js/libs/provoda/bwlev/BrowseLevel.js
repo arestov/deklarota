@@ -67,7 +67,7 @@ const BrowseLevel = spv.inh(Model, {
 
   postInit: function(self) {
 
-    self.children_bwlevs = {}
+    self.children_bwlevs_by_pioneer_id = {}
     self.map = null
 
     if (!hasRelDcl(self, 'nav_parent')) {
@@ -317,14 +317,14 @@ const BrowseLevel = spv.inh(Model, {
             if (!prev) {return}
 
             const key = item._provoda_id
-            delete prev.children_bwlevs[key]
+            delete prev.children_bwlevs_by_pioneer_id[key]
           }
 
           const setCacheValue = (next, item) => {
             if (!next) {return}
 
             const key = item._provoda_id
-            next.children_bwlevs[key] = item
+            next.children_bwlevs_by_pioneer_id[key] = item
           }
 
           deleteCacheValue(current_parent_bwlev, self)
