@@ -38,7 +38,11 @@ export default function initModel(self, opts, data) {
 
   self.map_parent = opts?.map_parent || null
 
-  self._provoda_id = self._highway.models_counters++
+  if (!opts._provoda_id) {
+    throw new Error('provide id')
+  }
+
+  self._provoda_id = opts._provoda_id
   self._highway.models[self._provoda_id] = self
 
   //self.states = {};

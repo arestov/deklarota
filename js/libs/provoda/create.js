@@ -2,11 +2,12 @@
 import spv from '../spv'
 import getRelFromInitParams from './utils/getRelFromInitParams'
 
-export default function(Constr, states, params, map_parent, app) {
+export default function(Constr, states, params, map_parent, app = map_parent.app) {
   const BehaviorContr = Constr
   const opts = (app || map_parent) && {
-    app: app || map_parent.app,
-    map_parent: map_parent
+    app: app,
+    map_parent: map_parent,
+    _provoda_id: app._highway.models_counters++,
   }
 
   const model = new BehaviorContr(opts, {
