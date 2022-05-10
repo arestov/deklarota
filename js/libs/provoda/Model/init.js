@@ -56,7 +56,6 @@ export default function initModel(self, opts, data) {
   initRelsRequesting(self)
 
 
-  self.md_replacer = null
   self.mpx = null
 
   self.init_v2_data = null

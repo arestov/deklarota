@@ -35,10 +35,6 @@ const push = Array.prototype.push
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
-const getMDOfReplace = function() {
-  return this.md
-}
-
 const si_opts_cache = {}
 const SIOpts = function(md) {
   this.map_parent = md
@@ -243,17 +239,6 @@ function modelProps(add) {
     },
     _assignPublicAttrs: function(target) {
       return ensurePublicAttrs.assignPublicAttrs(this, target)
-    },
-    getMDReplacer: function() {
-      if (!this.md_replacer) {
-        const MDReplace = function() {}
-        MDReplace.prototype.md = this
-        MDReplace.prototype.getMD = getMDOfReplace
-
-        this.md_replacer = new MDReplace()
-        this.md_replacer._provoda_id = this._provoda_id
-      }
-      return this.md_replacer
     },
     RPCLegacy: wrapInputCall(function() {
       const args = Array.prototype.slice.call(arguments)
