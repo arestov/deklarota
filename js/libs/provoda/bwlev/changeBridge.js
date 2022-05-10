@@ -36,14 +36,14 @@ export default function changeBridge(bwlev_raw, map_raw) {
     console.warn('no bw map')
   }
 
-  if (map.bridge_bwlev === bwlev) {
+  if (getRel(map, 'bridge_bwlev') === bwlev) {
     if (!map.is_simple_router) {
       resetNavigationRequests(map, bwlev)
     }
     return bwlev
   }
 
-  map.bridge_bwlev = bwlev
+  _updateRel(map, 'bridge_bwlev', bwlev)
 
   if (map.is_simple_router) {
     _updateRel(map, 'current_bwlev', bwlev)

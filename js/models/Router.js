@@ -112,7 +112,6 @@ export default spv.inh(BasicRouter, {
   },
   init: function(self) {
     self.mainLevelResidents = null // BrowseLevel, showMOnMap
-    self.bridge_bwlev = null
     self.mainLevelResidents = null
 
     // target.navigation = [];
@@ -206,6 +205,9 @@ export default spv.inh(BasicRouter, {
       {any: true, many: true}
     ],
     bwlev_branch_with_access: ['input', {any: true, many: true}],
+
+    /* is_simple_router=true|false */
+    bridge_bwlev: ['input', {any: true}],
 
     /* is_simple_router=true: current_bwlev, current_md */
     current_md: ['input', {any: true}],
