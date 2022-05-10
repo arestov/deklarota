@@ -110,34 +110,7 @@ export default spv.inh(BasicRouter, {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function(self) {
-    // target.navigation = [];
-    // target.map = ;
-
-    if (self.is_simple_router) {
-      return
-    }
-
-    const spyglass_name = 'navigation'
-
-    if (!self._currentMotivator()) {
-      throw new Error('wrap in input()')
-    }
-
-    const mainLevelResident = self.app.start_page
-
-    updateNesting(self, 'mainLevelResident', mainLevelResident)
-    updateNesting(self, 'start_bwlev', createLevel(
-      spyglass_name,
-      -1,
-      false,
-      mainLevelResident,
-      self
-    ))
-
-    const bwlev = BrowseMap.showInterest(self, [])
-    BrowseMap.changeBridge(bwlev)
-
+  init: function(_self) {
   }
 }, {
   __use_navi: false,
@@ -145,6 +118,8 @@ export default spv.inh(BasicRouter, {
     works_without_main_resident: ['input', false],
     selected__name: ['input'],
     current_expected_rel: ['input'],
+    perspectivator_name: ['input', 'navigation'],
+    __init_router: ['comp', ['_provoda_id'], Boolean],
     'used_data_structure': [
       'comp',
       ['< @one:used_data_structure < $parent'],
@@ -219,6 +194,40 @@ export default spv.inh(BasicRouter, {
 
   },
   actions: {
+    'handleAttr:__init_router': {
+      to: {
+        mainLevelResident: ['<< mainLevelResident', {method: 'set_one'}],
+        start_bwlev: ['<< start_bwlev', {method: 'set_one'}],
+      },
+      fn: [
+        ['<<<<', 'perspectivator_name'],
+        ({next_value}, self, spyglass_name) => {
+          if (!next_value) {
+            return {}
+          }
+
+          if (self.is_simple_router) {
+            return {}
+          }
+
+          const mainLevelResident = self.app.start_page
+
+          updateNesting(self, 'mainLevelResident', mainLevelResident)
+          updateNesting(self, 'start_bwlev', createLevel(
+            spyglass_name,
+            -1,
+            false,
+            mainLevelResident,
+            self
+          ))
+
+          const bwlev = BrowseMap.showInterest(self, [])
+          BrowseMap.changeBridge(bwlev)
+
+          return {}
+        },
+      ]
+    },
     'handleAttr:resolved_navigation_desire': {
       to: {
         wantedReq: ['wantedReq'],
