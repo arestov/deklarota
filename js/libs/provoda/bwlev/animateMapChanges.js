@@ -153,8 +153,6 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
   if (model) {
     const target_md = fake_spyglass.current_mp_md = model
 
-    fake_spyglass.current_mp_bwlev = diff.bwlev
-
     updateDistance(next_tree, prev_tree)
     updateFocus(next_tree, prev_tree)
 

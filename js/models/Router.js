@@ -114,7 +114,6 @@ export default spv.inh(BasicRouter, {
     self.mainLevelResidents = null // BrowseLevel, showMOnMap
     self.bridge_bwlev = null
     self.mainLevelResidents = null
-    self.current_mp_bwlev = null
 
     // target.navigation = [];
     // target.map = ;
