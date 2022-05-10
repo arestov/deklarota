@@ -1,6 +1,6 @@
 
 
-export default function getNesting(md, collection_name) {
+export default function getRel(md, collection_name) {
   if (md == null) {
     console.error(new Error(`Couldn't read "${collection_name}" rel from ${md}.`))
     return undefined
