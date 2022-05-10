@@ -14,6 +14,7 @@ import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 import { considerOwnerAsImportantForRequestsManager } from '../libs/provoda/dcl/effects/legacy/api/requests_manager'
+import updateNesting from '../libs/provoda/Model/updateNesting'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
@@ -125,14 +126,20 @@ export default spv.inh(BasicRouter, {
 
     const spyglass_name = 'navigation'
 
-    self.mainLevelResident = self.app.start_page
-    self.start_bwlev = createLevel(
+    if (!self._currentMotivator()) {
+      throw new Error('wrap in input()')
+    }
+
+    const mainLevelResident = self.app.start_page
+
+    updateNesting(self, 'mainLevelResident', mainLevelResident)
+    updateNesting(self, 'start_bwlev', createLevel(
       spyglass_name,
       -1,
       false,
-      self.mainLevelResident,
+      mainLevelResident,
       self
-    )
+    ))
 
     const bwlev = BrowseMap.showInterest(self, [])
     BrowseMap.changeBridge(bwlev)
@@ -190,6 +197,8 @@ export default spv.inh(BasicRouter, {
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
+    mainLevelResident: ['input', {any: true}],
+    start_bwlev: ['input', {any: true}],
 
     wanted_bwlev: ['input', {any: true}],
     wanted_bwlev_branch: [

@@ -8,14 +8,15 @@ import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
 import isStart from './isStart'
 import getBwlevParent from './getBwlevParent'
+import getRel from '../provoda/getRel'
 
 const ba_inUse = ba_canReuse.ba_inUse
 
 
 function ensureStartBwlev(map, md) {
 
-  if (map.mainLevelResident === md) {
-    return map.start_bwlev
+  if (getRel(map, 'mainLevelResident') === md) {
+    return getRel(map, 'start_bwlev')
   }
 
   if (!map.getAttr('works_without_main_resident')) {

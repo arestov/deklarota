@@ -3,6 +3,7 @@ import showMOnMap from './showMOnMap'
 import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import getAliveNavPioneer from './getAliveNavPioneer'
+import getRel from '../provoda/getRel'
 
 const getRedirectedCursor = (map, pioneer) => {
 
@@ -15,7 +16,7 @@ const getRedirectedCursor = (map, pioneer) => {
 }
 
 const redirected = function(map, pioneer) {
-  const redirected_cursor = getRedirectedCursor(map, pioneer) || map.mainLevelResident
+  const redirected_cursor = getRedirectedCursor(map, pioneer) || getRel(map, 'mainLevelResident')
   if (redirected_cursor == pioneer) {
     return null
   }

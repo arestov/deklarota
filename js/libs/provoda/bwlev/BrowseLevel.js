@@ -19,6 +19,7 @@ import getBwlevParent from './getBwlevParent'
 import { hasRelDcl } from '../dcl/nests/getRelShape'
 import { hasOwnProperty } from '../hasOwnProperty'
 import isBwlevName from '../utils/isBwlevName'
+import getRel from '../provoda/getRel'
 
 
 const transportName = function(spyglass_name) {
@@ -54,7 +55,7 @@ const switchToAliveParent = (bwlev) => {
       bwlev.getNesting('pioneer'),
       bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
     bwlev_parent ||
-    bwlev.map.start_bwlev,
+    getRel(bwlev.map, 'start_bwlev'),
     bwlev.map)
 }
 

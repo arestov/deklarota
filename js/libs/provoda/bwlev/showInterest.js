@@ -2,10 +2,11 @@
 import _goDeeper from './_goDeeper'
 import showMOnMap from './showMOnMap'
 import getRouteStepParent from './getRouteStepParent'
+import getRel from '../provoda/getRel'
 
 export default function showInterest(map, interest) {
   if (!interest.length) {
-    return showMOnMap(map, map.mainLevelResident)
+    return showMOnMap(map, getRel(map, 'mainLevelResident'))
   }
 
   const first = interest.shift()
