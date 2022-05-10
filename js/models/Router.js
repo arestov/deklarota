@@ -116,7 +116,6 @@ export default spv.inh(BasicRouter, {
 
     // target.navigation = [];
     // target.map = ;
-    self.current_mp_md = null
 
     if (self.is_simple_router) {
       return
