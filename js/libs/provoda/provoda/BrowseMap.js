@@ -60,16 +60,7 @@ BrowseMap.Model = spv.inh(Model, {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function(self) {
-    self.lists_list = null
-    // self.map_level_num = null;
-
-    /*
-      результат работы этого кода - это
-      2) состояния url_part и nav_title
-
-    */
-  },
+  init: function() {},
 }, {
   attrs: {
     'url_part': ['input', null],
