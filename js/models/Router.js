@@ -111,9 +111,6 @@ export default spv.inh(BasicRouter, {
     }
   },
   init: function(self) {
-    self.mainLevelResidents = null // BrowseLevel, showMOnMap
-    self.mainLevelResidents = null
-
     // target.navigation = [];
     // target.map = ;
 
@@ -195,6 +192,7 @@ export default spv.inh(BasicRouter, {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
     mainLevelResident: ['input', {any: true}],
+    mainLevelResidents: ['input', {any: true}],
     start_bwlev: ['input', {any: true}],
 
     wanted_bwlev: ['input', {any: true}],

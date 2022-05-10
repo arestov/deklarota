@@ -9,6 +9,7 @@ import getRouteStepParent from './getRouteStepParent'
 import isStart from './isStart'
 import getBwlevParent from './getBwlevParent'
 import getRel from '../provoda/getRel'
+import findByPioneer from './findByPioneer'
 
 const ba_inUse = ba_canReuse.ba_inUse
 
@@ -24,22 +25,23 @@ function ensureStartBwlev(map, md) {
   }
 
   /* for works_without_main_resident */
-  if (!map.mainLevelResidents) {
-    map.mainLevelResidents = {}
+
+  const list = getRel(map, 'mainLevelResidents')
+  const item = findByPioneer(list, md)
+  if (item) {
+    return
   }
 
-  if (!map.mainLevelResidents[md._provoda_id]) {
-    map.mainLevelResidents[md._provoda_id] = createLevel(
-      map.spyglass_name,
-      -1,
-      false,
-      md,
-      map
-    )
-  }
+  const created = createLevel(
+    map.spyglass_name,
+    -1,
+    false,
+    md,
+    map
+  )
 
-  return map.mainLevelResidents[md._provoda_id]
-
+  map.updateRel('mainLevelResidents', list ? [...list, created] : [created])
+  return created
 }
 
 export default function showMOnMap(map, model, bwlev) {
