@@ -163,3 +163,5 @@
 - deprecate events for glue_rels
 
 - remove glue_rels https://github.com/arestov/deklarota/pull/106 (first 0199e00)
+
+- remove allow_data_init prop from BrowserMap model
