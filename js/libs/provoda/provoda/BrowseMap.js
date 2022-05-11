@@ -2,7 +2,6 @@
 import spv from '../../spv'
 import Model from '../Model'
 import initBWlev from '../bwlev/initBWlev'
-import toProperNavParent from '../bwlev/toProperNavParent'
 import routePathByModels from '../routePathByModels'
 import getPrtsByRelPath from '../dcl/nests/getPrtsByRelPath'
 
@@ -71,9 +70,6 @@ BrowseMap.Model = spv.inh(Model, {
   */
   getSPI: function(sp_name, options) {
     return getSPI(this, sp_name, options)
-  },
-  toProperNavParent: function() {
-    return toProperNavParent(this)
   },
   getParentMapModel: function() {
     return this.map_parent
