@@ -7,6 +7,7 @@ import toProperNavParent from '../bwlev/toProperNavParent'
 import showInterest from '../bwlev/showInterest'
 import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
 import routePathByModels from '../routePathByModels'
+import getPrtsByRelPath from '../dcl/nests/getPrtsByRelPath'
 
 const getSPIConstr = routePathByModels.getSPIConstr
 const getSPI = routePathByModels.getSPI
@@ -113,9 +114,11 @@ BrowseMap.Model = spv.inh(Model, {
 })
 
 function hookRoot(rootmd, _start_page, states) {
-  const CurBrowseLevel = rootmd.__BWLev
-  const bwlev_root = initBWlev(CurBrowseLevel, rootmd, '', -2, null, null, undefined, states)
-
+  const [{constructor: SessionRoot}] = getPrtsByRelPath(rootmd, ['$session_root'])
+  if (!SessionRoot) {
+    throw new Error('$session_root should be defined')
+  }
+  const bwlev_root = initBWlev(SessionRoot, rootmd, '', -2, null, null, undefined, states)
   return bwlev_root
 }
 
