@@ -1,7 +1,6 @@
 
 import spv from '../../spv'
 import Model from '../Model'
-import changeBridge from '../bwlev/changeBridge'
 import initBWlev from '../bwlev/initBWlev'
 import toProperNavParent from '../bwlev/toProperNavParent'
 import routePathByModels from '../routePathByModels'
@@ -85,7 +84,7 @@ BrowseMap.Model = spv.inh(Model, {
   },
 })
 
-function hookRoot(rootmd, _start_page, states) {
+export function hookSessionRoot(rootmd, _start_page, states) {
   const [{constructor: SessionRoot}] = getPrtsByRelPath(rootmd, ['$session_root'])
   if (!SessionRoot) {
     throw new Error('$session_root should be defined')
@@ -94,6 +93,4 @@ function hookRoot(rootmd, _start_page, states) {
   return bwlev_root
 }
 
-BrowseMap.hookRoot = hookRoot
-BrowseMap.changeBridge = changeBridge
 export default BrowseMap
