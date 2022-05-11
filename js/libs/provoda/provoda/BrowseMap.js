@@ -6,7 +6,6 @@ import toProperNavParent from '../bwlev/toProperNavParent'
 import routePathByModels from '../routePathByModels'
 import getPrtsByRelPath from '../dcl/nests/getPrtsByRelPath'
 
-const getSPIConstr = routePathByModels.getSPIConstr
 const getSPI = routePathByModels.getSPI
 
 /*
@@ -70,9 +69,6 @@ BrowseMap.Model = spv.inh(Model, {
   /*
 
   */
-  getSPIConstr: function(sp_name) {
-    return getSPIConstr(this, sp_name)
-  },
   getSPI: function(sp_name, options) {
     return getSPI(this, sp_name, options)
   },
