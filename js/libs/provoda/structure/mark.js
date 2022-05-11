@@ -4,7 +4,7 @@ import { doCopy } from '../../spv/cloneObj'
 
 import definedAttrs from '../Model/definedAttrs'
 import AttrsCollector from '../AttrsOwner/AttrsCollector'
-import RootLev from '../bwlev/RootLev'
+import SessionRoot from '../bwlev/SessionRoot'
 import globalSkeleton from './globalSkeleton'
 import analyzeLinks from './analyzeLinks'
 
@@ -85,7 +85,7 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
       self.start_page = (start_page && start_page.prototype) || self
     }
 
-    const __BWLev = spv.inh(RootLev, { skip_code_path: true }, self.BWLev || {})
+    const __BWLev = spv.inh(SessionRoot, { skip_code_path: true }, self.BWLev || {})
     __BWLev.hierarchy_counter = RootConstr.hierarchy_counter++
 
     self.__BWLev = mark(__BWLev, RootConstr, next_ascent_level)

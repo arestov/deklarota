@@ -2,6 +2,7 @@
 import spv from '../../spv'
 import LoadableList from './LoadableList'
 import BrowseMap from './BrowseMap'
+import SessionRoot from '../bwlev/SessionRoot'
 
 const AppModelBase = spv.inh(LoadableList, {
   naming: function(fn) {
