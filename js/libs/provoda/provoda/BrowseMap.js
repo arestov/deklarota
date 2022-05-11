@@ -92,13 +92,6 @@ BrowseMap.Model = spv.inh(Model, {
 
     }
   },
-  _getMySimpleBwlev: function() {
-    throw new Error('implement new way to get simple bwlev (or try to use old?)')
-    // var showMOnMap = require('../bwlev/showMOnMap'); // todo: remove
-
-    // console.warn('_getMySimpleBwlev is depricated. md should not have tied connection to one `map` object')
-    // return showMOnMap( this.app.map, this);
-  },
   toProperNavParent: function() {
     return toProperNavParent(this)
   },
