@@ -15,6 +15,7 @@ import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 import { considerOwnerAsImportantForRequestsManager } from '../libs/provoda/dcl/effects/legacy/api/requests_manager'
 import updateNesting from '../libs/provoda/Model/updateNesting'
+import showInterest from '../libs/provoda/bwlev/showInterest'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
@@ -221,7 +222,7 @@ export default spv.inh(BasicRouter, {
             self
           ))
 
-          const bwlev = BrowseMap.showInterest(self, [])
+          const bwlev = showInterest(self, [])
           BrowseMap.changeBridge(bwlev)
 
           return {}

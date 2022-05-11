@@ -1,4 +1,5 @@
 import BrowseMap from '../libs/BrowseMap'
+import showInterest from '../libs/provoda/bwlev/showInterest'
 // import animateMapChanges from '../libs/provoda/dcl/probe/animateMapChanges'
 
 function initBrowsing(app, states) {
@@ -6,7 +7,7 @@ function initBrowsing(app, states) {
   // eslint-disable-next-line fp/no-mutation, no-param-reassign
   app.map = map
 
-  const bwlev = BrowseMap.showInterest(map, [])
+  const bwlev = showInterest(map, [])
   BrowseMap.changeBridge(bwlev)
 
   return map

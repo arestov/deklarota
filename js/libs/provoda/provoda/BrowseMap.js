@@ -4,8 +4,6 @@ import Model from '../Model'
 import changeBridge from '../bwlev/changeBridge'
 import initBWlev from '../bwlev/initBWlev'
 import toProperNavParent from '../bwlev/toProperNavParent'
-import showInterest from '../bwlev/showInterest'
-import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
 import routePathByModels from '../routePathByModels'
 import getPrtsByRelPath from '../dcl/nests/getPrtsByRelPath'
 
@@ -25,12 +23,9 @@ const getSPI = routePathByModels.getSPI
 const BrowseMap = {}
 
 
-BrowseMap.getBwlevFromParentBwlev = getBwlevFromParentBwlev
-
-BrowseMap.showInterest = showInterest
-
 const interest_part = /(\#(?:\d*\:)?)/gi
-BrowseMap.getUserInterest = function(pth_string, start_md) {
+
+export const getUserInterest = function(pth_string, start_md) {
   /*
     /users/me/lfm:neighbours#3:/users/lfm:kolczyk0
   */
