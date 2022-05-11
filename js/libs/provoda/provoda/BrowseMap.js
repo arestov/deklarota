@@ -82,28 +82,12 @@ BrowseMap.Model = spv.inh(Model, {
   getSPI: function(sp_name, options) {
     return getSPI(this, sp_name, options)
   },
-  preloadNestings: function(array) {
-    //var full_list = [];
-    for (let i = 0; i < array.length; i++) {
-      const md = this.getNesting(array[i])
-      if (md) {
-        md.preloadStart()
-      }
-
-    }
-  },
   toProperNavParent: function() {
     return toProperNavParent(this)
   },
   getParentMapModel: function() {
     return this.map_parent
   },
-  getTitle: function() {
-    return this.state('nav_title')
-  },
-  getURL: function() {
-    return ''
-  }
 })
 
 function hookRoot(rootmd, _start_page, states) {
