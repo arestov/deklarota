@@ -20,6 +20,7 @@ export default function initSi(Constr, parent_md, data) {
   const parent_is_usable = ((parent_md && parent_md.zero_map_level) || parent_md != parent_md.app)
 
   const opts = {
+    _provoda_id: parent_md._highway.models_counters++,
     map_parent: parent_is_usable ? parent_md : null,
     app: parent_md.app
   }

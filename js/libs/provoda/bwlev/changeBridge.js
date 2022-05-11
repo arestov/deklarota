@@ -3,6 +3,7 @@ import showMOnMap from './showMOnMap'
 import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import getAliveNavPioneer from './getAliveNavPioneer'
+import getRel from '../provoda/getRel'
 
 const getRedirectedCursor = (map, pioneer) => {
 
@@ -15,7 +16,7 @@ const getRedirectedCursor = (map, pioneer) => {
 }
 
 const redirected = function(map, pioneer) {
-  const redirected_cursor = getRedirectedCursor(map, pioneer) || map.mainLevelResident
+  const redirected_cursor = getRedirectedCursor(map, pioneer) || getRel(map, 'mainLevelResident')
   if (redirected_cursor == pioneer) {
     return null
   }
@@ -35,14 +36,14 @@ export default function changeBridge(bwlev_raw, map_raw) {
     console.warn('no bw map')
   }
 
-  if (map.bridge_bwlev === bwlev) {
+  if (getRel(map, 'bridge_bwlev') === bwlev) {
     if (!map.is_simple_router) {
       resetNavigationRequests(map, bwlev)
     }
     return bwlev
   }
 
-  map.bridge_bwlev = bwlev
+  _updateRel(map, 'bridge_bwlev', bwlev)
 
   if (map.is_simple_router) {
     _updateRel(map, 'current_bwlev', bwlev)

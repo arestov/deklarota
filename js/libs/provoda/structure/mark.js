@@ -4,7 +4,6 @@ import { doCopy } from '../../spv/cloneObj'
 
 import definedAttrs from '../Model/definedAttrs'
 import AttrsCollector from '../AttrsOwner/AttrsCollector'
-import RootLev from '../bwlev/RootLev'
 import globalSkeleton from './globalSkeleton'
 import analyzeLinks from './analyzeLinks'
 
@@ -85,11 +84,9 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
       self.start_page = (start_page && start_page.prototype) || self
     }
 
-    const __BWLev = spv.inh(RootLev, { skip_code_path: true }, self.BWLev || {})
-    __BWLev.hierarchy_counter = RootConstr.hierarchy_counter++
-
-    self.__BWLev = mark(__BWLev, RootConstr, next_ascent_level)
-    self._all_chi.__BWLev = self.__BWLev
+    if (self.BWLev) {
+      throw new Error('replace BWLev by `$session_root` rel:model')
+    }
   }
 
   self._attrs_collector = new AttrsCollector(definedAttrs(self))

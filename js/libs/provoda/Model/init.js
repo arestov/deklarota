@@ -2,6 +2,7 @@ import initSubPager from '../dcl/sub_pager/init'
 import { initRelsRequesting } from '../FastEventor/requestNesting'
 import { initAttrsRequesting } from '../FastEventor/requestState'
 import makeAttrsCollector from './makeAttrsCollector'
+import initRoutes from '../dcl/routes/init'
 
 export default function initModel(self, opts, data) {
   const app = opts.app
@@ -35,10 +36,15 @@ export default function initModel(self, opts, data) {
   self.extra = self.use_extra ? {} : null
 
   initSubPager(self)
+  initRoutes(self)
 
   self.map_parent = opts?.map_parent || null
 
-  self._provoda_id = self._highway.models_counters++
+  if (!opts._provoda_id) {
+    throw new Error('provide id')
+  }
+
+  self._provoda_id = opts._provoda_id
   self._highway.models[self._provoda_id] = self
 
   //self.states = {};
@@ -50,7 +56,6 @@ export default function initModel(self, opts, data) {
   initRelsRequesting(self)
 
 
-  self.md_replacer = null
   self.mpx = null
 
   self.init_v2_data = null
@@ -59,7 +64,8 @@ export default function initModel(self, opts, data) {
     self.init_v2_data = data
   }
 
-  prepareStates(self, data)
+  // we going to mutate incoming `opts`
+  prepareStates(self, opts, data)
 
   return self
 }
@@ -82,6 +88,9 @@ function createISS(self, data) {
   return iss
 }
 
-function prepareStates(self, data) {
-  self.init_states = createISS(self, data) || null
+function prepareStates(self, opts, data) {
+  if (opts.init_states) {
+    throw new Error('incoming `opts` should not have `init_states`')
+  }
+  opts.init_states = createISS(self, data) || null
 }

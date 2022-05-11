@@ -10,7 +10,7 @@ import RouterCore from '../../js/models/Router.js'
 import modernRoot from '../modernRoot'
 import testingInit from '../testingInit'
 import requireRouter from '../../js/libs/provoda/bwlev/requireRouter.js'
-
+import SessionRoot from '../../js/libs/provoda/bwlev/SessionRoot.js'
 
 const getMainNavigationRouter = async inited => {
   const { computed } = inited
@@ -107,8 +107,11 @@ test('should execute nested requireRel & reveal resource in router', async () =>
   })
 
   const AppRoot = modernRoot({
-    BWLev: RootSession,
     rels: {
+      $session_root: ['model', model({
+        ...RootSession,
+        extends: SessionRoot,
+      })],
       user: ['nest', [User]],
       start_page: ['input', {
         linking: '<<<<',

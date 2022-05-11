@@ -10,6 +10,7 @@ import RouterCore from '../../js/models/Router.js'
 import modernRoot from '../modernRoot'
 import testingInit from '../testingInit'
 import requireRouter from '../../js/libs/provoda/bwlev/requireRouter'
+import SessionRoot from '../../js/libs/provoda/bwlev/SessionRoot.js'
 
 
 const getMainNavigationRouter = async inited => {
@@ -76,12 +77,15 @@ test('should init router', async () => {
   })
 
   const AppRoot = modernRoot({
-    BWLev: RootSession,
     rels: {
       user: ['nest', [User]],
       start_page: ['input', {
         linking: '<<<<',
       }],
+      $session_root: ['model', model({
+        ...RootSession,
+        extends: SessionRoot,
+      })],
       nav_parent_at_perspectivator_MainRouter: ['comp', ['<<<<'], { linking: '<<<<' }],
     },
   })

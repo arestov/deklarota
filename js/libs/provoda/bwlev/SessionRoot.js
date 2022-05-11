@@ -12,11 +12,11 @@ import cloneObj from '../../spv/cloneObj'
 import handlers from './router_handlers'
 import requireRouter from './requireRouter'
 
-const RootLev = spv.inh(Model, {
+const SessionRoot = spv.inh(Model, {
   /*
     root lev manages routers
 
-    > SessionRoot (RootLev)
+    > SessionRoot
       > Routers by name
       > Routers by complex name (key)
   */
@@ -113,4 +113,4 @@ const RootLev = spv.inh(Model, {
   },
 })
 
-export default RootLev
+export default SessionRoot

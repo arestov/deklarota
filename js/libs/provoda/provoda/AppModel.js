@@ -2,6 +2,7 @@
 import spv from '../../spv'
 import LoadableList from './LoadableList'
 import BrowseMap from './BrowseMap'
+import SessionRoot from '../bwlev/SessionRoot'
 
 const AppModelBase = spv.inh(LoadableList, {
   naming: function(fn) {
@@ -47,6 +48,7 @@ const AppModelBase = spv.inh(LoadableList, {
   model_name: 'app_model',
   rels: {
     $root: ['input', {linking: '<<<<'}],
+    $session_root: ['model', SessionRoot],
   },
   routePathByModels: function(pth_string, start_md, need_constr, strict, options, extra_states) {
     return BrowseMap.routePathByModels(start_md || this.start_page, pth_string, need_constr, strict, options, extra_states)

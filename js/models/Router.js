@@ -14,6 +14,7 @@ import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 import { considerOwnerAsImportantForRequestsManager } from '../libs/provoda/dcl/effects/legacy/api/requests_manager'
+import updateNesting from '../libs/provoda/Model/updateNesting'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
@@ -109,34 +110,7 @@ export default spv.inh(BasicRouter, {
       fn(this, opts, data, params, more, states)
     }
   },
-  init: function(self) {
-    self.mainLevelResidents = null // BrowseLevel, showMOnMap
-    self.bridge_bwlev = null
-    self.mainLevelResidents = null
-    self.current_mp_bwlev = null
-
-    // target.navigation = [];
-    // target.map = ;
-    self.current_mp_md = null
-
-    if (self.is_simple_router) {
-      return
-    }
-
-    const spyglass_name = 'navigation'
-
-    self.mainLevelResident = self.app.start_page
-    self.start_bwlev = createLevel(
-      spyglass_name,
-      -1,
-      false,
-      self.mainLevelResident,
-      self
-    )
-
-    const bwlev = BrowseMap.showInterest(self, [])
-    BrowseMap.changeBridge(bwlev)
-
+  init: function(_self) {
   }
 }, {
   __use_navi: false,
@@ -144,6 +118,8 @@ export default spv.inh(BasicRouter, {
     works_without_main_resident: ['input', false],
     selected__name: ['input'],
     current_expected_rel: ['input'],
+    perspectivator_name: ['input', 'navigation'],
+    __init_router: ['comp', ['_provoda_id'], Boolean],
     'used_data_structure': [
       'comp',
       ['< @one:used_data_structure < $parent'],
@@ -190,6 +166,9 @@ export default spv.inh(BasicRouter, {
   rels: {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
+    mainLevelResident: ['input', {any: true}],
+    mainLevelResidents: ['input', {any: true}],
+    start_bwlev: ['input', {any: true}],
 
     wanted_bwlev: ['input', {any: true}],
     wanted_bwlev_branch: [
@@ -198,6 +177,9 @@ export default spv.inh(BasicRouter, {
       {any: true, many: true}
     ],
     bwlev_branch_with_access: ['input', {any: true, many: true}],
+
+    /* is_simple_router=true|false */
+    bridge_bwlev: ['input', {any: true}],
 
     /* is_simple_router=true: current_bwlev, current_md */
     current_md: ['input', {any: true}],
@@ -212,6 +194,40 @@ export default spv.inh(BasicRouter, {
 
   },
   actions: {
+    'handleAttr:__init_router': {
+      to: {
+        mainLevelResident: ['<< mainLevelResident', {method: 'set_one'}],
+        start_bwlev: ['<< start_bwlev', {method: 'set_one'}],
+      },
+      fn: [
+        ['<<<<', 'perspectivator_name'],
+        ({next_value}, self, spyglass_name) => {
+          if (!next_value) {
+            return {}
+          }
+
+          if (self.is_simple_router) {
+            return {}
+          }
+
+          const mainLevelResident = self.app.start_page
+
+          updateNesting(self, 'mainLevelResident', mainLevelResident)
+          updateNesting(self, 'start_bwlev', createLevel(
+            spyglass_name,
+            -1,
+            false,
+            mainLevelResident,
+            self
+          ))
+
+          const bwlev = BrowseMap.showInterest(self, [])
+          BrowseMap.changeBridge(bwlev)
+
+          return {}
+        },
+      ]
+    },
     'handleAttr:resolved_navigation_desire': {
       to: {
         wantedReq: ['wantedReq'],

@@ -1,6 +1,5 @@
 
 import initApis from '../dcl/effects/legacy/api/init'
-import initRoutes from '../dcl/routes/init'
 import __handleInit from '../dcl/passes/handleInit/handle'
 import ensureInitialAttrs from './ensureInitialAttrs'
 import mockRelations from './mockRelations'
@@ -9,6 +8,8 @@ import _updateRel from '../_internal/_updateRel'
 
 import _updateAttr from '../_internal/_updateAttr'
 import { FlowStepInitNestRels, FlowStepMarkInited } from './flowStepHandlers.types'
+import prefillCompAttr from '../dcl/attrs/comp/prefill'
+import { initAttrs } from '../updateProxy'
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
@@ -25,14 +26,56 @@ function assignInputRels(self, input_rels) {
   }
 }
 
-function connectStates(self, input_rels) {
+
+const __initStates = (self, model_init_opts) => {
+  const { init_states } = model_init_opts
+  if (init_states === false) {
+    throw new Error('states inited already, you can\'t init now')
+  }
+
+  model_init_opts.init_states = false
+
+  const changes_list = []
+
+  changes_list.push('_provoda_id', self._provoda_id)
+
+  if (init_states) {
+    for (const state_name in init_states) {
+      if (!init_states.hasOwnProperty(state_name)) {
+        continue
+      }
+
+      if (self.hasComplexStateFn(state_name)) {
+        throw new Error('you can\'t change complex state ' + state_name)
+      }
+
+      changes_list.push(state_name, init_states[state_name])
+    }
+  }
+
+  const mock = Boolean(self.mock_relations)
+  if (is_prod || !mock) {
+    prefillCompAttr(self, changes_list)
+  }
+
+
+  if (changes_list && changes_list.length) {
+    initAttrs(self, self._fake_etr, changes_list)
+  }
+
+  // self.updateManyStates(init_states);
+
+}
+
+
+function connectStates(self, input_rels, model_init_opts) {
 
   // prefill own states before connecting relations
   ensureInitialAttrs(self)
 
   self.children_models.$root = self.app
   self.children_models.$parent = self.map_parent
-  self.__initStates()
+  __initStates(self, model_init_opts)
   self.children_models.$root = null
   self.children_models.$parent = null
   _updateRel(self, '$root', self.app)
@@ -62,10 +105,8 @@ export function markInitied(md) {
 }
 
 export default function postInitModel(self, opts, initing_params) {
-  connectStates(self, getRelFromInitParams(initing_params))
+  connectStates(self, getRelFromInitParams(initing_params), opts)
   connectNests(self)
-
-  initRoutes(self)
 
   const init_v2_data = self.init_v2_data
   if (init_v2_data != null) {

@@ -1,9 +1,10 @@
+import getRel from '../provoda/getRel'
 import getRouteStepParent from './getRouteStepParent'
 
 const isStart = (map, md) => {
   const cur = md
   while (cur) {
-    if (map.mainLevelResident == cur) {
+    if (getRel(map, 'mainLevelResident') == cur) {
       return true
     }
 

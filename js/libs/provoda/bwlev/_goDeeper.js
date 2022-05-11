@@ -5,6 +5,8 @@ import getBwlevFromParentBwlev from './getBwlevFromParentBwlev'
 import toProperNavParent from './toProperNavParent'
 import getRouteStepParent from './getRouteStepParent'
 import isStart from './isStart'
+import getRel from '../provoda/getRel'
+import findByPioneer from './findByPioneer'
 
 export default function _goDeeper(map, md, parent_bwlev, freeze_parent_bwlev) {
   /*
@@ -41,12 +43,13 @@ export default function _goDeeper(map, md, parent_bwlev, freeze_parent_bwlev) {
 
 function getBwlevInParentBwlev(md, map) {
   if (!toProperNavParent(map, getRouteStepParent(map, md))) {
-    if (map.mainLevelResident == md) {
-      return map.start_bwlev
+    if (getRel(map, 'mainLevelResident') == md) {
+      return getRel(map, 'start_bwlev')
     }
 
-    if (map.mainLevelResidents && map.mainLevelResidents[md._provoda_id]) {
-      return map.mainLevelResidents[md._provoda_id]
+    const item = findByPioneer(getRel(map, 'mainLevelResidents'), md)
+    if (item) {
+      return item
     }
 
     throw new Error('root map_parent must be `map.mainLevelResident`')
