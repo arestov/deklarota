@@ -31,7 +31,7 @@ export const dispose = function(self) {
   }
 }
 
-export default function(self, apis_as_arg) {
+export default function initApis(self, apis_as_arg) {
 
   if (apis_as_arg) {
     for (const name in apis_as_arg) {
