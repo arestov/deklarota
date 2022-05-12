@@ -4,6 +4,7 @@ import _updateAttr from '../_internal/_updateAttr'
 import _updateRel from '../_internal/_updateRel'
 import getAliveNavPioneer from './getAliveNavPioneer'
 import getRel from '../provoda/getRel'
+import getBwlevMap from './getBwlevMap'
 
 const getRedirectedCursor = (map, pioneer) => {
 
@@ -29,8 +30,8 @@ const resetNavigationRequests = (router, bwlev) => {
 }
 
 export default function changeBridge(bwlev_raw, map_raw) {
-  const bwlev = bwlev_raw && (redirected(bwlev_raw.map, bwlev_raw.getNesting('pioneer')) || bwlev_raw)
-  const map = map_raw || (bwlev && bwlev.map)
+  const bwlev = bwlev_raw && (redirected(getBwlevMap(bwlev_raw), bwlev_raw.getNesting('pioneer')) || bwlev_raw)
+  const map = map_raw || (bwlev && getBwlevMap(bwlev))
 
   if (!map) {
     console.warn('no bw map')

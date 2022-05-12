@@ -4,6 +4,7 @@ import getModelById from '../utils/getModelById'
 import changeBridge from './changeBridge'
 import showMOnMap from './showMOnMap'
 import getRouteStepParent from './getRouteStepParent'
+import getBwlevMap from './getBwlevMap'
 
 export default function requestPage(self, id) {
   const md = getModelById(self, id)
@@ -14,7 +15,7 @@ export default function requestPage(self, id) {
   let cur = md
   let bwlev_children = []
 
-  const map = self.map
+  const map = getBwlevMap(self)
 
   while (getRouteStepParent(map, cur)) {
     bwlev_children.push(cur)
