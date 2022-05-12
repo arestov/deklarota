@@ -37,21 +37,6 @@ const push = Array.prototype.push
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
-const si_opts_cache = {}
-const SIOpts = function(md) {
-  this.map_parent = md
-  this.app = md.app
-}
-
-
-const getSiOpts = function(md) {
-  const provoda_id = md._provoda_id
-  if (!si_opts_cache[provoda_id]) {
-    si_opts_cache[provoda_id] = new SIOpts(md)
-  }
-  return si_opts_cache[provoda_id]
-}
-
 const changeSourcesByApiNames = function(md, store) {
   if (!store.api_names_converted) {
     store.api_names_converted = true
@@ -215,9 +200,6 @@ function modelProps(add) {
     },
     getInstanceKey: function() {
       return this._provoda_id
-    },
-    getSiOpts: function() {
-      return getSiOpts(this)
     },
     initChi: function(name, data) {
       const Constr = this._all_chi['chi-' + name]
