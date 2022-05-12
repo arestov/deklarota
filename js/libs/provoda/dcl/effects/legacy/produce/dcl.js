@@ -93,7 +93,7 @@ export default function ApiEffectDeclr(name, data) {
   if (data.require) {
     this.deps = wrapDeps(toCorrectAttrs(data.require))
     // var desc = '_need_api_effect_' + name
-    this.deps_name = Symbol() // || Symbol(desc)
+    this.deps_name = '$meta$fxs_out$' + this.name + '$deps_ready' // || Symbol(desc)
 
     this.all_deps = this.deps
   }

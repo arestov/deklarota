@@ -32,7 +32,7 @@ const assignPropsFromData = function(self, data) {
 
       const all_deps = wrapDeps(attr_deps)
       // var all_deps_name = '_api_all_needs_' + name
-      self.deps_name = Symbol() // Symbol(all_deps_name)
+      self.deps_name = '$meta$apis$' + self.name + '$deps_ready' // Symbol(all_deps_name)
 
       self.fn = data[1]
       self.all_deps = all_deps
@@ -49,7 +49,7 @@ const assignPropsFromData = function(self, data) {
 
       const all_deps = wrapDeps([...attrToList(attr_deps), ...attrToList(needed_apis_deps)])
       // var all_deps_name = '_api_all_needs_' + name
-      self.deps_name = Symbol() // Symbol(all_deps_name)
+      self.deps_name = '$meta$apis$' + self.name + '$deps_ready' // Symbol(all_deps_name)
       self.all_deps = all_deps
 
       self.fn = data[2]
