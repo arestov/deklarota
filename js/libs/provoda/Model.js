@@ -30,6 +30,8 @@ import triggerDestroy from './helpers/triggerDestroy'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import requestState, { resetRequestedState } from './FastEventor/requestState'
 import requestNesting from './FastEventor/requestNesting'
+import { FlowStepAction } from './Model/flowStepHandlers.types'
+import act from './dcl/passes/act'
 
 const push = Array.prototype.push
 
@@ -356,6 +358,13 @@ function modelProps(add) {
     readAddr: function(addr) {
       const parsed = typeof addr === 'string' ? getParsedAddr(addr) : addr
       return getDepValue(this, parsed)
+    },
+  })
+
+  add({
+    __act: act,
+    dispatch: function(action_name, data) {
+      this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data])
     },
   })
 

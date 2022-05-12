@@ -5,10 +5,8 @@ import gentlyUpdateAttr from './gentlyUpdateAttr'
 import regfr_lightstev from '../internal_events/light_attr_change/regfire'
 import getNameByAttr from '../internal_events/light_attr_change/getNameByAttr'
 import onPropsExtend from '../onExtendSE'
-import act from '../dcl/passes/act'
 import pvState from '../utils/state'
 import initEffectsSubscribe from '../dcl/effects/legacy/subscribe/init'
-import { FlowStepAction } from '../Model/flowStepHandlers.types'
 import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
 import calls_flows_holder_basic from './calls_flows_holder_basic'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
@@ -60,10 +58,7 @@ function props(add) {
   })
 
   add({
-    __act: act,
-    dispatch: function(action_name, data) {
-      this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data])
-    },
+
   // init: function(){
   // 	this._super();
 
