@@ -144,7 +144,6 @@ export default function(dclt, nesting_name, limit) {
   if (!this.nesting_requests[ nesting_name ]) {
     this.nesting_requests[ nesting_name ] = {
       //has_items: false,
-      has_all_items: false,
       last_page: 0,
       error: false,
       process: false,
@@ -153,9 +152,14 @@ export default function(dclt, nesting_name, limit) {
   }
 
   const store = this.nesting_requests[ nesting_name ]
-  if (store.process || store.has_all_items) {
+  if (store.process) {
     return
   }
+
+  if (this.getAttr(nestingMark(nesting_name, types.all_loaded))) {
+    return
+  }
+
   const _this = this
 
   const isValidRequest = function(req) {
@@ -255,10 +259,7 @@ export default function(dclt, nesting_name, limit) {
 
       _this.inputFromInterface(api, function() {
         store.error = false
-        store.has_all_items = true
-        handleNestResponse(response, source_name, function() {
-          store.has_all_items = false
-        })
+        handleNestResponse(response, source_name)
         anyway()
         markAttemptComplete()
       })
@@ -273,7 +274,7 @@ export default function(dclt, nesting_name, limit) {
 
     })
 
-  function handleNestResponse(r, source_name, markListIncomplete) {
+  function handleNestResponse(r, source_name) {
     // should be in data bus queue - use `.input` wrap
     const sputnik = _this
 
@@ -281,10 +282,6 @@ export default function(dclt, nesting_name, limit) {
     const result_data = parse_items.call(sputnik, r, clean_obj, morph_helpers)
     let items = Array.isArray(result_data) ? result_data : result_data.list
     const can_load_more = false // paging
-
-    if (can_load_more) {
-      markListIncomplete()
-    }
 
     const rel_req_meta_attrs = {
       [nestingMark(nesting_name, types.all_loaded)]: !can_load_more
