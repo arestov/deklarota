@@ -144,7 +144,6 @@ export default function(dclt, nesting_name, limit) {
   if (!this.nesting_requests[ nesting_name ]) {
     this.nesting_requests[ nesting_name ] = {
       //has_items: false,
-      last_page: 0,
       error: false,
       process: false,
       req: null,
