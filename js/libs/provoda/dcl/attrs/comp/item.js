@@ -59,7 +59,7 @@ const toParsedDeps = function(array) {
 const emptyList = []
 
 const badAttrs = new Set(['main_list_loading', 'list_loading', 'all_data_loaded'])
-const ignoredLegacy = new Set(['can_load_data'])
+const ignoredLegacy = new Set()
 
 const CompxAttrDecl = function(comlx_name_raw, cur) {
   const comlx_name = sameName(comlx_name_raw)

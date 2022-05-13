@@ -30,14 +30,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     main_list_loading: ['input', false],
     all_data_loaded: ['input', false],
 
-    'can_load_data': [
-      'comp',
-      ['has_data_loader', 'loader_disallowed', 'has_no_access'],
-      function(has_data_loader, loader_disallowed, has_no_access) {
-        return has_data_loader && !loader_disallowed && !has_no_access
-      }
-    ],
-
   },
 
   main_list_name: 'lists_list',
