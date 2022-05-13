@@ -19,7 +19,6 @@ export default function(dcl) {
       const suffix = boolean_types[jj]
 
       dcl.boolean_attrs.push(
-        new BooleanAttr(states_name + '__' + suffix),
         new BooleanAttr('$meta$attrs$' + states_name + '$' + suffix)
       )
     }
