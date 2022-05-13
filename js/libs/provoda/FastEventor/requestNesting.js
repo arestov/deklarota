@@ -104,7 +104,6 @@ export const initRelsRequesting = (self) => {
 }
 
 export default function(dclt, nesting_name) {
-  // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
   // nesting_name + "$error"
   // nesting_name + '$waiting_queue'
