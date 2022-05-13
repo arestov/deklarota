@@ -266,8 +266,21 @@ export default function(dclt, nesting_name) {
       if nothing provided let's consider that all items loaded
     */
     const value_all_loaded = user_meta_attrs?.[attr_all_loaded] ?? true
+    if (user_meta_attrs) {
+      const expected_meta_mark = nestingMark(nesting_name, '')
+      for (const attr_name in user_meta_attrs) {
+        if (!Object.hasOwnProperty.call(user_meta_attrs, attr_name)) {
+          continue
+        }
+
+        if (!attr_name.startsWith(expected_meta_mark)) {
+          throw new Error('attr name should starts with ' + expected_meta_mark)
+        }
+      }
+    }
 
     const rel_req_meta_attrs = {
+      ...user_meta_attrs,
       [attr_all_loaded]: value_all_loaded
     }
     sputnik.updateManyStates(rel_req_meta_attrs)
