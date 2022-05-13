@@ -3,6 +3,7 @@ import types from './nestReqTypes'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
 import { FlowStepHandlRelSideDataLegacy, FlowStepUpdateManyAttrs } from '../Model/flowStepHandlers.types'
+import { hasOwnProperty } from '../hasOwnProperty'
 
 const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
@@ -10,50 +11,72 @@ const findErrorByList = req_utils.findErrorByList
 
 const clean_obj = {}
 
+function exlcudeUnexpectedMetaAttrs(self, attrs) {
+  for (const attr_name in attrs) {
+    if (!Object.hasOwnProperty.call(attrs, attr_name)) {
+      continue
+    }
+    if (!hasOwnProperty(self.__default_attrs, attr_name)) {
+      delete attrs[attr_name]
+    }
+  }
+
+  return attrs
+}
 
 function nestingMark(nesting_name, name) {
   return '$meta$rels$' + nesting_name + '$' + name
 }
 
-function statesAnyway(states, nesting_name) {
+function statesAnyway(self, states, nesting_name) {
 
   states[nestingMark(nesting_name, types.loading)] = false
 
+  exlcudeUnexpectedMetaAttrs(self, states)
   return states
 }
 
-function statesComplete(states, nesting_name) {
+function statesComplete(self, states, nesting_name) {
   states[nestingMark(nesting_name, types.load_attempting)] = false
 
   states[nestingMark(nesting_name, types.load_attempted)] = true
 
   const now = Date.now()
   states[nestingMark(nesting_name, types.load_attempted_at)] = now
+  exlcudeUnexpectedMetaAttrs(self, states)
   return states
 }
 
 
 
-function statesData(states, nesting_name) {
+function statesData(self, states, nesting_name) {
   states[nestingMark(nesting_name, types.error)] = null
 
   states[nestingMark(nesting_name, types.has_any)] = true
+  exlcudeUnexpectedMetaAttrs(self, states)
+
 }
 
 
-function statesStart(states, nesting_name) {
+function statesStart(self, states, nesting_name) {
   states[nestingMark(nesting_name, types.load_attempting)] = true
 
   states[nestingMark(nesting_name, types.loading)] = true
+  exlcudeUnexpectedMetaAttrs(self, states)
+
   return states
 }
 
-function statesError(states, nesting_name) {
+function statesError(self, states, nesting_name) {
   states[nestingMark(nesting_name, types.error)] = true
+  exlcudeUnexpectedMetaAttrs(self, states)
+
 }
 
-function statesQueue(states, nesting_name, mark) {
+function statesQueue(self, states, nesting_name, mark) {
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
+  exlcudeUnexpectedMetaAttrs(self, states)
+
 }
 
 function startFetching(self, nesting_name, _, has_error, network_api_opts) {
@@ -152,7 +175,7 @@ export default function(dclt, nesting_name) {
 
   this.inputFromInterface(api, function() {
     const states = {}
-    statesStart(states, nesting_name)
+    statesStart(_this, states, nesting_name)
     _this.updateManyStates(states)
   })
 
@@ -170,7 +193,7 @@ export default function(dclt, nesting_name) {
 
   function markAttemptComplete() {
     const states = {}
-    statesComplete(states, nesting_name)
+    statesComplete(_this, states, nesting_name)
     _this.nextTick(FlowStepUpdateManyAttrs, [states], true)
   }
 
@@ -181,14 +204,14 @@ export default function(dclt, nesting_name) {
     }
 
     const states = {}
-    statesAnyway(states, nesting_name)
+    statesAnyway(_this, states, nesting_name)
     _this.nextTick(FlowStepUpdateManyAttrs, [states], true)
   }
 
   function handleError() {
     store.error = true
     const states = {}
-    statesError(states, nesting_name)
+    statesError(_this, states, nesting_name)
     _this.nextTick(FlowStepUpdateManyAttrs, [states], true)
 
     anyway()
@@ -212,7 +235,7 @@ export default function(dclt, nesting_name) {
       if (!isValidRequest(request)) {
         return
       }
-      _this.updateManyStates(statesQueue({}, nesting_name, value))
+      _this.updateManyStates(statesQueue(_this, {}, nesting_name, value))
     }
 
     const startWaiting = changeWaitingState(true)
@@ -286,7 +309,7 @@ export default function(dclt, nesting_name) {
     sputnik.updateManyStates(rel_req_meta_attrs)
 
     const many_states = {}
-    statesData(many_states, nesting_name)
+    statesData(sputnik, many_states, nesting_name)
 
     sputnik.insertDataAsSubitems(sputnik, nesting_name, items, source_name)
 
