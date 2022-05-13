@@ -5,10 +5,10 @@ import getAttrsOfRequestStates from './getAttrsOfRequestStates'
 const SendDeclaration = utils.SendDeclaration
 const toSchemaFn = utils.toSchemaFn
 
-
 export default function StateReqMap(num, req_item) {
+  this.name = req_item.name || 'default_attrs_request_name'
   this.num = num
-  this.state_dep = '__$can_load_req_map_' + num
+  this.state_dep = '__$can_load_req_map_' + this.name
   this.dependencies = null
   this.send_declr = null
   this.states_list = null
