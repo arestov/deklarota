@@ -30,13 +30,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     main_list_loading: ['input', false],
     all_data_loaded: ['input', false],
 
-    '$needs_load': [
-      'comp',
-      ['more_load_available', 'mp_has_focus'],
-      function(can_more, focus) {
-        return Boolean(focus && can_more)
-      }
-    ],
 
     'list_loading': [
       'comp',
@@ -69,12 +62,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
         return can_load_more && !list_loading
       }
     ]
-  },
-
-  'stch-$needs_load': function(target, state) {
-    if (state) {
-      target.preloadStart()
-    }
   },
 
   main_list_name: 'lists_list',
