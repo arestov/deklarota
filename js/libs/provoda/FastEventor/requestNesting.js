@@ -70,7 +70,7 @@ function statesQueue(states, nesting_name, mark) {
   states[nestingMark(nesting_name, types.waiting_queue)] = mark
 }
 
-function startFetching(self, nesting_name, paging_opts, has_error, network_api_opts) {
+function startFetching(self, nesting_name, _, has_error, network_api_opts) {
   const dclt = self._nest_reqs[nesting_name]
   const send_declr = dclt.send_declr
 
@@ -80,7 +80,7 @@ function startFetching(self, nesting_name, paging_opts, has_error, network_api_o
   }
 
   const request = getRequestByDeclr(send_declr, self,
-    {has_error: has_error, paging: paging_opts},
+    {has_error: has_error},
     network_api_opts)
 
   const network_api = request.network_api
@@ -117,7 +117,7 @@ export const initRelsRequesting = (self) => {
   self.nesting_requests = null
 }
 
-export default function(dclt, nesting_name, limit) {
+export default function(dclt, nesting_name) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
   // 'main_list_loading', true
@@ -177,13 +177,10 @@ export default function(dclt, nesting_name, limit) {
   const parse_items = dclt.parse_items
   const side_data_parsers = dclt.side_data_parsers
 
-  const limit_value = limit && (limit[1] - limit[0])
-  const paging_opts = this.getPagingInfo(nesting_name, limit_value)
-
   const network_api_opts = {
     nocache: store.error
   }
-  const request = initRequest(_this, nesting_name, paging_opts, store.error, network_api_opts)
+  const request = initRequest(_this, nesting_name, null, store.error, network_api_opts)
 
 
   store.process = true
@@ -279,7 +276,7 @@ export default function(dclt, nesting_name, limit) {
 
     const morph_helpers = sputnik.app.morph_helpers
     const result_data = parse_items.call(sputnik, r, clean_obj, morph_helpers)
-    let items = Array.isArray(result_data) ? result_data : result_data.list
+    const items = Array.isArray(result_data) ? result_data : result_data.list
 
     const user_meta_attrs = Array.isArray(result_data) ? null : result_data.attrs
     const attr_all_loaded = nestingMark(nesting_name, types.all_loaded)
@@ -296,8 +293,6 @@ export default function(dclt, nesting_name, limit) {
     const many_states = {}
     const can_load_more = !value_all_loaded
     statesData(many_states, nesting_name, can_load_more, is_main_list)
-
-    items = paging_opts.remainder ? items.slice(paging_opts.remainder) : items
 
     sputnik.insertDataAsSubitems(sputnik, nesting_name, items, source_name)
 
@@ -323,7 +318,7 @@ export default function(dclt, nesting_name, limit) {
           sputnik,
           source_name,
           side_data_parsers[i][0],
-          side_data_parsers[i][1].call(sputnik, r, paging_opts, morph_helpers)
+          side_data_parsers[i][1].call(sputnik, r, null, morph_helpers)
         ], true)
     }
 

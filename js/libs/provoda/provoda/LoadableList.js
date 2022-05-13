@@ -78,23 +78,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   },
 
   main_list_name: 'lists_list',
-  page_limit: 30,
-
-  getPagingInfo: function(nesting_name, limit) {
-    const page_limit = limit || this.page_limit || this.map_parent.page_limit
-    const length = this.getLength(nesting_name)
-    const has_pages = Math.floor(length / page_limit)
-    const remainder = length % page_limit
-    const next_page = has_pages + 1
-
-    return {
-      current_length: length,
-      has_pages: has_pages,
-      page_limit: page_limit,
-      remainder: remainder,
-      next_page: next_page
-    }
-  },
 
   preloadStart: function() {
     this.loadStart(this.__getLoadableRel())
