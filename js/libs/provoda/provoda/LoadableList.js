@@ -66,25 +66,11 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
 
   main_list_name: 'lists_list',
 
-  preloadStart: function() {
-    this.loadStart(this.__getLoadableRel())
-  },
-
   getLength: function(nesting_name) {
     if (!nesting_name) {
       throw new Error('provide nesting_name')
     }
     return (this.loaded_nestings_items && this.loaded_nestings_items[ nesting_name ]) || 0
-  },
-
-  loadStart: function(nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    if (this.state('more_load_available') && !this.getLength(nesting_name)) {
-      this.requestMoreData()
-    }
   },
 
   requestMoreData: function(nesting_name) {
