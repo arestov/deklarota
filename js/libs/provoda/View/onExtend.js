@@ -15,6 +15,8 @@ import checkNestBorrow from '../dcl_view/nest_borrow/check-dcl'
 import checkNestBorrowWatch from '../dcl_view/nest_borrow/watch'
 import checkSpyglass from '../dcl_view/spyglass/check-dcl'
 import validateViewAttrs from './validateViewAttrs'
+import { cacheFields } from '../dcl/cachedField'
+import { __default_attrs } from '../dcl/attrs/input/build'
 const cloneObj = spv.cloneObj
 
 const getBaseTreeCheckList = function(start) {
@@ -54,6 +56,10 @@ const getBaseTreeCheckList = function(start) {
 
 }
 
+const final_schema = {
+  __default_attrs,
+}
+
 const completeBuild = (self) => {
 
   const typed_state_dcls = getTypedDcls(self.__dcls_attrs) || {}
@@ -66,6 +72,7 @@ const completeBuild = (self) => {
   checkEffects(self)
 
   buildAttrsFinal(self)
+  cacheFields(final_schema, self)
   validateViewAttrs(self)
 }
 

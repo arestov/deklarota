@@ -16,10 +16,8 @@ const userInput = (self) => {
   return result
 }
 
-const checkParts = cachedField(
-  '__default_attrs',
+export const __default_attrs = [
   ['__default_attrs', '__default_attrs_user'],
-  false,
   (current, arg1) => {
     const result = {}
 
@@ -31,11 +29,9 @@ const checkParts = cachedField(
 
     return result
   }
-)
+]
 
 
 export default function(self) {
   self.__default_attrs_user = userInput(self) || self.__default_attrs_user
-
-  checkParts(self)
 };
