@@ -12,6 +12,10 @@ BooleanAttr.prototype = {
 
 export default function(dcl) {
   dcl.boolean_attrs = []
+
+  dcl.boolean_attrs.push(
+    new BooleanAttr(`$meta$input_attrs_requests$${dcl.name}$done`)
+  )
   for (let i = 0; i < dcl.states_list.length; i++) {
     const states_name = dcl.states_list[i]
 
