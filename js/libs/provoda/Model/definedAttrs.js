@@ -1,4 +1,5 @@
 import { hasEveryArgs } from '../../spv'
+import { hasOwnProperty } from '../hasOwnProperty'
 import definedMetaAttrs from './rel/definedMetaAttrs'
 
 const push = Array.prototype.push
@@ -44,7 +45,15 @@ export default function(self) {
   if (self._states_reqs_list) {
     for (let i = 0; i < self._states_reqs_list.length; i++) {
       const cur = self._states_reqs_list[i]
-      push.apply(result, cur.boolean_attrs)
+      for (let i = 0; i < cur.boolean_attrs.length; i++) {
+        const bool_attr = cur.boolean_attrs[i]
+
+        if (!hasOwnProperty(self.__default_attrs, bool_attr.name)) {
+          continue
+        }
+
+        result.push(bool_attr)
+      }
     }
   }
 
