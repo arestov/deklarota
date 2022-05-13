@@ -16,27 +16,14 @@ const userInput = (self) => {
   return result
 }
 
-const serviceInput = (self) => {
-  if (!self.hasOwnProperty('_nest_reqs')) {return}
-
-  const has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name])
-  if (!has_loader) { return}
-
-  return {
-    has_data_loader: true,
-  }
-
-}
-
 const checkParts = cachedField(
   '__default_attrs',
-  ['__default_attrs', '__default_attrs_user', '__default_attrs_service'],
+  ['__default_attrs', '__default_attrs_user'],
   false,
-  (current, arg1, arg2) => {
+  (current, arg1) => {
     const result = {}
 
     doCopy(result, arg1)
-    doCopy(result, arg2)
 
     if (shallowEqual(current, result)) {
       return current
@@ -49,7 +36,6 @@ const checkParts = cachedField(
 
 export default function(self) {
   self.__default_attrs_user = userInput(self) || self.__default_attrs_user
-  self.__default_attrs_service = serviceInput(self) || self.__default_attrs_service
 
   checkParts(self)
 };

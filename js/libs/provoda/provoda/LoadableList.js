@@ -26,7 +26,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
   attrs: {
 
     // TODO: find way to get rid of it
-    has_data_loader: ['input', null],
     main_list_loading: ['input', false],
     all_data_loaded: ['input', false],
 
