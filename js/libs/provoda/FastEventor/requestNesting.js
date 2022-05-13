@@ -34,18 +34,10 @@ function statesComplete(states, nesting_name) {
 
 
 
-function statesData(states, nesting_name, can_load_more, is_main_list) {
+function statesData(states, nesting_name) {
   states[nestingMark(nesting_name, types.error)] = null
 
   states[nestingMark(nesting_name, types.has_any)] = true
-
-  if (can_load_more) {
-    return
-  }
-
-  if (is_main_list) {
-    states[types.all_data_loaded] = true // old old legacy
-  }
 }
 
 
@@ -158,8 +150,6 @@ export default function(dclt, nesting_name) {
     const store = _this.nesting_requests[nesting_name]
     return store && store.req == req
   }
-
-  const is_main_list = nesting_name == this.main_list_name
 
   this.inputFromInterface(api, function() {
     const states = {}
@@ -284,8 +274,7 @@ export default function(dclt, nesting_name) {
     sputnik.updateManyStates(rel_req_meta_attrs)
 
     const many_states = {}
-    const can_load_more = !value_all_loaded
-    statesData(many_states, nesting_name, can_load_more, is_main_list)
+    statesData(many_states, nesting_name)
 
     sputnik.insertDataAsSubitems(sputnik, nesting_name, items, source_name)
 

@@ -10,5 +10,4 @@ export default {
   waiting_queue: 'waiting_queue',
   error: 'error',
   loading_nesting: 'loading_nesting', // old legacy
-  all_data_loaded: 'all_data_loaded', // old old legacy
 }
