@@ -49,8 +49,6 @@ function statesData(states, nesting_name, can_load_more, is_main_list) {
   if (is_main_list) {
     states[types.all_data_loaded] = true // old old legacy
   }
-
-  states[nestingMark(nesting_name, types.all_loaded)] = true
 }
 
 
@@ -280,12 +278,18 @@ export default function(dclt, nesting_name, limit) {
     const sputnik = _this
 
     const morph_helpers = sputnik.app.morph_helpers
-    let items = parse_items.call(sputnik, r, clean_obj, morph_helpers)
+    const result_data = parse_items.call(sputnik, r, clean_obj, morph_helpers)
+    let items = Array.isArray(result_data) ? result_data : result_data.list
     const can_load_more = false // paging
 
     if (can_load_more) {
       markListIncomplete()
     }
+
+    const rel_req_meta_attrs = {
+      [nestingMark(nesting_name, types.all_loaded)]: !can_load_more
+    }
+    sputnik.updateManyStates(rel_req_meta_attrs)
 
     const many_states = {}
     statesData(many_states, nesting_name, can_load_more, is_main_list)
