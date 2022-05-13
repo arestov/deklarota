@@ -30,15 +30,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
     main_list_loading: ['input', false],
     all_data_loaded: ['input', false],
 
-
-    'list_loading': [
-      'comp',
-      ['main_list_loading', 'preview_loading', 'id_searching'],
-      function(main_list_loading, prevw_loading, id_searching) {
-        return main_list_loading || prevw_loading || id_searching
-      }
-    ],
-
     'can_load_data': [
       'comp',
       ['has_data_loader', 'loader_disallowed', 'has_no_access'],
@@ -47,21 +38,6 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
       }
     ],
 
-    'can_load_more': [
-      'comp',
-      ['can_load_data', 'all_data_loaded'],
-      function(can_load_data, all_data_loaded) {
-        return can_load_data && !all_data_loaded
-      }
-    ],
-
-    'more_load_available': [
-      'comp',
-      ['can_load_more', 'list_loading'],
-      function(can_load_more, list_loading) {
-        return can_load_more && !list_loading
-      }
-    ]
   },
 
   main_list_name: 'lists_list',
