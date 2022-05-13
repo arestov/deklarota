@@ -167,3 +167,5 @@
 - remove allow_data_init prop from BrowserMap model
 
 - remove getPagingInfo & paging_opts for rel request
+
+- remove preloading with loadNestingsByStruc, to_load in bwlev (nice thing, but can't continue to support that kind code)

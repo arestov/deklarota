@@ -10,7 +10,6 @@ import pvState from '../utils/state'
 import flatStruc from '../structure/flatStruc'
 import getUsageStruc from '../structure/getUsageStruc'
 import initNestingsByStruc from '../structure/reactions/initNestingsByStruc'
-import loadNestingsByStruc from '../structure/reactions/loadNestingsByStruc'
 // import loadAllByStruc from '../structure/reactions/loadAllByStruc'
 import getModelSources from '../structure/getModelSources'
 import showMOnMap from './showMOnMap'
@@ -207,14 +206,6 @@ const BrowseLevel = spv.inh(Model, {
       }
     ],
 
-    'to_load': [
-      'comp',
-      ['distance_from_destination', 'struc'],
-      function(distance, struc) {
-        if (distance == null || distance > 0 || !struc) {return}
-        return struc
-      }
-    ],
 
     '__struc_list': [
       'comp',
@@ -435,13 +426,7 @@ const BrowseLevel = spv.inh(Model, {
     initNestingsByStruc(target.getNesting('pioneer'), struc)
   },
 
-  'stch-to_load': function(target, struc) {
-    if (!struc) {return}
 
-    // load nestings (simple)
-
-    loadNestingsByStruc(target.getNesting('pioneer'), struc)
-  },
 
   'stch-__to_load_all': function(_target, obj, prev) {
     if (!obj.list) {
