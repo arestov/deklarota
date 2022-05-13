@@ -281,14 +281,21 @@ export default function(dclt, nesting_name, limit) {
     const morph_helpers = sputnik.app.morph_helpers
     const result_data = parse_items.call(sputnik, r, clean_obj, morph_helpers)
     let items = Array.isArray(result_data) ? result_data : result_data.list
-    const can_load_more = false // paging
+
+    const user_meta_attrs = Array.isArray(result_data) ? null : result_data.attrs
+    const attr_all_loaded = nestingMark(nesting_name, types.all_loaded)
+    /*
+      if nothing provided let's consider that all items loaded
+    */
+    const value_all_loaded = user_meta_attrs?.[attr_all_loaded] ?? true
 
     const rel_req_meta_attrs = {
-      [nestingMark(nesting_name, types.all_loaded)]: !can_load_more
+      [attr_all_loaded]: value_all_loaded
     }
     sputnik.updateManyStates(rel_req_meta_attrs)
 
     const many_states = {}
+    const can_load_more = !value_all_loaded
     statesData(many_states, nesting_name, can_load_more, is_main_list)
 
     items = paging_opts.remainder ? items.slice(paging_opts.remainder) : items
