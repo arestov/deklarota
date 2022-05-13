@@ -15,10 +15,7 @@ function nestingMark(nesting_name, name) {
   return '$meta$rels$' + nesting_name + '$' + name
 }
 
-function statesAnyway(states, nesting_name, is_main_list) {
-  if (is_main_list) {
-    states[types.main_list_loading] = false // old old legacy ?
-  }
+function statesAnyway(states, nesting_name) {
 
   states[nestingMark(nesting_name, types.loading)] = false
 
@@ -52,13 +49,10 @@ function statesData(states, nesting_name, can_load_more, is_main_list) {
 }
 
 
-function statesStart(states, nesting_name, is_main_list) {
+function statesStart(states, nesting_name) {
   states[nestingMark(nesting_name, types.load_attempting)] = true
 
   states[nestingMark(nesting_name, types.loading)] = true
-  if (is_main_list) {
-    states[types.main_list_loading] = true // old old legacy
-  }
   return states
 }
 
@@ -120,7 +114,6 @@ export const initRelsRequesting = (self) => {
 export default function(dclt, nesting_name) {
   // 'loading_nesting_' + nesting_name
   // nesting_name + '$loading'
-  // 'main_list_loading', true
   // nesting_name + "$error"
   // nesting_name + '$waiting_queue'
 
@@ -170,7 +163,7 @@ export default function(dclt, nesting_name) {
 
   this.inputFromInterface(api, function() {
     const states = {}
-    statesStart(states, nesting_name, is_main_list)
+    statesStart(states, nesting_name)
     _this.updateManyStates(states)
   })
 
@@ -199,7 +192,7 @@ export default function(dclt, nesting_name) {
     }
 
     const states = {}
-    statesAnyway(states, nesting_name, is_main_list)
+    statesAnyway(states, nesting_name)
     _this.nextTick(FlowStepUpdateManyAttrs, [states], true)
   }
 
