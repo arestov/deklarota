@@ -23,6 +23,7 @@ import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 import validateModelSchema from './validateModelSchema'
 import { __default_attrs, $attrs$expected_input$service, } from '../dcl/attrs/input/build'
 import { cacheFields } from '../dcl/cachedField'
+import { $attrs$from_autoinited_rels$ } from '../dcl/nest/build'
 
 const check = /initStates/gi
 
@@ -49,6 +50,7 @@ const checkSideeffects = function(self, props, params) {
 }
 
 const final_schema = {
+  $attrs$from_autoinited_rels$,
   $attrs$expected_input$service,
   __default_attrs,
 }

@@ -17,10 +17,11 @@ const userInput = (self) => {
 }
 
 export const $attrs$expected_input$service = [
-  ['_states_reqs_list', '_nest_reqs', '$attrs$expected_input$basic', '_extendable_nest_index'],
-  (attrs_reqs_list, rels_reqs_list, $attrs$expected_input$basic, $rels) => {
+  ['_states_reqs_list', '_nest_reqs', '$attrs$expected_input$basic', '_extendable_nest_index', '$attrs$from_autoinited_rels$'],
+  (attrs_reqs_list, rels_reqs_list, $attrs$expected_input$basic, $rels, $rels_autoinit) => {
     const result = {
       ...$attrs$expected_input$basic,
+      ...$rels_autoinit,
     }
 
     if ($rels) {

@@ -77,6 +77,15 @@ export default function(self) {
     }
   }
 
+  if (self.$attrs$from_autoinited_rels$) {
+    for (const attr_mark in self.$attrs$from_autoinited_rels$) {
+      if (!self.$attrs$from_autoinited_rels$.hasOwnProperty(attr_mark)) {
+        continue
+      }
+      result.push({name: attr_mark, type: 'bool'})
+    }
+  }
+
 
   self.__defined_attrs_bool = result
 
