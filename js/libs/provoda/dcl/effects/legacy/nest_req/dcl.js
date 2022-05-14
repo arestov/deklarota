@@ -3,6 +3,8 @@
 import spv from '../../../../../spv'
 import morphMap from '../../../../../spv/morphMap'
 import utils from '../utils'
+import { nestingMark } from './nestingMark'
+import nestReqTypes from './nestReqTypes'
 
 const SendDeclaration = utils.SendDeclaration
 const toSchemaFn = utils.toSchemaFn
@@ -23,6 +25,9 @@ export default function NestReqMap(name, dclt) {
   this.send_declr = null
   this.dependencies = null
   this.state_dep = null
+  this.expected_attrs = {
+    [nestingMark(this.nest_name, nestReqTypes.all_loaded)]: false
+  }
 
 
   if (!Array.isArray(dclt)) {

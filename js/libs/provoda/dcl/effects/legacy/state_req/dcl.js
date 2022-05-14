@@ -15,6 +15,11 @@ export default function StateReqMap(num, req_item) {
   this.boolean_attrs = Array.prototype
   this.parse = null
 
+  // this attr is for dkt internals primarily. so user do not have to mark it as expected
+  this.expected_attrs = {
+    [`$meta$input_attrs_requests$${this.name}$done`]: false,
+  }
+
   if (!Array.isArray(req_item)) {
     this.parse = toSchemaFn(req_item.parse)
     this.states_list = req_item.states

@@ -17,11 +17,26 @@ const userInput = (self) => {
 }
 
 export const __default_attrs = [
-  ['__default_attrs', '__default_attrs_user'],
-  (current, arg1) => {
+  ['__default_attrs', '__default_attrs_user', '_states_reqs_list', '_nest_reqs'],
+  (current, arg1, attrs_reqs_list, rels_reqs_list) => {
     const result = {}
 
     doCopy(result, arg1)
+
+    if (attrs_reqs_list) {
+      for (const req_dcl of attrs_reqs_list) {
+        doCopy(result, req_dcl.expected_attrs)
+      }
+    }
+
+    if (rels_reqs_list) {
+      for (const key in rels_reqs_list) {
+        if (Object.hasOwnProperty.call(rels_reqs_list, key)) {
+          const req_dcl = rels_reqs_list[key]
+          doCopy(result, req_dcl.expected_attrs)
+        }
+      }
+    }
 
     if (shallowEqual(current, result)) {
       return current
