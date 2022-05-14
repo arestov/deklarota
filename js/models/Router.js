@@ -316,6 +316,7 @@ export default spv.inh(BasicRouter, {
         ['$now', '_provoda_id'],
         ({rel_path, current_md_id}, now, self_id) => {
           return {
+            id: `${now}-${self_id}`,
             expected_at: now, // some kind of uniqness for this entry
             rel_path,
             router_id: self_id,

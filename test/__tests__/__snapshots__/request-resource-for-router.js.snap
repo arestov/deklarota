@@ -23,6 +23,7 @@ exports[`should execute nested requireRel & reveal resource in router 5`] = `
 Object {
   "current_md_id": 1,
   "expected_at": Any<Number>,
+  "id": Any<String>,
   "rel_path": "user.onboarding",
   "router_id": 4,
 }

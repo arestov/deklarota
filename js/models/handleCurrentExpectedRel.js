@@ -12,13 +12,13 @@ const setChain = (self, expected_rel_entry, chain) => {
   if (!self._highway.expected_rels_to_chains) {
     self._highway.expected_rels_to_chains = new Map()
   }
-  self._highway.expected_rels_to_chains.set(expected_rel_entry, chain)
+  self._highway.expected_rels_to_chains.set(expected_rel_entry.id, chain)
 }
 
 const getChain = (self, expected_rel_entry) => {
   if (!self._highway.expected_rels_to_chains) {return null}
 
-  return self._highway.expected_rels_to_chains.get(expected_rel_entry)
+  return self._highway.expected_rels_to_chains.get(expected_rel_entry.id)
 }
 
 const handleCurrentExpectedRel = (self, data) => {
