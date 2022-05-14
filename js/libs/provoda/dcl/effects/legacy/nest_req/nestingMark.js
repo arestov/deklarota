@@ -1,3 +1,3 @@
-export function nestingMark(nesting_name, name) {
-  return '$meta$rels$' + nesting_name + '$' + name
+export function nestingMark(nesting_name, suffix) {
+  return '$meta$rels$' + nesting_name + '$' + suffix
 }
