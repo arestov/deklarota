@@ -9,6 +9,7 @@ import isPrivateState from './Model/isPrivateState'
 import sameName from './sameName'
 import shallowEqual from './shallowEqual'
 import legacySideEffects from './handleLegacySideEffects'
+import { hasOwnProperty } from './hasOwnProperty'
 
 const CH_GR_LE = 2
 
@@ -493,7 +494,9 @@ function reportBadChange(etr, state_name) {
   // only for models
   if (!etr._provoda_id) {return}
 
-
+  if (hasOwnProperty(etr.compx_check, state_name)) {
+    return
+  }
   //
   if (etr.__bad_attrs_reported && etr.__bad_attrs_reported.hasOwnProperty(state_name)) {
     return
