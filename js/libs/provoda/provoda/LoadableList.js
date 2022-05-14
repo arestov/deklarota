@@ -24,97 +24,15 @@ const LoadableListBase = spv.inh(BrowseMap.Model, {
 }, {
   handling_v2_init: true,
   attrs: {
-
-    // TODO: find way to get rid of it
-    has_data_loader: ['input', null],
-    main_list_loading: ['input', false],
-    all_data_loaded: ['input', false],
-
-    '$needs_load': [
-      'comp',
-      ['more_load_available', 'mp_has_focus'],
-      function(can_more, focus) {
-        return Boolean(focus && can_more)
-      }
-    ],
-
-    'list_loading': [
-      'comp',
-      ['main_list_loading', 'preview_loading', 'id_searching'],
-      function(main_list_loading, prevw_loading, id_searching) {
-        return main_list_loading || prevw_loading || id_searching
-      }
-    ],
-
-    'can_load_data': [
-      'comp',
-      ['has_data_loader', 'loader_disallowed', 'has_no_access'],
-      function(has_data_loader, loader_disallowed, has_no_access) {
-        return has_data_loader && !loader_disallowed && !has_no_access
-      }
-    ],
-
-    'can_load_more': [
-      'comp',
-      ['can_load_data', 'all_data_loaded'],
-      function(can_load_data, all_data_loaded) {
-        return can_load_data && !all_data_loaded
-      }
-    ],
-
-    'more_load_available': [
-      'comp',
-      ['can_load_more', 'list_loading'],
-      function(can_load_more, list_loading) {
-        return can_load_more && !list_loading
-      }
-    ]
-  },
-
-  'stch-$needs_load': function(target, state) {
-    if (state) {
-      target.preloadStart()
-    }
   },
 
   main_list_name: 'lists_list',
-  page_limit: 30,
-
-  getPagingInfo: function(nesting_name, limit) {
-    const page_limit = limit || this.page_limit || this.map_parent.page_limit
-    const length = this.getLength(nesting_name)
-    const has_pages = Math.floor(length / page_limit)
-    const remainder = length % page_limit
-    const next_page = has_pages + 1
-
-    return {
-      current_length: length,
-      has_pages: has_pages,
-      page_limit: page_limit,
-      remainder: remainder,
-      next_page: next_page
-    }
-  },
-
-  preloadStart: function() {
-    this.loadStart(this.__getLoadableRel())
-  },
 
   getLength: function(nesting_name) {
     if (!nesting_name) {
       throw new Error('provide nesting_name')
     }
     return (this.loaded_nestings_items && this.loaded_nestings_items[ nesting_name ]) || 0
-  },
-
-  loadStart: function(nesting_name) {
-    if (!nesting_name) {
-      throw new Error('rel name should be provided')
-    }
-
-    if (this.state('more_load_available') && !this.getLength(nesting_name)) {
-      this.requestMoreData()
-    }
   },
 
   requestMoreData: function(nesting_name) {

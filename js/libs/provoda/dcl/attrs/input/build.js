@@ -1,6 +1,6 @@
-import cachedField from '../../cachedField'
 import { doCopy } from '../../../../spv/cloneObj'
 import shallowEqual from '../../../shallowEqual'
+import { nestingMark } from '../../effects/legacy/nest_req/nestingMark'
 
 const userInput = (self) => {
   if (!self.hasOwnProperty('__attrs_base_input')) {return}
@@ -16,27 +16,52 @@ const userInput = (self) => {
   return result
 }
 
-const serviceInput = (self) => {
-  if (!self.hasOwnProperty('_nest_reqs')) {return}
+export const $attrs$expected_input$service = [
+  ['_states_reqs_list', '_nest_reqs', '$attrs$expected_input$basic', '_extendable_nest_index', '$attrs$from_autoinited_rels$'],
+  (attrs_reqs_list, rels_reqs_list, $attrs$expected_input$basic, $rels, $rels_autoinit) => {
+    const result = {
+      ...$attrs$expected_input$basic,
+      ...$rels_autoinit,
+    }
 
-  const has_loader = !!(self._nest_reqs && self._nest_reqs[self.main_list_name])
-  if (!has_loader) { return}
+    if ($rels) {
+      for (const rel_name in $rels) {
+        if (!Object.hasOwnProperty.call($rels, rel_name)) {
+          continue
+        }
 
-  return {
-    has_data_loader: true,
+        result[nestingMark(rel_name, 'exists')] = false
+        result[nestingMark(rel_name, 'length')] = 0
+      }
+    }
+
+
+    if (attrs_reqs_list) {
+      for (const req_dcl of attrs_reqs_list) {
+        doCopy(result, req_dcl.expected_attrs)
+      }
+    }
+
+    if (rels_reqs_list) {
+      for (const key in rels_reqs_list) {
+        if (Object.hasOwnProperty.call(rels_reqs_list, key)) {
+          const req_dcl = rels_reqs_list[key]
+          doCopy(result, req_dcl.expected_attrs)
+        }
+      }
+    }
+
+    return result
   }
+]
 
-}
-
-const checkParts = cachedField(
-  '__default_attrs',
-  ['__default_attrs', '__default_attrs_user', '__default_attrs_service'],
-  false,
+export const __default_attrs = [
+  ['__default_attrs', '__default_attrs_user', '$attrs$expected_input$service'],
   (current, arg1, arg2) => {
     const result = {}
 
-    doCopy(result, arg1)
     doCopy(result, arg2)
+    doCopy(result, arg1)
 
     if (shallowEqual(current, result)) {
       return current
@@ -44,12 +69,9 @@ const checkParts = cachedField(
 
     return result
   }
-)
+]
 
 
 export default function(self) {
   self.__default_attrs_user = userInput(self) || self.__default_attrs_user
-  self.__default_attrs_service = serviceInput(self) || self.__default_attrs_service
-
-  checkParts(self)
 };

@@ -5,6 +5,7 @@ import spv from '../../spv'
 import req_utils from './req-utils'
 import types from './stateReqTypes'
 import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
+import { hasOwnProperty } from '../hasOwnProperty'
 
 const arrayExclude = spv.arrayExclude
 
@@ -14,6 +15,10 @@ const onPromiseFail = req_utils.onPromiseFail
 
 const getReqState = (self, key) => {
   return self.__runtime_attr_requests_state?.[key]
+}
+
+const reqAttrName = (req_dcl) => {
+  return `$meta$input_attrs_requests$${req_dcl.name}$done`
 }
 
 const setReqState = (self, key, prop, value) => {
@@ -26,7 +31,6 @@ const setReqState = (self, key, prop, value) => {
   if (!self.__runtime_attr_requests_state[key]) {
     // it's ok to mutate store by ref
     const store = {
-      done: false,
       error: false,
       process: false
     }
@@ -69,15 +73,15 @@ function bindRequest(api, request, selected_map, store, self) {
 
   function anyway() {
     store.process = false
-    self.updateManyStates(makeLoadingMarks(types.loading, states_list, false))
+    self.updateManyStates(makeLoadingMarks(self, types.loading, states_list, false))
   }
 
   function markAttemptComplete() {
     const states = {}
 
-    makeLoadingMarks(types.load_attempting, selected_map.states_list, false, states)
-    makeLoadingMarks(types.load_attempted, selected_map.states_list, true, states)
-    makeLoadingMarks(types.load_attempted_at, selected_map.states_list, Date.now(), states)
+    makeLoadingMarks(self, types.load_attempting, selected_map.states_list, false, states)
+    makeLoadingMarks(self, types.load_attempted, selected_map.states_list, true, states)
+    makeLoadingMarks(self, types.load_attempted_at, selected_map.states_list, Date.now(), states)
 
     self.updateManyStates(states)
   }
@@ -161,11 +165,12 @@ function bindRequest(api, request, selected_map, store, self) {
 
     }
 
+    result_states[reqAttrName(selected_map)] = true
+
     self.updateManyStates(result_states)
 
 
     store.error = false
-    store.done = true
   }
 }
 
@@ -244,10 +249,15 @@ function requestDependencies(self, dependencies, soft) {
   return req
 }
 
-function makeLoadingMarks(suffix, states_list, value, result) {
+function makeLoadingMarks(self, suffix, states_list, value, result) {
   const loading_marks = result || {}
   for (let i = 0; i < states_list.length; i++) {
-    loading_marks['$meta$attrs$' + states_list[i] + '$' + suffix] = value
+    const attr_name = '$meta$attrs$' + states_list[i] + '$' + suffix
+    if (!hasOwnProperty(self.__default_attrs, attr_name)) {
+      continue
+    }
+
+    loading_marks[attr_name] = value
 
   }
   return loading_marks
@@ -270,14 +280,15 @@ export function resetRequestedState(state_name) {
   const self = this
   this.input(function() {
     const states = {}
+    states[reqAttrName(maps_for_state.name)] = false
     const list = [state_name]
 
 
-    makeLoadingMarks(types.loading, list, null, states)
-    makeLoadingMarks(types.load_attempting, list, null, states)
-    makeLoadingMarks(types.load_attempted, list, null, states)
-    makeLoadingMarks(types.load_attempted_at, list, null, states)
-    makeLoadingMarks(types.complete, list, null, states)
+    makeLoadingMarks(self, types.loading, list, null, states)
+    makeLoadingMarks(self, types.load_attempting, list, null, states)
+    makeLoadingMarks(self, types.load_attempted, list, null, states)
+    makeLoadingMarks(self, types.load_attempted_at, list, null, states)
+    makeLoadingMarks(self, types.complete, list, null, states)
     states[state_name] = null
 
     self.updateManyStates(states)
@@ -303,8 +314,12 @@ const requestState = function(state_name) {
   }
   let cant_request
   for (let i = 0; i < maps_for_state.length; i++) {
+    if (this.getAttr(reqAttrName(maps_for_state[i]))) {
+      cant_request = true
+      break
+    }
     const cur = getReqState(this, maps_for_state[i].num)
-    if (cur && (cur.done || cur.process)) {
+    if (cur && cur.process) {
       cant_request = true
       break
     }
@@ -333,8 +348,8 @@ const requestState = function(state_name) {
       return
     }
     const states = {}
-    makeLoadingMarks(types.loading, selected_map.states_list, true, states)
-    makeLoadingMarks(types.load_attempting, selected_map.states_list, true, states)
+    makeLoadingMarks(self, types.loading, selected_map.states_list, true, states)
+    makeLoadingMarks(self, types.load_attempting, selected_map.states_list, true, states)
     self.updateManyStates(states)
   })
 

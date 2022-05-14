@@ -58,9 +58,18 @@ export const netsources_of_states = [
 export const ___dcl_eff_consume_req_st = [
   ['_states_reqs_list'],
   (list) => {
+    const uniq_names = new Set()
+
     const extended_comp_attrs = {}
     for (let i = 0; i < list.length; i++) {
-      assign(extended_comp_attrs, list[i])
+      const cur = list[i]
+      if (uniq_names.has(cur.name)) {
+        console.error('attr request name should be uniq (for migrations): ', {name: cur.name})
+        throw new Error('attr request name should be uniq')
+      }
+      uniq_names.add(cur.name, true)
+
+      assign(extended_comp_attrs, cur)
     }
     parseCompItems(extended_comp_attrs)
     return extended_comp_attrs

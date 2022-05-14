@@ -1,15 +1,10 @@
 
 import spv from '../../spv'
 import Model from '../Model'
-import changeBridge from '../bwlev/changeBridge'
 import initBWlev from '../bwlev/initBWlev'
-import toProperNavParent from '../bwlev/toProperNavParent'
-import showInterest from '../bwlev/showInterest'
-import getBwlevFromParentBwlev from '../bwlev/getBwlevFromParentBwlev'
 import routePathByModels from '../routePathByModels'
 import getPrtsByRelPath from '../dcl/nests/getPrtsByRelPath'
 
-const getSPIConstr = routePathByModels.getSPIConstr
 const getSPI = routePathByModels.getSPI
 
 /*
@@ -25,12 +20,9 @@ const getSPI = routePathByModels.getSPI
 const BrowseMap = {}
 
 
-BrowseMap.getBwlevFromParentBwlev = getBwlevFromParentBwlev
-
-BrowseMap.showInterest = showInterest
-
 const interest_part = /(\#(?:\d*\:)?)/gi
-BrowseMap.getUserInterest = function(pth_string, start_md) {
+
+export const getUserInterest = function(pth_string, start_md) {
   /*
     /users/me/lfm:neighbours#3:/users/lfm:kolczyk0
   */
@@ -76,44 +68,15 @@ BrowseMap.Model = spv.inh(Model, {
   /*
 
   */
-  getSPIConstr: function(sp_name) {
-    return getSPIConstr(this, sp_name)
-  },
   getSPI: function(sp_name, options) {
     return getSPI(this, sp_name, options)
-  },
-  preloadNestings: function(array) {
-    //var full_list = [];
-    for (let i = 0; i < array.length; i++) {
-      const md = this.getNesting(array[i])
-      if (md) {
-        md.preloadStart()
-      }
-
-    }
-  },
-  _getMySimpleBwlev: function() {
-    throw new Error('implement new way to get simple bwlev (or try to use old?)')
-    // var showMOnMap = require('../bwlev/showMOnMap'); // todo: remove
-
-    // console.warn('_getMySimpleBwlev is depricated. md should not have tied connection to one `map` object')
-    // return showMOnMap( this.app.map, this);
-  },
-  toProperNavParent: function() {
-    return toProperNavParent(this)
   },
   getParentMapModel: function() {
     return this.map_parent
   },
-  getTitle: function() {
-    return this.state('nav_title')
-  },
-  getURL: function() {
-    return ''
-  }
 })
 
-function hookRoot(rootmd, _start_page, states) {
+export function hookSessionRoot(rootmd, _start_page, states) {
   const [{constructor: SessionRoot}] = getPrtsByRelPath(rootmd, ['$session_root'])
   if (!SessionRoot) {
     throw new Error('$session_root should be defined')
@@ -122,6 +85,4 @@ function hookRoot(rootmd, _start_page, states) {
   return bwlev_root
 }
 
-BrowseMap.hookRoot = hookRoot
-BrowseMap.changeBridge = changeBridge
 export default BrowseMap

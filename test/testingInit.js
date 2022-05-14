@@ -7,7 +7,6 @@ const initCore = async (AppRoot, runtime, interfaces) => {
   return new Promise(resolve => {
     inited.flow.input(() => {
       const rootBwlev = initBrowsing(inited.app_model, {
-        isCommonRoot: true,
       })
 
       resolve({
@@ -35,7 +34,7 @@ const testingInit = async (
     sync_sender,
     proxies,
     __proxies_leaks_check,
-    warnUnexpectedAttrs: false,
+    warnUnexpectedAttrs: true,
     onError: err => {
       reject_error_prom(err)
       prepareLastErrorProm()

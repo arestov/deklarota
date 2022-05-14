@@ -30,25 +30,12 @@ import triggerDestroy from './helpers/triggerDestroy'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import requestState, { resetRequestedState } from './FastEventor/requestState'
 import requestNesting from './FastEventor/requestNesting'
+import { FlowStepAction } from './Model/flowStepHandlers.types'
+import act from './dcl/passes/act'
 
 const push = Array.prototype.push
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
-
-const si_opts_cache = {}
-const SIOpts = function(md) {
-  this.map_parent = md
-  this.app = md.app
-}
-
-
-const getSiOpts = function(md) {
-  const provoda_id = md._provoda_id
-  if (!si_opts_cache[provoda_id]) {
-    si_opts_cache[provoda_id] = new SIOpts(md)
-  }
-  return si_opts_cache[provoda_id]
-}
 
 const changeSourcesByApiNames = function(md, store) {
   if (!store.api_names_converted) {
@@ -121,6 +108,10 @@ function modelProps(add) {
   })
 
   add({
+    $attrs$expected_input$basic: {
+      $meta$inited: false,
+      $meta$removed: false,
+    },
     effects: {
       out: {
         __remove_model: {
@@ -213,9 +204,6 @@ function modelProps(add) {
     },
     getInstanceKey: function() {
       return this._provoda_id
-    },
-    getSiOpts: function() {
-      return getSiOpts(this)
     },
     initChi: function(name, data) {
       const Constr = this._all_chi['chi-' + name]
@@ -356,6 +344,13 @@ function modelProps(add) {
     readAddr: function(addr) {
       const parsed = typeof addr === 'string' ? getParsedAddr(addr) : addr
       return getDepValue(this, parsed)
+    },
+  })
+
+  add({
+    __act: act,
+    dispatch: function(action_name, data) {
+      this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data])
     },
   })
 

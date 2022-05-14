@@ -47,7 +47,7 @@ function AppRuntime(optionsRaw) {
   this.logger = options.logger || null
   this.env = options.env || null
 
-  this.warn_unexpected_attrs = Boolean(options.warnUnexpectedAttrs)
+  this.warn_unexpected_attrs = Boolean(options.warnUnexpectedAttrs !== false)
 
   this.relation_mocks = options.relation_mocks
   this.no_effects = Boolean(this.relation_mocks)

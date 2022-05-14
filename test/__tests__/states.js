@@ -20,6 +20,7 @@ describe('states', () => {
       testApp = await init({
         attrs: {
           first_name: ['input', 'Alice'],
+          last_name: ['input'],
         },
       })
     })
@@ -69,6 +70,7 @@ describe('states', () => {
             ['first_name', 'last_name'],
             computeFn,
           ],
+          last_name: ['input'],
         },
       })
     })
@@ -173,6 +175,8 @@ describe('states', () => {
             ['&first_name', 'last_name'],
             computeFn,
           ],
+          first_name: ['input'],
+          last_name: ['input'],
         },
       })
     })

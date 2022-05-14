@@ -1,3 +1,4 @@
+import getBwlevMap from './getBwlevMap'
 
 
 function ba_inUse(bwlev) {
@@ -5,7 +6,7 @@ function ba_inUse(bwlev) {
 }
 
 function ba_isOpened(bwlev) {
-  return !!bwlev.map && !bwlev.closed
+  return !!getBwlevMap(bwlev) && !bwlev.closed
 }
 
 

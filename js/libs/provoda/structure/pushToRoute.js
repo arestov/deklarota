@@ -22,6 +22,10 @@ export default function pushToRoute(md, nesting_name, data) {
     }
     states[prop] = data[prop]
     const attr_name = '$meta$attrs$' + prop + '$routed'
+    if (!hasOwnProperty(md.__default_attrs, attr_name)) {
+      continue
+    }
+
     result._attrs_collector.defineAttr(attr_name, 'bool')
     states[attr_name] = true
   }

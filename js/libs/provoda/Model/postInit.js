@@ -117,9 +117,13 @@ export default function postInitModel(self, opts, initing_params) {
   }
 
   if (init_v2_data != null && init_v2_data.interfaces != null) {
+    if (opts?.interfaces) {
+      throw new Error('both opts.interfaces and data.interfaces are not allowed')
+    }
     initApis(self, init_v2_data.interfaces)
+  } else {
+    initApis(self, opts && opts.interfaces)
   }
-  initApis(self, opts && opts.interfaces)
 
   self.nextTick(FlowStepMarkInited, null, true)
   Object.seal(self)

@@ -8,13 +8,14 @@ import createLevel from '../libs/provoda/bwlev/createLevel'
 import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
 import getModelById from '../libs/provoda/utils/getModelById'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
-import BrowseMap from '../libs/BrowseMap'
 import animateMapChanges from '../libs/provoda/bwlev/animateMapChanges'
 import handlers from '../libs/provoda/bwlev/router_handlers'
 import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 import { considerOwnerAsImportantForRequestsManager } from '../libs/provoda/dcl/effects/legacy/api/requests_manager'
 import updateNesting from '../libs/provoda/Model/updateNesting'
+import showInterest from '../libs/provoda/bwlev/showInterest'
+import changeBridge from '../libs/provoda/bwlev/changeBridge'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
@@ -221,8 +222,8 @@ export default spv.inh(BasicRouter, {
             self
           ))
 
-          const bwlev = BrowseMap.showInterest(self, [])
-          BrowseMap.changeBridge(bwlev)
+          const bwlev = showInterest(self, [])
+          changeBridge(bwlev)
 
           return {}
         },

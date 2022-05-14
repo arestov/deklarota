@@ -85,7 +85,11 @@ test('multiple state by pass calculated', async () => {
       model_name: 'TargetChild',
       rels: {
         indie: [
-          'nest', [createDeepChild('indie')],
+          'nest', [createDeepChild('indie', {
+            attrs: {
+              title: ['input'],
+            },
+          })],
         ],
         list: [
           'nest', [[createDeepChild(1), createDeepChild(2)]],
@@ -111,6 +115,11 @@ test('multiple state by pass calculated', async () => {
 
     return init({
       model_name: 'startModel',
+      attrs: {
+        customNoopProp: ['input'],
+        selected: ['input'],
+        skip_this_state: ['input'],
+      },
       rels: {
         target_child: ['nest', [TargetChild]],
       },

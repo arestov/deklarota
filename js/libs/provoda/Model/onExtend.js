@@ -21,6 +21,9 @@ import checkNest from '../dcl/nest/check'
 
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 import validateModelSchema from './validateModelSchema'
+import { __default_attrs, $attrs$expected_input$service, } from '../dcl/attrs/input/build'
+import { cacheFields } from '../dcl/cachedField'
+import { $attrs$from_autoinited_rels$ } from '../dcl/nest/build'
 
 const check = /initStates/gi
 
@@ -44,6 +47,12 @@ const checkSideeffects = function(self, props, params) {
   if (self.toString().search(check) != -1) {
     self.manual_states_init = true
   }
+}
+
+const final_schema = {
+  $attrs$from_autoinited_rels$,
+  $attrs$expected_input$service,
+  __default_attrs,
 }
 
 export const completeBuild = (self) => {
@@ -78,6 +87,7 @@ export const completeBuild = (self) => {
 
   self._attrs_collector = null
 
+  cacheFields(final_schema, self)
   validateModelSchema(self)
 }
 

@@ -76,8 +76,16 @@ test('map_values_list_to_target in pass', async () => {
     const app = (await init({
       model_name: 'startModel',
       rels: {
-        nest_a: ['nest', [createDeepChild('nestA')]],
-        nest_b: ['nest', [createDeepChild('nestB')]],
+        nest_a: ['nest', [createDeepChild('nestA', {
+          attrs: {
+            selected: ['input'],
+          },
+        })]],
+        nest_b: ['nest', [createDeepChild('nestB', {
+          attrs: {
+            selected: ['input'],
+          },
+        })]],
         selected: [
           'input',
           { linking: ['<< nest_a', '<< nest_b'], many: true },

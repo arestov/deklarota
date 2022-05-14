@@ -167,5 +167,4 @@ function watchModelDie(self, instance) {
 }
 
 routePathByModels.getSPI = getSPI
-routePathByModels.getSPIConstr = getSPIConstr
 export default routePathByModels

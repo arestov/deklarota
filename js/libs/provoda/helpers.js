@@ -1,4 +1,3 @@
-import spv from '../spv'
 import utils_simple from './utils/simple'
 import pvState from './utils/state'
 import selecPoineertDeclr from './structure/selecPoineertDeclr'
@@ -11,8 +10,6 @@ import getRemovedNestingItems from './utils/h/getRemovedNestingItems'
 import groupMotive from './helpers/groupMotive'
 import getNetApiByDeclr from './helpers/getNetApiByDeclr'
 
-
-const memorize = spv.memorize
 
 function getBwlevId(view) {
   return getBwlevView(view).mpx._provoda_id

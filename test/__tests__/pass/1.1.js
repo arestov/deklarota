@@ -33,10 +33,18 @@ const action = {
 }
 
 test('simple pass by * calculated', async () => {
-  const TargetChild = model({ model_name: 'TargetChild' })
+  const TargetChild = model({
+    model_name: 'TargetChild',
+    attrs: {
+      balance: ['input'],
+    },
+  })
 
   const app = (await init({
     model_name: 'startModel',
+    attrs: {
+      my_friend_id: ['input'],
+    },
     rels: {
       my_friend: ['nest', [TargetChild]],
     },

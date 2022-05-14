@@ -1,6 +1,7 @@
 
 import structureChild from '../../structure/child'
 import CompxAttrDecl from '../attrs/comp/item'
+import { nestingMark } from '../effects/legacy/nest_req/nestingMark'
 import ActionDcl from '../passes/dcl'
 import initRelByDcl from './runtime/initRelByDcl'
 
@@ -42,6 +43,26 @@ const lockValue = (current_value, ext_value) => {
 
 const bool = 'bool'
 
+/*
+  should be used to init added rels.nest on app reinit
+*/
+export const $attrs$from_autoinited_rels$ = [
+  ['_nest_by_type_listed'],
+  (by_type) => {
+    if (!by_type.nest) {
+      return undefined
+    }
+
+    const result = {}
+    for (let i = 0; i < by_type.nest.length; i++) {
+      const cur = by_type.nest[i]
+      result[nestingMark(cur.nesting_name, 'autoinited')] = false
+    }
+
+    return result
+  }
+]
+
 export const $rels$idle = [
   ['_nest_by_type_listed'],
   (by_type) => {
@@ -72,7 +93,10 @@ export const $rels$idle = [
         : 'set_one'
 
       const action = new ActionDcl(actionName, {
-        to: [`<< ${cur.name}`, {method: many}],
+        to: {
+          rel: [`<< ${cur.name}`, {method: many}],
+          rel_mark: [nestingMark(cur.name, 'autoinited')],
+        },
         fn: [
           ['$noop', '<<<<', `<< @notEmpty:${cur.name}`],
           ({next_value}, noop, self, inited) => {
@@ -80,7 +104,10 @@ export const $rels$idle = [
               return noop
             }
 
-            return initRelByDcl(self, cur)
+            return {
+              rel: initRelByDcl(self, cur),
+              rel_mark: true,
+            }
           }
 
         ]

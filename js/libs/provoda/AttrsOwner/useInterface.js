@@ -15,7 +15,7 @@ export function __reportInterfaceChange(interface_name, value) {
 export function __updateInteraceState(self, interface_name, value) {
   const name_for_used_modern = usedInterfaceAttrName(interface_name)
 
-  self._attrs_collector.defineAttr(name_for_used_modern, 'bool')
+  self._attrs_collector.defineAttr(name_for_used_modern)
 
   _updateAttrsByChanges(self, [
     name_for_used_modern, value,

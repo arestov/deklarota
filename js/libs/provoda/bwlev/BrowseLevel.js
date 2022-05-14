@@ -10,7 +10,6 @@ import pvState from '../utils/state'
 import flatStruc from '../structure/flatStruc'
 import getUsageStruc from '../structure/getUsageStruc'
 import initNestingsByStruc from '../structure/reactions/initNestingsByStruc'
-import loadNestingsByStruc from '../structure/reactions/loadNestingsByStruc'
 // import loadAllByStruc from '../structure/reactions/loadAllByStruc'
 import getModelSources from '../structure/getModelSources'
 import showMOnMap from './showMOnMap'
@@ -20,6 +19,7 @@ import { hasRelDcl } from '../dcl/nests/getRelShape'
 import { hasOwnProperty } from '../hasOwnProperty'
 import isBwlevName from '../utils/isBwlevName'
 import getRel from '../provoda/getRel'
+import getBwlevMap from './getBwlevMap'
 
 
 const transportName = function(spyglass_name) {
@@ -51,12 +51,12 @@ const switchToAliveParent = (bwlev) => {
   const bwlev_parent = getBwlevParent(bwlev)
   changeBridge(
     selectParentToGo(
-      bwlev.map,
+      getBwlevMap(bwlev),
       bwlev.getNesting('pioneer'),
       bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
     bwlev_parent ||
-    getRel(bwlev.map, 'start_bwlev'),
-    bwlev.map)
+    getRel(getBwlevMap(bwlev), 'start_bwlev'),
+    getBwlevMap(bwlev))
 }
 
 const BrowseLevel = spv.inh(Model, {
@@ -67,9 +67,6 @@ const BrowseLevel = spv.inh(Model, {
   },
 
   postInit: function(self) {
-
-    self.map = null
-
     if (!hasRelDcl(self, 'nav_parent')) {
       throw new Error('bwlev should have nav_parent rel defined')
     }
@@ -209,14 +206,6 @@ const BrowseLevel = spv.inh(Model, {
       }
     ],
 
-    'to_load': [
-      'comp',
-      ['distance_from_destination', 'struc'],
-      function(distance, struc) {
-        if (distance == null || distance > 0 || !struc) {return}
-        return struc
-      }
-    ],
 
     '__struc_list': [
       'comp',
@@ -349,7 +338,7 @@ const BrowseLevel = spv.inh(Model, {
             }
           }
 
-          const new_parent_bwlev = showMOnMap(self.map, data.next_value)
+          const new_parent_bwlev = showMOnMap(getBwlevMap(self), data.next_value)
 
           setCacheValue(new_parent_bwlev, self)
           return {
@@ -415,7 +404,7 @@ const BrowseLevel = spv.inh(Model, {
     const md = getModelById(this, id)
 
     // md.requestPage();
-    const bwlev = followFromTo(this.map, this, md)
+    const bwlev = followFromTo(getBwlevMap(this), this, md)
     changeBridge(bwlev)
     return bwlev
   },
@@ -437,13 +426,7 @@ const BrowseLevel = spv.inh(Model, {
     initNestingsByStruc(target.getNesting('pioneer'), struc)
   },
 
-  'stch-to_load': function(target, struc) {
-    if (!struc) {return}
 
-    // load nestings (simple)
-
-    loadNestingsByStruc(target.getNesting('pioneer'), struc)
-  },
 
   'stch-__to_load_all': function(_target, obj, prev) {
     if (!obj.list) {

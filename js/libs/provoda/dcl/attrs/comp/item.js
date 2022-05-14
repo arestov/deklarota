@@ -3,7 +3,7 @@ import fromLegacy from '../../../utils/multiPath/fromLegacy'
 import parse from '../../../utils/multiPath/parse'
 import sameArrayIfEmpty from '../../../utils/sameArrayIfEmpty'
 import asString from '../../../utils/multiPath/asString'
-import relReqMetaTypes from '../../../FastEventor/nestReqTypes'
+import relReqMetaTypes from '../../effects/legacy/nest_req/nestReqTypes'
 // import attrReqMetaTypes from '../../../FastEventor/stateReqTypes'
 import sameName from '../../../sameName'
 import isBoolCompAttr from './isBoolCompAttr'
@@ -59,7 +59,7 @@ const toParsedDeps = function(array) {
 const emptyList = []
 
 const badAttrs = new Set(['main_list_loading', 'list_loading', 'all_data_loaded'])
-const ignoredLegacy = new Set(['$needs_load', 'list_loading', 'can_load_data', 'can_load_more', 'more_load_available'])
+const ignoredLegacy = new Set()
 
 const CompxAttrDecl = function(comlx_name_raw, cur) {
   const comlx_name = sameName(comlx_name_raw)
