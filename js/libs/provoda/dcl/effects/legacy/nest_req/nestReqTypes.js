@@ -1,6 +1,6 @@
 
 
-export default {
+const nestReqTypes = {
   has_any: 'has_any',
   loading: 'loading',
   load_attempting: 'load_attempting',
@@ -11,3 +11,5 @@ export default {
   error: 'error',
   loading_nesting: 'loading_nesting', // old legacy
 }
+
+export default nestReqTypes
