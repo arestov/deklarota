@@ -21,7 +21,7 @@ import checkNest from '../dcl/nest/check'
 
 import collectStateChangeHandlers from '../dcl/m-collectStateChangeHandlers'
 import validateModelSchema from './validateModelSchema'
-import { __default_attrs } from '../dcl/attrs/input/build'
+import { __default_attrs, $attrs$expected_input$service, } from '../dcl/attrs/input/build'
 import { cacheFields } from '../dcl/cachedField'
 
 const check = /initStates/gi
@@ -50,6 +50,7 @@ const checkSideeffects = function(self, props, params) {
 
 const final_schema = {
   __default_attrs,
+  $attrs$expected_input$service,
 }
 
 export const completeBuild = (self) => {
