@@ -108,6 +108,10 @@ function modelProps(add) {
   })
 
   add({
+    $attrs$expected_input$basic: {
+      $meta$inited: false,
+      $meta$removed: false,
+    },
     effects: {
       out: {
         __remove_model: {
