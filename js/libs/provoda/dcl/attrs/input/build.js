@@ -1,4 +1,3 @@
-import cachedField from '../../cachedField'
 import { doCopy } from '../../../../spv/cloneObj'
 import shallowEqual from '../../../shallowEqual'
 
