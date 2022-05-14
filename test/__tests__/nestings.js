@@ -43,13 +43,14 @@ test('nestings updated', async () => {
 })
 
 test('compx with nestings calculated', async () => {
-  const Brother = model({ model_name: 'Brother' })
+  const Brother = model({ model_name: 'Brother', attrs: { money: ['input'] } })
 
   const { app_model: person, steps } = await init({
     rels: {
       brother: ['nest', [Brother]],
     },
     attrs: {
+      money: ['input'],
       richest: [
         'comp',
         ['< @one:money < brother <<', 'money'],
@@ -79,6 +80,7 @@ test('state compx calculated from parent and root states', async () => {
   const DeepestChild = model({
     model_name: 'DeepestChild',
     attrs: {
+      name: ['input'],
       description_name: [
         'comp',
         ['< @one:family_name < $root', '< @one:name < $parent', 'name'],
@@ -88,6 +90,9 @@ test('state compx calculated from parent and root states', async () => {
   })
   const DeepChild = model({
     model_name: 'DeepChild',
+    attrs: {
+      name: ['input'],
+    },
     rels: {
       child: ['nest', [DeepestChild]],
     },
@@ -99,6 +104,9 @@ test('state compx calculated from parent and root states', async () => {
     },
   })
   const { app_model: app, steps } = (await init({
+    attrs: {
+      family_name: ['input'],
+    },
     rels: {
       child: ['nest', [Child]],
     },
@@ -183,6 +191,11 @@ test('nest compx calculated', async () => {
 
   const { app_model: app, steps } = (await init({
     model_name: 'startModel',
+    attrs: {
+      nickname: ['input'],
+      money: ['input'],
+      number: ['input'],
+    },
     rels: {
       target_child: ['nest', [TargetChild]],
     },

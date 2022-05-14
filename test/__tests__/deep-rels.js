@@ -4,7 +4,10 @@ import pvState from 'pv/getAttr'
 import init from 'test/init'
 
 test('attr based on deep list', async () => {
-  const modelForLevel = (levelName, model, { many } = {}) => ({
+  const modelForLevel = (levelName, model, { many, attrs } = {}) => ({
+    attrs: attrs ?? {
+      title: ['input'],
+    },
     rels: {
       [levelName]: ['model', model, { many }],
     },
@@ -15,7 +18,7 @@ test('attr based on deep list', async () => {
     },
   })
 
-  const deepLevel3 = bhv({ model_name: 'deepLevel3' })
+  const deepLevel3 = bhv({ model_name: 'deepLevel3', attrs: { title: ['input'] } })
   const deepLevel2 = bhv({ ...modelForLevel('level3', deepLevel3, { many: true }), model_name: 'deepLevel2' })
   const deepLevel1 = bhv({ ...modelForLevel('level2', deepLevel2, { many: true }), model_name: 'deepLevel1' })
 
@@ -25,9 +28,10 @@ test('attr based on deep list', async () => {
 
 
   const App = mergeBhv(
-    modelForLevel('level1', deepLevel1, { many: true }),
+    modelForLevel('level1', deepLevel1, { many: true, attrs: {} }),
     {
       attrs: {
+        title: ['input'],
         level3ArrayNotEmpty: [
           'comp',
           ['<< @all:level1.level2.level3 <<'], list => list ? Boolean(list.length) : null,

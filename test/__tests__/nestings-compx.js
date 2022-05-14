@@ -84,6 +84,10 @@ test('compx-nests', async () => {
 
     const app = (await init({
       model_name: 'startModel',
+      attrs: {
+        nickname: ['input'],
+        number: ['input'],
+      },
       rels: {
         target_child: ['nest', [target_child]],
         list_source: [

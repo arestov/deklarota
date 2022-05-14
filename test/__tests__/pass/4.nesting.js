@@ -186,10 +186,18 @@ test('special nestings by pass calculated', async () => {
   ])
 
   async function setup() {
+    const songs_attrs = {
+      artist: ['input'],
+      title: ['input'],
+    }
+
     const Playlist = createDeepChild('playlist', {
+      attrs: {
+        id: ['input'],
+      },
       rels: {
-        songs_list: ['model', createDeepChild('songs_list'), { many: true }],
-        one_song: ['model', createDeepChild('one_song'), { many: false }],
+        songs_list: ['model', createDeepChild('songs_list', { attrs: songs_attrs }), { many: true }],
+        one_song: ['model', createDeepChild('one_song', { attrs: songs_attrs }), { many: false }],
       },
     })
 

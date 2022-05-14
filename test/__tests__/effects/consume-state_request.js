@@ -59,6 +59,7 @@ test('state loaded', async () => {
     model_name: 'start_page',
 
     attrs: {
+      $meta$attrs$bio$complete: ['input'],
       someid: [
         'comp',
         [],

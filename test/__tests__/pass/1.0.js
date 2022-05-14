@@ -80,6 +80,9 @@ test('simple state by pass1 && pass2 calculated', async () => {
   async function setup() {
     const app = (await init({
       model_name: 'startModel',
+      attrs: {
+        age_state: ['input'],
+      },
       rels: {
       },
       actions: {

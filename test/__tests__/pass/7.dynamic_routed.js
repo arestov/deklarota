@@ -32,6 +32,9 @@ test('change for dynamic routed resource calculated', async () => {
     const SubResource = mdl({
       model_name: 'SubResource',
       attrs: {
+        name: ['input'],
+        title: ['input'],
+        dup_default_title: ['input'],
         default_title: [
           'comp',
           [], () => 'some Data',

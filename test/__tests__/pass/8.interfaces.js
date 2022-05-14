@@ -56,8 +56,16 @@ test('interface passed to action should be assigned', async () => {
   ])
 
   async function setup() {
-    const Song = createDeepChild('Song')
+    const Song = createDeepChild('Song', {
+      attrs: {
+        artist: ['input'],
+        title: ['input'],
+      },
+    })
     const Playlist = createDeepChild('playlist', {
+      attrs: {
+        id: ['input'],
+      },
       rels: {
         songs_list: ['model', Song, { many: true }],
       },

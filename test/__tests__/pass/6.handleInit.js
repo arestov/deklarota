@@ -73,6 +73,12 @@ test('auto dispatch and handle `handleInit` pass', async () => {
 
   async function setup() {
     const Song = createDeepChild('Song', {
+      attrs: {
+        crazy_state: ['input'],
+        artist: ['input'],
+        title: ['input'],
+        special_prop: ['input'],
+      },
       actions: {
         handleInit: {
           to: ['< special_prop'],
@@ -84,6 +90,9 @@ test('auto dispatch and handle `handleInit` pass', async () => {
       },
     })
     const Playlist = createDeepChild('playlist', {
+      attrs: {
+        id: ['input'],
+      },
       rels: {
         songs_list: ['model', Song, { many: true }],
       },

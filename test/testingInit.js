@@ -7,7 +7,6 @@ const initCore = async (AppRoot, runtime, interfaces) => {
   return new Promise(resolve => {
     inited.flow.input(() => {
       const rootBwlev = initBrowsing(inited.app_model, {
-        isCommonRoot: true,
       })
 
       resolve({
