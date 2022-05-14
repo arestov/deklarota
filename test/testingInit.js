@@ -34,7 +34,7 @@ const testingInit = async (
     sync_sender,
     proxies,
     __proxies_leaks_check,
-    warnUnexpectedAttrs: false,
+    warnUnexpectedAttrs: true,
     onError: err => {
       reject_error_prom(err)
       prepareLastErrorProm()
