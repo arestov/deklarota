@@ -49,8 +49,8 @@ const checkSideeffects = function(self, props, params) {
 }
 
 const final_schema = {
-  __default_attrs,
   $attrs$expected_input$service,
+  __default_attrs,
 }
 
 export const completeBuild = (self) => {
