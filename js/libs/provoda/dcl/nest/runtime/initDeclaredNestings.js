@@ -19,14 +19,15 @@ const initOneDeclaredNesting = function(md, el) {
   subpages_names_list: ...cur[0]...,
   idle_until: cur[2]
   */
-
-
-  if (!el.idle_until) {
-    if (!md.getNesting(el.nesting_name)) {
-      _updateRel(md, el.nesting_name, initRelByDcl(md, el))
-    }
+  if (el.idle_until) {
     return
   }
+
+  if (md.getNesting(el.nesting_name)) {
+    return
+  }
+
+  _updateRel(md, el.nesting_name, initRelByDcl(md, el))
 }
 
 const initDeclaredNestings = function(md) {
