@@ -517,16 +517,6 @@ function reportBadChange(etr, state_name) {
     return
   }
 
-
-  if (etr.__defined_attrs_bool) {
-    for (let i = 0; i < etr.__defined_attrs_bool.length; i++) {
-      const cur = etr.__defined_attrs_bool[i].name
-      if (cur == state_name) {
-        return
-      }
-    }
-  }
-
   if (isPrivateState(state_name) && !state_name.startsWith('__')) {
     return
   }
