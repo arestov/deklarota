@@ -4,6 +4,7 @@ import emptyArray from '../emptyArray'
 import { defaultMetaAttrValues as defaultRelMetaAttrsValues } from './rel/definedMetaAttrs'
 
 import { createFakeEtr, computeInitialAttrs, getComplexInitList, freezeFakeEtr } from '../updateProxy'
+import { hasOwnProperty } from '../hasOwnProperty'
 
 const fillExternalDeps = (self, first_changes_list) => {
   if (self._extendable_nest_index) {
@@ -45,6 +46,11 @@ export default function ensureInitialAttrs(self) {
     if (cur.type != 'bool') {
       continue
     }
+
+    if (hasOwnProperty(self.compx_check, cur.name)) {
+      continue
+    }
+
     first_changes_list.push(cur.name, false)
   }
 
