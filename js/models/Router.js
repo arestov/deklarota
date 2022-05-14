@@ -156,8 +156,8 @@ export default spv.inh(BasicRouter, {
     ],
     current_model_id: [
       'comp',
-      ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md'],
-      (arg1, arg2) => arg1 || arg2,
+      ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md', '$meta$removed'],
+      (arg1, arg2, removed) => !removed && (arg1 || arg2),
     ],
     current_mp_bwlev: [
       'comp',
