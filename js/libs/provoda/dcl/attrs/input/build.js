@@ -1,5 +1,6 @@
 import { doCopy } from '../../../../spv/cloneObj'
 import shallowEqual from '../../../shallowEqual'
+import { nestingMark } from '../../effects/legacy/nest_req/nestingMark'
 
 const userInput = (self) => {
   if (!self.hasOwnProperty('__attrs_base_input')) {return}
@@ -16,10 +17,21 @@ const userInput = (self) => {
 }
 
 export const $attrs$expected_input$service = [
-  ['_states_reqs_list', '_nest_reqs', '$attrs$expected_input$basic'],
-  (attrs_reqs_list, rels_reqs_list, $attrs$expected_input$basic) => {
+  ['_states_reqs_list', '_nest_reqs', '$attrs$expected_input$basic', '_extendable_nest_index'],
+  (attrs_reqs_list, rels_reqs_list, $attrs$expected_input$basic, $rels) => {
     const result = {
       ...$attrs$expected_input$basic,
+    }
+
+    if ($rels) {
+      for (const rel_name in $rels) {
+        if (!Object.hasOwnProperty.call($rels, rel_name)) {
+          continue
+        }
+
+        result[nestingMark(rel_name, 'exists')] = false
+        result[nestingMark(rel_name, 'length')] = 0
+      }
     }
 
 
