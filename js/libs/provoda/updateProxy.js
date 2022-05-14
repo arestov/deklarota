@@ -528,11 +528,6 @@ function reportBadChange(etr, state_name) {
     return
   }
 
-  // allow meta to be changed unexpectedly. make analysis in dkt
-  if (state_name.startsWith('$meta$')) {
-    return
-  }
-
   // don't force to declare thing that can be done using analysis
   if (etr._states_reqs_index && etr._states_reqs_index[state_name] != null) {
     return
