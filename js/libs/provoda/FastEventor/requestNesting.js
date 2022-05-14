@@ -4,6 +4,7 @@ import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
 import { FlowStepHandlRelSideDataLegacy, FlowStepUpdateManyAttrs } from '../Model/flowStepHandlers.types'
 import { hasOwnProperty } from '../hasOwnProperty'
+import { nestingMark } from '../dcl/effects/legacy/nest_req/nestingMark'
 
 const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
@@ -22,10 +23,6 @@ function exlcudeUnexpectedMetaAttrs(self, attrs) {
   }
 
   return attrs
-}
-
-function nestingMark(nesting_name, name) {
-  return '$meta$rels$' + nesting_name + '$' + name
 }
 
 function statesAnyway(self, states, nesting_name) {
