@@ -1,5 +1,5 @@
 import req_utils from './req-utils'
-import types from './nestReqTypes'
+import types from '../dcl/effects/legacy/nest_req/nestReqTypes'
 import getNetApiByDeclr from '../helpers/getNetApiByDeclr'
 import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
 import { FlowStepHandlRelSideDataLegacy, FlowStepUpdateManyAttrs } from '../Model/flowStepHandlers.types'
