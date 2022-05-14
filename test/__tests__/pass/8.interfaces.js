@@ -51,7 +51,7 @@ test('interface passed to action should be assigned', async () => {
       })
     },
     () => {
-      expect(getListItem(0).getAttr('$meta$apis$myInterface$used')).toEqual(true)
+      expect(getListItem(0).getAttr('$meta$apis$myInterface$used')).toBeTruthy()
     },
   ])
 
