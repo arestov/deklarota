@@ -171,6 +171,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
 
     expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
       expected_at: expect.any(Number),
+      id: expect.any(String),
       current_md_id: 1,
       rel_path: 'user.onboarding',
     })

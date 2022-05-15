@@ -156,8 +156,8 @@ export default spv.inh(BasicRouter, {
     ],
     current_model_id: [
       'comp',
-      ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md'],
-      (arg1, arg2) => arg1 || arg2,
+      ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md', '$meta$removed'],
+      (arg1, arg2, removed) => !removed && (arg1 || arg2),
     ],
     current_mp_bwlev: [
       'comp',
@@ -316,6 +316,7 @@ export default spv.inh(BasicRouter, {
         ['$now', '_provoda_id'],
         ({rel_path, current_md_id}, now, self_id) => {
           return {
+            id: `${now}-${self_id}`,
             expected_at: now, // some kind of uniqness for this entry
             rel_path,
             router_id: self_id,

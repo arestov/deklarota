@@ -12,13 +12,17 @@ const setChain = (self, expected_rel_entry, chain) => {
   if (!self._highway.expected_rels_to_chains) {
     self._highway.expected_rels_to_chains = new Map()
   }
-  self._highway.expected_rels_to_chains.set(expected_rel_entry, chain)
+  self._highway.expected_rels_to_chains.set(expected_rel_entry.id, chain)
+}
+
+const deleteChain = (self, expected_rel_entry) => {
+  self._highway.expected_rels_to_chains.delete(expected_rel_entry.id)
 }
 
 const getChain = (self, expected_rel_entry) => {
   if (!self._highway.expected_rels_to_chains) {return null}
 
-  return self._highway.expected_rels_to_chains.get(expected_rel_entry)
+  return self._highway.expected_rels_to_chains.get(expected_rel_entry.id)
 }
 
 const handleCurrentExpectedRel = (self, data) => {
@@ -27,6 +31,7 @@ const handleCurrentExpectedRel = (self, data) => {
     const current_md = getModelById(self, current_md_id)
     const chain = getChain(self, data.prev_value)
     if (chain) {
+      deleteChain(self, data.prev_value)
       removeHeavyRelQuery(current_md, chain)
     } else {
       console.error('missing chain for', {expected_rel_entry: data.prev_value})
