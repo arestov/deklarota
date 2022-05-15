@@ -4,6 +4,8 @@ import LoadableList from './LoadableList'
 import BrowseMap from './BrowseMap'
 import SessionRoot from '../bwlev/SessionRoot'
 
+const APP_ROOT_ID = 1
+
 const AppModelBase = spv.inh(LoadableList, {
   naming: function(fn) {
     return function AppModelBase(opts, data, params, more, states) {
@@ -14,6 +16,9 @@ const AppModelBase = spv.inh(LoadableList, {
     target.app = target
   },
   postInit: function(target) {
+    if (target._provoda_id !== APP_ROOT_ID) {
+      throw new Error('app root should be ' + APP_ROOT_ID)
+    }
 
     if (target.hasOwnProperty('start_page')) {
       const isOk = target.start_page instanceof target.constructor.prototype.start_page.constructor
