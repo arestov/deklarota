@@ -88,7 +88,6 @@ test('state loaded', async () => {
       },
     },
   }, () => {
-    // self.start_page = self.initChi('start__page')
   }, undefined, {
     requests_manager,
   })).app_model

@@ -15,7 +15,6 @@ const input = (app, fn) => new Promise(resolve => {
 
 test('routes', async () => {
   const app = (await init({
-    zero_map_level: true,
     rels: {
       tracklist: ['model', model({ model_name: 'Track', attrs: { trackName: ['input'] } }), { many: true }],
     },

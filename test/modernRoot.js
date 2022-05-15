@@ -6,7 +6,6 @@ const appProps = {
     // eslint-disable-next-line
     target.start_page = target
   },
-  zero_map_level: true,
   model_name: 'start_page',
 }
 

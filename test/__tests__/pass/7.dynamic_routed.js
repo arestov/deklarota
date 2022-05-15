@@ -43,7 +43,6 @@ test('change for dynamic routed resource calculated', async () => {
     })
 
     const StartPage = {
-      zero_map_level: true,
       routes: {
         '[:name]': 'something',
       },
@@ -70,7 +69,6 @@ test('change for dynamic routed resource calculated', async () => {
 
     const app = (await init({
       ...StartPage,
-      // 'chi-start__page': StartPage,
     })).app_model
 
     return app

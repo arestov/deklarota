@@ -78,11 +78,10 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
   if (Constr == RootConstr) {
     if (self.zero_map_level) {
-      self.start_page = self
-    } else {
-      const start_page = self._all_chi['chi-start__page']
-      self.start_page = (start_page && start_page.prototype) || self
+      throw new Error('merge start_page and App root. don\'t use zero_map_level mark')
     }
+
+    self.start_page = self
 
     if (self.BWLev) {
       throw new Error('replace BWLev by `$session_root` rel:model')
