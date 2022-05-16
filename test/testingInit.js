@@ -20,27 +20,42 @@ const initCore = async (AppRoot, runtime, interfaces, session_root) => {
   })
 }
 
-let last_error_prom = null
-let reject_error_prom = null
 
-const prepareLastErrorProm = () => {
-  last_error_prom = new Promise((resolve, reject) => {
-    reject_error_prom = reject
-  })
+const catchFlowErrors = () => {
+
+  const catcher = {
+    last_error_prom: null,
+    reject_error_prom: null,
+    prepareLastErrorProm: null,
+  }
+
+
+  const prepareLastErrorProm = () => {
+    catcher.last_error_prom = new Promise((resolve, reject) => {
+      catcher.reject_error_prom = (err) => {
+        reject(err)
+        prepareLastErrorProm()
+      }
+    })
+  }
+
+  prepareLastErrorProm()
+
+  return catcher
 }
 
 const testingInit = async (
   AppRoot, interfaces = {}, { proxies = false, sync_sender = false, __proxies_leaks_check = false, session_root = false } = {},
 ) => {
-  prepareLastErrorProm()
+  const errors_catcher = catchFlowErrors()
+
   const runtime = prepareAppRuntime({
     sync_sender,
     proxies,
     __proxies_leaks_check,
     warnUnexpectedAttrs: true,
     onError: err => {
-      reject_error_prom(err)
-      prepareLastErrorProm()
+      errors_catcher.reject_error_prom(err)
     },
   })
 
@@ -48,7 +63,7 @@ const testingInit = async (
 
   const computed = () => Promise.race([
     runtime.last_error,
-    last_error_prom,
+    errors_catcher.last_error_prom,
     new Promise(resolve => inited.app_model.input(resolve)),
   ])
 
