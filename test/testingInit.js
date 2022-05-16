@@ -46,6 +46,21 @@ const catchFlowErrors = () => {
   return catcher
 }
 
+const wrapTestApp = async (errors_catcher, runtime, inited_base, session_root) => {
+  const inited = await initSession(inited_base, session_root)
+
+  const computed = () => Promise.race([
+    runtime.last_error,
+    errors_catcher.last_error_prom,
+    new Promise(resolve => inited.app_model.input(resolve)),
+  ])
+
+  return {
+    ...inited,
+    computed,
+  }
+}
+
 const testingInit = async (
   AppRoot, interfaces = {}, { proxies = false, sync_sender = false, __proxies_leaks_check = false, session_root = false } = {},
 ) => {
@@ -63,18 +78,7 @@ const testingInit = async (
 
   const inited_base = await runtime.start({ App: AppRoot, interfaces })
 
-  const inited = await initSession(inited_base, session_root)
-
-  const computed = () => Promise.race([
-    runtime.last_error,
-    errors_catcher.last_error_prom,
-    new Promise(resolve => inited.app_model.input(resolve)),
-  ])
-
-  return {
-    ...inited,
-    computed,
-  }
+  return wrapTestApp(errors_catcher, runtime, inited_base, session_root)
 }
 
 export default testingInit
