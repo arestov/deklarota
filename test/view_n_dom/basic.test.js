@@ -27,11 +27,14 @@ test('should init', async () => {
   const AppRoot = modernRoot({
     attrs: {},
     rels: {
+      common_session_root: ['input', {
+        linking: '<< $session_root',
+      }],
       user: ['nest', [User]],
     },
   })
 
-  const inited = await testingInit(AppRoot, {}, { proxies: true })
+  const inited = await testingInit(AppRoot, {}, { proxies: true, session_root: true })
 
   const { computed } = inited
 

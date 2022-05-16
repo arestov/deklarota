@@ -112,6 +112,9 @@ test('should execute nested requireRel & reveal resource in router', async () =>
         ...RootSession,
         extends: SessionRoot,
       })],
+      common_session_root: ['input', {
+        linking: '<< $session_root',
+      }],
       user: ['nest', [User]],
       start_page: ['input', {
         linking: '<<<<',
@@ -128,7 +131,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
     },
   })
 
-  const inited = await testingInit(AppRoot)
+  const inited = await testingInit(AppRoot, {}, {session_root: true})
 
   const mainNavigationRouter = await getMainNavigationRouter(inited)
   const getCurrentModelId = () => mainNavigationRouter.readAddr('< @one:_provoda_id < current_mp_md')
