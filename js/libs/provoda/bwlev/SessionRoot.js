@@ -20,9 +20,6 @@ const SessionRoot = spv.inh(Model, {
       > Routers by name
       > Routers by complex name (key)
   */
-  init: function(self) {
-    self.used_data_structure = null
-  }
 }, {
   model_name: 'root_bwlev',
   attrs: {
@@ -68,11 +65,10 @@ const SessionRoot = spv.inh(Model, {
       return bwlev
     },
     knowViewingDataStructure: function(_constr_id, used_data_structure) {
-      if (this.used_data_structure) {
+      if (this.getAttr('used_data_structure')) {
         return
       }
 
-      this.used_data_structure = used_data_structure
       _updateAttr(this, 'used_data_structure', used_data_structure)
     },
     navShowByReq: function(req, router_name_arg) {
