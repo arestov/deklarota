@@ -9,10 +9,12 @@ const initSession = async (inited, session_root) => {
         return resolve(inited)
       }
 
-      const rootBwlev = initBrowsing(inited.app_model, {
-      })
+      if (!inited.app_model.getNesting('common_session_root')) {
+        const session = initBrowsing(inited.app_model, {})
+        inited.app_model.updateNesting('common_session_root', session)
+      }
 
-      inited.app_model.updateNesting('common_session_root', rootBwlev)
+      const rootBwlev = inited.app_model.getNesting('common_session_root')
 
       resolve({
         ...inited,
