@@ -15,8 +15,10 @@ import SessionRoot from '../../js/libs/provoda/bwlev/SessionRoot.js'
 const getMainNavigationRouter = async inited => {
   const { computed } = inited
 
-  inited.rootBwlev.input(() => {
-    inited.rootBwlev.rpc_legacy.requestSpyglass.call(inited.rootBwlev, {
+  const session = inited.app_model.getNesting('common_session_root')
+
+  session.input(() => {
+    session.rpc_legacy.requestSpyglass.call(session, {
       key: 'router__main---2',
       bwlev: false,
       context_md: false,
@@ -25,7 +27,7 @@ const getMainNavigationRouter = async inited => {
   })
   await computed()
 
-  const mainNavigationRouter = requireRouter(inited.rootBwlev, 'main')
+  const mainNavigationRouter = requireRouter(session, 'main')
   return mainNavigationRouter
 }
 
