@@ -1,16 +1,18 @@
 import prepareAppRuntime from 'pv/runtime/app/prepare.js'
 import initBrowsing from '../js/initBrowsing.js'
 
-const initCore = async (AppRoot, runtime, interfaces, session_root) => {
-  const inited = await runtime.start({ App: AppRoot, interfaces })
+const initSession = async (inited, session_root) => {
 
   return new Promise(resolve => {
     inited.flow.input(() => {
-      const rootBwlev = session_root ? initBrowsing(inited.app_model, {
-      }) : null
-      if (session_root) {
-        inited.app_model.updateNesting('common_session_root', rootBwlev)
+      if (!session_root) {
+        return resolve(inited)
       }
+
+      const rootBwlev = initBrowsing(inited.app_model, {
+      })
+
+      inited.app_model.updateNesting('common_session_root', rootBwlev)
 
       resolve({
         ...inited,
@@ -59,7 +61,9 @@ const testingInit = async (
     },
   })
 
-  const inited = await initCore(AppRoot, runtime, interfaces, session_root)
+  const inited_base = await runtime.start({ App: AppRoot, interfaces })
+
+  const inited = await initSession(inited_base, session_root)
 
   const computed = () => Promise.race([
     runtime.last_error,
