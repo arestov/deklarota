@@ -111,9 +111,11 @@ const dataToMentionChain = (data, current_md) => {
 }
 
 export const toReinitableData = (runtime) => {
-  const expected_rels_to_chains = Object.fromEntries([...runtime.expected_rels_to_chains.entries()].map(([key, value]) => {
-    return [key, mentionChainToData(value)]
-  }))
+  const expected_rels_to_chains = runtime.expected_rels_to_chains
+    ? Object.fromEntries([...runtime.expected_rels_to_chains.entries()].map(([key, value]) => {
+      return [key, mentionChainToData(value)]
+    }))
+    : {}
 
   return {
     list: Object.values(runtime.models).map(modelToData),
