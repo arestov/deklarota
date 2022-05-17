@@ -8,9 +8,10 @@ import inputAttrs from 'pv/dcl/attrs/input.js'
 import RouterCore from '../../js/models/Router.js'
 
 import modernRoot from '../modernRoot'
-import testingInit from '../testingInit'
+import testingInit, { testingReinit } from '../testingInit'
 import requireRouter from '../../js/libs/provoda/bwlev/requireRouter.js'
 import SessionRoot from '../../js/libs/provoda/bwlev/SessionRoot.js'
+import { toReinitableData } from '../../js/libs/provoda/provoda/runtime/app/reinit'
 
 const getMainNavigationRouter = async inited => {
   const { computed } = inited
@@ -105,6 +106,21 @@ test('should execute nested requireRel & reveal resource in router', async () =>
         },
         fn: () => ({}),
       },
+      pushStuckedOnboaring: {
+        to: {
+          onboarding: ['<< onboarding', { method: 'set_one', can_create: true }],
+        },
+        fn: [
+          ['<<<<'],
+          (_, self) => ({
+            onboarding: {
+              rels: {
+                nav_parent_at_perspectivator_MainRouter: self,
+              },
+            }
+          })
+        ],
+      },
     },
   })
 
@@ -174,12 +190,42 @@ test('should execute nested requireRel & reveal resource in router', async () =>
     })
     await inited.computed()
 
-    expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
+    /*
+      expect that current_expected_rel got stuck
+    */
+    const stucked = {
       expected_at: expect.any(Number),
       id: expect.any(String),
       current_md_id: 1,
       rel_path: 'user.onboarding',
-    })
+    }
+    expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot(stucked)
+
+    {
+      /*
+        1. reinit app. with stucked current_expected_rel
+      */
+      const data = toReinitableData(inited.app_model._highway)
+      const reinited = await testingReinit(AppRoot, data, {}, {session_root: true})
+
+      {
+        const inited = reinited
+
+        const mainNavigationRouter = await getMainNavigationRouter(inited)
+        expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot(stucked)
+        /*
+          2. change state so current_expected_rel can be satisfied
+        */
+        inited.app_model.readAddr('<< @one:user').dispatch('pushStuckedOnboaring')
+        /*
+          3. expect that current_expected_rel was satisfied
+        */
+        await inited.computed()
+        expect(mainNavigationRouter.readAddr('current_expected_rel') == null).toBeTruthy()
+      }
+    }
+
+
 
     // reset
     mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._provoda_id)

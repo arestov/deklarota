@@ -29,9 +29,19 @@ Object {
 }
 `;
 
-exports[`should execute nested requireRel & reveal resource in router 6`] = `undefined`;
+exports[`should execute nested requireRel & reveal resource in router 6`] = `
+Object {
+  "current_md_id": 1,
+  "expected_at": Any<Number>,
+  "id": Any<String>,
+  "rel_path": "user.onboarding",
+  "router_id": 4,
+}
+`;
 
-exports[`should execute nested requireRel & reveal resource in router 7`] = `
+exports[`should execute nested requireRel & reveal resource in router 7`] = `undefined`;
+
+exports[`should execute nested requireRel & reveal resource in router 8`] = `
 Object {
   "billing": null,
   "onboarding": null,

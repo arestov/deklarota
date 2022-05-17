@@ -24,6 +24,7 @@ const build = ({
     'js/libs/provoda/provoda/view/View',
     'js/libs/provoda/provoda/runtime/app/prepare',
     'js/libs/provoda/provoda/runtime/app/start',
+    'js/libs/provoda/provoda/runtime/app/reinit',
     'js/libs/provoda/provoda/runtime/view/prepare',
     'js/libs/provoda/provoda/runtime/view/start',
     'js/libs/provoda/provoda/SyncReceiver',

@@ -1,5 +1,6 @@
 import prepareAppRuntime from 'pv/runtime/app/prepare.js'
 import initBrowsing from '../js/initBrowsing.js'
+import { reinit } from '../js/libs/provoda/provoda/runtime/app/reinit.js'
 
 const initSession = async (inited, session_root) => {
 
@@ -80,6 +81,27 @@ const testingInit = async (
 
   const inited_base = await runtime.start({ App: AppRoot, interfaces })
 
+  return wrapTestApp(errors_catcher, runtime, inited_base, session_root)
+}
+
+export const testingReinit = async (
+  AppRoot,
+  data,
+  interfaces = {}, { proxies = false, sync_sender = false, __proxies_leaks_check = false, session_root = false } = {},
+) => {
+  const errors_catcher = catchFlowErrors()
+
+  const runtime = prepareAppRuntime({
+    sync_sender,
+    proxies,
+    __proxies_leaks_check,
+    warnUnexpectedAttrs: true,
+    onError: err => {
+      errors_catcher.reject_error_prom(err)
+    },
+  })
+
+  const inited_base = await reinit(AppRoot, runtime, data, interfaces)
   return wrapTestApp(errors_catcher, runtime, inited_base, session_root)
 }
 

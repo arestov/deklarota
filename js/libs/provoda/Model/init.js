@@ -64,6 +64,13 @@ export default function initModel(self, opts, data) {
     self.init_v2_data = data
   }
 
+  if (opts.reinit) {
+    if (data) {
+      throw new Error('`data` should not be provided during reinit')
+    }
+    return self
+  }
+
   // we going to mutate incoming `opts`
   prepareStates(self, opts, data)
 
