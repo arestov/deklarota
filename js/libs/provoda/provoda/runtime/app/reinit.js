@@ -117,17 +117,39 @@ export const toReinitableData = (runtime) => {
     }))
     : {}
 
+  const models = {}
+  for (const id in runtime.models) {
+    if (!Object.hasOwnProperty.call(runtime.models, id)) {
+      continue
+    }
+    const cur = runtime.models[id]
+    if (cur == null) {
+      models[id] = null
+      continue
+    }
+    models[id] = modelToData(cur)
+  }
+
   return {
-    list: Object.values(runtime.models).map(modelToData),
+    models: Object.values(runtime.models).map(modelToData),
     expected_rels_to_chains,
   }
 }
 
 export const reinit = (AppRoot, runtime, data, interfaces) => {
-  const {list: models_list, expected_rels_to_chains} = data
+  const {models, expected_rels_to_chains} = data
 
-  for (let i = 0; i < models_list.length; i++) {
-    const cur = models_list[i]
+  const models_list = []
+  for (const id in models) {
+    if (!Object.hasOwnProperty.call(models, id)) {
+      continue
+    }
+
+    const cur = models[id]
+    if (cur == null) {
+      runtime.models[id] = null
+      continue
+    }
 
     runtime.models_counters = Math.max(runtime.models_counters, cur.id + 1)
 
@@ -144,6 +166,8 @@ export const reinit = (AppRoot, runtime, data, interfaces) => {
     if (runtime.models[item._provoda_id] !== item) {
       throw new Error()
     }
+
+    models_list.push(cur)
   }
 
   const getById = (id) => runtime.models[id]
