@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should compute comp attr before & after reinit 1`] = `
+Array [
+  "parentA",
+  "rootA",
+  "independent",
+]
+`;
+
+exports[`should compute comp attr before & after reinit 2`] = `
+Array [
+  "parentA",
+  "rootA",
+  "independent",
+]
+`;
+
+exports[`should compute comp attr before & after reinit 3`] = `
+Array [
+  "parentB",
+  "rootB",
+  "independent",
+]
+`;

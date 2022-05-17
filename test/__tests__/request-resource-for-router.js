@@ -8,15 +8,18 @@ import inputAttrs from 'pv/dcl/attrs/input.js'
 import RouterCore from '../../js/models/Router.js'
 
 import modernRoot from '../modernRoot'
-import testingInit from '../testingInit'
+import testingInit, { testingReinit } from '../testingInit'
 import requireRouter from '../../js/libs/provoda/bwlev/requireRouter.js'
 import SessionRoot from '../../js/libs/provoda/bwlev/SessionRoot.js'
+import { toReinitableData } from '../../js/libs/provoda/provoda/runtime/app/reinit'
 
 const getMainNavigationRouter = async inited => {
   const { computed } = inited
 
-  inited.rootBwlev.input(() => {
-    inited.rootBwlev.rpc_legacy.requestSpyglass.call(inited.rootBwlev, {
+  const session = inited.app_model.getNesting('common_session_root')
+
+  session.input(() => {
+    session.rpc_legacy.requestSpyglass.call(session, {
       key: 'router__main---2',
       bwlev: false,
       context_md: false,
@@ -25,7 +28,7 @@ const getMainNavigationRouter = async inited => {
   })
   await computed()
 
-  const mainNavigationRouter = requireRouter(inited.rootBwlev, 'main')
+  const mainNavigationRouter = requireRouter(session, 'main')
   return mainNavigationRouter
 }
 
@@ -103,6 +106,21 @@ test('should execute nested requireRel & reveal resource in router', async () =>
         },
         fn: () => ({}),
       },
+      pushStuckedOnboaring: {
+        to: {
+          onboarding: ['<< onboarding', { method: 'set_one', can_create: true }],
+        },
+        fn: [
+          ['<<<<'],
+          (_, self) => ({
+            onboarding: {
+              rels: {
+                nav_parent_at_perspectivator_MainRouter: self,
+              },
+            }
+          })
+        ],
+      },
     },
   })
 
@@ -112,6 +130,9 @@ test('should execute nested requireRel & reveal resource in router', async () =>
         ...RootSession,
         extends: SessionRoot,
       })],
+      common_session_root: ['input', {
+        linking: '<< $session_root',
+      }],
       user: ['nest', [User]],
       start_page: ['input', {
         linking: '<<<<',
@@ -128,7 +149,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
     },
   })
 
-  const inited = await testingInit(AppRoot)
+  const inited = await testingInit(AppRoot, {}, {session_root: true})
 
   const mainNavigationRouter = await getMainNavigationRouter(inited)
   const getCurrentModelId = () => mainNavigationRouter.readAddr('< @one:_provoda_id < current_mp_md')
@@ -169,12 +190,42 @@ test('should execute nested requireRel & reveal resource in router', async () =>
     })
     await inited.computed()
 
-    expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot({
+    /*
+      expect that current_expected_rel got stuck
+    */
+    const stucked = {
       expected_at: expect.any(Number),
       id: expect.any(String),
       current_md_id: 1,
       rel_path: 'user.onboarding',
-    })
+    }
+    expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot(stucked)
+
+    {
+      /*
+        1. reinit app. with stucked current_expected_rel
+      */
+      const data = toReinitableData(inited.app_model._highway)
+      const reinited = await testingReinit(AppRoot, data, {}, {session_root: true})
+
+      {
+        const inited = reinited
+
+        const mainNavigationRouter = await getMainNavigationRouter(inited)
+        expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot(stucked)
+        /*
+          2. change state so current_expected_rel can be satisfied
+        */
+        inited.app_model.readAddr('<< @one:user').dispatch('pushStuckedOnboaring')
+        /*
+          3. expect that current_expected_rel was satisfied
+        */
+        await inited.computed()
+        expect(mainNavigationRouter.readAddr('current_expected_rel') == null).toBeTruthy()
+      }
+    }
+
+
 
     // reset
     mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._provoda_id)

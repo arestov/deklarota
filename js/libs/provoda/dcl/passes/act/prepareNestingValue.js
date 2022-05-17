@@ -228,6 +228,7 @@ const prepareNestingValue = function(md, target, value, mut_action_result) {
 
   }
 
+  throw new Error('unknown method ' + target.options.method)
 
   // d
 }

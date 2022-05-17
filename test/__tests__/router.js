@@ -86,11 +86,14 @@ test('should init router', async () => {
         ...RootSession,
         extends: SessionRoot,
       })],
+      common_session_root: ['input', {
+        linking: '<< $session_root',
+      }],
       nav_parent_at_perspectivator_MainRouter: ['comp', ['<<<<'], { linking: '<<<<' }],
     },
   })
 
-  const inited = await testingInit(AppRoot, {requests_manager})
+  const inited = await testingInit(AppRoot, {requests_manager}, {session_root: true})
 
   const mainNavigationRouter = await getMainNavigationRouter(inited)
 

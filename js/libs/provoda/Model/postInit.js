@@ -105,6 +105,12 @@ export function markInitied(md) {
 }
 
 export default function postInitModel(self, opts, initing_params) {
+  if (opts.reinit) {
+    if (opts.interfaces) {
+      throw new Error('can\'t accept opts.interfaces during reinit')
+    }
+    return
+  }
   connectStates(self, getRelFromInitParams(initing_params), opts)
   connectNests(self)
 
