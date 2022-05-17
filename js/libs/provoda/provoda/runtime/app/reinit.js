@@ -131,7 +131,7 @@ export const toReinitableData = (runtime) => {
   }
 
   return {
-    models: Object.values(runtime.models).map(modelToData),
+    models,
     expected_rels_to_chains,
   }
 }
