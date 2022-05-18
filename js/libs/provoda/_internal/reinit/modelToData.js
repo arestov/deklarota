@@ -54,6 +54,16 @@ export const modelRelsToData = (self) => {
   return rels
 }
 
+export const mentionValueToData = (cur) => {
+  const result = []
+
+  for (const md of cur) {
+    result.push(getId(md))
+  }
+
+  return result
+}
+
 export const modelMentionsToData = (self) => {
   const mentions = {}
 
@@ -66,11 +76,7 @@ export const modelMentionsToData = (self) => {
       continue
     }
 
-    mentions[rel_name] = []
-
-    for (const md of cur) {
-      mentions[rel_name].push(getId(md))
-    }
+    mentions[rel_name] = mentionValueToData(cur)
   }
 
   return mentions
