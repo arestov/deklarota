@@ -29,6 +29,14 @@ export const modelAttrsToData = (self) => {
   return attrs
 }
 
+export const modelRelToData = (cur) => {
+  if (!Array.isArray(cur)) {
+    return getId(cur)
+  }
+
+  return cur.map(getId)
+}
+
 export const modelRelsToData = (self) => {
   const rels = {}
 
@@ -37,13 +45,10 @@ export const modelRelsToData = (self) => {
       continue
     }
 
-    const cur = self.children_models[rel_name]
-    if (!Array.isArray(cur)) {
-      rels[rel_name] = getId(cur)
-      continue
-    }
 
-    rels[rel_name] = cur.map(getId)
+
+    const cur = self.children_models[rel_name]
+    rels[rel_name] = modelRelToData(cur)
   }
 
   return rels
