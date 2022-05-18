@@ -1,8 +1,8 @@
 
 import { it } from '@jest/globals'
-import testingInit, { testingReinit } from '../testingInit'
 import appRoot from 'pv/appRoot.js'
 import model from 'pv/model'
+import testingInit, { testingReinit } from '../testingInit'
 import { toReinitableData } from '../../js/libs/provoda/provoda/runtime/app/reinit'
 
 it('should compute comp attr before & after reinit', async () => {
@@ -14,24 +14,24 @@ it('should compute comp attr before & after reinit', async () => {
         'comp',
         ['< @one:playlistModeB < $parent', '< @one:rootModeB < $root', 'number', '< @one:$meta$rels$tracks$length < $parent'],
         (parentMark, rootMark, number, length) => {
-          if (number > (2/3 * length)) {
-            return "independent"
+          if (number > (2 / 3 * length)) {
+            return 'independent'
           }
 
-          if (number > (1/3 * length)) {
+          if (number > (1 / 3 * length)) {
             if (!rootMark) {
-              return "rootA"
+              return 'rootA'
             }
-            return "rootB"
+            return 'rootB'
           }
 
           if (!parentMark) {
-            return "parentA"
+            return 'parentA'
           }
 
-          return "parentB"
-        }
-      ]
+          return 'parentB'
+        },
+      ],
     },
   })
 
@@ -44,14 +44,10 @@ it('should compute comp attr before & after reinit', async () => {
       tracks: ['model', Track, { many: true }],
     },
     actions: {
-      initTracks:  {
-        to: ['<< tracks', {method: 'at_end', can_create: true}],
-        fn: (list) => {
-
-          debugger
-          return list.map(attrs => ({attrs}))
-        }
-      }
+      initTracks: {
+        to: ['<< tracks', { method: 'at_end', can_create: true }],
+        fn: list => list.map(attrs => ({ attrs })),
+      },
     },
   })
 
@@ -70,9 +66,9 @@ it('should compute comp attr before & after reinit', async () => {
 
   {
     inited.app_model.getNesting('playlist').dispatch('initTracks', [
-      {number: 1},
-      {number: 2},
-      {number: 3},
+      { number: 1 },
+      { number: 2 },
+      { number: 3 },
     ])
 
     await inited.computed()
