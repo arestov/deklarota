@@ -20,13 +20,16 @@ const listOrOneItem = (value) => {
   return value.map(modelAsValue)
 }
 
-const modelToData = (self) => {
+export const modelAttrsToData = (self) => {
   const attrs = {}
   for (let i = 0; i < self._attrs_collector.all.length; i++) {
     const cur = self._attrs_collector.all[i]
     attrs[cur] = listOrOneItem(self.getAttr(cur))
   }
+  return attrs
+}
 
+export const modelRelsToData = (self) => {
   const rels = {}
 
   for (const rel_name in self.children_models) {
@@ -43,6 +46,10 @@ const modelToData = (self) => {
     rels[rel_name] = cur.map(getId)
   }
 
+  return rels
+}
+
+export const modelMentionsToData = (self) => {
   const mentions = {}
 
   for (const rel_name in self.__mentions_as_rel) {
@@ -60,6 +67,15 @@ const modelToData = (self) => {
       mentions[rel_name].push(getId(md))
     }
   }
+
+  return mentions
+}
+
+const modelToData = (self) => {
+  const attrs = modelAttrsToData(self)
+  const rels = modelRelsToData(self)
+  const mentions = modelMentionsToData(self)
+
 
   return {
     id: self._provoda_id,
