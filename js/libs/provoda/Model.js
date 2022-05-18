@@ -32,6 +32,7 @@ import requestState, { resetRequestedState } from './FastEventor/requestState'
 import requestNesting from './FastEventor/requestNesting'
 import { FlowStepAction } from './Model/flowStepHandlers.types'
 import act from './dcl/passes/act'
+import { deleteModelInDktStorage } from './_internal/reinit/dkt_storage'
 
 const push = Array.prototype.push
 
@@ -265,6 +266,7 @@ function modelProps(add) {
       this.dead = leak
 
       this._highway.models[this._provoda_id] = null
+      deleteModelInDktStorage(this)
       return this
     }
   })

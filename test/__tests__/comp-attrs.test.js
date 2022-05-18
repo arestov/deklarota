@@ -1,3 +1,7 @@
+/* eslint-disable fp/no-let */
+/* eslint-disable fp/no-loops */
+/* eslint-disable fp/no-delete */
+/* eslint-disable fp/no-mutation */
 
 import { it } from '@jest/globals'
 import appRoot from 'pv/appRoot.js'
@@ -6,6 +10,53 @@ import testingInit, { testingReinit } from '../testingInit'
 import { toReinitableData } from '../../js/libs/provoda/provoda/runtime/app/reinit'
 
 it('should compute comp attr before & after reinit', async () => {
+  const makeStorage = () => {
+    const storage_data = {
+      models: {},
+      expected_rels_to_chains: {},
+    }
+
+    const storage = {
+      // getSchema: () => {},
+      // putSchema: () => {},
+
+      hasData: () => Boolean(Object.keys(storage_data.models).length),
+      getSnapshot: () => storage_data,
+      createModel: (id, model_name, attrs, rels, mentions) => {
+        storage_data.models[id] = {
+          id, model_name, attrs, rels, mentions,
+        }
+      },
+      deleteModel: id => {
+        storage_data.models[id] = null
+      },
+      updateModelAttrs: (id, changes_list) => {
+        const CH_GR_LE = 2
+        for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
+          const attr_name = changes_list[i]
+          const value = changes_list[i + 1]
+          storage_data.models[id].attrs[attr_name] = value
+        }
+      },
+      updateModelRel: (id, rel_name, value) => {
+        storage_data.models[id].rels[rel_name] = value
+      },
+      updateModelMention: (id, mention_name, value) => {
+        storage_data.models[id].mentions[mention_name] = value
+      },
+      createExpectedRel: (key, data) => {
+        storage.expected_rels_to_chains[key] = data
+      },
+      deleteExpectedRel: key => {
+        delete storage.expected_rels_to_chains[key]
+      },
+    }
+    return storage
+  }
+
+  const dkt_storage = makeStorage()
+
+
   const Track = model({
     model_name: 'track',
     attrs: {
@@ -62,7 +113,7 @@ it('should compute comp attr before & after reinit', async () => {
     },
   })
 
-  const inited = await testingInit(AppRoot, {})
+  const inited = await testingInit(AppRoot, {}, { dkt_storage })
 
   {
     inited.app_model.getNesting('playlist').dispatch('initTracks', [
@@ -76,6 +127,8 @@ it('should compute comp attr before & after reinit', async () => {
     expect(inited.app_model.getAttr('resultAttr')).toMatchSnapshot()
 
     const data = toReinitableData(inited.app_model._highway)
+    expect(dkt_storage.getSnapshot()).toEqual(data)
+
     {
       const reinited = await testingReinit(AppRoot, data, {})
       const inited = reinited

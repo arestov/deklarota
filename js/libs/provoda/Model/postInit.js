@@ -10,6 +10,7 @@ import _updateAttr from '../_internal/_updateAttr'
 import { FlowStepInitNestRels, FlowStepMarkInited } from './flowStepHandlers.types'
 import prefillCompAttr from '../dcl/attrs/comp/prefill'
 import { initAttrs } from '../updateProxy'
+import { createModelInDktStorage } from '../_internal/reinit/dkt_storage'
 
 const is_prod = typeof NODE_ENV != 'undefined' && NODE_ENV === 'production'
 
@@ -111,6 +112,9 @@ export default function postInitModel(self, opts, initing_params) {
     }
     return
   }
+
+  createModelInDktStorage(self)
+
   connectStates(self, getRelFromInitParams(initing_params), opts)
   connectNests(self)
 

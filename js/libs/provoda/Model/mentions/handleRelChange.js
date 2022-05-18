@@ -1,6 +1,7 @@
 
 import deliverRelQueryUpdates from './deliverRelQueryUpdates'
 import checkAndDisposeModel from '../checkAndDisposeModel'
+import { updateModelMentionInDktStorage } from '../../_internal/reinit/dkt_storage'
 
 function handleMentions(self, collection_name, old_value, array) {
   if (old_value != null) {
@@ -47,6 +48,8 @@ function handleRemoveMetionItem(mentioner, collection_name, item) {
   // var old_length = valueOfSet.size
   valueOfSet.delete(mentioner)
 
+  updateModelMentionInDktStorage(item, collection_name, valueOfSet)
+
   if (!valueOfSet.size) {
     checkAndDisposeModel(item, item.getAttr('$meta$removed'))
   }
@@ -73,6 +76,8 @@ function handleAddMetionItem(mentioner, collection_name, item) {
   if (valueOfSet.size == old_length) {
     return
   }
+  updateModelMentionInDktStorage(item, collection_name, valueOfSet)
+
 }
 
 export default handleMentions

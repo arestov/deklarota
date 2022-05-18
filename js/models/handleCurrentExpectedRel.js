@@ -5,6 +5,7 @@ import addHeavyRelQuery from '../libs/provoda/Model/mentions/heavy_queries/addHe
 import removeHeavyRelQuery from '../libs/provoda/Model/mentions/heavy_queries/removeHeavyRelQuery'
 import { getNestInfo } from '../libs/provoda/utils/multiPath/parse'
 import { REL_QUERY_TYPE_REL } from './handleExpectedRelChange'
+import { createExpectedRelInDktStorage, deleteExpectedRelInDktStorage } from '../libs/provoda/_internal/reinit/dkt_storage'
 
 const { TARGET_TYPE_HEAVY_REQUESTER } = target_types
 
@@ -13,10 +14,12 @@ export const setChain = (self, expected_rel_entry, chain) => {
     self._highway.expected_rels_to_chains = new Map()
   }
   self._highway.expected_rels_to_chains.set(expected_rel_entry.id, chain)
+  createExpectedRelInDktStorage(self, expected_rel_entry.id, chain)
 }
 
 const deleteChain = (self, expected_rel_entry) => {
   self._highway.expected_rels_to_chains.delete(expected_rel_entry.id)
+  deleteExpectedRelInDktStorage(self, expected_rel_entry.id)
 }
 
 const getChain = (self, expected_rel_entry) => {

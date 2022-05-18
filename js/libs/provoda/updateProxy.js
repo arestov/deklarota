@@ -10,6 +10,7 @@ import sameName from './sameName'
 import shallowEqual from './shallowEqual'
 import legacySideEffects from './handleLegacySideEffects'
 import { hasOwnProperty } from './hasOwnProperty'
+import { updateModelAttrsInDktStorage } from './_internal/reinit/dkt_storage'
 
 const CH_GR_LE = 2
 
@@ -112,6 +113,11 @@ function propagateAttrChanges(etr, total_original_states, total_ch) {
   if (etr.sendStatesToMPX != null && total_ch.length) {
     etr.sendStatesToMPX(total_ch)
   }
+
+  if (etr._provoda_id != null) {
+    updateModelAttrsInDktStorage(etr, total_ch)
+  }
+
   legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
 
 

@@ -35,6 +35,8 @@ function AppRuntime(optionsRaw) {
 
   this.whenAllReady = whenAllReady
 
+  this.dkt_storage = options.dkt_storage || null
+
   this.sync_sender = options.sync_sender ? new SyncSender() : null
 
   const { __proxies_leaks_check, __proxies_leaks_check_interval, proxies: enable_proxies } = options
