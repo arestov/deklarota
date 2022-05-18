@@ -8,7 +8,7 @@ const modelAsValue = (someval) => {
   return someval
 }
 
-const listOrOneItem = (value) => {
+export const attrValueToData = (value) => {
   if (!Array.isArray(value)) {
     return modelAsValue(value)
   }
@@ -24,7 +24,7 @@ export const modelAttrsToData = (self) => {
   const attrs = {}
   for (let i = 0; i < self._attrs_collector.all.length; i++) {
     const cur = self._attrs_collector.all[i]
-    attrs[cur] = listOrOneItem(self.getAttr(cur))
+    attrs[cur] = attrValueToData(self.getAttr(cur))
   }
   return attrs
 }
