@@ -21,16 +21,6 @@ export default function(self) {
 
   const result = [{name: '$meta$inited', type: 'bool'}, {name: '$meta$removed', type: 'bool'}]
 
-  // Default attrs
-  if (self.__default_attrs) {
-    for (const attr in self.__default_attrs) {
-      if (!self.__default_attrs.hasOwnProperty(attr)) {
-        continue
-      }
-      result.push({name: attr})
-    }
-  }
-
   // Compx attrs
   if (self.full_comlxs_list) {
     for (let i = 0; i < self.full_comlxs_list.length; i++) {
@@ -83,6 +73,16 @@ export default function(self) {
         continue
       }
       result.push({name: attr_mark, type: 'bool'})
+    }
+  }
+
+  // Default attrs
+  if (self.__default_attrs) {
+    for (const attr in self.__default_attrs) {
+      if (!self.__default_attrs.hasOwnProperty(attr)) {
+        continue
+      }
+      result.push({name: attr})
     }
   }
 
