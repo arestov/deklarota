@@ -5,6 +5,7 @@ import { setChain } from '../../../../../models/handleCurrentExpectedRel'
 import { addHeavyRelQueryToRuntime } from '../../../Model/mentions/heavy_queries/addHeavyRelQuery'
 import handleHeavyRelQueryChange from '../../../Model/mentions/heavy_queries/handleHeavyRelQueryChange'
 import modelToData from '../../../_internal/reinit/modelToData'
+import { hasOwnProperty } from '../../../hasOwnProperty'
 
 
 export const reinitOne = (md) => {
@@ -62,6 +63,56 @@ export const toReinitableData = (runtime) => {
     models,
     expected_rels_to_chains,
   }
+}
+
+const isInputRel = (rel_type) => {
+  switch (rel_type) {
+    case 'input':
+    case 'model':
+    case 'nest':
+      return true
+  }
+  return false
+}
+
+export const getModelDataSchema = (AppRoot) => {
+  const models = {}
+
+  for (const model of AppRoot.prototype.constrs_by_name.values()) {
+    const attrs = []
+
+    for (let i = 0; i < model.__defined_attrs_bool.length; i++) {
+      const cur = model.__defined_attrs_bool[i]
+      const is_input = !hasOwnProperty(model.compx_check, cur.name)
+
+      attrs.push({
+        name: cur.name,
+        is_input,
+        is_bool: cur.type == 'bool'
+      })
+    }
+
+    const rels = []
+    const rels_model_schema = model._extendable_nest_index
+    for (const rel_name in rels_model_schema) {
+      if (!Object.hasOwnProperty.call(rels_model_schema, rel_name)) {
+        continue
+      }
+      const cur = rels_model_schema[rel_name]
+      rels.push({
+        name: rel_name,
+        is_input: isInputRel(cur.type),
+        many: Boolean(cur.dcl.rel_shape.many)
+      })
+    }
+
+    models[model.model_name] = {
+      attrs,
+      rels,
+    }
+  }
+
+  return models
 }
 
 export const reinit = (AppRoot, runtime, data, interfaces) => {
@@ -189,6 +240,10 @@ export const reinit = (AppRoot, runtime, data, interfaces) => {
     expected_rels.push(
       [current_md, chain]
     )
+  }
+
+  if (runtime.dkt_storage != null) {
+    runtime.dkt_storage.putSchema(getModelDataSchema(AppRoot))
   }
 
   runtime.calls_flow.input(() => {

@@ -16,9 +16,13 @@ it('should compute comp attr before & after reinit', async () => {
       expected_rels_to_chains: {},
     }
 
+    let schema = null
+
     const storage = {
-      // getSchema: () => {},
-      // putSchema: () => {},
+      getSchema: () => schema,
+      putSchema: val => {
+        schema = val
+      },
 
       hasData: () => Boolean(Object.keys(storage_data.models).length),
       getSnapshot: () => storage_data,
@@ -114,6 +118,7 @@ it('should compute comp attr before & after reinit', async () => {
   })
 
   const inited = await testingInit(AppRoot, {}, { dkt_storage })
+  expect(dkt_storage.getSchema()).toMatchSnapshot()
 
   {
     inited.app_model.getNesting('playlist').dispatch('initTracks', [
