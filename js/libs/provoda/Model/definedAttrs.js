@@ -19,6 +19,8 @@ export default function(self) {
     return self.__defined_attrs_bool
   }
 
+  const uniq = new Set()
+
   const result = [{name: '$meta$inited', type: 'bool'}, {name: '$meta$removed', type: 'bool'}]
 
   // Compx attrs
@@ -27,6 +29,7 @@ export default function(self) {
       const cur = self.full_comlxs_list[i]
       const isFullBool = cur.is_bool || doesFnReturnsBool(cur.fn) && !cur.require_marks.length
       result.push({name: cur.name, type: isFullBool ? 'bool' : null})
+      uniq.add(cur.name)
     }
   }
 
@@ -43,6 +46,7 @@ export default function(self) {
         }
 
         result.push(bool_attr)
+        uniq.add(bool_attr.name)
       }
     }
   }
@@ -50,6 +54,10 @@ export default function(self) {
   // Meta attrs of apis
   if (self.__defined_api_attrs_bool) {
     push.apply(result, self.__defined_api_attrs_bool)
+    for (let i = 0; i < self.__defined_api_attrs_bool.length; i++) {
+      const cur = self.__defined_api_attrs_bool[i]
+      uniq.add(cur.name)
+    }
   }
 
   if (self._extendable_nest_index) {
@@ -63,6 +71,7 @@ export default function(self) {
         const cur = list[kk]
         const [attr_name, type] = cur
         result.push({name: attr_name, type: type || null})
+        uniq.add(attr_name)
       }
     }
   }
@@ -73,6 +82,7 @@ export default function(self) {
         continue
       }
       result.push({name: attr_mark, type: 'bool'})
+      uniq.add(attr_mark)
     }
   }
 
@@ -82,7 +92,11 @@ export default function(self) {
       if (!self.__default_attrs.hasOwnProperty(attr)) {
         continue
       }
+      if (uniq.has(attr)) {
+        continue
+      }
       result.push({name: attr})
+      uniq.add(attr)
     }
   }
 
