@@ -6,6 +6,8 @@ import { addHeavyRelQueryToRuntime } from '../../../Model/mentions/heavy_queries
 import handleHeavyRelQueryChange from '../../../Model/mentions/heavy_queries/handleHeavyRelQueryChange'
 import modelToData from '../../../_internal/reinit/modelToData'
 import { hasOwnProperty } from '../../../hasOwnProperty'
+import { countKeys } from '../../../../spv'
+import updateProxy, { calcProvidedCompList } from '../../../updateProxy'
 
 
 export const reinitOne = (md) => {
@@ -115,7 +117,77 @@ export const getModelDataSchema = (AppRoot) => {
   return models
 }
 
-export const reinit = (AppRoot, runtime, data, interfaces) => {
+const getCompAttrsFromSchema = (schema) => {
+  const result = new Set()
+
+  for (let i = 0; i < schema.attrs.length; i++) {
+    const cur = schema.attrs[i]
+    if (cur.is_input) {
+      continue
+    }
+    result.add(cur.name)
+  }
+
+  return result
+}
+
+const makeAutomigration = (old_schema, new_schema) => {
+  /*
+    now we can only auto migrate to added comp attrs
+
+    p.s.
+    1. it would be easy to make
+      - remove comp attrs
+      - add/remove comp rels
+
+    2. medium - signal to recalc exising comp attrs
+
+    3. rename comp (just remove + add)
+
+    4. most hard - rename input attrs/rels?
+  */
+  const result = {}
+
+  for (const model_name in new_schema) {
+    if (!Object.hasOwnProperty.call(new_schema, model_name)) {
+      continue
+    }
+
+    /*
+      there is no model in old schema. new model added. nothing to compare
+    */
+    if (!hasOwnProperty(old_schema, model_name)) {
+      continue
+    }
+
+
+    const old_schema_comp_attrs = getCompAttrsFromSchema(old_schema[model_name])
+    const new_schema_comp_attrs = getCompAttrsFromSchema(new_schema[model_name])
+
+    const added = []
+    for (const attr_name of new_schema_comp_attrs) {
+      if (old_schema_comp_attrs.has(attr_name)) {
+        continue
+      }
+      added.push(attr_name)
+    }
+    if (!added.length) {
+      continue
+    }
+
+    result[model_name] = {
+      added_comp_attrs: added,
+    }
+  }
+
+  if (!countKeys(result, true)) {
+    return null
+  }
+
+  return result
+}
+
+export const reinit = async (AppRoot, runtime, data, interfaces) => {
   const {models, expected_rels_to_chains} = data
 
   const models_list = []
@@ -242,17 +314,36 @@ export const reinit = (AppRoot, runtime, data, interfaces) => {
     )
   }
 
+  const old_schema = await runtime.dkt_storage?.getSchema()
+  const new_schema = getModelDataSchema(AppRoot)
+  const auto_migration = old_schema ? makeAutomigration(old_schema, new_schema) : null
+
   if (runtime.dkt_storage != null) {
-    runtime.dkt_storage.putSchema(getModelDataSchema(AppRoot))
+    runtime.dkt_storage.putSchema(new_schema)
   }
 
   runtime.calls_flow.input(() => {
     const isApiAttr = memorize((str) => str.startsWith('$meta$apis$') && str.endsWith('$used'))
 
-    for (let i = 0; i < models_list.length; i++) {
-      const cur = models_list[i]
-      const self = runtime.models[cur.id]
+    const initModelAttrs = (self, cur, auto_migration) => {
+      /*
+        1. add/remove new attrs in schema
+        2. acknowledge apis where removed
+      */
 
+      const changes = []
+
+      /*
+      1.
+      */
+      const added_comp_attrs = auto_migration?.[self.model_name]?.added_comp_attrs
+      if (added_comp_attrs) {
+        calcProvidedCompList(self, added_comp_attrs, changes)
+      }
+
+      /*
+      2
+      */
       for (const attr_name in cur.attrs) {
         if (!Object.hasOwnProperty.call(cur.attrs, attr_name)) {
           continue
@@ -262,8 +353,20 @@ export const reinit = (AppRoot, runtime, data, interfaces) => {
           continue
         }
 
-        self.updateAttr(attr_name, false)
+        changes.push(attr_name, false)
       }
+
+      if (!changes.length) {
+        return
+      }
+
+      updateProxy(self, changes)
+    }
+
+    for (let i = 0; i < models_list.length; i++) {
+      const cur = models_list[i]
+      const self = runtime.models[cur.id]
+      initModelAttrs(self, cur, auto_migration)
     }
 
   })

@@ -6,6 +6,7 @@
 import { it } from '@jest/globals'
 import appRoot from 'pv/appRoot.js'
 import model from 'pv/model'
+import mergeModel from 'pv/dcl/merge'
 import testingInit, { testingReinit } from '../testingInit'
 import { toReinitableData } from '../../js/libs/provoda/provoda/runtime/app/reinit'
 
@@ -106,8 +107,7 @@ it('should compute comp attr before & after reinit', async () => {
     },
   })
 
-
-  const AppRoot = appRoot({
+  const AppRootSchema = {
     attrs: {
       rootModeB: ['input'],
       resultAttr: ['comp', ['< @all:allowedToPlayType < playlist.tracks']],
@@ -115,7 +115,8 @@ it('should compute comp attr before & after reinit', async () => {
     rels: {
       playlist: ['nest', [Playlist]],
     },
-  })
+  }
+  const AppRoot = appRoot(AppRootSchema)
 
   const inited = await testingInit(AppRoot, {}, { dkt_storage })
   expect(dkt_storage.getSchema()).toMatchSnapshot()
@@ -152,6 +153,31 @@ it('should compute comp attr before & after reinit', async () => {
       */
       await inited.computed()
       expect(inited.app_model.getAttr('resultAttr')).toMatchSnapshot()
+    }
+
+    {
+      const AppRootChanged = appRoot(
+        mergeModel(AppRootSchema, {
+          attrs: {
+            oneMoreAttr: ['comp', ['resultAttr']],
+          },
+        }),
+      )
+
+      const reinited = await testingReinit(AppRootChanged, data, {}, { dkt_storage })
+      /* compare with resultAttr */
+      expect(
+        reinited.app_model.getAttr('oneMoreAttr'),
+      ).toBe(
+        reinited.app_model.getAttr('resultAttr'),
+      )
+
+      /* compare with original rootModeB */
+      expect(
+        reinited.app_model.getAttr('oneMoreAttr'),
+      ).toBe(
+        inited.app_model.getAttr('resultAttr'),
+      )
     }
   }
 })
