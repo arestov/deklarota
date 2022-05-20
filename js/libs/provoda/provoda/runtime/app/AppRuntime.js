@@ -6,6 +6,7 @@ import initEffects from '../../../AttrsOwner/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep from '../../../Model/callFlowStep'
+import { getModelDataSchema } from './reinit'
 
 function AppRuntime(optionsRaw) {
 
@@ -35,6 +36,8 @@ function AppRuntime(optionsRaw) {
 
   this.whenAllReady = whenAllReady
 
+  this.dkt_storage = options.dkt_storage || null
+
   this.sync_sender = options.sync_sender ? new SyncSender() : null
 
   const { __proxies_leaks_check, __proxies_leaks_check_interval, proxies: enable_proxies } = options
@@ -63,6 +66,11 @@ function AppRuntime(optionsRaw) {
 
 AppRuntime.prototype.start = function(options) {
   const self = this
+
+  if (this.dkt_storage != null) {
+    this.dkt_storage.putSchema(getModelDataSchema(options.App))
+  }
+
   return new Promise(function(resolve) {
     self.calls_flow.input(function() {
       const app_model = new options.App({

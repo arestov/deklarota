@@ -10,6 +10,7 @@ import sameName from './sameName'
 import shallowEqual from './shallowEqual'
 import legacySideEffects from './handleLegacySideEffects'
 import { hasOwnProperty } from './hasOwnProperty'
+import { updateModelAttrsInDktStorage } from './_internal/reinit/dkt_storage'
 
 const CH_GR_LE = 2
 
@@ -112,6 +113,11 @@ function propagateAttrChanges(etr, total_original_states, total_ch) {
   if (etr.sendStatesToMPX != null && total_ch.length) {
     etr.sendStatesToMPX(total_ch)
   }
+
+  if (etr._provoda_id != null) {
+    updateModelAttrsInDktStorage(etr, total_ch)
+  }
+
   legacySideEffects(etr, total_original_states, total_ch, 0, total_ch.length)
 
 
@@ -193,6 +199,7 @@ function createFakeEtr(etr, first_changes_list) {
       _attrs_collector: etr._attrs_collector,
       full_comlxs_list: etr.full_comlxs_list,
       full_comlxs_index: etr.full_comlxs_index,
+      __attrs_all_comp: etr.__attrs_all_comp,
       state: localState,
     },
     total_original_states: new Map(),
@@ -392,6 +399,27 @@ function applyComplexStates(etr, total_original_states, start_from, input_and_ou
   // release reused set
   releaseSet(uniq)
 
+}
+
+export const calcProvidedCompList = function(model, provided_comp_list, input_and_output) {
+  const fake = createFakeEtr(model, [])
+
+  for (let i = 0; i < model._attrs_collector.all.length; i++) {
+    const attr = model._attrs_collector.all[i]
+    fake.etr.states[attr] = model.getAttr(attr)
+  }
+
+  // reuse set
+  const uniq = getFreeSet()
+
+  for (let i = 0; i < provided_comp_list.length; i++) {
+    const attr_name = provided_comp_list[i]
+    const cur = fake.etr.__attrs_all_comp[attr_name]
+    applyOneComplexAttr(fake.etr, fake.total_original_states, input_and_output, cur, uniq)
+  }
+
+  // release reused set
+  releaseSet(uniq)
 }
 
 function depValue(etr, dcl, num) {

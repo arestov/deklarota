@@ -1,11 +1,527 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should compute comp attr before & after reinit 1`] = `
-Array [
-  "parentA",
-  "rootA",
-  "independent",
-]
+Object {
+  "Playlist": Object {
+    "attrs": Array [
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "$meta$fxs_out$__remove_model$deps_ready",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "__fx_out_triggering_attrs",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$root$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$root$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$parent$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$parent$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$tracks$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$tracks$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "url_part",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "nav_title",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$perspective$each_show",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$perspective$each_focus",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "mp_has_focus",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "mp_show",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "playlistModeB",
+      },
+    ],
+    "rels": Array [
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$root",
+      },
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$parent",
+      },
+      Object {
+        "is_input": true,
+        "many": true,
+        "name": "tracks",
+      },
+    ],
+  },
+  "app_model": Object {
+    "attrs": Array [
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": false,
+        "name": "resultAttr",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "$meta$fxs_out$__remove_model$deps_ready",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "__fx_out_triggering_attrs",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$root$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$root$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$parent$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$parent$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$session_root$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$session_root$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$playlist$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$playlist$exists",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$playlist$autoinited",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "url_part",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "nav_title",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$perspective$each_show",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$perspective$each_focus",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "mp_has_focus",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "mp_show",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "rootModeB",
+      },
+    ],
+    "rels": Array [
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$root",
+      },
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$parent",
+      },
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$session_root",
+      },
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "playlist",
+      },
+    ],
+  },
+  "root_bwlev": Object {
+    "attrs": Array [
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "$meta$fxs_out$__remove_model$deps_ready",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "__fx_out_triggering_attrs",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$root$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$root$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$parent$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$parent$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$pioneer$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$pioneer$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$spyglasses$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$spyglasses$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "used_data_structure",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "spyglasses_index",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "spyglasses_requests",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "probe_name",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "map_level_num",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "is_main_perspectivator_resident",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "pioneer_provoda_id",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "pioneer",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "freeze_parent_bwlev",
+      },
+    ],
+    "rels": Array [
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$root",
+      },
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$parent",
+      },
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "pioneer",
+      },
+      Object {
+        "is_input": true,
+        "many": true,
+        "name": "spyglasses",
+      },
+    ],
+  },
+  "track": Object {
+    "attrs": Array [
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": false,
+        "name": "< @one:playlistModeB < $parent <<",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": false,
+        "name": "< @one:rootModeB < $root <<",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": false,
+        "name": "< @one:$meta$rels$tracks$length < $parent <<",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": false,
+        "name": "allowedToPlayType",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "$meta$fxs_out$__remove_model$deps_ready",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": false,
+        "name": "__fx_out_triggering_attrs",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$root$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$root$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$rels$$parent$length",
+      },
+      Object {
+        "is_bool": true,
+        "is_input": true,
+        "name": "$meta$rels$$parent$exists",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$inited",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$removed",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "url_part",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "nav_title",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$perspective$each_show",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "$meta$perspective$each_focus",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "mp_has_focus",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "mp_show",
+      },
+      Object {
+        "is_bool": false,
+        "is_input": true,
+        "name": "number",
+      },
+    ],
+    "rels": Array [
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$root",
+      },
+      Object {
+        "is_input": true,
+        "many": false,
+        "name": "$parent",
+      },
+    ],
+  },
+}
 `;
 
 exports[`should compute comp attr before & after reinit 2`] = `
@@ -17,6 +533,14 @@ Array [
 `;
 
 exports[`should compute comp attr before & after reinit 3`] = `
+Array [
+  "parentA",
+  "rootA",
+  "independent",
+]
+`;
+
+exports[`should compute comp attr before & after reinit 4`] = `
 Array [
   "parentB",
   "rootB",

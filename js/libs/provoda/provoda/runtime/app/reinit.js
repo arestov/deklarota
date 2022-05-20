@@ -4,83 +4,14 @@ import MentionChain from '../../../Model/mentions/MentionChain'
 import { setChain } from '../../../../../models/handleCurrentExpectedRel'
 import { addHeavyRelQueryToRuntime } from '../../../Model/mentions/heavy_queries/addHeavyRelQuery'
 import handleHeavyRelQueryChange from '../../../Model/mentions/heavy_queries/handleHeavyRelQueryChange'
+import modelToData from '../../../_internal/reinit/modelToData'
+import { hasOwnProperty } from '../../../hasOwnProperty'
+import { countKeys } from '../../../../spv'
+import updateProxy, { calcProvidedCompList } from '../../../updateProxy'
 
 
 export const reinitOne = (md) => {
   initApis(md, null)
-}
-
-const getId = (item) => item?._provoda_id
-
-const modelAsValue = (someval) => {
-  if (getId(someval)) {
-    return { _provoda_id: someval._provoda_id }
-  }
-
-  return someval
-}
-
-const listOrOneItem = (value) => {
-  if (!Array.isArray(value)) {
-    return modelAsValue(value)
-  }
-
-  if (!value.some(getId)) {
-    return value
-  }
-
-  return value.map(modelAsValue)
-}
-
-const modelToData = (self) => {
-  const attrs = {}
-  for (let i = 0; i < self._attrs_collector.all.length; i++) {
-    const cur = self._attrs_collector.all[i]
-    attrs[cur] = listOrOneItem(self.getAttr(cur))
-  }
-
-  const rels = {}
-
-  for (const rel_name in self.children_models) {
-    if (!Object.hasOwnProperty.call(self.children_models, rel_name)) {
-      continue
-    }
-
-    const cur = self.children_models[rel_name]
-    if (!Array.isArray(cur)) {
-      rels[rel_name] = getId(cur)
-      continue
-    }
-
-    rels[rel_name] = cur.map(getId)
-  }
-
-  const mentions = {}
-
-  for (const rel_name in self.__mentions_as_rel) {
-    if (!Object.hasOwnProperty.call(self.__mentions_as_rel, rel_name)) {
-      continue
-    }
-    const cur = self.__mentions_as_rel[rel_name]
-    if (cur == null) {
-      continue
-    }
-
-    mentions[rel_name] = []
-
-    for (const md of cur) {
-      mentions[rel_name].push(getId(md))
-    }
-  }
-
-  return {
-    id: self._provoda_id,
-    model_name: self.model_name,
-    attrs,
-    rels,
-    mentions,
-    // live_heavy_rel_query_by_rel_name
-  }
 }
 
 const mentionChainLinkToData = (item) => {
@@ -136,7 +67,148 @@ export const toReinitableData = (runtime) => {
   }
 }
 
-export const reinit = (AppRoot, runtime, data, interfaces) => {
+const isInputRel = (rel_type) => {
+  switch (rel_type) {
+    case 'input':
+    case 'model':
+    case 'nest':
+      return true
+  }
+  return false
+}
+
+export const getModelDataSchema = (AppRoot) => {
+  const models = {}
+
+  for (const model of AppRoot.prototype.constrs_by_name.values()) {
+    const attrs = []
+
+    for (let i = 0; i < model.__defined_attrs_bool.length; i++) {
+      const cur = model.__defined_attrs_bool[i]
+      const is_input = !hasOwnProperty(model.compx_check, cur.name)
+
+      attrs.push({
+        name: cur.name,
+        is_input,
+        is_bool: cur.type == 'bool'
+      })
+    }
+
+    const rels = []
+    const rels_model_schema = model._extendable_nest_index
+    for (const rel_name in rels_model_schema) {
+      if (!Object.hasOwnProperty.call(rels_model_schema, rel_name)) {
+        continue
+      }
+      const cur = rels_model_schema[rel_name]
+      rels.push({
+        name: rel_name,
+        is_input: isInputRel(cur.type),
+        many: Boolean(cur.dcl.rel_shape.many)
+      })
+    }
+
+    models[model.model_name] = {
+      attrs,
+      rels,
+    }
+  }
+
+  return models
+}
+
+const getCompAttrsFromSchema = (schema) => {
+  const result = new Set()
+
+  for (let i = 0; i < schema.attrs.length; i++) {
+    const cur = schema.attrs[i]
+    if (cur.is_input) {
+      continue
+    }
+    result.add(cur.name)
+  }
+
+  return result
+}
+
+const makeAutomigration = (old_schema, new_schema) => {
+  /*
+    now we can only auto migrate to added comp attrs
+
+    p.s.
+    1. it would be easy to make
+      - remove comp attrs
+      - add/remove comp rels
+
+    2. medium - signal to recalc exising comp attrs
+
+    3. rename comp (just remove + add)
+
+    4. most hard - rename input attrs/rels?
+  */
+  const result = {}
+
+  for (const model_name in new_schema) {
+    if (!Object.hasOwnProperty.call(new_schema, model_name)) {
+      continue
+    }
+
+    /*
+      there is no model in old schema. new model added. nothing to compare
+    */
+    if (!hasOwnProperty(old_schema, model_name)) {
+      continue
+    }
+
+
+    const old_schema_comp_attrs = getCompAttrsFromSchema(old_schema[model_name])
+    const new_schema_comp_attrs = getCompAttrsFromSchema(new_schema[model_name])
+
+    const added = []
+    for (const attr_name of new_schema_comp_attrs) {
+      if (old_schema_comp_attrs.has(attr_name)) {
+        continue
+      }
+      added.push(attr_name)
+    }
+    if (!added.length) {
+      continue
+    }
+
+    result[model_name] = {
+      added_comp_attrs: added,
+    }
+  }
+
+  if (!countKeys(result, true)) {
+    return null
+  }
+
+  return result
+}
+
+const reinitAllAttrsAutoMigration = (new_schema) => {
+  const result = {}
+
+  for (const model_name in new_schema) {
+    if (!Object.hasOwnProperty.call(new_schema, model_name)) {
+      continue
+    }
+
+    const new_schema_comp_attrs = getCompAttrsFromSchema(new_schema[model_name])
+    result[model_name] = {
+      added_comp_attrs: [...new_schema_comp_attrs],
+    }
+  }
+
+
+  return result
+
+}
+
+export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
+  /* expect reinit_all_attrs to be used in dev mode, not production */
+  const reinit_all_attrs = options?.reinit_all_attrs
   const {models, expected_rels_to_chains} = data
 
   const models_list = []
@@ -263,13 +335,50 @@ export const reinit = (AppRoot, runtime, data, interfaces) => {
     )
   }
 
+  const old_schema = await runtime.dkt_storage?.getSchema()
+  const new_schema = getModelDataSchema(AppRoot)
+
+  const buildAutoMigration = () => {
+    if (reinit_all_attrs) {
+      return reinitAllAttrsAutoMigration(new_schema)
+    }
+    if (old_schema) {
+      return makeAutomigration(old_schema, new_schema)
+    }
+
+    return null
+  }
+
+  const auto_migration = buildAutoMigration()
+
+  console.log('auto_migration', auto_migration)
+
+  if (runtime.dkt_storage != null) {
+    runtime.dkt_storage.putSchema(new_schema)
+  }
+
   runtime.calls_flow.input(() => {
     const isApiAttr = memorize((str) => str.startsWith('$meta$apis$') && str.endsWith('$used'))
 
-    for (let i = 0; i < models_list.length; i++) {
-      const cur = models_list[i]
-      const self = runtime.models[cur.id]
+    const initModelAttrs = (self, cur, auto_migration) => {
+      /*
+        1. add/remove new attrs in schema
+        2. acknowledge apis where removed
+      */
 
+      const changes = []
+
+      /*
+      1.
+      */
+      const added_comp_attrs = auto_migration?.[self.model_name]?.added_comp_attrs
+      if (added_comp_attrs) {
+        calcProvidedCompList(self, added_comp_attrs, changes)
+      }
+
+      /*
+      2
+      */
       for (const attr_name in cur.attrs) {
         if (!Object.hasOwnProperty.call(cur.attrs, attr_name)) {
           continue
@@ -279,8 +388,20 @@ export const reinit = (AppRoot, runtime, data, interfaces) => {
           continue
         }
 
-        self.updateAttr(attr_name, false)
+        changes.push(attr_name, false)
       }
+
+      if (!changes.length) {
+        return
+      }
+
+      updateProxy(self, changes)
+    }
+
+    for (let i = 0; i < models_list.length; i++) {
+      const cur = models_list[i]
+      const self = runtime.models[cur.id]
+      initModelAttrs(self, cur, auto_migration)
     }
 
   })

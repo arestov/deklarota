@@ -9,6 +9,7 @@ import updateMetaAttrs from './rel/updateMetaAttrs'
 import emptyArray from '../emptyArray'
 import sameName from '../sameName'
 import checkUniqOnListUpdate from '../dcl/nests/uniq/checkOnListUpdate'
+import { updateModelRelInDktStorage } from '../_internal/reinit/dkt_storage'
 
 
 function getUniqReadonly(input) {
@@ -89,6 +90,8 @@ export default function updateNesting(self, collection_name_raw, input) {
   // !?
 
   self.sendCollectionChange(collection_name, array, old_value, removed)
+
+  updateModelRelInDktStorage(self, collection_name, array)
 
   return self
 }
