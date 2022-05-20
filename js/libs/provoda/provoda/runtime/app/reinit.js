@@ -351,8 +351,6 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
 
   const auto_migration = buildAutoMigration()
 
-  console.log('auto_migration', auto_migration)
-
   if (runtime.dkt_storage != null) {
     runtime.dkt_storage.putSchema(new_schema)
   }
