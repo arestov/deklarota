@@ -187,7 +187,28 @@ const makeAutomigration = (old_schema, new_schema) => {
   return result
 }
 
-export const reinit = async (AppRoot, runtime, data, interfaces) => {
+const reinitAllAttrsAutoMigration = (new_schema) => {
+  const result = {}
+
+  for (const model_name in new_schema) {
+    if (!Object.hasOwnProperty.call(new_schema, model_name)) {
+      continue
+    }
+
+    const new_schema_comp_attrs = getCompAttrsFromSchema(new_schema[model_name])
+    result[model_name] = {
+      added_comp_attrs: [...new_schema_comp_attrs],
+    }
+  }
+
+
+  return result
+
+}
+
+export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
+  /* expect reinit_all_attrs to be used in dev mode, not production */
+  const reinit_all_attrs = options?.reinit_all_attrs
   const {models, expected_rels_to_chains} = data
 
   const models_list = []
@@ -316,7 +337,21 @@ export const reinit = async (AppRoot, runtime, data, interfaces) => {
 
   const old_schema = await runtime.dkt_storage?.getSchema()
   const new_schema = getModelDataSchema(AppRoot)
-  const auto_migration = old_schema ? makeAutomigration(old_schema, new_schema) : null
+
+  const buildAutoMigration = () => {
+    if (reinit_all_attrs) {
+      return reinitAllAttrsAutoMigration(new_schema)
+    }
+    if (old_schema) {
+      return makeAutomigration(old_schema, new_schema)
+    }
+
+    return null
+  }
+
+  const auto_migration = buildAutoMigration()
+
+  console.log('auto_migration', auto_migration)
 
   if (runtime.dkt_storage != null) {
     runtime.dkt_storage.putSchema(new_schema)

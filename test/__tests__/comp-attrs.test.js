@@ -164,7 +164,9 @@ it('should compute comp attr before & after reinit', async () => {
         }),
       )
 
-      const reinited = await testingReinit(AppRootChanged, data, {}, { dkt_storage })
+      const reinited = await testingReinit(
+        AppRootChanged, data, {}, { dkt_storage },
+      )
       /* compare with resultAttr */
       expect(
         reinited.app_model.getAttr('oneMoreAttr'),

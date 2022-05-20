@@ -88,7 +88,14 @@ const testingInit = async (
 export const testingReinit = async (
   AppRoot,
   data,
-  interfaces = {}, { proxies = false, sync_sender = false, __proxies_leaks_check = false, session_root = false, dkt_storage } = {},
+  interfaces = {}, {
+    proxies = false,
+    sync_sender = false,
+    __proxies_leaks_check = false,
+    session_root = false,
+    dkt_storage,
+    reinit_all_attrs,
+  } = {},
 ) => {
   const errors_catcher = catchFlowErrors()
 
@@ -103,7 +110,7 @@ export const testingReinit = async (
     dkt_storage,
   })
 
-  const inited_base = await reinit(AppRoot, runtime, data, interfaces)
+  const inited_base = await reinit(AppRoot, runtime, data, interfaces, { reinit_all_attrs })
   return wrapTestApp(errors_catcher, runtime, inited_base, session_root)
 }
 
