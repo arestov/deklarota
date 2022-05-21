@@ -196,7 +196,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
     const stucked = {
       expected_at: expect.any(Number),
       id: expect.any(String),
-      current_md_id: 1,
+      current_md_id: 'ROOT',
       rel_path: 'user.onboarding',
     }
     expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot(stucked)

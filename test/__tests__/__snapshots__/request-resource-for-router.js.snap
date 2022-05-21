@@ -21,21 +21,21 @@ Object {
 
 exports[`should execute nested requireRel & reveal resource in router 5`] = `
 Object {
-  "current_md_id": 1,
+  "current_md_id": "ROOT",
   "expected_at": Any<Number>,
   "id": Any<String>,
   "rel_path": "user.onboarding",
-  "router_id": 4,
+  "router_id": "3",
 }
 `;
 
 exports[`should execute nested requireRel & reveal resource in router 6`] = `
 Object {
-  "current_md_id": 1,
+  "current_md_id": "ROOT",
   "expected_at": Any<Number>,
   "id": Any<String>,
   "rel_path": "user.onboarding",
-  "router_id": 4,
+  "router_id": "3",
 }
 `;
 
