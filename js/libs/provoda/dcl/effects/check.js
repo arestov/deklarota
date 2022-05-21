@@ -16,7 +16,7 @@ import StateBindDeclr from './legacy/subscribe/dcl'
 import { __fxs_subscribe_by_name, __fxs_subscribe_by_api, __api_root_dep_apis_subscribe_eff } from './legacy/subscribe/rebuild'
 import ProduceEffectDeclr, { getEffectsTriggeringAttrs } from './legacy/produce/dcl'
 import { __api_effects_out, __api_root_dep_apis } from './legacy/produce/rebuild'
-import { __apis_$_index, __apis_$_usual, __apis_$__needs_root_apis, __apis_$__needs_self,
+import { $attrs$from_apis$expected_input, __apis_$_index, __apis_$_usual, __apis_$__needs_root_apis, __apis_$__needs_self,
   __defined_api_attrs_bool, ___dcl_eff_api } from './legacy/api/rebuild'
 import ApiDeclr from './legacy/api/dcl'
 
@@ -298,6 +298,8 @@ const schema = {
 
   netsources_of_all,
   __dcls_comp_attrs_from_effects,
+
+  $attrs$from_apis$expected_input,
 }
 
 const makeSchemaPartsFromAllDcls = (self) => {

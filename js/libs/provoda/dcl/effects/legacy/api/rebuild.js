@@ -162,3 +162,37 @@ export const __apis_$__needs_self = [
   [apis_prop],
   apis => needSelf(apis, false),
 ]
+
+
+const depApis = (mut_result, list) => {
+  if (!list) {return}
+
+  for (let i = 0; i < list.length; i++) {
+    const cur = list[i]
+    mut_result[usedInterfaceAttrName(cur)] = null
+  }
+}
+
+export const $attrs$from_apis$expected_input = [
+  [apis_prop],
+  obj => {
+    const result = {}
+
+    for (const name in obj) {
+      if (!obj.hasOwnProperty(name)) {
+        continue
+      }
+      const cur = obj[name]
+      result[usedInterfaceAttrName(cur.name)] = null
+      depApis(result, cur.needed_apis)
+    }
+
+    for (const prop of Object.getOwnPropertySymbols(obj)) {
+      const cur = obj[prop]
+      result[usedInterfaceAttrName(cur.name)] = null
+      depApis(result, cur.needed_apis)
+    }
+
+    return result
+  },
+]
