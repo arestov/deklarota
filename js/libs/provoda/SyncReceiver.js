@@ -50,9 +50,11 @@ FakeModel.prototype = {
 
 
 const idToModel = function(index, ids) {
-  if (typeof ids == 'number') {
-    return index[ids]
-  } else if (Array.isArray(ids)) {
+  if (ids == null) {
+    return null
+  }
+
+  if (Array.isArray(ids)) {
     const result = new Array(ids.length)
     for (let i = 0; i < ids.length; i++) {
       result[i] = index[ids[i]]
@@ -60,11 +62,10 @@ const idToModel = function(index, ids) {
     }
     return result
   } else {
-    /*if (ids){
-      debugger;
-    }*/
-
-    return ids
+    if (!index[ids]) {
+      throw new Error('missing id ' + ids)
+    }
+    return index[ids]
   }
 }
 
