@@ -27,9 +27,8 @@ const collectAllComp = cachedField(
   '__attrs_all_comp',
   ['__attrs_all_comp', '__attrs_comp_to_be_serviced', '__dcls_comp_attrs_glue'],
   false,
-  (_current, arg1, arg2, self) => {
-    const mock = Boolean(self.mock_relations)
-    const glue = mock ? {} : arg2
+  (_current, arg1, arg2) => {
+    const glue = arg2
 
     const result = {}
 

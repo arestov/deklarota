@@ -10,6 +10,21 @@ test('state loaded', async () => {
   let check2 = false
 
   const SomePage = model({
+
+    model_name: 'start_page',
+
+    attrs: {
+      bio: ['input'],
+      $meta$attrs$bio$complete: ['input'],
+      someid: [
+        'comp',
+        [],
+        function () {
+          return 49588
+        },
+      ],
+    },
+
     effects: {
       in: {
         0: {
@@ -56,18 +71,6 @@ test('state loaded', async () => {
       },
     },
 
-    model_name: 'start_page',
-
-    attrs: {
-      $meta$attrs$bio$complete: ['input'],
-      someid: [
-        'comp',
-        [],
-        function () {
-          return 49588
-        },
-      ],
-    },
   })
 
   const requests_manager = {
@@ -77,6 +80,9 @@ test('state loaded', async () => {
   }
 
   const app = (await init({
+    attrs: {
+      $meta$apis$requests_manager$used: ['input'],
+    },
     rels: {
       somepage: ['nest', [SomePage]],
     },

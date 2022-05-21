@@ -77,6 +77,9 @@ test('should init router', async () => {
   })
 
   const AppRoot = modernRoot({
+    attrs: {
+      $meta$apis$requests_manager$used: ['input'],
+    },
     rels: {
       user: ['nest', [User]],
       start_page: ['input', {

@@ -19,6 +19,9 @@ test('should request rel list', async () => {
   })
 
   const AppRoot = modernRoot({
+    attrs: {
+      $meta$apis$fakeapi$used: ['input'],
+    },
     rels: {
       users: ['model', User, { many: true }],
       start_page: ['input', {

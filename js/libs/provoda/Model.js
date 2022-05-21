@@ -110,8 +110,11 @@ function modelProps(add) {
 
   add({
     $attrs$expected_input$basic: {
+      _provoda_id: null,
       $meta$inited: false,
       $meta$removed: false,
+      '<<<<': null,
+      '$meta$apis$self$used': null,
     },
     effects: {
       out: {

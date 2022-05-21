@@ -64,7 +64,9 @@ test('should use api from root & parent', async () => {
   })
 
   const AppRoot = modernRoot({
-    attrs: {},
+    attrs: {
+      $meta$apis$someApi$used: ['input'],
+    },
     rels: {
       user: ['nest', [User]],
     },

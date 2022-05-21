@@ -134,7 +134,12 @@ function uniqExternalDeps(full_comlxs_list, isView) {
     }
   }
 
-  return [...uniq.values()]
+  const result = [...uniq.values()]
+  if (!result.length) {
+    return null
+  }
+
+  return result
 }
 
 function collectStatesConnectionsProps(self, full_comlxs_list) {

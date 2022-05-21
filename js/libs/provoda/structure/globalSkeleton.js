@@ -1,6 +1,5 @@
 
 
-import supportedAttrTargetAddr from '../Model/mentions/supportedAttrTargetAddr'
 import MentionChain from '../Model/mentions/MentionChain'
 
 import numDiff from '../Model/mentions/numDiff'
@@ -35,17 +34,12 @@ function addModel(global_skeleton, model, _ascent_level, _is_root) {
   addUniqRelAttrCheck(global_skeleton, model)
   routesToMentionChains(global_skeleton.chains, model)
 
-  if (model.__attrs_uniq_external_deps == null || !model.__attrs_uniq_external_deps.length) {
+  if (model.$attrs$as_external_target == null || !model.$attrs$as_external_target.length) {
     return
   }
 
-  for (let i = 0; i < model.__attrs_uniq_external_deps.length; i++) {
-    const cur = model.__attrs_uniq_external_deps[i]
-    if (!supportedAttrTargetAddr(cur)) {
-      continue
-    }
-
-
+  for (let i = 0; i < model.$attrs$as_external_target.length; i++) {
+    const cur = model.$attrs$as_external_target[i]
     global_skeleton.chains.push(new MentionChain(
       TARGET_TYPE_ATTR,
       cur.nesting.path,

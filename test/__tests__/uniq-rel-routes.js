@@ -35,6 +35,9 @@ test('should keep uniq items of rel', async () => {
   })
 
   const AppRoot = modernRoot({
+    attrs: {
+      $meta$apis$fakeapi$used: ['input'],
+    },
     rels: {
       users: ['model', User, { many: true, uniq: ['id'] }],
       start_page: ['input', {
