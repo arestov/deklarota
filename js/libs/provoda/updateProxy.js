@@ -545,17 +545,8 @@ function reportBadChange(etr, state_name) {
     return
   }
 
-  if (isPrivateState(state_name) && !state_name.startsWith('__')) {
-    return
-  }
-
-  // don't force to declare thing that can be done using analysis
-  if (etr._states_reqs_index && etr._states_reqs_index[state_name] != null) {
-    return
-  }
-
   const err = new Error('unexpected-attr-change')
-  console.log({state_name}, err, etr.__code_path)
+  console.log({state_name}, err, '\n', etr.__code_path)
   throw err
 }
 
