@@ -224,7 +224,7 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
       continue
     }
 
-    runtime.models_counters = Math.max(runtime.models_counters, cur.id + 1)
+    runtime.models_counters = Math.max(runtime.models_counters, (Number(cur.id) + 1) || 0)
 
     const Constr = AppRoot.prototype.constrs_by_name.get(cur.model_name).constructor
     const opts = {

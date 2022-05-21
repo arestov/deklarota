@@ -44,7 +44,7 @@ export default function initModel(self, opts, data) {
     throw new Error('provide id')
   }
 
-  self._provoda_id = opts._provoda_id
+  self._provoda_id = `${opts._provoda_id}`
   self._highway.models[self._provoda_id] = self
 
   //self.states = {};

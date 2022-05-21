@@ -1,1 +1,1 @@
-export const APP_ROOT_ID = 1 as const
+export const APP_ROOT_ID = 'ROOT' as const

@@ -74,15 +74,9 @@ AppRuntime.prototype.start = function(options) {
 
   return new Promise(function(resolve) {
     self.calls_flow.input(function() {
-      const app_id = self.models_counters++
-
-      if (app_id !== APP_ROOT_ID) {
-        throw new Error('app root id should be ' + APP_ROOT_ID)
-      }
-
       const app_model = new options.App({
         interfaces: options.interfaces,
-        _provoda_id: app_id,
+        _provoda_id: APP_ROOT_ID,
         _highway: self,
       })
 
