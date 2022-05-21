@@ -7,6 +7,7 @@ import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep from '../../../Model/callFlowStep'
 import { getModelDataSchema } from './reinit'
+import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 
 function AppRuntime(optionsRaw) {
 
@@ -73,9 +74,15 @@ AppRuntime.prototype.start = function(options) {
 
   return new Promise(function(resolve) {
     self.calls_flow.input(function() {
+      const app_id = self.models_counters++
+
+      if (app_id !== APP_ROOT_ID) {
+        throw new Error('app root id should be ' + APP_ROOT_ID)
+      }
+
       const app_model = new options.App({
         interfaces: options.interfaces,
-        _provoda_id: self.models_counters++,
+        _provoda_id: app_id,
         _highway: self,
       })
 

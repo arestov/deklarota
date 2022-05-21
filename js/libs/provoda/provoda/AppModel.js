@@ -3,8 +3,8 @@ import spv from '../../spv'
 import LoadableList from './LoadableList'
 import BrowseMap from './BrowseMap'
 import SessionRoot from '../bwlev/SessionRoot'
+import { APP_ROOT_ID } from '../Model/APP_ROOT_ID'
 
-const APP_ROOT_ID = 1
 
 const AppModelBase = spv.inh(LoadableList, {
   naming: function(fn) {

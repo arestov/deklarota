@@ -8,6 +8,7 @@ import modelToData from '../../../_internal/reinit/modelToData'
 import { hasOwnProperty } from '../../../hasOwnProperty'
 import { countKeys } from '../../../../spv'
 import updateProxy, { calcProvidedCompList } from '../../../updateProxy'
+import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 
 
 export const reinitOne = (md) => {
@@ -276,8 +277,7 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
     return val.map(getByProvodaId)
   }
 
-  const root_id = models_list[0].id
-  const app = getById(root_id)
+  const app = getById(APP_ROOT_ID)
 
 
   for (let i = 0; i < models_list.length; i++) {
@@ -412,8 +412,7 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
       reinitOne(self)
     }
 
-    const root_id = models_list[0].id
-    const app = getById(root_id)
+    const app = getById(APP_ROOT_ID)
 
     for (const api_name in interfaces) {
       if (!Object.hasOwnProperty.call(interfaces, api_name)) {
@@ -434,8 +433,7 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
   return new Promise(resolve => {
     runtime.calls_flow.input(() => {
 
-      const root_id = models_list[0].id
-      const app_model = getById(root_id)
+      const app_model = getById(APP_ROOT_ID)
 
       resolve({
         runtime,
