@@ -60,6 +60,7 @@ test('interface passed to action should be assigned', async () => {
       attrs: {
         artist: ['input'],
         title: ['input'],
+        $meta$apis$myInterface$used: ['input'],
       },
     })
     const Playlist = createDeepChild('playlist', {

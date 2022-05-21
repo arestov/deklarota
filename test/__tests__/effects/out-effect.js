@@ -58,6 +58,7 @@ test('should use api from root & parent', async () => {
     attrs: {
       rootMarker1: ['input'],
       rootMarker2: ['input'],
+      $meta$apis$someApi$used: ['input'],
     },
     rels: {
       user: ['nest', [User]],
