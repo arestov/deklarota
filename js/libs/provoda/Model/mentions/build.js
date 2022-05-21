@@ -21,6 +21,10 @@ const defaultValue = (addr) => {
       return emptyArray
   }
 
+  if (!addr.zip_name && addr.result_type == 'nesting') {
+    return emptyArray
+  }
+
   return null
 }
 
