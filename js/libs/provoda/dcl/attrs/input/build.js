@@ -17,11 +17,12 @@ const userInput = (self) => {
 }
 
 export const $attrs$expected_input$service = [
-  ['_states_reqs_list', '_nest_reqs', '$attrs$expected_input$basic', '_extendable_nest_index', '$attrs$from_autoinited_rels$'],
-  (attrs_reqs_list, rels_reqs_list, $attrs$expected_input$basic, $rels, $rels_autoinit) => {
+  ['_states_reqs_list', '_nest_reqs', '$attrs$expected_input$basic', '_extendable_nest_index', '$attrs$from_autoinited_rels$', '$attrs$as_external_target$expected_input'],
+  (attrs_reqs_list, rels_reqs_list, $attrs$expected_input$basic, $rels, $rels_autoinit, $attrs$as_external_target$expected_input) => {
     const result = {
       ...$attrs$expected_input$basic,
       ...$rels_autoinit,
+      ...$attrs$as_external_target$expected_input,
     }
 
     if ($rels) {
