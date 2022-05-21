@@ -18,10 +18,9 @@ it('should have proper value of external attrs', async () => {
     },
   }, null, {
     relation_mocks: {
-      '< @one:relAttr < nested <<': 'valueOfRelAttr',
-      '< @one:rootAttr < $root': 'valueOfRootAttr',
-      '< @one:parentAttr < $parent': 'valueOfParentAttr',
-
+      '< @all:relAttr < nested <<': ['valueOfRelAttr'],
+      '< @all:rootAttr < $root': ['valueOfRootAttr'],
+      '< @all:parentAttr < $parent': ['valueOfParentAttr'],
     },
   })
 
@@ -32,9 +31,9 @@ it('should have proper value of external attrs', async () => {
   await testApp.steps([
     () => {
       testApp.app_model.__updateRelationMocks({
-        '< @one:relAttr < nested <<': 'valueOfRelAttr2',
-        '< @one:rootAttr < $root': 'valueOfRootAttr2',
-        '< @one:parentAttr < $parent': 'valueOfParentAttr2',
+        '< @all:relAttr < nested <<': ['valueOfRelAttr2'],
+        '< @all:rootAttr < $root': ['valueOfRootAttr2'],
+        '< @all:parentAttr < $parent': ['valueOfParentAttr2'],
 
       })
     },

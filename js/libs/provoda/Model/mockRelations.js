@@ -24,19 +24,17 @@ const mockRelations = (self) => {
 
   const normalized_map = normalizeAddrsToValuesMap(self._highway.relation_mocks)
 
-  for (let i = 0; i < self.full_comlxs_list.length; i++) {
-    const cur = self.full_comlxs_list[i]
-    for (let jj = 0; jj < cur.addrs.length; jj++) {
-      const addr = cur.addrs[jj]
-      if (addr.base_itself || isJustAttrAddr(addr)) {
-        continue
-      }
+  for (let i = 0; i < self.$attrs$as_external_target.length; i++) {
+    const addr = self.$attrs$as_external_target[i]
 
-      const addr_str = asString(addr)
+    if (addr.base_itself || isJustAttrAddr(addr)) {
+      continue
+    }
 
-      if (!normalized_map.hasOwnProperty(addr_str)) {
-        throw new Error('missing value for relation ' + addr_str)
-      }
+    const addr_str = asString(addr)
+
+    if (!normalized_map.hasOwnProperty(addr_str)) {
+      throw new Error('missing value for relation ' + addr_str)
     }
 
 
