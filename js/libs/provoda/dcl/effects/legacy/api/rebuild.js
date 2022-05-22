@@ -115,7 +115,11 @@ function getBoolAttrs(apis) {
 
     }
     const api = apis[api_name]
-    bool_attrs.push(wrapAttr(usedInterfaceAttrName(api.name)))
+
+    // it's not type bool. it will be Date.now() value
+    bool_attrs.push({
+      name: usedInterfaceAttrName(api.name),
+    })
     if (api.deps_name) {
       bool_attrs.push(wrapAttr(api.deps_name))
     }
