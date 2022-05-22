@@ -235,7 +235,7 @@ const BrowseLevel = spv.inh(Model, {
       function(distance, struc, supervision) {
         return {
           inactive: distance == null || distance > 1 || !struc,
-          list: struc,
+          list: struc || null,
           supervision: supervision
         }
       }
