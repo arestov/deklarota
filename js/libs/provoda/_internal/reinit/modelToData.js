@@ -22,10 +22,12 @@ export const attrValueToData = (value) => {
 
 export const modelAttrsToData = (self) => {
   const attrs = {}
-  for (let i = 0; i < self._attrs_collector.all.length; i++) {
-    const cur = self._attrs_collector.all[i]
-    attrs[cur] = attrValueToData(self.getAttr(cur))
+
+  for (let i = 0; i < self.__defined_attrs_bool.length; i++) {
+    const cur = self.__defined_attrs_bool[i]
+    attrs[cur.name] = attrValueToData(self.getAttr(cur.name))
   }
+
   return attrs
 }
 
@@ -40,15 +42,12 @@ export const modelRelToData = (cur) => {
 export const modelRelsToData = (self) => {
   const rels = {}
 
-  for (const rel_name in self.children_models) {
-    if (!Object.hasOwnProperty.call(self.children_models, rel_name)) {
+  for (const rel_name in self._extendable_nest_index) {
+    if (!Object.hasOwnProperty.call(self._extendable_nest_index, rel_name)) {
       continue
     }
 
-
-
-    const cur = self.children_models[rel_name]
-    rels[rel_name] = modelRelToData(cur)
+    rels[rel_name] = modelRelToData(self.children_models[rel_name])
   }
 
   return rels
