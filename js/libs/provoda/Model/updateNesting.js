@@ -66,7 +66,7 @@ export default function updateNesting(self, collection_name_raw, input) {
 
 
   if (isGlueRel(self, collection_name)) {
-    handleMentions(self, collection_name, old_value, array)
+    handleMentions(self, collection_name, getRemovedNestingItems(array, old_value), array)
     return
   }
 
@@ -85,7 +85,7 @@ export default function updateNesting(self, collection_name_raw, input) {
 
   _passHandleNesting(self, collection_name, old_value, array)
 
-  handleMentions(self, collection_name, old_value, array)
+  handleMentions(self, collection_name, removed, array)
 
   // !?
 

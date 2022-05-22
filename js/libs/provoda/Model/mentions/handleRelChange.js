@@ -3,9 +3,14 @@ import deliverRelQueryUpdates from './deliverRelQueryUpdates'
 import checkAndDisposeModel from '../checkAndDisposeModel'
 import { updateModelMentionInDktStorage } from '../../_internal/reinit/dkt_storage'
 
-function handleMentions(self, collection_name, old_value, array) {
-  if (old_value != null) {
-    handleRemoveMetion(self, collection_name, old_value)
+function handleMentions(self, collection_name, remove_items, array) {
+  if (remove_items != null) {
+
+    /*
+      use not whole old_value, but juest removed_item:
+      making sure that we don't make incorrect decisions before we ADD new items in next step
+    */
+    handleRemoveMetion(self, collection_name, remove_items)
   }
 
   if (array != null) {
