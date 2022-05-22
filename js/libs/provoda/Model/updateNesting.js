@@ -1,4 +1,3 @@
-import hp from '../helpers'
 import isNestingChanged from '../utils/isNestingChanged'
 import _passHandleNesting from '../dcl/passes/handleNesting/handle'
 import validateRuntimeValue from '../dcl/nests/validateRuntimeValue'
@@ -10,6 +9,7 @@ import emptyArray from '../emptyArray'
 import sameName from '../sameName'
 import checkUniqOnListUpdate from '../dcl/nests/uniq/checkOnListUpdate'
 import { updateModelRelInDktStorage } from '../_internal/reinit/dkt_storage'
+import getRemovedNestingItems from '../utils/h/getRemovedNestingItems'
 
 
 function getUniqReadonly(input) {
@@ -81,7 +81,7 @@ export default function updateNesting(self, collection_name_raw, input) {
 
   updateMetaAttrs(self, collection_name, array)
 
-  const removed = hp.getRemovedNestingItems(array, old_value)
+  const removed = getRemovedNestingItems(array, old_value)
 
   _passHandleNesting(self, collection_name, old_value, array)
 

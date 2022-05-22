@@ -1,6 +1,6 @@
 
 
-export default function(array, old_value) {
+export default function getRemovedNestingItems(array, old_value) {
   let removed
   if (Array.isArray(old_value)) {
     if (!array) {
