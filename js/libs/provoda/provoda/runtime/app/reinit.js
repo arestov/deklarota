@@ -20,7 +20,7 @@ const mentionChainLinkToData = (item) => {
   return rel
 }
 
-const mentionChainToData = (value) => {
+export const mentionChainToData = (value) => {
   return {
     target_type: value.target_type,
     rel_path: value.list.map(mentionChainLinkToData),

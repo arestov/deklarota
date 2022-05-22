@@ -1,3 +1,4 @@
+import { mentionChainToData } from '../../provoda/runtime/app/reinit'
 import { attrValueToData, mentionValueToData, modelAttrsToData, modelMentionsToData, modelRelsToData, modelRelToData } from './modelToData'
 
 const noStorage = (self) => {
@@ -59,12 +60,12 @@ export const updateModelMentionInDktStorage = (self, mention_name, value) => {
   self._highway.dkt_storage.updateModelMention(self._provoda_id, self.model_name, mention_name, mentionValueToData(value))
 }
 
-export const createExpectedRelInDktStorage = (self, key, data) => {
+export const createExpectedRelInDktStorage = (self, key, mention_chain) => {
   if (noStorage(self)) {
     return null
   }
 
-  self._highway.dkt_storage.createExpectedRel(key, data)
+  self._highway.dkt_storage.createExpectedRel(key, mentionChainToData(mention_chain))
 }
 
 export const deleteExpectedRelInDktStorage = (self, key) => {
@@ -72,5 +73,5 @@ export const deleteExpectedRelInDktStorage = (self, key) => {
     return null
   }
 
-  self._highway.dkt_storage.deleteExpectedRelInDktStorage(key)
+  self._highway.dkt_storage.deleteExpectedRel(key)
 }
