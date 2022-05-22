@@ -1,3 +1,4 @@
+import { updateModelMentionInDktStorage } from '../../_internal/reinit/dkt_storage'
 import checkAndDisposeModel from '../checkAndDisposeModel'
 
 const disposeOneMention = function(owner, target, name) {
@@ -5,7 +6,11 @@ const disposeOneMention = function(owner, target, name) {
   const mentions = target.__mentions_as_rel[name]
 
   if (mentions != null) {
+    const prev_size = mentions.size
     mentions.delete(owner)
+    if (mentions.size !== prev_size) {
+      updateModelMentionInDktStorage(target, name, mentions)
+    }
   }
 
   if (owner == target) {
