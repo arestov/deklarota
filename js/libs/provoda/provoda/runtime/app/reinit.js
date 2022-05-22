@@ -245,7 +245,13 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
 
   const getById = (id) => runtime.models[id]
 
-  const listToRefs = (list) => list.map(getById)
+  const listToRefs = (list) => {
+    if (list == null) {
+      return null
+    }
+
+    return list.map(getById)
+  }
 
   const toRefs = (value) => {
     if (value == null) {
