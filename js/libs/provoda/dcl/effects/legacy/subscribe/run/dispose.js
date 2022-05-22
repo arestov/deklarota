@@ -3,6 +3,10 @@ function disposeSubscribeEffects(self) {
     return
   }
 
+  if (self._highway._subscribe_effect_handlers == null) {
+    return
+  }
+
   for (const eff_key in self.__fxs_subscribe_by_name) {
     if (!self.__fxs_subscribe_by_name.hasOwnProperty(eff_key)) {
       continue
