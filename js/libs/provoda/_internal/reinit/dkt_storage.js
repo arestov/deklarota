@@ -56,7 +56,7 @@ export const updateModelMentionInDktStorage = (self, mention_name, value) => {
     return null
   }
 
-  self._highway.dkt_storage.updateModelMention(self._provoda_id, mention_name, mentionValueToData(value))
+  self._highway.dkt_storage.updateModelMention(self._provoda_id, self.model_name, mention_name, mentionValueToData(value))
 }
 
 export const createExpectedRelInDktStorage = (self, key, data) => {

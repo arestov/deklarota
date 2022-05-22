@@ -46,7 +46,7 @@ it('should compute comp attr before & after reinit', async () => {
       updateModelRel: (id, rel_name, value) => {
         storage_data.models[id].rels[rel_name] = value
       },
-      updateModelMention: (id, mention_name, value) => {
+      updateModelMention: (id, model_name, mention_name, value) => {
         storage_data.models[id].mentions[mention_name] = value
       },
       createExpectedRel: (key, data) => {
