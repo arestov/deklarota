@@ -244,13 +244,20 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
   }
 
   const getById = (id) => runtime.models[id]
+  const getByIdStrict = (id) => {
+    const model = runtime.models[id]
+    if (!model) {
+      throw new Error('cant find model ' + id)
+    }
+    return model
+  }
 
   const listToRefs = (list) => {
     if (list == null) {
       return null
     }
 
-    return list.map(getById)
+    return list.map(getByIdStrict)
   }
 
   const toRefs = (value) => {
@@ -259,7 +266,7 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
     }
 
     if (!Array.isArray(value)) {
-      return getById(value)
+      return getByIdStrict(value)
     }
 
     return listToRefs(value)
