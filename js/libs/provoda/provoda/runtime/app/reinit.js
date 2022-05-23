@@ -327,6 +327,10 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
     }
   }
 
+  const reinited_models = {
+    ...runtime.models,
+  }
+
   const expected_rels = []
   for (const key in expected_rels_to_chains) {
     if (!Object.hasOwnProperty.call(expected_rels_to_chains, key)) {
@@ -422,6 +426,16 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
     for (let i = 0; i < models_list.length; i++) {
       const cur = models_list[i]
       const self = runtime.models[cur.id]
+      if (!self) {
+        const reinited_leaking_ref = reinited_models[cur.id]
+        /* look like mode was marked as removed during reinit. it's fine */
+        if (reinited_leaking_ref?.getAttr('$meta$removed')) {
+          continue
+        }
+
+        throw new Error('unexpected lost of model ref ' + cur.id)
+      }
+
       reinitOne(self)
     }
 
