@@ -5,6 +5,7 @@ import toTransferableStatesList from './Model/toTransferableStatesList'
 import toTransferableNestings from './Model/toTransferableNestings'
 import toSimpleStructure from './Model/toSimpleStructure'
 import isPublicRel from './Model/rel/isPublicRel'
+import { hasOwnProperty } from './hasOwnProperty'
 const parseNesting = toSimpleStructure.parseNesting
 
 const SyncSender = function() {
@@ -69,11 +70,21 @@ SyncSender.prototype = {
     this.streams_list = spv.findAndRemoveItem(this.streams_list, stream)
   },
   addSyncStream: function(start_md, stream) {
+    /*
+      by having second_time_added
+      we consider that it would be ok to reload view without calling removeSyncStream.
+      we would reset stream state anyway
+    */
+    const second_time_added = hasOwnProperty(this.sockets_m_index, stream.id)
+
     this.sockets_m_index[stream.id] = {}
     this.batched_by_id[stream.id] = []
 
     this.sockets[stream.id] = stream
-    this.streams_list.push(stream)
+
+    if (!second_time_added) {
+      this.streams_list.push(stream)
+    }
 
     const struc = start_md.toSimpleStructure(this.sockets_m_index[stream.id])
     stream.buildTree(struc)
