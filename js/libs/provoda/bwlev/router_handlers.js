@@ -2,8 +2,23 @@ import showMOnMap from './showMOnMap'
 import getModelById from '../utils/getModelById'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import requireRouter from './requireRouter'
+import { FlowStepShowInPerspectivator } from '../Model/flowStepHandlers.types'
 
 const getRouter = (from, prefixed_name) => requireRouter(from, prefixed_name.replace('router-', ''))
+
+export const showInPerspectivator = (perspectivator, resource) => {
+  const bwlev = showMOnMap(perspectivator, resource)
+  bwlev.showOnMap()
+}
+
+const show = (perspectivator, resource) => {
+  if (resource.getAttr('$meta$inited')) {
+    showInPerspectivator(perspectivator, resource)
+    return
+  }
+
+  resource.nextTick(FlowStepShowInPerspectivator, [perspectivator, resource], true)
+}
 
 const handlers = {
   navigateToResource(context_md_id) {
@@ -14,8 +29,7 @@ const handlers = {
     const resource = context_md
     const context_router = this
     const router = context_router
-    const bwlev = showMOnMap(router, resource)
-    bwlev.showOnMap()
+    showInPerspectivator(router, resource)
   },
   navigateByLocator(context_md_id, locator) {
     /*
@@ -25,8 +39,7 @@ const handlers = {
     const resource = getSPByPathTemplate(this.app, context_md, locator)
     const context_router = this
     const router = context_router
-    const bwlev = showMOnMap(router, resource)
-    bwlev.showOnMap()
+    show(router, resource)
   },
   navigateRouterToResource(context_md_id, router_name) {
     /*
@@ -39,8 +52,7 @@ const handlers = {
     const resource = context_md
     const context_router = this
     const router = getRouter(context_router, router_name)
-    const bwlev = showMOnMap(router, resource)
-    bwlev.showOnMap()
+    showInPerspectivator(router, resource)
   },
   navigateRouterByLocator(context_md_id, router_name, locator) {
     /*
@@ -53,8 +65,8 @@ const handlers = {
     const resource = getSPByPathTemplate(this.app, context_md, locator)
     const context_router = this
     const router = getRouter(context_router, router_name)
-    const bwlev = showMOnMap(router, resource)
-    bwlev.showOnMap()
+
+    show(router, resource)
   },
   expectRouterRevealRel(current_md_id, router_name, rel_path) {
     if (!router_name.startsWith('router-')) {
