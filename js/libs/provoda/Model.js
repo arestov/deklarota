@@ -261,9 +261,12 @@ function modelProps(add) {
       disposeMentions(this)
 
       stopRequests(this)
-    //this.mpx.die();
-    // send to views
-      this._highway.views_proxies.killMD(this)
+      //this.mpx.die();
+      // send to views
+      if (this._highway.views_proxies != null) {
+        this._highway.views_proxies.killMD(this)
+      }
+
       triggerDestroy(this)
 
       this.dead = leak
