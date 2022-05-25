@@ -121,12 +121,6 @@ export default function(self, props, original) {
     cloneObj(self.tpl_events, props.tpl_events)
   }
 
-  if (props.tpl_r_events) {
-    self.tpl_r_events = {}
-    cloneObj(self.tpl_r_events, original.tpl_r_events)
-    cloneObj(self.tpl_r_events, props.tpl_r_events)
-  }
-
   checkNestBorrowWatch(self, props)
   completeBuild(self)
 }

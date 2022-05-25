@@ -78,6 +78,10 @@ export default function(view, con) {
         return argument
       })
 
+      if (e.scope) {
+        args_list.push(e.scope)
+      }
+
       if (!isLocal) {
         if (!args_list.length) {
           target_view.handleTemplateRPC.call(target_view, fnName)
@@ -88,24 +92,15 @@ export default function(view, con) {
         return
       }
 
-      if (!e.pv_repeat_context || args_list.length) {
-        const fn = target_view.tpl_events[fnName]
-        if (!fn) {
-          const error = new Error('cant find tpl_events item: ' + fnName)
-          showError(target_view, e.event, error)
-          throw error
-        }
-        fn.apply(target_view, [e.event, e.node].concat(args_list))
-      } else {
-        const fn = target_view.tpl_r_events[e.pv_repeat_context][fnName]
-        if (!fn) {
-          const error = new Error('cant find tpl_r_events item: ' + fnName)
-          showError(target_view, e.event, error)
-          throw error
-        }
-        fn.call(target_view, e.event, e.node, e.scope)
-      }
+      args_list.unshift(e.event, e.node)
 
+      const fn = target_view.tpl_events[fnName]
+      if (!fn) {
+        const error = new Error('cant find tpl_events item: ' + fnName)
+        showError(target_view, e.event, error)
+        throw error
+      }
+      fn.apply(target_view, args_list)
     }
   }
 

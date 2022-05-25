@@ -25,8 +25,6 @@ const AppView = spv.inh(AppBase, null, {
     },
   },
 
-  tpl_r_events: {
-  },
   tpl_events: {
   },
 

@@ -171,3 +171,5 @@
 - remove preloading with loadNestingsByStruc, to_load in bwlev (nice thing, but can't continue to support that kind code)
 
 - remove preloadStart, loadStart
+
+- remove tpl_r_events
