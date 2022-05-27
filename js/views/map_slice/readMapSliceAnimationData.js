@@ -14,7 +14,7 @@ const css_transform = css.transform
 const transform_props = css_transform ? [css_transform] : []
 
 const getNavOHeight = function() {
-  if (!this.root_view.els.navs) {
+  if (!this.root_view.els?.navs) {
     return 0
   }
   return this.root_view.els.navs.outerHeight()
