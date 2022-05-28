@@ -91,7 +91,7 @@ const getRemoteHandler = ensureHandler(function(em, dcl, data) {
 
 
 const getHandler = function(self, dcl) {
-  if (dcl.remote) {
+  if (dcl.remote_action) {
     return getRemoteHandler(self, dcl, dcl)
   }
 

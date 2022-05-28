@@ -12,12 +12,12 @@ const warnStateUsing = function() {
 
 let count = 0
 
-export default function StateBindDeclr(key, data) {
+export default function StateBindDeclr(key, data, __isView) {
   this.id = ++count
   this.key = key
   this.apis = null
   this.fn = null
-  this.remote = data.remote === true ? true : false
+  this.remote_action = Boolean(__isView)
 
   this.state_name = null
   this.pass_name = null

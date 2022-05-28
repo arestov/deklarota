@@ -352,6 +352,7 @@ function modelProps(add) {
 
   add({
     ___dkt_onAttrUpdate,
+    __isView: false,
   })
 
   add({
