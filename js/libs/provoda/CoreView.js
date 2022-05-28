@@ -27,6 +27,7 @@ import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.types'
 import requestState, { initAttrsRequesting, resetRequestedState } from './FastEventor/requestState'
 import { events_part, initEvents } from './View/events_part'
+import ___dkt_onAttrUpdate from './View/___dkt_onAttrUpdate'
 
 const CH_GR_LE = 2
 
@@ -1092,6 +1093,8 @@ const View = spv.inh(AttrsOwner, {
     const getCollPriority = this[this.coll_r_prio_prefix + nesname]
     return getCollPriority && getCollPriority.call(this, array)
   },
+
+  ___dkt_onAttrUpdate,
 })
 
 export default View

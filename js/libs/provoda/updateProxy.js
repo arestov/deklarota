@@ -1,10 +1,6 @@
 
 
-import triggerLightAttrChange from './internal_events/light_attr_change/trigger'
 import produceEffects from './AttrsOwner/produceEffects'
-import _passHandleState from './dcl/passes/handleState/handle'
-import attrToRel from './dcl/nests/attrToRel'
-import deliverAttrQueryUpdates from './Model/mentions/deliverAttrQueryUpdates'
 import sameName from './sameName'
 import shallowEqual from './shallowEqual'
 import legacySideEffects from './handleLegacySideEffects'
@@ -500,13 +496,7 @@ function compressStatesChanges(changes_list) {
 
 
 function _triggerStChanges(etr, _i, state_name, value, total_original_states) {
-
-  _passHandleState(etr, total_original_states, state_name, value)
-
-  attrToRel(etr, state_name, value)
-  deliverAttrQueryUpdates(etr, state_name)
-
-  triggerLightAttrChange(etr, state_name, value)
+  etr.___dkt_onAttrUpdate(state_name, value, total_original_states)
 }
 
 function reportBadChange(etr, state_name) {
