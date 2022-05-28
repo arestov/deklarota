@@ -28,6 +28,7 @@ import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.type
 import requestState, { initAttrsRequesting, resetRequestedState } from './FastEventor/requestState'
 import { events_part, initEvents } from './View/events_part'
 import ___dkt_onAttrUpdate from './View/___dkt_onAttrUpdate'
+import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/view/___dkt_saveInputFxTargetedResult'
 
 const CH_GR_LE = 2
 
@@ -1095,6 +1096,7 @@ const View = spv.inh(AttrsOwner, {
   },
 
   ___dkt_onAttrUpdate,
+  ___dkt_saveInputFxTargetedResult,
 })
 
 export default View

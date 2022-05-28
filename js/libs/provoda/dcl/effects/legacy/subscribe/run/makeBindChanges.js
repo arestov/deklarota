@@ -1,6 +1,5 @@
 
 import _updateAttr from '../../../../../_internal/_updateAttr'
-import saveResult from '../../../../passes/targetedResult/save.js'
 import getDclInputApis from '../../utils/getDclInputApis'
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
@@ -71,7 +70,7 @@ const getPassDispatcher = ensureHandler(function(em, pass_name, data) {
 })
 
 const getTargetedResultSaver = ensureHandler(function(em, dcl, data) {
-  saveResult(em, dcl, data, data)
+  em.___dkt_saveInputFxTargetedResult(dcl, data)
 })
 
 const getRemoteHandler = ensureHandler(function(em, dcl, data) {
