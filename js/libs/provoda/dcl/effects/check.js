@@ -31,7 +31,7 @@ import { fxByNameP, fxListP } from './fxP'
 // var buildSel = require('../nest_sel/build');
 
 
-const parse = function(type, name, data) {
+const parse = function(type, name, data, __isView) {
   switch (type) {
     case 'consume-state_request': {
       return new StateReqMap(name, data)
@@ -40,7 +40,7 @@ const parse = function(type, name, data) {
       return new NestReqMap(name, data)
     }
     case 'consume-subscribe': {
-      return new StateBindDeclr(name, data)
+      return new StateBindDeclr(name, data, __isView)
     }
     case 'produce-': {
       return new ProduceEffectDeclr(name, data)
@@ -53,14 +53,14 @@ const parse = function(type, name, data) {
   throw new Error('unsupported type ' + type)
 }
 
-const extend = function(prefix, index, more_effects) {
+const extend = function(prefix, index, more_effects, __isView) {
   const cur = doCopy({}, index) || {}
   const prefix_string = prefix ? (prefix + '-') : ''
 
   for (const name in more_effects) {
     const data = more_effects[name]
     const type = prefix_string + (data.type || '')
-    const dcl = parse(type, name, data)
+    const dcl = parse(type, name, data, __isView)
     cur[name] = {
       dcl: dcl,
       type: type,
@@ -183,19 +183,22 @@ const checkModern = function(self) {
   self._extendable_effect_index = extend(
     'consume',
     self._extendable_effect_index,
-    effects.in
+    effects.in,
+    self.__isView,
   )
 
   self._extendable_effect_index = extend(
     'produce',
     self._extendable_effect_index,
-    effects.out
+    effects.out,
+    self.__isView,
   )
 
   self._extendable_effect_index = extend(
     'api',
     self._extendable_effect_index,
-    effects.api
+    effects.api,
+    self.__isView,
   )
 }
 

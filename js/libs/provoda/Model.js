@@ -33,6 +33,8 @@ import requestNesting from './FastEventor/requestNesting'
 import { FlowStepAction } from './Model/flowStepHandlers.types'
 import act from './dcl/passes/act'
 import { deleteModelInDktStorage } from './_internal/reinit/dkt_storage'
+import ___dkt_onAttrUpdate from './Model/___dkt_onAttrUpdate'
+import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/model/___dkt_saveInputFxTargetedResult'
 
 const push = Array.prototype.push
 
@@ -347,6 +349,13 @@ function modelProps(add) {
     }
     return parseAddr(addr)
   }
+
+
+  add({
+    ___dkt_onAttrUpdate,
+    ___dkt_saveInputFxTargetedResult,
+    __isView: false,
+  })
 
   add({
     readAddr: function(addr) {

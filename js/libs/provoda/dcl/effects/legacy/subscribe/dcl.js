@@ -1,5 +1,6 @@
 
 import spv from '../../../../../spv'
+import isJustAttrAddr from '../../../../utils/multiPath/isJustAttrAddr'
 import targetedResult from '../../../passes/targetedResult/dcl.js'
 
 const warnStateUsing = function() {
@@ -7,17 +8,41 @@ const warnStateUsing = function() {
     return
   }
 
-  console.warn('please use pass_name, not state_name')
+  console.warn('please use pass_name or `to`, not state_name')
+}
+
+function validateTargetForView(fx) {
+  if (isJustAttrAddr(fx.target_path)) {
+    return
+  }
+  console.warn(fx)
+  throw new Error('target section (`to`) of effect inside view should not be more complext that attr addr')
+}
+
+function validateEffectForView(fx) {
+  if (!fx.targeted_result) {
+    return
+  }
+
+  if (fx.targeted_single_result) {
+    validateTargetForView(fx.targeted_single_result)
+    return
+  }
+
+  for (let i = 0; i < fx.targeted_results_list.length; i++) {
+    const cur = fx.targeted_results_list[i]
+    validateTargetForView(cur)
+  }
 }
 
 let count = 0
 
-export default function StateBindDeclr(key, data) {
+export default function StateBindDeclr(key, data, __isView) {
   this.id = ++count
   this.key = key
   this.apis = null
   this.fn = null
-  this.remote = data.remote === true ? true : false
+  this.remote_action = Boolean(__isView)
 
   this.state_name = null
   this.pass_name = null
@@ -26,6 +51,9 @@ export default function StateBindDeclr(key, data) {
   if (data.to) {
     this.targeted_result = true
     targetedResult(this, data.to)
+    if (__isView) {
+      validateEffectForView(this)
+    }
   } else if (!data.state_name && !data.pass_name) {
     this.pass_name = key
   } else if (data.pass_name) {
