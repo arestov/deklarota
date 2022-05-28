@@ -1,4 +1,4 @@
-import { mentionChainToData } from '../../provoda/runtime/app/reinit'
+import { mentionChainToData } from './mentionChainToData'
 import { attrValueToData, mentionValueToData, modelAttrsToData, modelMentionsToData, modelRelsToData, modelRelToData } from './modelToData'
 
 const noStorage = (self) => {
