@@ -213,6 +213,10 @@ const uniqRel = (mut_result, list) => {
 
   for (let i = 0; i < list.length; i++) {
     const cur = list[i]
+    if (!cur.rel_shape) {
+      console.warn(cur)
+      throw new Error('no rel_shapre for ' + cur.name)
+    }
     if (!cur.rel_shape.uniq) {
       continue
     }
