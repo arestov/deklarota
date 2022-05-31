@@ -555,7 +555,7 @@ const View = spv.inh(AttrsOwner, {
         Constr = address_opts.sampleController
       }
       if (!Constr) {
-        console.error('there is no View for', address_opts)
+        console.error('there is no View for', md.model_name, address_opts)
         throw new Error('there is no View for ' + address_opts.nesting_name)
       }
 
