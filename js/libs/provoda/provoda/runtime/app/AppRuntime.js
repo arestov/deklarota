@@ -8,6 +8,7 @@ import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep from '../../../Model/callFlowStep'
 import { getModelDataSchema } from './reinit'
 import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
+import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage'
 
 function AppRuntime(optionsRaw) {
 
@@ -20,7 +21,7 @@ function AppRuntime(optionsRaw) {
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
     onError: bindRuntimeError(this, options.onError),
-    onFinalTransactionStep: onFinalTransactionStep(this),
+    onFinalTransactionStep: onFinalTransactionStep(this, commitChangesInDktStorage),
   })
 
   this.models_counters = 1

@@ -55,6 +55,11 @@ it('should compute comp attr before & after reinit', async () => {
       deleteExpectedRel: key => {
         delete storage.expected_rels_to_chains[key]
       },
+      commitChanges: () => {
+        /*
+          would be better to change test to use storage batching/transaction
+        */
+      },
     }
     return storage
   }

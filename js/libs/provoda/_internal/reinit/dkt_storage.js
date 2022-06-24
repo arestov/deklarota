@@ -75,3 +75,11 @@ export const deleteExpectedRelInDktStorage = (self, key) => {
 
   self._highway.dkt_storage.deleteExpectedRel(key)
 }
+
+export const commitChangesInDktStorage = (_highway) => {
+  if (_highway.dkt_storage == null) {
+    return null
+  }
+
+  _highway.dkt_storage.commitChanges()
+}
