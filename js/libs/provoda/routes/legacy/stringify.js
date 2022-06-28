@@ -1,13 +1,17 @@
 
+const toString = (value) => {
+  if (typeof value == 'string') {
+    return encodeURIComponent(value)
+  }
+  return encodeURIComponent('"' + JSON.stringify(value) + '"')
+}
 
-const getValue = function(app, value) {
-  if (value) {
-    return app.encodeURLPart(value)
+const getValue = function(value) {
+  if (value == null) {
+    return null
   }
 
-  if (value === 0) {
-    return app.encodeURLPart(value)
-  }
+  return toString(value)
 }
 
 const pathExecutor = function(getChunk) {
@@ -22,7 +26,7 @@ const pathExecutor = function(getChunk) {
           const value = st_dcl[2]
 
           const chunk = value ?? getChunk(source, app, arg1, arg2)
-          full_path += getValue(app, chunk) || 'null'
+          full_path += getValue(chunk) || 'null'
         }
       }
       return full_path
