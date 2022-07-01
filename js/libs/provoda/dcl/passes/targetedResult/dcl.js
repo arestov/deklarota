@@ -10,6 +10,12 @@ const targetData = function(to, result_name, dsl_options) {
   const parsed_path = parseMultiPath(target_path, true)
   const isAction = Boolean(options && options.action)
 
+  if (parsed_path.resource?.path && options.autocreate_routed_target == null) {
+    console.log('define autocreate_routed_target=true|false', to)
+    throw new Error('define autocreate_routed_target=true|false')
+
+  }
+
   if (parsed_path.result_type != 'nesting' && parsed_path.result_type != 'state' && !isAction) {
     throw new Error('we can put result to nesting or state only')
   }

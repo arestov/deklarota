@@ -21,8 +21,8 @@ import getStart from './getStart'
 //   },
 // }
 
-const getModels = function(md, multi_path, data, all_nestings) {
-  const start_md = getStart(md, multi_path, false, data)
+const getModels = function(md, multi_path, data, all_nestings, autocreate_routed_deps) {
+  const start_md = getStart(md, multi_path, false, data, autocreate_routed_deps)
 
   const result = getDeepNesting(
     start_md,

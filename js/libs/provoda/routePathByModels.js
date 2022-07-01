@@ -20,7 +20,6 @@ const getModernConstr = (start_md, pth_string) => {
 }
 
 const routePathByModels = function routePathByModels(start_md, pth_string, need_constr, strict, options, extra_states) {
-
   if (!pth_string) {
     throw new Error('Empty path can\'t be used. Use / to get start page')
   }
@@ -32,7 +31,7 @@ const routePathByModels = function routePathByModels(start_md, pth_string, need_
       return Constr
     }
   } else {
-    const modern = findModern(start_md, pth_string)
+    const modern = findModern(start_md, pth_string, options)
     if (modern) {
       return modern
     }
@@ -109,7 +108,10 @@ function findModern(self, sp_name, options, extra_states) {
     return
   }
 
-  const autocreate = !options || options.autocreate !== false
+  const autocreate = options?.autocreate
+  if (autocreate == null) {
+    throw new Error('autocreate should be defined')
+  }
 
   const item = getModernPage(self, sp_name)
   if (item != null) {

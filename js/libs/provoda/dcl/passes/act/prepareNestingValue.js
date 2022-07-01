@@ -68,7 +68,7 @@ const makeDupsChecker = (self, target, value, mut_action_result) => {
   if (self == null) {
     throw new Error('empty self')
   }
-  const md = getStart(self, target.target_path)
+  const md = getStart(self, target.target_path, null, null, target.options.autocreate_routed_target)
   const rel_name = target.target_path.nesting.target_nest_name
   const uniq = getRelUniq(md, rel_name)
 

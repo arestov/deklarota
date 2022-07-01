@@ -4,12 +4,13 @@ import getSPByPathTemplate from '../../routes/legacy/getSPByPathTemplate'
 
 const empty = {}
 
-export default function getStart(md, multi_path, use_state_from_initial_model, data) {
+export default function getStart(md, multi_path, use_state_from_initial_model, data, autocreate_routed_deps) {
   return getResourse(
     getBase(md, multi_path),
     multi_path,
     use_state_from_initial_model,
-    data
+    data,
+    autocreate_routed_deps,
   )
 }
 
@@ -37,7 +38,7 @@ function getBase(md, multi_path) {
   return md.getStrucParent(info.steps)
 }
 
-function getResourse(md, multi_path, use_state_from_initial_model, data) {
+function getResourse(md, multi_path, use_state_from_initial_model, data, autocreate_routed_deps) {
   /*
    {
     path: string,
@@ -51,8 +52,8 @@ function getResourse(md, multi_path, use_state_from_initial_model, data) {
   }
 
   if (use_state_from_initial_model) {
-    return getSPByPathTemplate(md.app, md, info.path)
+    return getSPByPathTemplate(md.app, md, info.path, false, null, {autocreate: autocreate_routed_deps})
   }
 
-  return getSPByPathTemplateAndData(md.app, md, info.path, false, data || empty)
+  return getSPByPathTemplateAndData(md.app, md, info.path, false, data || empty, null, {autocreate: autocreate_routed_deps})
 }

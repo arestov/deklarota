@@ -105,6 +105,17 @@ const PassDcl = function(name, data) {
   } else {
     throw new Error('unknow fn declaration')
   }
+  this.autocreate_routed_deps = data.autocreate_routed_deps
+  if (this.deps) {
+    for (let i = 0; i < this.deps.length; i++) {
+      const cur = this.deps[i]
+      if (cur.resource?.path && this.autocreate_routed_deps == null) {
+        console.error('define autocreate_routed_deps for action', data)
+        throw new Error('define autocreate_routed_deps for action')
+      }
+    }
+  }
+
 
 }
 

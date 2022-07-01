@@ -53,7 +53,7 @@ export default function pass(md, pass_name, data) {
   const fn = dcl.fn
   const deps = dcl.deps
 
-  const deps_values = getDepsValues(md, deps, data)
+  const deps_values = getDepsValues(md, deps, data, dcl.autocreate_routed_deps)
   const args = [data]
   if (deps_values != null) {
     Array.prototype.push.apply(args, deps_values)

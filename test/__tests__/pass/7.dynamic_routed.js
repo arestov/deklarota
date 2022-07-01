@@ -23,8 +23,8 @@ test('change for dynamic routed resource calculated', async () => {
       })
     },
     app => {
-      expect('hey!').toEqual(app.start_page.getSPI('nice_resource').state('title'))
-      expect('dup some Data').toEqual(app.start_page.getSPI('nice_resource').state('dup_default_title'))
+      expect('hey!').toEqual(app.start_page.getSPI('nice_resource', { autocreate: false }).state('title'))
+      expect('dup some Data').toEqual(app.start_page.getSPI('nice_resource', { autocreate: false }).state('dup_default_title'))
     },
   ])
 
@@ -53,9 +53,10 @@ test('change for dynamic routed resource calculated', async () => {
       actions: {
         change: {
           to: {
-            title: ['< title << [:name:head.name]'],
-            copy: ['< dup_default_title << [:name:head.name]'],
+            title: ['< title << [:name:head.name]', { autocreate_routed_target: true }],
+            copy: ['< dup_default_title << [:name:head.name]', { autocreate_routed_target: true }],
           },
+          autocreate_routed_deps: true,
           fn: [
             ['< default_title << [:name:head.name]'],
             (data, default_title) => ({

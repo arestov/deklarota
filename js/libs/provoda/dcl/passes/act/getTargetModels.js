@@ -2,9 +2,9 @@
 import getModels from '../../../utils/multiPath/getModels'
 
 
-const getModelsFromBase = function(base, target, passed_data) {
+const getModelsFromBase = function(base, target, passed_data, autocreate_routed_target) {
   const multi_path = target.target_path
-  return getModels(base, multi_path, passed_data, Boolean(target.options && target.options.action))
+  return getModels(base, multi_path, passed_data, Boolean(target.options && target.options.action), autocreate_routed_target)
 }
 
 const getModelsFromManyBases = function(bases, target, passed_data) {
@@ -37,6 +37,6 @@ const getTargetModels = function(md, target, passed_data) {
     }
   }
 
-  return getModelsFromBase(md, target, passed_data)
+  return getModelsFromBase(md, target, passed_data, target.options?.autocreate_routed_target)
 }
 export default getTargetModels

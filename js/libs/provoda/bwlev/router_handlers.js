@@ -36,7 +36,7 @@ const handlers = {
       set subpage/uri model of current/view model as current model of context router
     */
     const context_md = getModelById(this, context_md_id)
-    const resource = getSPByPathTemplate(this.app, context_md, locator)
+    const resource = getSPByPathTemplate(this.app, context_md, locator, null, null, {autocreate: true})
     const context_router = this
     const router = context_router
     show(router, resource)
@@ -62,7 +62,7 @@ const handlers = {
       throw new Error('router name should starts with `router-`')
     }
     const context_md = getModelById(this, context_md_id)
-    const resource = getSPByPathTemplate(this.app, context_md, locator)
+    const resource = getSPByPathTemplate(this.app, context_md, locator, null, null, {autocreate: true})
     const context_router = this
     const router = getRouter(context_router, router_name)
 

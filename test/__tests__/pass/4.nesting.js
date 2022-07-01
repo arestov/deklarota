@@ -205,6 +205,7 @@ test('special nestings by pass calculated', async () => {
       to: [`${rel} < playlists/[:id::${id}] < #`, {
         method,
         can_create: true,
+        autocreate_routed_target: true,
         // 'at_start' || 'at_end' || 'set_one' || 'replace' || 'at_index' || 'move_to',
         // model: Song,
       }],

@@ -2,7 +2,7 @@ import getSPByPathTemplate from '../../../routes/legacy/getSPByPathTemplate'
 
 const getSubPByDeclr = function(md, cur) {
   if (cur.type == 'route') {
-    return getSPByPathTemplate(md.app, md, cur.value)
+    return getSPByPathTemplate(md.app, md, cur.value, false, null, {autocreate: true})
   } else {
     const constr = md._all_chi[cur.key]
     return md.initSi(constr)
