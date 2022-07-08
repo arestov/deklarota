@@ -3,7 +3,6 @@ import spv from '../../spv'
 import Model from '../Model'
 import changeBridge from './changeBridge'
 import requestPage from './requestPage'
-import followFromTo from './followFromTo'
 import getModelById from '../utils/getModelById'
 import _updateRel from '../_internal/_updateRel'
 import pvState from '../utils/state'
@@ -400,15 +399,6 @@ const BrowseLevel = spv.inh(Model, {
 
     getBwlevParent(this)?.showOnMap()
   },
-  followTo: function(id) {
-    const md = getModelById(this, id)
-
-    // md.requestPage();
-    const bwlev = followFromTo(getBwlevMap(this), this, md)
-    changeBridge(bwlev)
-    return bwlev
-  },
-
   'sthc-check_focus_leave': function(target, state, old_state) {
     if (!old_state || state) {
       return

@@ -358,15 +358,6 @@ const View = spv.inh(AttrsOwner, {
     requestPageById: function(_e, _node, _provoda_id) {
       this.requestPageById(_provoda_id)
     },
-    followTo: function() {
-      const md_id = this.mpx._provoda_id
-      const bwlev_view = getBwlevView(this)
-      this.root_view.parent_view.RPCLegacy('followTo', bwlev_view.mpx._provoda_id, md_id)
-    },
-    followURL: function(_e, _node, url) {
-      const bwlev_view = getBwlevView(this)
-      this.root_view.parent_view.RPCLegacy('followURL', bwlev_view.mpx._provoda_id, url)
-    },
     toggleSpyglass: changeSpyglassUniversal('toggleSpyglass'),
     updateSpyglass: changeSpyglassUniversal('updateSpyglass'),
     _log: (function() {
