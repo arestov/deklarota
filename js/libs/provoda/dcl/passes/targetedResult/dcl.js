@@ -17,6 +17,7 @@ const targetData = function(to, result_name, dsl_options) {
   }
 
   if (parsed_path.result_type != 'nesting' && parsed_path.result_type != 'state' && !isAction) {
+    console.log(to)
     throw new Error('we can put result to nesting or state only')
   }
 
