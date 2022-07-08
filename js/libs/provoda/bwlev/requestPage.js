@@ -29,11 +29,16 @@ export default function requestPage(self, id) {
 
 
   if (!target_is_deep_child) {
+    /* No need to keep browsing stacking-context */
 
     const bwlev = showMOnMap(map, md)
     changeBridge(bwlev)
     return
   }
+
+  /*
+    Let's try to keep browsing stacking-context
+  */
 
   bwlev_children = bwlev_children.reverse()
 
