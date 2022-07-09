@@ -173,3 +173,5 @@
 - remove preloadStart, loadStart
 
 - remove tpl_r_events
+
+- deprecate showInterest/followFromTo

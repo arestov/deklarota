@@ -6,16 +6,10 @@ import showMOnMap from './showMOnMap'
 import getRouteStepParent from './getRouteStepParent'
 import getBwlevMap from './getBwlevMap'
 
-export default function requestPage(self, id) {
-  const md = getModelById(self, id)
-  const pioneer = self.getNesting('pioneer')
-
+const isNavChild = (map, possible_parent_bwlev, pioneer) => {
+  let cur = possible_parent_bwlev
+  const bwlev_children = []
   let target_is_deep_child
-
-  let cur = md
-  let bwlev_children = []
-
-  const map = getBwlevMap(self)
 
   while (getRouteStepParent(map, cur)) {
     bwlev_children.push(cur)
@@ -27,13 +21,29 @@ export default function requestPage(self, id) {
     cur = getRouteStepParent(map, cur)
   }
 
-
   if (!target_is_deep_child) {
+    return null
+  }
 
-    const bwlev = showMOnMap(map, md)
-    changeBridge(bwlev)
+  return bwlev_children
+}
+
+export default function requestPage(self, id) {
+  const md = getModelById(self, id)
+  const pioneer = self.getNesting('pioneer')
+
+  const map = getBwlevMap(self)
+  let bwlev_children = isNavChild(map, md, pioneer)
+
+  if (bwlev_children == null) {
+    /* No need to keep browsing stacking-context */
+    map.dispatch('showModel', md)
     return
   }
+
+  /*
+    Let's try to keep browsing stacking-context
+  */
 
   bwlev_children = bwlev_children.reverse()
 
@@ -52,7 +62,7 @@ export default function requestPage(self, id) {
   }
 
   if (last_called) {
-    changeBridge(last_called)
+    map.dispatch('showBwlev', last_called)
   }
 
 }

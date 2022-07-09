@@ -14,8 +14,8 @@ import handleCurrentExpectedRel from './handleCurrentExpectedRel'
 import BrowseLevel from '../libs/provoda/bwlev/BrowseLevel'
 import { considerOwnerAsImportantForRequestsManager } from '../libs/provoda/dcl/effects/legacy/api/requests_manager'
 import updateNesting from '../libs/provoda/Model/updateNesting'
-import showInterest from '../libs/provoda/bwlev/showInterest'
 import changeBridge from '../libs/provoda/bwlev/changeBridge'
+import getRel from '../libs/provoda/provoda/getRel'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
@@ -151,7 +151,7 @@ export default spv.inh(BasicRouter, {
     ],
     __access_list: [
       'comp',
-      ['< @all:has_no_access < wanted_bwlev_branch.pioneer', '< @all:_provoda_id < wanted_bwlev_branch'],
+      ['< @all:$meta$has_no_access < wanted_bwlev_branch.pioneer', '< @all:_provoda_id < wanted_bwlev_branch'],
       (arg1, arg2) => ([...arg1, ...arg2])
     ],
     current_model_id: [
@@ -170,6 +170,8 @@ export default spv.inh(BasicRouter, {
     mainLevelResident: ['input', {any: true}],
     mainLevelResidents: ['input', {any: true}],
     start_bwlev: ['input', {any: true}],
+
+    to_be_shown_model: ['input', {any: true}],
 
     wanted_bwlev: ['input', {any: true}],
     wanted_bwlev_branch: [
@@ -193,6 +195,12 @@ export default spv.inh(BasicRouter, {
     selected__bwlev: ['input', {any: true}],
     selected__md: ['input', {any: true}],
 
+    to_be_shown_model_ready: [
+      'comp',
+      ['< @one:$meta$inited < to_be_shown_model', '<< @one:to_be_shown_model'],
+      (ready, model) => ready ? model : null,
+      { any: true },
+    ],
   },
   actions: {
     'handleAttr:__init_router': {
@@ -222,8 +230,7 @@ export default spv.inh(BasicRouter, {
             self
           ))
 
-          const bwlev = showInterest(self, [])
-          changeBridge(bwlev)
+          self.dispatch('showModel', getRel(self, 'mainLevelResident'))
 
           return {}
         },
@@ -270,14 +277,14 @@ export default spv.inh(BasicRouter, {
             return {}
           }
 
-          // start_page/level/i===0 can't have `Boolean(has_no_access) === true`. so ok_bwlev = 0
+          // start_page/level/i===0 can't have `Boolean($meta$has_no_access) === true`. so ok_bwlev = 0
           let ok_bwlev = 0
 
           for (let i = 0; i < list.length; i++) {
             const cur_bwlev = list[i]
             const md = getNesting(cur_bwlev, 'pioneer')
-            const has_no_access = pvState(md, 'has_no_access')
-            if (has_no_access) {
+            const $meta$has_no_access = pvState(md, '$meta$has_no_access')
+            if ($meta$has_no_access) {
               break
             }
             ok_bwlev = i
@@ -354,7 +361,37 @@ export default spv.inh(BasicRouter, {
         }
       ]
     },
-
+    showModel: {
+      to: ['<< to_be_shown_model', { method: 'set_one' }],
+    },
+    'handleRel:to_be_shown_model_ready': {
+      to: ['<<<<', {action: 'showBwlev'}],
+      fn: [
+        ['$noop', '<<<<'],
+        (data, noop, self) => {
+          const md = data.next_value
+          return md
+            ? showMOnMap(self, md)
+            : noop
+        }
+      ]
+    },
+    showBwlev: {
+      to: {
+        to_be_shown_model: ['<< to_be_shown_model', { method: 'set_one' }],
+        current_bwlev: ['<< current_bwlev', { method: 'set_one' }],
+      },
+      fn: [
+        ['$noop', '<<<<'],
+        (bwlev, noop, self) => {
+          changeBridge(bwlev, self)
+          return {
+            to_be_shown_model: null, /* erase */
+            current_bwlev: noop
+          }
+        }
+      ]
+    },
   },
   effects: {
   },

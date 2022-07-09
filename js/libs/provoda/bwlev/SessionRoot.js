@@ -6,8 +6,6 @@ import updateSpyglass from '../dcl/spyglass/update'
 import _updateAttr from '../_internal/_updateAttr'
 import showMOnMap from './showMOnMap'
 import getModelById from '../utils/getModelById'
-import followFromTo from './followFromTo'
-import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import cloneObj from '../../spv/cloneObj'
 import handlers from './router_handlers'
 import requireRouter from './requireRouter'
@@ -44,25 +42,6 @@ const SessionRoot = spv.inh(Model, {
       const md = getModelById(this, id)
       const bwlev = showMOnMap(requireRouter('navigation'), md)
       bwlev.showOnMap()
-    },
-    followURL: function(from_id, url) {
-      const from_bwlev = getModelById(this, from_id)
-      const md = from_bwlev.getNesting('pioneer')
-
-      const target_md = getSPByPathTemplate(this.app, md, url)
-
-      const bwlev = followFromTo(requireRouter('navigation'), from_bwlev, target_md)
-      bwlev.showOnMap()
-      return bwlev
-    },
-    followTo: function(from_id, id) {
-      const md = getModelById(this, id)
-
-      const from_bwlev = getModelById(this, from_id)
-
-      const bwlev = followFromTo(this, requireRouter('navigation'), from_bwlev, md)
-      bwlev.showOnMap()
-      return bwlev
     },
     knowViewingDataStructure: function(_constr_id, used_data_structure) {
       if (this.getAttr('used_data_structure')) {

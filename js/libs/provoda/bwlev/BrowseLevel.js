@@ -1,9 +1,7 @@
 
 import spv from '../../spv'
 import Model from '../Model'
-import changeBridge from './changeBridge'
 import requestPage from './requestPage'
-import followFromTo from './followFromTo'
 import getModelById from '../utils/getModelById'
 import _updateRel from '../_internal/_updateRel'
 import pvState from '../utils/state'
@@ -49,14 +47,16 @@ const selectParentToGo = (map, pioneer, another_candidate) => {
 
 const switchToAliveParent = (bwlev) => {
   const bwlev_parent = getBwlevParent(bwlev)
-  changeBridge(
-    selectParentToGo(
-      getBwlevMap(bwlev),
-      bwlev.getNesting('pioneer'),
-      bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
+  const map = getBwlevMap(bwlev)
+  const result_bwlev = selectParentToGo(
+    map,
+    bwlev.getNesting('pioneer'),
+    bwlev_parent && bwlev_parent.getNesting('pioneer')
+  ) ||
     bwlev_parent ||
-    getRel(getBwlevMap(bwlev), 'start_bwlev'),
-    getBwlevMap(bwlev))
+    getRel(map, 'start_bwlev')
+
+  map.dispatch('showBwlev', result_bwlev)
 }
 
 const BrowseLevel = spv.inh(Model, {
@@ -356,7 +356,7 @@ const BrowseLevel = spv.inh(Model, {
 
   showOnMap: function() {
     // !!!!showMOnMap(this.map, this.getNesting('pioneer'), this);
-    changeBridge(this)
+    getBwlevMap(this).dispatch('showBwlev', this)
   },
 
   requestPage: function(id) {
@@ -365,7 +365,7 @@ const BrowseLevel = spv.inh(Model, {
 
   zoomOut: function() {
     if (this.state('mp_show')) {
-      changeBridge(this)
+      getBwlevMap(this).dispatch('showBwlev', this)
     }
   },
 
@@ -389,26 +389,17 @@ const BrowseLevel = spv.inh(Model, {
     const req = pvState(this, 'currentReq')
     if (req && req.current_bwlev_map) {
       const bwlev = getModelById(this, req.current_bwlev_map)
-      changeBridge(bwlev)
+      bwlev.showOnMap()
       return
     }
     const referrer = this.getNesting('focus_referrer_bwlev')
     if (referrer) {
-      changeBridge(referrer)
+      referrer.showOnMap()
       return
     }
 
     getBwlevParent(this)?.showOnMap()
   },
-  followTo: function(id) {
-    const md = getModelById(this, id)
-
-    // md.requestPage();
-    const bwlev = followFromTo(getBwlevMap(this), this, md)
-    changeBridge(bwlev)
-    return bwlev
-  },
-
   'sthc-check_focus_leave': function(target, state, old_state) {
     if (!old_state || state) {
       return
