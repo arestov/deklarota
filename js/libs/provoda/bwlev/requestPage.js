@@ -37,9 +37,7 @@ export default function requestPage(self, id) {
 
   if (bwlev_children == null) {
     /* No need to keep browsing stacking-context */
-
-    const bwlev = showMOnMap(map, md)
-    changeBridge(bwlev)
+    map.dispatch('showModel', md)
     return
   }
 
@@ -64,7 +62,7 @@ export default function requestPage(self, id) {
   }
 
   if (last_called) {
-    changeBridge(last_called)
+    map.dispatch('showBwlev', last_called)
   }
 
 }

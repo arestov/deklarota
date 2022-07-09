@@ -222,10 +222,7 @@ export default spv.inh(BasicRouter, {
             self
           ))
 
-
-
-          const bwlev = showMOnMap(self, getRel(self, 'mainLevelResident'))
-          changeBridge(bwlev)
+          self.dispatch('showModel', getRel(self, 'mainLevelResident'))
 
           return {}
         },
@@ -356,7 +353,27 @@ export default spv.inh(BasicRouter, {
         }
       ]
     },
-
+    showModel: {
+      to: ['current_md'],
+      fn: [
+        ['$noop', '<<<<'],
+        (md, noop, self) => {
+          const bwlev = showMOnMap(self, md)
+          changeBridge(bwlev, self)
+          return noop
+        }
+      ]
+    },
+    showBwlev: {
+      to: ['current_bwlev'],
+      fn: [
+        ['$noop', '<<<<'],
+        (bwlev, noop, self) => {
+          changeBridge(bwlev, self)
+          return noop
+        }
+      ]
+    },
   },
   effects: {
   },

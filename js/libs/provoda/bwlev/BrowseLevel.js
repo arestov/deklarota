@@ -48,14 +48,15 @@ const selectParentToGo = (map, pioneer, another_candidate) => {
 
 const switchToAliveParent = (bwlev) => {
   const bwlev_parent = getBwlevParent(bwlev)
+  const map = getBwlevMap(bwlev)
   changeBridge(
     selectParentToGo(
-      getBwlevMap(bwlev),
+      map,
       bwlev.getNesting('pioneer'),
       bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
     bwlev_parent ||
-    getRel(getBwlevMap(bwlev), 'start_bwlev'),
-    getBwlevMap(bwlev),
+    getRel(map, 'start_bwlev'),
+    map,
   )
 }
 
