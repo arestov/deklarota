@@ -55,7 +55,8 @@ const switchToAliveParent = (bwlev) => {
       bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
     bwlev_parent ||
     getRel(getBwlevMap(bwlev), 'start_bwlev'),
-    getBwlevMap(bwlev))
+    getBwlevMap(bwlev),
+  )
 }
 
 const BrowseLevel = spv.inh(Model, {
