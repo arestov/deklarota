@@ -1,7 +1,6 @@
 
 import spv from '../../spv'
 import Model from '../Model'
-import changeBridge from './changeBridge'
 import requestPage from './requestPage'
 import getModelById from '../utils/getModelById'
 import _updateRel from '../_internal/_updateRel'
@@ -49,15 +48,15 @@ const selectParentToGo = (map, pioneer, another_candidate) => {
 const switchToAliveParent = (bwlev) => {
   const bwlev_parent = getBwlevParent(bwlev)
   const map = getBwlevMap(bwlev)
-  changeBridge(
-    selectParentToGo(
-      map,
-      bwlev.getNesting('pioneer'),
-      bwlev_parent && bwlev_parent.getNesting('pioneer')) ||
-    bwlev_parent ||
-    getRel(map, 'start_bwlev'),
+  const result_bwlev = selectParentToGo(
     map,
-  )
+    bwlev.getNesting('pioneer'),
+    bwlev_parent && bwlev_parent.getNesting('pioneer')
+  ) ||
+    bwlev_parent ||
+    getRel(map, 'start_bwlev')
+
+  map.dispatch('showBwlev', result_bwlev)
 }
 
 const BrowseLevel = spv.inh(Model, {
@@ -357,7 +356,7 @@ const BrowseLevel = spv.inh(Model, {
 
   showOnMap: function() {
     // !!!!showMOnMap(this.map, this.getNesting('pioneer'), this);
-    changeBridge(this)
+    getBwlevMap(this).dispatch('showBwlev', this)
   },
 
   requestPage: function(id) {
@@ -366,7 +365,7 @@ const BrowseLevel = spv.inh(Model, {
 
   zoomOut: function() {
     if (this.state('mp_show')) {
-      changeBridge(this)
+      getBwlevMap(this).dispatch('showBwlev', this)
     }
   },
 
@@ -390,12 +389,12 @@ const BrowseLevel = spv.inh(Model, {
     const req = pvState(this, 'currentReq')
     if (req && req.current_bwlev_map) {
       const bwlev = getModelById(this, req.current_bwlev_map)
-      changeBridge(bwlev)
+      bwlev.showOnMap()
       return
     }
     const referrer = this.getNesting('focus_referrer_bwlev')
     if (referrer) {
-      changeBridge(referrer)
+      referrer.showOnMap()
       return
     }
 

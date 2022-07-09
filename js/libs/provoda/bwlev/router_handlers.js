@@ -1,4 +1,3 @@
-import showMOnMap from './showMOnMap'
 import getModelById from '../utils/getModelById'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import requireRouter from './requireRouter'
@@ -7,8 +6,7 @@ import { FlowStepShowInPerspectivator } from '../Model/flowStepHandlers.types'
 const getRouter = (from, prefixed_name) => requireRouter(from, prefixed_name.replace('router-', ''))
 
 export const showInPerspectivator = (perspectivator, resource) => {
-  const bwlev = showMOnMap(perspectivator, resource)
-  bwlev.showOnMap()
+  perspectivator.dispatch('showModel', resource)
 }
 
 const show = (perspectivator, resource) => {
