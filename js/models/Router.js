@@ -151,7 +151,7 @@ export default spv.inh(BasicRouter, {
     ],
     __access_list: [
       'comp',
-      ['< @all:has_no_access < wanted_bwlev_branch.pioneer', '< @all:_provoda_id < wanted_bwlev_branch'],
+      ['< @all:$meta$has_no_access < wanted_bwlev_branch.pioneer', '< @all:_provoda_id < wanted_bwlev_branch'],
       (arg1, arg2) => ([...arg1, ...arg2])
     ],
     current_model_id: [
@@ -272,14 +272,14 @@ export default spv.inh(BasicRouter, {
             return {}
           }
 
-          // start_page/level/i===0 can't have `Boolean(has_no_access) === true`. so ok_bwlev = 0
+          // start_page/level/i===0 can't have `Boolean($meta$has_no_access) === true`. so ok_bwlev = 0
           let ok_bwlev = 0
 
           for (let i = 0; i < list.length; i++) {
             const cur_bwlev = list[i]
             const md = getNesting(cur_bwlev, 'pioneer')
-            const has_no_access = pvState(md, 'has_no_access')
-            if (has_no_access) {
+            const $meta$has_no_access = pvState(md, '$meta$has_no_access')
+            if ($meta$has_no_access) {
               break
             }
             ok_bwlev = i
