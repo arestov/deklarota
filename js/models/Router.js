@@ -171,6 +171,8 @@ export default spv.inh(BasicRouter, {
     mainLevelResidents: ['input', {any: true}],
     start_bwlev: ['input', {any: true}],
 
+    to_be_shown_model: ['input', {any: true}],
+
     wanted_bwlev: ['input', {any: true}],
     wanted_bwlev_branch: [
       'comp',
@@ -193,6 +195,12 @@ export default spv.inh(BasicRouter, {
     selected__bwlev: ['input', {any: true}],
     selected__md: ['input', {any: true}],
 
+    to_be_shown_model_ready: [
+      'comp',
+      ['< @one:$meta$inited < to_be_shown_model', '<< @one:to_be_shown_model'],
+      (ready, model) => ready ? model : null,
+      { any: true },
+    ],
   },
   actions: {
     'handleAttr:__init_router': {
@@ -354,23 +362,33 @@ export default spv.inh(BasicRouter, {
       ]
     },
     showModel: {
-      to: ['current_md'],
+      to: ['<< to_be_shown_model', { method: 'set_one' }],
+    },
+    'handleRel:to_be_shown_model_ready': {
+      to: ['<<<<', {action: 'showBwlev'}],
       fn: [
         ['$noop', '<<<<'],
-        (md, noop, self) => {
-          const bwlev = showMOnMap(self, md)
-          changeBridge(bwlev, self)
-          return noop
+        (data, noop, self) => {
+          const md = data.next_value
+          return md
+            ? showMOnMap(self, md)
+            : noop
         }
       ]
     },
     showBwlev: {
-      to: ['current_bwlev'],
+      to: {
+        to_be_shown_model: ['<< to_be_shown_model', { method: 'set_one' }],
+        current_bwlev: ['<< current_bwlev', { method: 'set_one' }],
+      },
       fn: [
         ['$noop', '<<<<'],
         (bwlev, noop, self) => {
           changeBridge(bwlev, self)
-          return noop
+          return {
+            to_be_shown_model: null, /* erase */
+            current_bwlev: noop
+          }
         }
       ]
     },
