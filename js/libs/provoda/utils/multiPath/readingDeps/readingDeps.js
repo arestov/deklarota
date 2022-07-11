@@ -2,6 +2,14 @@ import parseMultiPath from '../parse'
 import now from './now'
 import emptyArray from '../../../emptyArray'
 
+const getDepPlaceholder = (optionalNames, dep_ref) => {
+  if (!optionalNames?.hasOwnProperty(dep_ref)) {
+    throw new Error(`${dep_ref} can't be used here`)
+  }
+
+  return optionalNames[dep_ref]
+}
+
 export const readingDeps = function getDeps(optionalNames) {
   return (deps) => {
     if (!deps || !deps.length) {
@@ -11,13 +19,11 @@ export const readingDeps = function getDeps(optionalNames) {
     const result = new Array(deps.length)
     for (let i = 0; i < deps.length; i++) {
 
-
-      if (deps[i] === '$noop') {
-        if (!optionalNames?.hasOwnProperty(deps[i])) {
-          throw new Error(`${deps[i]} can't be used here`)
-        }
-        result[i] = optionalNames[deps[i]]
-        continue
+      const dep_ref = deps[i]
+      switch (dep_ref) {
+        case '$noop':
+          result[i] = getDepPlaceholder(optionalNames, dep_ref)
+          continue
       }
 
       if (deps[i] === '$now') {
