@@ -3,6 +3,7 @@ import noop from './noop'
 import targetedResult from './targetedResult/dcl'
 import RelShape from '../nests/relShape'
 import { readingDeps } from '../../utils/multiPath/readingDeps/readingDeps'
+import { MetaInput, MetaTimestamp } from '../../utils/multiPath/readingDeps/specialDeps'
 
 
 // var utils = require('../../utils/index.js');
@@ -57,7 +58,11 @@ import { readingDeps } from '../../utils/multiPath/readingDeps/readingDeps'
 //     }
 // },
 
-const getDeps = readingDeps({'$noop': noop})
+const getDeps = readingDeps({
+  '$noop': noop,
+  '$meta$timestamp': MetaTimestamp,
+  '$meta$payload': MetaInput,
+})
 
 function same(arg) {
   return arg
