@@ -20,7 +20,8 @@ export function handleTransactionEnd(self, transaction_key) {
     }
     const effect = getOutputFxDcl(self, effect_name)
 
-    // TODO: check that attrs inside effects_schedule[effect_name].prev_values  realy changed
+    // TODO: check that attrs inside effects_schedule[effect_name].prev_values realy changed,
+    // but don't check if we have .payload (created_by_custom_call)
     if (!apiAndConditionsReady(self, effect)) {
       continue
     }

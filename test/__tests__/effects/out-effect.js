@@ -63,6 +63,20 @@ test('should use api from root & parent', async () => {
     rels: {
       user: ['nest', [User]],
     },
+    effects: {
+      out: {
+        customOutTask: {
+          api: ['someApi'],
+          trigger: [],
+          create_when: {
+            api_inits: false,
+          },
+          fn: (api, { payload }) => {
+            api.updateSpecVar('key3', payload)
+          },
+        },
+      },
+    },
   })
 
   const inited = await testingInit(AppRoot)
@@ -86,5 +100,11 @@ test('should use api from root & parent', async () => {
     inited.app_model.updateAttr('rootMarker2', 'Another:')
     await computed()
     expect(spec_var.key2).toBe('Another:')
+  }
+
+  {
+    inited.app_model.dispatch('createOutputTask', ['customOutTask', 'valueForCustomTask'])
+    await computed()
+    expect(spec_var.key3).toBe('valueForCustomTask')
   }
 })

@@ -35,6 +35,7 @@ import act from './dcl/passes/act'
 import { deleteModelInDktStorage } from './_internal/reinit/dkt_storage'
 import ___dkt_onAttrUpdate from './Model/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/model/___dkt_saveInputFxTargetedResult'
+import { scheduleCustomOutputTask } from './AttrsOwner/produceEffects'
 
 const push = Array.prototype.push
 
@@ -368,6 +369,21 @@ function modelProps(add) {
     __act: act,
     dispatch: function(action_name, data) {
       this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data])
+    },
+  })
+
+  add({
+    actions: {
+      createOutputTask: {
+        to: ['_provoda_id'],
+        fn: [
+          ['$noop', '<<<<'],
+          ([task_name, payload], noop, self) => {
+            scheduleCustomOutputTask(self, task_name, payload)
+            return noop
+          },
+        ],
+      }
     },
   })
 

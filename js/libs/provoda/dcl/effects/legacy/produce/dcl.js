@@ -76,7 +76,8 @@ export default function ApiEffectDeclr(name, data) {
   this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
   this.triggering_states = toCorrectAttrs(data.trigger)
   this.create_when_api_inits = data.create_when?.api_inits
-  this.create_when_becomes_ready = data.create_when?.becomes_ready ?? true
+  /* it becomes ready when all deps ready. it cannot become ready when no deps */
+  this.create_when_becomes_ready = data.create_when?.becomes_ready ?? (Boolean(data.require))
 
   if (Array.isArray(data.fn)) {
     const [fn_deps, fn] = data.fn

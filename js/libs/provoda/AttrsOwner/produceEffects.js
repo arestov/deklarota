@@ -5,6 +5,7 @@ import getCurrentTransactionKey from '../dcl/effects/legacy/produce/getCurrentTr
 import justOneAttr from '../dcl/effects/legacy/produce/justOneAttr'
 import ensureEffectTask from '../dcl/effects/legacy/produce/ensureEffectTask'
 import scheduleTransactionEnd from '../dcl/effects/legacy/produce/scheduleTransactionEnd'
+import { getOutputFxDcl } from '../dcl/effects/legacy/produce/getOutputFxDcl'
 const CH_GR_LE = 2
 
 
@@ -113,6 +114,18 @@ function iterateEffects(initial_transaction_id, changes_list, total_original_sta
   checkAndMutateInvalidatedEffects(initial_transaction_id, changes_list, total_original_states, self)
 
   self._effects_using_processing = false
+}
+
+export function scheduleCustomOutputTask(self, effect_name, payload) {
+  const initial_transaction_id = getCurrentTransactionKey(self)
+  const effect = getOutputFxDcl(self, effect_name)
+
+  const effectAgenda = ensureEffectTask(self, effect, initial_transaction_id)
+  effectAgenda.payload = payload
+  effectAgenda.created_by_custom_call = true
+
+  scheduleTransactionEnd(self, initial_transaction_id)
+
 }
 
 export default function(total_ch, total_original_states, self) {

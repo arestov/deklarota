@@ -52,21 +52,7 @@ function handleEffectResult(self, effect, result) {
 }
 
 
-
-function executeEffect(self, effect_name, transaction_id) {
-  const key = agendaKey(self, transaction_id)
-  const trans_store = self._highway.__produce_side_effects_schedule.get(key)
-
-  const task = trans_store && trans_store[effect_name]
-
-  pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key)
-
-  if (!task) {
-    return
-  }
-
-
-
+function executeOutputTask(self, effect_name, task) {
   const effect = getOutputFxDcl(self, effect_name)
 
   const args = new Array(effect.apis.length + 1) // + effect.fn_deps?
@@ -91,6 +77,23 @@ function executeEffect(self, effect_name, transaction_id) {
 
   const result = effect.fn.apply(null, args)
   handleEffectResult(self, effect, result)
+}
+
+
+
+function executeEffect(self, effect_name, transaction_id) {
+  const key = agendaKey(self, transaction_id)
+  const trans_store = self._highway.__produce_side_effects_schedule.get(key)
+
+  const task = trans_store && trans_store[effect_name]
+
+  pullTaskAndCleanTransactionAgenda(self, trans_store, effect_name, key)
+
+  if (!task) {
+    return
+  }
+
+  executeOutputTask(self, effect_name, task)
 }
 
 
