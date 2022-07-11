@@ -22,11 +22,13 @@ export const readingDeps = function getDeps(optionalNames) {
       const dep_ref = deps[i]
       switch (dep_ref) {
         case '$noop':
+        case '$meta$timestamp':
+        case '$meta$payload':
           result[i] = getDepPlaceholder(optionalNames, dep_ref)
           continue
       }
 
-      if (deps[i] === '$now') {
+      if (dep_ref === '$now') {
         result[i] = now
         continue
       }
