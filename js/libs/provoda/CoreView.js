@@ -348,6 +348,11 @@ const View = spv.inh(AttrsOwner, {
       const current_md_id = this.mpx._provoda_id
       contextRouter.RPCLegacy('expectRouterRevealRel', current_md_id, router, rel_path)
     },
+    navigateToResourceByStacking(_e, _node) {
+      const id = this.mpx._provoda_id
+      const bwlev_view = getBwlevView(this)
+      bwlev_view.RPCLegacy('dispatch', 'navigateToResourceByStacking', { target_id: id })
+    },
     requestPage: function() {
       this.requestPage()
     },

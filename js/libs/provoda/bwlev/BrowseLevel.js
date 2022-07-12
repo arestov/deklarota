@@ -18,6 +18,7 @@ import { hasOwnProperty } from '../hasOwnProperty'
 import isBwlevName from '../utils/isBwlevName'
 import getRel from '../provoda/getRel'
 import getBwlevMap from './getBwlevMap'
+import followFromTo from './followFromTo'
 
 
 const transportName = function(spyglass_name) {
@@ -348,6 +349,27 @@ const BrowseLevel = spv.inh(Model, {
         }
       ]
     },
+    navigateToResourceByStacking: {
+      /*
+        we have:
+          - context bwlev
+          - target model (not bwlev)
+        result:
+          - new bwlev with `context bwlev` as parent bwlev
+      */
+      to: ['<< map.current_bwlev', { method: 'set_one' }],
+      fn: [
+        ['$noop', '<<<<', '<< @one:map'],
+        (data, noop, self, map) => {
+          const md = getModelById(self, data.target_id)
+          const parent_bwlev = self
+          const bwlev = followFromTo(map, parent_bwlev, md)
+          map.dispatch('showBwlev', bwlev)
+
+          return noop
+        },
+      ],
+    }
   },
 
   getParentMapModel: function() {
