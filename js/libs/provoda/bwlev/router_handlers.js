@@ -42,6 +42,7 @@ const handlers = {
   navigateRouterToResource(context_md_id, router_name) {
     /*
       set current/view model as current model of uri router inside context router
+      TODO: move to SessionRoot. or change. since router can't have nested routed
     */
     if (!router_name.startsWith('router-')) {
       throw new Error('router name should starts with `router-`')
@@ -55,6 +56,7 @@ const handlers = {
   navigateRouterByLocator(context_md_id, router_name, locator) {
     /*
       set subpage/uri model of current/view model as current model of uri router inside context router
+      TODO: move to SessionRoot. or change. since router can't have nested routed
     */
     if (!router_name.startsWith('router-')) {
       throw new Error('router name should starts with `router-`')
@@ -73,6 +75,10 @@ const handlers = {
     const context_router = this
 
     const router = getRouter(context_router, router_name)
+    /*
+       TODO: move to SessionRoot. or change. since router can't have nested routed
+    */
+
     router.dispatch('expectRelBeRevealedByRelPath', {rel_path, current_md_id})
   }
 }
