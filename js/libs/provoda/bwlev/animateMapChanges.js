@@ -157,7 +157,8 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
     updateFocus(next_tree, prev_tree)
 
    // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
-    _updateAttr(fake_spyglass, 'full_page_need', !!target_md.full_page_need)
+    _updateAttr(fake_spyglass, 'full_page_need', diff.bwlev.getAttr('full_page_need'))
+
     _updateRel(fake_spyglass, 'current_mp_md', target_md)
     _updateRel(fake_spyglass, 'current_mp_bwlev', diff.bwlev)
    //_updateAttr(target_md, 'mp-highlight', false);

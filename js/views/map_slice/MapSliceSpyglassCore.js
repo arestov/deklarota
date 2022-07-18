@@ -47,10 +47,6 @@ export default spv.inh(View, {
   'collch-navigation': {
     place: 'nav.daddy'
   },
-
-  'stch-full_page_need': function(target, state) {
-    target.root_view.els.screens.toggleClass('full_page_need', !!state)
-  },
   handleSearchForm: function(form_node) {
     const tpl = this.createTemplate(form_node)
     this.tpls.push(tpl)
