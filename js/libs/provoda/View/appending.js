@@ -399,13 +399,25 @@ export default {
       after(this.cur_pv_v_data.comment_anchor, fragt)
     }
 
+    const getByName = (pv_v_data, name) => {
+      if (pv_v_data.index.hasOwnProperty(name)) {
+        return pv_v_data.index[name]
+      }
+
+      if (pv_v_data.index.hasOwnProperty('$default')) {
+        return pv_v_data.index.$default
+      }
+
+      return null
+    }
+
     return function(nesname, real_array, space_name, pv_v_data) {
 
       const jobs_by_mn = {}
 
       for (let i = 0; i < real_array.length; i++) {
         const cur = real_array[i]
-        if (cur.model_name && pv_v_data.index[cur.model_name]) {
+        if (cur.model_name && getByName(pv_v_data, cur.model_name)) {
           jobs_by_mn[cur.model_name] = jobs_by_mn[cur.model_name] || []
           jobs_by_mn[cur.model_name].push(cur)
         }
@@ -416,7 +428,7 @@ export default {
           this.appendCollection(space_name, {
             view: this,
             nesname: nesname,
-            cur_pv_v_data: pv_v_data.index[model_name],
+            cur_pv_v_data: getByName(pv_v_data, model_name),
             space_name: space_name,
             getFreeView: getFreeView,
             appendDirectly: appendDirectly
