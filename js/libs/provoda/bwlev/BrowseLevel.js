@@ -279,7 +279,8 @@ const BrowseLevel = spv.inh(Model, {
             return noop
           }
 
-          switchToAliveParent(self)
+          /* showBwlev will find alive item */
+          execAction(getBwlevMap(self), 'showBwlev', self)
           return noop
         }
       ],
