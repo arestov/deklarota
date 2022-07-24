@@ -41,7 +41,7 @@ import { getDepsValues } from '../../utils/multiPath/readingDeps/getDepsValues'
     динамические пути в resource part
 */
 
-export default function pass(md, pass_name, data, timestamp, meta_payload) {
+export default function execAction(md, pass_name, data, timestamp, meta_payload) {
   const pass_handlers = md.$actions$combo
   if (!pass_handlers.hasOwnProperty(pass_name)) {
     throw new Error('missing pass ' + pass_name)

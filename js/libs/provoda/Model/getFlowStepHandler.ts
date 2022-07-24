@@ -1,7 +1,7 @@
 import initDeclaredNestings from '../dcl/nest/runtime/initDeclaredNestings'
 import type FlowStep from '../FlowStep'
 import { proxyStch } from '../handleLegacySideEffects'
-import act from '../dcl/passes/act'
+import act from '../dcl/passes/execAction'
 import { useInterfaceHandler } from '../AttrsOwner/useInterface'
 import { FlowStepAction, FlowStepDeliverChainUpdates, FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect, FlowStepHandlRelSideDataLegacy, FlowStepInitNestRels, FlowStepLegacyStch, FlowStepMarkInited, FlowStepShowInPerspectivator, FlowStepUpdateManyAttrs, FlowStepUseInterface } from './flowStepHandlers.types'
 import { markInitied } from './postInit'

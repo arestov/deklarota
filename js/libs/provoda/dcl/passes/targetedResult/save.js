@@ -5,7 +5,7 @@ import getModelById from '../../../utils/getModelById'
 import getRelFromInitParams from '../../../utils/getRelFromInitParams'
 import _updateRel from '../../../_internal/_updateRel'
 import prepareResults from '../act/prepareResults'
-import act from '../act'
+import act from '../execAction'
 
 
 const saveToDestModel = function(current_motivator, exec_item) {
