@@ -2,11 +2,12 @@ import getModelById from '../utils/getModelById'
 import getSPByPathTemplate from '../routes/legacy/getSPByPathTemplate'
 import requireRouter from './requireRouter'
 import { FlowStepShowInPerspectivator } from '../Model/flowStepHandlers.types'
+import execAction from '../dcl/passes/execAction'
 
 const getRouter = (from, prefixed_name) => requireRouter(from, prefixed_name.replace('router-', ''))
 
 export const showInPerspectivator = (perspectivator, resource) => {
-  perspectivator.dispatch('showModel', resource)
+  execAction(perspectivator, 'showModel', resource)
 }
 
 const show = (perspectivator, resource) => {
@@ -78,8 +79,7 @@ const handlers = {
     /*
        TODO: move to SessionRoot. or change. since router can't have nested routed
     */
-
-    router.dispatch('expectRelBeRevealedByRelPath', {rel_path, current_md_id})
+    execAction(router, 'expectRelBeRevealedByRelPath', {rel_path, current_md_id})
   }
 }
 

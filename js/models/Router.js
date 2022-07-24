@@ -16,6 +16,7 @@ import { considerOwnerAsImportantForRequestsManager } from '../libs/provoda/dcl/
 import updateNesting from '../libs/provoda/Model/updateNesting'
 import changeBridge from '../libs/provoda/bwlev/changeBridge'
 import getRel from '../libs/provoda/provoda/getRel'
+import execAction from '../libs/provoda/dcl/passes/execAction'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
@@ -230,7 +231,7 @@ export default spv.inh(BasicRouter, {
             self
           ))
 
-          self.dispatch('showModel', getRel(self, 'mainLevelResident'))
+          execAction(self, 'showModel', getRel(self, 'mainLevelResident'))
 
           return {}
         },

@@ -2,6 +2,7 @@ import getModelById from '../libs/provoda/utils/getModelById'
 import getAction from '../libs/provoda/dcl/passes/getAction'
 import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
 import { FlowStepAction } from '../libs/provoda/Model/flowStepHandlers.types'
+import execAction from '../libs/provoda/dcl/passes/execAction'
 
 export const REL_QUERY_TYPE_REL = 0
 
@@ -35,7 +36,7 @@ const handleExpectedRelChange = (chain, current_md) => {
 
   if (complete) {
     const router = getModelById(current_md, chain.handler_payload.data.router_id)
-    router.dispatch('showModel', link_step_value)
+    execAction(router, 'showModel', link_step_value)
   }
 }
 

@@ -5,6 +5,7 @@ import changeBridge from './changeBridge'
 import showMOnMap from './showMOnMap'
 import getRouteStepParent from './getRouteStepParent'
 import getBwlevMap from './getBwlevMap'
+import execAction from '../dcl/passes/execAction'
 
 const isNavChild = (map, possible_parent_bwlev, pioneer) => {
   let cur = possible_parent_bwlev
@@ -37,7 +38,7 @@ export default function requestPage(self, id) {
 
   if (bwlev_children == null) {
     /* No need to keep browsing stacking-context */
-    map.dispatch('showModel', md)
+    execAction(map, 'showModel', md)
     return
   }
 
@@ -62,7 +63,7 @@ export default function requestPage(self, id) {
   }
 
   if (last_called) {
-    map.dispatch('showBwlev', last_called)
+    execAction(map, 'showBwlev', last_called)
   }
 
 }

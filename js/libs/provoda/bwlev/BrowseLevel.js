@@ -19,6 +19,7 @@ import isBwlevName from '../utils/isBwlevName'
 import getRel from '../provoda/getRel'
 import getBwlevMap from './getBwlevMap'
 import followFromTo from './followFromTo'
+import execAction from '../dcl/passes/execAction'
 
 
 const transportName = function(spyglass_name) {
@@ -57,7 +58,7 @@ const switchToAliveParent = (bwlev) => {
     bwlev_parent ||
     getRel(map, 'start_bwlev')
 
-  map.dispatch('showBwlev', result_bwlev)
+  execAction(map, 'showBwlev', result_bwlev)
 }
 
 const BrowseLevel = spv.inh(Model, {
@@ -364,7 +365,7 @@ const BrowseLevel = spv.inh(Model, {
           const md = getModelById(self, data.target_id)
           const parent_bwlev = self
           const bwlev = followFromTo(map, parent_bwlev, md)
-          map.dispatch('showBwlev', bwlev)
+          execAction(map, 'showBwlev', bwlev)
 
           return noop
         },
@@ -378,7 +379,7 @@ const BrowseLevel = spv.inh(Model, {
 
   showOnMap: function() {
     // !!!!showMOnMap(this.map, this.getNesting('pioneer'), this);
-    getBwlevMap(this).dispatch('showBwlev', this)
+    execAction(getBwlevMap(this), 'showBwlev', this)
   },
 
   requestPage: function(id) {
@@ -387,7 +388,7 @@ const BrowseLevel = spv.inh(Model, {
 
   zoomOut: function() {
     if (this.state('mp_show')) {
-      getBwlevMap(this).dispatch('showBwlev', this)
+      execAction(getBwlevMap(this), 'showBwlev', this)
     }
   },
 
