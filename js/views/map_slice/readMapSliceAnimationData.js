@@ -26,6 +26,14 @@ const getAMCOffset = function() {
   return dom_helpers.offset(this.getInterface('app_map_con'))
 }
 
+const assertAttr = (root_view, attr_name) => {
+  const value = root_view.state(attr_name)
+  if (value == null) {
+    throw new Error('root view should have ' + attr_name + ' attr')
+  }
+  return value
+}
+
 
 export default function readMapSliceAnimationData(view, one_zoom_in, current_bwlev_r, prev_bwlev_r) {
   if (!current_bwlev_r) {return}
@@ -65,14 +73,14 @@ export default function readMapSliceAnimationData(view, one_zoom_in, current_bwl
   }
   const width = disable_zoom_cache
     ? getWidth()
-    : target_in_parent.getBoxDemension(getWidth, 'con_width', view.root_view.state('window_height'), view.root_view.state('workarea_width'))
+    : target_in_parent.getBoxDemension(getWidth, 'con_width', assertAttr(view.root_view, 'window_height'), assertAttr(view.root_view, 'workarea_width'))
 
   const getHeight = function() {
     return targt_con.outerHeight()
   }
   const height = disable_zoom_cache
     ? getHeight()
-    : target_in_parent.getBoxDemension(getHeight, 'con_height', view.root_view.state('window_height'), view.root_view.state('workarea_width'))
+    : target_in_parent.getBoxDemension(getHeight, 'con_height', assertAttr(view.root_view, 'window_height'), assertAttr(view.root_view, 'workarea_width'))
 
 
   // var width = targt_con.outerWidth();  //domread
@@ -83,11 +91,11 @@ export default function readMapSliceAnimationData(view, one_zoom_in, current_bwl
   const con_height_part = disable_zoom_cache
     ? getNavOHeight.call(view)
     : view.getBoxDemension(getNavOHeight, 'navs_height')
-  const con_height = view.root_view.state('window_height') - con_height_part //domread, can_be_cached
+  const con_height = assertAttr(view.root_view, 'window_height') - con_height_part //domread, can_be_cached
 
   const con_width = disable_zoom_cache
     ? getAMCWidth.call(view)
-    : view.getBoxDemension(getAMCWidth, 'screens_width', view.root_view.state('workarea_width'))
+    : view.getBoxDemension(getAMCWidth, 'screens_width', assertAttr(view.root_view, 'workarea_width'))
 
   const scale_x = width / con_width
   const scale_y = height / con_height
