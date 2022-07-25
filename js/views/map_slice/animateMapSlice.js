@@ -73,35 +73,51 @@ export default function(view, bwlev, navigation_changes, animation_data) {
     const current_lev_num = getLevNum(view, bwlev)
 
     if (animation_data) {
-      _updateAttr(view, 'disallow_animation', true)
-      animation_data.lc.c.css(animation_data.transform_values)
-      _updateAttr(view, 'disallow_animation', false)
+      view.input(() => {
+        _updateAttr(view, 'disallow_animation', true)
+      })
+      view.input(() => {
+        animation_data.lc.c.css(animation_data.transform_values)
+
+      })
+      view.input(() => {
+        _updateAttr(view, 'disallow_animation', false)
+      })
     }
 
-    _updateAttr(view, 'current_lev_num', current_lev_num)
-    //сейчас анимация происходит в связи с сменой класса при изменении состояния current_lev_num
+    view.input(() => {
+      _updateAttr(view, 'current_lev_num', current_lev_num)
+    })
 
     if (animation_data && animation_data.lc) {
-      /*
-        TODO: refactor lack of sync_opts
-      */
+      view.input(() => {
+        //сейчас анимация происходит в связи с сменой класса при изменении состояния current_lev_num
 
-      animation_data.lc.c.height() //заставляем всё пересчитать
-      animation_data.lc.c.css(empty_transform_props)
-      /*view.nextLocalTick(function() {
 
-      });*/
-      animation_data.lc.c.height() //заставляем всё пересчитать
+        /*
+          TODO: check if it ok to use view.input() in lack of sync_opts
+        */
+
+        animation_data.lc.c.height() //заставляем всё пересчитать
+        animation_data.lc.c.css(empty_transform_props)
+          /*view.nextLocalTick(function() {
+
+          });*/
+        animation_data.lc.c.height() //заставляем всё пересчитать
+      })
     }
+  }
 
-  }
-  const completeAnimation = function() {
-    view.markAnimationEnd(models, changes_number)
-  }
-  setTimeout(completeAnimation, 16 * 21 * 4)
-  if (!animation_data) {
-    completeAnimation()
-  } else {
-    animation_data.lc.onTransitionEnd(completeAnimation)
-  }
+  view.input(() => {
+    const completeAnimation = function() {
+      view.markAnimationEnd(models, changes_number)
+    }
+    setTimeout(completeAnimation, 16 * 21 * 4)
+    if (!animation_data) {
+      completeAnimation()
+    } else {
+      animation_data.lc.onTransitionEnd(completeAnimation)
+    }
+  })
+
 }
