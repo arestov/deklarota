@@ -26,7 +26,7 @@ LevContainer.prototype = {
   completeAnimation: function() {
     while (this.callbacks.length) {
       const cb = this.callbacks.shift()
-      this.context.nextLocalTick(cb)
+      this.context.inputWithContext(cb)
     }
   }
 }
@@ -86,7 +86,7 @@ const getLevelContainer = (perspectivator_view, bwlev, deeper) => {
     tpl.ancs['scroll_con'],
     tpl.ancs['material'],
     tpl,
-    this
+    self
   )
   self.lev_containers[num] = lev_con
 
