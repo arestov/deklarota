@@ -87,6 +87,7 @@ export default function readMapSliceAnimationData(view, one_zoom_in, current_bwl
   // var height = targt_con.outerHeight(); //domread
 
   const top = offset.top - parent_offset.top
+  const left = offset.left - parent_offset.left
 
   const con_height_part = disable_zoom_cache
     ? getNavOHeight.call(view)
@@ -107,7 +108,7 @@ export default function readMapSliceAnimationData(view, one_zoom_in, current_bwl
   const lc = getLevByBwlev(view, bwlev)
 
   const transform_values = {}
-  const value = 'translate(' + (offset.left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')'
+  const value = 'translate(' + (left + shift_x) + 'px, ' + (top + shift_y) + 'px)  scale(' + min_scale + ')'
   transform_props.forEach(function(el) {
     transform_values[el] = value
   })
