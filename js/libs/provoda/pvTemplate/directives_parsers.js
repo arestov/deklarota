@@ -31,20 +31,26 @@ const createPropChange = (function() {
   const getValue = function(node, prop) {
     return getTargetField(node, prop)
   }
+
+  const setPropValue = function(node, prop, raw_value) {
+    const value = raw_value == null ? '' : raw_value
+    setTargetField(node, prop, value)
+  }
+
   const setValue = function(node, value, _old_value, wwtch) {
     const prop = wwtch.data
     const new_value = value || ''
 
     if (!wwtch.standch.needs_recheck) {
-      return setTargetField(node, prop, new_value)
+      return setPropValue(node, prop, new_value)
     }
 
-    const current_value = getTargetField(node, prop)
+    const current_value = getValue(node, prop)
     if (current_value == new_value) {
       return
     }
 
-    return setTargetField(node, prop, value || '')
+    return setPropValue(node, prop, value)
   }
 
   return function(node, prop, statement, directive_name) {
