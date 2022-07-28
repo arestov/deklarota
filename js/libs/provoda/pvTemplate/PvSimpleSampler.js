@@ -40,6 +40,7 @@ const PvSimpleSampler = (function() {
   (function() {
     const likeAttrs = {
       'pv-props': true,
+      'pv-style-props': true,
     }
     const setStructureData = function(struc_store, is_root_node, cur_node, bind_data, states_list, children_list, getSample) {
       if (!is_root_node) {

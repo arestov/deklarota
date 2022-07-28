@@ -766,6 +766,7 @@ spv.Class.extendTo(PvTemplate, {
       },
       'pv-class': multipleStandChes,
       'pv-props': multipleStandChes,
+      'pv-style-props': multipleStandChes,
       'pv-anchor': function(node, full_declaration) {
         const anchor_name = full_declaration
         return new BnddChunk('ancs', {

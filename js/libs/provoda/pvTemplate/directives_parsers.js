@@ -77,6 +77,47 @@ const createPropChange = (function() {
 })()
 
 
+const createStylePropChange = (function() {
+  const getValue = function(node, prop) {
+    return node.style.getPropertyValue(prop)
+  }
+
+  const setPropValue = function(node, prop, value) {
+    if (value == null) {
+      node.style.removeProperty(prop)
+      return
+    }
+
+    node.style.setProperty(prop, value)
+
+  }
+
+  const setValue = function(node, value, _old_value, wwtch) {
+    const prop = wwtch.data
+    const new_value = value || ''
+
+    if (!wwtch.standch.needs_recheck) {
+      return setPropValue(node, prop, new_value)
+    }
+
+    const current_value = getValue(node, prop)
+    if (current_value == new_value) {
+      return
+    }
+
+    return setPropValue(node, prop, new_value)
+  }
+
+  return function(node, prop, statement, directive_name) {
+    return new StandartChange(node, {
+      data: prop,
+      needs_recheck: false,
+      statement: statement,
+      getValue: getValue,
+      setValue: setValue
+    }, directive_name)
+  }
+})()
 
 
 
@@ -144,6 +185,7 @@ export default {
         'pv-text': true,
         'pv-class': true,
         'pv-props': true,
+        'pv-style-props': true,
         'pv-type': true,
         'pv-repeat': true
       },
@@ -152,6 +194,7 @@ export default {
         'pv-text': true,
         'pv-class': true,
         'pv-props': true,
+        'pv-style-props': true,
         'pv-anchor': true,
         'pv-type': true,
         'pv-events': true,
@@ -267,6 +310,7 @@ export default {
       }
     })(),
     'pv-props': multipleParts(createPropChange),
+    'pv-style-props': multipleParts(createStylePropChange),
     'pv-when': function(_node, full_declaration, _directive_name) {
       if (!full_declaration) {
         return
