@@ -39,7 +39,7 @@ const createPropChange = (function() {
 
   const setValue = function(node, value, _old_value, wwtch) {
     const prop = wwtch.data
-    const new_value = value || ''
+    const new_value = value
 
     if (!wwtch.standch.needs_recheck) {
       return setPropValue(node, prop, new_value)
@@ -94,14 +94,14 @@ const createStylePropChange = (function() {
 
   const setValue = function(node, value, _old_value, wwtch) {
     const prop = wwtch.data
-    const new_value = value || ''
+    const new_value = value
 
     if (!wwtch.standch.needs_recheck) {
       return setPropValue(node, prop, new_value)
     }
 
     const current_value = getValue(node, prop)
-    if (current_value == new_value) {
+    if (current_value === new_value) {
       return
     }
 

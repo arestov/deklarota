@@ -88,7 +88,7 @@ StandartChange.prototype = {
       return
     }
     removeFlowStep(wwtch.context, wwtch.w_cache_key)
-    if (wwtch.current_value != new_value) {
+    if (wwtch.current_value !== new_value) {
       const old_value = wwtch.current_value
       wwtch.current_value = new_value
       this.setValue(wwtch.node, new_value, old_value, wwtch)
@@ -100,7 +100,7 @@ StandartChange.prototype = {
     if (this.simplifyValue) {
       new_value = this.simplifyValue(new_value)
     }
-    if (wwtch.current_value != new_value) {
+    if (wwtch.current_value !== new_value) {
       abortFlowStep(wwtch.context, wwtch.w_cache_key)
       if (async_changes) {
         // fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup
