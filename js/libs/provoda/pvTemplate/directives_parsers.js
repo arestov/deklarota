@@ -137,7 +137,7 @@ const getIndexList = function(obj, arr) {
   return result
 }
 
-function multipleParts(createChange) {
+function multipleParts(createChange, pname) {
   return function(node, full_declaration, directive_name) {
     // example:
     //"style.width: {{play_progress}} title: {{full_name}} style.background-image: {{album_cover_url}}"
@@ -153,7 +153,7 @@ function multipleParts(createChange) {
         throw new Error('wrong declaration: ' + complex_value)
         //return;
       }
-      const item = createChange(node, prop, statement, prop + '$' + directive_name)
+      const item = createChange(node, prop, statement, pname + '$' + prop + '$' + directive_name)
       if (item) {
         result.push(item)
       }
@@ -309,8 +309,8 @@ export default {
         return result
       }
     })(),
-    'pv-props': multipleParts(createPropChange),
-    'pv-style-props': multipleParts(createStylePropChange),
+    'pv-props': multipleParts(createPropChange, 'props'),
+    'pv-style-props': multipleParts(createStylePropChange, 'style-props'),
     'pv-when': function(_node, full_declaration, _directive_name) {
       if (!full_declaration) {
         return
