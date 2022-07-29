@@ -245,10 +245,12 @@ const getStrucParent = function(item, _count) {
 
 const emptyFakeList = {length:0}
 
+const getSessionRoot = (self) => self.root_view.parent_view
+
 const getContextRouter = (self) => {
   const bwlev_view = getBwlevView(self)
   const current_bwlev_map = (bwlev_view && bwlev_view.getNesting('map'))
-  const context_router = current_bwlev_map || self.root_view.parent_view
+  const context_router = current_bwlev_map || getSessionRoot(self)
   return context_router
 }
 
@@ -330,12 +332,12 @@ const View = spv.inh(AttrsOwner, {
       contextRouter.RPCLegacy('navigateByLocator', this.mpx._provoda_id, locator)
     },
     navigateRouterToResource(_e, _node, router) {
-      const contextRouter = getContextRouter(this)
-      contextRouter.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
+      const session_root = getSessionRoot(this)
+      session_root.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
     },
     navigateRouterByLocator(_e, _node, router, locator) {
-      const contextRouter = getContextRouter(this)
-      contextRouter.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
+      const session_root = getSessionRoot(this)
+      session_root.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
     },
     expectRelBeRevealedByRelPath(_e, _node, rel_path) {
       const contextRouter = getContextRouter(this)
@@ -344,9 +346,9 @@ const View = spv.inh(AttrsOwner, {
       contextRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {rel_path, current_md_id})
     },
     expectRouterRevealRel(_e, _node, router, rel_path) {
-      const contextRouter = getContextRouter(this)
+      const session_root = getSessionRoot(this)
       const current_md_id = this.mpx._provoda_id
-      contextRouter.RPCLegacy('expectRouterRevealRel', current_md_id, router, rel_path)
+      session_root.RPCLegacy('expectRouterRevealRel', current_md_id, router, rel_path)
     },
     navigateToResourceByStacking(_e, _node) {
       const id = this.mpx._provoda_id
