@@ -58,6 +58,7 @@ export default function ApiEffectDeclr(name, data) {
   this.name = name
   this.apis = null
   this.apis_as_input = null
+  this.disallow_input_from_api = data.disallow_input_from_api
 
   this.triggering_states = null
   this.deps = null
