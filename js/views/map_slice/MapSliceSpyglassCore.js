@@ -7,7 +7,7 @@ import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mpxUpdateAttr from '../../libs/provoda/provoda/v/mpxUpdateAttr'
 import selecPoineertDeclr from '../../libs/provoda/provoda/v/selecPoineertDeclr'
 import createTemplate from '../../libs/provoda/provoda/v/createTemplate'
-import probeDiff, { isOneStepZoomIn } from '../../libs/provoda/bwlev/probeDiff'
+import probeDiff from '../../libs/provoda/bwlev/probeDiff'
 import getNesting from '../../libs/provoda/provoda/getNesting'
 import $ from 'cash-dom'
 import wrapInputCall from '../../libs/provoda/provoda/wrapInputCall'
@@ -193,7 +193,7 @@ export default spv.inh(View, {
 
     const animation_data = readMapSliceAnimationData(
       this,
-      isOneStepZoomIn(diff.array),
+      diff.array,
       last(next_tree),
       last(prev_tree)
     )

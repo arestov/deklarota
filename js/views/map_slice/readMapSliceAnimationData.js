@@ -6,6 +6,7 @@ import getBwlevContentFromR from './getBwlevContentFromR'
 import anyDeeplyIncludedViews from './anyDeeplyIncludedViews'
 import dom_helpers from '../../libs/provoda/utils/dom_helpers'
 import getLevByBwlev from './getLevelContainer'
+import { isZoomingOnly } from '../../libs/provoda/bwlev/probeDiff'
 
 // var findMpxViewInChildren = require('./findMpxViewInChildren')
 
@@ -34,19 +35,35 @@ const assertAttr = (root_view, attr_name) => {
   return value
 }
 
+const findAnyViewToZoom = (view, diff, prev_bwlev_r) => {
+  /* would be nice to find exact last model of zoom-in. but let's use nav parents too */
 
-export default function readMapSliceAnimationData(view, one_zoom_in, current_bwlev_r, prev_bwlev_r) {
+  const lastChanges = diff[diff.length - 1]
+
+  for (let i = lastChanges.changes.length - 1; i >= 0; i--) {
+    const cur = lastChanges.changes[i]
+    const bwlev = getModelFromR(view, cur.bwlev)
+    const best_matched_view = view.getMapSliceImmediateChildView(bwlev, getBwlevContentFromR(view, bwlev))
+
+    const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, prev_bwlev_r, bwlev)
+    if (target_in_parent) {
+      return target_in_parent
+    }
+  }
+
+  return null
+}
+
+
+export default function readMapSliceAnimationData(view, diff, current_bwlev_r, prev_bwlev_r) {
   if (!current_bwlev_r) {return}
 
   const bwlev = getModelFromR(view, current_bwlev_r)
 
   const current_lev_num = getAttr(bwlev, 'map_level_num')
-
-  if (!(can_animate && current_lev_num != -1 && one_zoom_in)) {return}
-
-  const best_matched_view = view.getMapSliceImmediateChildView(bwlev, getBwlevContentFromR(view, bwlev))
-
-  const target_in_parent = best_matched_view || anyDeeplyIncludedViews(view, prev_bwlev_r, bwlev)
+  const is_zooming_only = isZoomingOnly(diff)
+  if (!(can_animate && current_lev_num != -1 && is_zooming_only)) {return}
+  const target_in_parent = findAnyViewToZoom(view, diff, prev_bwlev_r)
   if (!target_in_parent) {return}
 
   const targt_con = target_in_parent.getC()

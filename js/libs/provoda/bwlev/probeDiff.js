@@ -20,6 +20,12 @@ const pathAsSteps = function(path, value) {
 
 const last = (list) => list && list[list.length - 1]
 
+export const isZoomingOnly = (list) => {
+  const firstItem = list[0]
+  const lastItem = last(list)
+  return firstItem.name == 'zoom-in' && lastItem.name == 'zoom-in'
+}
+
 
 export const zoomingAndConverting = (converting) => (value_full_path, oldvalue_full_path) => {
   /*
