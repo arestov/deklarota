@@ -14,7 +14,7 @@ const isRedirectAction = function(target) {
 const prepareAndHold = function(md, target, value) {
   const multi_path = target.target_path
 
-  if (!md) {
+  if (!target.options?.base && !md) {
     throw new Error('empty prepareAndHold md')
   }
 
@@ -53,6 +53,9 @@ const unwrap = function(md, target, value, data, mut_action_result) {
     const models = getTargetModels(md, target, data)
     if (!Array.isArray(models)) {
       if (!models) {
+        if (target.options?.base) {
+          return
+        }
         throw new Error('empty models of unwrap')
       }
 
