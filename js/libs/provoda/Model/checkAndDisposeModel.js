@@ -8,7 +8,7 @@ const checkAndDisposeModel = function(self, value) {
     return
   }
 
-  const result = new Set()
+  const all_owners = new Set()
   for (const prop in self.__mentions_as_rel) {
     if (!self.__mentions_as_rel.hasOwnProperty(prop)) {
       continue
@@ -16,13 +16,14 @@ const checkAndDisposeModel = function(self, value) {
 
     const owners_set = self.__mentions_as_rel[prop]
     for (const owner of owners_set) {
-      result.add(owner)
+      all_owners.add(owner)
     }
   }
 
-  result.delete(self)
+  /* don't consider self reference as owning */
+  all_owners.delete(self)
 
-  if (result.size) {
+  if (all_owners.size) {
     return
   }
 
