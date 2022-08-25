@@ -109,13 +109,14 @@ const BrowseLevel = spv.inh(Model, {
       'comp',
       ['mp_has_focus'],
     ],
-    pioneer_removed: [
+    consider_removed: [
       'comp',
-      ['< @one:$meta$removed < pioneer'],
+      ['< @one:$meta$removed < pioneer', '< @one:$meta$removed < parent_bwlev'],
+      (pioneer, parent) => Boolean(pioneer || parent),
     ],
     'navigation_unavailable': [
       'comp',
-      ['< @one:prpt_navigation_available < pioneer', 'pioneer_removed', '< @one:nav_item_removed < pioneer'],
+      ['< @one:prpt_navigation_available < pioneer', 'consider_removed', '< @one:nav_item_removed < pioneer'],
       (nav_available, removed, legacy_removed) => {
         /*
            prpt_navigation_available allows to define custom logic
@@ -285,7 +286,7 @@ const BrowseLevel = spv.inh(Model, {
         }
       ],
     },
-    'handleAttr:pioneer_removed': {
+    'handleAttr:consider_removed': {
       to: ['$meta$removed'],
       fn: [
         ['$noop', '<<<<'],
