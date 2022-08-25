@@ -69,8 +69,23 @@ const validateManyValue = (self, rel_name, rel_shape, value) => {
 }
 
 const validateRuntimeValue = (self, rel_name, value) => {
+
   if (typeof NODE_ENV != 'undefined' && NODE_ENV === 'production') {
     return
+  }
+
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      const element = value[i]
+      if (element.dead) {
+        element._warnError('used dead model!', {rel_name, insideOf: self._provoda_id})
+      }
+    }
+
+  } else if (value) {
+    if (value.dead) {
+      value._warnError('used dead model!', {rel_name, insideOf: self._provoda_id})
+    }
   }
 
   if (isGlueRel(self, rel_name)) {
