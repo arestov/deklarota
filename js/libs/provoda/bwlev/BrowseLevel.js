@@ -351,6 +351,20 @@ const BrowseLevel = spv.inh(Model, {
         }
       ]
     },
+    'handleAttr:check_focus_leave': {
+      to: ['<< focus_referrer_bwlev', {method: 'set_one'}],
+      fn: [
+        ['$noop'],
+        (data, noop) => {
+          if (!data.prev_value || data.next_value) {
+            return noop
+          }
+
+          return null
+        }
+      ]
+    },
+
     navigateToResourceByStacking: {
       /*
         we have:
@@ -423,13 +437,6 @@ const BrowseLevel = spv.inh(Model, {
     }
 
     getBwlevParent(this)?.showOnMap()
-  },
-  'sthc-check_focus_leave': function(target, state, old_state) {
-    if (!old_state || state) {
-      return
-    }
-
-    _updateRel(target, 'focus_referrer_bwlev', null)
   },
 
 
