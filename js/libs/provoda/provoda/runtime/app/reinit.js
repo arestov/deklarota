@@ -204,13 +204,14 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
       continue
     }
 
+    /* don't skip removed models (don't reuse ids!) */
+    runtime.models_counters = Math.max(runtime.models_counters, (Number(id) + 1) || 0)
+
     const cur = models[id]
     if (cur == null) {
       runtime.models[id] = null
       continue
     }
-
-    runtime.models_counters = Math.max(runtime.models_counters, (Number(cur.id) + 1) || 0)
 
     const Constr = AppRoot.prototype.constrs_by_name.get(cur.model_name).constructor
     const opts = {
