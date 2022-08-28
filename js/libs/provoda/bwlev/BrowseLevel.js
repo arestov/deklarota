@@ -374,7 +374,7 @@ const BrowseLevel = spv.inh(Model, {
         result:
           - new bwlev with `context bwlev` as parent bwlev
       */
-      to: ['<< map.current_bwlev', { method: 'set_one' }],
+      to: ['<< map.current_mp_bwlev', { method: 'set_one' }],
       fn: [
         ['$noop', '<<<<', '<< @one:map'],
         (data, noop, self, map) => {

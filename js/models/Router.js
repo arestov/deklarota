@@ -157,8 +157,8 @@ export default spv.inh(BasicRouter, {
     ],
     current_model_id: [
       'comp',
-      ['< @one:_provoda_id < current_md', '< @one:_provoda_id < current_mp_md', '$meta$removed'],
-      (arg1, arg2, removed) => !removed && (arg1 || arg2),
+      ['< @one:_provoda_id < current_mp_md', '$meta$removed'],
+      (arg1, removed) => !removed && arg1,
     ],
     current_mp_bwlev: [
       'comp',
@@ -185,13 +185,10 @@ export default spv.inh(BasicRouter, {
     /* is_simple_router=true|false */
     bridge_bwlev: ['input', {any: true}],
 
-    /* is_simple_router=true: current_bwlev, current_md */
-    current_md: ['input', {any: true}],
-    current_bwlev: ['input', {any: true}],
-
-    /* is_simple_router=false: current_mp_bwlev, current_mp_md  */
     current_mp_md: ['input', {any: true}],
     current_mp_bwlev: ['input', {any: true}],
+
+    /* is_simple_router=false */
     map_slice: ['input', {any: true, many: true}],
     selected__bwlev: ['input', {any: true}],
     selected__md: ['input', {any: true}],
@@ -380,7 +377,7 @@ export default spv.inh(BasicRouter, {
     showBwlev: {
       to: {
         to_be_shown_model: ['<< to_be_shown_model', { method: 'set_one' }],
-        current_bwlev: ['<< current_bwlev', { method: 'set_one' }],
+        current_bwlev: ['<< current_mp_bwlev', { method: 'set_one' }], // noop. check changeBridge
       },
       fn: [
         ['$noop', '<<<<'],

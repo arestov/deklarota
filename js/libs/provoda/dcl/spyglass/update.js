@@ -15,9 +15,9 @@ const getPioneer = function(lev) {
 }
 
 const changeCurrentLev = function(probe_md, next_lev, prev_lev) {
-  _updateRel(probe_md, 'current_md', getPioneer(next_lev) || null)
+  _updateRel(probe_md, 'current_mp_md', getPioneer(next_lev) || null)
   switchCurrentBwlev(next_lev, prev_lev)
-  _updateRel(probe_md, 'current_bwlev', next_lev || null)
+  _updateRel(probe_md, 'current_mp_bwlev', next_lev || null)
 }
 
 const ensureBwLev = function(probe_md, probe_name, md) {
@@ -67,7 +67,7 @@ const getProbeChange = function(toggle) {
     }
 
     const nested_bwlev = subpage && ensureBwLev(probe_md, probe_name, subpage)
-    const prev_subpage = probe_md.getNesting('current_md')
+    const prev_subpage = probe_md.getNesting('current_mp_md')
     const prev_nested_bwlev = prev_subpage && getBWlev(probe_md, prev_subpage)
 
     if (nested_bwlev && req) {
@@ -79,7 +79,7 @@ const getProbeChange = function(toggle) {
       return
     }
 
-    const cur = probe_md.getNesting('current_md')
+    const cur = probe_md.getNesting('current_mp_md')
     if (cur === subpage) {
       changeCurrentLev(probe_md, null, prev_nested_bwlev)
     } else {

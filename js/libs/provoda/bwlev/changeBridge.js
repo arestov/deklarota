@@ -47,8 +47,8 @@ export default function changeBridge(bwlev_raw, map_raw) {
   _updateRel(map, 'bridge_bwlev', bwlev)
 
   if (map.is_simple_router) {
-    _updateRel(map, 'current_bwlev', bwlev)
-    _updateRel(map, 'current_md', bwlev && bwlev.getNesting('pioneer'))
+    _updateRel(map, 'current_mp_bwlev', bwlev)
+    _updateRel(map, 'current_mp_md', bwlev && bwlev.getNesting('pioneer'))
     if (bwlev) {
       _updateRel(bwlev, 'focus_referrer_bwlev', map.getNesting('current_mp_bwlev'))
     }
