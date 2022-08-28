@@ -54,6 +54,7 @@ export const BasicRouter = spv.inh(Model, {
       const rel_name = `nav_parent_at_perspectivator_${props.model_name}`
 
       self.$default_bwlev_constr = spv.inh(BrowseLevel, {}, {
+        model_name: `bwlev:$default_for_${props.model_name}`,
         rels: {
           nav_parent: ['comp', [`<< @one:pioneer.${rel_name}`], { any: true }],
         },
