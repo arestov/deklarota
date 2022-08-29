@@ -10,6 +10,7 @@ import isStart from './isStart'
 import getBwlevParent from './getBwlevParent'
 import getRel from '../provoda/getRel'
 import findByPioneer from './findByPioneer'
+import updateRel from '../_internal/_updateRel'
 
 const ba_inUse = ba_canReuse.ba_inUse
 
@@ -29,7 +30,7 @@ function ensureStartBwlev(map, md) {
   const list = getRel(map, 'mainLevelResidents')
   const item = findByPioneer(list, md)
   if (item) {
-    return
+    return item
   }
 
   const created = createLevel(
@@ -40,7 +41,7 @@ function ensureStartBwlev(map, md) {
     map
   )
 
-  map.updateRel('mainLevelResidents', list ? [...list, created] : [created])
+  updateRel(map, 'mainLevelResidents', list ? [...list, created] : [created])
   return created
 }
 

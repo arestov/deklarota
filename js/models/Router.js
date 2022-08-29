@@ -170,7 +170,7 @@ export default spv.inh(BasicRouter, {
     navigation: ['input', {any: true, many: true}],
     start_page: ['input', {any: true}],
     mainLevelResident: ['input', {any: true}],
-    mainLevelResidents: ['input', {any: true}],
+    mainLevelResidents: ['input', {any: true, many: true}],
     start_bwlev: ['input', {any: true}],
 
     to_be_shown_model: ['input', {any: true}],
