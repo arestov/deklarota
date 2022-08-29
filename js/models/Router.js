@@ -366,8 +366,30 @@ export default spv.inh(BasicRouter, {
         }
       ]
     },
+    eraseModel: {
+      to: {
+        bridge_bwlev: ['<< bridge_bwlev', {method: 'set_one'}],
+        current_mp_bwlev: ['<< current_mp_bwlev', {method: 'set_one'}],
+        current_mp_md: ['<< current_mp_md', {method: 'set_one'}]
+      },
+      fn: () => ({
+        bridge_bwlev: null,
+        current_mp_bwlev: null,
+        current_mp_md: null,
+      }),
+    },
     showModel: {
-      to: ['<< to_be_shown_model', { method: 'set_one' }],
+      to: {
+        nextModel: ['<< to_be_shown_model', { method: 'set_one' }],
+        eraseModel: ['<<<<', {action: 'eraseModel'}]
+      },
+      fn: (model) => {
+        if (model) {
+          return {nextModel: model}
+        }
+
+        return {eraseModel: true}
+      }
     },
     'handleRel:to_be_shown_model_ready': {
       to: ['<<<<', {action: 'showBwlev'}],
