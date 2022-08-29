@@ -301,12 +301,18 @@ export default spv.inh(BasicRouter, {
       fn: [
         ['<<<<'],
         (data, self) => {
-          animateMapChanges(self, data.next_value || [], data.prev_value || [])
-
           const list = data.next_value
           const bwlev = list && list[list.length - 1]
 
           const md = bwlev.getNesting('pioneer')
+
+          if (!self.is_simple_router) {
+            animateMapChanges(self, data.next_value || [], data.prev_value || [])
+          } else {
+            _updateRel(self, 'current_mp_md', md)
+            _updateRel(self, 'current_mp_bwlev', bwlev)
+
+          }
 
           _updateRel(self, 'selected__bwlev', bwlev)
           _updateRel(self, 'selected__md', md)
