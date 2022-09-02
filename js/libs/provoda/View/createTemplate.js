@@ -36,7 +36,7 @@ export default function(view, con) {
         target_view = view.root_view
         fnName = fnNameRaw.slice(1)
       } else if (firstChar === '^') {
-        const fnName = fnNameRaw.replace(parent_count_regexp, '')
+        fnName = fnNameRaw.replace(parent_count_regexp, '')
         const parent_count = fnNameRaw.length - fnName.length
         target_view = view
         for (let i = 0; i < parent_count; i++) {
