@@ -5,7 +5,7 @@ import spv from '../spv'
 import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
-import updateProxy from './updateProxy'
+import updateProxy, { initAttrs } from './updateProxy'
 import AttrsOwner from './AttrsOwner/AttrsOwner'
 import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
@@ -29,6 +29,7 @@ import requestState, { initAttrsRequesting, resetRequestedState } from './FastEv
 import { events_part, initEvents } from './View/events_part'
 import ___dkt_onAttrUpdate from './View/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/view/___dkt_saveInputFxTargetedResult'
+import ensureInitialAttrs from './View/ensureInitialAttrs'
 
 const CH_GR_LE = 2
 
@@ -157,8 +158,12 @@ const initView = function(target, view_otps, opts) {
     Object.assign(target._lbr.undetailed_states, default_attrs)
   }
 
+  ensureInitialAttrs(target)
+
   const changes_list = []
+  Array.prototype.push.apply(changes_list, target._fake_etr.total_ch)
   prefillCompAttr(target, changes_list)
+
   for (let i = 0; i < changes_list.length; i += CH_GR_LE) {
     target._lbr.undetailed_states[changes_list[i]] = changes_list[i + 1]
   }
