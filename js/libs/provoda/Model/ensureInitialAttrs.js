@@ -34,7 +34,7 @@ const fillExternalDeps = (self, first_changes_list) => {
   }
 }
 
-export default function ensureInitialAttrs(self) {
+const ensureInitialAttrsUniversal = (fn) => (self) => {
   if (self.constructor.prototype.hasOwnProperty('_fake_etr')) {
     return
   }
@@ -54,8 +54,7 @@ export default function ensureInitialAttrs(self) {
     first_changes_list.push(cur.name, false)
   }
 
-
-  fillExternalDeps(self, first_changes_list)
+  fn(self, first_changes_list)
 
   const default_attrs = initInputAttrs(self)
   for (const attr_name in default_attrs) {
@@ -84,3 +83,9 @@ export default function ensureInitialAttrs(self) {
     total_ch: fake.total_ch,
   })
 }
+
+const ensureInitialAttrs = ensureInitialAttrsUniversal((self, first_changes_list) => {
+  fillExternalDeps(self, first_changes_list)
+})
+
+export default ensureInitialAttrs
