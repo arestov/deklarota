@@ -60,8 +60,25 @@ import { MetaInput, MetaTimestamp } from '../../utils/multiPath/readingDeps/spec
 
 const getDeps = readingDeps({
   '$noop': noop,
+
+  /*
+    for precise time of actions dispatch
+  */
   '$meta$timestamp': MetaTimestamp,
+
+  /*
+    created to provide info about context.
+    like perspectivator view source of action call
+
+    TODO: send context from view
+    TODO: allow to disable sending for certain actions in certain view (for perf reasons)
+  */
   '$meta$payload': MetaInput,
+
+  /*
+    TODO:
+      add meta for current transaction info?
+  */
 })
 
 function same(arg) {
