@@ -1,5 +1,6 @@
 
 import spv from '../../../../../spv'
+import { fxByNameP } from '../../fxP'
 import indexByDepName from '../api/utils/indexByDepName'
 
 
@@ -81,8 +82,16 @@ export const __api_effects_out = [
 ]
 
 export const __api_root_dep_apis = [
-  ['__api_effects'],
+  [
+  /*
+  we don't need both effects from user and from dkt ('__api_effects')
+  we need only from user fxByNameP('produce-')
+  sinse dkt effects don't use root apis
+  */
+    fxByNameP('produce-'),
+  ],
   (effects) => {
+    debugger
     return rootApis(effects)
   }
 ]

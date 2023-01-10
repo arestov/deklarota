@@ -8,6 +8,7 @@ import fakeInterface from '../../fakeInterface'
 test('state loaded', async () => {
   let check1 = false
   let check2 = false
+  let check3 = false
 
   const SomePage = model({
 
@@ -26,6 +27,8 @@ test('state loaded', async () => {
     },
 
     effects: {
+      api: {
+      },
       in: {
         0: {
           type: 'state_request',
@@ -68,6 +71,16 @@ test('state loaded', async () => {
             check2 = true
           },
         },
+        check3: {
+          api: ['self', '#fake'],
+          create_when: {
+            api_inits: true,
+          },
+          trigger: ['_provoda_id'],
+          fn: () => {
+            check3 = true
+          },
+        },
       },
     },
 
@@ -97,6 +110,10 @@ test('state loaded', async () => {
   }, undefined, {
     requests_manager,
   })).app_model
+
+  await waitFlow(app)
+
+  expect(check3).toBe(true)
 
   return waitFlow(app).then(app => app.getNesting('somepage').requestState('bio').then(() => waitFlow(app))).then(app => {
     expect('was born').toBe(pvState(app.getNesting('somepage'), 'bio'))
