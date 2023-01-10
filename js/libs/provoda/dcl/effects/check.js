@@ -281,7 +281,16 @@ const schema = {
   __fxs_subscribe_by_api,
 
   __api_effects: [
-    [fxByNameP('produce-'), '__dcls_extended_fxs'],
+    [
+      /* effects from user */
+      fxByNameP('produce-'),
+
+      /*
+        effects from dkt
+        only "self" as api to execute, but parent/root attrs as deps
+      */
+      '__dcls_extended_fxs'
+    ],
     (arg1, arg2) => ({
       ...arg1,
       ...arg2,
