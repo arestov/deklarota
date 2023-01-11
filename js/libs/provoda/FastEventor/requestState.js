@@ -161,7 +161,7 @@ function bindRequest(api, request, selected_map, store, self) {
     }
 
     for (i = 0; i < states_list.length; i++) {
-      result_states['$meta$attrs$' + states_list[i] + '$complete'] = true
+      result_states['$meta$attrs$' + states_list[i] + '$' + types.complete] = true
 
     }
 

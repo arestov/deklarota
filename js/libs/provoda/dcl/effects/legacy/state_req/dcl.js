@@ -1,9 +1,24 @@
 
+import stateReqTypes from '../../../../FastEventor/stateReqTypes'
 import utils from '../utils'
 import getAttrsOfRequestStates from './getAttrsOfRequestStates'
 
 const SendDeclaration = utils.SendDeclaration
 const toSchemaFn = utils.toSchemaFn
+
+const fillExpectedAttrs = (dcl) => {
+
+  /*
+    attrs for user
+  */
+  for (let i = 0; i < stateReqTypes.all_types.length; i++) {
+    const attr_req_type = stateReqTypes.all_types[i]
+    for (let jj = 0; jj < dcl.states_list.length; jj++) {
+      const attr_name = dcl.states_list[jj]
+      dcl.expected_attrs['$meta$attrs$' + attr_name + '$' + attr_req_type] = false
+    }
+  }
+}
 
 export default function StateReqMap(num, req_item) {
   this.name = req_item.name || 'default_attrs_request_name'
@@ -15,8 +30,10 @@ export default function StateReqMap(num, req_item) {
   this.boolean_attrs = Array.prototype
   this.parse = null
 
-  // this attr is for dkt internals primarily. so user do not have to mark it as expected
   this.expected_attrs = {
+    /*
+      this attr is for dkt internals primarily. so user do not have to mark it as expected
+    */
     [`$meta$input_attrs_requests$${this.name}$done`]: false,
   }
 
@@ -26,6 +43,7 @@ export default function StateReqMap(num, req_item) {
     getAttrsOfRequestStates(this)
     this.dependencies = req_item.fn[0]
     this.send_declr = new SendDeclaration([req_item.api, req_item.fn])
+    fillExpectedAttrs(this)
     return
   }
 
@@ -47,4 +65,5 @@ export default function StateReqMap(num, req_item) {
     this.dependencies = send_declr[0]
     this.send_declr = new SendDeclaration(send_declr[1])
   }
+  fillExpectedAttrs(this)
 }
