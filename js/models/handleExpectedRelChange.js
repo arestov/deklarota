@@ -1,6 +1,5 @@
 import getModelById from '../libs/provoda/utils/getModelById'
 import getAction from '../libs/provoda/dcl/passes/getAction'
-import showMOnMap from '../libs/provoda/bwlev/showMOnMap'
 import { FlowStepAction } from '../libs/provoda/Model/flowStepHandlers.types'
 import execAction from '../libs/provoda/dcl/passes/execAction'
 
