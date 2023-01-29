@@ -293,10 +293,10 @@ const View = spv.inh(AttrsOwner, {
 
     const bwlev_view = getBwlevView(this)
 
-    const context_bwlev = remember_context
+    const context_bwlev_id = remember_context
       ? (bwlev_view && bwlev_view.mpx._provoda_id)
       : null
-    const current_bwlev_map = remember_context
+    const current_bwlev_id = remember_context
       ? (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._provoda_id)
       : null
 
@@ -305,8 +305,8 @@ const View = spv.inh(AttrsOwner, {
       goal: goal,
       data: data,
       remember_context: remember_context,
-      context_bwlev: context_bwlev,
-      current_bwlev_map: current_bwlev_map,
+      context_bwlev_id,
+      current_bwlev_id,
     }, router_name)
   },
   navCheckGoalToGetBack: function(goal) {

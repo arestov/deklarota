@@ -426,8 +426,8 @@ const BrowseLevel = spv.inh(Model, {
   },
   navGetBack: function() {
     const req = pvState(this, 'currentReq')
-    if (req && req.current_bwlev_map) {
-      const bwlev = getModelById(this, req.current_bwlev_map)
+    if (req && req.current_bwlev_id) {
+      const bwlev = getModelById(this, req.current_bwlev_id)
       bwlev.showOnMap()
       return
     }

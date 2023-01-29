@@ -64,12 +64,12 @@ const SessionRoot = spv.inh(Model, {
 
       const current_mp_bwlev = map.getNesting('current_mp_bwlev')
 
-      const current_bwlev_map = req.current_bwlev_map || (remember_context
+      const current_bwlev_id = req.current_bwlev_id || (remember_context
         ? current_mp_bwlev && current_mp_bwlev._provoda_id
         : null)
 
       const fullReq = cloneObj(cloneObj({}, req), {
-        current_bwlev_map: current_bwlev_map,
+        current_bwlev_id: current_bwlev_id,
       })
 
       map.input(function() {
