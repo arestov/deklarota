@@ -91,7 +91,6 @@ export const __api_root_dep_apis = [
     fxByNameP('produce-'),
   ],
   (effects) => {
-    debugger
     return rootApis(effects)
   }
 ]
