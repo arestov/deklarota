@@ -326,12 +326,13 @@ export default spv.inh(BasicRouter, {
       to: ['current_expected_rel'],
       fn: [
         ['$now', '_provoda_id'],
-        ({rel_path, current_md_id}, now, self_id) => {
+        ({rel_path, current_md_id, currentReq}, now, self_id) => {
           return {
             id: `${now}-${self_id}`,
             expected_at: now, // some kind of uniqness for this entry
             rel_path,
             router_id: self_id,
+            currentReq,
 
             // model from data will be used as "base" to start rel_path requesting
             current_md_id,
@@ -353,7 +354,10 @@ export default spv.inh(BasicRouter, {
       ],
     },
     'handleAttr:current_model_id': {
-      to: ['current_expected_rel'],
+      to: {
+        currentReq: ['currentReq'],
+        expected_rel_data: ['current_expected_rel'],
+      },
       fn: [
         ['$noop', 'current_expected_rel'],
         (data, noop, current_expected_rel) => {
@@ -361,8 +365,12 @@ export default spv.inh(BasicRouter, {
 
           if (current_expected_rel.current_md_id != data.next_value) {return noop}
 
-          // erase current_expected_rel since router got expected current_md_id
-          return null
+          const {currentReq} = current_expected_rel
+          return {
+            currentReq: currentReq ? currentReq : noop,
+            /* erase current_expected_rel since router got expected current_md_id */
+            expected_rel_data: null,
+          }
         }
       ]
     },

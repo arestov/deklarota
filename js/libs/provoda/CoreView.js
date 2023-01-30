@@ -344,11 +344,19 @@ const View = spv.inh(AttrsOwner, {
       const session_root = getSessionRoot(this)
       session_root.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
     },
-    expectRelBeRevealedByRelPath(_e, _node, rel_path) {
+    expectRelBeRevealedByRelPath(_e, _node, rel_path, goal) {
       const contextRouter = getContextRouter(this)
       const current_md_id = this.mpx._provoda_id
 
-      contextRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {rel_path, current_md_id})
+      const bwlev_view = goal && getBwlevView(this)
+
+      const currentReq = goal ? {
+        goal,
+        context_bwlev_id: bwlev_view && bwlev_view.mpx._provoda_id,
+        current_bwlev_id: (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._provoda_id),
+      } : null
+
+      contextRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {rel_path, current_md_id, currentReq})
     },
     expectRouterRevealRel(_e, _node, router, rel_path) {
       const session_root = getSessionRoot(this)
