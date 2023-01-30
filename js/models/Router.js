@@ -56,7 +56,12 @@ export const BasicRouter = spv.inh(Model, {
       self.$default_bwlev_constr = spv.inh(BrowseLevel, {}, {
         model_name: `bwlev:$default_for_${props.model_name}`,
         rels: {
-          nav_parent: ['comp', [`<< @one:pioneer.${rel_name}`], { any: true }],
+          nav_parent: [
+            'comp',
+            ['< $meta$removed', `<< @one:pioneer.${rel_name}`],
+            /* use null when removed to trigger deleteCacheValue */
+            (removed, value) => removed ? null : value, { any: true }
+          ],
         },
       })
 
