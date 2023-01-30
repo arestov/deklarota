@@ -5,6 +5,7 @@ import spv from '../../../../spv'
 import noopForPass from '../noop'
 import MutActionResult from './MutActionResult'
 import { useRefIfNeeded } from './useRefIfNeeded'
+import emptyArray from '../../../emptyArray'
 const countKeys = spv.countKeys
 
 const isRedirectAction = function(target) {
@@ -149,6 +150,10 @@ const completeValues = function(mut_action_result) {
 
 
 export default function(md, dcl, value, data) {
+  if (value === noopForPass) {
+    return emptyArray
+  }
+
   const mut_action_result = new MutActionResult()
 
   if (!dcl.targeted_results_list) {
