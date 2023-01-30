@@ -45,6 +45,10 @@ export default function updateNesting(self, collection_name_raw, input) {
     }
   }
 
+  if (!input && input != null) {
+    throw new Error('empty rel should be nullish')
+  }
+
   validateRuntimeValue(self, collection_name, input)
 
   if (!self.children_models) {
