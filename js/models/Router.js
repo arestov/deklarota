@@ -355,7 +355,7 @@ export default spv.inh(BasicRouter, {
     'handleAttr:current_model_id': {
       to: ['current_expected_rel'],
       fn: [
-        ['noop', 'current_expected_rel'],
+        ['$noop', 'current_expected_rel'],
         (data, noop, current_expected_rel) => {
           if (!current_expected_rel) {return noop}
 
