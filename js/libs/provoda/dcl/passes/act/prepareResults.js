@@ -163,6 +163,7 @@ export default function(md, dcl, value, data) {
   }
 
   if (value !== Object(value)) {
+    console.error('return object from handler', {dcl})
     throw new Error('return object from handler')
   }
 
