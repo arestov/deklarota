@@ -242,8 +242,9 @@ export default spv.inh(BasicRouter, {
     },
     'handleAttr:resolved_navigation_desire': {
       to: {
+        /* fake targets */
         wantedReq: ['wantedReq'],
-        currentReq: ['currentReq'],
+        currentReq: ['< currentReq < current_mp_bwlev'], /* kinda */
       },
       fn: [
         ['<<<<'],
