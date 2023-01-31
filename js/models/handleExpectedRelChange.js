@@ -49,7 +49,9 @@ const handleExpectedRelChange = (chain, current_md) => {
 
   if (complete) {
     const router = getModelById(current_md, chain.handler_payload.data.router_id)
-    execAction(router, 'showModel', link_step_value)
+    const { currentReq } = chain.handler_payload.data
+    const payload = currentReq ? [link_step_value, currentReq] : link_step_value
+    execAction(router, 'showModel', payload)
   }
 }
 

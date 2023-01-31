@@ -133,6 +133,7 @@ export default spv.inh(BasicRouter, {
       ['< @one:used_data_structure < $parent'],
     ],
     wantedReq: ['input'],
+    currentReqForModel: ['input'],
     resolved_navigation_desire: [
       'comp',
       ['resolved_navigation_desire', 'wantedReq', '< @one:createdByReqIdResources < $root'],
@@ -392,12 +393,22 @@ export default spv.inh(BasicRouter, {
     },
     showModel: {
       to: {
+        currentReqForModel: ['currentReqForModel'],
         nextModel: ['<< to_be_shown_model', { method: 'set_one' }],
         eraseModel: ['<<<<', {action: 'eraseModel'}]
       },
       fn: (model) => {
         if (model) {
-          return {nextModel: model}
+          if (!Array.isArray(model)) {
+            return {currentReqForModel: null, nextModel: model}
+          }
+
+          const [nextModel, currentReqForModel] = model
+          return {
+            currentReqForModel,
+            nextModel,
+          }
+
         }
 
         return {eraseModel: true}
@@ -406,25 +417,37 @@ export default spv.inh(BasicRouter, {
     'handleRel:to_be_shown_model_ready': {
       to: ['<<<<', {action: 'showBwlev'}],
       fn: [
-        ['$noop', '<<<<'],
-        (data, noop, self) => {
+        ['$noop', '<<<<', 'currentReqForModel'],
+        (data, noop, self, currentReqForModel) => {
           const md = data.next_value
-          return md
-            ? showMOnMap(self, md)
-            : noop
+          if (!md) {
+            return noop
+          }
+
+          const bwlev = showMOnMap(self, md)
+          const payload = currentReqForModel ? [bwlev,currentReqForModel] : bwlev
+          return payload
         }
       ]
     },
     showBwlev: {
       to: {
+        currentReqForModel: ['currentReqForModel'],
         to_be_shown_model: ['<< to_be_shown_model', { method: 'set_one' }],
         current_bwlev: ['<< current_mp_bwlev', { method: 'set_one' }], // noop. check changeBridge
       },
       fn: [
         ['$noop', '<<<<'],
         (bwlev, noop, self) => {
-          changeBridge(bwlev, self)
+          if (!Array.isArray(bwlev)) {
+            changeBridge(bwlev, self)
+          } else {
+            const [bwlevm, currentReq] = bwlev
+            changeBridge(bwlevm, self)
+            _updateAttr(bwlevm, 'currentReq', currentReq)
+          }
           return {
+            currentReqForModel: null, /* erase */
             to_be_shown_model: null, /* erase */
             current_bwlev: noop
           }
