@@ -132,6 +132,7 @@ export default spv.inh(BasicRouter, {
       'comp',
       ['< @one:used_data_structure < $parent'],
     ],
+    wantedReq: ['input'],
     resolved_navigation_desire: [
       'comp',
       ['resolved_navigation_desire', 'wantedReq', '< @one:createdByReqIdResources < $root'],
