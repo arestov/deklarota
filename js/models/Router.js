@@ -361,7 +361,6 @@ export default spv.inh(BasicRouter, {
     },
     'handleAttr:current_model_id': {
       to: {
-        currentReq: ['currentReq'],
         expected_rel_data: ['current_expected_rel'],
       },
       fn: [
@@ -371,9 +370,7 @@ export default spv.inh(BasicRouter, {
 
           if (current_expected_rel.current_md_id != data.next_value) {return noop}
 
-          const {currentReq} = current_expected_rel
           return {
-            currentReq: currentReq ? currentReq : noop,
             /* erase current_expected_rel since router got expected current_md_id */
             expected_rel_data: null,
           }
