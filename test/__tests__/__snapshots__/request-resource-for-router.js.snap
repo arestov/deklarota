@@ -21,6 +21,7 @@ Object {
 
 exports[`should execute nested requireRel & reveal resource in router 5`] = `
 Object {
+  "currentReq": undefined,
   "current_md_id": "ROOT",
   "expected_at": Any<Number>,
   "id": Any<String>,
@@ -31,6 +32,7 @@ Object {
 
 exports[`should execute nested requireRel & reveal resource in router 6`] = `
 Object {
+  "currentReq": undefined,
   "current_md_id": "ROOT",
   "expected_at": Any<Number>,
   "id": Any<String>,
