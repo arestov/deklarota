@@ -271,16 +271,14 @@ export function resetRequestedState(state_name) {
   const selected_map = maps_for_state[0] //take first
   const selected_map_num = selected_map.num
   const store = getReqState(selected_map_num)
-  if (!store) {
-    return
+  if (store) {
+    deleteReqState(this, selected_map_num)
   }
-
-  deleteReqState(this, selected_map_num)
 
   const self = this
   this.input(function() {
     const states = {}
-    states[reqAttrName(maps_for_state.name)] = false
+    states[reqAttrName(selected_map)] = false
     const list = [state_name]
 
 
