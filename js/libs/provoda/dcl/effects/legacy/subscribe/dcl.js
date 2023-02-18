@@ -1,6 +1,7 @@
 
 import spv from '../../../../../spv'
 import isJustAttrAddr from '../../../../utils/multiPath/isJustAttrAddr'
+import { readingDepsNoCustom } from '../../../../utils/multiPath/readingDeps/readingDeps'
 import targetedResult from '../../../passes/targetedResult/dcl.js'
 
 const warnStateUsing = function() {
@@ -37,6 +38,18 @@ function validateEffectForView(fx) {
 
 let count = 0
 
+function mutAssignFn(dcl, fn_part) {
+  if (Array.isArray(fn_part)) {
+    const [fn_deps, fn] = fn_part
+    dcl.fn_deps = readingDepsNoCustom(fn_deps)
+    dcl.fn = fn
+  } else {
+    dcl.fn_deps = null
+    dcl.fn = fn_part
+  }
+}
+
+
 export default function StateBindDeclr(key, data, __isView) {
   this.id = ++count
   this.key = key
@@ -68,7 +81,7 @@ export default function StateBindDeclr(key, data, __isView) {
   if (Array.isArray(data)) {
     // legacy ?
     this.apis = spv.toRealArray(data[0])
-    this.fn = data[1]
+    mutAssignFn(this, data[1])
     return
   }
 
@@ -76,5 +89,5 @@ export default function StateBindDeclr(key, data, __isView) {
 
   // TODO: validate that presented apis_as_input is subset of this.apis
   this.apis_as_input = data.apis_as_input == null ? null : data.apis_as_input
-  this.fn = data.fn
+  mutAssignFn(this, data.fn)
 }

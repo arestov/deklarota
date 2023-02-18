@@ -1,3 +1,4 @@
+import { getDepsValues } from '../../../../utils/multiPath/readingDeps/getDepsValues'
 
 
 const executeFn = (model, dcl, getHandler, apis) => {
@@ -7,6 +8,13 @@ const executeFn = (model, dcl, getHandler, apis) => {
   for (let i = 0; i < apis.length; i++) {
     bind_args[i + 1] = model._interfaces_used[apis[i]]
   }
+
+  const deps_values = getDepsValues(model, dcl.fn_deps)
+
+  if (deps_values != null) {
+    Array.prototype.push.apply(bind_args, deps_values)
+  }
+
 
   return dcl.fn.apply(null, bind_args)
 }
