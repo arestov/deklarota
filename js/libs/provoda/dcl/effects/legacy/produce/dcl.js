@@ -3,7 +3,7 @@ import spv from '../../../../../spv'
 import morphMap from '../../../../../spv/morphMap'
 import emptyArray from '../../../../emptyArray'
 import parseAddr from '../../../../utils/multiPath/parse'
-import { readingDeps } from '../../../../utils/multiPath/readingDeps/readingDeps'
+import { readingDepsNoCustom } from '../../../../utils/multiPath/readingDeps/readingDeps'
 import shortStringWhenPossible from '../../../../utils/multiPath/shortStringWhenPossible'
 import _updateAttr from '../../../../_internal/_updateAttr'
 import wrapDeps from '../api/utils/wrapDeps'
@@ -39,7 +39,7 @@ const getHandler = function(schema) {
   })
 }
 
-const getDeps = readingDeps()
+const getDeps = readingDepsNoCustom
 
 const convertToProperPaths = (str) => {
   const addr = parseAddr(str)
