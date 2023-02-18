@@ -1,5 +1,6 @@
 
 
+import { readingDepsNoCustom } from '../../../../utils/multiPath/readingDeps/readingDeps'
 import usedInterfaceAttrName from '../../usedInterfaceAttrName'
 import wrapDeps from './utils/wrapDeps'
 
@@ -19,6 +20,17 @@ const attrToList = (str) => {
   return str
 }
 
+function mutAssignFn(dcl, fn_part) {
+  if (Array.isArray(fn_part)) {
+    const [fn_deps, fn] = fn_part
+    dcl.fn_deps = readingDepsNoCustom(fn_deps)
+    dcl.fn = fn
+  } else {
+    dcl.fn_deps = null
+    dcl.fn = fn_part
+  }
+}
+
 const assignPropsFromData = function(self, data) {
 
   if (typeof data == 'function') {
@@ -34,7 +46,7 @@ const assignPropsFromData = function(self, data) {
       // var all_deps_name = '_api_all_needs_' + name
       self.deps_name = '$meta$apis$' + self.name + '$deps_ready' // Symbol(all_deps_name)
 
-      self.fn = data[1]
+      mutAssignFn(self, data[1])
       self.all_deps = all_deps
     }
       break
@@ -52,7 +64,8 @@ const assignPropsFromData = function(self, data) {
       self.deps_name = '$meta$apis$' + self.name + '$deps_ready' // Symbol(all_deps_name)
       self.all_deps = all_deps
 
-      self.fn = data[2]
+      mutAssignFn(self, data[2])
+
       self.destroy = data[3]
     }
       break
