@@ -1,5 +1,6 @@
 
 import { hasOwnProperty } from '../../../../hasOwnProperty'
+import callApiDclFn from './callApiFn'
 
 
 function needsSelf(self) {
@@ -42,7 +43,8 @@ export default function initApis(self, apis_as_arg) {
   if (self.__apis_$_usual && self.__apis_$_usual.length) {
     for (let i = 0; i < self.__apis_$_usual.length; i++) {
       const cur = self.__apis_$_usual[i]
-      self.useInterface(cur.name, cur.fn())
+      const api = callApiDclFn(self, cur)
+      self.useInterface(cur.name, api)
     }
   }
 

@@ -1,3 +1,5 @@
+import callApiDclFn from './callApiFn'
+
 const CH_GR_LE = 2
 
 function checkApi(declr, value, self) {
@@ -6,18 +8,8 @@ function checkApi(declr, value, self) {
     return
   }
 
-  if (!declr.needed_apis) {
-    self.useInterface(declr.name, declr.fn())
-    return
-  }
-
-  const args = new Array(declr.needed_apis.length)
-  for (let i = 0; i < declr.needed_apis.length; i++) {
-    args[i] = self._interfaces_used[declr.needed_apis[i]]
-  }
-
-  self.useInterface(declr.name, declr.fn.apply(null, args))
-
+  const api = callApiDclFn(self, declr)
+  self.useInterface(declr.name, api)
 }
 
 function iterateApis(changes_list, context) {
