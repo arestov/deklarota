@@ -189,22 +189,6 @@ function someValue(value) {
   return value != null
 }
 
-function checkDependencies(selected_map, store, self) {
-  let not_ok
-  for (let i = 0; i < selected_map.dependencies.length; i++) {
-    if (!someValue(self.state(selected_map.dependencies[i]))) {
-      not_ok = selected_map.dependencies[i]
-      break
-    }
-  }
-
-  if (not_ok) {
-    return failed(new Error('missing ' + not_ok))
-  }
-
-  return sendRequest(selected_map, store, self)
-}
-
 function compxUsed(self, cur) {
   const compx = self.compx_check[cur]
   if (!compx) {
@@ -357,8 +341,8 @@ const requestState = function(state_name) {
   }
 
 
-  const req = requestDependencies(self, selected_map.dependencies).then(function() {
-    return checkDependencies(selected_map, store, self)
+  const req = requestDependencies(self, selected_map.dependencies, true).then(function() {
+    return sendRequest(selected_map, store, self)
   })
 
   return bindRequest(api, req, selected_map, store, self)
