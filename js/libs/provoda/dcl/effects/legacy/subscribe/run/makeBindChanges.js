@@ -106,6 +106,18 @@ const getHandler = function(self, dcl) {
 }
 
 
+const executeFn = (model, dcl, apis) => {
+  const bind_args = new Array(apis.length + 1)
+
+  bind_args[0] = getHandler(model, dcl)
+  for (let i = 0; i < apis.length; i++) {
+    bind_args[i + 1] = model._interfaces_used[apis[i]]
+  }
+
+  return dcl.fn.apply(null, bind_args)
+}
+
+
 const makeBindChanges = function(self, prev_values, next_values) {
   if (prev_values == null && next_values == null) {
     return
@@ -129,13 +141,8 @@ const makeBindChanges = function(self, prev_values, next_values) {
 
     if (next_values[key]) {
       const apis = cur.apis
-      const bind_args = new Array(apis.length + 1)
 
-      bind_args[0] = getHandler(self, cur)
-      for (let i = 0; i < apis.length; i++) {
-        bind_args[i + 1] = self._interfaces_used[apis[i]]
-      }
-      const cancel = cur.fn.apply(null, bind_args)
+      const cancel = executeFn(self, cur, apis)
       if (cancel == null) {
         console.error(self.__code_path)
         throw new Error('effect should provide fn to cancel subscription ' + key)
