@@ -178,6 +178,10 @@ class CallbacksFlow {
       return
     }
     const reportLongTask = this.reportLongTask
+    /* for typescript */
+    if (reportLongTask == null) {
+      return
+    }
     reportLongTask(task, taskTime)
   }
   reportHugeQueueRaw(duration, task) {
