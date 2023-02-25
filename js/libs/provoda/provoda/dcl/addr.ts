@@ -2,9 +2,13 @@
 
 // var order = ['zip', 'attr', 'rel', 'route', 'anc'];
 
-export default function(params) {
-  // ({zip: 'all', attr: 'name', rel: '', route: '', anc: ''})
-
+export default function(params: {
+  zip?: string,
+  attr?: string,
+  rel?: string,
+  route?: string,
+  anc?: string
+}): string {
   const zip_part = params.zip ? ('@' + params.zip + ':') : ''
 
   const attr = params.attr ? (zip_part + params.attr) : ''
@@ -16,5 +20,4 @@ export default function(params) {
   }
 
   return '< ' + [attr, rel, params.route || '', params.anc || ''].join(' < ')
-
 };

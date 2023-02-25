@@ -30,7 +30,7 @@ const build = ({
     'js/libs/provoda/provoda/SyncReceiver',
     'js/libs/provoda/provoda/getModelById',
     'js/libs/provoda/provoda/appRoot.js',
-    'js/libs/provoda/provoda/dcl/addr.js',
+    'js/libs/provoda/provoda/dcl/addr.ts',
     'js/libs/provoda/provoda/dcl/merge.js',
     'js/libs/provoda/provoda/dcl/attrs/input.js',
     'js/libs/FuncsQueue',
