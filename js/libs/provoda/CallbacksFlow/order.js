@@ -77,7 +77,7 @@ function orderFlow(self, flow_step) {
 
   const result = last_item && sortFlows(flow_step, last_item)
 
-  if (result >= 0) {
+  if (result == null || result >= 0) {
     //очевидно, что новый элемент должен стать в конец
     toEnd(self, flow_step)
     return
