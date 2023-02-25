@@ -9,7 +9,7 @@ export default function behavior(declr, declr_extend_from, named) {
   }
 
   if (declr.extends) {
-    declr = spv.cloneObj({}, declr)
+    declr = { ...declr }
     delete declr.extends
   }
 
