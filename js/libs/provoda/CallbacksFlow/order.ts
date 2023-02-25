@@ -1,5 +1,6 @@
+import type FlowStep from '../FlowStep'
 
-const compareComplexOrder = function(array_one, array_two) {
+const compareComplexOrder = function(array_one: (number | undefined)[], array_two: (number | undefined)[]): number | undefined {
   const max_length = Math.max(array_one.length, array_two.length)
 
   for (let i = 0; i < max_length; i++) {
@@ -28,7 +29,7 @@ const compareComplexOrder = function(array_one, array_two) {
   return undefined
 }
 
-const sortFlows = function(item_one, item_two) {
+const sortFlows = function(item_one: FlowStep, item_two: FlowStep): number | undefined {
   const none_one = !item_one || item_one.aborted
   const none_two = !item_two || item_two.aborted
 
@@ -59,8 +60,12 @@ const sortFlows = function(item_one, item_two) {
   return compareComplexOrder(item_one.complex_order, item_two.complex_order)
 }
 
+type FlowWithOrder = {
+  flow_end: FlowStep | null,
+  flow_start: FlowStep | null,
+}
 
-function toEnd(self, flow_step) {
+function toEnd(self: FlowWithOrder, flow_step: FlowStep): void {
   if (self.flow_end) {
     self.flow_end.next = flow_step
   }
@@ -72,7 +77,7 @@ function toEnd(self, flow_step) {
 
 
 
-function orderFlow(self, flow_step) {
+function orderFlow(self: FlowWithOrder, flow_step: FlowStep): void {
   const last_item = self.flow_end
 
   const result = last_item && sortFlows(flow_step, last_item)
@@ -95,6 +100,7 @@ function orderFlow(self, flow_step) {
   }
 
   if (!cur) {
+    console.log('result', result, self.flow_start)
     throw new Error('something wrong')
   }
 
