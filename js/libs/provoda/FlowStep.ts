@@ -9,12 +9,25 @@ class FlowStep {
   context: unknown | null
   args: null | unknown | unknown[]
   arg: null | unknown
-  cb_wrapper: Function | null | number
+  cb_wrapper: Function | null
   real_context: unknown | null
   finup: boolean
-  complex_order: number[]
+  complex_order: readonly number[]
   next: FlowStep | null
-  constructor(callFlowStep: Function, is_transaction_end: boolean, num: number, complex_order: number[], fn: Function, context: unknown, args: string | unknown[], arg: null, cb_wrapper: null, real_context: undefined, finup: undefined, init_end: undefined) {
+  constructor(
+    callFlowStep: Function,
+    is_transaction_end: boolean,
+    num: number,
+    complex_order: readonly number[],
+    fn: Function,
+    context: unknown,
+    args: unknown[] | undefined,
+    arg: null,
+    cb_wrapper: Function | null,
+    real_context?: unknown | undefined,
+    finup?: boolean,
+    init_end?: undefined
+  ) {
     this.callFlowStep = callFlowStep
     this.aborted = false
     this.p_space = ''

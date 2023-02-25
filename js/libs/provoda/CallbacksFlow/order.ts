@@ -1,6 +1,6 @@
 import type FlowStep from '../FlowStep'
 
-const compareComplexOrder = function(array_one: (number | undefined)[], array_two: (number | undefined)[]): number | undefined {
+const compareComplexOrder = function(array_one: readonly (number | undefined)[], array_two: readonly (number | undefined)[]): number | undefined {
   const max_length = Math.max(array_one.length, array_two.length)
 
   for (let i = 0; i < max_length; i++) {
@@ -60,7 +60,7 @@ const sortFlows = function(item_one: FlowStep, item_two: FlowStep): number | und
   return compareComplexOrder(item_one.complex_order, item_two.complex_order)
 }
 
-type FlowWithOrder = {
+export type FlowWithOrder = {
   flow_end: FlowStep | null,
   flow_start: FlowStep | null,
 }

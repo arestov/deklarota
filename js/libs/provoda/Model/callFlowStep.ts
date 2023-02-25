@@ -2,7 +2,7 @@ import type FlowStep from '../FlowStep'
 import makeCallFlowStep from '../makeCallFlowStep'
 import getFlowStepHandler from './getFlowStepHandler'
 
-const assertComplexOrder = (fn: Function | null | number, complex_order: number[]): void => {
+const assertComplexOrder = (fn: Function | null | number, complex_order: readonly number[]): void => {
   if (typeof fn != 'function' || complex_order.length == 1) {
     return
   }
