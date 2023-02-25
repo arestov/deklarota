@@ -35,7 +35,7 @@ const empty = function() {}
 
 const extendTo = Class.extendTo
 
-function extend(Class, params, propsArg) {
+function spvExtend(Class, params, propsArg) {
   if (params == null) {
     params = {}
   }
@@ -180,4 +180,4 @@ function makeInit(builder) {
   }
 }
 
-export default extend
+export default spvExtend
