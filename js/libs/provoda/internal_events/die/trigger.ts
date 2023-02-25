@@ -1,6 +1,10 @@
+import type { DieHolder } from './die.types'
 
+type DieHolderWithCaller = DieHolder & {
+  callCallback: (_arg: unknown, _arg2: unknown, _arg3: unknown, _arg4: unknown, _arg5: unknown, _arg6: unknown) => void,
+}
 
-export default function(self) {
+export default function(self: DieHolderWithCaller): void {
   if (!self._die_subscribers) {
     return
   }
