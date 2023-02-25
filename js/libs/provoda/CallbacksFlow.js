@@ -25,10 +25,8 @@ class CallbacksFlow {
     this.bad_stops_strike_counter = 0
 
   // this.flow_steps_collating_invalidated = null;
-    const _this = this
-    this.hndIterateCallbacksFlow = function() {
-      _this.iterateCallbacksFlow()
-    }
+    this.hndIterateCallbacksFlow = this.iterateCallbacksFlow.bind(this)
+
     const raf = rendering_flow && getBoxedRAFFunc(glo)
     if (raf) {
       this.pushIteration = function(fn) {
