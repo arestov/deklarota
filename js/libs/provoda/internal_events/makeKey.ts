@@ -1,10 +1,9 @@
-
 let counter = 0
 
 const makeKey = typeof Symbol !== 'undefined'
-  ? function(key) {
+  ? function(key: string | undefined): symbol {
     return Symbol(key)
-  } : function() {
+  } : function(): number {
     return ++counter
   }
 
