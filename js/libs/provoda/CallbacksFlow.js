@@ -7,50 +7,49 @@ import { getBoxedRAFFunc } from './CallbacksFlow/getBoxedRAFFunc'
 
 const MIN = 60 * 1000
 
-const CallbacksFlow = function(options) {
-  this.callFlowStep = options.callFlowStep
+class CallbacksFlow {
+  constructor(options) {
+    this.callFlowStep = options.callFlowStep
   // glo is global/window
-  const glo = options.glo
-  const rendering_flow = options.rendering_flow
-  const iteration_time = options.iteration_time
+    const glo = options.glo
+    const rendering_flow = options.rendering_flow
+    const iteration_time = options.iteration_time
 
-  this.flow = []
-  this.flow_start = null
-  this.flow_end = null
-  this.busy = false
-  this.iteration_time = iteration_time || 250
-  this.iteration_delayed_check_time = 0
-  this.flow_steps_counter = 1
-  this.bad_stops_strike_counter = 0
+    this.flow = []
+    this.flow_start = null
+    this.flow_end = null
+    this.busy = false
+    this.iteration_time = iteration_time || 250
+    this.iteration_delayed_check_time = 0
+    this.flow_steps_counter = 1
+    this.bad_stops_strike_counter = 0
 
   // this.flow_steps_collating_invalidated = null;
-  const _this = this
-  this.hndIterateCallbacksFlow = function() {
-    _this.iterateCallbacksFlow()
-  }
-  const raf = rendering_flow && getBoxedRAFFunc(glo)
-  if (raf) {
-    this.pushIteration = function(fn) {
-      raf(fn)
+    const _this = this
+    this.hndIterateCallbacksFlow = function() {
+      _this.iterateCallbacksFlow()
     }
-  } else {
-    const setImmediate = getBoxedSetImmFunc(glo, options.onError)
-    this.pushIteration = function(fn) {
-      setImmediate(fn)
+    const raf = rendering_flow && getBoxedRAFFunc(glo)
+    if (raf) {
+      this.pushIteration = function(fn) {
+        raf(fn)
+      }
+    } else {
+      const setImmediate = getBoxedSetImmFunc(glo, options.onError)
+      this.pushIteration = function(fn) {
+        setImmediate(fn)
+      }
     }
+
+    this.reportLongTask = options.reportLongTask || null
+    this.reportHugeQueue = options.reportHugeQueue || null
+
+    this.onFinalTransactionStep = options.onFinalTransactionStep
   }
-
-  this.reportLongTask = options.reportLongTask || null
-  this.reportHugeQueue = options.reportHugeQueue || null
-
-  this.onFinalTransactionStep = options.onFinalTransactionStep
-}
-
-CallbacksFlow.prototype = {
-  input: function(fn, args, context) {
+  input(fn, args, context) {
     this.pushToFlow(fn, context, args)
-  },
-  iterateCallbacksFlow: function() {
+  }
+  iterateCallbacksFlow() {
     const started_at = Date.now()
     const start = started_at + this.iteration_time
     let last_call_at = started_at
@@ -122,8 +121,8 @@ CallbacksFlow.prototype = {
       this.callbacks_busy = false
     }
 
-  },
-  checkCallbacksFlow: function() {
+  }
+  checkCallbacksFlow() {
     if (this.callbacks_busy) {
       return
     }
@@ -143,15 +142,15 @@ CallbacksFlow.prototype = {
 
     this.pushIteration(this.hndIterateCallbacksFlow)
     this.iteration_delayed_check_time = now + MIN
-  },
-  pushToFlowWithMotivator: function(fn, context, args, force) {
+  }
+  pushToFlowWithMotivator(fn, context, args, force) {
     const motivator = this.current_step
     if (!motivator && force) {
       throw new Error('missing motivator')
     }
     this.pushToFlow(fn, context, args, null, null, null, motivator)
-  },
-  pushToFlow: function(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
+  }
+  pushToFlow(fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end) {
     const flow_step_num = ++this.flow_steps_counter
 
     const complex_order = complexOrder(motivator?.complex_order, flow_step_num)
@@ -167,8 +166,8 @@ CallbacksFlow.prototype = {
     this.checkCallbacksFlow()
     return flow_step
 
-  },
-  scheduleTransactionEnd: function functionName(starter_id, context, args, fn, cb_wrapper) {
+  }
+  scheduleTransactionEnd(starter_id, context, args, fn, cb_wrapper) {
     const flow_step_num = ++this.flow_steps_counter
     const complex_order = [starter_id, Infinity, flow_step_num]
 
@@ -176,19 +175,18 @@ CallbacksFlow.prototype = {
     const flow_step = new FlowStep(this.callFlowStep, is_transaction_end, flow_step_num, complex_order, fn, context, args, null, cb_wrapper)
     orderFlow(this, flow_step)
     this.checkCallbacksFlow()
-  },
-  handleFinalTrasactionEnd: function(step) {
+  }
+  handleFinalTrasactionEnd(step) {
     this.onFinalTransactionStep(step)
-  },
-  reportLongTaskRaw: function(taskTime, task) {
+  }
+  reportLongTaskRaw(taskTime, task) {
     if (taskTime < 500) {
       return
     }
     const reportLongTask = this.reportLongTask
     reportLongTask(task, taskTime)
-  },
-
-  reportHugeQueueRaw: function(duration, task) {
+  }
+  reportHugeQueueRaw(duration, task) {
     if (this.reportHugeQueue == null) {
       return
     }
