@@ -7,7 +7,7 @@ const compareComplexOrder = function(array_one, array_two) {
     const item_two_step = array_two[i]
 
     if (typeof item_one_step == 'undefined' && typeof item_two_step == 'undefined') {
-      return
+      return undefined
     }
     if (typeof item_one_step == 'undefined') {
       // __[1, 2] vs [1, 2, 3] => __[1, 2], [1, 2, 3]
@@ -24,6 +24,8 @@ const compareComplexOrder = function(array_one, array_two) {
       return -1
     }
   }
+
+  return undefined
 }
 
 const sortFlows = function(item_one, item_two) {
@@ -66,8 +68,6 @@ function toEnd(self, flow_step) {
   if (!self.flow_start) {
     self.flow_start = flow_step
   }
-
-  return flow_step
 }
 
 
@@ -79,7 +79,8 @@ function orderFlow(self, flow_step) {
 
   if (result >= 0) {
     //очевидно, что новый элемент должен стать в конец
-    return toEnd(self, flow_step)
+    toEnd(self, flow_step)
+    return
   }
 
   let last_matched
