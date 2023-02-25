@@ -29,14 +29,10 @@ class CallbacksFlow {
 
     const raf = rendering_flow && getBoxedRAFFunc(glo)
     if (raf) {
-      this.pushIteration = function(fn) {
-        raf(fn)
-      }
+      this.pushIteration = raf
     } else {
       const setImmediate = getBoxedSetImmFunc(glo, options.onError)
-      this.pushIteration = function(fn) {
-        setImmediate(fn)
-      }
+      this.pushIteration = setImmediate
     }
 
     this.reportLongTask = options.reportLongTask || null
