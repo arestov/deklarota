@@ -31,12 +31,12 @@ const CallbacksFlow = function(options) {
   const raf = rendering_flow && getBoxedRAFFunc(glo)
   if (raf) {
     this.pushIteration = function(fn) {
-      return raf(fn)
+      raf(fn)
     }
   } else {
     const setImmediate = getBoxedSetImmFunc(glo, options.onError)
     this.pushIteration = function(fn) {
-      return setImmediate(fn)
+      setImmediate(fn)
     }
   }
 
