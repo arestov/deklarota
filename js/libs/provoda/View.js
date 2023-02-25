@@ -8,6 +8,7 @@ import appending from './View/appending'
 import getBwlevView from './View/getBwlevView'
 import createTemplate from './View/createTemplate'
 import dom_helpers from './utils/dom_helpers'
+import spvExtend from '../spv/inh'
 
 const dFind = dom_helpers.find
 const dAppend = dom_helpers.append
@@ -497,7 +498,7 @@ cloneObj(props, {
     }
   },
 })
-const DomView = spv.inh(CoreView, {
+const DomView = spvExtend(CoreView, {
   init: function initDomView(target) {
     if (target.base_tree_list) {
       target.base_skeleton = getBaseTreeSkeleton(target.base_tree_list)

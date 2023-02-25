@@ -1,12 +1,12 @@
 
-import spv from '../../spv'
 import LoadableList from './LoadableList'
 import BrowseMap from './BrowseMap'
 import SessionRoot from '../bwlev/SessionRoot'
 import { APP_ROOT_ID } from '../Model/APP_ROOT_ID'
+import spvExtend from '../../spv/inh'
 
 
-const AppModelBase = spv.inh(LoadableList, {
+const AppModelBase = spvExtend(LoadableList, {
   naming: function(fn) {
     return function AppModelBase(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)

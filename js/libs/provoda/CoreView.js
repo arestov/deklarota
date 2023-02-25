@@ -30,6 +30,7 @@ import { events_part, initEvents } from './View/events_part'
 import ___dkt_onAttrUpdate from './View/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/view/___dkt_saveInputFxTargetedResult'
 import ensureInitialAttrs from './View/ensureInitialAttrs'
+import spvExtend from '../spv/inh'
 
 const CH_GR_LE = 2
 
@@ -259,7 +260,7 @@ const getContextRouter = (self) => {
   return context_router
 }
 
-const View = spv.inh(AttrsOwner, {
+const View = spvExtend(AttrsOwner, {
   naming: function(fn) {
     return function View(view_otps, opts) {
       fn(this, view_otps, opts)

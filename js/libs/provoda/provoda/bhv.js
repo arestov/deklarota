@@ -1,5 +1,5 @@
 
-import spv from '../../spv'
+import spvExtend from '../../spv/inh'
 import LoadableList from './LoadableList'
 
 export default function behavior(declr, declr_extend_from, named) {
@@ -14,7 +14,7 @@ export default function behavior(declr, declr_extend_from, named) {
   }
 
   if (typeof named == 'object' || !declr.init) {
-    return spv.inh(behaviorFrom, {
+    return spvExtend(behaviorFrom, {
       naming: named && named.naming,
       init: named && named.init,
       props: declr

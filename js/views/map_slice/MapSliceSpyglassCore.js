@@ -18,12 +18,13 @@ import findMpxViewInChildren from './findMpxViewInChildren'
 import handleNavChange from './handleNavChange'
 import getLevByBwlev from './getLevelContainer'
 import getBwlevContainer from './getBwlevContainer'
+import spvExtend from '../../libs/spv/inh'
 
 const last = (list) => list && list[list.length - 1]
 
 
 
-export default spv.inh(View, {
+export default spvExtend(View, {
   init: function(self) {
     self.parent_view.general_navigation_view = self
   },

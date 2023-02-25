@@ -6,12 +6,13 @@ import spv from '../../spv'
 import makeItemByData from '../Model/makeItemByData'
 import getRelUniq from '../dcl/nests/uniq/getRelUniq'
 import { addUniqItem, findDataDup, MutUniqState } from '../dcl/nests/uniq/MutUniqState'
+import spvExtend from '../../spv/inh'
 
 export const handleNetworkSideData = function(target, source_name, ns, data) {
   target.app.handleNetworkSideData(source_name, ns, data, target)
 }
 
-const LoadableListBase = spv.inh(BrowseMap.Model, {
+const LoadableListBase = spvExtend(BrowseMap.Model, {
   strict: true,
   naming: function(fn) {
     return function LoadableListBase(opts, data, params, more, states) {

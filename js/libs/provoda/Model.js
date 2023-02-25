@@ -36,6 +36,7 @@ import { deleteModelInDktStorage } from './_internal/reinit/dkt_storage'
 import ___dkt_onAttrUpdate from './Model/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/model/___dkt_saveInputFxTargetedResult'
 import { scheduleCustomOutputTask } from './AttrsOwner/produceEffects'
+import spvExtend from '../spv/inh'
 
 const push = Array.prototype.push
 
@@ -67,7 +68,7 @@ function MODELLEAK() {}
 const leak = new MODELLEAK()
 
 
-const Model = spv.inh(AttrsOwner, {
+const Model = spvExtend(AttrsOwner, {
   strict: true,
   naming: function(fn) {
     return function Model(opts, data, params, more, states) {

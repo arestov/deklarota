@@ -1,6 +1,6 @@
 
 import Model from '../libs/provoda/provoda/model/Model'
-import spv, { countKeys } from '../libs/spv'
+import { countKeys } from '../libs/spv'
 import pvState from '../libs/provoda/provoda/state'
 import _updateRel from '../libs/provoda/_internal/_updateRel'
 import getNesting from '../libs/provoda/provoda/getNesting'
@@ -17,12 +17,13 @@ import updateNesting from '../libs/provoda/Model/updateNesting'
 import changeBridge from '../libs/provoda/bwlev/changeBridge'
 import getRel from '../libs/provoda/provoda/getRel'
 import execAction from '../libs/provoda/dcl/passes/execAction'
+import spvExtend from '../libs/spv/inh'
 
 const addRel = (rels, rel_name, Constr) => {
   rels[rel_name] = ['model', Constr]
 }
 
-export const BasicRouter = spv.inh(Model, {
+export const BasicRouter = spvExtend(Model, {
   naming: function(fn) {
     return function BasicRouter(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
@@ -53,7 +54,7 @@ export const BasicRouter = spv.inh(Model, {
     if (props.model_name) {
       const rel_name = `nav_parent_at_perspectivator_${props.model_name}`
 
-      self.$default_bwlev_constr = spv.inh(BrowseLevel, {}, {
+      self.$default_bwlev_constr = spvExtend(BrowseLevel, {}, {
         model_name: `bwlev:$default_for_${props.model_name}`,
         rels: {
           nav_parent: [
@@ -78,7 +79,7 @@ export const BasicRouter = spv.inh(Model, {
           throw new Error('bwlevs_for item should object {attrs, rels, ...}')
         }
 
-        addRel(rels, `bwlev-${model_name}`, spv.inh(self.$default_bwlev_constr, {}, cur))
+        addRel(rels, `bwlev-${model_name}`, spvExtend(self.$default_bwlev_constr, {}, cur))
       }
     }
 
@@ -112,7 +113,7 @@ export const BasicRouter = spv.inh(Model, {
   // }
 })
 
-export default spv.inh(BasicRouter, {
+export default spvExtend(BasicRouter, {
   naming: function(fn) {
     return function Router(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)

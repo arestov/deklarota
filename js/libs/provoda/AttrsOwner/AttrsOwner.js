@@ -1,4 +1,3 @@
-import spv from '../../spv'
 import updateProxy from '../updateProxy'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './useInterface'
 import gentlyUpdateAttr from './gentlyUpdateAttr'
@@ -10,6 +9,7 @@ import initEffectsSubscribe from '../dcl/effects/legacy/subscribe/init'
 import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
 import calls_flows_holder_basic from './calls_flows_holder_basic'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
+import spvExtend from '../../spv/inh'
 
 export const __updateManyAttrs = function(obj) {
   const changes_list = []
@@ -127,7 +127,7 @@ function props(add) {
   })
 }
 
-const AttrsOwner = spv.inh(function() {}, {
+const AttrsOwner = spvExtend(function() {}, {
   naming: function(construct) {
     return function AttrsOwner() {
       construct(this)

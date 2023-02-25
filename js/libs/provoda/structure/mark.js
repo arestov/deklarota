@@ -1,5 +1,4 @@
 
-import spv from '../../spv'
 import { doCopy } from '../../spv/cloneObj'
 
 import definedAttrs from '../Model/definedAttrs'
@@ -13,6 +12,7 @@ import {clearCache as clearCacheMultiPathParse} from '../utils/multiPath/parse'
 import {clearCache as clearCacheMultiPathLegacy} from '../utils/multiPath/fromLegacy'
 import {clearCache as clearCacheLegacyAddr} from '../utils/getParsedState'
 import splitByDot from '../../spv/splitByDot'
+import spvExtend from '../../spv/inh'
 
 function makePath(parent_path, current_name) {
   const used_name = [current_name || 'unknown']
@@ -63,7 +63,7 @@ function mark(Constr, RootConstr, ascent_level, parent_path) {
 
     const hierarchy_path = makePath(parent_path, cur.prototype.hierarchy_name)
 
-    const item = spv.inh(all[prop], {
+    const item = spvExtend(all[prop], {
       skip_code_path: true
     }, {
       pconstr_id: self.constr_id,

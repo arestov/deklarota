@@ -5,9 +5,10 @@ import _updateAttr from '../../libs/provoda/_internal/_updateAttr'
 import mergeBhv from '../../libs/provoda/provoda/_lmerge'
 import used_str from '../utils/used_struc'
 import { considerOwnerAsImportantForRequestsManager } from '../../libs/provoda/dcl/effects/legacy/api/requests_manager'
+import spvExtend from '../../libs/spv/inh'
 const used_struc_bhv = used_str.bhv
 
-const BrowseLevView = spv.inh(View, {
+const BrowseLevView = spvExtend(View, {
   init(self) {
     self.updateAttr('$meta$view$nesting_space', self.nesting_space)
   },
