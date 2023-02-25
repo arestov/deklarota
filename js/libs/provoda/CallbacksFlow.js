@@ -2,38 +2,8 @@
 
 import FlowStep from './FlowStep'
 import orderFlow from './CallbacksFlow/order'
-
-const getBoxedSetImmFunc = function(win, onError) {
-  const prom = win.Promise.resolve()
-
-  const handle = function(err) {
-    if (!onError) {
-      throw new Error('add onError handler for runtime')
-    }
-
-    onError(err)
-  }
-
-  return function(fn) {
-    prom.then(fn).catch(handle)
-  }
-}
-
-const getBoxedRAFFunc = function(win) {
-  let raf
-
-  if (win.requestAnimationFrame) {
-    raf = win.requestAnimationFrame
-  } else {
-    const vendors = ['ms', 'moz', 'webkit', 'o']
-    for(let x = 0; x < vendors.length && !raf; ++x) {
-      raf = win[vendors[x] + 'RequestAnimationFrame']
-    }
-  }
-  return raf && function(fn) {
-    return raf.call(win, fn)
-  }
-}
+import { getBoxedSetImmFunc } from './CallbacksFlow/getBoxedSetImmFunc'
+import { getBoxedRAFFunc } from './CallbacksFlow/getBoxedRAFFunc'
 
 const MIN = 60 * 1000
 
