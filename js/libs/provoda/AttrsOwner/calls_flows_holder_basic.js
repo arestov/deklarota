@@ -26,7 +26,7 @@ const calls_flows_holder_basic = {
     const self = this
     return function() {
       const args = Array.prototype.slice.call(arguments)
-      self._calls_flow.pushToFlow(fn, self, args)
+      self._calls_flow.input(fn, args, self)
     }
   },
   nextLocalTick: function(fn, args, use_current_motivator, finup) {
