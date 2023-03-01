@@ -3,7 +3,7 @@ import type FlowStep from '../FlowStep'
 import { proxyStch } from '../handleLegacySideEffects'
 import act from '../dcl/passes/execAction'
 import { useInterfaceHandler } from '../AttrsOwner/useInterface'
-import { FlowStepAction, FlowStepDeliverChainUpdates, FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect, FlowStepHandlRelSideDataLegacy, FlowStepInitNestRels, FlowStepLegacyStch, FlowStepMarkInited, FlowStepShowInPerspectivator, FlowStepUpdateManyAttrs, FlowStepUseInterface } from './flowStepHandlers.types'
+import { FlowStepAction, FlowStepDeliverChainUpdates, FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect, FlowStepHandlRelSideDataLegacy, FlowStepInitNestRels, FlowStepInputFn, FlowStepLegacyStch, FlowStepMarkInited, FlowStepShowInPerspectivator, FlowStepUpdateManyAttrs, FlowStepUseInterface } from './flowStepHandlers.types'
 import { markInitied } from './postInit'
 import deliverChainUpdates from './mentions/deliverChainUpdates'
 import { eraseTransactionEffectsData, handleTransactionEnd } from '../dcl/effects/legacy/produce/scheduleTransactionEnd'
@@ -39,6 +39,8 @@ const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
       return handleNetworkSideData
     case FlowStepShowInPerspectivator:
       return showInPerspectivator
+    case FlowStepInputFn:
+      return Function.prototype
   }
 
   return null

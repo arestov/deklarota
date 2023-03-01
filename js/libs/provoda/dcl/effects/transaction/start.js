@@ -1,3 +1,5 @@
+import { popRuntimeInputFn } from '../../../runtimeInputFns/runtimeInputFns'
+
 const throwInputInterfaces = (current, wanted) => {
   console.error('unexpected api', {
     current,
@@ -20,7 +22,10 @@ const checkInputInterfaces = (current, wanted) => {
   }
 }
 
-const useInterfaceAsSource = function(_, fn, self, __, interface_instance) {
+const useInterfaceAsSource = function(_, ___, self, __, payload) {
+  const [interface_instance, fnNum] = payload
+  const fn = popRuntimeInputFn(self, fnNum)
+
   const interfaces = new Set()
   if (Array.isArray(interface_instance) || interface_instance instanceof Set) {
     for (const api of interface_instance) {
