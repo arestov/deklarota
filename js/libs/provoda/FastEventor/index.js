@@ -1,6 +1,7 @@
 
 
 import spv from '../../spv'
+import sameArrayIfEmpty from '../utils/sameArrayIfEmpty'
 const removeItem = spv.removeItem
 
 const EventSubscribingOpts = function(ev_name, cb, context, immediately, wrapper) {
@@ -146,7 +147,7 @@ FastEventor.prototype = spv.coe(function(add) {
       if (!this.reg_fires.cache) {
         this.reg_fires.cache = {}
       }
-      this.reg_fires.cache[ev_name] = funcs
+      this.reg_fires.cache[ev_name] = sameArrayIfEmpty(funcs)
       return funcs
     },
 
