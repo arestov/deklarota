@@ -20,12 +20,14 @@ class CallbacksFlow {
   private current_step: FlowStep | null = null;
   hndIterateCallbacksFlow: () => void
   callFlowStep: (flowStep: FlowStep, aborted?: boolean) => void
+  validateFlowStep: (flowStep: FlowStep) => void
   onFinalTransactionStep: ((flowStep: FlowStep) => void)
   pushIteration: TickFn
   reportLongTask: ((step: FlowStep, duration: number) => void) | null
   reportHugeQueue: ((step: FlowStep, duration: number) => void) | null
   constructor(options: {
     callFlowStep: (flowStep: FlowStep, aborted?: boolean) => void;
+    validateFlowStep: (flowStep: FlowStep) => void
     glo: Window | typeof globalThis;
     rendering_flow?: boolean;
     iteration_time?: number;
@@ -35,6 +37,7 @@ class CallbacksFlow {
     onFinalTransactionStep: (flowStep: FlowStep) => void;
   }) {
     this.callFlowStep = options.callFlowStep
+    this.validateFlowStep = options.validateFlowStep
     const glo = options.glo
     const rendering_flow = options.rendering_flow
     const iteration_time = options.iteration_time
@@ -206,6 +209,7 @@ class CallbacksFlow {
       finup,
       init_end
     )
+    this.validateFlowStep(flow_step)
     orderFlow(this, flow_step)
     this.checkCallbacksFlow()
     return flow_step
@@ -233,6 +237,7 @@ class CallbacksFlow {
       null,
       cb_wrapper || null
     )
+    this.validateFlowStep(flow_step)
     orderFlow(this, flow_step)
     this.checkCallbacksFlow()
   }

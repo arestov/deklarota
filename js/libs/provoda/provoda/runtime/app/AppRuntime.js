@@ -5,19 +5,19 @@ import { Proxies } from '../../../views_proxies'
 import initEffects from '../../../AttrsOwner/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
-import callFlowStep from '../../../Model/callFlowStep'
+import callFlowStep, { validateFlowStep } from '../../../Model/callFlowStep'
 import { getModelDataSchema } from './reinit'
 import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage'
 import { initRuntimeInputFns } from '../../../runtimeInputFns/runtimeInputFns'
 
 function AppRuntime(optionsRaw) {
-
   const options = optionsRaw || {}
 
   const glo = typeof globalThis !== 'undefined' ? globalThis : window
   const flow = new CallbacksFlow({
     callFlowStep,
+    validateFlowStep,
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
