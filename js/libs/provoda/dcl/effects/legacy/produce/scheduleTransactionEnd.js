@@ -33,7 +33,6 @@ export function handleTransactionEnd(self, transaction_key) {
       [self, effect_name, tkey],
       null,
       null,
-      undefined,
       self._currentMotivator()
     )
 
@@ -45,7 +44,6 @@ export function handleTransactionEnd(self, transaction_key) {
     [self, key],
     null,
     null,
-    undefined,
     self._currentMotivator()
   )
 

@@ -36,7 +36,7 @@ const calls_flows_holder_basic = {
 
     assertCurm(this)
 
-    return this._getCallsFlow().pushToFlow(fn, this, args, false, WFlowStepWrapper, undefined, use_current_motivator && this._currentMotivator(), finup)
+    return this._getCallsFlow().pushToFlow(fn, this, args, false, WFlowStepWrapper, use_current_motivator && this._currentMotivator(), finup)
   },
   inputWithContext: function(fn, args) {
     this._getCallsFlow().input(fn, args, this)
@@ -49,7 +49,7 @@ const calls_flows_holder_basic = {
     assertCurm(this)
 
     return this._calls_flow.pushToFlow(
-      fn, this, args, !args && this, WFlowStepWrapper, undefined, use_current_motivator && this._currentMotivator(), false,
+      fn, this, args, !args && this, WFlowStepWrapper, use_current_motivator && this._currentMotivator(), false,
       initiator, fn.init_end
     )
   },

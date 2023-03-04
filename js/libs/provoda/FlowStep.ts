@@ -10,7 +10,6 @@ class FlowStep {
   args: null | unknown | unknown[]
   arg: null | unknown
   cb_wrapper: Function | null
-  real_context: unknown | null
   finup: boolean
   complex_order: readonly number[]
   next: FlowStep | null
@@ -24,7 +23,6 @@ class FlowStep {
     args: unknown[] | undefined,
     arg: null,
     cb_wrapper: Function | null,
-    real_context?: unknown | undefined,
     finup?: boolean,
     init_end?: undefined
   ) {
@@ -60,12 +58,6 @@ class FlowStep {
     this.cb_wrapper = Function.prototype // just hint type for engine
     this.cb_wrapper = cb_wrapper || null
 
-    if (real_context && real_context !== context) {
-      throw new Error('context missmatch')
-    }
-
-    this.real_context = Object.prototype
-    this.real_context = real_context
     this.finup = !!finup
 
     this.complex_order = Array.prototype
@@ -93,7 +85,6 @@ class FlowStep {
     this.args = null
     this.arg = null
     this.cb_wrapper = null
-    this.real_context = null
     //this.complex_order = null;
   }
   call(): void {
