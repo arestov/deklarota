@@ -9,7 +9,6 @@ import callFlowStep, { validateFlowStep } from '../../../Model/callFlowStep'
 import { getModelDataSchema } from './reinit'
 import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage'
-import { initRuntimeInputFns } from '../../../runtimeInputFns/runtimeInputFns'
 
 function AppRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -65,7 +64,6 @@ function AppRuntime(optionsRaw) {
   this.live_heavy_rel_query_by_rel_name = null
   this.requests = new Set()
 
-  initRuntimeInputFns(this)
   Object.seal(this)
 }
 

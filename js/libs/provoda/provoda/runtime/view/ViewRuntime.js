@@ -5,7 +5,6 @@ import initEffects from '../../../AttrsOwner/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep, { validateFlowStep } from '../../../View/callFlowStep'
-import { initRuntimeInputFns } from '../../../runtimeInputFns/runtimeInputFns'
 
 function ViewRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -36,7 +35,6 @@ function ViewRuntime(optionsRaw) {
   this.local_calls_flow = flow
   this.sync_r = options.sync_r || null
   this.requests = new Set()
-  initRuntimeInputFns(this)
 }
 
 ViewRuntime.prototype.start = function(options) {
