@@ -11,6 +11,7 @@ import calls_flows_holder_basic from './calls_flows_holder_basic'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 import spvExtend from '../../spv/inh'
 import { UniFlowStepRuntimeOnlyFnWrapped } from '../CallbacksFlow/UniversalFlowTypes.type'
+import _getInterface from '../_internal/interfaces/_getInterface'
 
 export const __updateManyAttrs = function(obj) {
   const changes_list = []
@@ -40,7 +41,7 @@ function props(add) {
 
   add({
     getInterface: function(interface_name) {
-      return this._interfaces_used[interface_name]
+      return _getInterface(this, interface_name)
     },
     __updateInteraceState: __updateInteraceState,
     __reportInterfaceChange: __reportInterfaceChange,

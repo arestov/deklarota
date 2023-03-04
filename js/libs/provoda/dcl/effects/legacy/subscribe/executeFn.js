@@ -1,4 +1,5 @@
 import { getDepsValues } from '../../../../utils/multiPath/readingDeps/getDepsValues'
+import _getInterface from '../../../../_internal/interfaces/_getInterface'
 
 
 const executeFn = (model, dcl, getHandler, apis) => {
@@ -6,7 +7,7 @@ const executeFn = (model, dcl, getHandler, apis) => {
 
   bind_args[0] = getHandler(model, dcl)
   for (let i = 0; i < apis.length; i++) {
-    bind_args[i + 1] = model._interfaces_used[apis[i]]
+    bind_args[i + 1] = _getInterface(model, apis[i])
   }
 
   const deps_values = getDepsValues(model, dcl.fn_deps)

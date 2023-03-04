@@ -9,6 +9,7 @@ import callFlowStep, { validateFlowStep } from '../../../Model/callFlowStep'
 import { getModelDataSchema } from './reinit'
 import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage'
+import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
 
 function AppRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -63,6 +64,7 @@ function AppRuntime(optionsRaw) {
   this.expected_rels_to_chains = null
   this.live_heavy_rel_query_by_rel_name = null
   this.requests = new Set()
+  _initInterfacesStorage(this)
 
   Object.seal(this)
 }
