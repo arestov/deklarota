@@ -27,7 +27,7 @@ function ViewRuntime(optionsRaw) {
   initEffects(this)
 
   const whenAllReady = function(fn) {
-    flow.pushToFlow(fn, null, null, null, null, null, true)
+    flow.whenReady(fn)
   }
 
   this.whenAllReady = whenAllReady

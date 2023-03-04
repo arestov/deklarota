@@ -63,6 +63,9 @@ class CallbacksFlow {
   ): void {
     this.pushToFlow(fn, context, args)
   }
+  whenReady(fn: Function): void {
+    this.pushToFlow(fn, null, undefined, null, null, null, true)
+  }
   iterateCallbacksFlow(): void {
     const started_at = Date.now()
     const start = started_at + this.iteration_time
