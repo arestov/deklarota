@@ -10,4 +10,3 @@ export const FlowStepEraseEffectData = 9 as const
 export const FlowStepUpdateManyAttrs = 10 as const
 export const FlowStepHandlRelSideDataLegacy = 11 as const
 export const FlowStepShowInPerspectivator = 12 as const
-export const FlowStepRuntimeOnlyFnWrapped = 13 as const
