@@ -6,7 +6,7 @@ import { useInterfaceHandler } from '../AttrsOwner/useInterface'
 import { eraseTransactionEffectsData, handleTransactionEnd } from '../dcl/effects/legacy/produce/scheduleTransactionEnd'
 import executeEffect from '../dcl/effects/legacy/produce/executeEffect'
 import { proxyStch } from '../handleLegacySideEffects'
-import { UniFlowStepRuntimeOnlyFnWrapped } from '../CallbacksFlow/UniversalFlowTypes.type'
+import { UniFlowRuntimeInternalFn, UniFlowRuntimeReadyFn, UniFlowStepRuntimeInputFn, UniFlowStepRuntimeOnlyFnWrapped, UniFlowUncertainInternal } from '../CallbacksFlow/UniversalFlowTypes.type'
 
 const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
 
@@ -24,7 +24,11 @@ const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
     case FlowStepEraseEffectData:
       return eraseTransactionEffectsData
     case UniFlowStepRuntimeOnlyFnWrapped:
-      return Function.prototype
+    case UniFlowStepRuntimeInputFn:
+    case UniFlowRuntimeReadyFn:
+    case UniFlowUncertainInternal:
+    case UniFlowRuntimeInternalFn:
+      return flow_step.runtimeFn
   }
 
   return null
