@@ -1,6 +1,6 @@
 import type FlowStep from '../FlowStep'
 import { ViewFlowStepTickDetailsRequest } from './viewFlowStepHandlers.types'
-import { FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect, FlowStepLegacyStch, FlowStepUseInterface } from '../Model/flowStepHandlers.types'
+import { FlowStepEffectsTransactionEnd, FlowStepEraseEffectData, FlowStepExecEffect, FlowStepLegacyStch, FlowStepRuntimeOnlyFnWrapped, FlowStepUseInterface } from '../Model/flowStepHandlers.types'
 import { __tickDetRequest } from '../CoreView'
 import { useInterfaceHandler } from '../AttrsOwner/useInterface'
 import { eraseTransactionEffectsData, handleTransactionEnd } from '../dcl/effects/legacy/produce/scheduleTransactionEnd'
@@ -22,6 +22,8 @@ const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
       return executeEffect
     case FlowStepEraseEffectData:
       return eraseTransactionEffectsData
+    case FlowStepRuntimeOnlyFnWrapped:
+      return Function.prototype
   }
 
   return null
