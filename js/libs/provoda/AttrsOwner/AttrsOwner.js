@@ -10,7 +10,6 @@ import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
 import calls_flows_holder_basic from './calls_flows_holder_basic'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 import spvExtend from '../../spv/inh'
-import { pushRuntimeInputFn } from '../runtimeInputFns/runtimeInputFns'
 import { UniFlowStepRuntimeOnlyFnWrapped } from '../CallbacksFlow/UniversalFlowTypes.type'
 
 export const __updateManyAttrs = function(obj) {
@@ -54,9 +53,8 @@ function props(add) {
         throw new Error('api instance should be provided')
       }
 
-      const num = pushRuntimeInputFn(this, fn)
       // expecting new transaction will be started
-      this._getCallsFlow().pushToFlow(UniFlowStepRuntimeOnlyFnWrapped, null, this, null, [interface_instance, num], WFlowStepUseInterfaceAsSource)
+      this._getCallsFlow().pushToFlow(UniFlowStepRuntimeOnlyFnWrapped, fn, this, null, interface_instance, WFlowStepUseInterfaceAsSource)
     },
   })
 

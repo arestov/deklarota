@@ -41,7 +41,6 @@ const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
     case FlowStepShowInPerspectivator:
       return showInPerspectivator
     case UniFlowStepRuntimeOnlyFnWrapped:
-      return Function.prototype
     case UniFlowStepRuntimeInputFn:
     case UniFlowRuntimeReadyFn:
     case UniFlowUncertainInternal:
@@ -55,7 +54,7 @@ const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
 
 export const isRuntimeFn = (flow_step: FlowStep) : boolean => {
   switch (flow_step.fnType) {
-    // case UniFlowStepRuntimeOnlyFnWrapped: do not validate if using pushRuntimeInputFn
+    case UniFlowStepRuntimeOnlyFnWrapped:
     case UniFlowStepRuntimeInputFn:
     case UniFlowRuntimeReadyFn:
     case UniFlowUncertainInternal:
