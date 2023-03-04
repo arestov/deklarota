@@ -11,7 +11,7 @@ import calls_flows_holder_basic from './calls_flows_holder_basic'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
 import spvExtend from '../../spv/inh'
 import { pushRuntimeInputFn } from '../runtimeInputFns/runtimeInputFns'
-import { FlowStepInputFn } from '../Model/flowStepHandlers.types'
+import { FlowStepRuntimeOnlyFnWrapped } from '../Model/flowStepHandlers.types'
 
 export const __updateManyAttrs = function(obj) {
   const changes_list = []
@@ -56,7 +56,7 @@ function props(add) {
 
       const num = pushRuntimeInputFn(this, fn)
       // expecting new transaction will be started
-      this._getCallsFlow().pushToFlow(FlowStepInputFn, this, null, [interface_instance, num], WFlowStepUseInterfaceAsSource)
+      this._getCallsFlow().pushToFlow(FlowStepRuntimeOnlyFnWrapped, this, null, [interface_instance, num], WFlowStepUseInterfaceAsSource)
     },
   })
 
