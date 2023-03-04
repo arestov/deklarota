@@ -167,7 +167,7 @@ class CallbacksFlow {
     if (!motivator && force) {
       throw new Error('missing motivator')
     }
-    this.pushToFlow(fn, context, args, null, null, null, motivator)
+    this.pushToFlow(fn, context, args, null, null, undefined, motivator)
   }
   pushToFlow(
     fn: Function,
@@ -181,6 +181,10 @@ class CallbacksFlow {
     initiator?: unknown, // remove initiator argument as it's not used and throw an error for it
     init_end?: undefined // remove init_end argument as it's not used and throw an error for it
   ): FlowStep {
+    if (real_context !== undefined) {
+      throw new Error('omit realcontext')
+    }
+
     const flow_step_num = ++this.flow_steps_counter
 
     const complex_order = complexOrder(motivator?.complex_order, flow_step_num)

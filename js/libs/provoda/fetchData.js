@@ -62,7 +62,7 @@ function calcsReady(highway) {
   const flow_promise = calls_flow.flow_end ? new Promise(function(resolve) {
     calls_flow.pushToFlow(function() {
       resolve()
-    }, false, false, false, false, false, { complex_order: [Infinity] }, true)
+    }, false, false, false, false, undefined, { complex_order: [Infinity] }, true)
   }) : Promise.resolve()
 
   return new Promise(function(resolve, reject) {

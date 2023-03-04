@@ -9,7 +9,7 @@ function waitFlow(app_model) {
 }
 
 function next(app, cb) {
-  app._calls_flow.pushToFlow(cb, null, null, null, null, null, {
+  app._calls_flow.pushToFlow(cb, null, null, null, null, undefined, {
     complex_order: [Infinity],
   })
 }
