@@ -1,7 +1,11 @@
 
 
 export default function hndMotivationWrappper(_motivator, fn, context, args, arg) {
-  if (context.isAliveFast && !context.isAliveFast() && !fn.skipAliveCheck) {
+  /*
+    TODO: use hndMotivationWrappper only for view
+    rename hndMotivationWrappper to aliveCheck or something
+  */
+  if (context.__isView && !context.isAliveFast() && !fn.skipAliveCheck) {
     return
   }
 
