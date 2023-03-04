@@ -5,7 +5,8 @@ class FlowStep {
   p_index_key: string
   is_transaction_end: boolean
   num: number | null
-  fn: Function | null | number
+  fnType: number
+  runtimeFn: Function | null
   context: unknown | null
   args: null | unknown | unknown[]
   arg: null | unknown
@@ -18,7 +19,8 @@ class FlowStep {
     is_transaction_end: boolean,
     num: number,
     complex_order: readonly number[],
-    fn: Function,
+    fnType: number,
+    runtimeFn: Function | null,
     context: unknown,
     args: unknown[] | undefined,
     arg: null,
@@ -33,7 +35,11 @@ class FlowStep {
     this.is_transaction_end = Boolean(is_transaction_end)
     this.num = 1 // just hint type for engine
     this.num = num
-    this.fn = fn
+    this.fnType = fnType
+
+    this.runtimeFn = Function.prototype
+    this.runtimeFn = runtimeFn || null
+
     this.context = Object.prototype
     this.context = context
 
@@ -70,7 +76,7 @@ class FlowStep {
     this.next = FlowStep.prototype
     this.next = null
 
-    if (this.fn == null && this.cb_wrapper == null) {
+    if (this.fnType == null && this.cb_wrapper == null) {
       throw new Error('how to handle this step!?')
     }
 
@@ -80,7 +86,7 @@ class FlowStep {
   abort(): void {
     this.aborted = true
     this.num = null
-    this.fn = null
+    this.runtimeFn = null
     this.context = null
     this.args = null
     this.arg = null

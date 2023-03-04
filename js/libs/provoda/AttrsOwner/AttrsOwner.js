@@ -56,7 +56,7 @@ function props(add) {
 
       const num = pushRuntimeInputFn(this, fn)
       // expecting new transaction will be started
-      this._getCallsFlow().pushToFlow(UniFlowStepRuntimeOnlyFnWrapped, this, null, [interface_instance, num], WFlowStepUseInterfaceAsSource)
+      this._getCallsFlow().pushToFlow(UniFlowStepRuntimeOnlyFnWrapped, null, this, null, [interface_instance, num], WFlowStepUseInterfaceAsSource)
     },
   })
 

@@ -10,7 +10,7 @@ import { UniFlowStepRuntimeOnlyFnWrapped } from '../CallbacksFlow/UniversalFlowT
 
 const getFlowStepHandler = (flow_step: FlowStep): Function | null => {
 
-  switch (flow_step.fn) {
+  switch (flow_step.fnType) {
     case FlowStepLegacyStch:
       return proxyStch
     case ViewFlowStepTickDetailsRequest:

@@ -24,7 +24,7 @@ export default function scheduleDelivering(motivation_model, list) {
 
     calls_flow.pushToFlow(
       // fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup, initiator, init_end
-      FlowStepDeliverChainUpdates, cur.mention_owner, [cur.mention_owner, cur.link.chain], null, wrapper, current_motivator
+      FlowStepDeliverChainUpdates, null, cur.mention_owner, [cur.mention_owner, cur.link.chain], null, wrapper, current_motivator
     )
   }
 };

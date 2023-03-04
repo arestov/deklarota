@@ -5,6 +5,7 @@ import orderFlow from './CallbacksFlow/order'
 import { getBoxedSetImmFunc } from './CallbacksFlow/getBoxedSetImmFunc'
 import { getBoxedRAFFunc } from './CallbacksFlow/getBoxedRAFFunc'
 import type { TickFn } from './CallbacksFlow/tick.types'
+import { UniFlowRuntimeReadyFn, UniFlowStepRuntimeInputFn } from './CallbacksFlow/UniversalFlowTypes.type'
 
 const MIN = 60 * 1000
 
@@ -60,14 +61,18 @@ class CallbacksFlow {
   }
 
   input(
-    fn: Function,
+    fn: Function | number,
     args: unknown[] | undefined,
     context: unknown | null,
   ): void {
-    this.pushToFlow(fn, context, args)
+    if (typeof fn !== 'function') {
+      this.pushToFlow(fn, null, context, args)
+      return
+    }
+    this.pushToFlow(UniFlowStepRuntimeInputFn, fn, context, args)
   }
   whenReady(fn: Function): void {
-    this.pushToFlow(fn, null, undefined, null, null, null, true)
+    this.pushToFlow(UniFlowRuntimeReadyFn, fn, null, undefined, null, null, null, true)
   }
   iterateCallbacksFlow(): void {
     const started_at = Date.now()
@@ -164,7 +169,8 @@ class CallbacksFlow {
     this.iteration_delayed_check_time = now + MIN
   }
   pushToFlowWithMotivator(
-    fn: Function,
+    fnType: number,
+    runtimeFn: Function | null,
     context: unknown | null,
     args: unknown[] | undefined,
     force?: boolean
@@ -173,10 +179,11 @@ class CallbacksFlow {
     if (!motivator && force) {
       throw new Error('missing motivator')
     }
-    this.pushToFlow(fn, context, args, null, null, motivator)
+    this.pushToFlow(fnType, runtimeFn, context, args, null, null, motivator)
   }
   pushToFlow(
-    fn: Function,
+    fnType: number,
+    runtimeFn: Function | null,
     context: unknown,
     args: unknown[] | undefined,
     cbf_arg?: null,
@@ -201,7 +208,8 @@ class CallbacksFlow {
       is_transaction_end,
       flow_step_num,
       complex_order,
-      fn,
+      fnType,
+      runtimeFn,
       context,
       args,
       cbf_arg || null,
@@ -219,7 +227,8 @@ class CallbacksFlow {
     starter_id: number,
     context: unknown,
     args: unknown[] | undefined,
-    fn: Function,
+    fnType: number,
+    runtimeFn: Function,
     cb_wrapper: Function | undefined
   ): void {
     const flow_step_num = ++this.flow_steps_counter
@@ -231,7 +240,8 @@ class CallbacksFlow {
       is_transaction_end,
       flow_step_num,
       complex_order,
-      fn,
+      fnType,
+      runtimeFn,
       context,
       args,
       null,

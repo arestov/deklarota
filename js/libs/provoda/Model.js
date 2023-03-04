@@ -369,7 +369,7 @@ function modelProps(add) {
   add({
     __act: act,
     dispatch: function(action_name, data, timestamp, meta_payload) {
-      this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data, timestamp, meta_payload])
+      this._calls_flow.pushToFlow(FlowStepAction, null, this, [this, action_name, data, timestamp, meta_payload])
     },
   })
 

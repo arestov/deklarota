@@ -2,6 +2,7 @@
 
 import spv from '../../spv'
 import angbo from '../StatementsAngularParser.min'
+import { ViewFlowStepInternalRuntimeFn } from '../View/viewFlowStepHandlers.types'
 const splitByDot = spv.splitByDot
 
 const abortFlowStep = function(tpl, w_cache_key) {
@@ -104,7 +105,7 @@ StandartChange.prototype = {
       abortFlowStep(wwtch.context, wwtch.w_cache_key)
       if (async_changes) {
         // fn, context, args, cbf_arg, cb_wrapper, real_context, motivator, finup
-        const flow_step = wwtch.context.calls_flow.pushToFlowWithMotivator(this.changeValue, this, [new_value, wwtch], true)
+        const flow_step = wwtch.context.calls_flow.pushToFlowWithMotivator(ViewFlowStepInternalRuntimeFn, this.changeValue, this, [new_value, wwtch], true)
         wwtch.context.calls_flow_index[wwtch.w_cache_key] = flow_step
         //).pushToFlow(cb, mo_context, reg_args, one_reg_arg, callbacks_wrapper, this.sputnik, this.sputnik.current_motivator);
       } else {
