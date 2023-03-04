@@ -60,6 +60,10 @@ class FlowStep {
     this.cb_wrapper = Function.prototype // just hint type for engine
     this.cb_wrapper = cb_wrapper || null
 
+    if (real_context && real_context !== context) {
+      throw new Error('context missmatch')
+    }
+
     this.real_context = Object.prototype
     this.real_context = real_context
     this.finup = !!finup

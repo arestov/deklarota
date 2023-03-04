@@ -56,7 +56,7 @@ const fireFire = function(context, sputnik, _matched_reg_fire, soft_reg, callbac
   }
 
   sputnik._getCallsFlow().pushToFlow(
-    cb, mo_context, null, one_reg_arg, callbacks_wrapper, sputnik, sputnik._currentMotivator()
+    cb, mo_context, null, one_reg_arg, callbacks_wrapper, null, sputnik._currentMotivator()
   )
 }
 
@@ -277,10 +277,8 @@ FastEventor.prototype = spv.coe(function(add) {
     },1);*/
     },
     callCallback: function(callback_context, cb, wrapper, args, arg, emergency) {
-      const wrapper_context = this.sputnik
-
       const calls_flow = (emergency) ? this.sputnik._calls_flow : this.sputnik._getCallsFlow()
-      return calls_flow.pushToFlow(cb, callback_context, args, arg, wrapper, wrapper_context, this.sputnik._currentMotivator())
+      return calls_flow.pushToFlow(cb, callback_context, args, arg, wrapper, null, this.sputnik._currentMotivator())
 
     },
     triggerCallbacks: function(cb_cs, args, opts, arg) {

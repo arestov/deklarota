@@ -1,7 +1,7 @@
 
 
 export default function hndMotivationWrappper(_motivator, fn, context, args, arg) {
-  if (this.isAliveFast && !this.isAliveFast() && !fn.skipAliveCheck) {
+  if (context.isAliveFast && !context.isAliveFast() && !fn.skipAliveCheck) {
     return
   }
 
