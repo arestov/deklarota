@@ -20,7 +20,7 @@ const calls_flows_holder_basic = {
     return this._getCallsFlow().current_step
   },
   input: function(fn, args) {
-    this._getCallsFlow().input(fn, args)
+    this._getCallsFlow().input(fn, args, this)
   },
   inputFn: function(fn) {
     const self = this
