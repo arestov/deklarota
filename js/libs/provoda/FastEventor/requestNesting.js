@@ -276,7 +276,8 @@ export default function(dclt, nesting_name) {
     // should be in data bus queue - use `.input` wrap
     const sputnik = _this
 
-    const morph_helpers = sputnik.app.morph_helpers
+    const morph_helpers = sputnik.app.getInterface('$morph_helpers')
+
     const result_data = parse_items.call(sputnik, r, clean_obj, morph_helpers)
     const items = Array.isArray(result_data) ? result_data : result_data.list
 

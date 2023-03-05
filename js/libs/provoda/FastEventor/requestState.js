@@ -106,7 +106,7 @@ function bindRequest(api, request, selected_map, store, self) {
 
         const has_error = network_api.errors_fields ? findErrorByList(r, network_api.errors_fields) : network_api.checkResponse(r)
         if (!has_error) {
-          const morph_helpers = self.morph_helpers
+          const morph_helpers = self.app.getInterface('$morph_helpers')
           const result = parse.call(self, r, null, morph_helpers)
           if (result != null) {
             return resolve(result)
