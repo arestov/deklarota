@@ -5,12 +5,10 @@ import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_
 import { FlowStepHandlRelSideDataLegacy, FlowStepUpdateManyAttrs } from '../Model/flowStepHandlers.types'
 import { hasOwnProperty } from '../hasOwnProperty'
 import { nestingMark } from '../dcl/effects/legacy/nest_req/nestingMark'
+import { emptyObject } from '../utils/sameObjectIfEmpty'
 
 const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
-
-
-const clean_obj = {}
 
 function exlcudeUnexpectedMetaAttrs(self, attrs) {
   for (const attr_name in attrs) {
@@ -284,7 +282,7 @@ export default function(dclt, nesting_name) {
 
     const morph_helpers = sputnik.app.getInterface('$morph_helpers')
 
-    const result_data = parse_items.call(sputnik, r, clean_obj, morph_helpers)
+    const result_data = parse_items.call(sputnik, r, emptyObject, morph_helpers)
     const items = Array.isArray(result_data) ? result_data : result_data.list
 
     const user_meta_attrs = Array.isArray(result_data) ? null : result_data.attrs
