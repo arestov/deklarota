@@ -12,6 +12,7 @@ import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage
 import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
 import _initSubscribeRuntime from '../../../dcl/effects/legacy/subscribe/run/_initSubscribeRuntime'
 import _initAttrReqRuntime from '../../../dcl/effects/legacy/state_req/_initAttrReqRuntime'
+import _initRelReqRuntime from '../../../dcl/effects/legacy/nest_req/_initRelReqRuntime'
 
 function AppRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -68,6 +69,7 @@ function AppRuntime(optionsRaw) {
   this.requests = new Set()
   _initInterfacesStorage(this)
   _initAttrReqRuntime(this)
+  _initRelReqRuntime(this)
 
   Object.seal(this)
 }

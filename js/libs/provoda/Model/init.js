@@ -1,5 +1,4 @@
 import initSubPager from '../dcl/sub_pager/init'
-import { initRelsRequesting } from '../FastEventor/requestNesting'
 import makeAttrsCollector from './makeAttrsCollector'
 import initRoutes from '../dcl/routes/init'
 
@@ -51,7 +50,6 @@ export default function initModel(self, opts, data) {
   self.children_models = {}
   self.__mentions_as_rel = null
   self._network_source = self._network_source || null
-  initRelsRequesting(self)
 
 
   self.mpx = null
