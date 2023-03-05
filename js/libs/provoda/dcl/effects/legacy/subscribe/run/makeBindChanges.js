@@ -2,6 +2,8 @@
 import _updateAttr from '../../../../../_internal/_updateAttr'
 import getDclInputApis from '../../utils/getDclInputApis'
 import executeFn from '../executeFn'
+import _getSubscribeRemover from './_getSubscribeRemover'
+import _setSubscribeRemover from './_setSubscribeRemover'
 
 // state_name в данном контексте просто key (за исключенимем момента когда нужно вызвать getStateUpdater)
 
@@ -120,12 +122,6 @@ const makeBindChanges = function(self, prev_values, next_values) {
       continue
     }
 
-    if (!self.__interfaces_to_subscribers_removers) {
-      self.__interfaces_to_subscribers_removers = {}
-    }
-
-    const removers = self.__interfaces_to_subscribers_removers
-
     const cur = index[key]
 
     if (next_values[key]) {
@@ -136,11 +132,11 @@ const makeBindChanges = function(self, prev_values, next_values) {
         console.error(self.__code_path)
         throw new Error('effect should provide fn to cancel subscription ' + key)
       }
-      removers[key] = cancel
+      _setSubscribeRemover(self, key, cancel)
 
     } else {
-      removers[key].call()
-      removers[key] = null
+      _getSubscribeRemover(self, key).call()
+      _setSubscribeRemover(self, key, null)
     }
   }
 }

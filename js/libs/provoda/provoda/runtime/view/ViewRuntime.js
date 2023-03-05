@@ -6,6 +6,7 @@ import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep, { validateFlowStep } from '../../../View/callFlowStep'
 import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
+import _initSubscribeRuntime from '../../../dcl/effects/legacy/subscribe/run/_initSubscribeRuntime'
 
 function ViewRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -36,6 +37,7 @@ function ViewRuntime(optionsRaw) {
   this.local_calls_flow = flow
   this.sync_r = options.sync_r || null
   this.requests = new Set()
+  _initSubscribeRuntime(this)
   _initInterfacesStorage(this)
 }
 

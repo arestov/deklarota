@@ -5,7 +5,6 @@ import regfr_lightstev from '../internal_events/light_attr_change/regfire'
 import getNameByAttr from '../internal_events/light_attr_change/getNameByAttr'
 import onPropsExtend from '../onExtendSE'
 import pvState from '../utils/state'
-import initEffectsSubscribe from '../dcl/effects/legacy/subscribe/init'
 import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
 import calls_flows_holder_basic from './calls_flows_holder_basic'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
@@ -137,7 +136,6 @@ const AttrsOwner = spvExtend(function() {}, {
   },
   init: function(self) {
 
-    initEffectsSubscribe(self)
     onInstanceInitDie(self)
 
   },

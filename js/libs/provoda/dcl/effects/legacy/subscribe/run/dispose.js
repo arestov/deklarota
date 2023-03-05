@@ -18,6 +18,11 @@ function disposeSubscribeEffects(self) {
     delete self._highway._subscribe_effect_handlers[key]
   }
 
+
+  /*
+    TODO: check if we should do something with __interfaces_to_subscribers_removers_by_name_by_node_id
+    or useInterface(name, null) does everything already
+  */
 }
 
 export default disposeSubscribeEffects
