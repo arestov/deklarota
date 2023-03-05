@@ -81,9 +81,6 @@ function props(add) {
 //	full_comlxs_list: [],
     compx_check: {},
 //	full_comlxs_index: {},
-    state: function(state_path) {
-      return pvState(this, state_path)
-    },
     getAttr: function(state_path) {
       return pvState(this, state_path)
     },
