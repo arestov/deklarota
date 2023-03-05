@@ -10,6 +10,7 @@ import { getModelDataSchema } from './reinit'
 import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage'
 import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
+import _initSubscribeRuntime from '../../../dcl/effects/legacy/subscribe/run/_initSubscribeRuntime'
 
 function AppRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -57,7 +58,7 @@ function AppRuntime(optionsRaw) {
 
   this.relation_mocks = options.relation_mocks
   this.no_effects = Boolean(this.relation_mocks)
-  this._subscribe_effect_handlers = null
+  _initSubscribeRuntime(this)
   this.__model_replacers = null
   this.requests_by_declarations = null
   this.current_transaction = null
