@@ -402,7 +402,7 @@ const BrowseLevel = spvExtend(Model, {
   },
 
   zoomOut: function() {
-    if (this.state('mp_show')) {
+    if (this.getAttr('mp_show')) {
       execAction(getBwlevMap(this), 'showBwlev', this)
     }
   },

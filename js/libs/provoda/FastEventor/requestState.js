@@ -195,8 +195,8 @@ function compxUsed(self, cur) {
     return null
   }
 
-  if (someValue(self.state(cur))) {
-    return self.state(cur)
+  if (someValue(self.getAttr(cur))) {
+    return self.getAttr(cur)
   }
 
   const without_self_name = withoutSelf(compx.watch_list, compx.name)
@@ -279,7 +279,7 @@ export function resetRequestedState(state_name) {
 }
 
 const requestState = function(state_name) {
-  const current_value = this.state(state_name)
+  const current_value = this.getAttr(state_name)
   if (someValue(current_value)) {
     return
   }

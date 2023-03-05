@@ -2,7 +2,7 @@ import getBwlevMap from './getBwlevMap'
 
 
 function ba_inUse(bwlev) {
-  return bwlev.state('mp_show')
+  return bwlev.getAttr('mp_show')
 }
 
 function ba_isOpened(bwlev) {

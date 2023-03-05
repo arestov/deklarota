@@ -28,7 +28,7 @@ const getAMCOffset = function() {
 }
 
 const assertAttr = (root_view, attr_name) => {
-  const value = root_view.state(attr_name)
+  const value = root_view.getAttr(attr_name)
   if (value == null) {
     throw new Error('root view should have ' + attr_name + ' attr')
   }
@@ -83,7 +83,7 @@ export default function readMapSliceAnimationData(view, diff, current_bwlev_r, p
   }
   const offset = disable_zoom_cache
     ? targetOffset()
-    : target_in_parent.getBoxDemension(targetOffset, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.state('window_height'), view.root_view.state('workarea_width'))
+    : target_in_parent.getBoxDemension(targetOffset, 'con_offset', target_in_parent._lbr.innesting_pos_current, view.root_view.getAttr('window_height'), view.root_view.getAttr('workarea_width'))
 
   const getWidth = function() {
     return targt_con.outerWidth()

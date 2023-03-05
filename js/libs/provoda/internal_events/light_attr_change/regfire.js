@@ -19,7 +19,7 @@ export default {
     return !!getAttrByName(namespace)
   },
   fn: function(namespace) {
-    return this.state(getAttrByName(namespace))
+    return this.getAttr(getAttrByName(namespace))
   },
   getWrapper: function() {
     return WFlowStepWrapper

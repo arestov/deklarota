@@ -5,7 +5,7 @@ const joinSubtree = function(array) {
   let url = ''
   for (let i = array.length - 1; i >= 0; i--) {
     const md = 	array[i]
-    const url_part = md.state('url_part')
+    const url_part = md.getAttr('url_part')
     // if (!url_part) {
     // 	throw new Error('must be url');
     // }

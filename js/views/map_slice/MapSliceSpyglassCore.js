@@ -245,7 +245,7 @@ export default spvExtend(View, {
     //md.map_level_num
 
     /*
-    var highlight = md.state('mp-highlight');
+    var highlight = md.getAttr('mp-highlight');
     if (highlight && highlight.source_md){
       var source_md = highlight.source_md;
 
@@ -260,7 +260,7 @@ export default spvExtend(View, {
     /*
 
     var ov_md = md.getParentMapModel();
-    var ov_highlight = ov_md && ov_md.state('mp-highlight');
+    var ov_highlight = ov_md && ov_md.getAttr('mp-highlight');
     if (ov_highlight && ov_highlight.source_md){
       var source_md = ov_highlight.source_md;
       var mplev_item_view = getRooConPresentation(source_md, target); // use getMapSliceImmediateChildView ?
@@ -348,7 +348,7 @@ export default spvExtend(View, {
       return
     }
 
-    if (this.state('map_animation_num_started') == changes_number) {
+    if (this.getAttr('map_animation_num_started') == changes_number) {
       _updateAttr(this, 'map_animation_num_completed', changes_number)
     }
 
@@ -357,7 +357,7 @@ export default spvExtend(View, {
       //
       const mpx = this.getStoredMpx(getModelFromR(this, models[i]))
 
-      if (mpx.state('animation_started') == changes_number) {
+      if (mpx.getAttr('animation_started') == changes_number) {
         mpxUpdateAttr(mpx, 'animation_completed', changes_number)
       }
       ////MUST UPDATE VIEW, NOT MODEL!!!!!

@@ -23,8 +23,8 @@ test('change for dynamic routed resource calculated', async () => {
       })
     },
     app => {
-      expect('hey!').toEqual(app.start_page.getSPI('nice_resource', { autocreate: false }).state('title'))
-      expect('dup some Data').toEqual(app.start_page.getSPI('nice_resource', { autocreate: false }).state('dup_default_title'))
+      expect('hey!').toEqual(app.start_page.getSPI('nice_resource', { autocreate: false }).getAttr('title'))
+      expect('dup some Data').toEqual(app.start_page.getSPI('nice_resource', { autocreate: false }).getAttr('dup_default_title'))
     },
   ])
 
