@@ -1,3 +1,16 @@
+function validateDisposedRemovers() {
+    /*
+    useInterface(name, null) should clean everything already
+  */
+  const self = this
+  const removers = self._highway.__interfaces_to_subscribers_removers_by_name_by_node_id
+
+  for (const key of removers.keys()) {
+    if (removers.get(key).has(self.getInstanceKey())) {
+      throw new Error('useInterface did not clean subscribe removers')
+    }
+  }
+}
 function disposeSubscribeEffects(self) {
   if (self.__fxs_subscribe_by_name == null) {
     return
@@ -19,10 +32,8 @@ function disposeSubscribeEffects(self) {
   }
 
 
-  /*
-    TODO: check if we should do something with __interfaces_to_subscribers_removers_by_name_by_node_id
-    or useInterface(name, null) does everything already
-  */
+  self.inputWithContext(validateDisposedRemovers, null);
+
 }
 
 export default disposeSubscribeEffects
