@@ -37,6 +37,8 @@ import ___dkt_onAttrUpdate from './Model/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/model/___dkt_saveInputFxTargetedResult'
 import { scheduleCustomOutputTask } from './AttrsOwner/produceEffects'
 import spvExtend from '../spv/inh'
+import _disposeRelReqState from './dcl/effects/legacy/nest_req/_disposeRelReqState'
+import _disposeAttrReqState from './dcl/effects/legacy/state_req/_disposeAttrReqState'
 
 const push = Array.prototype.push
 
@@ -272,6 +274,9 @@ function modelProps(add) {
       }
 
       triggerDestroy(this)
+
+      _disposeAttrReqState(this)
+      _disposeRelReqState(this)
 
       this.dead = leak
 

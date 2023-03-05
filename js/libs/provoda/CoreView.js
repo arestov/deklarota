@@ -31,6 +31,7 @@ import ___dkt_onAttrUpdate from './View/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/view/___dkt_saveInputFxTargetedResult'
 import ensureInitialAttrs from './View/ensureInitialAttrs'
 import spvExtend from '../spv/inh'
+import _disposeAttrReqState from './dcl/effects/legacy/state_req/_disposeAttrReqState'
 
 const CH_GR_LE = 2
 
@@ -732,6 +733,7 @@ const View = spvExtend(AttrsOwner, {
     this.markAsDead(opts && opts.skip_md_call)
     nestBorrowDestroy(this)
     this._lbr.marked_as_dead = true
+    _disposeAttrReqState(this)
     // spyglassDestroy(this)
 
     return this
