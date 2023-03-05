@@ -123,6 +123,11 @@ export const initRelsRequesting = (self) => {
   self.nesting_requests = null
 }
 
+const getStore = (model, key) => model.nesting_requests[ key ]
+const setStore = (model, key, value) => {
+  model.nesting_requests[ key ] = value
+}
+
 export default function(dclt, nesting_name) {
   // nesting_name + '$loading'
   // nesting_name + "$error"
@@ -145,16 +150,17 @@ export default function(dclt, nesting_name) {
     this.nesting_requests = {}
   }
 
-  if (!this.nesting_requests[ nesting_name ]) {
-    this.nesting_requests[ nesting_name ] = {
+  if (!getStore(this, nesting_name)) {
+    setStore(this, nesting_name, {
       //has_items: false,
       error: false,
       process: false,
       req: null,
-    }
+    })
   }
 
-  const store = this.nesting_requests[ nesting_name ]
+
+  const store = getStore(this, nesting_name)
   if (store.process) {
     return
   }
@@ -166,7 +172,7 @@ export default function(dclt, nesting_name) {
   const _this = this
 
   const isValidRequest = function(req) {
-    const store = _this.nesting_requests[nesting_name]
+    const store = getStore(_this, nesting_name)
     return store && store.req == req
   }
 
