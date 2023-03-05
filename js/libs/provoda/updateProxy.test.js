@@ -12,7 +12,7 @@ it('compoundComplexState', () => {
       attrD: 'attrDValue',
       attrE: 'attrEValue',
     },
-    state: function(name) {
+    getAttr: function(name) {
       return this.values[name]
     },
   }
