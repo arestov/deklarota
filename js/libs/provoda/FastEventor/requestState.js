@@ -6,6 +6,8 @@ import req_utils from './req-utils'
 import types from './stateReqTypes'
 import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
 import { hasOwnProperty } from '../hasOwnProperty'
+import _getAttrReqState from '../dcl/effects/legacy/state_req/_getAttrReqState'
+import _setAttrReqState from '../dcl/effects/legacy/state_req/_setAttrReqState'
 
 const arrayExclude = spv.arrayExclude
 
@@ -13,38 +15,26 @@ const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
 const onPromiseFail = req_utils.onPromiseFail
 
-const getReqState = (self, key) => {
-  return self.__runtime_attr_requests_state?.[key]
-}
+const getReqState = (self, key) => _getAttrReqState(self, key)
 
 const reqAttrName = (req_dcl) => {
   return `$meta$input_attrs_requests$${req_dcl.name}$done`
 }
 
 const setReqState = (self, key, prop, value) => {
-
-  if (!self.__runtime_attr_requests_state) {
-    self.__runtime_attr_requests_state = {}
+  const store = _getAttrReqState(self, key) || {
+    error: false,
+    process: false
   }
 
+  // it's ok to mutate store
+  store[prop] = value
+  _setAttrReqState(self, key, store)
 
-  if (!self.__runtime_attr_requests_state[key]) {
-    // it's ok to mutate store by ref
-    const store = {
-      error: false,
-      process: false
-    }
-
-    self.__runtime_attr_requests_state[key] = store
-  }
-
-  self.__runtime_attr_requests_state[key][prop] = value
-  return self.__runtime_attr_requests_state[key]
+  return store
 }
 
-const deleteReqState = (self, key) => {
-  self.__runtime_attr_requests_state[key] = null
-}
+const deleteReqState = (self, key) => _setAttrReqState(self, key, null)
 
 
 const withoutSelf = function(array, name) {
@@ -347,10 +337,6 @@ const requestState = function(state_name) {
 
   return bindRequest(api, req, selected_map, store, self)
 
-}
-
-export const initAttrsRequesting = (self) => {
-  self.__runtime_attr_requests_state = null
 }
 
 

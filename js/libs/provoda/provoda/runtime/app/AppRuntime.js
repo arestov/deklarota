@@ -11,6 +11,7 @@ import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage'
 import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
 import _initSubscribeRuntime from '../../../dcl/effects/legacy/subscribe/run/_initSubscribeRuntime'
+import _initAttrReqRuntime from '../../../dcl/effects/legacy/state_req/_initAttrReqRuntime'
 
 function AppRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -66,6 +67,7 @@ function AppRuntime(optionsRaw) {
   this.live_heavy_rel_query_by_rel_name = null
   this.requests = new Set()
   _initInterfacesStorage(this)
+  _initAttrReqRuntime(this)
 
   Object.seal(this)
 }

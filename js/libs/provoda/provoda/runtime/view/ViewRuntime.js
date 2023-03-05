@@ -7,6 +7,7 @@ import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
 import callFlowStep, { validateFlowStep } from '../../../View/callFlowStep'
 import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
 import _initSubscribeRuntime from '../../../dcl/effects/legacy/subscribe/run/_initSubscribeRuntime'
+import _initAttrReqRuntime from '../../../dcl/effects/legacy/state_req/_initAttrReqRuntime'
 
 function ViewRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -39,6 +40,7 @@ function ViewRuntime(optionsRaw) {
   this.requests = new Set()
   _initSubscribeRuntime(this)
   _initInterfacesStorage(this)
+  _initAttrReqRuntime(this)
 }
 
 ViewRuntime.prototype.start = function(options) {

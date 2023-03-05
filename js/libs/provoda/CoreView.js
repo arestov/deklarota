@@ -25,7 +25,7 @@ import getRelPath from './View/getRelPath'
 import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs/comp/runtime/connectViewExternalDeps'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.types'
-import requestState, { initAttrsRequesting, resetRequestedState } from './FastEventor/requestState'
+import requestState, { resetRequestedState } from './FastEventor/requestState'
 import { events_part, initEvents } from './View/events_part'
 import ___dkt_onAttrUpdate from './View/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/view/___dkt_saveInputFxTargetedResult'
@@ -180,7 +180,6 @@ const initView = function(target, view_otps, opts) {
     target.__connectAdapter.call(null, target)
   }
 
-  initAttrsRequesting(target)
   initApis(target, opts && opts.interfaces)
   if (target.isRootView) {
     const parent_opts = target.parent_view && target.parent_view.opts
