@@ -3,7 +3,7 @@ import isPrivate from './isPrivateState'
 const CH_GR_LE = 2
 
 const hasId = function(value) {
-  return value && value._provoda_id
+  return value && value._node_id
 }
 
 
@@ -37,9 +37,9 @@ function toTransferableStatesList(states_raw) {
     }
 
     fixed_values[jj] = {
-      _provoda_id: states[jj]._provoda_id
+      _node_id: states[jj]._node_id
     }
-    //fixme, отправляя _provoda_id мы не отправляем модели
+    //fixme, отправляя _node_id мы не отправляем модели
     //которые могли попасть в состояния после отправки ПОДДЕЛКИ текущей модели
 
     //needs_changes

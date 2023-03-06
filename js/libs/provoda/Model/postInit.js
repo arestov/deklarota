@@ -38,7 +38,7 @@ const __initStates = (self, model_init_opts) => {
 
   const changes_list = []
 
-  changes_list.push('_provoda_id', self._provoda_id)
+  changes_list.push('_node_id', self._node_id)
 
   if (init_states) {
     for (const state_name in init_states) {

@@ -14,7 +14,7 @@ export default function initSi(Constr, parent_md, data) {
 
 
   const opts = {
-    _provoda_id: parent_md._highway.models_counters++,
+    _node_id: parent_md._highway.models_counters++,
     map_parent: parent_md || null,
     app: parent_md.app
   }

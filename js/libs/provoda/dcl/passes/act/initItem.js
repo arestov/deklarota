@@ -82,7 +82,7 @@ export const initItem = function(md, target, raw_value, mut_action_result) {
     if (mut_action_result.mut_refs_index[value.hold_ref_id]) {
       throw new Error('ref id holded already ' + value.hold_ref_id)
     }
-    mut_action_result.mut_refs_index[value.hold_ref_id] = created_model._provoda_id
+    mut_action_result.mut_refs_index[value.hold_ref_id] = created_model._node_id
   }
 
   return created_model

@@ -102,7 +102,7 @@ SyncSender.prototype = {
     for (let i = 0; i < this.streams_list.length; i++) {
       const cur = this.streams_list[i]
       const index = this.sockets_m_index[cur.id]
-      if (!index[md._provoda_id]) {
+      if (!index[md._node_id]) {
         continue
       }
 
@@ -110,7 +110,7 @@ SyncSender.prototype = {
 
       const list = this.batched_by_id[cur.id]
       list.push(
-        ['nest-ch', md._provoda_id, struc, nesname, parsed_value]
+        ['nest-ch', md._node_id, struc, nesname, parsed_value]
       )
     }
 
@@ -123,13 +123,13 @@ SyncSender.prototype = {
     for (let i = 0; i < this.streams_list.length; i++) {
       const cur = this.streams_list[i]
       const index = this.sockets_m_index[cur.id]
-      if (!index[md._provoda_id]) {
+      if (!index[md._node_id]) {
         continue
       }
 
       const list = this.batched_by_id[cur.id]
       list.push(
-        ['state-ch', md._provoda_id, states]
+        ['state-ch', md._node_id, states]
       )
     }
 

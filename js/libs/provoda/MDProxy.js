@@ -4,9 +4,9 @@ import sameObjectIfEmpty from './utils/sameObjectIfEmpty'
 import { init as initStores, methods as storesMethods } from './MDProxy/stores'
 const CH_GR_LE = 2
 
-const MDProxy = function(_provoda_id, mutable_children_models, md, space) {
-  this._provoda_id = _provoda_id
-  this.key = _provoda_id
+const MDProxy = function(_node_id, mutable_children_models, md, space) {
+  this._node_id = _node_id
+  this.key = _node_id
   this.views = null
   this.views_index = null
   this.vstates = null
@@ -30,7 +30,7 @@ const mutateRels = (target) => {
 Object.assign(MDProxy.prototype, storesMethods)
 
 const toMpx = (context, md) => {
-  const key = md._provoda_id
+  const key = md._node_id
   const mpx = context.space.mpxes_index[key]
   return mpx
 }
@@ -89,7 +89,7 @@ Object.assign(MDProxy.prototype, {
       return
     }
 
-    this.space.sendRPCLegacy(this._provoda_id, args)
+    this.space.sendRPCLegacy(this._node_id, args)
   },
   setStates: function() {},
   updateStates: function() {},

@@ -2,7 +2,7 @@ import ensurePublicAttrs from './ensurePublicAttrs'
 import isPublicRel from './rel/isPublicRel'
 
 const checkModel = function(md, models_index, local_index, all_for_parse) {
-  const cur_id = md._provoda_id
+  const cur_id = md._node_id
   if (!models_index[cur_id] && !local_index[cur_id]) {
     local_index[cur_id] = true
     all_for_parse.push(md)
@@ -16,7 +16,7 @@ const handleNesting = function(cur, models_index, local_index, all_for_parse) {
   }
 
   if (!Array.isArray(cur)) {
-    if (!cur._provoda_id) {
+    if (!cur._node_id) {
       throw new Error('unknown data structure inside nesting')
     }
 
@@ -36,17 +36,17 @@ const iterate = function(models_index, all_for_parse, local_index, big_result) {
 
   while (all_for_parse.length) {
     const cur_md = all_for_parse.shift()
-    const can_push = !models_index[cur_md._provoda_id]
+    const can_push = !models_index[cur_md._node_id]
     if (!can_push) {
       continue
     }
 
-    models_index[cur_md._provoda_id] = true
+    models_index[cur_md._node_id] = true
 
     const public_attrs = ensurePublicAttrs(cur_md)
 
     const result = {
-      _provoda_id: cur_md._provoda_id,
+      _node_id: cur_md._node_id,
       model_name: cur_md.model_name,
       hierarchy_num: cur_md.hierarchy_num,
       constr_id: cur_md.constr_id,

@@ -19,7 +19,7 @@ function watchAndRequest(root_bwlev_view, self, spyglass) {
   const parent_bwlev_view = spyglass.bwlev === true && getBwlevView(self)
   root_bwlev_view.RPCLegacy('requestSpyglass', {
     key: key,
-    bwlev: spyglass.bwlev && parent_bwlev_view.mpx.md._provoda_id,
+    bwlev: spyglass.bwlev && parent_bwlev_view.mpx.md._node_id,
     context_md: spyglass.context_md && getContextId(self, parent_bwlev_view, spyglass.context_md),
     name: spyglass.name,
   })
@@ -28,7 +28,7 @@ function watchAndRequest(root_bwlev_view, self, spyglass) {
 
 function getContextId(_view, parent_bwlev_view, steps) {
   if (steps === true) {
-    return parent_bwlev_view.getNesting('pioneer')._provoda_id
+    return parent_bwlev_view.getNesting('pioneer')._node_id
   }
 
   if (steps.startsWith('.')) {

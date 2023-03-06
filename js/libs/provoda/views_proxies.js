@@ -11,7 +11,7 @@ const push = Array.prototype.push
 const createMPXes = function(array, store, space) {
   for (let i = 0; i < array.length; i++) {
     const cur = array[i]
-    store[cur._provoda_id] = new MDProxy(cur._provoda_id, createMutableRelStore(cur), cur, space)
+    store[cur._node_id] = new MDProxy(cur._node_id, createMutableRelStore(cur), cur, space)
   }
 }
 
@@ -23,7 +23,7 @@ const createMPXesByRawData = function(raw_array, ids_index, mpxes_index, space) 
   const clean_array = []
   const local_index = {}
   for (i = 0; i < raw_array.length; i++) {
-    const cur_id = raw_array[i]._provoda_id
+    const cur_id = raw_array[i]._node_id
     if (!ids_index[cur_id] && !local_index[cur_id]) {
       local_index[cur_id] = true
       clean_array.push(raw_array[i])
@@ -97,7 +97,7 @@ Proxies.prototype = {
     if (typeof space_id == 'object') {
       space_id = space_id.view_id
     }
-    const mpx = this.spaces[space_id].mpxes_index[md._provoda_id]
+    const mpx = this.spaces[space_id].mpxes_index[md._node_id]
 
     return mpx
   },
@@ -133,11 +133,11 @@ Proxies.prototype = {
     let raw_array = []
     for (let i = 0; i < this.spaces_list.length; i++) {
       const cur = this.spaces_list[i]
-      if (!cur.ids_index[md._provoda_id]) {
+      if (!cur.ids_index[md._node_id]) {
         continue
       }
 
-      if (cur.mpxes_index[md._provoda_id] === null) {
+      if (cur.mpxes_index[md._node_id] === null) {
         // model & mdproxy were disposed
         continue
       }
@@ -145,7 +145,7 @@ Proxies.prototype = {
       if (!collected) {
         collected = true
         if (value) {
-          if (value._provoda_id) {
+          if (value._node_id) {
             raw_array = [value]
           } else if (Array.isArray(value)) {
             raw_array = value
@@ -156,12 +156,12 @@ Proxies.prototype = {
       }
       createMPXesByRawData(raw_array, cur.ids_index, cur.mpxes_index, cur)
 
-      if (!cur.mpxes_index[md._provoda_id]) {
-        console.error(new Error(`Couldn't update rel views "${nesname}" of model ${md._provoda_id}.`))
+      if (!cur.mpxes_index[md._node_id]) {
+        console.error(new Error(`Couldn't update rel views "${nesname}" of model ${md._node_id}.`))
         continue
       }
 
-      cur.mpxes_index[md._provoda_id].sendCollectionChange(nesname, value, oldv, removed)
+      cur.mpxes_index[md._node_id].sendCollectionChange(nesname, value, oldv, removed)
 
     }
 
@@ -171,21 +171,21 @@ Proxies.prototype = {
   pushStates: function(md, states_list) {
     for (let i = 0; i < this.spaces_list.length; i++) {
       const cur = this.spaces_list[i]
-      if (!cur.ids_index[md._provoda_id] || cur.mpxes_index[md._provoda_id] == null) {
+      if (!cur.ids_index[md._node_id] || cur.mpxes_index[md._node_id] == null) {
         continue
       }
 
-      cur.mpxes_index[md._provoda_id].stackReceivedStates(states_list)
+      cur.mpxes_index[md._node_id].stackReceivedStates(states_list)
     }
   },
   killMD: function(md) {
     for (let i = 0; i < this.spaces_list.length; i++) {
       const cur = this.spaces_list[i]
-      if (cur.ids_index[md._provoda_id]) {
-        const mpx = cur.mpxes_index[md._provoda_id]
+      if (cur.ids_index[md._node_id]) {
+        const mpx = cur.mpxes_index[md._node_id]
         mpx.die()
         mpx.dispose()
-        cur.mpxes_index[md._provoda_id] = null
+        cur.mpxes_index[md._node_id] = null
       }
     }
   },

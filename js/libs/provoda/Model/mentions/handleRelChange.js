@@ -45,7 +45,7 @@ function handleAddMention(mentioner, collection_name, target) {
 }
 
 function handleRemoveMetionItem(mentioner, collection_name, item) {
-  if (item._provoda_id == null) {
+  if (item._node_id == null) {
     return
   }
 
@@ -64,7 +64,7 @@ function handleRemoveMetionItem(mentioner, collection_name, item) {
 }
 
 function handleAddMetionItem(mentioner, collection_name, item) {
-  if (item._provoda_id == null) {
+  if (item._node_id == null) {
     return
   }
   if (item.__mentions_as_rel == null) {

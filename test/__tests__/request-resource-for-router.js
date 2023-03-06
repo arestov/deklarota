@@ -152,7 +152,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
   const inited = await testingInit(AppRoot, {}, {session_root: true})
 
   const mainNavigationRouter = await getMainNavigationRouter(inited)
-  const getCurrentModelId = () => mainNavigationRouter.readAddr('< @one:_provoda_id < current_mp_md')
+  const getCurrentModelId = () => mainNavigationRouter.readAddr('< @one:_node_id < current_mp_md')
 
   {
     expect(mainNavigationRouter).toBeTruthy()
@@ -179,7 +179,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
 
   {
     // reset
-    mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._provoda_id)
+    mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._node_id)
     await inited.computed()
   }
 
@@ -228,7 +228,7 @@ test('should execute nested requireRel & reveal resource in router', async () =>
 
 
     // reset
-    mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._provoda_id)
+    mainNavigationRouter.RPCLegacy('navigateToResource', inited.app_model._node_id)
     await inited.computed()
     expect(mainNavigationRouter.readAddr('current_expected_rel')).toMatchSnapshot()
     expect(

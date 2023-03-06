@@ -58,7 +58,7 @@ test('should init', async () => {
             effects: {
               api: {
                 localApiFromRoot: [
-                  ['_provoda_id'],
+                  ['_node_id'],
                   ['#someApi'],
                   api => api,
                 ],

@@ -138,7 +138,7 @@ cloneObj(props, {
   handleTemplateRPC: function(method) {
     if (arguments.length === 1) {
       const bwlev_view = getBwlevView(this)
-      const bwlev_id = bwlev_view && bwlev_view.mpx._provoda_id
+      const bwlev_id = bwlev_view && bwlev_view.mpx._node_id
       this.RPCLegacy(method, bwlev_id)
     } else {
       this.RPCLegacy.apply(this, arguments)

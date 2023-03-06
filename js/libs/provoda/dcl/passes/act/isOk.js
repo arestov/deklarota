@@ -1,5 +1,5 @@
 function isProvodaBhv(md) {
-  return md.hasOwnProperty('_provoda_id') || md.hasOwnProperty('view_id')
+  return md.hasOwnProperty('_node_id') || md.hasOwnProperty('view_id')
 }
 
 export function isOk(list) {

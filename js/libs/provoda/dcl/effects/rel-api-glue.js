@@ -50,7 +50,7 @@ export const __dcls_extended_fxs = [
       const outtask = new ApiEffectDeclr(`__connect_api_${api_name}`, {
         api: ['self'],
         trigger: [ multiPathAsString(remote_api_mark_addr)],
-        require: ['_provoda_id'],
+        require: ['_node_id'],
         create_when: {
           api_inits: true,
         },

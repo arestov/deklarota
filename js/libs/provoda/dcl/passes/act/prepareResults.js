@@ -82,7 +82,7 @@ const unwrap = function(md, target, value, data, mut_action_result) {
     return
   }
 
-  if (target.path_type == 'by_provoda_id') {
+  if (target.path_type == 'by_node_id') {
     mut_action_result.mut_result.push({target: target, md: md, value: value, data: data})
     return
   }

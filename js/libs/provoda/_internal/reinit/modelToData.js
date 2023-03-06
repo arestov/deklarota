@@ -1,8 +1,8 @@
-const getId = (item) => item?._provoda_id
+const getId = (item) => item?._node_id
 
 const modelAsValue = (someval) => {
   if (getId(someval)) {
-    return { _provoda_id: someval._provoda_id }
+    return { _node_id: someval._node_id }
   }
 
   return someval
@@ -88,7 +88,7 @@ const modelToData = (self) => {
 
 
   return {
-    id: self._provoda_id,
+    id: self._node_id,
     model_name: self.model_name,
     attrs,
     rels,

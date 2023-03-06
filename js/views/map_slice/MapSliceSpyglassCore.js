@@ -40,10 +40,10 @@ export default spvExtend(View, {
     },
   },
   'collch-current_mp_md': function(_name, value) {
-    _updateAttr(this, 'current_mp_md', value._provoda_id)
+    _updateAttr(this, 'current_mp_md', value._node_id)
   },
   'collch-current_mp_bwlev': function(_name, value) {
-    _updateAttr(this, 'current_mp_bwlev', value._provoda_id)
+    _updateAttr(this, 'current_mp_bwlev', value._node_id)
   },
   'collch-navigation': {
     place: 'nav.daddy'
@@ -108,7 +108,7 @@ export default spvExtend(View, {
   effects: {
     api: {
       base: [
-        ['_provoda_id'],
+        ['_node_id'],
         ['self', 'start_screen_node'],
         (self, start_screen_node) => {
           self.tpls = self.tpls || []

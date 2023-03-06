@@ -11,7 +11,7 @@ const slice = Array.prototype.slice
 
 const FakeModel = function(model_skeleton, stream) {
   this.stream = stream
-  this._provoda_id = model_skeleton._provoda_id
+  this._node_id = model_skeleton._node_id
 
   this.children_models = Object.assign({}, model_skeleton.children_models)
   this.map_parent = model_skeleton.map_parent
@@ -35,7 +35,7 @@ FakeModel.prototype = {
     return getBwlevParent(this)
   },
   RealRemoteCall: function(arguments_obj) {
-    this.stream.RPCLegacy(this._provoda_id, slice.call(arguments_obj))
+    this.stream.RPCLegacy(this._node_id, slice.call(arguments_obj))
   },
   RPCLegacy: function() {
     this.RealRemoteCall(arguments)
@@ -86,7 +86,7 @@ SyncReceiver.prototype = {
 
     for (i = 0; i < array.length; i++) {
       cur = array[i]
-      cur_pvid = cur._provoda_id
+      cur_pvid = cur._node_id
       if (!this.models_index[cur_pvid]) {
         this.models_index[cur_pvid] = new FakeModel(cur, this.stream)
       }
@@ -97,7 +97,7 @@ SyncReceiver.prototype = {
 
     for (i = 0; i < array.length; i++) {
       //восстанавливаем связи моделей
-      cur_pvid = array[i]._provoda_id
+      cur_pvid = array[i]._node_id
       cur = this.models_index[cur_pvid]
       cur.map_parent = idToModel(this.models_index, cur.map_parent)
       for (const nesting_name in cur.children_models) {
@@ -111,14 +111,14 @@ SyncReceiver.prototype = {
     for (i = 0; i < array.length; i++) {
       //создаём передатчики обновлений во вьюхи
       cur = array[i]
-      cur_pvid = cur._provoda_id
+      cur_pvid = cur._node_id
       const fake_model = this.models_index[cur_pvid]
       if (!this.md_proxs_index[cur_pvid]) {
-        this.md_proxs_index[cur_pvid] = new MDProxy(cur._provoda_id, doCopy({}, fake_model.children_models), fake_model)
+        this.md_proxs_index[cur_pvid] = new MDProxy(cur._node_id, doCopy({}, fake_model.children_models), fake_model)
         fake_model.mpx = this.md_proxs_index[cur_pvid]
       }
     }
-    return array.length && this.models_index[array[0]._provoda_id]
+    return array.length && this.models_index[array[0]._node_id]
   },
   actions: {
     buildtree: function(message) {
@@ -140,14 +140,14 @@ SyncReceiver.prototype = {
       }
     },
     update_states: function(message) {
-      this.updateStates(message._provoda_id, message.value)
+      this.updateStates(message._node_id, message.value)
     },
     update_nesting: function(message) {
-      this.updateNesting(message._provoda_id, message.struc, message.name, message.value)
+      this.updateNesting(message._node_id, message.struc, message.name, message.value)
     }
   },
-  updateStates: function(_provoda_id, value) {
-    const target_model = this.models_index[_provoda_id]
+  updateStates: function(_node_id, value) {
+    const target_model = this.models_index[_node_id]
 
     for (let i = 0; i < value.length; i += CH_GR_LE) {
       const state_name = value[ i ]
@@ -156,16 +156,16 @@ SyncReceiver.prototype = {
     }
 
 
-    this.md_proxs_index[_provoda_id].stackReceivedStates(value)
+    this.md_proxs_index[_node_id].stackReceivedStates(value)
 
   },
-  updateNesting: function(_provoda_id, struc, name, value) {
+  updateNesting: function(_node_id, struc, name, value) {
     if (struc) {
       this.buildTree(struc)
     }
 
-    const target_model = this.models_index[_provoda_id]
-    const target_md_proxy = this.md_proxs_index[_provoda_id]
+    const target_model = this.models_index[_node_id]
+    const target_md_proxy = this.md_proxs_index[_node_id]
 
     const fakes_models = idToModel(this.models_index, value)
 

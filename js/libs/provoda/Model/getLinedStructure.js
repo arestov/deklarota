@@ -2,7 +2,7 @@ import isPublicRel from './rel/isPublicRel'
 
 const checkModel = function(original_models, md_or_mdreplacer, models_index, local_index, all_for_parse) {
   if (md_or_mdreplacer == null) {return}
-  const cur_id = md_or_mdreplacer._provoda_id
+  const cur_id = md_or_mdreplacer._node_id
   if (cur_id == null) {return}
 
   const md = original_models[cur_id]
@@ -26,9 +26,9 @@ const getLinedStructure = function(models_index_raw, local_index_raw) {
 
   while (all_for_parse.length) {
     const cur_md = all_for_parse.shift()
-    const can_push = !models_index[cur_md._provoda_id]
+    const can_push = !models_index[cur_md._node_id]
     if (can_push) {
-      models_index[cur_md._provoda_id] = true
+      models_index[cur_md._node_id] = true
     }
     checkModel(original_models, cur_md.map_parent, models_index, local_index, all_for_parse)
 
@@ -41,7 +41,7 @@ const getLinedStructure = function(models_index_raw, local_index_raw) {
         continue
       }
 
-      if (cur._provoda_id) {
+      if (cur._node_id) {
         checkModel(original_models, cur, models_index, local_index, all_for_parse)
         continue
       }

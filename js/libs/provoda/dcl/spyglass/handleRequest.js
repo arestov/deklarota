@@ -43,7 +43,7 @@ function ensureSpyglass(self, index, key, request) {
 
   const new_index = spv.cloneObj({}, index)
 
-  new_index[key] = spyglass._provoda_id
+  new_index[key] = spyglass._node_id
 
   return new_index
 }

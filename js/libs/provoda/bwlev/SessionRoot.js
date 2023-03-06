@@ -27,7 +27,7 @@ const SessionRoot = spvExtend(Model, {
     probe_name: ['input'],
     map_level_num: ['input'],
     is_main_perspectivator_resident: ['input'],
-    pioneer_provoda_id: ['input'],
+    pioneer_node_id: ['input'],
     pioneer: ['input'],
     freeze_parent_bwlev: ['input'],
   },
@@ -65,7 +65,7 @@ const SessionRoot = spvExtend(Model, {
       const current_mp_bwlev = map.getNesting('current_mp_bwlev')
 
       const current_bwlev_id = req.current_bwlev_id || (remember_context
-        ? current_mp_bwlev && current_mp_bwlev._provoda_id
+        ? current_mp_bwlev && current_mp_bwlev._node_id
         : null)
 
       const fullReq = cloneObj(cloneObj({}, req), {

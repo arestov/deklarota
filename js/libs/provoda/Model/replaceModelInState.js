@@ -1,7 +1,7 @@
 
 
 const hasId = function(value) {
-  return value && value._provoda_id
+  return value && value._node_id
 }
 
 
@@ -12,7 +12,7 @@ const replaceItem = function(item) {
 
   if (!item._highway) {
     return {
-      _provoda_id: item._provoda_id,
+      _node_id: item._node_id,
     }
   }
 
@@ -20,11 +20,11 @@ const replaceItem = function(item) {
     item._highway.__model_replacers = {}
   }
 
-  item._highway.__model_replacers[item._provoda_id] = {
-    _provoda_id: item._provoda_id,
+  item._highway.__model_replacers[item._node_id] = {
+    _node_id: item._node_id,
   }
 
-  return item._highway.__model_replacers[item._provoda_id]
+  return item._highway.__model_replacers[item._node_id]
 }
 
 const replaceModelInState = function(value) {

@@ -7,7 +7,7 @@ function findByPioneer(list, pioneer) {
 
   for (let i = 0; i < list.length; i++) {
     const cur = list[i]
-    if (getRel(cur, 'pioneer')._provoda_id == pioneer._provoda_id) {
+    if (getRel(cur, 'pioneer')._node_id == pioneer._node_id) {
       return cur
     }
 

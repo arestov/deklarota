@@ -85,7 +85,7 @@ AppRuntime.prototype.start = function(options) {
     self.calls_flow.input(function() {
       const app_model = new options.App({
         interfaces: options.interfaces,
-        _provoda_id: APP_ROOT_ID,
+        _node_id: APP_ROOT_ID,
         _highway: self,
       })
 

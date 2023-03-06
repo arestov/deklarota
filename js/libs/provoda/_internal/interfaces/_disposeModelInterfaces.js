@@ -6,7 +6,7 @@ const _disposeModelInterfaces = (model) => {
 
   /*
     - iterate over all names (expecting not much names)
-    - check _provoda_id/view_id in each
+    - check _node_id/view_id in each
     - call model.useInterface(name, null)
   */
 

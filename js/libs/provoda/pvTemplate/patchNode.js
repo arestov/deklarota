@@ -30,7 +30,7 @@ const patching_directives = {
       const directives_data = {
         new_scope_generator: true,
         instructions: {
-          'pv-when-condition': makePvWhen(comment_anchor, '_provoda_id', function() {
+          'pv-when-condition': makePvWhen(comment_anchor, '_node_id', function() {
             return getSample(params.sample_name, true, template_options)
           }, null)
         }

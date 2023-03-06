@@ -27,12 +27,12 @@ test('should use api from root & parent', async () => {
     effects: {
       api: {
         localApiFromRoot: [
-          ['_provoda_id'],
+          ['_node_id'],
           ['#someApi'],
           api => api,
         ],
         // localApiFromParent: [
-        //   ['_provoda_id'],
+        //   ['_node_id'],
         //   ['#someApi'],
         //   api => api,
         // ],

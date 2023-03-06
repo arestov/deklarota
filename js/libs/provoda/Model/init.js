@@ -38,12 +38,12 @@ export default function initModel(self, opts, data) {
 
   self.map_parent = opts?.map_parent || null
 
-  if (!opts._provoda_id) {
+  if (!opts._node_id) {
     throw new Error('provide id')
   }
 
-  self._provoda_id = `${opts._provoda_id}`
-  self._highway.models[self._provoda_id] = self
+  self._node_id = `${opts._node_id}`
+  self._highway.models[self._node_id] = self
 
   //self.states = {};
 

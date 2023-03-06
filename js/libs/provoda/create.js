@@ -7,7 +7,7 @@ export default function(Constr, states, params, map_parent, app = map_parent.app
   const opts = (app || map_parent) && {
     app: app,
     map_parent: map_parent,
-    _provoda_id: app._highway.models_counters++,
+    _node_id: app._highway.models_counters++,
   }
 
   const model = new BehaviorContr(opts, {

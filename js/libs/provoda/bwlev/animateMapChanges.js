@@ -17,7 +17,7 @@ const multiBwlevAttr = (multi_attr, final_attr) => (bwlev, value) => {
 
   let obj = {...md.getAttr(multi_attr)}
 
-  const key = bwlev._provoda_id
+  const key = bwlev._node_id
 
   if (value) {
     obj[key] = value

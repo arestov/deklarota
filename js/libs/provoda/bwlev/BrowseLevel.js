@@ -97,7 +97,7 @@ const BrowseLevel = spvExtend(Model, {
     children_bwlevs_by_pioneer_id: ['input', Object.freeze({})],
     // can we calc this using some rel?
 
-    pioneer_provoda_id: ['input'],
+    pioneer_node_id: ['input'],
     pioneer: ['input'],
     currentReq: ['input'],
     distance_from_destination: ['input'],
@@ -131,9 +131,9 @@ const BrowseLevel = spvExtend(Model, {
     ],
     'should_be_redirected': [
       'comp',
-      ['navigation_unavailable', '< @one:_provoda_id < pioneer <<', 'mp_show'],
-      function(state, _provoda_id, show) {
-        return state && show && _provoda_id
+      ['navigation_unavailable', '< @one:_node_id < pioneer <<', 'mp_show'],
+      function(state, _node_id, show) {
+        return state && show && _node_id
       }
     ],
     'source_of_item': [
@@ -220,10 +220,10 @@ const BrowseLevel = spvExtend(Model, {
 
     '__supervision': [
       'comp',
-      ['_provoda_id'],
-      function(_provoda_id) {
+      ['_node_id'],
+      function(_node_id) {
         return {
-          needy_id: _provoda_id,
+          needy_id: _node_id,
           store: {},
           reqs: {},
           is_active: {}
@@ -313,7 +313,7 @@ const BrowseLevel = spvExtend(Model, {
           const deleteCacheValue = (prev, item) => {
             if (!prev) {return}
 
-            const pioneer_id = item.getNesting('pioneer')._provoda_id
+            const pioneer_id = item.getNesting('pioneer')._node_id
             const cache = { ...prev.getAttr('children_bwlevs_by_pioneer_id') }
             delete cache[pioneer_id]
 
@@ -324,9 +324,9 @@ const BrowseLevel = spvExtend(Model, {
           const setCacheValue = (next, item) => {
             if (!next) {return}
 
-            const pioneer_id = item.getNesting('pioneer')._provoda_id
+            const pioneer_id = item.getNesting('pioneer')._node_id
             const cache = {...next.getAttr('children_bwlevs_by_pioneer_id') }
-            cache[pioneer_id] = item._provoda_id
+            cache[pioneer_id] = item._node_id
 
             // TODO: let's not change state by calling updateAttr inside action
             next.updateAttr('children_bwlevs_by_pioneer_id', cache)

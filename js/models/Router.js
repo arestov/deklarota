@@ -128,7 +128,7 @@ export default spvExtend(BasicRouter, {
     selected__name: ['input'],
     current_expected_rel: ['input'],
     perspectivator_name: ['input', 'navigation'],
-    __init_router: ['comp', ['_provoda_id'], Boolean],
+    __init_router: ['comp', ['_node_id'], Boolean],
     'used_data_structure': [
       'comp',
       ['< @one:used_data_structure < $parent'],
@@ -161,12 +161,12 @@ export default spvExtend(BasicRouter, {
     ],
     __access_list: [
       'comp',
-      ['< @all:$meta$has_no_access < wanted_bwlev_branch.pioneer', '< @all:_provoda_id < wanted_bwlev_branch'],
+      ['< @all:$meta$has_no_access < wanted_bwlev_branch.pioneer', '< @all:_node_id < wanted_bwlev_branch'],
       (arg1, arg2) => ([...arg1, ...arg2])
     ],
     current_model_id: [
       'comp',
-      ['< @one:_provoda_id < current_mp_md', '$meta$removed'],
+      ['< @one:_node_id < current_mp_md', '$meta$removed'],
       (arg1, removed) => !removed && arg1,
     ],
     current_mp_bwlev: [
@@ -334,7 +334,7 @@ export default spvExtend(BasicRouter, {
     expectRelBeRevealedByRelPath: {
       to: ['current_expected_rel'],
       fn: [
-        ['$now', '_provoda_id'],
+        ['$now', '_node_id'],
         ({rel_path, current_md_id, currentReq}, now, self_id) => {
           return {
             id: `${now}-${self_id}`,

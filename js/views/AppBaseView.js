@@ -110,7 +110,7 @@ export const AppBase = spvExtend(View, {}, {
   effects: {
     api: {
       ui_samples: [
-        '_provoda_id',
+        '_node_id',
         ['self', 'bodyNode', 'els'],
         (self, body, els) => {
           if (els.ui_samples) {

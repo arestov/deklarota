@@ -109,7 +109,7 @@ function propagateAttrChanges(etr, total_original_states, total_ch) {
     etr.sendStatesToMPX(total_ch)
   }
 
-  if (etr._provoda_id != null) {
+  if (etr._node_id != null) {
     updateModelAttrsInDktStorage(etr, total_ch)
   }
 
@@ -509,7 +509,7 @@ function reportBadChange(etr, state_name) {
   if (etr._highway.warn_unexpected_attrs === false) {return}
 
   // only for models
-  if (!etr._provoda_id) {return}
+  if (!etr._node_id) {return}
 
   if (hasOwnProperty(etr.compx_check, state_name)) {
     return
@@ -526,7 +526,7 @@ function reportBadChange(etr, state_name) {
 
   etr.__bad_attrs_reported[state_name] = true
 
-  if (state_name == '_provoda_id') {
+  if (state_name == '_node_id') {
     return
   }
 

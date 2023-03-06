@@ -21,11 +21,11 @@ const changeCurrentLev = function(probe_md, next_lev, prev_lev) {
 }
 
 const ensureBwLev = function(probe_md, probe_name, md) {
-  if (!probe_md.bwlevs.hasOwnProperty(md._provoda_id)) {
-    probe_md.bwlevs[md._provoda_id] = createLevel(probe_name, -1, null, md, probe_md)
+  if (!probe_md.bwlevs.hasOwnProperty(md._node_id)) {
+    probe_md.bwlevs[md._node_id] = createLevel(probe_name, -1, null, md, probe_md)
   }
 
-  return probe_md.bwlevs[md._provoda_id]
+  return probe_md.bwlevs[md._node_id]
 }
 
 /*

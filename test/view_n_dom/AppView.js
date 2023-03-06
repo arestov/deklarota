@@ -9,7 +9,7 @@ const AppView = spv.inh(AppBase, null, {
   effects: {
     api: {
       ui_samples: [
-        ['_provoda_id'],
+        ['_node_id'],
         ['bodyNode', 'document'],
         (body, doc) => {
           const uiSamplesRaw = $(body).find('#ui-samples').detach()
@@ -18,7 +18,7 @@ const AppView = spv.inh(AppBase, null, {
         },
       ],
       con: [
-        ['_provoda_id'],
+        ['_node_id'],
         ['bodyNode'],
         bodyNode => bodyNode.querySelector('.app'),
       ],

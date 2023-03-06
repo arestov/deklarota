@@ -200,8 +200,8 @@ const getSpyglassData = function(current_view, target_id, probe_name, value, req
   const parent_bwlev_view = getBwlevView(current_view)
 
   const data = {
-    context_md: parent_bwlev_view && parent_bwlev_view.getNesting('pioneer')._provoda_id,
-    bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._provoda_id,
+    context_md: parent_bwlev_view && parent_bwlev_view.getNesting('pioneer')._node_id,
+    bwlev: parent_bwlev_view && parent_bwlev_view.mpx.md._node_id,
     target_id: target_id,
     probe_name: probe_name,
     value: value,
@@ -214,7 +214,7 @@ const getSpyglassData = function(current_view, target_id, probe_name, value, req
 
 const changeSpyglassUniversal = function(method) {
   return function(_e, _node, probe_name, value, req) {
-    const data = getSpyglassData(this, this.mpx._provoda_id, probe_name, value, req)
+    const data = getSpyglassData(this, this.mpx._node_id, probe_name, value, req)
 
     const bwlev_view = this.root_view.parent_view
     bwlev_view.RPCLegacy(method, data)
@@ -280,11 +280,11 @@ const View = spvExtend(AttrsOwner, {
   },
   requestState,
   resetRequestedState,
-  requestPageById: function(_provoda_id) {
-    this.root_view.parent_view.RPCLegacy('requestPage', _provoda_id)
+  requestPageById: function(_node_id) {
+    this.root_view.parent_view.RPCLegacy('requestPage', _node_id)
   },
   requestPage: function() {
-    const md_id = this.mpx._provoda_id
+    const md_id = this.mpx._node_id
 
     this.root_view.parent_view.RPCLegacy('requestPage', md_id)
   },
@@ -295,10 +295,10 @@ const View = spvExtend(AttrsOwner, {
     const bwlev_view = getBwlevView(this)
 
     const context_bwlev_id = remember_context
-      ? (bwlev_view && bwlev_view.mpx._provoda_id)
+      ? (bwlev_view && bwlev_view.mpx._node_id)
       : null
     const current_bwlev_id = remember_context
-      ? (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._provoda_id)
+      ? (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._node_id)
       : null
 
     this.root_view.parent_view.RPCLegacy('navShowByReq', {
@@ -331,41 +331,41 @@ const View = spvExtend(AttrsOwner, {
 
     navigateToResource() {
       const contextRouter = getContextRouter(this)
-      contextRouter.RPCLegacy('navigateToResource', this.mpx._provoda_id)
+      contextRouter.RPCLegacy('navigateToResource', this.mpx._node_id)
     },
     navigateByLocator(_e, _node, locator) {
       const contextRouter = getContextRouter(this)
-      contextRouter.RPCLegacy('navigateByLocator', this.mpx._provoda_id, locator)
+      contextRouter.RPCLegacy('navigateByLocator', this.mpx._node_id, locator)
     },
     navigateRouterToResource(_e, _node, router) {
       const session_root = getSessionRoot(this)
-      session_root.RPCLegacy('navigateRouterToResource', this.mpx._provoda_id, router)
+      session_root.RPCLegacy('navigateRouterToResource', this.mpx._node_id, router)
     },
     navigateRouterByLocator(_e, _node, router, locator) {
       const session_root = getSessionRoot(this)
-      session_root.RPCLegacy('navigateRouterByLocator', this.mpx._provoda_id, router, locator)
+      session_root.RPCLegacy('navigateRouterByLocator', this.mpx._node_id, router, locator)
     },
     expectRelBeRevealedByRelPath(_e, _node, rel_path, goal) {
       const contextRouter = getContextRouter(this)
-      const current_md_id = this.mpx._provoda_id
+      const current_md_id = this.mpx._node_id
 
       const bwlev_view = goal && getBwlevView(this)
 
       const currentReq = goal ? {
         goal,
-        context_bwlev_id: bwlev_view && bwlev_view.mpx._provoda_id,
-        current_bwlev_id: (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._provoda_id),
+        context_bwlev_id: bwlev_view && bwlev_view.mpx._node_id,
+        current_bwlev_id: (bwlev_view && bwlev_view.getNesting('map').getNesting('current_mp_bwlev')._node_id),
       } : null
 
       contextRouter.RPCLegacy('dispatch', 'expectRelBeRevealedByRelPath', {rel_path, current_md_id, currentReq})
     },
     expectRouterRevealRel(_e, _node, router, rel_path) {
       const session_root = getSessionRoot(this)
-      const current_md_id = this.mpx._provoda_id
+      const current_md_id = this.mpx._node_id
       session_root.RPCLegacy('expectRouterRevealRel', current_md_id, router, rel_path)
     },
     navigateToResourceByStacking(_e, _node) {
-      const id = this.mpx._provoda_id
+      const id = this.mpx._node_id
       const bwlev_view = getBwlevView(this)
       bwlev_view.RPCLegacy('dispatch', 'navigateToResourceByStacking', { target_id: id })
     },
@@ -376,8 +376,8 @@ const View = spvExtend(AttrsOwner, {
       const bwlev_view = getBwlevView(this)
       bwlev_view.RPCLegacy('dispatch', 'navigateToNavParent')
     },
-    requestPageById: function(_e, _node, _provoda_id) {
-      this.requestPageById(_provoda_id)
+    requestPageById: function(_e, _node, _node_id) {
+      this.requestPageById(_node_id)
     },
     toggleSpyglass: changeSpyglassUniversal('toggleSpyglass'),
     updateSpyglass: changeSpyglassUniversal('updateSpyglass'),

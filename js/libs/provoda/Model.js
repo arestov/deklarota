@@ -116,7 +116,7 @@ function modelProps(add) {
 
   add({
     $attrs$expected_input$basic: {
-      _provoda_id: null,
+      _node_id: null,
       $meta$inited: false,
       $meta$removed: false,
       '<<<<': null,
@@ -213,7 +213,7 @@ function modelProps(add) {
       return getStrucParent(this, count, soft)
     },
     getInstanceKey: function() {
-      return this._provoda_id
+      return this._node_id
     },
     initChi: function(name, data) {
       const Constr = this._all_chi['chi-' + name]
@@ -231,7 +231,7 @@ function modelProps(add) {
     },
     connectMPX: function() {
       if (!this.mpx) {
-        this.mpx = new MDProxy(this._provoda_id, createMutableRelStore(this), this)
+        this.mpx = new MDProxy(this._node_id, createMutableRelStore(this), this)
       }
       return this.mpx
     },
@@ -280,7 +280,7 @@ function modelProps(add) {
 
       this.dead = leak
 
-      this._highway.models[this._provoda_id] = null
+      this._highway.models[this._node_id] = null
       deleteModelInDktStorage(this)
       return this
     }
@@ -381,7 +381,7 @@ function modelProps(add) {
   add({
     actions: {
       createOutputTask: {
-        to: ['_provoda_id'],
+        to: ['_node_id'],
         fn: [
           ['$noop', '<<<<'],
           ([task_name, payload], noop, self) => {

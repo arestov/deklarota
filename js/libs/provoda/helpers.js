@@ -12,7 +12,7 @@ import getNetApiByDeclr from './helpers/getNetApiByDeclr'
 
 
 function getBwlevId(view) {
-  return getBwlevView(view).mpx._provoda_id
+  return getBwlevView(view).mpx._node_id
 }
 
 export default {

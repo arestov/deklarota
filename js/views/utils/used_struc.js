@@ -9,7 +9,7 @@ const bhv = {
   attrs: {
     'view_path': [
       'comp',
-      ['_provoda_id'],
+      ['_node_id'],
       function() {
         return getViewPath(this).join('.')
       }

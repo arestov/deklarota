@@ -22,15 +22,15 @@ test('should not init idle rel until its ok to init', async () => {
   const inited = await testingInit(AppRoot)
 
   {
-    expect(inited.app_model.readAddr('< @one:_provoda_id < user1')).toBeTruthy()
-    expect(inited.app_model.readAddr('< @one:_provoda_id < user2')).toBeUndefined()
+    expect(inited.app_model.readAddr('< @one:_node_id < user1')).toBeTruthy()
+    expect(inited.app_model.readAddr('< @one:_node_id < user2')).toBeUndefined()
   }
 
   {
     inited.app_model.updateAttr('wantUser2', true)
     await inited.computed()
 
-    expect(inited.app_model.readAddr('< @one:_provoda_id < user1')).toBeTruthy()
-    expect(inited.app_model.readAddr('< @one:_provoda_id < user2')).toBeTruthy()
+    expect(inited.app_model.readAddr('< @one:_node_id < user1')).toBeTruthy()
+    expect(inited.app_model.readAddr('< @one:_node_id < user2')).toBeTruthy()
   }
 })

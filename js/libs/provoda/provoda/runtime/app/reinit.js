@@ -216,14 +216,14 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
     const Constr = AppRoot.prototype.constrs_by_name.get(cur.model_name).constructor
     const opts = {
       _highway: runtime,
-      _provoda_id: cur.id,
+      _node_id: cur.id,
       map_parent: null,
       app: null,
       reinit: true,
     }
 
     const item = new Constr(opts)
-    if (runtime.models[item._provoda_id] !== item) {
+    if (runtime.models[item._node_id] !== item) {
       throw new Error()
     }
 
@@ -259,9 +259,9 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
     return listToRefs(value)
   }
 
-  const hasProvodaId = (item) => Boolean(item?._provoda_id)
+  const hasProvodaId = (item) => Boolean(item?._node_id)
 
-  const getByProvodaId = (item) => getById(item._provoda_id)
+  const getByProvodaId = (item) => getById(item._node_id)
 
   const toRuntimeAttrValue = (val) => {
     if (!Array.isArray(val)) {
@@ -269,7 +269,7 @@ export const reinit = async (AppRoot, runtime, data, interfaces, options) => {
         return val
       }
 
-      return getById(val._provoda_id)
+      return getById(val._node_id)
     }
     if (!val.some(hasProvodaId)) {
       return val

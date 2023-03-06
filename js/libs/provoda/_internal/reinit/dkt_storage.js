@@ -15,14 +15,14 @@ export const createModelInDktStorage = (self) => {
   const rels = modelRelsToData(self)
   const mentions = modelMentionsToData(self)
 
-  self._highway.dkt_storage.createModel(self._provoda_id, self.model_name, attrs, rels, mentions)
+  self._highway.dkt_storage.createModel(self._node_id, self.model_name, attrs, rels, mentions)
 }
 
 export const deleteModelInDktStorage = (self) => {
   if (noStorage(self)) {
     return null
   }
-  self._highway.dkt_storage.deleteModel(self._provoda_id)
+  self._highway.dkt_storage.deleteModel(self._node_id)
 
 }
 
@@ -42,14 +42,14 @@ export const updateModelAttrsInDktStorage = (self, changes_list) => {
   }
 
 
-  self._highway.dkt_storage.updateModelAttrs(self._provoda_id, converted)
+  self._highway.dkt_storage.updateModelAttrs(self._node_id, converted)
 }
 export const updateModelRelInDktStorage = (self, rel_name, value) => {
   if (noStorage(self)) {
     return null
   }
 
-  self._highway.dkt_storage.updateModelRel(self._provoda_id, rel_name, modelRelToData(value))
+  self._highway.dkt_storage.updateModelRel(self._node_id, rel_name, modelRelToData(value))
 }
 
 export const updateModelMentionInDktStorage = (self, mention_name, value) => {
@@ -57,7 +57,7 @@ export const updateModelMentionInDktStorage = (self, mention_name, value) => {
     return null
   }
 
-  self._highway.dkt_storage.updateModelMention(self._provoda_id, self.model_name, mention_name, mentionValueToData(value))
+  self._highway.dkt_storage.updateModelMention(self._node_id, self.model_name, mention_name, mentionValueToData(value))
 }
 
 export const createExpectedRelInDktStorage = (self, key, mention_chain) => {

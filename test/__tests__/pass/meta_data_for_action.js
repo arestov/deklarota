@@ -19,7 +19,7 @@ test('should pass meta data for action', async () => {
     },
     actions: {
       doSomethingWithMeta: {
-        to: ['_provoda_id'],
+        to: ['_node_id'],
         fn: [
           ['$noop', '$meta$payload', '$meta$timestamp'],
           (str, noop, input, timestamp) => {

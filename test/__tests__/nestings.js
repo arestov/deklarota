@@ -8,10 +8,10 @@ import init from 'test/init'
 
 const toIds = md_list => {
   if (!Array.isArray(md_list)) {
-    return md_list && md_list._provoda_id
+    return md_list && md_list._node_id
   }
 
-  return md_list.map(item => item._provoda_id)
+  return md_list.map(item => item._node_id)
 }
 
 test('nestings updated', async () => {

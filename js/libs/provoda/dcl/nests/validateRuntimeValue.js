@@ -78,13 +78,13 @@ const validateRuntimeValue = (self, rel_name, value) => {
     for (let i = 0; i < value.length; i++) {
       const element = value[i]
       if (element.dead) {
-        element._warnError('used dead model!', {rel_name, insideOf: self._provoda_id})
+        element._warnError('used dead model!', {rel_name, insideOf: self._node_id})
       }
     }
 
   } else if (value) {
     if (value.dead) {
-      value._warnError('used dead model!', {rel_name, insideOf: self._provoda_id})
+      value._warnError('used dead model!', {rel_name, insideOf: self._node_id})
     }
   }
 

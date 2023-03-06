@@ -42,8 +42,8 @@
     produce: {
       canBeDeleted: {
         api: ['self', '#chrome'],
-        trigger: ['_provoda_id'],
-        require: ['_provoda_id'],
+        trigger: ['_node_id'],
+        require: ['_node_id'],
         fn: (self, chrome) => {
           // TODO: use subscribe. Don't use getSPI!
           chrome.tabs.onUpdated.addListener((tabId, changes) => {
@@ -82,7 +82,7 @@
 
   - ```
     "someCustomAPI": [
-      ['_provoda_id'], // набор состояний ожидаемый до выполнения функции
+      ['_node_id'], // набор состояний ожидаемый до выполнения функции
       ['#api1', 'api2', 'self'], // список других api требуемый для выполнения функции
       function(api1, api2, self) { // функция возвращает интеферфейс который будет известен модели как someCustomAPI
       	// api1 - api с корневой модели

@@ -17,7 +17,7 @@ const ReqDep = function(dep_key, dep, target, supervision, needy) {
 }
 
 const sourceKey = function(req_dep, suffix) {
-  return req_dep.target._provoda_id + '-' + suffix
+  return req_dep.target._node_id + '-' + suffix
 }
 
 
@@ -308,11 +308,11 @@ const handleDep = function(dep, req_dep, self) {
 }
 
 const reqKey = function(self, dep) {
-  return self._provoda_id + '-' + dep.dep_id
+  return self._node_id + '-' + dep.dep_id
 }
 
 const checkWhy = function(supervision, self, dep) {
-  const sub_path = [self._provoda_id, dep.dep_id]
+  const sub_path = [self._node_id, dep.dep_id]
   const tree = supervision.store
   const was_active = spv.getTargetField(supervision.is_active, sub_path)
 
@@ -349,7 +349,7 @@ function changeDependence(mark) {
 
     const dep_key = dep.dep_id
 
-    const path = [self._provoda_id, dep.dep_id, why]
+    const path = [self._node_id, dep.dep_id, why]
     const tree = supervision.store
 
     const reqs = supervision.reqs

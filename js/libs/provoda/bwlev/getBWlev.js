@@ -9,7 +9,7 @@ const getConstr = function(map, model_name) {
 
 export default function getBWlev(md, probe_name, parent_bwlev, map_level_num, map, freeze_parent_bwlev) {
   const cache = parent_bwlev && parent_bwlev.getAttr('children_bwlevs_by_pioneer_id')
-  const key = md._provoda_id
+  const key = md._node_id
   const cached = cache && cache[key] && getModelById(md, cache[key])
   if (cached) {
     return cached
@@ -28,7 +28,7 @@ export default function getBWlev(md, probe_name, parent_bwlev, map_level_num, ma
   if (cache) {
     parent_bwlev.updateAttr('children_bwlevs_by_pioneer_id', {
       ...cache,
-      [key]: bwlev._provoda_id
+      [key]: bwlev._node_id
     })
   };
 

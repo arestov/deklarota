@@ -16,7 +16,7 @@ const AppModelBase = spvExtend(LoadableList, {
     target.app = target
   },
   postInit: function(target) {
-    if (target._provoda_id !== APP_ROOT_ID) {
+    if (target._node_id !== APP_ROOT_ID) {
       throw new Error('app root should be ' + APP_ROOT_ID)
     }
 

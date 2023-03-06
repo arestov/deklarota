@@ -56,7 +56,7 @@ const targetData = function(to, result_name, dsl_options) {
   // how validate options.map_values_list_to_target ?
 
   return {
-    path_type: target_path == '*' ? 'by_provoda_id' : 'by_path',
+    path_type: target_path == '*' ? 'by_node_id' : 'by_path',
     value_by_name: result_name ? true : false,
     target_path: parsed_path,
     options: options,

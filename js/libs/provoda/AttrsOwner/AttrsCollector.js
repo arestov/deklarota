@@ -111,7 +111,7 @@ function AttrsCollector(defined_attrs) {
   this.all = []
 
   this.defineAttr('length')
-  this.defineAttr('_provoda_id')
+  this.defineAttr('_node_id')
 
   for (let i = 0; i < defined_attrs.length; i++) {
     const cur = defined_attrs[i]

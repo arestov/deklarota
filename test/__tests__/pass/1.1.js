@@ -8,9 +8,9 @@
 
   setup:
     model + nested_model
-    model knows nested_model _provoda_id
+    model knows nested_model _node_id
     pass action to model
-    update nested_model state by _provoda_id
+    update nested_model state by _node_id
 */
 
 import model from 'pv/model'
@@ -61,7 +61,7 @@ test('simple pass by * calculated', async () => {
       pvUpdate(
         app.start_page,
         'my_friend_id',
-        pvState(getNesting(app.start_page, 'my_friend'), '_provoda_id'),
+        pvState(getNesting(app.start_page, 'my_friend'), '_node_id'),
       )
     },
     () => {

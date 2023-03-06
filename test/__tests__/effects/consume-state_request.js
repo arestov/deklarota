@@ -76,7 +76,7 @@ test('state loaded', async () => {
           create_when: {
             api_inits: true,
           },
-          trigger: ['_provoda_id'],
+          trigger: ['_node_id'],
           fn: () => {
             check3 = true
           },

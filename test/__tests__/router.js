@@ -107,7 +107,7 @@ test('should init router', async () => {
 
   {
     const another_md = inited.app_model.readAddr('<< @one:user')
-    mainNavigationRouter.RPCLegacy('navigateToResource', another_md._provoda_id)
+    mainNavigationRouter.RPCLegacy('navigateToResource', another_md._node_id)
 
     await inited.computed()
 
@@ -116,7 +116,7 @@ test('should init router', async () => {
 
   {
     const another_md = inited.app_model
-    mainNavigationRouter.RPCLegacy('navigateToResource', another_md._provoda_id)
+    mainNavigationRouter.RPCLegacy('navigateToResource', another_md._node_id)
 
     await inited.computed()
 
@@ -125,7 +125,7 @@ test('should init router', async () => {
 
   {
     const another_md = inited.app_model.readAddr('<< @one:user')
-    inited.rootBwlev.RPCLegacy('navigateRouterToResource', another_md._provoda_id, 'router-main')
+    inited.rootBwlev.RPCLegacy('navigateRouterToResource', another_md._node_id, 'router-main')
 
     await inited.computed()
 

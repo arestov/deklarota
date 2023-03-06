@@ -64,7 +64,7 @@ test('should keep uniq items of rel', async () => {
           create_when: {
             api_inits: true,
           },
-          trigger: ['_provoda_id'],
+          trigger: ['_node_id'],
           fn: self => {
             self.requestMoreData('users')
           },

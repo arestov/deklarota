@@ -57,7 +57,7 @@ Object {
       Object {
         "is_bool": false,
         "is_input": true,
-        "name": "_provoda_id",
+        "name": "_node_id",
       },
       Object {
         "is_bool": false,
@@ -208,7 +208,7 @@ Object {
       Object {
         "is_bool": false,
         "is_input": true,
-        "name": "_provoda_id",
+        "name": "_node_id",
       },
       Object {
         "is_bool": false,
@@ -359,7 +359,7 @@ Object {
       Object {
         "is_bool": false,
         "is_input": true,
-        "name": "_provoda_id",
+        "name": "_node_id",
       },
       Object {
         "is_bool": false,
@@ -414,7 +414,7 @@ Object {
       Object {
         "is_bool": false,
         "is_input": true,
-        "name": "pioneer_provoda_id",
+        "name": "pioneer_node_id",
       },
       Object {
         "is_bool": false,
@@ -515,7 +515,7 @@ Object {
       Object {
         "is_bool": false,
         "is_input": true,
-        "name": "_provoda_id",
+        "name": "_node_id",
       },
       Object {
         "is_bool": false,

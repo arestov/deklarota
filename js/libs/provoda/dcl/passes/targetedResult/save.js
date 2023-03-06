@@ -74,7 +74,7 @@ const saveByProvodaId = function(current_motivator, md, _target, wrap) {
 
 const saveResultToTarget = function(current_motivator, exec_item) {
   const target = exec_item.target
-  if (target.path_type == 'by_provoda_id') {
+  if (target.path_type == 'by_node_id') {
     saveByProvodaId(current_motivator, exec_item.md, target, exec_item.value)
     return
   }
