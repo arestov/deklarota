@@ -39,15 +39,15 @@ const PvSimpleSampler = (function() {
   };
   (function() {
     const likeAttrs = {
-      'pv-props': true,
-      'pv-style-props': true,
+      'dk-props': true,
+      'dk-style-props': true,
     }
     const setStructureData = function(struc_store, is_root_node, cur_node, bind_data, states_list, children_list, getSample) {
       if (!is_root_node) {
-        if (bind_data.instructions['pv-rel']) {
+        if (bind_data.instructions['dk-rel']) {
           children_list.push({
             item: parseStructureData(cur_node, struc_store, false, getSample),
-            data: bind_data.instructions['pv-rel']
+            data: bind_data.instructions['dk-rel']
           })
         }
 
@@ -58,14 +58,14 @@ const PvSimpleSampler = (function() {
           if (bind_data.instructions[directive_name]) {
             has_scope_gen = true
             if (config.states_using_directives[directive_name]) {
-              //mainaly for pv-repeat
+              //mainaly for dk-repeat
               push.apply(states_list, bind_data.instructions[directive_name].sfy_values)
             }
 
           }
         }
         if (has_scope_gen) {
-          //mainaly pv-repeat and pv-rel
+          //mainaly dk-repeat and dk-rel
           return
         }
       }
@@ -75,7 +75,7 @@ const PvSimpleSampler = (function() {
           continue
         }
 
-        // 'pv-props'
+        // 'dk-props'
         if (likeAttrs[cur] !== true) {
           push.apply(states_list, bind_data.instructions[cur].sfy_values)
           continue
@@ -107,8 +107,8 @@ const PvSimpleSampler = (function() {
         const cur_node = bind_data_list[ i + 1 ]
         const bind_data = bind_data_list[ i + 2 ]
 
-        if (is_root_node && bind_data.instructions['pv-rel']) {
-          structure_data.controller_name = bind_data.instructions['pv-rel'].controller_name
+        if (is_root_node && bind_data.instructions['dk-rel']) {
+          structure_data.controller_name = bind_data.instructions['dk-rel'].controller_name
         }
 
         setStructureData(struc_store, is_root_node, cur_node, bind_data, structure_data.states, children_list, getSample)

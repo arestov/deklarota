@@ -18,7 +18,7 @@ function getPVData(cur_node, struc_store, getSample) {
   return getCachedPVData(cur_node, struc_store, false, getSample)
 }
 
-const createPvNest = scope_generators_p['pv-rel']
+const createPvNest = scope_generators_p['dk-rel']
 
 const getMarkedPvNest = function(node, pv_nest, struc_store, getSample) {
   if (!pv_nest) {
@@ -27,13 +27,13 @@ const getMarkedPvNest = function(node, pv_nest, struc_store, getSample) {
 
   const directives_data = cloneObj({}, getPVData(node, struc_store, getSample))
 
-  if (directives_data.instructions['pv-rel']) {
-    throw new Error('pv-import and sample itself could not be both marked as pv-rel')
+  if (directives_data.instructions['dk-rel']) {
+    throw new Error('dk-import and sample itself could not be both marked as dk-rel')
   }
 
 
   directives_data.instructions = cloneObj({}, directives_data.instructions)
-  directives_data.instructions['pv-rel'] = createPvNest(node, pv_nest)
+  directives_data.instructions['dk-rel'] = createPvNest(node, pv_nest)
   directives_data.new_scope_generator = true
 
   const result = unsetStrucKey(node)

@@ -13,7 +13,7 @@ const comment_directives = config.comment_directives
 
 const template_struc_store = {}
 const comment_pvdiv_regexp = /(^.+?)\s/
-const getUnprefixedPV = spv.getDeprefixFunc('pv-', true)
+const getUnprefixedPV = spv.getDeprefixFunc('dk-', true)
 
 const getNodeInstanceCount = function(pvprsd, struc_store) {
   if (!struc_store.instances_ci) {
@@ -84,7 +84,7 @@ const getDirectivesData = (function() {
 
     const attributes_list = []
     for (let i = 0; i < attributes.length; i++) {
-      //создаём кэш, список "pv-*" атрибутов
+      //создаём кэш, список "dk-*" атрибутов
       attr_name = attributes[i].name
 
       if (getUnprefixedPV(attr_name)) {
@@ -159,8 +159,8 @@ const getDirectivesData = (function() {
       }
     }
 
-    if (attrs_by_names['pv-import']) {
-      directives_data.instructions['pv-import'] = parsePVImport(cur_node, attrs_by_names['pv-import'][0].node.value)
+    if (attrs_by_names['dk-import']) {
+      directives_data.instructions['dk-import'] = parsePVImport(cur_node, attrs_by_names['dk-import'][0].node.value)
     }
 
     for (let i = 0; i < attributes_list.length; i++) {

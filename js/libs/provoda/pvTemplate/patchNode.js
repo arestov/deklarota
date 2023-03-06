@@ -13,7 +13,7 @@ const dRemove = dom_helpers.remove
 const dAfter = dom_helpers.after
 
 const patching_directives = {
-  'pv-import': (function() {
+  'dk-import': (function() {
     let counter = 1
 
     function createKey() {
@@ -21,7 +21,7 @@ const patching_directives = {
     }
 
     return function(node, params, getSample, _opts) {
-      const comment_anchor = window.document.createComment('anchor for pv-import ' + params.sample_name)
+      const comment_anchor = window.document.createComment('anchor for dk-import ' + params.sample_name)
       const parent_node = node.parentNode
       parent_node.replaceChild(comment_anchor, node)
 
@@ -30,7 +30,7 @@ const patching_directives = {
       const directives_data = {
         new_scope_generator: true,
         instructions: {
-          'pv-when-condition': makePvWhen(comment_anchor, '_node_id', function() {
+          'dk-when-condition': makePvWhen(comment_anchor, '_node_id', function() {
             return getSample(params.sample_name, true, template_options)
           }, null)
         }
@@ -39,39 +39,39 @@ const patching_directives = {
       return comment_anchor
     }
   })(),
-  'pv-when': function(node, params, _getSample, _opts) {
+  'dk-when': function(node, params, _getSample, _opts) {
     const parent_node = node.parentNode
     const full_declaration = params
 
-    const comment_anchor = window.document.createComment('anchor for pv-when')
+    const comment_anchor = window.document.createComment('anchor for dk-when')
     parent_node.replaceChild(comment_anchor, node)
     const directives_data = {
       new_scope_generator: true,
       instructions: {
-        'pv-when-condition': makePvWhen(comment_anchor, full_declaration, false, node)
+        'dk-when-condition': makePvWhen(comment_anchor, full_declaration, false, node)
       }
     }
     comment_anchor.directives_data = directives_data
     return comment_anchor
   },
-  'pv-replace': function(node, params, getSample, opts) {
+  'dk-replace': function(node, params, getSample, opts) {
     params.done = true
     const map = opts && opts.samples
 
     const sample_name = (map && map[params.sample_name]) || params.sample_name
 
     const parent_node = node.parentNode
-    if (!params['pv-when']) {
+    if (!params['dk-when']) {
       const tnode = getSample(sample_name, true)
       parent_node.replaceChild(tnode, node)
       return tnode
     } else {
-      const comment_anchor = window.document.createComment('anchor for pv-when')
+      const comment_anchor = window.document.createComment('anchor for dk-when')
       parent_node.replaceChild(comment_anchor, node)
       const directives_data = {
         new_scope_generator: true,
         instructions: {
-          'pv-when-condition': makePvWhen(comment_anchor, params['pv-when'], function() {
+          'dk-when-condition': makePvWhen(comment_anchor, params['dk-when'], function() {
             return getSample(sample_name, true)
           }, null)
         }
@@ -88,14 +88,14 @@ const patchNode = function(node, struc_store, directives_data, getSample, opts) 
   const instructions = directives_data && directives_data.instructions
 
   if (instructions) {
-    if (instructions['pv-when'] && instructions['pv-rel']) {
-      throw new Error('do not use pv-when and pv-rel on same node')
+    if (instructions['dk-when'] && instructions['dk-rel']) {
+      throw new Error('do not use dk-when and dk-rel on same node')
       /*
         1 - it's not osbiois what should be handled 1st
         2 - there is bug:
-          when pv-when is true it appends node,
-          pv-rel remove it. clone it.
-          so when pv-when is false it tries to remove wrong node
+          when dk-when is true it appends node,
+          dk-rel remove it. clone it.
+          so when dk-when is false it tries to remove wrong node
       */
     }
 
@@ -204,8 +204,8 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       wwtch.local_state.all_chunks = wwtch.context.parseAppendedAndInit(root_node)
       wwtch.destroyer = destroyerUsualWWtch
 
-      // hotfix for pv-repeat
-      // pvTreeChange should be passed inside pv-repeat
+      // hotfix for dk-repeat
+      // pvTreeChange should be passed inside dk-repeat
       if (wwtch.context.pvTreeChange) {
         wwtch.context.pvTreeChange()
       }
@@ -215,6 +215,6 @@ function makePvWhen(anchor, expression, getSample, sample_node) {
       root_node = null
 
     }
-  }, 'pv-when')
+  }, 'dk-when')
 }
 export default patchNode

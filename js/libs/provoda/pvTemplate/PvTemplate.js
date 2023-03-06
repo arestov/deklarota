@@ -24,8 +24,8 @@ const unwrap = dom_helpers.unwrap
 /*
 
 <!--
-<div pv-import="imp-area_for_button">
-  <script type="pv-import-map">
+<div dk-import="imp-area_for_button">
+  <script type="dk-import-map">
     [
       {
         "imp-desc_item": "imp-desc_item-tag"
@@ -500,7 +500,7 @@ spv.Class.extendTo(PvTemplate, {
 
   scope_generators:{
 
-    'pv-rel': function(node, data) {
+    'dk-rel': function(node, data) {
       //coll_name for_model filter
       if (typeof data.coll_name == 'string') {
         const pv_view = {
@@ -523,7 +523,7 @@ spv.Class.extendTo(PvTemplate, {
         return new BnddChunk('pv_view', pv_view)
       }
     },
-    'pv-repeat': function(node, data) {
+    'dk-repeat': function(node, data) {
       if (node == this.root_node) {
         return
       }
@@ -535,7 +535,7 @@ spv.Class.extendTo(PvTemplate, {
       const calculator = data.calculator
       const sfy_values = data.sfy_values
 
-      const comment_anchor = window.document.createComment('pv-repeat anchor for: ' + expression)
+      const comment_anchor = window.document.createComment('dk-repeat anchor for: ' + expression)
       after(node, comment_anchor)
 
       detach(node)
@@ -547,7 +547,7 @@ spv.Class.extendTo(PvTemplate, {
       return [
         new BnddChunk('pv_repeat', repeat_data),
         new BnddChunk('states_watcher', {
-          w_cache_key:  node.pvprsd + '_' + node.pvprsd_inst + '*' + 'pv-repeat',
+          w_cache_key:  node.pvprsd + '_' + node.pvprsd_inst + '*' + 'dk-repeat',
           node: node,
           context: this,
           original_fv: nothing,
@@ -728,9 +728,9 @@ spv.Class.extendTo(PvTemplate, {
       return result
     }
     const directives_h = {
-      // 'pv-replace': function(node, index) {
+      // 'dk-replace': function(node, index) {
       // 	if (index) {
-      // 		if (index['pv-when']) {
+      // 		if (index['dk-when']) {
 
       // 		} else {
       // 			var data = {
@@ -741,7 +741,7 @@ spv.Class.extendTo(PvTemplate, {
       // 		}
       // 	}
       // },
-      'pv-when-condition': function(node, standch) {
+      'dk-when-condition': function(node, standch) {
         if (!standch) {
           return
         }
@@ -757,7 +757,7 @@ spv.Class.extendTo(PvTemplate, {
         return chunk
 
       },
-      'pv-text': function(node, standch) {
+      'dk-text': function(node, standch) {
         if (!standch) {
           return
         }
@@ -765,17 +765,17 @@ spv.Class.extendTo(PvTemplate, {
         const wwtch = standch.createBinding(node, this)
         return new BnddChunk('states_watcher', wwtch)
       },
-      'pv-class': multipleStandChes,
-      'pv-props': multipleStandChes,
-      'pv-style-props': multipleStandChes,
-      'pv-anchor': function(node, full_declaration) {
+      'dk-class': multipleStandChes,
+      'dk-props': multipleStandChes,
+      'dk-style-props': multipleStandChes,
+      'dk-anchor': function(node, full_declaration) {
         const anchor_name = full_declaration
         return new BnddChunk('ancs', {
           anchor_name: anchor_name,
           node: node
         })
       },
-      'pv-type': function(node, standch) {
+      'dk-type': function(node, standch) {
         if (!standch) {
           return
         }
@@ -792,7 +792,7 @@ spv.Class.extendTo(PvTemplate, {
         ]
 
       },
-      'pv-events': function(node, pv_events_data) {
+      'dk-events': function(node, pv_events_data) {
         if (!pv_events_data) {
           return
         }
@@ -808,7 +808,7 @@ spv.Class.extendTo(PvTemplate, {
         }
         return result
       },
-      'pv-log'(node, full_declaration) {
+      'dk-log'(node, full_declaration) {
         this.callEventCallback(node, null, ['_log', full_declaration])
       }
     }

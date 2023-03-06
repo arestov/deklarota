@@ -4,7 +4,7 @@ export default function parsePVImport(node, sample_name) {
 
   const possible = node.nodeName === 'SCRIPT'
     ? node
-    : node.querySelector('script[type="pv-import-map"]')
+    : node.querySelector('script[type="dk-import-map"]')
 
   let script
   if (possible === node) {
@@ -21,6 +21,6 @@ export default function parsePVImport(node, sample_name) {
   return {
     sample_name: sample_name,
     map: map,
-    pv_nest: script.getAttribute('pv-rel') || null
+    pv_nest: script.getAttribute('dk-rel') || null
   }
 };

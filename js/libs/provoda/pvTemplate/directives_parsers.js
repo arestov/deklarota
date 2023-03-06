@@ -167,45 +167,45 @@ export default {
   config: (function() {
     const config = {
       one_parse: {
-        'pv-import': true,
-        'pv-when': true
+        'dk-import': true,
+        'dk-when': true
       },
       one_parse_list: [],
       pseudo: {
-        'pv-when-condition': true
+        'dk-when-condition': true
       },
       pseudo_list: [],
       scope_generators: {
-        'pv-rel': true,
-        'pv-repeat': true,
-        'pv-foreign': true
+        'dk-rel': true,
+        'dk-repeat': true,
+        'dk-foreign': true
       },
       scope_g_list: [],
       states_using_directives: {
-        'pv-text': true,
-        'pv-class': true,
-        'pv-props': true,
-        'pv-style-props': true,
-        'pv-type': true,
-        'pv-repeat': true
+        'dk-text': true,
+        'dk-class': true,
+        'dk-props': true,
+        'dk-style-props': true,
+        'dk-type': true,
+        'dk-repeat': true
       },
       sud_list: [],
       directives: {
-        'pv-text': true,
-        'pv-class': true,
-        'pv-props': true,
-        'pv-style-props': true,
-        'pv-anchor': true,
-        'pv-type': true,
-        'pv-events': true,
-        'pv-log': true
+        'dk-text': true,
+        'dk-class': true,
+        'dk-props': true,
+        'dk-style-props': true,
+        'dk-anchor': true,
+        'dk-type': true,
+        'dk-events': true,
+        'dk-log': true
       },
       directives_names_list: [],
 
       comment_directives: {
-      //	'pv-when': true,
-        'pv-replace': true,
-        'pv-importable': true
+      //	'dk-when': true,
+        'dk-replace': true,
+        'dk-importable': true
       },
       comment_directives_names_list: [],
     }
@@ -230,7 +230,7 @@ export default {
   getIndexList: getIndexList,
   getFieldsTreesBases: getFieldsTreesBases,
   comment_directives_p: {
-    'pv-replace': function(_node, full_declaration, _directive_name, _getSample) {
+    'dk-replace': function(_node, full_declaration, _directive_name, _getSample) {
       const index = {}
       const complex_value = full_declaration
       const complects = complex_value.match(regxp_props_com_soft)
@@ -252,7 +252,7 @@ export default {
     }
   },
   directives_p: {
-    'pv-text': (function() {
+    'dk-text': (function() {
       const getTextValue = function(node) {
         return getText(node)
       }
@@ -267,7 +267,7 @@ export default {
         }, directive_name)
       }
     })(),
-    'pv-class': (function() {
+    'dk-class': (function() {
       const getClassName = function(node, class_name) {
         return node.classList.contains(class_name)
       }
@@ -309,15 +309,15 @@ export default {
         return result
       }
     })(),
-    'pv-props': multipleParts(createPropChange, 'props'),
-    'pv-style-props': multipleParts(createStylePropChange, 'style-props'),
-    'pv-when': function(_node, full_declaration, _directive_name) {
+    'dk-props': multipleParts(createPropChange, 'props'),
+    'dk-style-props': multipleParts(createStylePropChange, 'style-props'),
+    'dk-when': function(_node, full_declaration, _directive_name) {
       if (!full_declaration) {
         return
       }
       return full_declaration
     },
-    'pv-type': (function() {
+    'dk-type': (function() {
       const getPVTypes = function() {
         return ''
       }
@@ -340,7 +340,7 @@ export default {
         }
         full_declaration = hlpSimplifyValue(full_declaration)
 
-        //если pv-types не требует постоянных вычислений (не зависит ни от одного из состояний)
+        //если dk-types не требует постоянных вычислений (не зависит ни от одного из состояний)
         //то использующие шаблон ноды могут выдавать общий результирующий объект - это нужно реализовать fixme
 
         return new StandartChange(node, {
@@ -351,7 +351,7 @@ export default {
         }, directive_name)
       }
     })(),
-    'pv-events': (function() {
+    'dk-events': (function() {
       const createPVEventData = function(event_name, data, event_opts) {
 
         event_opts = event_opts && event_opts.split(',')
@@ -407,12 +407,12 @@ export default {
         return result
       }
     })(),
-    'pv-log'(_node, full_declaration) {
+    'dk-log'(_node, full_declaration) {
       return full_declaration
     }
   },
   scope_generators_p: {
-    'pv-rel': function(_node, full_declaration) {
+    'dk-rel': function(_node, full_declaration) {
       const attr_value = full_declaration
 
       const filter_parts = attr_value.split('|')
@@ -462,7 +462,7 @@ export default {
         filterFn: filterFn
       }
     },
-    'pv-repeat': function(_node, full_declaration) {
+    'dk-repeat': function(_node, full_declaration) {
 
       //start of angular.js code
       const expression = full_declaration//attr.ngRepeat;

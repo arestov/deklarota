@@ -60,7 +60,7 @@
 
 - AppView (seesu "AppView", `wp_box = new WPBox`/ arrow keyboard navigation usage example, 'spyglass-navigation'/MapSliceSpyglass)
 
-- StartPageView (seesu module, `this.els.start_screen` usage example, pv-foreign?)
+- StartPageView (seesu module, `this.els.start_screen` usage example, dk-foreign?)
 
 - env, localizer, localize (seesu parts/helpers)
 

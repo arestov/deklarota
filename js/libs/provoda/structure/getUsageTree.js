@@ -109,8 +109,8 @@ const buildFreeChildren = function(tree, base_from_parent, base_root_constr_id) 
 const getUsageTree = function(full_key, key, cur_view, root_view, base_from_parent, base_root_constr_id) {
   /*
   - collch
-  - pv-view внутри .tpl
-  - pv-view внутри .tpl нераскрытые
+  - dk-view внутри .tpl
+  - dk-view внутри .tpl нераскрытые
 
   */
 
