@@ -44,10 +44,10 @@ const PvSimpleSampler = (function() {
     }
     const setStructureData = function(struc_store, is_root_node, cur_node, bind_data, states_list, children_list, getSample) {
       if (!is_root_node) {
-        if (bind_data.instructions['pv-nest']) {
+        if (bind_data.instructions['pv-rel']) {
           children_list.push({
             item: parseStructureData(cur_node, struc_store, false, getSample),
-            data: bind_data.instructions['pv-nest']
+            data: bind_data.instructions['pv-rel']
           })
         }
 
@@ -65,7 +65,7 @@ const PvSimpleSampler = (function() {
           }
         }
         if (has_scope_gen) {
-          //mainaly pv-repeat and pv-nest
+          //mainaly pv-repeat and pv-rel
           return
         }
       }
@@ -107,8 +107,8 @@ const PvSimpleSampler = (function() {
         const cur_node = bind_data_list[ i + 1 ]
         const bind_data = bind_data_list[ i + 2 ]
 
-        if (is_root_node && bind_data.instructions['pv-nest']) {
-          structure_data.controller_name = bind_data.instructions['pv-nest'].controller_name
+        if (is_root_node && bind_data.instructions['pv-rel']) {
+          structure_data.controller_name = bind_data.instructions['pv-rel'].controller_name
         }
 
         setStructureData(struc_store, is_root_node, cur_node, bind_data, structure_data.states, children_list, getSample)

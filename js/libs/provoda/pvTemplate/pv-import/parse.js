@@ -21,6 +21,6 @@ export default function parsePVImport(node, sample_name) {
   return {
     sample_name: sample_name,
     map: map,
-    pv_nest: script.getAttribute('pv-nest') || null
+    pv_nest: script.getAttribute('pv-rel') || null
   }
 };

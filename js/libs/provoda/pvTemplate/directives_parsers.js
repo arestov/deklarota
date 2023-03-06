@@ -176,7 +176,7 @@ export default {
       },
       pseudo_list: [],
       scope_generators: {
-        'pv-nest': true,
+        'pv-rel': true,
         'pv-repeat': true,
         'pv-foreign': true
       },
@@ -412,7 +412,7 @@ export default {
     }
   },
   scope_generators_p: {
-    'pv-nest': function(_node, full_declaration) {
+    'pv-rel': function(_node, full_declaration) {
       const attr_value = full_declaration
 
       const filter_parts = attr_value.split('|')

@@ -500,7 +500,7 @@ spv.Class.extendTo(PvTemplate, {
 
   scope_generators:{
 
-    'pv-nest': function(node, data) {
+    'pv-rel': function(node, data) {
       //coll_name for_model filter
       if (typeof data.coll_name == 'string') {
         const pv_view = {

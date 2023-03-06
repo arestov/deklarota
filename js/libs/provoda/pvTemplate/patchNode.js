@@ -88,13 +88,13 @@ const patchNode = function(node, struc_store, directives_data, getSample, opts) 
   const instructions = directives_data && directives_data.instructions
 
   if (instructions) {
-    if (instructions['pv-when'] && instructions['pv-nest']) {
-      throw new Error('do not use pv-when and pv-nest on same node')
+    if (instructions['pv-when'] && instructions['pv-rel']) {
+      throw new Error('do not use pv-when and pv-rel on same node')
       /*
         1 - it's not osbiois what should be handled 1st
         2 - there is bug:
           when pv-when is true it appends node,
-          pv-nest remove it. clone it.
+          pv-rel remove it. clone it.
           so when pv-when is false it tries to remove wrong node
       */
     }
