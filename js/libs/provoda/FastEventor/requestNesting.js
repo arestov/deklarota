@@ -5,12 +5,12 @@ import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_
 import { FlowStepHandlRelSideDataLegacy, FlowStepUpdateManyAttrs } from '../Model/flowStepHandlers.types'
 import { hasOwnProperty } from '../hasOwnProperty'
 import { nestingMark } from '../dcl/effects/legacy/nest_req/nestingMark'
+import { emptyObject } from '../utils/sameObjectIfEmpty'
+import _getRelReqState from '../dcl/effects/legacy/nest_req/_getRelReqState'
+import _setRelReqState from '../dcl/effects/legacy/nest_req/_setRelReqState'
 
 const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
-
-
-const clean_obj = {}
 
 function exlcudeUnexpectedMetaAttrs(self, attrs) {
   for (const attr_name in attrs) {
@@ -119,8 +119,9 @@ function initRequest(self, nesting_name, paging_opts, has_error, network_api_opt
   return startFetching(self, nesting_name, paging_opts, has_error, network_api_opts)
 }
 
-export const initRelsRequesting = (self) => {
-  self.nesting_requests = null
+const getStore = (model, key) => _getRelReqState(model, key)
+const setStore = (model, key, value) => {
+  _setRelReqState(model, key, value)
 }
 
 export default function(dclt, nesting_name) {
@@ -140,21 +141,17 @@ export default function(dclt, nesting_name) {
     return
   }
 
-
-  if (!this.nesting_requests) {
-    this.nesting_requests = {}
-  }
-
-  if (!this.nesting_requests[ nesting_name ]) {
-    this.nesting_requests[ nesting_name ] = {
+  if (!getStore(this, nesting_name)) {
+    setStore(this, nesting_name, {
       //has_items: false,
       error: false,
       process: false,
       req: null,
-    }
+    })
   }
 
-  const store = this.nesting_requests[ nesting_name ]
+
+  const store = getStore(this, nesting_name)
   if (store.process) {
     return
   }
@@ -166,7 +163,7 @@ export default function(dclt, nesting_name) {
   const _this = this
 
   const isValidRequest = function(req) {
-    const store = _this.nesting_requests[nesting_name]
+    const store = getStore(_this, nesting_name)
     return store && store.req == req
   }
 
@@ -276,8 +273,9 @@ export default function(dclt, nesting_name) {
     // should be in data bus queue - use `.input` wrap
     const sputnik = _this
 
-    const morph_helpers = sputnik.app.morph_helpers
-    const result_data = parse_items.call(sputnik, r, clean_obj, morph_helpers)
+    const morph_helpers = sputnik.app.getInterface('$morph_helpers')
+
+    const result_data = parse_items.call(sputnik, r, emptyObject, morph_helpers)
     const items = Array.isArray(result_data) ? result_data : result_data.list
 
     const user_meta_attrs = Array.isArray(result_data) ? null : result_data.attrs

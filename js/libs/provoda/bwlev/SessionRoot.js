@@ -1,6 +1,5 @@
 
 import Model from '../Model'
-import spv from '../../spv'
 import handleSpyglassRequests from '../dcl/spyglass/handleRequest'
 import updateSpyglass from '../dcl/spyglass/update'
 import _updateAttr from '../_internal/_updateAttr'
@@ -9,8 +8,9 @@ import getModelById from '../utils/getModelById'
 import cloneObj from '../../spv/cloneObj'
 import handlers from './router_handlers'
 import requireRouter from './requireRouter'
+import spvExtend from '../../spv/inh'
 
-const SessionRoot = spv.inh(Model, {
+const SessionRoot = spvExtend(Model, {
   /*
     root lev manages routers
 

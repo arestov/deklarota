@@ -195,7 +195,7 @@ function createFakeEtr(etr, first_changes_list) {
       full_comlxs_list: etr.full_comlxs_list,
       full_comlxs_index: etr.full_comlxs_index,
       __attrs_all_comp: etr.__attrs_all_comp,
-      state: localState,
+      getAttr: localState,
     },
     total_original_states: new Map(),
     total_ch: [],
@@ -339,7 +339,7 @@ function getComplexInitList(etr) {
 
   for (let i = 0; i < etr.full_comlxs_list.length; i++) {
     const cur = etr.full_comlxs_list[i]
-    const cur_val = etr.state(cur.name)
+    const cur_val = etr.getAttr(cur.name)
     const new_val = compoundComplexState(etr, cur)
     if (isSameValue(cur_val, new_val)) {
       continue
@@ -418,7 +418,7 @@ export const calcProvidedCompList = function(model, provided_comp_list, input_an
 }
 
 function depValue(etr, dcl, num) {
-  return etr.state(dcl.depends_on[num])
+  return etr.getAttr(dcl.depends_on[num])
 }
 
 function callCompFn(etr, dcl) {
@@ -447,7 +447,7 @@ export function compoundComplexState(etr, temp_comx) {
   for (let i = 0; i < temp_comx.require_marks.length; i++) {
     const cur = temp_comx.require_marks[i]
     const state_name = temp_comx.depends_on[cur]
-    if (etr.state(state_name) == null) {
+    if (etr.getAttr(state_name) == null) {
       return null
     }
   }

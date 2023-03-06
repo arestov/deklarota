@@ -6,6 +6,7 @@ import filters from './modules/filters'
 import mutateGlobalTplFilters from '../libs/provoda/mutateGlobalTplFilters'
 import _updateAttr from '../libs/provoda/_internal/_updateAttr'
 import View from '../libs/provoda/View'
+import spvExtend from '../libs/spv/inh'
 
 mutateGlobalTplFilters(function(filter_name) {
   if (filters[filter_name]) {
@@ -28,7 +29,7 @@ const reportStructure = () => {
 
 const PvTemplate = View._PvTemplate
 
-export const AppBase = spv.inh(View, {}, {
+export const AppBase = spvExtend(View, {}, {
   location_name: 'root_view',
 
   dom_rp: true,

@@ -251,11 +251,11 @@ export default {
       }
       prev_view = this.getPrevView(array, i, location_id, true)
 
-      if (prev_view && prev_view.state('vis_con_appended')) {
+      if (prev_view && prev_view.getAttr('vis_con_appended')) {
         append_list.push(cur, this.createDOMComplect(complects, ordered_complects, prev_view, 'after'))
       } else {
         next_view = this.getNextView(array, i, location_id, true)
-        if (next_view && next_view.state('vis_con_appended')) {
+        if (next_view && next_view.getAttr('vis_con_appended')) {
           append_list.push(cur, this.createDOMComplect(complects, ordered_complects, next_view, 'before'))
         } else {
           append_list.push(cur, this.createDOMComplect(complects, ordered_complects, false, 'direct'))

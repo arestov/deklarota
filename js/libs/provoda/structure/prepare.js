@@ -1,8 +1,8 @@
 
 import mark from './mark'
-import spv from '../../spv'
+import spvExtend from '../../spv/inh'
 
 export default function prepare(root) {
-  const augmented = spv.inh(root, {}, {})
+  const augmented = spvExtend(root, {}, {})
   return mark(augmented, augmented, 0, null)
 }

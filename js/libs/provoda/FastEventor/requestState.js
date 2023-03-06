@@ -6,6 +6,8 @@ import req_utils from './req-utils'
 import types from './stateReqTypes'
 import { addRequestToRequestsManager } from '../dcl/effects/legacy/api/requests_manager'
 import { hasOwnProperty } from '../hasOwnProperty'
+import _getAttrReqState from '../dcl/effects/legacy/state_req/_getAttrReqState'
+import _setAttrReqState from '../dcl/effects/legacy/state_req/_setAttrReqState'
 
 const arrayExclude = spv.arrayExclude
 
@@ -13,38 +15,26 @@ const getRequestByDeclr = req_utils.getRequestByDeclr
 const findErrorByList = req_utils.findErrorByList
 const onPromiseFail = req_utils.onPromiseFail
 
-const getReqState = (self, key) => {
-  return self.__runtime_attr_requests_state?.[key]
-}
+const getReqState = (self, key) => _getAttrReqState(self, key)
 
 const reqAttrName = (req_dcl) => {
   return `$meta$input_attrs_requests$${req_dcl.name}$done`
 }
 
 const setReqState = (self, key, prop, value) => {
-
-  if (!self.__runtime_attr_requests_state) {
-    self.__runtime_attr_requests_state = {}
+  const store = _getAttrReqState(self, key) || {
+    error: false,
+    process: false
   }
 
+  // it's ok to mutate store
+  store[prop] = value
+  _setAttrReqState(self, key, store)
 
-  if (!self.__runtime_attr_requests_state[key]) {
-    // it's ok to mutate store by ref
-    const store = {
-      error: false,
-      process: false
-    }
-
-    self.__runtime_attr_requests_state[key] = store
-  }
-
-  self.__runtime_attr_requests_state[key][prop] = value
-  return self.__runtime_attr_requests_state[key]
+  return store
 }
 
-const deleteReqState = (self, key) => {
-  self.__runtime_attr_requests_state[key] = null
-}
+const deleteReqState = (self, key) => _setAttrReqState(self, key, null)
 
 
 const withoutSelf = function(array, name) {
@@ -106,7 +96,7 @@ function bindRequest(api, request, selected_map, store, self) {
 
         const has_error = network_api.errors_fields ? findErrorByList(r, network_api.errors_fields) : network_api.checkResponse(r)
         if (!has_error) {
-          const morph_helpers = self.morph_helpers
+          const morph_helpers = self.app.getInterface('$morph_helpers')
           const result = parse.call(self, r, null, morph_helpers)
           if (result != null) {
             return resolve(result)
@@ -195,8 +185,8 @@ function compxUsed(self, cur) {
     return null
   }
 
-  if (someValue(self.state(cur))) {
-    return self.state(cur)
+  if (someValue(self.getAttr(cur))) {
+    return self.getAttr(cur)
   }
 
   const without_self_name = withoutSelf(compx.watch_list, compx.name)
@@ -279,7 +269,7 @@ export function resetRequestedState(state_name) {
 }
 
 const requestState = function(state_name) {
-  const current_value = this.state(state_name)
+  const current_value = this.getAttr(state_name)
   if (someValue(current_value)) {
     return
   }
@@ -347,10 +337,6 @@ const requestState = function(state_name) {
 
   return bindRequest(api, req, selected_map, store, self)
 
-}
-
-export const initAttrsRequesting = (self) => {
-  self.__runtime_attr_requests_state = null
 }
 
 

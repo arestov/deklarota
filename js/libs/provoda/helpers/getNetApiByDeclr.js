@@ -1,5 +1,6 @@
 
 import spv from '../../spv'
+import _getInterface from '../_internal/interfaces/_getInterface'
 const startsWith = spv.startsWith
 
 export default function getNetApiByDeclr(send_declr, sputnik, app) {
@@ -13,8 +14,8 @@ export default function getNetApiByDeclr(send_declr, sputnik, app) {
   }
 
   if (startsWith(api_name, '#')) {
-    return (app || sputnik.app)._interfaces_used[api_name.replace('#', '')]
+    return _getInterface((app || sputnik.app), api_name.replace('#', ''))
   }
 
-  return sputnik._interfaces_used[api_name]
+  return _getInterface(sputnik, api_name)
 }

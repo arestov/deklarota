@@ -1,4 +1,3 @@
-import spv from '../../spv'
 import updateProxy from '../updateProxy'
 import useInterface, { __reportInterfaceChange, __updateInteraceState } from './useInterface'
 import gentlyUpdateAttr from './gentlyUpdateAttr'
@@ -6,10 +5,12 @@ import regfr_lightstev from '../internal_events/light_attr_change/regfire'
 import getNameByAttr from '../internal_events/light_attr_change/getNameByAttr'
 import onPropsExtend from '../onExtendSE'
 import pvState from '../utils/state'
-import initEffectsSubscribe from '../dcl/effects/legacy/subscribe/init'
 import { WFlowStepUseInterfaceAsSource } from '../flowStepsWrappers.type'
 import calls_flows_holder_basic from './calls_flows_holder_basic'
 import onInstanceInitDie from '../internal_events/die/onInstanceInit'
+import spvExtend from '../../spv/inh'
+import { UniFlowStepRuntimeOnlyFnWrapped } from '../CallbacksFlow/UniversalFlowTypes.type'
+import _getInterface from '../_internal/interfaces/_getInterface'
 
 export const __updateManyAttrs = function(obj) {
   const changes_list = []
@@ -39,7 +40,7 @@ function props(add) {
 
   add({
     getInterface: function(interface_name) {
-      return this._interfaces_used[interface_name]
+      return _getInterface(this, interface_name)
     },
     __updateInteraceState: __updateInteraceState,
     __reportInterfaceChange: __reportInterfaceChange,
@@ -53,7 +54,7 @@ function props(add) {
       }
 
       // expecting new transaction will be started
-      this._getCallsFlow().pushToFlow(fn, this, null, interface_instance, WFlowStepUseInterfaceAsSource)
+      this._getCallsFlow().pushToFlow(UniFlowStepRuntimeOnlyFnWrapped, fn, this, null, interface_instance, WFlowStepUseInterfaceAsSource)
     },
   })
 
@@ -80,9 +81,6 @@ function props(add) {
 //	full_comlxs_list: [],
     compx_check: {},
 //	full_comlxs_index: {},
-    state: function(state_path) {
-      return pvState(this, state_path)
-    },
     getAttr: function(state_path) {
       return pvState(this, state_path)
     },
@@ -127,7 +125,7 @@ function props(add) {
   })
 }
 
-const AttrsOwner = spv.inh(function() {}, {
+const AttrsOwner = spvExtend(function() {}, {
   naming: function(construct) {
     return function AttrsOwner() {
       construct(this)
@@ -135,7 +133,6 @@ const AttrsOwner = spv.inh(function() {}, {
   },
   init: function(self) {
 
-    initEffectsSubscribe(self)
     onInstanceInitDie(self)
 
   },

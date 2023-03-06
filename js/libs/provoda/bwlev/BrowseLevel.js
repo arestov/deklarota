@@ -1,9 +1,7 @@
 
-import spv from '../../spv'
 import Model from '../Model'
 import requestPage from './requestPage'
 import getModelById from '../utils/getModelById'
-import _updateRel from '../_internal/_updateRel'
 import pvState from '../utils/state'
 import flatStruc from '../structure/flatStruc'
 import getUsageStruc from '../structure/getUsageStruc'
@@ -20,6 +18,7 @@ import getRel from '../provoda/getRel'
 import getBwlevMap from './getBwlevMap'
 import followFromTo from './followFromTo'
 import execAction from '../dcl/passes/execAction'
+import spvExtend from '../../spv/inh'
 
 
 const transportName = function(spyglass_name) {
@@ -61,7 +60,7 @@ const switchToAliveParent = (bwlev) => {
   execAction(map, 'showBwlev', result_bwlev)
 }
 
-const BrowseLevel = spv.inh(Model, {
+const BrowseLevel = spvExtend(Model, {
   naming: function(fn) {
     return function BrowseLevel(opts, data, params, more, states) {
       fn(this, opts, data, params, more, states)
@@ -403,7 +402,7 @@ const BrowseLevel = spv.inh(Model, {
   },
 
   zoomOut: function() {
-    if (this.state('mp_show')) {
+    if (this.getAttr('mp_show')) {
       execAction(getBwlevMap(this), 'showBwlev', this)
     }
   },

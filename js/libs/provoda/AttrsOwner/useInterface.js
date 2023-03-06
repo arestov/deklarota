@@ -6,6 +6,8 @@ import usedInterfaceAttrName from '../dcl/effects/usedInterfaceAttrName'
 import { FlowStepUseInterface } from '../Model/flowStepHandlers.types'
 import markApi from '../dcl/effects/legacy/subscribe/run/markApi'
 import makeBindChanges from '../dcl/effects/legacy/subscribe/run/makeBindChanges'
+import _setInterface from '../_internal/interfaces/_setInterface'
+import _getInterface from '../_internal/interfaces/_getInterface'
 
 
 export function __reportInterfaceChange(interface_name, value) {
@@ -29,7 +31,7 @@ const ensurePrevApiRemoved = (self, interface_name, destroy) => {
   }
 
   const prev_values = markApi(self, interface_name)
-  self._interfaces_used[interface_name] = null
+  _setInterface(self, interface_name, null)
   const next_values = markApi(self, interface_name)
 
   makeBindChanges(self, prev_values, next_values)
@@ -40,7 +42,7 @@ const ensurePrevApiRemoved = (self, interface_name, destroy) => {
 }
 
 export const useInterfaceHandler = function(self, interface_name, obj, destroy) {
-  const old_interface = self._interfaces_used[interface_name]
+  const old_interface = _getInterface(self, interface_name)
   if (obj === old_interface || (obj == null && old_interface == null)) {
     return
   }
@@ -52,13 +54,8 @@ export const useInterfaceHandler = function(self, interface_name, obj, destroy) 
     return
   }
 
-  if (Object.isFrozen(self._interfaces_used)) {
-    self._interfaces_used = {}
-  }
-
-
   const prev_values = markApi(self, interface_name)
-  self._interfaces_used[interface_name] = obj
+  _setInterface(self, interface_name, obj)
   const next_values = markApi(self, interface_name)
 
   makeBindChanges(self, prev_values, next_values)

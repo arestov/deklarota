@@ -1,9 +1,10 @@
+import _getInterface from '../../../../_internal/interfaces/_getInterface'
 
 export function isEffectApiReady(self, effect) {
   for (let cc = 0; cc < effect.apis.length; cc++) {
     const api = effect.apis[cc]
 
-    if (!self._interfaces_used[api]) {
+    if (!_getInterface(self, api)) {
       return false
     }
   }

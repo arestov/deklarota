@@ -15,7 +15,7 @@ import isPrivate from './Model/isPrivateState'
 import getLinedStructure from './Model/getLinedStructure'
 import toSimpleStructure from './Model/toSimpleStructure'
 import ensurePublicAttrs from './Model/ensurePublicAttrs'
-import addrFromObj from './provoda/dcl/addr.js'
+import addrFromObj from './provoda/dcl/addr.ts'
 import disposeEffects from './dcl/effects/dispose'
 import getDepValue from './utils/multiPath/getDepValue'
 import parseAddr from './utils/multiPath/parse'
@@ -36,6 +36,9 @@ import { deleteModelInDktStorage } from './_internal/reinit/dkt_storage'
 import ___dkt_onAttrUpdate from './Model/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/model/___dkt_saveInputFxTargetedResult'
 import { scheduleCustomOutputTask } from './AttrsOwner/produceEffects'
+import spvExtend from '../spv/inh'
+import _disposeRelReqState from './dcl/effects/legacy/nest_req/_disposeRelReqState'
+import _disposeAttrReqState from './dcl/effects/legacy/state_req/_disposeAttrReqState'
 
 const push = Array.prototype.push
 
@@ -67,7 +70,7 @@ function MODELLEAK() {}
 const leak = new MODELLEAK()
 
 
-const Model = spv.inh(AttrsOwner, {
+const Model = spvExtend(AttrsOwner, {
   strict: true,
   naming: function(fn) {
     return function Model(opts, data, params, more, states) {
@@ -272,6 +275,9 @@ function modelProps(add) {
 
       triggerDestroy(this)
 
+      _disposeAttrReqState(this)
+      _disposeRelReqState(this)
+
       this.dead = leak
 
       this._highway.models[this._provoda_id] = null
@@ -368,7 +374,7 @@ function modelProps(add) {
   add({
     __act: act,
     dispatch: function(action_name, data, timestamp, meta_payload) {
-      this._calls_flow.pushToFlow(FlowStepAction, this, [this, action_name, data, timestamp, meta_payload])
+      this._calls_flow.pushToFlow(FlowStepAction, null, this, [this, action_name, data, timestamp, meta_payload])
     },
   })
 

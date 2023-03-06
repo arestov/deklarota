@@ -60,9 +60,9 @@ function calcsReady(highway) {
   const requests_promise = Promise.all(highway.requests)
 
   const flow_promise = calls_flow.flow_end ? new Promise(function(resolve) {
-    calls_flow.pushToFlow(function() {
+    calls_flow.whenReady(function() {
       resolve()
-    }, false, false, false, false, false, { complex_order: [Infinity] }, true)
+    })
   }) : Promise.resolve()
 
   return new Promise(function(resolve, reject) {

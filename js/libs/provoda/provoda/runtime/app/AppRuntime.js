@@ -5,18 +5,22 @@ import { Proxies } from '../../../views_proxies'
 import initEffects from '../../../AttrsOwner/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
-import callFlowStep from '../../../Model/callFlowStep'
+import callFlowStep, { validateFlowStep } from '../../../Model/callFlowStep'
 import { getModelDataSchema } from './reinit'
 import { APP_ROOT_ID } from '../../../Model/APP_ROOT_ID'
 import { commitChangesInDktStorage } from '../../../_internal/reinit/dkt_storage'
+import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
+import _initSubscribeRuntime from '../../../dcl/effects/legacy/subscribe/run/_initSubscribeRuntime'
+import _initAttrReqRuntime from '../../../dcl/effects/legacy/state_req/_initAttrReqRuntime'
+import _initRelReqRuntime from '../../../dcl/effects/legacy/nest_req/_initRelReqRuntime'
 
 function AppRuntime(optionsRaw) {
-
   const options = optionsRaw || {}
 
   const glo = typeof globalThis !== 'undefined' ? globalThis : window
   const flow = new CallbacksFlow({
     callFlowStep,
+    validateFlowStep,
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
@@ -33,7 +37,7 @@ function AppRuntime(optionsRaw) {
   initEffects(this)
 
   const whenAllReady = function(fn) {
-    flow.pushToFlow(fn, null, null, null, null, null, null, true)
+    flow.whenReady(fn)
   }
 
   this.whenAllReady = whenAllReady
@@ -56,13 +60,17 @@ function AppRuntime(optionsRaw) {
 
   this.relation_mocks = options.relation_mocks
   this.no_effects = Boolean(this.relation_mocks)
-  this._subscribe_effect_handlers = null
+  _initSubscribeRuntime(this)
   this.__model_replacers = null
   this.requests_by_declarations = null
   this.current_transaction = null
   this.expected_rels_to_chains = null
   this.live_heavy_rel_query_by_rel_name = null
   this.requests = new Set()
+  _initInterfacesStorage(this)
+  _initAttrReqRuntime(this)
+  _initRelReqRuntime(this)
+
   Object.seal(this)
 }
 

@@ -37,7 +37,7 @@ const makeCallFlowStep = (getFn: Function) => (flow_step: FlowStep): void => {
     в первую очередь мотиватор, далее контекст для самого себя, контекст колбэка, сам колбэк и аргументы для колбэка
 
     */
-    cb_wrapper.call(flow_step.real_context, flow_step, fn, flow_step.context, flow_step.args, flow_step.arg)
+    cb_wrapper.call(null, flow_step, fn, flow_step.context, flow_step.args, flow_step.arg)
     return
   }
 

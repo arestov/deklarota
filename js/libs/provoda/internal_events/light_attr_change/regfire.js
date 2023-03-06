@@ -19,13 +19,10 @@ export default {
     return !!getAttrByName(namespace)
   },
   fn: function(namespace) {
-    return this.state(getAttrByName(namespace))
+    return this.getAttr(getAttrByName(namespace))
   },
   getWrapper: function() {
     return WFlowStepWrapper
-  },
-  getFSNamespace: function(namespace) {
-    return getAttrByName(namespace)
   },
   createEventOpts: function(ev_name, cb, context) {
     return new LightEvOpts(ev_name, cb, context)

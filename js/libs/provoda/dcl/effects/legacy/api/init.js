@@ -1,5 +1,6 @@
 
 import { hasOwnProperty } from '../../../../hasOwnProperty'
+import _disposeModelInterfaces from '../../../../_internal/interfaces/_disposeModelInterfaces'
 import callApiDclFn from './callApiFn'
 
 
@@ -24,12 +25,8 @@ export const dispose = function(self) {
     }
   }
 
-  for (const name in self._interfaces_used) {
-    if (!hasOwnProperty(self._interfaces_used, name)) {
-      continue
-    }
-    self.useInterface(name, null)
-  }
+  _disposeModelInterfaces(self)
+
 }
 
 export default function initApis(self, apis_as_arg) {

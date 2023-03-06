@@ -1,6 +1,6 @@
-import spv from '../libs/spv'
 import AppModel from '../libs/provoda/provoda/AppModel'
 import prepare from '../libs/provoda/structure/prepare'
+import spvExtend from '../libs/spv/inh'
 
 
 export default function fakeApp(props, init) {
@@ -8,6 +8,6 @@ export default function fakeApp(props, init) {
   const all = {
     init: initSelf,
   }
-  const App = spv.inh(AppModel, all, props)
+  const App = spvExtend(AppModel, all, props)
   return prepare(App)
 }

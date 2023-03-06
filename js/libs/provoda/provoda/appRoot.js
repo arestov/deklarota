@@ -1,5 +1,5 @@
 
-import spv from '../../spv'
+import spvExtend from '../../spv/inh'
 import prepare from '../structure/prepare'
 import AppModel from './AppModel'
 
@@ -17,7 +17,7 @@ export default function(props, init) {
   }
   all.skip_code_path = true
 
-  const App = spv.inh(AppModel, all, props)
+  const App = spvExtend(AppModel, all, props)
   return prepare(App)
 
 }

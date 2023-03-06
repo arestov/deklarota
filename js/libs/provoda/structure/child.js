@@ -1,5 +1,6 @@
 
 import spv from '../../spv'
+import spvExtend from '../../spv/inh'
 const prefixValue = function(source) {
   if (!source) {
     return 'unk--'
@@ -14,7 +15,7 @@ const prefixValue = function(source) {
 }
 
 export default function(name, Constr, source) {
-  const Result = spv.inh(Constr, {
+  const Result = spvExtend(Constr, {
     skip_code_path: true
   }, {
     hierarchy_name_source: source || null,

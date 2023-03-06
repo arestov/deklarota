@@ -5,7 +5,7 @@ import spv from '../spv'
 import _updateAttrsByChanges from './_internal/_updateAttrsByChanges'
 import groupMotive from './helpers/groupMotive'
 import triggerDestroy from './helpers/triggerDestroy'
-import updateProxy, { initAttrs } from './updateProxy'
+import updateProxy from './updateProxy'
 import AttrsOwner from './AttrsOwner/AttrsOwner'
 import onPropsExtend from './View/onExtend'
 import selectCollectionChange from './View/selectCollectionChange'
@@ -25,11 +25,13 @@ import getRelPath from './View/getRelPath'
 import { connectViewExternalDeps, disconnectViewExternalDeps } from './dcl/attrs/comp/runtime/connectViewExternalDeps'
 import { stopRequests } from './dcl/effects/legacy/api/requests_manager'
 import { ViewFlowStepTickDetailsRequest } from './View/viewFlowStepHandlers.types'
-import requestState, { initAttrsRequesting, resetRequestedState } from './FastEventor/requestState'
+import requestState, { resetRequestedState } from './FastEventor/requestState'
 import { events_part, initEvents } from './View/events_part'
 import ___dkt_onAttrUpdate from './View/___dkt_onAttrUpdate'
 import ___dkt_saveInputFxTargetedResult from './dcl/effects/legacy/subscribe/run/view/___dkt_saveInputFxTargetedResult'
 import ensureInitialAttrs from './View/ensureInitialAttrs'
+import spvExtend from '../spv/inh'
+import _disposeAttrReqState from './dcl/effects/legacy/state_req/_disposeAttrReqState'
 
 const CH_GR_LE = 2
 
@@ -179,7 +181,6 @@ const initView = function(target, view_otps, opts) {
     target.__connectAdapter.call(null, target)
   }
 
-  initAttrsRequesting(target)
   initApis(target, opts && opts.interfaces)
   if (target.isRootView) {
     const parent_opts = target.parent_view && target.parent_view.opts
@@ -259,7 +260,7 @@ const getContextRouter = (self) => {
   return context_router
 }
 
-const View = spv.inh(AttrsOwner, {
+const View = spvExtend(AttrsOwner, {
   naming: function(fn) {
     return function View(view_otps, opts) {
       fn(this, view_otps, opts)
@@ -732,6 +733,7 @@ const View = spv.inh(AttrsOwner, {
     this.markAsDead(opts && opts.skip_md_call)
     nestBorrowDestroy(this)
     this._lbr.marked_as_dead = true
+    _disposeAttrReqState(this)
     // spyglassDestroy(this)
 
     return this

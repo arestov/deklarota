@@ -4,7 +4,10 @@ import CallbacksFlow from '../../../CallbacksFlow'
 import initEffects from '../../../AttrsOwner/initEffects'
 import bindRuntimeError from '../../bindRuntimeError'
 import onFinalTransactionStep from '../../../_internal/onFinalTransactionStep'
-import callFlowStep from '../../../View/callFlowStep'
+import callFlowStep, { validateFlowStep } from '../../../View/callFlowStep'
+import _initInterfacesStorage from '../../../_internal/interfaces/_initInterfacesStorage'
+import _initSubscribeRuntime from '../../../dcl/effects/legacy/subscribe/run/_initSubscribeRuntime'
+import _initAttrReqRuntime from '../../../dcl/effects/legacy/state_req/_initAttrReqRuntime'
 
 function ViewRuntime(optionsRaw) {
   const options = optionsRaw || {}
@@ -12,6 +15,7 @@ function ViewRuntime(optionsRaw) {
   const glo = typeof globalThis !== 'undefined' ? globalThis : window
   const flow = new CallbacksFlow({
     callFlowStep,
+    validateFlowStep,
     glo: glo,
     reportLongTask: options.reportLongTask,
     reportHugeQueue: options.reportHugeQueue,
@@ -26,7 +30,7 @@ function ViewRuntime(optionsRaw) {
   initEffects(this)
 
   const whenAllReady = function(fn) {
-    flow.pushToFlow(fn, null, null, null, null, null, null, true)
+    flow.whenReady(fn)
   }
 
   this.whenAllReady = whenAllReady
@@ -34,6 +38,9 @@ function ViewRuntime(optionsRaw) {
   this.local_calls_flow = flow
   this.sync_r = options.sync_r || null
   this.requests = new Set()
+  _initSubscribeRuntime(this)
+  _initInterfacesStorage(this)
+  _initAttrReqRuntime(this)
 }
 
 ViewRuntime.prototype.start = function(options) {

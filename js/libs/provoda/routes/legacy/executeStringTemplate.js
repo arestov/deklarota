@@ -2,7 +2,7 @@
 import pathExecutor from './stringify'
 import followStringTemplate from './followStringTemplate'
 const getPath = pathExecutor(function(chunkName, _app, md) {
-  return md._provoda_id && md.state(chunkName)
+  return md._provoda_id && md.getAttr(chunkName)
 })
 
 const executeStringTemplate = function(app, md, obj, need_constr, md_for_urldata, options) {

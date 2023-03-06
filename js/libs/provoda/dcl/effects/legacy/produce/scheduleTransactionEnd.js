@@ -29,9 +29,9 @@ export function handleTransactionEnd(self, transaction_key) {
 
     flow.pushToFlow(
       FlowStepExecEffect,
+      null,
       self,
       [self, effect_name, tkey],
-      null,
       null,
       null,
       self._currentMotivator()
@@ -42,8 +42,8 @@ export function handleTransactionEnd(self, transaction_key) {
   flow.pushToFlow(
     FlowStepEraseEffectData,
     null,
-    [self, key],
     null,
+    [self, key],
     null,
     null,
     self._currentMotivator()

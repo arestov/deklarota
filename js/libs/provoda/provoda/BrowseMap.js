@@ -1,9 +1,9 @@
 
-import spv from '../../spv'
 import Model from '../Model'
 import initBWlev from '../bwlev/initBWlev'
 import routePathByModels from '../routePathByModels'
 import getPrtsByRelPath from '../dcl/nests/getPrtsByRelPath'
+import spvExtend from '../../spv/inh'
 
 const getSPI = routePathByModels.getSPI
 
@@ -46,7 +46,7 @@ export const getUserInterest = function(pth_string, start_md) {
 
 BrowseMap.routePathByModels = routePathByModels
 
-BrowseMap.Model = spv.inh(Model, {
+BrowseMap.Model = spvExtend(Model, {
   strict: true,
   naming: function(fn) {
     return function BrowseMapModel(opts, data, params, more, states) {

@@ -7,6 +7,7 @@ import { emptyObject } from '../utils/sameObjectIfEmpty'
 import parser from './parser'
 import PvSimpleSampler from './PvSimpleSampler'
 import parseEasy from './parseEasy'
+import { ViewFlowStepInternalRuntimeFn } from '../View/viewFlowStepHandlers.types'
 const CH_GR_LE = 2
 
 const push = Array.prototype.push
@@ -260,7 +261,7 @@ const checkPVRepeat = function(states, async_changes) {
 
   if (wwtch.original_fv != new_fv) {
     if (async_changes) {
-      const flow_step = wwtch.context.calls_flow.pushToFlowWithMotivator(hndPVRepeat, this, [new_fv, states], true)
+      const flow_step = wwtch.context.calls_flow.pushToFlowWithMotivator(ViewFlowStepInternalRuntimeFn, hndPVRepeat, this, [new_fv, states], true)
       wwtch.context.calls_flow_index[wwtch.w_cache_key] = flow_step
     } else {
       hndPVRepeat.call(this, new_fv, states)

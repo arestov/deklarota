@@ -1,25 +1,50 @@
 import type FlowStep from '../FlowStep'
 import makeCallFlowStep from '../makeCallFlowStep'
-import getFlowStepHandler from './getFlowStepHandler'
+import getFlowStepHandler, { isRuntimeFn } from './getFlowStepHandler'
 
-const assertComplexOrder = (fn: Function | null | number, complex_order: number[]): void => {
-  if (typeof fn != 'function' || complex_order.length == 1) {
+const assertComplexOrder = (flow_step: FlowStep): void => {
+  const {runtimeFn, complex_order} = flow_step
+
+  if (!isRuntimeFn(flow_step)) {
+    if (runtimeFn) {
+      console.log('you should not have runtimeFn', flow_step.fnType, flow_step.runtimeFn,)
+      throw new Error('you should not have runtimeFn')
+    }
+    return
+  } else {
+    if (!runtimeFn) {
+      throw new Error('you should have runtimeFn')
+    }
+  }
+
+  if (complex_order.length == 1) {
     return
   }
   if (complex_order.length == 2 && complex_order[0] == Infinity) {
     return
   }
-  console.warn('fn can be used for input only', complex_order, fn)
+  console.log(getFlowStepHandler(flow_step) || flow_step.runtimeFn)
+  console.warn('fn can be used for input only', complex_order, runtimeFn)
   throw new Error('fn can be used for input only')
+}
+
+export const validateFlowStep = (flow_step: FlowStep): void => {
+  assertComplexOrder(flow_step)
+  const fn = getFlowStepHandler(flow_step)
+  if (fn == null || typeof fn === 'number') {
+    console.log(fn)
+    throw new Error('how to handle this step!?')
+  }
 }
 
 
 const getFn = (flow_step: FlowStep): Function => {
-  assertComplexOrder(flow_step.fn, flow_step.complex_order)
+  assertComplexOrder(flow_step)
 
-  const fn = getFlowStepHandler(flow_step) || flow_step.fn
+  const fn = getFlowStepHandler(flow_step)
 
   if (fn == null || typeof fn === 'number') {
+    console.log(fn)
     throw new Error('how to handle this step!?')
   }
 

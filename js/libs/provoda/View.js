@@ -8,6 +8,8 @@ import appending from './View/appending'
 import getBwlevView from './View/getBwlevView'
 import createTemplate from './View/createTemplate'
 import dom_helpers from './utils/dom_helpers'
+import spvExtend from '../spv/inh'
+import { ViewFlowStepInternalRuntimeFn } from './View/viewFlowStepHandlers.types'
 
 const dFind = dom_helpers.find
 const dAppend = dom_helpers.append
@@ -24,7 +26,7 @@ const CH_GR_LE = 2
 let way_points_counter = 0
 
 const stackEmergency = function(fn, eventor, args) {
-  return eventor._calls_flow.pushToFlow(fn, eventor, args)
+  return eventor._calls_flow.pushToFlow(ViewFlowStepInternalRuntimeFn, fn, eventor, args)
 }
 
 const push = Array.prototype.push
@@ -497,7 +499,7 @@ cloneObj(props, {
     }
   },
 })
-const DomView = spv.inh(CoreView, {
+const DomView = spvExtend(CoreView, {
   init: function initDomView(target) {
     if (target.base_tree_list) {
       target.base_skeleton = getBaseTreeSkeleton(target.base_tree_list)

@@ -1,5 +1,6 @@
 import { countKeys } from '../../../../../spv'
 import { getDepsValues } from '../../../../utils/multiPath/readingDeps/getDepsValues'
+import _getInterface from '../../../../_internal/interfaces/_getInterface'
 import { addRequestToRequestsManager } from '../api/requests_manager'
 import { agendaKey } from './getCurrentTransactionKey'
 import { getOutputFxDcl } from './getOutputFxDcl'
@@ -57,7 +58,7 @@ function executeOutputTask(self, effect_name, task) {
 
   const args = new Array(effect.apis.length + 1) // + effect.fn_deps?
   for (let i = 0; i < effect.apis.length; i++) {
-    const api = self._interfaces_used[effect.apis[i]]
+    const api = _getInterface(self, effect.apis[i])
     if (!api) {
       // do not call effect fn
       return

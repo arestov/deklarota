@@ -15,7 +15,7 @@ const multiBwlevAttr = (multi_attr, final_attr) => (bwlev, value) => {
   */
   const md = bwlev.getNesting('pioneer')
 
-  let obj = {...md.state(multi_attr)}
+  let obj = {...md.getAttr(multi_attr)}
 
   const key = bwlev._provoda_id
 
@@ -156,7 +156,7 @@ function animateMapChanges(fake_spyglass, next_tree, prev_tree) {
     updateDistance(next_tree, prev_tree)
     updateFocus(next_tree, prev_tree)
 
-   // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.state('needs_search_from'));
+   // _updateAttr(fake_spyglass, 'show_search_form', !!target_md.getAttr('needs_search_from'));
     _updateAttr(fake_spyglass, 'full_page_need', diff.bwlev.getAttr('full_page_need'))
 
     _updateRel(fake_spyglass, 'current_mp_md', target_md)

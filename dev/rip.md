@@ -175,3 +175,5 @@
 - remove tpl_r_events
 
 - deprecate showInterest/followFromTo
+
+- remove .state()

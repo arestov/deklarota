@@ -25,7 +25,7 @@ export default function _goDeeper(map, md, parent_bwlev, freeze_parent_bwlev) {
 
   let map_level_num
   if (parent_bwlev) {
-    map_level_num = parent_bwlev.state('map_level_num') + 1
+    map_level_num = parent_bwlev.getAttr('map_level_num') + 1
   } else {
     if (!isStart(map, md)) {
       throw new Error('can\'t detect map_level_num')
