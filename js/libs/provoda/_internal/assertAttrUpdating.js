@@ -7,7 +7,7 @@ const assertAttrUpdating = (self) => {
   }
 
   if (motivator.is_transaction_end) {
-    throw new Error('are you in product.effect? wrap your call with `.input()`')
+    throw new Error('are you in produce.effect? wrap your call with `.input()`')
   }
 }
 
