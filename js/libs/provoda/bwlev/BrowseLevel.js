@@ -19,6 +19,7 @@ import getBwlevMap from './getBwlevMap'
 import followFromTo from './followFromTo'
 import execAction from '../dcl/passes/execAction'
 import spvExtend from '../../spv/inh'
+import _updateAttr from '../_internal/_updateAttr'
 
 
 const transportName = function(spyglass_name) {
@@ -318,7 +319,7 @@ const BrowseLevel = spvExtend(Model, {
             delete cache[pioneer_id]
 
             // TODO: let's not change state by calling updateAttr inside action
-            prev.updateAttr('children_bwlevs_by_pioneer_id', cache)
+            _updateAttr(prev, 'children_bwlevs_by_pioneer_id', cache)
           }
 
           const setCacheValue = (next, item) => {
@@ -329,7 +330,7 @@ const BrowseLevel = spvExtend(Model, {
             cache[pioneer_id] = item._node_id
 
             // TODO: let's not change state by calling updateAttr inside action
-            next.updateAttr('children_bwlevs_by_pioneer_id', cache)
+            _updateAttr(next, 'children_bwlevs_by_pioneer_id', cache)
           }
 
           deleteCacheValue(current_parent_bwlev, self)

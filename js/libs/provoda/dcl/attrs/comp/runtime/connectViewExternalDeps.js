@@ -1,8 +1,9 @@
+import _updateAttr from '../../../../_internal/_updateAttr'
 import followRelPath from '../../../../followRelPath'
 import multiPathAsString from '../../../../utils/multiPath/asString'
 
 const subscribe = function(md, target, state_name, full_name) {
-  md.updateAttr(full_name, target.getAttr(state_name))
+  _updateAttr(md, full_name, target.getAttr(state_name))
   md.wlch(target, state_name, full_name)
 }
 

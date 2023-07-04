@@ -5,6 +5,7 @@ import pathExecutor from '../../../routes/legacy/stringify'
 import getSPByPathTemplate from '../../../routes/legacy/getSPByPathTemplate'
 import initRelByDcl from './initRelByDcl'
 import { nestingMark } from '../../effects/legacy/nest_req/nestingMark'
+import _updateAttr from '../../../_internal/_updateAttr'
 
 //если есть состояние для предзагрузки
 //если изменилось гнездование
@@ -34,7 +35,7 @@ const initOneDeclaredNesting = function(md, el) {
   }
 
   _updateRel(md, el.nesting_name, initRelByDcl(md, el))
-  md.updateAttr(inited_mark, true)
+  _updateAttr(md, inited_mark, true)
 }
 
 const initDeclaredNestings = function(md) {

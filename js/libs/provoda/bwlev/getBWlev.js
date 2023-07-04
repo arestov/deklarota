@@ -1,6 +1,7 @@
 import initBWlev from './initBWlev'
 import { getNestingConstr } from '../structure/get_constr'
 import getModelById from '../utils/getModelById'
+import _updateAttr from '../_internal/_updateAttr'
 
 const getConstr = function(map, model_name) {
   const full_rel_name = 'bwlev-' + model_name
@@ -26,7 +27,7 @@ export default function getBWlev(md, probe_name, parent_bwlev, map_level_num, ma
   const bwlev = initBWlev(Constr, md, probe_name, map_level_num, map, parent_bwlev, freeze_parent_bwlev)
 
   if (cache) {
-    parent_bwlev.updateAttr('children_bwlevs_by_pioneer_id', {
+    _updateAttr(parent_bwlev, 'children_bwlevs_by_pioneer_id', {
       ...cache,
       [key]: bwlev._node_id
     })

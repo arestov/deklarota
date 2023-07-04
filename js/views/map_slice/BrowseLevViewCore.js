@@ -10,7 +10,7 @@ const used_struc_bhv = used_str.bhv
 
 const BrowseLevView = spvExtend(View, {
   init(self) {
-    self.updateAttr('$meta$view$nesting_space', self.nesting_space)
+    _updateAttr(self, '$meta$view$nesting_space', self.nesting_space)
   },
 }, mergeBhv({
   attrs: {
