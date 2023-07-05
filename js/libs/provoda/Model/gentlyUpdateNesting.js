@@ -18,7 +18,7 @@ export default function gentlyUpdateNesting(self, collection_name, input, opts) 
     return null
   }
 
-  if (self._currentMotivator() != null) {
+  if (self._currentMotivatorForInput() != null) {
     updateNesting(self, collection_name, input, opts)
     return
   }

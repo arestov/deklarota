@@ -11,7 +11,7 @@ export default function gentlyUpdateAttr(self, name, value, opts) {
     return
   }
 
-  if (self._currentMotivator() != null) {
+  if (self._currentMotivatorForInput() != null) {
     updateAttr(self, name, value, opts)
     return
   }

@@ -19,6 +19,15 @@ const calls_flows_holder_basic = {
   _currentMotivator: function() {
     return this._getCallsFlow().current_step
   },
+  _currentMotivatorForInput: function() {
+    const step = this._getCallsFlow().current_step
+    /* only first step of flow is ok to use as motivator for input */
+    if (step?.complex_order.length > 1) {
+      /* complex_order > 1 is chained flow */
+      throw new Error('wrong call for input. how that happend during chained flow?')
+    }
+    return step
+  },
   input: function(fn, args) {
     this._getCallsFlow().input(fn, args, this)
   },
