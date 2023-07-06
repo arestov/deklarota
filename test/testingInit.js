@@ -55,7 +55,7 @@ const wrapTestApp = async (errors_catcher, runtime, inited_base, session_root) =
   const computed = () => Promise.race([
     runtime.last_error,
     errors_catcher.last_error_prom,
-    new Promise(resolve => inited.app_model.input(resolve)),
+    new Promise(resolve => runtime.whenAllReady(resolve)),
   ])
 
   return {

@@ -144,8 +144,12 @@ describe('states', () => {
     describe('arguments update', () => {
       describe('outside steps', () => {
         it('should cause update', async () => {
-          updateTestAppState('first_name', 'Bob')
-          updateTestAppState('last_name', 'Brooks')
+          await testApp.steps([
+            () => {
+              updateTestAppState('first_name', 'Bob')
+              updateTestAppState('last_name', 'Brooks')
+            },
+          ])
           await Promise.resolve()
           expect(getTestAppState('full_name')).toEqual('Bob Brooks')
         })

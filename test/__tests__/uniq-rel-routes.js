@@ -113,8 +113,10 @@ test('should keep uniq items of rel', async () => {
     }
 
     {
-      md.updateAttr('id', 'c3')
-      expect(inited.computed()).rejects.toMatchSnapshot()
+      expect(inited.computed().then(() => {
+        md.updateAttr('id', 'c3')
+        return inited.computed()
+      })).rejects.toMatchSnapshot()
     }
   }
 })
