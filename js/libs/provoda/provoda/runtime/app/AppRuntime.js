@@ -89,11 +89,14 @@ AppRuntime.prototype.start = function(options) {
         _highway: self,
       })
 
-      resolve({
-        flow: self.calls_flow,
-        app_model: app_model,
-        sync_sender: self.sync_sender,
-        views_proxies: self.views_proxies,
+      /* should be return incomplete app as soon as possible? */
+      self.whenAllReady(() => {
+        resolve({
+          flow: self.calls_flow,
+          app_model: app_model,
+          sync_sender: self.sync_sender,
+          views_proxies: self.views_proxies,
+        })
       })
     })
   })
